@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Appointment Setter Agreement — Sales.io</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #000;
+      --white: #fff;
+      --gray-100: #f7f7f7;
+      --gray-200: #e5e5e5;
+      --gray-400: #999;
+      --gray-600: #555;
+      --gray-900: #111;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* Print / clean layout */
+    .doc-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 60px 48px 80px;
+    }
+
+    /* Header */
+    .doc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #222;
+    }
+    .brand-block .brand-name { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; }
+    .brand-block .brand-sub { font-size: 11px; color: var(--gray-400); letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+    .doc-label { text-align: right; }
+    .doc-label .dl-title { font-size: 13px; font-weight: 600; color: var(--gray-400); letter-spacing: 0.5px; }
+    .doc-label .dl-version { font-size: 11px; color: var(--gray-600); margin-top: 4px; }
+
+    /* Title block */
+    .title-block { margin-bottom: 40px; }
+    .title-block h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.8px; margin-bottom: 10px; }
+    .title-block .subtitle { font-size: 14px; color: var(--gray-400); }
+
+    /* Parties block */
+    .parties-block {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 10px;
+      padding: 24px 28px;
+      margin-bottom: 36px;
+    }
+    .parties-block .pb-title { font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--gray-400); margin-bottom: 16px; }
+    .party-row { display: flex; gap: 12px; margin-bottom: 12px; }
+    .party-row:last-child { margin-bottom: 0; }
+    .party-label { font-size: 12px; font-weight: 700; color: var(--gray-600); width: 80px; flex-shrink: 0; padding-top: 1px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .party-detail { font-size: 14px; color: var(--white); }
+    .party-detail .pd-name { font-weight: 700; }
+    .party-detail .pd-sub { font-size: 12px; color: var(--gray-600); margin-top: 2px; }
+    .field-line {
+      display: inline-block;
+      border-bottom: 1px solid #444;
+      min-width: 240px;
+      height: 20px;
+      margin-left: 4px;
+      vertical-align: bottom;
+    }
+
+    /* Sections */
+    .section { margin-bottom: 36px; }
+    .section-num { font-size: 11px; font-weight: 700; color: var(--gray-600); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    .section-title { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #1e1e1e; }
+    .section p { font-size: 14px; color: #ccc; margin-bottom: 12px; }
+    .section p:last-child { margin-bottom: 0; }
+
+    /* Clause list */
+    .clause-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
+    .clause-list li { display: flex; gap: 12px; font-size: 14px; color: #ccc; }
+    .clause-list li::before { content: attr(data-num); font-size: 12px; font-weight: 700; color: var(--gray-600); width: 22px; flex-shrink: 0; padding-top: 2px; }
+
+    /* Pay table */
+    .pay-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+    .pay-table th { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--gray-400); padding: 10px 14px; text-align: left; border-bottom: 1px solid #222; }
+    .pay-table td { padding: 12px 14px; font-size: 14px; color: #ccc; border-bottom: 1px solid #1a1a1a; vertical-align: top; }
+    .pay-table tr:last-child td { border-bottom: none; }
+    .pay-table td.strong { font-weight: 700; color: var(--white); }
+
+    /* Highlight row */
+    .inline-highlight {
+      background: var(--white);
+      color: var(--black);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* Signature block */
+    .sig-block {
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid #222;
+    }
+    .sig-block .sb-title { font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--gray-400); margin-bottom: 24px; }
+    .sig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    .sig-party { display: flex; flex-direction: column; gap: 20px; }
+    .sig-party .sp-label { font-size: 12px; font-weight: 700; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .sig-line { border-bottom: 1px solid #444; padding-bottom: 6px; min-height: 36px; }
+    .sig-line-label { font-size: 11px; color: var(--gray-600); margin-top: 4px; }
+
+    /* Notice */
+    .legal-notice {
+      margin-top: 40px;
+      padding: 16px 20px;
+      border: 1px solid #222;
+      border-radius: 8px;
+      font-size: 12px;
+      color: var(--gray-600);
+      line-height: 1.6;
+    }
+
+    /* Print styles */
+    @media print {
+      body { background: white; color: black; }
+      .doc-wrap { padding: 32px; }
+      .parties-block { background: #f5f5f5; border-color: #ddd; }
+      .parties-block .pb-title, .party-label { color: #888; }
+      .party-detail { color: black; }
+      .section p, .clause-list li { color: #333; }
+      .section-title { border-bottom-color: #ddd; }
+      .pay-table th { color: #888; border-bottom-color: #ddd; }
+      .pay-table td { color: #333; border-bottom-color: #eee; }
+      .pay-table td.strong { color: black; }
+      .inline-highlight { background: black; color: white; }
+      .sig-line { border-bottom-color: #999; }
+      .sig-line-label { color: #888; }
+      .legal-notice { border-color: #ddd; color: #888; }
+      .brand-block .brand-sub, .doc-label .dl-title, .doc-label .dl-version { color: #888; }
+      .section-num { color: #888; }
+    }
+
+    @media (max-width: 640px) {
+      .doc-wrap { padding: 32px 20px 60px; }
+      .doc-header { flex-direction: column; gap: 16px; }
+      .doc-label { text-align: left; }
+      .sig-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="doc-wrap">
+
+  <!-- Header -->
+  <div class="doc-header">
+    <div class="brand-block">
+      <div class="brand-name">Sales.io</div>
+      <div class="brand-sub">Independent Contractor Agreement</div>
+    </div>
+    <div class="doc-label">
+      <div class="dl-title">Draft — For Review Only</div>
+      <div class="dl-version">Version 1.0 · April 2026</div>
+    </div>
+  </div>
+
+  <!-- Title -->
+  <div class="title-block">
+    <h1>Appointment Setter<br>Independent Contractor Agreement</h1>
+    <div class="subtitle">This agreement governs the relationship between Sales.io and the individual serving as an independent appointment setter.</div>
+  </div>
+
+  <!-- Parties -->
+  <div class="parties-block">
+    <div class="pb-title">Parties to This Agreement</div>
+    <div class="party-row">
+      <div class="party-label">Company</div>
+      <div class="party-detail">
+        <div class="pd-name">Sales.io (JJ Hernandez)</div>
+        <div class="pd-sub">Hereinafter referred to as "the Company"</div>
+      </div>
+    </div>
+    <div class="party-row">
+      <div class="party-label">Contractor</div>
+      <div class="party-detail">
+        <div class="pd-name">
+          <span class="field-line"></span>
+        </div>
+        <div class="pd-sub">Full legal name of setter — hereinafter referred to as "Contractor"</div>
+      </div>
+    </div>
+    <div class="party-row">
+      <div class="party-label">Effective</div>
+      <div class="party-detail">
+        <div class="pd-name"><span class="field-line" style="min-width:160px;"></span></div>
+        <div class="pd-sub">Date this agreement goes into effect</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 1 -->
+  <div class="section">
+    <div class="section-num">Section 01</div>
+    <div class="section-title">Relationship of the Parties</div>
+    <p>Contractor is engaged as an <strong>independent contractor</strong> and not as an employee, partner, agent, or joint venturer of the Company. Nothing in this agreement shall be interpreted or construed as creating an employer-employee relationship.</p>
+    <p>Contractor is responsible for their own taxes, including self-employment taxes. The Company will not withhold federal, state, or local income taxes from any compensation paid to Contractor. Contractor will receive a Form 1099 at year-end if applicable under IRS thresholds.</p>
+    <p>Contractor retains the right to perform services for other clients and businesses, provided such work does not create a conflict of interest or violate any term of this agreement.</p>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="section">
+    <div class="section-num">Section 02</div>
+    <div class="section-title">Scope of Services</div>
+    <p>Contractor agrees to perform appointment setting services on behalf of the Company, including but not limited to:</p>
+    <ul class="clause-list">
+      <li data-num="a.">Identifying, contacting, and qualifying prospective students via direct message, phone, or other agreed-upon channels</li>
+      <li data-num="b.">Scheduling sales calls between qualified prospects and the Company's closing team</li>
+      <li data-num="c.">Conducting triage calls to pre-qualify leads before close calls when directed</li>
+      <li data-num="d.">Logging all lead activity, stage updates, and call notes in Close CRM accurately and in real time</li>
+      <li data-num="e.">Following up with prospects across the pipeline to maintain momentum and reduce no-show rates</li>
+      <li data-num="f.">Communicating pipeline updates and issues to the Company's team via Slack in a timely manner</li>
+    </ul>
+    <p>Contractor shall not make binding commitments, financial guarantees, or program representations on behalf of the Company beyond what is explicitly authorized.</p>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="section">
+    <div class="section-num">Section 03</div>
+    <div class="section-title">Compensation</div>
+    <p>Contractor shall be compensated solely on a performance basis as follows:</p>
+
+    <table class="pay-table">
+      <thead>
+        <tr>
+          <th>Activity</th>
+          <th>Rate</th>
+          <th>Conditions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="strong">Closed Deal Commission</td>
+          <td class="strong">5% of deal value</td>
+          <td>Paid on deals where Contractor set the original appointment that resulted in a close. Deal value is the total collected amount ($7,500 PIF or $10,000 on 3-way split).</td>
+        </tr>
+        <tr>
+          <td class="strong">Completed Triage Call</td>
+          <td class="strong">$50 flat</td>
+          <td>Paid per completed triage call where Contractor ran the qualification conversation and the prospect showed up. No-shows and cancellations do not qualify.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="inline-highlight">
+      There is no base pay, retainer, or guaranteed minimum. Compensation is 100% performance-based.
+    </div>
+
+    <ul class="clause-list">
+      <li data-num="a."><strong>Payment schedule:</strong> Commissions are paid on a bi-weekly basis, on the 1st and 15th of each month.</li>
+      <li data-num="b."><strong>Clawback:</strong> If a deal is refunded or charged back within 90 days, the corresponding commission will be reversed or deducted from the next pay period.</li>
+      <li data-num="c."><strong>Attribution:</strong> Contractor receives commission credit only for deals where they set the original qualifying appointment and where that appointment is documented in Close CRM prior to the call. Undocumented sets are not eligible for commission.</li>
+      <li data-num="d."><strong>Split pays:</strong> Commission on installment deals is calculated on the full deal value and paid after the first payment clears, provided the deal remains active and not in dispute.</li>
+      <li data-num="e."><strong>Disputes:</strong> Any commission dispute must be raised in writing within 14 days of the pay date in question.</li>
+    </ul>
+  </div>
+
+  <!-- Section 4 -->
+  <div class="section">
+    <div class="section-num">Section 04</div>
+    <div class="section-title">Confidentiality</div>
+    <p>During and after the term of this agreement, Contractor agrees to keep confidential all non-public information belonging to or shared by the Company, including but not limited to:</p>
+    <ul class="clause-list">
+      <li data-num="a.">Lead lists, prospect data, and CRM records</li>
+      <li data-num="b.">Student names, contact information, and enrollment details</li>
+      <li data-num="c.">Pricing, offer structure, and commission rates</li>
+      <li data-num="d.">Internal scripts, qualification processes, and setting frameworks</li>
+      <li data-num="e.">Revenue figures, team structure, and operational data</li>
+    </ul>
+    <p>Contractor shall not share, sell, or disclose any of the above to any third party without prior written consent from the Company.</p>
+  </div>
+
+  <!-- Section 5 -->
+  <div class="section">
+    <div class="section-num">Section 05</div>
+    <div class="section-title">Non-Solicitation</div>
+    <p>During the term of this agreement and for a period of <strong>12 months</strong> after termination, Contractor agrees not to:</p>
+    <ul class="clause-list">
+      <li data-num="a.">Directly solicit, recruit, or approach any current or former Sales.io student for the purpose of selling them a competing sales training program or service</li>
+      <li data-num="b.">Use any lead data, contact lists, or CRM records accessed during the term of this agreement to contact prospects on behalf of a competitor</li>
+      <li data-num="c.">Solicit or recruit any current Sales.io team member, coach, or contractor to leave the Company</li>
+    </ul>
+    <p>This clause does not restrict Contractor from general employment or from working with other companies in the sales training space, provided they do not use Company data or directly target Company students and leads.</p>
+  </div>
+
+  <!-- Section 6 -->
+  <div class="section">
+    <div class="section-num">Section 06</div>
+    <div class="section-title">Ownership of Work and Data</div>
+    <p>All lead data, CRM records, prospect notes, and materials created by Contractor in connection with services performed under this agreement are and shall remain the sole property of the Company. Contractor shall have no claim to any such data upon termination.</p>
+    <p>Upon termination, Contractor agrees to immediately cease access to all Company systems including Close CRM, Slack, and any other platforms, and to not retain copies of any Company data.</p>
+  </div>
+
+  <!-- Section 7 -->
+  <div class="section">
+    <div class="section-num">Section 07</div>
+    <div class="section-title">Performance Standards</div>
+    <p>Contractor acknowledges and agrees to the following minimum performance expectations:</p>
+    <ul class="clause-list">
+      <li data-num="a.">Maintain a booked appointment show rate of no less than 60% on a rolling 30-day basis</li>
+      <li data-num="b.">Log all lead interactions in Close CRM within the same business day they occur</li>
+      <li data-num="c.">Respond to inbound leads within 5 minutes during agreed working hours</li>
+      <li data-num="d.">Communicate all no-shows, cancellations, and pipeline issues to the team via Slack promptly</li>
+    </ul>
+    <p>Failure to maintain these standards may result in a performance review and, at the Company's discretion, termination of this agreement.</p>
+  </div>
+
+  <!-- Section 8 -->
+  <div class="section">
+    <div class="section-num">Section 08</div>
+    <div class="section-title">Term and Termination</div>
+    <p>This agreement begins on the Effective Date and continues on an at-will basis until terminated by either party.</p>
+    <ul class="clause-list">
+      <li data-num="a."><strong>Termination by either party:</strong> Either party may terminate this agreement at any time with 7 days written notice.</li>
+      <li data-num="b."><strong>Immediate termination by Company:</strong> The Company may terminate this agreement immediately and without notice for: breach of confidentiality, solicitation of students or team members, falsification of CRM records, gross negligence, or any conduct that materially harms the Company or its students.</li>
+      <li data-num="c."><strong>Final payment:</strong> Upon termination, Contractor will be paid all earned and undisputed commissions for closed deals and completed triages through the termination date, minus any applicable clawbacks.</li>
+    </ul>
+  </div>
+
+  <!-- Section 9 -->
+  <div class="section">
+    <div class="section-num">Section 09</div>
+    <div class="section-title">Representations and Warranties</div>
+    <p>Contractor represents and warrants that:</p>
+    <ul class="clause-list">
+      <li data-num="a.">They have the legal right to enter into this agreement and that doing so does not violate any other agreement they are party to</li>
+      <li data-num="b.">They will perform services in a professional manner consistent with industry standards</li>
+      <li data-num="c.">They will not make false, misleading, or unauthorized representations to any prospect on behalf of the Company</li>
+      <li data-num="d.">They will immediately notify the Company of any conflict of interest that arises during the term of this agreement</li>
+    </ul>
+  </div>
+
+  <!-- Section 10 -->
+  <div class="section">
+    <div class="section-num">Section 10</div>
+    <div class="section-title">Governing Law and Disputes</div>
+    <p>This agreement shall be governed by and construed in accordance with the laws of the State of <span class="field-line" style="min-width:120px;"></span>, without regard to conflict of law principles.</p>
+    <p>Any dispute arising under this agreement that cannot be resolved informally between the parties shall be submitted to binding arbitration in accordance with the rules of the American Arbitration Association. The prevailing party shall be entitled to recover reasonable attorney's fees and costs.</p>
+  </div>
+
+  <!-- Section 11 -->
+  <div class="section">
+    <div class="section-num">Section 11</div>
+    <div class="section-title">Entire Agreement</div>
+    <p>This agreement constitutes the entire agreement between the parties with respect to the subject matter herein and supersedes all prior discussions, representations, or agreements, whether oral or written.</p>
+    <p>This agreement may be modified only by a written amendment signed by both parties. Waiver of any provision on one occasion shall not constitute a waiver on any other occasion.</p>
+  </div>
+
+  <!-- Signature Block -->
+  <div class="sig-block">
+    <div class="sb-title">Signatures</div>
+    <p style="font-size:13px;color:#666;margin-bottom:24px;">By signing below, both parties agree to the terms and conditions set forth in this agreement.</p>
+    <div class="sig-grid">
+      <div class="sig-party">
+        <div class="sp-label">Sales.io / Company</div>
+        <div>
+          <div class="sig-line"></div>
+          <div class="sig-line-label">Signature</div>
+        </div>
+        <div>
+          <div class="sig-line"></div>
+          <div class="sig-line-label">Printed Name: JJ Hernandez</div>
+        </div>
+        <div>
+          <div class="sig-line"></div>
+          <div class="sig-line-label">Date</div>
+        </div>
+      </div>
+      <div class="sig-party">
+        <div class="sp-label">Contractor / Setter</div>
+        <div>
+          <div class="sig-line"></div>
+          <div class="sig-line-label">Signature</div>
+        </div>
+        <div>
+          <div class="sig-line"></div>
+          <div class="sig-line-label">Printed Name</div>
+        </div>
+        <div>
+          <div class="sig-line"></div>
+          <div class="sig-line-label">Date</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Legal notice -->
+  <div class="legal-notice">
+    <strong>Note:</strong> This is a draft agreement prepared for internal review purposes. It is not legal advice. Sales.io recommends having a licensed attorney review this document before use. Fill in the governing state and any jurisdiction-specific terms before executing.
+  </div>
+
+</div>
+</body>
+</html>
