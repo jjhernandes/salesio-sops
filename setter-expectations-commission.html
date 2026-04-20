@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Setter Expectations & Commission — Sales.io</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #000000;
+      --white: #ffffff;
+      --gray-100: #f5f5f5;
+      --gray-200: #e0e0e0;
+      --gray-400: #999999;
+      --gray-600: #555555;
+      --gray-900: #111111;
+      --sidebar-width: 260px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      display: flex;
+      min-height: 100vh;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .sidebar {
+      width: var(--sidebar-width);
+      min-height: 100vh;
+      background: var(--gray-900);
+      border-right: 1px solid #222;
+      position: fixed;
+      top: 0; left: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+    }
+    .sidebar-logo {
+      padding: 28px 24px 24px;
+      border-bottom: 1px solid #222;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-mark {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .logo-mark img { width: 100%; height: 100%; object-fit: cover; }
+    .logo-text { font-size: 15px; font-weight: 700; color: var(--white); letter-spacing: -0.3px; }
+    .logo-sub { font-size: 11px; color: var(--gray-400); font-weight: 400; letter-spacing: 0.3px; text-transform: uppercase; margin-top: 1px; }
+    .sidebar-nav { padding: 20px 0; flex: 1; overflow-y: auto; }
+    .nav-label { font-size: 10px; font-weight: 600; color: var(--gray-600); letter-spacing: 1.2px; text-transform: uppercase; padding: 0 24px 8px; }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 24px;
+      font-size: 13px; font-weight: 500;
+      color: var(--gray-400);
+      cursor: pointer;
+      text-decoration: none;
+      transition: color 0.15s, background 0.15s;
+      border-left: 3px solid transparent;
+    }
+    .nav-item:hover { color: var(--white); background: rgba(255,255,255,0.04); }
+    .nav-item.active { color: var(--white); border-left-color: var(--white); background: rgba(255,255,255,0.06); }
+    .nav-num { font-size: 11px; color: var(--gray-600); font-weight: 600; width: 18px; flex-shrink: 0; }
+    .main { margin-left: var(--sidebar-width); flex: 1; padding: 56px 64px 80px; max-width: 900px; }
+    .page-header { margin-bottom: 48px; }
+    .page-tag { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray-400); margin-bottom: 12px; }
+    .page-title { font-size: 36px; font-weight: 800; letter-spacing: -1px; line-height: 1.1; margin-bottom: 16px; }
+    .page-subtitle { font-size: 15px; color: var(--gray-400); max-width: 560px; line-height: 1.6; }
+    .section { margin-bottom: 56px; scroll-margin-top: 40px; }
+    .section-title { font-size: 20px; font-weight: 700; letter-spacing: -0.4px; margin-bottom: 4px; }
+    .section-divider { height: 1px; background: #222; margin: 16px 0 24px; }
+
+    /* Highlight box */
+    .highlight-box {
+      background: var(--white);
+      color: var(--black);
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin-bottom: 24px;
+    }
+    .highlight-box .hb-label { font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #666; margin-bottom: 8px; }
+    .highlight-box .hb-value { font-size: 38px; font-weight: 800; letter-spacing: -1.5px; color: var(--black); line-height: 1; }
+    .highlight-box .hb-desc { font-size: 13px; color: #555; margin-top: 8px; }
+
+    /* Commission grid */
+    .commission-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+    .commission-card {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .commission-card .cc-label { font-size: 11px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--gray-400); margin-bottom: 6px; }
+    .commission-card .cc-amount { font-size: 28px; font-weight: 800; letter-spacing: -1px; color: var(--white); }
+    .commission-card .cc-basis { font-size: 12px; color: var(--gray-600); margin-top: 4px; }
+    .commission-card .cc-example { font-size: 13px; color: var(--gray-400); margin-top: 12px; padding-top: 12px; border-top: 1px solid #222; }
+    .commission-card.featured { background: var(--white); border-color: var(--white); }
+    .commission-card.featured .cc-label { color: #888; }
+    .commission-card.featured .cc-amount { color: var(--black); }
+    .commission-card.featured .cc-basis { color: #666; }
+    .commission-card.featured .cc-example { color: #555; border-top-color: #ddd; }
+
+    /* Pay table */
+    .pay-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+    .pay-table th { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--gray-400); padding: 10px 16px; text-align: left; border-bottom: 1px solid #222; }
+    .pay-table td { padding: 14px 16px; font-size: 14px; border-bottom: 1px solid #1a1a1a; vertical-align: top; }
+    .pay-table tr:last-child td { border-bottom: none; }
+    .pay-table td:first-child { color: var(--gray-400); font-weight: 500; }
+    .pay-table td.amount { font-weight: 700; color: var(--white); }
+    .pay-table td.note { color: var(--gray-600); font-size: 12px; }
+
+    /* Standard info rows */
+    .info-row { display: flex; gap: 16px; margin-bottom: 12px; }
+    .info-row .ir-label { font-size: 13px; font-weight: 600; color: var(--gray-400); width: 180px; flex-shrink: 0; }
+    .info-row .ir-value { font-size: 13px; color: var(--white); }
+
+    /* Rule cards */
+    .rule-list { display: flex; flex-direction: column; gap: 12px; }
+    .rule-card {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 10px;
+      padding: 18px 20px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .rule-num { font-size: 13px; font-weight: 800; color: var(--gray-600); width: 24px; flex-shrink: 0; margin-top: 1px; }
+    .rule-body .rule-title { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+    .rule-body .rule-desc { font-size: 13px; color: var(--gray-400); line-height: 1.5; }
+
+    /* KPI cards */
+    .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 24px; }
+    .kpi-card {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 10px;
+      padding: 20px;
+    }
+    .kpi-card .kpi-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--gray-600); margin-bottom: 6px; }
+    .kpi-card .kpi-value { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: var(--white); }
+    .kpi-card .kpi-desc { font-size: 12px; color: var(--gray-600); margin-top: 4px; }
+
+    /* Behavior examples */
+    .example-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+    .example-block { border-radius: 10px; padding: 18px 20px; }
+    .example-block.bad { background: rgba(180,0,0,0.12); border: 1px solid rgba(180,0,0,0.25); }
+    .example-block.good { background: rgba(0,160,0,0.08); border: 1px solid rgba(0,160,0,0.2); }
+    .example-block .ex-tag { font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 8px; }
+    .example-block.bad .ex-tag { color: #e05555; }
+    .example-block.good .ex-tag { color: #55c455; }
+    .example-block .ex-text { font-size: 13px; color: var(--gray-400); line-height: 1.5; }
+
+    /* Checklist */
+    .checklist { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+    .check-item { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; }
+    .check-box {
+      width: 20px; height: 20px; border: 2px solid #333; border-radius: 5px;
+      flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s; margin-top: 1px;
+    }
+    .check-item.checked .check-box { background: var(--white); border-color: var(--white); }
+    .check-item.checked .check-box::after { content: '✓'; font-size: 12px; font-weight: 700; color: var(--black); }
+    .check-label { font-size: 14px; color: var(--gray-400); line-height: 1.5; }
+    .check-item.checked .check-label { color: var(--gray-600); text-decoration: line-through; }
+
+    /* Warning banner */
+    .warning-banner {
+      background: rgba(200,140,0,0.1);
+      border: 1px solid rgba(200,140,0,0.3);
+      border-radius: 10px;
+      padding: 16px 20px;
+      font-size: 13px;
+      color: #d4a500;
+      margin-bottom: 16px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .warning-banner .w-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+    /* Quote block */
+    .quote-block {
+      border-left: 3px solid var(--white);
+      padding: 12px 20px;
+      margin-bottom: 24px;
+    }
+    .quote-block p { font-size: 15px; font-style: italic; color: var(--gray-400); }
+    .quote-block cite { font-size: 12px; color: var(--gray-600); font-style: normal; margin-top: 6px; display: block; }
+
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 32px 24px 60px; }
+      .commission-grid { grid-template-columns: 1fr; }
+      .kpi-grid { grid-template-columns: 1fr 1fr; }
+      .example-pair { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAIeSURBVHgB7ZfNTcMwFIBfQoEBGIERGAGJARiBERiBERiBERiBTRiBDRiBDRiBDRiBBRiA95SoSpQ4jvPjpEi8L4lc+/nb7/nZFoB/bGVmZmZmjgBcDpJzjgUuB8k5x4JLDpJzjgWXHCTnHAsuOUjOORZccpCccyy45CA551hwyUFyzrHgkoPknGPBJQfJOceCiw+Scx0LXA6Sc44FFx8k5xwLLjlIzjkWXHKQnHMsuOQgOedYcMlBcs6x4JKD5JxjwSUHyTnHgksOknOOBZccJOccCy45SM45FlxykJxzLLjkIDnnWHDJQXLOseCizXxkpPHZ9bv8fNXbR//i8t8w+GzHvwvv94IHd3PBfV7GcXDu3d5p3Bz2BzHQrSObWh5xODrfHfgpSUbS3gVGkMuRiqS5IiuKekIE4aChyiqxgpHBqBDqhDliAqpArERGEBqBDMSGEAqxBpCBFAjVhAigBqxhoQBVAjlpAigBqxhoQBVAj1hAqgBqxhoQBVAjlpAqgBqxhpQBVAjlpAqgBqxhoQBVAj1hAqgBqxhpQBVAjlpAqgBqxhoQBVAj1hAqgBqxhpQBVAjlpAqgBqxhoQBVAj1hAqgBqxhpQBVAjlpAqgBqxhoQBVAj1hAqgBqxhpQBVAjlpAqgBqxhoQBVAj1hAqgBqxhpQBVAjlpAqgBqxhoQBVAj1hAqgBqxhpQBVAjlpAqgBqxhoQBVAj1hAqgBqxhpQBVAjlpAqgBqxhpQBVAjlpAijtC/gAav8H2QAAAABJRU5ErkJggg==" alt="Sales.io"/>
+    </div>
+    <div>
+      <div class="logo-text">Sales.io</div>
+      <div class="logo-sub">Setter Expectations</div>
+    </div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-label">Sections</div>
+    <a class="nav-item active" href="#role"><span class="nav-num">01</span>The Role</a>
+    <a class="nav-item" href="#commission"><span class="nav-num">02</span>Commission Structure</a>
+    <a class="nav-item" href="#pay-examples"><span class="nav-num">03</span>Pay Examples</a>
+    <a class="nav-item" href="#kpis"><span class="nav-num">04</span>KPIs & Targets</a>
+    <a class="nav-item" href="#rules"><span class="nav-num">05</span>Non-Negotiables</a>
+    <a class="nav-item" href="#what-good-looks-like"><span class="nav-num">06</span>What Good Looks Like</a>
+    <a class="nav-item" href="#disqualifiers"><span class="nav-num">07</span>Disqualifiers</a>
+  </div>
+</nav>
+
+<main class="main">
+
+  <div class="page-header">
+    <div class="page-tag">Sales.io · Internal</div>
+    <h1 class="page-title">Appointment Setter<br>Expectations & Pay</h1>
+    <p class="page-subtitle">Everything you need to know about the role, how you get paid, what's expected, and what success looks like here.</p>
+  </div>
+
+  <!-- SECTION 1: THE ROLE -->
+  <section class="section" id="role">
+    <div class="section-title">The Role</div>
+    <div class="section-divider"></div>
+
+    <div class="quote-block">
+      <p>"The setter is the first impression of Sales.io. You are not booking appointments. You are qualifying human beings and deciding who gets access to JJ's time."</p>
+      <cite>— JJ Hernandez</cite>
+    </div>
+
+    <div class="rule-list">
+      <div class="rule-card">
+        <div class="rule-num">1</div>
+        <div class="rule-body">
+          <div class="rule-title">Your job is qualification, not volume</div>
+          <div class="rule-desc">Booking unqualified leads wastes the closer's time and kills the team's energy. A bad book is worse than no book. Every appointment you set should be someone who genuinely has a shot at becoming a student.</div>
+        </div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">2</div>
+        <div class="rule-body">
+          <div class="rule-title">You are on commission only</div>
+          <div class="rule-desc">This is a performance role. Your income is directly tied to results. There is no base. The upside is significant for people who execute. The floor is zero for people who don't.</div>
+        </div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">3</div>
+        <div class="rule-body">
+          <div class="rule-title">You own the pipeline</div>
+          <div class="rule-desc">Every lead you touch must be logged in Close CRM correctly and immediately. Stages must be accurate. Notes must be clean. If it isn't in Close, it didn't happen.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: COMMISSION -->
+  <section class="section" id="commission">
+    <div class="section-title">Commission Structure</div>
+    <div class="section-divider"></div>
+
+    <div class="commission-grid">
+      <div class="commission-card featured">
+        <div class="cc-label">Closed Deal Commission</div>
+        <div class="cc-amount">5%</div>
+        <div class="cc-basis">of the deal value on every sale you set that closes</div>
+        <div class="cc-example">You set the appointment → closer closes at $7,500 → you earn <strong>$375</strong></div>
+      </div>
+      <div class="commission-card">
+        <div class="cc-label">Triage Commission</div>
+        <div class="cc-amount">$50</div>
+        <div class="cc-basis">flat per completed triage call you run</div>
+        <div class="cc-example">You run the triage → lead qualifies (or not) → you get paid regardless of whether they close</div>
+      </div>
+    </div>
+
+    <div class="warning-banner">
+      <div class="w-icon">⚠</div>
+      <div>Triage pay is for <strong>completed triages only</strong> — meaning the prospect showed up and you ran a full qualifying conversation. No-shows and cancellations do not count. Rescheduled calls only count once completed.</div>
+    </div>
+
+    <div class="info-row"><div class="ir-label">Deal value</div><div class="ir-value">$7,500 (pay in full) or $10,000 (3-way split) — commission is calculated on actual collected payment</div></div>
+    <div class="info-row"><div class="ir-label">Pay schedule</div><div class="ir-value">Bi-weekly. Commissions paid after payment clears (no chargebacks/refunds).</div></div>
+    <div class="info-row"><div class="ir-label">Attribution</div><div class="ir-value">You get credit for deals where you set the original appointment. Must be logged in Close CRM.</div></div>
+    <div class="info-row"><div class="ir-label">Split pays</div><div class="ir-value">2-way split ($7,500 total) — commission paid on full deal value after first payment clears</div></div>
+  </section>
+
+  <!-- SECTION 3: PAY EXAMPLES -->
+  <section class="section" id="pay-examples">
+    <div class="section-title">Pay Examples</div>
+    <div class="section-divider"></div>
+
+    <table class="pay-table">
+      <thead>
+        <tr>
+          <th>Scenario</th>
+          <th>Activity</th>
+          <th>Your Pay</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Solid week</td>
+          <td>3 closes from your sets + 4 triages run</td>
+          <td class="amount">$1,325</td>
+          <td class="note">3 × $375 + 4 × $50</td>
+        </tr>
+        <tr>
+          <td>Strong week</td>
+          <td>5 closes + 6 triages</td>
+          <td class="amount">$2,175</td>
+          <td class="note">5 × $375 + 6 × $50</td>
+        </tr>
+        <tr>
+          <td>Best week</td>
+          <td>8 closes + 8 triages</td>
+          <td class="amount">$3,400</td>
+          <td class="note">8 × $375 + 8 × $50</td>
+        </tr>
+        <tr>
+          <td>Split pay close</td>
+          <td>1 close at 3-way ($10K total)</td>
+          <td class="amount">$500</td>
+          <td class="note">5% of $10,000 — full deal value</td>
+        </tr>
+        <tr>
+          <td>Triages only</td>
+          <td>0 closes, 10 triages completed</td>
+          <td class="amount">$500</td>
+          <td class="note">Floor pay when pipeline is building</td>
+        </tr>
+        <tr>
+          <td>No-show week</td>
+          <td>Booked 10, 0 showed up, 0 closed</td>
+          <td class="amount">$0</td>
+          <td class="note">Booking unqualified people has no payout</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="warning-banner">
+      <div class="w-icon">⚠</div>
+      <div>If a deal is refunded or charged back, your commission is reversed. We have a 99.8% retention rate — this is rare. But the rule exists.</div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: KPIs -->
+  <section class="section" id="kpis">
+    <div class="section-title">KPIs & Targets</div>
+    <div class="section-divider"></div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Show Rate</div>
+        <div class="kpi-value">70%+</div>
+        <div class="kpi-desc">Minimum. Under 60% is a problem.</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Qualified Sets / Week</div>
+        <div class="kpi-value">10+</div>
+        <div class="kpi-desc">Appointments that actually belong in the pipeline</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">CRM Accuracy</div>
+        <div class="kpi-value">100%</div>
+        <div class="kpi-desc">Every lead logged, every stage correct</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Response Time</div>
+        <div class="kpi-value">&lt; 5 min</div>
+        <div class="kpi-desc">On inbound leads during working hours</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Follow-Up Touches</div>
+        <div class="kpi-value">3+</div>
+        <div class="kpi-desc">Per lead before marking as dead</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Close Rate (Team)</div>
+        <div class="kpi-value">30%+</div>
+        <div class="kpi-desc">From your sets — if it's low, your qual is off</div>
+      </div>
+    </div>
+
+    <div class="warning-banner">
+      <div class="w-icon">⚠</div>
+      <div>If the close rate on your sets is consistently below 25%, we will review your qualification process. A low close rate usually means you're booking people who aren't ready — not that the closer is underperforming.</div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: NON-NEGOTIABLES -->
+  <section class="section" id="rules">
+    <div class="section-title">Non-Negotiables</div>
+    <div class="section-divider"></div>
+
+    <p style="font-size:13px;color:#666;margin-bottom:20px;">These are not suggestions. Breaking these is grounds for losing the role.</p>
+
+    <div class="rule-list">
+      <div class="rule-card">
+        <div class="rule-num">1</div>
+        <div class="rule-body">
+          <div class="rule-title">Every lead goes into Close CRM immediately</div>
+          <div class="rule-desc">Name, number, email, source, and a note on the conversation. Not at the end of the day. Right when the conversation happens.</div>
+        </div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">2</div>
+        <div class="rule-body">
+          <div class="rule-title">Never promise a price or outcome you can't guarantee</div>
+          <div class="rule-desc">You can say "our program is $7,500 all-in." You cannot say "you'll definitely get placed in 30 days." Let the closer handle the full pitch. Your job is to get them on the call curious and qualified.</div>
+        </div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">3</div>
+        <div class="rule-body">
+          <div class="rule-title">No booking unless they pass the baseline qualification</div>
+          <div class="rule-desc">They need to have clear intent to work in sales, be coachable, and have access to $7,500 or be open to financing. If none of that is true — do not book them. Disqualify gracefully and move on.</div>
+        </div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">4</div>
+        <div class="rule-body">
+          <div class="rule-title">Respond to inbound leads within 5 minutes during working hours</div>
+          <div class="rule-desc">Speed to lead is everything. The longer you wait, the colder they get. If you can't respond within 5 minutes, flag it immediately to the team.</div>
+        </div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">5</div>
+        <div class="rule-body">
+          <div class="rule-title">Do not pitch. Qualify.</div>
+          <div class="rule-desc">Your job is to ask questions, build a small amount of curiosity, and confirm fit. The moment you start explaining the program in detail, you're doing the closer's job badly. Get them to the call. That's it.</div>
+        </div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">6</div>
+        <div class="rule-body">
+          <div class="rule-title">Communicate bad news fast</div>
+          <div class="rule-desc">If a lead cancels, no-shows, or goes cold — update Close CRM and Slack the team immediately. Don't sit on it. Everyone adjusts their day based on the pipeline being accurate.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: WHAT GOOD LOOKS LIKE -->
+  <section class="section" id="what-good-looks-like">
+    <div class="section-title">What Good Looks Like</div>
+    <div class="section-divider"></div>
+
+    <div class="example-pair">
+      <div class="example-block bad">
+        <div class="ex-tag">Not This</div>
+        <div class="ex-text">"Hey! I just wanted to reach out and see if you had any questions about Sales.io? We have a 12-week program and it includes 1-on-1 coaching and a job board and..."</div>
+      </div>
+      <div class="example-block good">
+        <div class="ex-tag">This</div>
+        <div class="ex-text">"Hey [name] — quick question. Are you currently in sales or looking to break in? I want to make sure this conversation is actually worth your time before we go any further."</div>
+      </div>
+    </div>
+
+    <div class="example-pair">
+      <div class="example-block bad">
+        <div class="ex-tag">Not This</div>
+        <div class="ex-text">Booking someone because they seemed "interested." They said they were curious but couldn't answer what offer they're on, what they're currently making, or whether they're serious.</div>
+      </div>
+      <div class="example-block good">
+        <div class="ex-tag">This</div>
+        <div class="ex-text">Disqualifying someone politely because they're not ready — and logging the note so the team can follow up in 60 days when their situation changes.</div>
+      </div>
+    </div>
+
+    <div class="example-pair">
+      <div class="example-block bad">
+        <div class="ex-tag">Not This</div>
+        <div class="ex-text">Close CRM note: "Spoke with John. He seems interested. Will follow up."</div>
+      </div>
+      <div class="example-block good">
+        <div class="ex-tag">This</div>
+        <div class="ex-text">Close CRM note: "John — currently on $15K/mo in B2B SaaS. Wants to hit $30K. Has tried NEPQ, says it didn't stick. Budget confirmed — looking at PIF or 2-way split. Booked Thursday 3pm EST."</div>
+      </div>
+    </div>
+
+    <div class="checklist" id="daily-checklist">
+      <p style="font-size:12px;color:#555;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Daily Checklist</p>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div class="check-label">All new leads from last 24 hours are in Close CRM with complete notes</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div class="check-label">All pipeline stages are up to date — nothing sitting in wrong stage</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div class="check-label">Follow-up tasks created for every active lead</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div class="check-label">Responded to all inbound messages within 5 minutes (or flagged to team)</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div class="check-label">Confirmed tomorrow's booked calls — reminder sent to each prospect</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div class="check-label">Slacked JJ/Jalen with EOD pipeline update (# of sets, # of shows, any issues)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7: DISQUALIFIERS -->
+  <section class="section" id="disqualifiers">
+    <div class="section-title">Disqualifiers</div>
+    <div class="section-divider"></div>
+
+    <p style="font-size:13px;color:#666;margin-bottom:20px;">If any of these apply, do not book. Log the conversation and move on.</p>
+
+    <table class="pay-table">
+      <thead>
+        <tr>
+          <th>Signal</th>
+          <th>What It Means</th>
+          <th>What to Do</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>"I just want to learn more first"</td>
+          <td>Not ready. Window shopping.</td>
+          <td class="note">Send to Skool community ($39/mo). Log and tag for 60-day follow-up.</td>
+        </tr>
+        <tr>
+          <td>Can't answer what offer they want to work</td>
+          <td>No direction. Not serious yet.</td>
+          <td class="note">Ask clarifying questions. If still unclear, disqualify.</td>
+        </tr>
+        <tr>
+          <td>Refuses to discuss money / "price is a problem"</td>
+          <td>Budget isn't there or not committed.</td>
+          <td class="note">Ask if they're open to financing. If hard no — not yet.</td>
+        </tr>
+        <tr>
+          <td>Already enrolled in a competing program</td>
+          <td>Unlikely to buy. Not your target.</td>
+          <td class="note">Wish them well. Log the note. Check back in 3 months.</td>
+        </tr>
+        <tr>
+          <td>"I need to think about it" before the call</td>
+          <td>Not bought in. Will likely no-show.</td>
+          <td class="note">Don't book. Follow up in a week. Re-qualify before rebooking.</td>
+        </tr>
+        <tr>
+          <td>Hostile or disrespectful in DMs</td>
+          <td>Not a culture fit for Sales.io.</td>
+          <td class="note">Do not book. Flag to JJ if severe.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="highlight-box" style="margin-top:32px;">
+      <div class="hb-label">The Standard</div>
+      <div class="hb-value" style="font-size:22px;letter-spacing:-0.5px;">Only book who you'd bet $375 on.</div>
+      <div class="hb-desc">If you wouldn't be confident putting money on them closing — don't put them on the calendar. Every appointment you book is a bet you're making with your time and the team's energy.</div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  function toggleCheck(el) {
+    el.classList.toggle('checked');
+  }
+
+  const sections = document.querySelectorAll('.section');
+  const navItems = document.querySelectorAll('.nav-item');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navItems.forEach(item => {
+          item.classList.toggle('active', item.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
