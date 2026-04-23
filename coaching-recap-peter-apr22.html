@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Coaching Recap — Peter Bette</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #000;
+      color: #fff;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 56px 40px 80px; }
+
+    /* Header */
+    .header { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid #1e1e1e; }
+    .brand { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #555; margin-bottom: 24px; }
+    .student-name { font-size: 36px; font-weight: 800; letter-spacing: -1px; line-height: 1.1; margin-bottom: 8px; }
+    .session-meta { font-size: 13px; color: #555; }
+
+    /* Section */
+    .section { margin-bottom: 48px; }
+    .section-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #444; margin-bottom: 14px; }
+    .section-title { font-size: 20px; font-weight: 700; letter-spacing: -0.4px; margin-bottom: 16px; }
+
+    /* Emotional Scale */
+    .scale-wrap { background: #0d0d0d; border: 1px solid #1e1e1e; border-radius: 12px; padding: 28px; margin-bottom: 16px; }
+    .scale-row { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; }
+    .scale-row:last-child { margin-bottom: 0; }
+    .scale-bar-wrap { flex: 1; }
+    .scale-level { font-size: 13px; font-weight: 600; color: #ccc; width: 110px; flex-shrink: 0; }
+    .scale-bar { height: 8px; border-radius: 4px; background: #1e1e1e; overflow: hidden; }
+    .scale-bar-fill { height: 100%; border-radius: 4px; }
+    .scale-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.5px; color: #555; width: 80px; text-align: right; flex-shrink: 0; }
+
+    .scale-shame .scale-bar-fill { background: #333; width: 10%; }
+    .scale-fear .scale-bar-fill { background: #666; width: 45%; }
+    .scale-fear .scale-level { color: #fff; }
+    .scale-fear .scale-bar { background: #333; }
+    .scale-pride .scale-bar-fill { background: #888; width: 65%; }
+    .scale-pride .scale-level { color: #fff; }
+    .scale-pride .scale-bar { background: #333; }
+    .scale-courage .scale-bar-fill { background: #aaa; width: 75%; }
+    .scale-love .scale-bar-fill { background: #ddd; width: 90%; }
+
+    .scale-baseline-label { font-size: 11px; font-weight: 700; color: #f0a500; letter-spacing: 0.5px; }
+    .scale-oncalls-label { font-size: 11px; font-weight: 700; color: #5aab5a; letter-spacing: 0.5px; }
+
+    /* Insight cards */
+    .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+    .card {
+      background: #0d0d0d;
+      border: 1px solid #1e1e1e;
+      border-radius: 10px;
+      padding: 20px;
+    }
+    .card .card-title { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .card .card-body { font-size: 13px; color: #666; line-height: 1.5; }
+    .card.highlight { background: #fff; border-color: #fff; }
+    .card.highlight .card-title { color: #000; }
+    .card.highlight .card-body { color: #555; }
+
+    /* Up/down split */
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+    .split-block { border-radius: 10px; padding: 20px; }
+    .split-block.up { background: rgba(0,140,0,0.08); border: 1px solid rgba(0,140,0,0.2); }
+    .split-block.down { background: rgba(160,0,0,0.1); border: 1px solid rgba(160,0,0,0.2); }
+    .split-block .sb-label { font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 10px; }
+    .split-block.up .sb-label { color: #4caf50; }
+    .split-block.down .sb-label { color: #e05555; }
+    .split-block ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .split-block ul li { font-size: 13px; color: #aaa; display: flex; gap: 8px; line-height: 1.4; }
+    .split-block ul li::before { content: '—'; color: #333; flex-shrink: 0; }
+
+    /* Quote */
+    .quote { border-left: 3px solid #fff; padding: 12px 20px; margin-bottom: 24px; }
+    .quote p { font-size: 15px; font-style: italic; color: #888; line-height: 1.6; }
+
+    /* Action items */
+    .action-list { display: flex; flex-direction: column; gap: 12px; }
+    .action-item { display: flex; gap: 16px; background: #0d0d0d; border: 1px solid #1e1e1e; border-radius: 10px; padding: 18px 20px; }
+    .action-num { font-size: 13px; font-weight: 800; color: #333; width: 24px; flex-shrink: 0; padding-top: 1px; }
+    .action-body .at { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .action-body .ab { font-size: 13px; color: #555; line-height: 1.5; }
+
+    /* Focus box */
+    .focus-box { background: #fff; color: #000; border-radius: 12px; padding: 28px 32px; margin-bottom: 24px; }
+    .focus-box .fb-label { font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #888; margin-bottom: 8px; }
+    .focus-box .fb-title { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 10px; }
+    .focus-box .fb-body { font-size: 14px; color: #555; line-height: 1.6; }
+
+    /* Divider */
+    .divider { height: 1px; background: #1a1a1a; margin: 0 0 48px; }
+
+    /* Footer */
+    .footer { padding-top: 32px; border-top: 1px solid #1a1a1a; display: flex; justify-content: space-between; align-items: center; }
+    .footer .f-brand { font-size: 12px; font-weight: 700; color: #333; letter-spacing: 0.5px; }
+    .footer .f-next { font-size: 12px; color: #444; }
+
+    @media (max-width: 640px) {
+      .wrap { padding: 32px 20px 60px; }
+      .card-grid { grid-template-columns: 1fr; }
+      .split { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <div class="brand">Sales.io · Coaching Recap</div>
+    <div class="student-name">Peter Bette</div>
+    <div class="session-meta">1-on-1 Session &nbsp;·&nbsp; April 22, 2026 &nbsp;·&nbsp; Coach: JJ Hernandez</div>
+  </div>
+
+  <!-- EMOTIONAL BASELINE -->
+  <div class="section">
+    <div class="section-label">01 · Where You're At</div>
+    <div class="section-title">Your Emotional Baseline</div>
+
+    <div class="scale-wrap">
+      <div style="font-size:11px;font-weight:600;color:#444;letter-spacing:1px;text-transform:uppercase;margin-bottom:20px;">Map of Consciousness · Your Range</div>
+
+      <div class="scale-row scale-shame">
+        <div class="scale-level" style="color:#333;">Shame / Guilt</div>
+        <div class="scale-bar-wrap"><div class="scale-bar"><div class="scale-bar-fill"></div></div></div>
+        <div class="scale-tag" style="color:#333;">Not here</div>
+      </div>
+      <div class="scale-row scale-fear">
+        <div class="scale-level">Fear</div>
+        <div class="scale-bar-wrap"><div class="scale-bar"><div class="scale-bar-fill"></div></div></div>
+        <div class="scale-tag"><span class="scale-baseline-label">BASELINE</span></div>
+      </div>
+      <div class="scale-row scale-pride">
+        <div class="scale-level">Pride</div>
+        <div class="scale-bar-wrap"><div class="scale-bar"><div class="scale-bar-fill"></div></div></div>
+        <div class="scale-tag"><span class="scale-baseline-label">BEST DAY</span></div>
+      </div>
+      <div class="scale-row scale-courage">
+        <div class="scale-level" style="color:#bbb;">Courage</div>
+        <div class="scale-bar-wrap"><div class="scale-bar"><div class="scale-bar-fill"></div></div></div>
+        <div class="scale-tag"><span class="scale-oncalls-label">ON CALLS</span></div>
+      </div>
+      <div class="scale-row scale-love">
+        <div class="scale-level" style="color:#444;">Love</div>
+        <div class="scale-bar-wrap"><div class="scale-bar"><div class="scale-bar-fill" style="background:#222;"></div></div></div>
+        <div class="scale-tag" style="color:#333;">Not yet</div>
+      </div>
+    </div>
+
+    <div class="quote">
+      <p>"You're the first person I've ever met where they feel like they operate out of fear off their calls — and in their calls are a little different. I actually think it's easier to fix."</p>
+    </div>
+
+    <p style="font-size:14px;color:#555;line-height:1.6;">This is a unique and actually <strong style="color:#ccc;">good sign</strong>. The confidence already exists — you've proven it on your calls. The job is to close the gap between who you are on the phone and who you are everywhere else.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- WHAT WE FOUND -->
+  <div class="section">
+    <div class="section-label">02 · What We Found</div>
+    <div class="section-title">The Root of the Fear</div>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-title">School Trauma</div>
+        <div class="card-body">Teachers told you for months that you'd never make it. That voice is still running in the background. It created an anxiety around "not being good enough" that follows you off the calls.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Cultural Displacement</div>
+        <div class="card-body">You're not from the US. On team calls, you hold back — sitting back, watching, giving short answers. You don't fully trust that your perspective lands the same way.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">High-Value Lead Anxiety</div>
+        <div class="card-body">When someone has serious money or serious experience, you get in your head. The gap between where you are and where they are makes you anxious instead of curious.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Emotionally Driven</div>
+        <div class="card-body">80% of the time, you move based on how you feel. If you're tired, you rest. If you're not feeling it, you shift the schedule. Your emotions are running your calendar more than your intentions are.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- WHAT LIFTS / DROPS -->
+  <div class="section">
+    <div class="section-label">03 · What Moves You</div>
+    <div class="section-title">What Lifts You Up vs. What Drops You</div>
+
+    <div class="split">
+      <div class="split-block up">
+        <div class="sb-label">Lifts You</div>
+        <ul>
+          <li>Supporting your family — time, money, showing up</li>
+          <li>Being able to give back — to family, friends, even strangers</li>
+          <li>Closing a good call — the energy of performing well</li>
+          <li>When you're locked in and feel like you're making moves</li>
+        </ul>
+      </div>
+      <div class="split-block down">
+        <div class="sb-label">Drops You</div>
+        <ul>
+          <li>Late-night YouTube spirals — seeing 16-year-olds making $500K/mo</li>
+          <li>Comparing where you are to what you see online</li>
+          <li>Moving your schedule when you don't feel good — letting emotions run the day</li>
+          <li>No clear structure or obligation pulling you forward</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="quote">
+      <p>"The comparison between the reality of what you're doing, and what you're seeing — that gap is what brings you down. We need to mitigate that."</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- THE FOCUS -->
+  <div class="section">
+    <div class="section-label">04 · The Focus</div>
+    <div class="section-title">The #1 Thing to Work On</div>
+
+    <div class="focus-box">
+      <div class="fb-label">Primary Focus</div>
+      <div class="fb-title">Structure &amp; Intentional Living</div>
+      <div class="fb-body">You've never had structure until JJ told you to build it. Your subconscious is smart — it won't do things it doesn't feel obligated to do. The goal is to build systems that create obligation, so you stop waiting to feel ready and start moving because the structure demands it.</div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card highlight">
+        <div class="card-title">Your Subconscious Is Smart</div>
+        <div class="card-body">If you don't have a reason to wake up at 6am, you won't. Not because you're lazy — because your brain is efficient. Build the reason. A call at 6am will get you up every time.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">More Intention = More Clarity</div>
+        <div class="card-body">The more intentionally you live your days, the clearer the direction gets. You already have the calendar mapped. Now you have to hold yourself to it — even when you don't feel like it.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ACTION ITEMS -->
+  <div class="section">
+    <div class="section-label">05 · Action Items</div>
+    <div class="section-title">Before Next Session</div>
+
+    <div class="action-list">
+      <div class="action-item">
+        <div class="action-num">1</div>
+        <div class="action-body">
+          <div class="at">Review this document and re-watch the assigned content</div>
+          <div class="ab">Revisit the structure and intentional living material JJ sent. Know what systems you need. Don't just read — write down what you're going to implement.</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">2</div>
+        <div class="action-body">
+          <div class="at">Clean up your environment</div>
+          <div class="ab">Remove sticky notes from your desk, reduce visual clutter, and create a workspace that signals to your brain: this is where work happens. Set a boundary with your friend about distraction-free hours.</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">3</div>
+        <div class="action-body">
+          <div class="at">Stop moving your calendar when you don't feel like it</div>
+          <div class="ab">The next time you feel like shifting a work block because you're tired, don't. Do it anyway. You can rest after — not instead. Your emotions are not the decision-maker here. The calendar is.</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">4</div>
+        <div class="action-body">
+          <div class="at">Cut the late-night YouTube spiral</div>
+          <div class="ab">No consuming content about other people's success after 9pm. The comparison kills your morning. What you put in your head at night is what you wake up with. Protect that.</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">5</div>
+        <div class="action-body">
+          <div class="at">Show up more vocally on team calls</div>
+          <div class="ab">You're the top setter for 8 months running. You have earned the right to speak. The next team call — contribute. Ask a question, share a win, say something. Your culture concern is in your head. The confidence is already there on your calls; bring it to the team.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="f-brand">Sales.io</div>
+    <div class="f-next">Next session: TBD &nbsp;·&nbsp; Questions? Reach JJ on Slack</div>
+  </div>
+
+</div>
+</body>
+</html>
