@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pipeline Outreach SOP</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #000;
+      --white: #fff;
+      --gray-400: #999;
+      --gray-600: #555;
+      --gray-900: #111;
+      --sidebar-width: 260px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      font-size: 15px;
+      line-height: 1.7;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-width);
+      min-height: 100vh;
+      background: #0a0a0a;
+      border-right: 1px solid #1a1a1a;
+      position: fixed;
+      top: 0; left: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+    }
+    .sidebar-logo {
+      padding: 28px 24px 24px;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    .logo-text { font-size: 15px; font-weight: 800; letter-spacing: -0.3px; }
+    .logo-sub { font-size: 11px; color: var(--gray-600); font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; margin-top: 3px; }
+    .sidebar-nav { padding: 20px 0; flex: 1; overflow-y: auto; }
+    .nav-section { font-size: 10px; font-weight: 700; color: #333; letter-spacing: 1.2px; text-transform: uppercase; padding: 0 24px 8px; margin-top: 16px; }
+    .nav-section:first-child { margin-top: 0; }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 24px;
+      font-size: 13px; font-weight: 500;
+      color: var(--gray-600);
+      cursor: pointer;
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      transition: all 0.15s;
+    }
+    .nav-item:hover { color: var(--white); background: rgba(255,255,255,0.03); }
+    .nav-item.active { color: var(--white); border-left-color: var(--white); background: rgba(255,255,255,0.05); }
+    .nav-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .dot-1 { background: #e05555; }
+    .dot-2 { background: #e09055; }
+    .dot-3 { background: #d4c030; }
+    .dot-4 { background: #55a455; }
+
+    .main { margin-left: var(--sidebar-width); flex: 1; padding: 56px 60px 80px; max-width: 900px; }
+
+    /* Page header */
+    .page-header { margin-bottom: 48px; }
+    .page-tag { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray-600); margin-bottom: 12px; }
+    .page-title { font-size: 34px; font-weight: 800; letter-spacing: -1px; line-height: 1.1; margin-bottom: 14px; }
+    .page-sub { font-size: 14px; color: var(--gray-600); max-width: 540px; line-height: 1.6; }
+
+    /* Section */
+    .section { margin-bottom: 56px; scroll-margin-top: 40px; }
+    .section-title { font-size: 20px; font-weight: 700; letter-spacing: -0.4px; margin-bottom: 4px; }
+    .divider { height: 1px; background: #1a1a1a; margin: 14px 0 24px; }
+
+    /* Priority cards */
+    .priority-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+    .priority-card {
+      background: #0d0d0d;
+      border: 1px solid #1a1a1a;
+      border-radius: 10px;
+      padding: 20px;
+    }
+    .priority-card .pc-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .priority-badge { font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; }
+    .badge-p1 { background: rgba(224,85,85,0.15); color: #e05555; }
+    .badge-p2 { background: rgba(224,144,85,0.15); color: #e09055; }
+    .badge-p3 { background: rgba(212,192,48,0.15); color: #d4c030; }
+    .badge-p4 { background: rgba(85,164,85,0.15); color: #55a455; }
+    .priority-card .pc-name { font-size: 14px; font-weight: 700; }
+    .priority-card .pc-count { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 4px; }
+    .priority-card .pc-reason { font-size: 12px; color: var(--gray-600); line-height: 1.5; }
+
+    /* Sequence blocks */
+    .pipeline-block {
+      background: #0d0d0d;
+      border: 1px solid #1a1a1a;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .pipeline-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid #1a1a1a;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .pipeline-header .ph-name { font-size: 15px; font-weight: 700; }
+    .pipeline-header .ph-count { font-size: 12px; color: var(--gray-600); margin-left: auto; }
+    .pipeline-steps { padding: 0; }
+    .step {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid #141414;
+    }
+    .step:last-child { border-bottom: none; }
+    .step-day {
+      width: 90px;
+      flex-shrink: 0;
+      padding: 16px 20px;
+      border-right: 1px solid #141414;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .step-day .day-label { font-size: 10px; font-weight: 700; color: var(--gray-600); letter-spacing: 1px; text-transform: uppercase; }
+    .step-day .day-num { font-size: 20px; font-weight: 800; color: var(--white); line-height: 1; }
+    .step-body { padding: 16px 20px; flex: 1; }
+    .step-body .sb-channels { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+    .channel-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.5px; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; }
+    .tag-call { background: rgba(255,255,255,0.08); color: #ccc; }
+    .tag-sms { background: rgba(85,164,85,0.15); color: #55a455; }
+    .tag-email { background: rgba(85,120,200,0.15); color: #7090e0; }
+    .tag-vm { background: rgba(180,130,0,0.15); color: #d4a500; }
+    .step-body .sb-action { font-size: 13px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+    .step-body .sb-note { font-size: 12px; color: var(--gray-600); line-height: 1.5; }
+
+    /* Scripts */
+    .script-block {
+      background: #0d0d0d;
+      border: 1px solid #1a1a1a;
+      border-radius: 10px;
+      margin-bottom: 14px;
+      overflow: hidden;
+    }
+    .script-header {
+      padding: 12px 20px;
+      border-bottom: 1px solid #1a1a1a;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .script-header .sh-label { font-size: 12px; font-weight: 700; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.8px; }
+    .script-body {
+      padding: 20px;
+      font-size: 14px;
+      color: #bbb;
+      line-height: 1.7;
+    }
+    .script-body .placeholder { color: var(--gray-400); font-style: italic; }
+    .script-body .note { font-size: 12px; color: #444; margin-top: 12px; padding-top: 12px; border-top: 1px solid #1a1a1a; font-style: normal; }
+
+    /* Checklist */
+    .checklist { display: flex; flex-direction: column; gap: 10px; }
+    .check-item { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; padding: 14px 18px; background: #0d0d0d; border: 1px solid #1a1a1a; border-radius: 8px; }
+    .check-box { width: 20px; height: 20px; border: 2px solid #2a2a2a; border-radius: 5px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.15s; margin-top: 1px; }
+    .check-item.checked .check-box { background: var(--white); border-color: var(--white); }
+    .check-item.checked .check-box::after { content: '✓'; font-size: 12px; font-weight: 700; color: var(--black); }
+    .check-label { font-size: 13px; color: var(--gray-400); line-height: 1.5; }
+    .check-item.checked .check-label { text-decoration: line-through; color: #333; }
+
+    /* CRM standard */
+    .crm-row { display: flex; gap: 0; border-bottom: 1px solid #1a1a1a; }
+    .crm-row:last-child { border-bottom: none; }
+    .crm-field { width: 160px; flex-shrink: 0; padding: 12px 16px; font-size: 12px; font-weight: 600; color: var(--gray-600); border-right: 1px solid #1a1a1a; text-transform: uppercase; letter-spacing: 0.5px; }
+    .crm-value { padding: 12px 16px; font-size: 13px; color: #bbb; }
+
+    /* Warning */
+    .warning { background: rgba(200,140,0,0.08); border: 1px solid rgba(200,140,0,0.25); border-radius: 10px; padding: 14px 18px; font-size: 13px; color: #c8a030; margin-bottom: 16px; display: flex; gap: 10px; }
+    .warning .w-icon { flex-shrink: 0; }
+
+    /* Good/bad */
+    .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+    .compare-block { border-radius: 10px; padding: 18px 20px; }
+    .compare-block.bad { background: rgba(160,0,0,0.1); border: 1px solid rgba(160,0,0,0.2); }
+    .compare-block.good { background: rgba(0,140,0,0.08); border: 1px solid rgba(0,140,0,0.18); }
+    .compare-block .cb-tag { font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 8px; }
+    .compare-block.bad .cb-tag { color: #e05555; }
+    .compare-block.good .cb-tag { color: #55c455; }
+    .compare-block .cb-text { font-size: 13px; color: #999; line-height: 1.5; }
+
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 32px 20px 60px; }
+      .priority-grid { grid-template-columns: 1fr; }
+      .compare { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text">Pipeline Outreach SOP</div>
+    <div class="logo-sub">Lead Contact Workflow</div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-section">Overview</div>
+    <a class="nav-item active" href="#priority"><span class="nav-dot dot-1"></span>Pipeline Priority</a>
+    <a class="nav-item" href="#sequences"><span class="nav-dot dot-2"></span>Contact Sequences</a>
+    <a class="nav-item" href="#scripts"><span class="nav-dot dot-3"></span>Scripts</a>
+    <a class="nav-item" href="#daily"><span class="nav-dot dot-4"></span>Daily Workflow</a>
+    <div class="nav-section">Reference</div>
+    <a class="nav-item" href="#crm"><span class="nav-dot" style="background:#555;"></span>CRM Logging Standard</a>
+    <a class="nav-item" href="#rules"><span class="nav-dot" style="background:#555;"></span>Non-Negotiables</a>
+  </div>
+</nav>
+
+<main class="main">
+
+  <div class="page-header">
+    <div class="page-tag">Pipeline Outreach SOP · v1.0</div>
+    <h1 class="page-title">Contact These Leads.<br>In This Order. This Way.</h1>
+    <p class="page-sub">You have warm leads sitting in 4 pipelines. Most of them have had zero follow-up. This document tells you exactly who to contact, when, how, and what to say.</p>
+  </div>
+
+  <!-- SECTION 1: PRIORITY -->
+  <section class="section" id="priority">
+    <div class="section-title">Pipeline Priority</div>
+    <div class="divider"></div>
+
+    <div class="priority-grid">
+      <div class="priority-card">
+        <div class="pc-top">
+          <span class="priority-badge badge-p1">Priority 1</span>
+        </div>
+        <div class="pc-name">Coaching Dropoffs</div>
+        <div class="pc-count">108 leads</div>
+        <div class="pc-reason">Filled out a full survey showing high intent for coaching. Got to the purchase page and fell off. Zero follow-up has gone out. These are the most qualified leads you have and nobody has talked to them.</div>
+      </div>
+      <div class="priority-card">
+        <div class="pc-top">
+          <span class="priority-badge badge-p2">Priority 2</span>
+        </div>
+        <div class="pc-name">Webinar Attendees</div>
+        <div class="pc-count">Fresh list</div>
+        <div class="pc-reason">Just attended a live webinar — they are warm right now. The window closes fast. Call them today or tomorrow while the content is still fresh in their mind.</div>
+      </div>
+      <div class="priority-card">
+        <div class="pc-top">
+          <span class="priority-badge badge-p3">Priority 3</span>
+        </div>
+        <div class="pc-name">Ticket Abandonments</div>
+        <div class="pc-count">29 leads</div>
+        <div class="pc-reason">Filled out info for the June event and didn't buy. June is approaching — time pressure is already built in. Urgency messaging will convert a chunk of these fast.</div>
+      </div>
+      <div class="priority-card">
+        <div class="pc-top">
+          <span class="priority-badge badge-p4">Priority 4</span>
+        </div>
+        <div class="pc-name">E-book Buyers</div>
+        <div class="pc-count">Active list</div>
+        <div class="pc-reason">They already paid money — they're buyers. Email automations are running. Add SMS and use this list to bridge toward coaching or the event. Lower urgency but easy upsell path.</div>
+      </div>
+    </div>
+
+    <div class="warning">
+      <div class="w-icon">⚠</div>
+      <div>Start with Priority 1 every single day until the 108 coaching dropoffs are worked through. Do not skip ahead to easier pipelines because the volume is smaller. The coaching dropoffs have the highest intent.</div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: SEQUENCES -->
+  <section class="section" id="sequences">
+    <div class="section-title">Contact Sequences</div>
+    <div class="divider"></div>
+
+    <!-- P1 -->
+    <div class="pipeline-block">
+      <div class="pipeline-header">
+        <span class="priority-badge badge-p1">Priority 1</span>
+        <span class="ph-name">Coaching Dropoffs</span>
+        <span class="ph-count">108 leads · No automation running · Start immediately</span>
+      </div>
+      <div class="pipeline-steps">
+        <div class="step">
+          <div class="step-day"><div class="day-label">Day</div><div class="day-num">1</div></div>
+          <div class="step-body">
+            <div class="sb-channels">
+              <span class="channel-tag tag-call">Call</span>
+              <span class="channel-tag tag-vm">Voicemail</span>
+              <span class="channel-tag tag-sms">SMS</span>
+            </div>
+            <div class="sb-action">Call first. If no answer, drop voicemail + send SMS within 5 minutes.</div>
+            <div class="sb-note">This is your first touch. Lead is cold to you but warm from intent. Be human, not salesy. Goal is to get them on a conversation — not to pitch.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-day"><div class="day-label">Day</div><div class="day-num">2</div></div>
+          <div class="step-body">
+            <div class="sb-channels">
+              <span class="channel-tag tag-email">Email</span>
+            </div>
+            <div class="sb-action">Send a short, personal follow-up email.</div>
+            <div class="sb-note">Reference that they filled out the form. Keep it 3-4 lines. No long pitches. Subject line should feel like a reply, not a marketing email.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-day"><div class="day-label">Day</div><div class="day-num">4</div></div>
+          <div class="step-body">
+            <div class="sb-channels">
+              <span class="channel-tag tag-call">Call</span>
+              <span class="channel-tag tag-sms">SMS</span>
+            </div>
+            <div class="sb-action">Second call attempt + follow-up SMS if no answer.</div>
+            <div class="sb-note">Different time of day than Day 1. If you called at 10am on Day 1, try 3pm today. Reference your previous message in the SMS.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-day"><div class="day-label">Day</div><div class="day-num">7</div></div>
+          <div class="step-body">
+            <div class="sb-channels">
+              <span class="channel-tag tag-sms">SMS</span>
+              <span class="channel-tag tag-email">Email</span>
+            </div>
+            <div class="sb-action">Final touch — breakup message.</div>
+            <div class="sb-note">Let them know this is your last reach out. Give them a clear and easy way to respond yes or no. If still no response after this, move to nurture sequence.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P2 -->
+    <div class="pipeline-block">
+      <div class="pipeline-header">
+        <span class="priority-badge badge-p2">Priority 2</span>
+        <span class="ph-name">Webinar Attendees</span>
+        <span class="ph-count">Fresh · Window closes fast · Contact same day or next day</span>
+      </div>
+      <div class="pipeline-steps">
+        <div class="step">
+          <div class="step-day"><div class="day-label">Day</div><div class="day-num">0–1</div></div>
+          <div class="step-body">
+            <div class="sb-channels">
+              <span class="channel-tag tag-sms">SMS</span>
+              <span class="channel-tag tag-call">Call</span>
+            </div>
+            <div class="sb-action">SMS within hours of webinar ending. Call immediately after.</div>
+            <div class="sb-note">Reference the webinar directly. "Hey [name], just wanted to reach out after today's session — did you get a chance to see it?" Speed is everything here.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-day"><div class="day-label">Day</div><div class="day-num">2</div></div>
+          <div class="step-body">
+            <div class="sb-channels">
+              <span class="channel-tag tag-email">Email</span>
+            </div>
+            <div class="sb-action">Email follow-up referencing what was covered in the webinar.</div>
+            <div class="sb-note">Mention one specific thing from the webinar content. Shows you're paying attention, not blasting a template.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-day"><div class="day-label">Day</div><div class="day-num">4</div></div>
+          <div class="step-body">
+            <div class="sb-channels">
+              <span class="channel-tag tag-call">Call</span>
+              <span class="channel-tag tag-sms">SMS</span>
+            </div>
+            <div class="sb-action">Final call attempt + SMS if no answer.</div>
+            <div class="sb-note">After 4 days with no response from a webinar attendee, they're going cold. One more clear outreach, then move on.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P3 -->
+    <div class="pipeline-block">
+      <div class="pipeline-header">
+        <span class="priority-badge badge-p3">Priority 3</span>
+        <span class="ph-name">Ticket Abandonments</span>
+        <span class="ph-count">29 leads · June event · Time pressure built in</span>
+      </div>
+      <div class="pipeline-steps">
+        <div class="step">
+          <div class="step-day"><div class="day-label">Day</div><div class="day-num">1</div></div>
+          <div class="step-body">
+            <div class="sb-channels">
+              <span class="channel-tag tag-sms">SMS</span>
+              <span class="channel-tag tag-call">Call</span>
+            </div>
+            <div class="sb-action">SMS first, then call. Lead with the event deadline.</div>
+            <div class="sb-note">They already showed interest in the event — they filled out the form. Remind them the event is coming and spots are limited. Don't make it aggressive. Make it helpful.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-day"><div class="day-label">Day</div><div class="day-num">3</div></div>
+          <div class="step-body">
+            <div class="sb-channels">
+              <span class="channel-tag tag-email">Email</span>
+              <span class="channel-tag tag-sms">SMS</span>
+            </div>
+            <div class="sb-action">Urgency email + SMS with social proof if available.</div>
+            <div class="sb-note">Mention that spots are filling. If you have a number ("only X tickets left") use it. If not, keep it simple: "Event is in [X] weeks and I want to make sure you have your spot."</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-day"><div class="day-label">Day</div><div class="day-num">6</div></div>
+          <div class="step-body">
+            <div class="sb-channels">
+              <span class="channel-tag tag-sms">SMS</span>
+              <span class="channel-tag tag-call">Call</span>
+            </div>
+            <div class="sb-action">Last touch — final call + SMS. Release the pressure.</div>
+            <div class="sb-note">Tell them this is the last time you'll reach out about it and that you'll remove them from the list if they're not interested. Sometimes the release creates the conversion.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P4 -->
+    <div class="pipeline-block">
+      <div class="pipeline-header">
+        <span class="priority-badge badge-p4">Priority 4</span>
+        <span class="ph-name">E-book Buyers</span>
+        <span class="ph-count">Existing buyers · Email automation running · Add SMS + bridge to offer</span>
+      </div>
+      <div class="pipeline-steps">
+        <div class="step">
+          <div class="step-day"><div class="day-label">Week</div><div class="day-num">1</div></div>
+          <div class="step-body">
+            <div class="sb-channels">
+              <span class="channel-tag tag-sms">SMS</span>
+            </div>
+            <div class="sb-action">Add SMS to the existing email sequence. Send a welcome SMS within 24 hours of e-book purchase.</div>
+            <div class="sb-note">They're already in an email funnel. Don't interrupt it — add SMS alongside it. The SMS should feel personal, not automated.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-day"><div class="day-label">Week</div><div class="day-num">2</div></div>
+          <div class="step-body">
+            <div class="sb-channels">
+              <span class="channel-tag tag-sms">SMS</span>
+              <span class="channel-tag tag-call">Call</span>
+            </div>
+            <div class="sb-action">Follow-up SMS asking if they've applied anything from the e-book. Call the ones who respond.</div>
+            <div class="sb-note">The goal is to move them from e-book buyer to coaching or event prospect. Get a conversation started. Let the call do the qualifying.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-day"><div class="day-label">Week</div><div class="day-num">3</div></div>
+          <div class="step-body">
+            <div class="sb-channels">
+              <span class="channel-tag tag-email">Email</span>
+              <span class="channel-tag tag-sms">SMS</span>
+            </div>
+            <div class="sb-action">Bridge offer — invite them to the event or a free strategy call.</div>
+            <div class="sb-note">The ask here is low commitment: a conversation or a discounted event ticket. They're already buyers. Don't jump straight to a high-ticket pitch.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: SCRIPTS -->
+  <section class="section" id="scripts">
+    <div class="section-title">Scripts</div>
+    <div class="divider"></div>
+
+    <div class="compare" style="margin-bottom:24px;">
+      <div class="compare-block bad">
+        <div class="cb-tag">Never Do This</div>
+        <div class="cb-text">"Hey [name], I saw you were interested in the coaching program! We have an amazing offer right now and I just wanted to reach out and tell you more about it. Let me know if you have any questions!"</div>
+      </div>
+      <div class="compare-block good">
+        <div class="cb-tag">Do This Instead</div>
+        <div class="cb-text">"Hey [name], noticed you looked at the coaching program a little while back. Wanted to reach out and see if you had any questions or if the timing just wasn't right. Either way — no pressure."</div>
+      </div>
+    </div>
+
+    <!-- SMS: Coaching Dropoffs -->
+    <div class="script-block">
+      <div class="script-header">
+        <span class="channel-tag tag-sms">SMS</span>
+        <span class="sh-label">Coaching Dropoffs · Day 1 First Touch</span>
+      </div>
+      <div class="script-body">
+        Hey <span class="placeholder">[First Name]</span> — this is <span class="placeholder">[Your Name]</span> reaching out on behalf of <span class="placeholder">[Client Name]</span>. Saw you looked into the blueprint coaching a little while back. Just wanted to check in — did you have any questions or did life just get in the way? No pressure either way.
+        <div class="note">Keep it short. One question at the end. Do not explain the offer, do not pitch. Wait for a reply before saying anything else.</div>
+      </div>
+    </div>
+
+    <!-- SMS: Coaching Dropoffs Breakup -->
+    <div class="script-block">
+      <div class="script-header">
+        <span class="channel-tag tag-sms">SMS</span>
+        <span class="sh-label">Coaching Dropoffs · Day 7 Final Touch</span>
+      </div>
+      <div class="script-body">
+        Hey <span class="placeholder">[First Name]</span> — I've tried to reach out a couple times and I don't want to keep bothering you. I'll leave you alone after this. If the coaching ever feels like the right move, feel free to reach back out. Wishing you the best either way.
+        <div class="note">This is the breakup message. Sometimes this converts more than any other touch because it releases pressure. After this, move them to a nurture list — don't delete.</div>
+      </div>
+    </div>
+
+    <!-- Voicemail -->
+    <div class="script-block">
+      <div class="script-header">
+        <span class="channel-tag tag-vm">Voicemail</span>
+        <span class="sh-label">All Pipelines · First Attempt</span>
+      </div>
+      <div class="script-body">
+        Hey <span class="placeholder">[First Name]</span>, this is <span class="placeholder">[Your Name]</span> with <span class="placeholder">[Client Name]</span>. I'm reaching out because you showed some interest in <span class="placeholder">[coaching / the event / the program]</span> and I just wanted to connect briefly — I have a couple of questions for you. My number is <span class="placeholder">[Number]</span>. I'll also send you a quick text. Talk soon.
+        <div class="note">Under 20 seconds. No pitching in the voicemail. The job of the voicemail is to get them to check the SMS. That's it.</div>
+      </div>
+    </div>
+
+    <!-- Call Opener -->
+    <div class="script-block">
+      <div class="script-header">
+        <span class="channel-tag tag-call">Call</span>
+        <span class="sh-label">Live Answer · Opening</span>
+      </div>
+      <div class="script-body">
+        "Hey, is this <span class="placeholder">[First Name]</span>?"<br><br>
+        <em style="color:#555;">[They say yes]</em><br><br>
+        "Hey, this is <span class="placeholder">[Your Name]</span> — I'm reaching out from <span class="placeholder">[Client Name]</span>'s team. I'm not going to take up a lot of your time — I just had a quick question for you. Is now an okay time for like two minutes?"<br><br>
+        <em style="color:#555;">[They say yes]</em><br><br>
+        "Perfect. So I saw you looked into <span class="placeholder">[coaching / the event / the program]</span> not too long ago and I just wanted to reach out and see — what made you look into it in the first place?"
+        <div class="note">That last question is the most important. Stop talking after you ask it. Let them answer. Their answer tells you everything about how to run the rest of the conversation.</div>
+      </div>
+    </div>
+
+    <!-- SMS: Ticket Abandonment -->
+    <div class="script-block">
+      <div class="script-header">
+        <span class="channel-tag tag-sms">SMS</span>
+        <span class="sh-label">Ticket Abandonments · Day 1</span>
+      </div>
+      <div class="script-body">
+        Hey <span class="placeholder">[First Name]</span> — saw you grabbed your info for the <span class="placeholder">[Event Name]</span> in June but didn't lock in your spot yet. Just wanted to make sure you didn't miss it — we're getting close on spots. Is the event still something you're interested in?
+        <div class="note">The event deadline is your best friend here. Use it honestly — don't fake urgency. If there really are limited spots, say so. If not, just reference the date.</div>
+      </div>
+    </div>
+
+    <!-- SMS: E-book Welcome -->
+    <div class="script-block">
+      <div class="script-header">
+        <span class="channel-tag tag-sms">SMS</span>
+        <span class="sh-label">E-book Buyers · Welcome SMS</span>
+      </div>
+      <div class="script-body">
+        Hey <span class="placeholder">[First Name]</span> — this is <span class="placeholder">[Your Name]</span> from <span class="placeholder">[Client Name]</span>'s team. Just wanted to personally reach out since you grabbed the e-book. Hope it's helpful. If you have any questions as you go through it, feel free to text me here. I'm around.
+        <div class="note">This is not a sales message — it's a relationship opener. The goal is to make them feel like a human, not a transaction. The sale comes later when you follow up and ask how it's going.</div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- SECTION 4: DAILY WORKFLOW -->
+  <section class="section" id="daily">
+    <div class="section-title">Daily Workflow</div>
+    <div class="divider"></div>
+
+    <p style="font-size:13px;color:#555;margin-bottom:20px;">Run through this checklist every day before moving on to anything else.</p>
+
+    <div class="checklist">
+      <div class="check-item" onclick="this.classList.toggle('checked')">
+        <div class="check-box"></div>
+        <div class="check-label"><strong style="color:#ccc;">First 30 min:</strong> Work the Priority 1 coaching dropoffs. Pull your list for the day, call through them in order. 10-20 calls minimum.</div>
+      </div>
+      <div class="check-item" onclick="this.classList.toggle('checked')">
+        <div class="check-box"></div>
+        <div class="check-label"><strong style="color:#ccc;">For every no-answer:</strong> Drop voicemail + send SMS within 5 minutes. Log the attempt in GHL immediately.</div>
+      </div>
+      <div class="check-item" onclick="this.classList.toggle('checked')">
+        <div class="check-box"></div>
+        <div class="check-label"><strong style="color:#ccc;">Check SMS replies:</strong> Anyone who responded overnight or in the morning gets a reply before you start your call block. Don't let replies sit.</div>
+      </div>
+      <div class="check-item" onclick="this.classList.toggle('checked')">
+        <div class="check-box"></div>
+        <div class="check-label"><strong style="color:#ccc;">Webinar attendees (if fresh):</strong> These get worked immediately after your P1 block while they're still warm. Call through the full list same day or next day.</div>
+      </div>
+      <div class="check-item" onclick="this.classList.toggle('checked')">
+        <div class="check-box"></div>
+        <div class="check-label"><strong style="color:#ccc;">Ticket abandonments:</strong> Send your follow-up SMS or email per the sequence timeline. Check who's on Day 3 or Day 6 and action them accordingly.</div>
+      </div>
+      <div class="check-item" onclick="this.classList.toggle('checked')">
+        <div class="check-box"></div>
+        <div class="check-label"><strong style="color:#ccc;">End of day:</strong> Update all pipeline stages in GHL. Every contact you touched should have a note on what happened. No exceptions.</div>
+      </div>
+      <div class="check-item" onclick="this.classList.toggle('checked')">
+        <div class="check-box"></div>
+        <div class="check-label"><strong style="color:#ccc;">EOD report:</strong> Log your numbers — calls made, connects, responses, calls booked. Track these daily so you can see what's working.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: CRM LOGGING -->
+  <section class="section" id="crm">
+    <div class="section-title">CRM Logging Standard</div>
+    <div class="divider"></div>
+
+    <p style="font-size:13px;color:#555;margin-bottom:16px;">Every contact must be logged in GHL. If it's not in the CRM, it didn't happen.</p>
+
+    <div class="pipeline-block">
+      <div class="pipeline-steps">
+        <div class="crm-row">
+          <div class="crm-field">After a call</div>
+          <div class="crm-value">Log: connected or no-answer. If connected — what did they say? What's their situation? What's the next step?</div>
+        </div>
+        <div class="crm-row">
+          <div class="crm-field">After SMS</div>
+          <div class="crm-value">Log the message sent and whether they replied. Move the pipeline stage if they responded.</div>
+        </div>
+        <div class="crm-row">
+          <div class="crm-field">Note format</div>
+          <div class="crm-value">Date · Channel (call/SMS/email) · What happened · Next step and when. Example: "Apr 22 · Called, no answer. Left VM, sent SMS. Follow up Day 4."</div>
+        </div>
+        <div class="crm-row">
+          <div class="crm-field">Stage movement</div>
+          <div class="crm-value">Move the stage immediately when status changes. Don't leave them in "New" after you've already called twice.</div>
+        </div>
+        <div class="crm-row">
+          <div class="crm-field">Dead leads</div>
+          <div class="crm-value">After all sequence steps complete with no response, move to "Nurture." Do not delete. These people may convert in 60-90 days.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: NON-NEGOTIABLES -->
+  <section class="section" id="rules">
+    <div class="section-title">Non-Negotiables</div>
+    <div class="divider"></div>
+
+    <div class="checklist" style="gap:12px;">
+      <div style="background:#0d0d0d;border:1px solid #1a1a1a;border-radius:8px;padding:16px 20px;">
+        <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:4px;">Respond to incoming messages within 5 minutes</div>
+        <div style="font-size:13px;color:#555;">The lead reached back out to you. That is the best signal you can get. Drop everything and respond. Every minute you wait, the interest cools.</div>
+      </div>
+      <div style="background:#0d0d0d;border:1px solid #1a1a1a;border-radius:8px;padding:16px 20px;">
+        <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:4px;">Never pitch on the first touch</div>
+        <div style="font-size:13px;color:#555;">Your only goal on the first call or SMS is to start a conversation and find out where they're at. The pitch comes after you understand their situation. Not before.</div>
+      </div>
+      <div style="background:#0d0d0d;border:1px solid #1a1a1a;border-radius:8px;padding:16px 20px;">
+        <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:4px;">Always follow voicemail with an SMS</div>
+        <div style="font-size:13px;color:#555;">Most people don't check voicemails. The SMS is what gets read. Voicemail + SMS together is the standard. One without the other is half the effort for half the result.</div>
+      </div>
+      <div style="background:#0d0d0d;border:1px solid #1a1a1a;border-radius:8px;padding:16px 20px;">
+        <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:4px;">Add SMS automation to every pipeline in GHL this week</div>
+        <div style="font-size:13px;color:#555;">Right now SMS is missing from most of your pipelines. Email alone is not enough. GHL supports SMS natively — set this up before you do anything else on the automation side.</div>
+      </div>
+      <div style="background:#0d0d0d;border:1px solid #1a1a1a;border-radius:8px;padding:16px 20px;">
+        <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:4px;">Work Priority 1 first. Every day.</div>
+        <div style="font-size:13px;color:#555;">108 people who filled out a full coaching survey and got no follow-up. That is where the money is. Don't let the smaller, easier pipelines distract you from the highest-intent leads.</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('.section');
+  const navItems = document.querySelectorAll('.nav-item');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navItems.forEach(item => {
+          item.classList.toggle('active', item.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
