@@ -3,53 +3,68 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ryan Kirui — Intro Call Follow-Up</title>
+  <title>Ryan Kirui — Commission Structure Breakdown</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --black:#000; --white:#fff; --g4:#999; --g6:#555; }
+    :root { --black:#000; --white:#fff; --g6:#555; }
     html { scroll-behavior:smooth; }
-    body { font-family:'Inter',sans-serif; background:var(--black); color:var(--white); font-size:15px; line-height:1.7; padding:60px 40px 100px; max-width:720px; margin:0 auto; }
+    body { font-family:'Inter',sans-serif; background:var(--black); color:var(--white); font-size:15px; line-height:1.7; padding:60px 40px 100px; max-width:760px; margin:0 auto; }
 
     .tag { font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--g6); margin-bottom:12px; }
     h1 { font-size:32px; font-weight:800; letter-spacing:-1px; line-height:1.1; margin-bottom:10px; }
     .meta { font-size:13px; color:#444; margin-bottom:48px; }
 
     .div { height:1px; background:#1a1a1a; margin:14px 0 24px; }
-    .sec { margin-bottom:48px; }
+    .sec { margin-bottom:52px; }
     .sec-title { font-size:18px; font-weight:700; letter-spacing:-.3px; margin-bottom:4px; }
 
     p { font-size:14px; color:#888; line-height:1.7; margin-bottom:14px; }
     p:last-child { margin-bottom:0; }
     p strong { color:#ccc; }
 
-    /* math table */
-    .math-table { width:100%; border-collapse:collapse; margin:16px 0; }
-    .math-table th { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--g6); text-align:left; padding:10px 14px; border-bottom:1px solid #1a1a1a; }
-    .math-table td { font-size:13px; color:#bbb; padding:12px 14px; border-bottom:1px solid #111; line-height:1.4; }
-    .math-table tr:last-child td { border-bottom:none; }
-    .math-table td:first-child { color:#666; }
-    .math-table td strong { color:var(--white); }
-    .math-table tr.highlight td { background:#0d0d0d; }
-    .math-table tr.highlight td:first-child { color:#888; }
+    /* tables */
+    table { width:100%; border-collapse:collapse; margin:16px 0; }
+    thead th { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--g6); text-align:left; padding:10px 14px; border-bottom:1px solid #1a1a1a; }
+    tbody td { font-size:13px; color:#999; padding:13px 14px; border-bottom:1px solid #0f0f0f; line-height:1.4; vertical-align:top; }
+    tbody tr:last-child td { border-bottom:none; }
+    tbody td:first-child { color:#666; }
+    td strong { color:var(--white); }
+    tr.you td { background:#0d0d0d; }
+    tr.you td:first-child { color:#888; }
+    tr.total-row td { border-top:1px solid #222; padding-top:14px; }
+    tr.total-row td { color:#555; font-size:12px; }
+    tr.total-row td strong { color:#aaa; }
+
+    /* highlight number */
+    .big { font-size:22px; font-weight:800; letter-spacing:-.5px; }
+    .up { color:#4caf50; }
+    .down { color:#e05555; }
+    .neutral { color:#c8a030; }
 
     /* card */
-    .card { background:#0d0d0d; border:1px solid #1a1a1a; border-radius:10px; padding:18px 22px; margin-bottom:10px; }
+    .card { background:#0d0d0d; border:1px solid #1a1a1a; border-radius:10px; padding:18px 22px; margin-bottom:12px; }
     .card .cl { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--g6); margin-bottom:8px; }
     .card .cb { font-size:14px; color:#bbb; line-height:1.65; }
     .card .cb strong { color:var(--white); }
 
     /* insight */
-    .insight { background:#111; border-left:3px solid var(--white); border-radius:0 8px 8px 0; padding:16px 20px; margin:16px 0; font-size:15px; color:#ddd; line-height:1.7; font-style:italic; }
+    .insight { background:#111; border-left:3px solid var(--white); border-radius:0 8px 8px 0; padding:16px 20px; margin:16px 0; font-size:14px; color:#ddd; line-height:1.7; font-style:italic; }
 
-    /* two col */
-    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0; }
-    .col-card { background:#0d0d0d; border:1px solid #1a1a1a; border-radius:10px; padding:16px 20px; }
-    .col-label { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; }
-    .col-label.red { color:#e05555; }
-    .col-label.green { color:#4caf50; }
-    .col-body { font-size:13px; color:#666; line-height:1.6; }
-    .col-body strong { color:#999; }
+    /* note */
+    .note { background:rgba(200,140,0,.06); border:1px solid rgba(200,140,0,.18); border-radius:8px; padding:12px 16px; font-size:13px; color:#c8a030; margin:14px 0; display:flex; gap:10px; line-height:1.5; }
+    .note span { flex-shrink:0; }
+
+    /* summary row */
+    .summary { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin:20px 0; }
+    .sum-card { background:#0d0d0d; border:1px solid #1a1a1a; border-radius:10px; padding:16px 18px; text-align:center; }
+    .sum-card .sv { font-size:24px; font-weight:800; letter-spacing:-.5px; margin-bottom:4px; }
+    .sum-card .sl { font-size:10px; text-transform:uppercase; letter-spacing:.5px; color:#444; }
+
+    /* scenario header */
+    .scenario-label { font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--g6); margin-bottom:6px; }
+    .scenario-title { font-size:16px; font-weight:700; margin-bottom:4px; }
+    .scenario-sub { font-size:13px; color:#555; margin-bottom:16px; }
 
     /* action */
     .action-list { display:flex; flex-direction:column; gap:8px; }
@@ -58,172 +73,338 @@
     .action .body { font-size:14px; color:#bbb; line-height:1.5; }
     .action .body strong { color:var(--white); }
 
-    .note { background:rgba(200,140,0,.06); border:1px solid rgba(200,140,0,.18); border-radius:8px; padding:12px 16px; font-size:13px; color:#c8a030; margin:14px 0; display:flex; gap:10px; line-height:1.5; }
-    .note span { flex-shrink:0; }
-
-    .stat-row { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:16px 0; }
-    .stat { background:#0d0d0d; border:1px solid #1a1a1a; border-radius:10px; padding:16px 18px; text-align:center; }
-    .stat .sv { font-size:22px; font-weight:800; letter-spacing:-0.5px; color:var(--white); }
-    .stat .sl { font-size:11px; color:#444; margin-top:4px; letter-spacing:.3px; text-transform:uppercase; }
-
-    @media(max-width:580px){
+    @media(max-width:600px){
       body{padding:32px 18px 80px;}
-      .two-col{grid-template-columns:1fr;}
-      .stat-row{grid-template-columns:1fr 1fr;}
+      .summary{grid-template-columns:1fr 1fr;}
+      table{font-size:12px;}
+      thead th, tbody td{padding:10px 10px;}
     }
   </style>
 </head>
 <body>
 
-  <div class="tag">Sales.io · Intro Call</div>
-  <h1>Ryan Kirui</h1>
-  <div class="meta">April 28, 2026 &nbsp;·&nbsp; First Call &nbsp;·&nbsp; Commission Structure + Next Steps</div>
+  <div class="tag">Sales.io · Commission Breakdown</div>
+  <h1>The Team Restructure Case</h1>
+  <div class="meta">Ryan Kirui &nbsp;·&nbsp; April 28, 2026 &nbsp;·&nbsp; A doc to bring to your sales manager</div>
 
-  <!-- WHERE YOU'RE AT -->
+  <!-- CURRENT STATE -->
   <div class="sec">
-    <div class="sec-title">Where You're At</div>
-    <div class="div"></div>
+    <div class="scenario-label">Scenario 1</div>
+    <div class="scenario-title">Current Structure</div>
+    <div class="scenario-sub">4 closers, full-cycle. Two at 15%, two at 10%. $150K/month team revenue.</div>
 
-    <div class="stat-row">
-      <div class="stat"><div class="sv">$150K</div><div class="sl">Team Revenue / Mo</div></div>
-      <div class="stat"><div class="sv">Feb '26</div><div class="sl">Joined Team</div></div>
-      <div class="stat"><div class="sv">15%</div><div class="sl">Your Commission</div></div>
-    </div>
-
-    <p>You're on a team doing <strong>$150K/month</strong> with a $7K primary price point. Four closers total — two at 15%, two at 10%. The inbound, warmer leads go to the higher-commission reps. On paper, you're one of the top guys. The problem is the math doesn't support what's actually possible.</p>
-  </div>
-
-  <!-- THE MATH PROBLEM -->
-  <div class="sec">
-    <div class="sec-title">The Math Problem</div>
-    <div class="div"></div>
-
-    <p>With four closers splitting $150K in revenue, even if you're outperforming everyone else, your ceiling is capped well below what the revenue should support.</p>
-
-    <table class="math-table">
+    <table>
       <thead>
         <tr>
-          <th>Scenario</th>
-          <th>Revenue</th>
-          <th>Closers</th>
-          <th>Your Take</th>
+          <th>Rep</th>
+          <th>Role</th>
+          <th>Rate</th>
+          <th>Est. Revenue Closed</th>
+          <th>Monthly Take-Home</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>Current (4 closers, 15%)</td>
-          <td>$150K</td>
-          <td>4 people splitting</td>
-          <td><strong>~$6K max</strong></td>
+          <td>Full-cycle closer 1</td>
+          <td>Sets + closes own leads</td>
+          <td>15%</td>
+          <td>~$45K</td>
+          <td><strong>$6,750</strong></td>
         </tr>
-        <tr class="highlight">
-          <td>Restructured (2 closers, 15%)</td>
-          <td>$150K</td>
-          <td>2 people splitting</td>
-          <td><strong>$11K–$15K</strong></td>
+        <tr>
+          <td>Full-cycle closer 2</td>
+          <td>Sets + closes own leads</td>
+          <td>15%</td>
+          <td>~$45K</td>
+          <td><strong>$6,750</strong></td>
         </tr>
-        <tr class="highlight">
-          <td>Restructured (2 closers, 2 setters at 5%)</td>
-          <td>$150K+</td>
-          <td>2 closers, floor guaranteed</td>
-          <td><strong>$7.5K floor → $15K+ ceiling</strong></td>
+        <tr class="you">
+          <td><strong>Ryan (you)</strong></td>
+          <td>Inbound closer</td>
+          <td>10%</td>
+          <td>~$30K</td>
+          <td><strong class="down">$3,000</strong></td>
+        </tr>
+        <tr>
+          <td>Inbound closer 2</td>
+          <td>Inbound closer</td>
+          <td>10%</td>
+          <td>~$30K</td>
+          <td><strong>$3,000</strong></td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="3"></td>
+          <td><strong>$150K total</strong></td>
+          <td><strong>$19,500 paid out</strong></td>
         </tr>
       </tbody>
     </table>
 
-    <p>The $6K ceiling isn't because you're not good. It's structural. Four people splitting the same pool means even a stud performance can't break through. The revenue isn't the problem — the split is.</p>
-
-    <div class="insight">"The behavior that generates the most revenue should be incentivized. Doesn't matter if it's setting, closing, or confirming. Pay people based on the value they bring."</div>
-  </div>
-
-  <!-- THE FIX -->
-  <div class="sec">
-    <div class="sec-title">What a Restructured Team Looks Like</div>
-    <div class="div"></div>
-
-    <div class="two-col">
-      <div class="col-card">
-        <div class="col-label red">Current Structure</div>
-        <div class="col-body">
-          4 closers (2 at 15%, 2 at 10%)<br><br>
-          Full-cycle reps competing for the same lead pool<br><br>
-          <strong>Cap: ~$6K/mo even at top of team</strong>
-        </div>
-      </div>
-      <div class="col-card">
-        <div class="col-label green">Restructured</div>
-        <div class="col-body">
-          2 closers + 2 setters at 5%<br><br>
-          Setters feed closers exclusively. Internal competitions between pairs.<br><br>
-          <strong>Floor: $7.5K. Ceiling: no cap.</strong>
-        </div>
-      </div>
+    <div class="summary">
+      <div class="sum-card"><div class="sv down">$3,000</div><div class="sl">Ryan's monthly</div></div>
+      <div class="sum-card"><div class="sv">$19,500</div><div class="sl">Total commission paid</div></div>
+      <div class="sum-card"><div class="sv">13%</div><div class="sl">Of revenue to reps</div></div>
     </div>
 
+    <p>Ryan's at <strong>10% on roughly $30K of personal closes</strong> — that's his slice of a four-way split on $150K. Even if he outperforms, there's only so much revenue to go around. His ceiling is structurally capped, not a skills issue.</p>
+  </div>
+
+  <!-- OPTION A -->
+  <div class="sec">
+    <div class="scenario-label">Scenario 2 — Option A</div>
+    <div class="scenario-title">Two Dedicated Setters at 5% (Pure Performance)</div>
+    <div class="scenario-sub">The two full-cycle closers shift to setters. No base. 5% of revenue generated from their sets. Ryan and the other inbound closer move up to 15%.</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Rep</th>
+          <th>New Role</th>
+          <th>Rate</th>
+          <th>Est. Revenue Impact</th>
+          <th>Monthly Take-Home</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Former FC closer 1</td>
+          <td>Dedicated setter → Ryan</td>
+          <td>5% of sets closed</td>
+          <td>Sets ~$75K for Ryan</td>
+          <td><strong>$3,750</strong></td>
+        </tr>
+        <tr>
+          <td>Former FC closer 2</td>
+          <td>Dedicated setter → closer 2</td>
+          <td>5% of sets closed</td>
+          <td>Sets ~$75K for closer 2</td>
+          <td><strong>$3,750</strong></td>
+        </tr>
+        <tr class="you">
+          <td><strong>Ryan (you)</strong></td>
+          <td>Closer — inbound only</td>
+          <td>15%</td>
+          <td>Closes ~$75K</td>
+          <td><strong class="up">$11,250</strong></td>
+        </tr>
+        <tr>
+          <td>Closer 2</td>
+          <td>Closer — inbound only</td>
+          <td>15%</td>
+          <td>Closes ~$75K</td>
+          <td><strong>$11,250</strong></td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="3"></td>
+          <td><strong>$150K total</strong></td>
+          <td><strong>$30,000 paid out</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="summary">
+      <div class="sum-card"><div class="sv up">$11,250</div><div class="sl">Ryan's monthly</div></div>
+      <div class="sum-card"><div class="sv">$30,000</div><div class="sl">Total commission paid</div></div>
+      <div class="sum-card"><div class="sv">20%</div><div class="sl">Of revenue to reps</div></div>
+    </div>
+
+    <div class="note"><span>⚠️</span><div>The former full-cycle closers drop from $6,750 to $3,750. That's a real pay cut. Pure 5% with no base is a tough sell for them — and if they're resentful, their setting performance drops. Option B solves this.</div></div>
+  </div>
+
+  <!-- OPTION B -->
+  <div class="sec">
+    <div class="scenario-label">Scenario 3 — Option B</div>
+    <div class="scenario-title">Two Dedicated Setters at 5% + $2,000 Base</div>
+    <div class="scenario-sub">Same restructure, but the setters get a $2,000/month base to soften the transition and protect their income floor. Ryan and closer 2 move to 15%.</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Rep</th>
+          <th>New Role</th>
+          <th>Structure</th>
+          <th>Est. Revenue Impact</th>
+          <th>Monthly Take-Home</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Former FC closer 1</td>
+          <td>Dedicated setter → Ryan</td>
+          <td>$2K base + 5% of sets closed</td>
+          <td>Sets ~$75K for Ryan</td>
+          <td><strong>$5,750</strong></td>
+        </tr>
+        <tr>
+          <td>Former FC closer 2</td>
+          <td>Dedicated setter → closer 2</td>
+          <td>$2K base + 5% of sets closed</td>
+          <td>Sets ~$75K for closer 2</td>
+          <td><strong>$5,750</strong></td>
+        </tr>
+        <tr class="you">
+          <td><strong>Ryan (you)</strong></td>
+          <td>Closer — inbound only</td>
+          <td>15%</td>
+          <td>Closes ~$75K</td>
+          <td><strong class="up">$11,250</strong></td>
+        </tr>
+        <tr>
+          <td>Closer 2</td>
+          <td>Closer — inbound only</td>
+          <td>15%</td>
+          <td>Closes ~$75K</td>
+          <td><strong>$11,250</strong></td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="3"></td>
+          <td><strong>$150K total</strong></td>
+          <td><strong>$34,000 paid out</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="summary">
+      <div class="sum-card"><div class="sv up">$11,250</div><div class="sl">Ryan's monthly</div></div>
+      <div class="sum-card"><div class="sv">$34,000</div><div class="sl">Total commission paid</div></div>
+      <div class="sum-card"><div class="sv">22.7%</div><div class="sl">Of revenue to reps</div></div>
+    </div>
+
+    <p>The setters now earn <strong>$5,750/month</strong> — only $1,000 less than before, with more predictability and a clear, focused job. Their resentment risk goes down. Their effort goes up.</p>
+  </div>
+
+  <!-- WHY REVENUE GOES UP -->
+  <div class="sec">
+    <div class="sec-title">Why This Is Still a Win for the Manager</div>
+    <div class="div"></div>
+
+    <p>The case isn't "pay the team more for the same output." The case is <strong>specialized roles produce more revenue</strong> — and at $150K with $7K deals, there's a clear ceiling on what full-cycle reps can do on their own.</p>
+
     <div class="card">
-      <div class="cl">Compensation Variations to Consider</div>
+      <div class="cl">Full-Cycle vs. Specialized — The Real Cost</div>
       <div class="cb">
-        <strong>Option A:</strong> 2 closers at 15% + 2 setters at 5%. No base. Pure performance.<br><br>
-        <strong>Option B:</strong> 2 closers at 10–12% + small base + 2 setters at 5% + bonuses for hitting thresholds. Attracts better setters, creates predictable incentive behavior.<br><br>
-        <strong>Option C:</strong> Tiered commission — lower % until a cash-collected threshold, then higher % above it. Used at Daniel Isles' scale: 3% until $300K collected, then significantly higher. Creates a ramp and a reward.<br><br>
-        The goal isn't just higher pay — it's that when the team is incentivized correctly, total revenue goes up and everyone earns more.
+        A full-cycle rep splits their time between prospecting, following up, and closing. A dedicated setter can book 2–3x more qualified calls per week than a closer who's also responsible for setting. A dedicated closer, with a full pipeline handed to them, will close at a higher rate because every call they're on is their one job.<br><br>
+        <strong>The math doesn't even need revenue to grow much to work.</strong> If dedicated setters push the team from $150K to $180K — which is conservative — here's what that looks like:
       </div>
     </div>
 
-    <div class="note"><span>⚡</span><div>I've seen this work at Iman's team, Hormozi's team, and at scale with Daniel Isles. When you shrink the closing team and let setters handle pipeline, closers make more, setters make more, and the business does more revenue. It's not theory — it's what actually happens.</div></div>
+    <table>
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Current</th>
+          <th>Restructured ($180K)</th>
+          <th>Restructured ($200K)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Team revenue</td>
+          <td>$150,000</td>
+          <td><strong>$180,000</strong></td>
+          <td><strong>$200,000</strong></td>
+        </tr>
+        <tr>
+          <td>Total commission paid (Option B)</td>
+          <td>$19,500</td>
+          <td>$40,800</td>
+          <td>$45,400</td>
+        </tr>
+        <tr>
+          <td>Company keeps (gross)</td>
+          <td><strong>$130,500</strong></td>
+          <td><strong>$139,200</strong></td>
+          <td><strong>$154,600</strong></td>
+        </tr>
+        <tr class="you">
+          <td><strong>Ryan's monthly</strong></td>
+          <td><strong class="down">$3,000</strong></td>
+          <td><strong class="up">$13,500</strong></td>
+          <td><strong class="up">$15,000</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>At $180K — a <strong>20% revenue increase</strong> from dedicated setters — the company keeps more money in absolute dollars, every rep earns more, and Ryan nearly 5x's his income. The manager's override on a higher revenue base also goes up.</p>
+
+    <div class="insight">"The behavior that generates the most revenue should be incentivized. Doesn't matter if it's setting, closing, or confirming. Incentivize people based on the value they bring."</div>
   </div>
 
-  <!-- HOW TO BRING IT TO YOUR MANAGER -->
+  <!-- SIDE BY SIDE -->
   <div class="sec">
-    <div class="sec-title">How to Bring This to Your Sales Manager</div>
+    <div class="sec-title">Ryan's Take-Home — Side by Side</div>
     <div class="div"></div>
 
-    <p>You said he listens — that he's implemented changes before when you've brought good ideas. That's a good sign. Here's how to frame it:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Structure</th>
+          <th>Ryan's Rate</th>
+          <th>Ryan's Monthly</th>
+          <th>Annual</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Current (4 closers)</td>
+          <td>10%</td>
+          <td><strong class="down">$3,000</strong></td>
+          <td>$36,000</td>
+        </tr>
+        <tr>
+          <td>Option A — 5% setter, no base ($150K)</td>
+          <td>15%</td>
+          <td><strong>$11,250</strong></td>
+          <td>$135,000</td>
+        </tr>
+        <tr class="you">
+          <td><strong>Option B — 5% setter + $2K base ($150K)</strong></td>
+          <td>15%</td>
+          <td><strong class="up">$11,250</strong></td>
+          <td><strong class="up">$135,000</strong></td>
+        </tr>
+        <tr class="you">
+          <td><strong>Option B — if team hits $180K</strong></td>
+          <td>15%</td>
+          <td><strong class="up">$13,500</strong></td>
+          <td><strong class="up">$162,000</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note"><span>⚡</span><div>This is the same team, the same revenue, the same offer — just the structure changes. Ryan goes from $36K/year to $135K–$162K/year without finding a new role or changing companies.</div></div>
+  </div>
+
+  <!-- HOW TO BRING IT -->
+  <div class="sec">
+    <div class="sec-title">How to Bring This to Your Manager</div>
+    <div class="div"></div>
+
+    <p>Don't frame it as "I deserve more." Frame it as <strong>"here's a model that generates more revenue and keeps the team happier."</strong></p>
 
     <div class="card">
-      <div class="cl">The Frame</div>
-      <div class="cb">Don't come in with a complaint. Come in with the math and a model. Show him the current structure, show him the gap, show him what the team could generate under a two-closer, two-setter model with the right incentives.<br><br>
-      The argument isn't "I deserve more." The argument is <strong>"here's a structure that generates more revenue for the company and more earnings for the reps."</strong> He benefits either way — more revenue means his override goes up too. It's not a negotiation, it's a proposal.<br><br>
-      If he's resistant, that's a signal. Not necessarily a reason to leave — but something to file away.
+      <div class="cl">The Pitch</div>
+      <div class="cb">
+        "I've been thinking about how we can push past $150K consistently. One structure I've seen work at high-performing teams is separating the setting and closing functions — two dedicated setters feeding two closers.<br><br>
+        The setters can focus entirely on booking quality calls. The closers can focus entirely on converting. Right now our full-cycle guys are splitting energy between both, and so are we. If we specialize — even temporarily to test it — the data suggests we should see a meaningful lift in booked calls and close rate.<br><br>
+        I ran the math. Even if revenue just goes from $150K to $180K, the company keeps more in absolute dollars, and everyone on the team earns more. I can show you the breakdown."
       </div>
     </div>
-  </div>
 
-  <!-- NEXT STEPS -->
-  <div class="sec">
-    <div class="sec-title">What Happens Next</div>
-    <div class="div"></div>
-
-    <div class="action-list">
+    <div class="action-list" style="margin-top:16px;">
       <div class="action">
-        <div class="num">01</div>
-        <div class="body"><strong>Send me 1–2 call recordings.</strong> Ideally one where you clearly messed it up, and one where you're not sure why it didn't close. Text or email — whichever you used to reach me today. Send them today.</div>
+        <div class="num">→</div>
+        <div class="body">Show him the table. Let the numbers speak. Don't oversell it verbally.</div>
       </div>
       <div class="action">
-        <div class="num">02</div>
-        <div class="body"><strong>Send me your data.</strong> Last 2–3 months. Close rate, number of calls taken, average deal size. Whatever you have. Doesn't need to be perfect — just enough to see where the gaps actually are.</div>
+        <div class="num">→</div>
+        <div class="body">Propose a <strong>30-day test</strong> — one setter, one closer pair — to see if booked call volume goes up before committing to a full restructure.</div>
       </div>
       <div class="action">
-        <div class="num">03</div>
-        <div class="body"><strong>I'll review the calls and break them down.</strong> You'll see exactly how I coach — the specific moments, what happened before the call fell apart, what I'd adjust. No fluff, just the work.</div>
-      </div>
-      <div class="action">
-        <div class="num">04</div>
-        <div class="body"><strong>We'll talk Wednesday or Thursday.</strong> Once you've seen how I coach and have had time to sit with it — we'll pick up from there and figure out if working together makes sense.</div>
+        <div class="num">→</div>
+        <div class="body">If he's open, suggest Option B for the setters — the base softens the transition and keeps them motivated. Pure 5% with no floor is a harder sell internally.</div>
       </div>
     </div>
-  </div>
-
-  <!-- BOTTOM LINE -->
-  <div class="sec">
-    <div class="sec-title">The Bottom Line</div>
-    <div class="div"></div>
-
-    <p>You came in through Malachi. You already have a track record — on a team doing $150K/month since February is not nothing. The commission structure is what's capping you, not your ceiling.</p>
-
-    <p>The plan is simple: you see how I work, I see how you close, and we figure out what you're actually leaving on the table and why. If it's the right fit, great. If not, you'll still leave with more clarity than you had coming in.</p>
-
-    <p>Send the recordings today and I'll have the review back before we talk again.</p>
   </div>
 
 </body>
