@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ryan Kirui — Performance Analysis</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --black:#000; --white:#fff; --g6:#555; }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',sans-serif; background:var(--black); color:var(--white); font-size:15px; line-height:1.7; padding:60px 40px 100px; max-width:760px; margin:0 auto; }
+
+    .tag { font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--g6); margin-bottom:12px; }
+    h1 { font-size:32px; font-weight:800; letter-spacing:-1px; line-height:1.1; margin-bottom:10px; }
+    .meta { font-size:13px; color:#444; margin-bottom:48px; }
+
+    .div { height:1px; background:#1a1a1a; margin:14px 0 24px; }
+    .sec { margin-bottom:52px; }
+    .sec-title { font-size:18px; font-weight:700; letter-spacing:-.3px; margin-bottom:4px; }
+
+    p { font-size:14px; color:#888; line-height:1.7; margin-bottom:14px; }
+    p:last-child { margin-bottom:0; }
+    p strong { color:#ccc; }
+
+    /* stat grid */
+    .stat-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:16px 0; }
+    .stat { background:#0d0d0d; border:1px solid #1a1a1a; border-radius:10px; padding:14px 16px; }
+    .stat .sv { font-size:22px; font-weight:800; letter-spacing:-.5px; margin-bottom:2px; }
+    .stat .sl { font-size:10px; text-transform:uppercase; letter-spacing:.5px; color:#444; }
+    .stat.bad .sv { color:#e05555; }
+    .stat.good .sv { color:#4caf50; }
+    .stat.warn .sv { color:#c8a030; }
+    .stat.neutral .sv { color:var(--white); }
+
+    /* lever card */
+    .lever { background:#0d0d0d; border:1px solid #1a1a1a; border-radius:12px; padding:22px 24px; margin-bottom:16px; }
+    .lever-header { display:flex; align-items:flex-start; gap:16px; margin-bottom:16px; }
+    .lever-num { font-size:11px; font-weight:800; color:#333; flex-shrink:0; padding-top:3px; letter-spacing:1px; }
+    .lever-title { font-size:16px; font-weight:700; margin-bottom:2px; }
+    .lever-sub { font-size:12px; color:#555; letter-spacing:.3px; text-transform:uppercase; }
+    .lever-body { font-size:14px; color:#bbb; line-height:1.65; }
+    .lever-body strong { color:var(--white); }
+
+    /* math row */
+    .math-block { background:#111; border-radius:8px; padding:16px 20px; margin:14px 0; }
+    .math-row { display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid #191919; font-size:13px; }
+    .math-row:last-child { border-bottom:none; padding-bottom:0; }
+    .math-row .label { color:#555; }
+    .math-row .val { font-weight:700; }
+    .math-row .val.up { color:#4caf50; }
+    .math-row .val.down { color:#e05555; }
+    .math-row .val.now { color:var(--white); }
+    .math-row.highlight .label { color:#888; }
+    .math-row.highlight .val { color:#c8a030; font-size:15px; }
+
+    /* offer table */
+    table { width:100%; border-collapse:collapse; margin:14px 0; }
+    thead th { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--g6); text-align:left; padding:10px 14px; border-bottom:1px solid #1a1a1a; }
+    tbody td { font-size:13px; color:#999; padding:12px 14px; border-bottom:1px solid #0f0f0f; }
+    tbody tr:last-child td { border-bottom:none; }
+    td strong { color:var(--white); }
+    tr.highlight-row td { background:#0d0d0d; }
+    tr.action-row td { background:#0a0f0a; }
+    tr.action-row td strong { color:#4caf50; }
+
+    /* impact summary */
+    .impact { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:20px 0; }
+    .imp-card { background:#0d0d0d; border:1px solid #1a1a1a; border-radius:10px; padding:16px 18px; text-align:center; }
+    .imp-card .iv { font-size:22px; font-weight:800; letter-spacing:-.5px; margin-bottom:4px; }
+    .imp-card .il { font-size:10px; text-transform:uppercase; letter-spacing:.5px; color:#444; }
+    .imp-card.up .iv { color:#4caf50; }
+
+    /* insight */
+    .insight { background:#111; border-left:3px solid var(--white); border-radius:0 8px 8px 0; padding:16px 20px; margin:16px 0; font-size:14px; color:#ddd; line-height:1.7; font-style:italic; }
+
+    /* note */
+    .note { background:rgba(200,140,0,.06); border:1px solid rgba(200,140,0,.18); border-radius:8px; padding:12px 16px; font-size:13px; color:#c8a030; margin:14px 0; display:flex; gap:10px; line-height:1.5; }
+    .note span { flex-shrink:0; }
+
+    /* action steps */
+    .steps { display:flex; flex-direction:column; gap:8px; }
+    .step { display:flex; gap:14px; align-items:flex-start; background:#0a0a0a; border:1px solid #1a1a1a; border-radius:8px; padding:13px 18px; }
+    .step .sn { font-size:11px; font-weight:800; color:#333; width:20px; flex-shrink:0; padding-top:1px; }
+    .step .sb { font-size:14px; color:#bbb; line-height:1.5; }
+    .step .sb strong { color:var(--white); }
+
+    @media(max-width:600px){
+      body{padding:32px 18px 80px;}
+      .stat-grid{grid-template-columns:1fr 1fr;}
+      .impact{grid-template-columns:1fr 1fr;}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="tag">Sales.io · Performance Analysis</div>
+  <h1>Ryan Kirui — Where the Money Is</h1>
+  <div class="meta">April 28, 2026 &nbsp;·&nbsp; Based on Bunker Sales Report &nbsp;·&nbsp; 3 Levers to Pull</div>
+
+  <!-- CURRENT NUMBERS -->
+  <div class="sec">
+    <div class="sec-title">Your Current Numbers</div>
+    <div class="div"></div>
+
+    <div class="stat-grid">
+      <div class="stat neutral"><div class="sv">179</div><div class="sl">Calls Booked</div></div>
+      <div class="stat neutral"><div class="sv">70</div><div class="sl">Calls Taken</div></div>
+      <div class="stat bad"><div class="sv">39%</div><div class="sl">Show Rate</div></div>
+      <div class="stat good"><div class="sv">47%</div><div class="sl">Close Rate</div></div>
+    </div>
+    <div class="stat-grid">
+      <div class="stat neutral"><div class="sv">33</div><div class="sl">Total Closes</div></div>
+      <div class="stat neutral"><div class="sv">$116K</div><div class="sl">Revenue Generated</div></div>
+      <div class="stat neutral"><div class="sv">$3,528</div><div class="sl">Revenue AOV</div></div>
+      <div class="stat warn"><div class="sv">83%</div><div class="sl">Offer Rate</div></div>
+    </div>
+
+    <p style="margin-top:16px;">The close rate is solid. <strong>47% means when you get someone on a call, you're closing nearly half of them.</strong> That's not the problem. The problem is everything upstream of the call — and one critical decision happening on the call itself.</p>
+  </div>
+
+  <!-- LEVER 1: SHOW RATE -->
+  <div class="sec">
+    <div class="sec-title">The 3 Levers</div>
+    <div class="div"></div>
+
+    <div class="lever">
+      <div class="lever-header">
+        <div class="lever-num">LEVER 01</div>
+        <div>
+          <div class="lever-title">Show Rate — Your Biggest Problem</div>
+          <div class="lever-sub">Currently 39% &nbsp;·&nbsp; Industry standard 70–75%</div>
+        </div>
+      </div>
+      <div class="lever-body">
+        You booked <strong>179 calls</strong>. Only <strong>70 showed up</strong>. That means 109 people who were interested enough to book — just didn't show. At a 47% close rate, those 109 no-shows represent roughly <strong>51 closes that never happened.</strong><br><br>
+        This is almost entirely a pre-call sequence problem. People need confirmation, a reason to show, and social proof between booking and the call. Right now there's a gap.
+      </div>
+
+      <div class="math-block">
+        <div class="math-row"><span class="label">Calls booked</span><span class="val now">179</span></div>
+        <div class="math-row"><span class="label">Current show rate</span><span class="val down">39% → 70 calls</span></div>
+        <div class="math-row"><span class="label">If show rate hits 55%</span><span class="val up">98 calls taken</span></div>
+        <div class="math-row"><span class="label">If show rate hits 65%</span><span class="val up">116 calls taken</span></div>
+        <div class="math-row highlight"><span class="label">Additional closes at 55% show rate</span><span class="val">+13 closes → +$46K revenue</span></div>
+        <div class="math-row highlight"><span class="label">Additional closes at 65% show rate</span><span class="val">+22 closes → +$78K revenue</span></div>
+      </div>
+
+      <div class="lever-body" style="margin-top:4px;">
+        <strong>Fix this and revenue nearly doubles — without changing anything about how you sell.</strong>
+      </div>
+    </div>
+
+    <!-- LEVER 2: OFFER POSITIONING -->
+    <div class="lever">
+      <div class="lever-header">
+        <div class="lever-num">LEVER 02</div>
+        <div>
+          <div class="lever-title">Lead with the $5.8K — the Data Says So</div>
+          <div class="lever-sub">$5.8K closes at 58.82% &nbsp;·&nbsp; $2.8K closes at 45.10%</div>
+        </div>
+      </div>
+      <div class="lever-body">
+        This is the most counterintuitive thing in your data. You're making <strong>3x more $2.8K offers than $5.8K offers</strong> — probably because it feels safer to offer the lower price. But the numbers say the opposite is true.
+      </div>
+
+      <table style="margin-top:14px;">
+        <thead>
+          <tr>
+            <th>Offer</th>
+            <th>Offers Made</th>
+            <th>Close Rate</th>
+            <th>Closes</th>
+            <th>Revenue at This Rate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>$5.8K</td>
+            <td>17</td>
+            <td><strong>58.82%</strong></td>
+            <td>~10</td>
+            <td>$58,000</td>
+          </tr>
+          <tr>
+            <td>$2.8K</td>
+            <td>51</td>
+            <td>45.10%</td>
+            <td>~23</td>
+            <td>$64,400</td>
+          </tr>
+          <tr>
+            <td>$997</td>
+            <td>4</td>
+            <td>No data</td>
+            <td>—</td>
+            <td>—</td>
+          </tr>
+          <tr class="action-row">
+            <td><strong>$5.8K (flipped — 51 offers)</strong></td>
+            <td><strong>51</strong></td>
+            <td><strong>58.82%</strong></td>
+            <td><strong>~30</strong></td>
+            <td><strong>$174,000</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="lever-body">
+        If you simply flip the offer mix — <strong>lead with $5.8K as the default, $2.8K as the fallback</strong> — and close rate stays the same, revenue from offers jumps from ~$122K to ~$174K on the same call volume. <strong>The higher offer closes at a higher rate.</strong> That's the data.
+      </div>
+
+      <div class="insight">"People buy based on what they want, not what they can afford. When you offer low first, you anchor them there. Lead with the full offer — let them negotiate down. Most won't."</div>
+    </div>
+
+    <!-- LEVER 3: OFFER RATE -->
+    <div class="lever">
+      <div class="lever-header">
+        <div class="lever-num">LEVER 03</div>
+        <div>
+          <div class="lever-title">Make an Offer on Every Call</div>
+          <div class="lever-sub">Current offer rate: 83% &nbsp;·&nbsp; Target: 100%</div>
+        </div>
+      </div>
+      <div class="lever-body">
+        On 17 out of every 100 calls you take, you're not making an offer. With 70 calls taken, that's roughly <strong>12 calls where no offer was extended.</strong> Some of those had legitimate reasons — bad fit, early DQ. But not all of them.
+      </div>
+
+      <div class="math-block">
+        <div class="math-row"><span class="label">Calls taken</span><span class="val now">70</span></div>
+        <div class="math-row"><span class="label">Calls where no offer was made (~17%)</span><span class="val down">~12 calls</span></div>
+        <div class="math-row"><span class="label">If those 12 get an offer at 47% close rate</span><span class="val up">5–6 additional closes</span></div>
+        <div class="math-row highlight"><span class="label">Revenue impact</span><span class="val">+$17K–$21K</span></div>
+      </div>
+
+      <div class="lever-body" style="margin-top:4px;">
+        This is the smallest lever of the three, but it's the easiest to fix. <strong>The rule: always make an offer.</strong> If the fit isn't right, the offer should still come — let them say no. You saying no for them is a lost close.
+      </div>
+    </div>
+  </div>
+
+  <!-- COMBINED IMPACT -->
+  <div class="sec">
+    <div class="sec-title">What Pulling All Three Looks Like</div>
+    <div class="div"></div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Scenario</th>
+          <th>Show Rate</th>
+          <th>Offers</th>
+          <th>Closes</th>
+          <th>Revenue</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Current state</td>
+          <td>39%</td>
+          <td>$2.8K default</td>
+          <td>33</td>
+          <td><strong>$116,427</strong></td>
+        </tr>
+        <tr class="highlight-row">
+          <td>Show rate fixed (55%) only</td>
+          <td>55%</td>
+          <td>$2.8K default</td>
+          <td>~46</td>
+          <td><strong>$162,000</strong></td>
+        </tr>
+        <tr class="highlight-row">
+          <td>Offer positioning fixed only</td>
+          <td>39%</td>
+          <td>$5.8K default</td>
+          <td>~33</td>
+          <td><strong>$192,000</strong></td>
+        </tr>
+        <tr class="action-row">
+          <td><strong>All three levers pulled</strong></td>
+          <td><strong>55%</strong></td>
+          <td><strong>$5.8K default</strong></td>
+          <td><strong>~48</strong></td>
+          <td><strong>$278,000+</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note"><span>⚡</span><div>Same team. Same offer. Same number of booked calls. Fixing show rate, leading with premium, and making an offer on every call pushes revenue from $116K to $278K+. The skill is already there — the system around it needs work.</div></div>
+  </div>
+
+  <!-- WHAT TO DO -->
+  <div class="sec">
+    <div class="sec-title">Exactly What to Do</div>
+    <div class="div"></div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="sn">01</div>
+        <div class="sb"><strong>Build a pre-call sequence.</strong> Confirmation the moment they book. A check-in 24 hours before. A reminder 1 hour out. Each message should include a reason to show — a testimonial, a result, a quick "here's what we'll cover." Most no-shows happen because people forget or lose momentum. Kill that gap.</div>
+      </div>
+      <div class="step">
+        <div class="sn">02</div>
+        <div class="sb"><strong>Default to the $5.8K offer.</strong> Every call. $2.8K becomes the step-down if they can't do $5.8K — not the starting point. The data confirms: you close the premium offer at a higher rate. Stop anchoring low.</div>
+      </div>
+      <div class="step">
+        <div class="sn">03</div>
+        <div class="sb"><strong>Track every call where you don't make an offer and write down why.</strong> After two weeks, look at the list. Most of those reasons won't hold up. The habit of reviewing your own DQs is what raises your offer rate.</div>
+      </div>
+      <div class="step">
+        <div class="sn">04</div>
+        <div class="sb"><strong>Send JJ the two recordings.</strong> One that clearly went wrong, one you can't explain. The close rate is already there — the call review will identify the specific moments where deals are slipping, so adjustments are surgical rather than guesswork.</div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
