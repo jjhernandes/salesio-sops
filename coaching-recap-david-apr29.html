@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>David — Week 1 Coaching Recap</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --black:#000; --white:#fff; --g4:#999; --g6:#555; }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',sans-serif; background:var(--black); color:var(--white); font-size:15px; line-height:1.7; padding:60px 40px 100px; max-width:720px; margin:0 auto; }
+
+    .tag { font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--g6); margin-bottom:12px; }
+    h1 { font-size:32px; font-weight:800; letter-spacing:-1px; line-height:1.1; margin-bottom:10px; }
+    .meta { font-size:13px; color:#444; margin-bottom:48px; }
+
+    .div { height:1px; background:#1a1a1a; margin:14px 0 24px; }
+    .sec { margin-bottom:48px; }
+    .sec-title { font-size:18px; font-weight:700; letter-spacing:-.3px; margin-bottom:4px; }
+
+    p { font-size:14px; color:#888; line-height:1.7; margin-bottom:14px; }
+    p:last-child { margin-bottom:0; }
+    p strong { color:#ccc; }
+
+    /* north star */
+    .north-star { background:#0d0d0d; border:1px solid #222; border-radius:12px; padding:24px 28px; margin:16px 0; }
+    .ns-label { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--g6); margin-bottom:10px; }
+    .ns-text { font-size:18px; font-weight:700; color:var(--white); line-height:1.5; letter-spacing:-.3px; }
+
+    /* four lenses */
+    .lenses { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:16px 0; }
+    .lens { background:#0d0d0d; border:1px solid #1a1a1a; border-radius:10px; padding:16px 20px; }
+    .lens-label { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--g6); margin-bottom:10px; }
+    .lens-item { font-size:13px; color:#666; line-height:1.6; padding:5px 0; border-bottom:1px solid #111; display:flex; gap:10px; }
+    .lens-item:last-child { border-bottom:none; padding-bottom:0; }
+    .lens-item::before { content:"→"; color:#333; flex-shrink:0; }
+
+    /* card */
+    .card { background:#0d0d0d; border:1px solid #1a1a1a; border-radius:10px; padding:18px 22px; margin-bottom:10px; }
+    .card .cl { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--g6); margin-bottom:8px; }
+    .card .cb { font-size:14px; color:#bbb; line-height:1.65; }
+    .card .cb strong { color:var(--white); }
+
+    /* insight */
+    .insight { background:#111; border-left:3px solid var(--white); border-radius:0 8px 8px 0; padding:16px 20px; margin:16px 0; font-size:15px; color:#ddd; line-height:1.7; font-style:italic; }
+
+    /* pattern */
+    .pattern-row { display:flex; gap:0; border:1px solid #1a1a1a; border-radius:10px; overflow:hidden; margin:14px 0; }
+    .pattern-col { flex:1; padding:16px 20px; border-right:1px solid #1a1a1a; }
+    .pattern-col:last-child { border-right:none; }
+    .pc-label { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; }
+    .pc-label.red { color:#e05555; }
+    .pc-label.green { color:#4caf50; }
+    .pc-body { font-size:13px; color:#666; line-height:1.6; }
+    .pc-body strong { color:#999; }
+
+    /* bottleneck list */
+    .bneck { display:flex; flex-direction:column; gap:8px; margin:14px 0; }
+    .bn { display:flex; align-items:flex-start; gap:14px; background:#0a0a0a; border:1px solid #1a1a1a; border-radius:8px; padding:13px 18px; }
+    .bn .bn-num { font-size:11px; font-weight:800; color:#e05555; width:20px; flex-shrink:0; padding-top:1px; }
+    .bn .bn-body { font-size:14px; color:#bbb; line-height:1.5; }
+    .bn .bn-body strong { color:var(--white); }
+
+    /* action */
+    .action-list { display:flex; flex-direction:column; gap:8px; }
+    .action { display:flex; align-items:flex-start; gap:14px; background:#0a0a0a; border:1px solid #1a1a1a; border-radius:8px; padding:14px 18px; }
+    .action .num { font-size:11px; font-weight:800; color:#333; width:20px; flex-shrink:0; padding-top:1px; }
+    .action .body { font-size:14px; color:#bbb; line-height:1.5; }
+    .action .body strong { color:var(--white); }
+
+    /* note */
+    .note { background:rgba(200,140,0,.06); border:1px solid rgba(200,140,0,.18); border-radius:8px; padding:12px 16px; font-size:13px; color:#c8a030; margin:14px 0; display:flex; gap:10px; line-height:1.5; }
+    .note span { flex-shrink:0; }
+
+    /* week stats */
+    .week-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin:14px 0; }
+    .wk { background:#0d0d0d; border:1px solid #1a1a1a; border-radius:8px; padding:12px 10px; text-align:center; }
+    .wk .wv { font-size:14px; font-weight:800; letter-spacing:-.3px; }
+    .wk .wl { font-size:10px; color:#444; margin-top:3px; text-transform:uppercase; letter-spacing:.3px; }
+    .wk.high .wv { color:#4caf50; }
+    .wk.low .wv { color:#e05555; }
+    .wk.mid .wv { color:#c8a030; }
+    .wk.now .wv { color:var(--white); }
+
+    @media(max-width:580px){
+      body{padding:32px 18px 80px;}
+      .lenses{grid-template-columns:1fr;}
+      .pattern-row{flex-direction:column;}
+      .pattern-col{border-right:none;border-bottom:1px solid #1a1a1a;}
+      .week-grid{grid-template-columns:repeat(3,1fr);}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="tag">Sales.io · Coaching Recap</div>
+  <h1>David</h1>
+  <div class="meta">Week 1 of 12 &nbsp;·&nbsp; April 29, 2026 &nbsp;·&nbsp; Intake, 4 Lenses, Process Bottlenecks</div>
+
+  <!-- NORTH STAR -->
+  <div class="sec">
+    <div class="sec-title">Your North Star</div>
+    <div class="div"></div>
+
+    <p>This is the one sentence that everything else points back to. When things feel scattered — and they will — this is what re-orients you.</p>
+
+    <div class="north-star">
+      <div class="ns-label">North Star</div>
+      <div class="ns-text">Save six figures, provide for my family, become an example for my siblings, and build the foundation to launch my own offer — using sales as the launch pad.</div>
+    </div>
+
+    <p>We'll refine this as the program progresses. The structure is right. The specific numbers will get sharper as your targets crystallize over the next few weeks.</p>
+  </div>
+
+  <!-- FOUR LENSES -->
+  <div class="sec">
+    <div class="sec-title">The 4 Lenses</div>
+    <div class="div"></div>
+
+    <p>You built 4 instead of 3. That's fine — your life didn't fit neatly into three boxes, so you made it fit into four. Here's what you built, cleaned up.</p>
+
+    <div class="lenses">
+      <div class="lens">
+        <div class="lens-label">Business</div>
+        <div class="lens-item">Be consistent on current role for 6 months straight</div>
+        <div class="lens-item">Track all KPIs — build your own dashboard</div>
+        <div class="lens-item">Save $100K cash</div>
+        <div class="lens-item">Deploy cash into agency infrastructure + brand</div>
+        <div class="lens-item">Launch agency (real estate / HVAC niche)</div>
+      </div>
+      <div class="lens">
+        <div class="lens-label">Fitness</div>
+        <div class="lens-item">180–190 lbs at 10–15% body fat</div>
+        <div class="lens-item">Maintain gym consistency (already going daily)</div>
+        <div class="lens-item">Develop personal style — magnetic brand presence</div>
+      </div>
+      <div class="lens">
+        <div class="lens-label">Personal</div>
+        <div class="lens-item">Fix the sleep — go to bed earlier</div>
+        <div class="lens-item">Delete Instagram, minimize TikTok</div>
+        <div class="lens-item">Daily habit tracker — non-negotiables every day</div>
+        <div class="lens-item">Driver's license + passport sorted</div>
+        <div class="lens-item">Build identity: emotional control, confidence</div>
+      </div>
+      <div class="lens">
+        <div class="lens-label">Family</div>
+        <div class="lens-item">Pay family's rent + food for 12 consecutive months</div>
+        <div class="lens-item">Be the example that pulls your brother into sales</div>
+        <div class="lens-item">Long-term: retire them</div>
+      </div>
+    </div>
+
+    <div class="note"><span>⚡</span><div>Don't rebuild this from scratch. Hold off on finalizing the 4 Lenses doc until you get the template from JJ — we'll map it to a specific format that ties milestones, bottlenecks, and first steps directly to each lens.</div></div>
+  </div>
+
+  <!-- WHERE YOU'RE AT -->
+  <div class="sec">
+    <div class="sec-title">Where You're At — The Real Picture</div>
+    <div class="div"></div>
+
+    <p>You're 4 months in on your offer. You've already hit a $60K bonus that the longest-standing setter on the team has never hit. That's not luck — that's raw ability. But the weeks have looked like this:</p>
+
+    <div class="week-grid">
+      <div class="wk mid"><div class="wv">$40K</div><div class="wl">Week 1</div></div>
+      <div class="wk high"><div class="wv">$68K</div><div class="wl">Week 2</div></div>
+      <div class="wk mid"><div class="wv">$51K</div><div class="wl">Week 3</div></div>
+      <div class="wk low"><div class="wv">~$9K</div><div class="wl">Week 4</div></div>
+      <div class="wk now"><div class="wv">$36K+</div><div class="wl">This Week</div></div>
+    </div>
+
+    <p>The ceiling is real. The floor is what we need to fix. <strong>A 68K week followed by a 9K week is not a skill problem — it's a process problem.</strong> Your talent gets you to great weeks. A process gets you to consistent ones.</p>
+
+    <div class="card">
+      <div class="cl">The Honest Assessment</div>
+      <div class="cb">
+        You're going completely off the dome on every call — no standard framework, no consistent qualification criteria, multiple script variations you don't follow. When your instincts are firing, you're elite. When they're off — or when you're burnt out from 7-day weeks — there's nothing to fall back on.<br><br>
+        <strong>The goal isn't to script you. The goal is to build a process you can run on autopilot so your instincts can operate from structure, not instead of it.</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTLENECKS -->
+  <div class="sec">
+    <div class="sec-title">The Bottlenecks — In Order</div>
+    <div class="div"></div>
+
+    <div class="bneck">
+      <div class="bn">
+        <div class="bn-num">01</div>
+        <div class="bn-body"><strong>No consistent process.</strong> Every call is different. Some of them hit. When they miss, you don't know why, because there's no baseline to compare against. You can't improve what you can't measure, and you can't measure what you never built.</div>
+      </div>
+      <div class="bn">
+        <div class="bn-num">02</div>
+        <div class="bn-body"><strong>Follow-up is broken.</strong> You admitted it. Leads no-show, you send the demo video, they don't watch it, you can't get them back. There's no follow-up sequence — just one-off attempts. This is a pipeline leak that's costing you closes every week.</div>
+      </div>
+      <div class="bn">
+        <div class="bn-num">03</div>
+        <div class="bn-body"><strong>Financial qualification is inconsistent.</strong> The Social Security lady, the course junkie, the bankruptcy case — you're getting them to the call and finding out they can't pay once they're there. Front-end qualification needs to be sharper before you invest a call in them.</div>
+      </div>
+      <div class="bn">
+        <div class="bn-num">04</div>
+        <div class="bn-body"><strong>The demo video is de-selling your sets.</strong> Experienced investors show up expecting a lender list. The video emphasizes coaching and mentorship — which immediately turns them off. This is a marketing problem, not just a sales problem, but you can compensate for it in how you frame the call before they watch it.</div>
+      </div>
+      <div class="bn">
+        <div class="bn-num">05</div>
+        <div class="bn-body"><strong>No KPI tracking.</strong> You don't have a personal dashboard. The sales manager tracks it, but you can't see it clearly, and you can't act on what you can't see in real time. JJ sent you a tracking sheet — use it.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THE REAL PATTERN -->
+  <div class="sec">
+    <div class="sec-title">The Real Pattern — Thinking vs. Doing</div>
+    <div class="div"></div>
+
+    <p>This came up unprompted, and it's important enough to name directly. You're a high-level thinker. You caught the first-principles framework faster than anyone JJ has run it with. You can reverse-engineer complex problems in real time. That's a genuine asset.</p>
+
+    <p>But it comes with a tax. <strong>The hardest part for you isn't the action — it's getting started.</strong> Once you're in flow, you're in flow. The gap is the moment between knowing what to do and doing it.</p>
+
+    <div class="pattern-row">
+      <div class="pattern-col">
+        <div class="pc-label red">The Loop You're In</div>
+        <div class="pc-body">
+          You think about what you need to do. You understand it completely. You know exactly why it matters. Then you don't do it — not because you're lazy, but because the activation energy to start is higher than it should be.<br><br>
+          <strong>Sleep is the clearest example:</strong> wake up at 7, feel fine, tell yourself you need more, go back to sleep, wake up at 10. The decision happens before you're fully conscious — and you lose the day.
+        </div>
+      </div>
+      <div class="pattern-col">
+        <div class="pc-label green">How You Break It</div>
+        <div class="pc-body">
+          You don't fix this with more motivation. You fix it with <strong>external constraints that make the action automatic.</strong><br><br>
+          — Go to bed at 10pm. Not midnight. 10pm. The morning problem is a night problem.<br>
+          — Book your first call for 8am. Now you have a reason to be up.<br>
+          — Reduce the friction on everything. The videographer next door is JJ's example. What's yours?
+        </div>
+      </div>
+    </div>
+
+    <div class="insight">"The task isn't hard. Getting yourself to start the task is. Once that behavior breaks once — you systemize it. That's it. That's the whole game."</div>
+  </div>
+
+  <!-- WHAT JJ IS BUILDING -->
+  <div class="sec">
+    <div class="sec-title">What's Being Built for You</div>
+    <div class="div"></div>
+
+    <div class="card">
+      <div class="cl">From the calls + scripts you sent</div>
+      <div class="cb">
+        You sent your script variations and bad calls to jj@sales.io. From those, JJ will build:<br><br>
+        <strong>1. A consolidated call framework</strong> — not a script to memorize, but a structure you run every call through. Takes your best instincts and puts them in a repeatable sequence so when you're off, you have something to fall back on.<br><br>
+        <strong>2. A follow-up process</strong> — a specific sequence for no-shows, demo video non-watchers, and soft "I'll think about it" ends. Each stage has a clear action and a clear timeline.<br><br>
+        <strong>3. A front-end qualification filter</strong> — a set of 2-3 questions that catches the unqualified (Social Security leads, course junkies, bankruptcy cases) before they consume a call slot.<br><br>
+        <strong>4. A demo video reframe</strong> — language you use before they watch it that sets expectations so experienced investors aren't blindsided by the coaching component. You can't change the video, but you can change what they think they're about to watch.
+      </div>
+    </div>
+
+    <div class="note"><span>⚡</span><div>JJ also asked for the demo videos. Send both. Even if they're 30 minutes. The point is to understand what the lead experiences before the closer call — so the framework accounts for it.</div></div>
+  </div>
+
+  <!-- NEXT STEPS -->
+  <div class="sec">
+    <div class="sec-title">Your Next Steps</div>
+    <div class="div"></div>
+
+    <div class="action-list">
+      <div class="action">
+        <div class="num">01</div>
+        <div class="body"><strong>Start the KPI tracking sheet JJ sent you.</strong> Fill in what you have from the last 4 months. If the data's incomplete, start from today. You can't pull levers you can't see.</div>
+      </div>
+      <div class="action">
+        <div class="num">02</div>
+        <div class="body"><strong>Send the demo videos to jj@sales.io.</strong> Both of them. Yes, even the 30-minute one. This is part of understanding where your sales process is being undercut before the closer even gets on.</div>
+      </div>
+      <div class="action">
+        <div class="num">03</div>
+        <div class="body"><strong>Do not rebuild the 4 Lenses or your process doc yet.</strong> Wait for the template. Build it once, build it right — don't patch the version you already have.</div>
+      </div>
+      <div class="action">
+        <div class="num">04</div>
+        <div class="body"><strong>Go to bed earlier.</strong> Not a lifestyle suggestion — a performance lever. Your mornings are a direct result of your nights. Pick a bedtime and hold it for 7 days. That's the experiment.</div>
+      </div>
+      <div class="action">
+        <div class="num">05</div>
+        <div class="body"><strong>Complete Week 2 modules.</strong> Don't rush, don't skip. The structure builds on itself. Come to the next call having gone through them.</div>
+      </div>
+      <div class="action">
+        <div class="num">06</div>
+        <div class="body"><strong>Next 1-on-1: Monday at 12:30 Eastern (recurring).</strong> JJ is sending the calendar invite to the email you shared on the call.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM LINE -->
+  <div class="sec">
+    <div class="sec-title">The Bottom Line</div>
+    <div class="div"></div>
+
+    <p>You joined last week. You're already performing above the team level on an offer you've been on for 4 months. The ceiling you're hitting isn't your ability — it's your process, or the lack of one.</p>
+
+    <p>What you've been doing off the dome is working often enough to prove the talent is real. <strong>Now we build the system around it</strong> — so the talent can show up every week, not just when everything is clicking.</p>
+
+    <p>The agency, the $100K, the brand — all of that requires this version of you to be locked in first. Six consistent months from here is the launch pad. Everything else follows.</p>
+
+    <div class="insight">"Sales is a launch pad. Learn to sell one-to-one, and you can sell one-to-many. Once the brand is built, it just scales."</div>
+  </div>
+
+</body>
+</html>
