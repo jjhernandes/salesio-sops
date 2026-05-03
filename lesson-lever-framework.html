@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Lever Framework — Sales.io</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #000;
+      --white: #fff;
+      --red: #e05555;
+      --green: #4caf50;
+      --amber: #c8a030;
+      --g1: #111;
+      --g2: #1a1a1a;
+      --g3: #222;
+      --g6: #555;
+      --g7: #666;
+      --g9: #888;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      font-size: 15px;
+      line-height: 1.7;
+      padding: 60px 40px 100px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    /* ── header ── */
+    .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--g6); margin-bottom: 14px; }
+    .eyebrow span { color: var(--white); }
+    h1 { font-size: 38px; font-weight: 900; letter-spacing: -1.5px; line-height: 1.05; margin-bottom: 16px; }
+    .subtitle { font-size: 15px; color: var(--g9); line-height: 1.7; max-width: 560px; margin-bottom: 56px; }
+
+    .div { height: 1px; background: var(--g2); margin: 14px 0 28px; }
+
+    /* ── big idea ── */
+    .big-idea {
+      background: var(--g1);
+      border: 1px solid var(--g3);
+      border-radius: 14px;
+      padding: 28px 32px;
+      margin-bottom: 48px;
+    }
+    .bi-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--g6); margin-bottom: 12px; }
+    .bi-text { font-size: 20px; font-weight: 700; color: var(--white); line-height: 1.45; letter-spacing: -.4px; }
+
+    /* ── cascade ── */
+    .sec-title { font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--g6); margin-bottom: 20px; }
+
+    .cascade {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 48px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .cascade-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .stage-pill {
+      background: var(--g1);
+      border: 1px solid var(--g3);
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--white);
+      white-space: nowrap;
+      transition: all .2s;
+    }
+    .stage-num {
+      font-size: 10px;
+      color: var(--g6);
+      font-weight: 600;
+      letter-spacing: .5px;
+    }
+    .cascade-arrow {
+      font-size: 16px;
+      color: var(--g3);
+      padding: 0 6px;
+      padding-bottom: 18px;
+      flex-shrink: 0;
+    }
+    .stage-pill.end {
+      background: rgba(76,175,80,.08);
+      border-color: rgba(76,175,80,.3);
+      color: #4caf50;
+    }
+
+    /* ── constraint visual ── */
+    .constraint-wrap { margin-bottom: 48px; }
+    .constraint-label { font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--g6); margin-bottom: 20px; }
+
+    .c-cascade {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 16px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .c-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .c-pill {
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+      border: 1px solid transparent;
+    }
+    .c-pill.healthy { background: var(--g1); border-color: var(--g3); color: #666; }
+    .c-pill.broken {
+      background: rgba(224,85,85,.12);
+      border-color: rgba(224,85,85,.4);
+      color: var(--red);
+      position: relative;
+    }
+    .c-pill.broken::after {
+      content: '↓ broken here';
+      position: absolute;
+      bottom: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10px;
+      color: var(--red);
+      white-space: nowrap;
+      font-weight: 600;
+    }
+    .c-pill.affected { background: rgba(224,85,85,.04); border-color: rgba(224,85,85,.12); color: #444; }
+    .c-pill.revenue-affected { background: rgba(224,85,85,.04); border-color: rgba(224,85,85,.12); color: #3a3a3a; }
+    .c-arrow { font-size: 16px; padding: 0 6px; padding-bottom: 18px; flex-shrink: 0; }
+    .c-arrow.ok { color: var(--g3); }
+    .c-arrow.affected { color: rgba(224,85,85,.2); }
+
+    .constraint-note {
+      font-size: 13px;
+      color: var(--g7);
+      margin-top: 28px;
+      line-height: 1.6;
+    }
+    .constraint-note strong { color: var(--g9); }
+
+    /* ── principles ── */
+    .principles { display: flex; flex-direction: column; gap: 10px; margin-bottom: 48px; }
+    .principle {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      background: var(--g1);
+      border: 1px solid var(--g2);
+      border-radius: 10px;
+      padding: 18px 22px;
+    }
+    .p-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--g2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .p-body { flex: 1; }
+    .p-title { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+    .p-sub { font-size: 13px; color: var(--g7); line-height: 1.55; }
+
+    /* ── focus block ── */
+    .focus-block {
+      border: 1px solid var(--g3);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 48px;
+    }
+    .fb-top {
+      padding: 28px 32px 24px;
+      border-bottom: 1px solid var(--g2);
+    }
+    .fb-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--g6); margin-bottom: 10px; }
+    .fb-heading { font-size: 22px; font-weight: 800; letter-spacing: -.5px; color: var(--white); margin-bottom: 8px; }
+    .fb-sub { font-size: 13px; color: var(--g7); line-height: 1.6; }
+    .fb-bottom {
+      display: flex;
+      border-top: 1px solid var(--g2);
+    }
+    .fb-stat {
+      flex: 1;
+      padding: 20px 24px;
+      border-right: 1px solid var(--g2);
+    }
+    .fb-stat:last-child { border-right: none; }
+    .fb-val { font-size: 28px; font-weight: 900; letter-spacing: -1px; color: var(--white); }
+    .fb-desc { font-size: 11px; color: var(--g6); text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+
+    /* ── bottom line ── */
+    .bottom-line {
+      background: var(--g1);
+      border: 1px solid var(--g2);
+      border-radius: 14px;
+      padding: 28px 32px;
+    }
+    .bl-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--g6); margin-bottom: 12px; }
+    .bl-text { font-size: 16px; color: #ccc; line-height: 1.65; }
+    .bl-text strong { color: var(--white); }
+
+    @media(max-width:580px){
+      body { padding: 32px 18px 80px; }
+      h1 { font-size: 28px; }
+      .bi-text { font-size: 17px; }
+      .fb-bottom { flex-direction: column; }
+      .fb-stat { border-right: none; border-bottom: 1px solid var(--g2); }
+      .fb-stat:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="eyebrow">Sales.io · Phase 2 · Week 5 · <span>Lesson 2</span></div>
+  <h1>The Lever Framework</h1>
+  <p class="subtitle">Not every problem deserves equal attention. One broken stage causes problems in every stage after it. Find the constraint — fix the constraint.</p>
+
+  <!-- BIG IDEA -->
+  <div class="big-idea">
+    <div class="bi-label">The Core Idea</div>
+    <div class="bi-text">Your funnel has one place where it breaks. Everything upstream of that point is working fine. Everything downstream is suffering because of it. That's your lever.</div>
+  </div>
+
+  <!-- THE CASCADE -->
+  <div class="sec-title">The Full Cascade</div>
+  <div class="cascade">
+    <div class="cascade-stage">
+      <div class="stage-pill">Activity</div>
+      <div class="stage-num">01</div>
+    </div>
+    <div class="cascade-arrow">→</div>
+    <div class="cascade-stage">
+      <div class="stage-pill">Connection</div>
+      <div class="stage-num">02</div>
+    </div>
+    <div class="cascade-arrow">→</div>
+    <div class="cascade-stage">
+      <div class="stage-pill">Appointment</div>
+      <div class="stage-num">03</div>
+    </div>
+    <div class="cascade-arrow">→</div>
+    <div class="cascade-stage">
+      <div class="stage-pill">Show</div>
+      <div class="stage-num">04</div>
+    </div>
+    <div class="cascade-arrow">→</div>
+    <div class="cascade-stage">
+      <div class="stage-pill">Offer</div>
+      <div class="stage-num">05</div>
+    </div>
+    <div class="cascade-arrow">→</div>
+    <div class="cascade-stage">
+      <div class="stage-pill">Close</div>
+      <div class="stage-num">06</div>
+    </div>
+    <div class="cascade-arrow">→</div>
+    <div class="cascade-stage">
+      <div class="stage-pill end">Revenue</div>
+      <div class="stage-num">07</div>
+    </div>
+  </div>
+
+  <!-- CONSTRAINT VISUAL -->
+  <div class="constraint-wrap">
+    <div class="constraint-label">What a broken lever looks like</div>
+    <div class="c-cascade">
+      <div class="c-stage">
+        <div class="c-pill healthy">Activity</div>
+      </div>
+      <div class="c-arrow ok">→</div>
+      <div class="c-stage">
+        <div class="c-pill healthy">Connection</div>
+      </div>
+      <div class="c-arrow ok">→</div>
+      <div class="c-stage">
+        <div class="c-pill healthy">Appointment</div>
+      </div>
+      <div class="c-arrow ok">→</div>
+      <div class="c-stage">
+        <div class="c-pill broken">Show</div>
+      </div>
+      <div class="c-arrow affected">→</div>
+      <div class="c-stage">
+        <div class="c-pill affected">Offer</div>
+      </div>
+      <div class="c-arrow affected">→</div>
+      <div class="c-stage">
+        <div class="c-pill affected">Close</div>
+      </div>
+      <div class="c-arrow affected">→</div>
+      <div class="c-stage">
+        <div class="c-pill revenue-affected">Revenue</div>
+      </div>
+    </div>
+    <p class="constraint-note" style="margin-top:32px;">In this example, everything before <strong>Show</strong> is healthy. Dials are up, connections are happening, appointments are booking — but calls aren't happening. That's not a closing problem. That's a confirmation and commitment problem. <strong>Fixing your close rate here won't change anything.</strong></p>
+  </div>
+
+  <!-- PRINCIPLES -->
+  <div class="sec-title">The Principles</div>
+  <div class="principles">
+
+    <div class="principle">
+      <div class="p-icon">⛓</div>
+      <div class="p-body">
+        <div class="p-title">One broken lever causes problems downstream</div>
+        <div class="p-sub">The issue you see at the end of the funnel rarely starts there. Most closers think they have a closing problem. Usually it's a discovery problem. Trace it back.</div>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="p-icon">🎯</div>
+      <div class="p-body">
+        <div class="p-title">Fix the constraint — everything else improves</div>
+        <div class="p-sub">A system is only as strong as its weakest point. You don't need to improve every stage. Find the one that's killing your output and fix that one. The downstream numbers move automatically.</div>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="p-icon">🔍</div>
+      <div class="p-body">
+        <div class="p-title">Where your funnel loses the most — that's your lever</div>
+        <div class="p-sub">Look at the drop-off between each stage. Where's the biggest gap? If 80% of appointments show but only 30% of offers close — your lever is the close, not the show. Follow the numbers.</div>
+      </div>
+    </div>
+
+    <div class="principle">
+      <div class="p-icon">⚠️</div>
+      <div class="p-body">
+        <div class="p-title">Pulling 10 levers at once means pulling none of them hard enough</div>
+        <div class="p-sub">Trying to fix everything at once is how you improve nothing. When your focus is split across 10 things, you give each one 10% effort. One thing with 100% effort is how skill compounds.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOCUS BLOCK -->
+  <div class="focus-block">
+    <div class="fb-top">
+      <div class="fb-label">The Rule</div>
+      <div class="fb-heading">One thing. Done right. For 4 weeks.</div>
+      <div class="fb-sub">That's how skill compounds. Not by learning more — by going deeper on the one thing that actually moves your number. Every lesson in Phase 2 connects back to your lever.</div>
+    </div>
+    <div class="fb-bottom">
+      <div class="fb-stat">
+        <div class="fb-val">1</div>
+        <div class="fb-desc">Lever to fix</div>
+      </div>
+      <div class="fb-stat">
+        <div class="fb-val">4</div>
+        <div class="fb-desc">Weeks of focus</div>
+      </div>
+      <div class="fb-stat">
+        <div class="fb-val">7</div>
+        <div class="fb-desc">Stages in your funnel</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM LINE -->
+  <div class="bottom-line">
+    <div class="bl-label">Remember This</div>
+    <div class="bl-text">You don't need to be perfect at every stage. You need to find where the funnel breaks and <strong>go to war with that one thing</strong> until the number moves. That's the whole framework.</div>
+  </div>
+
+</body>
+</html>
