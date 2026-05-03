@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Setter Levers — Sales.io</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #000;
+      --white: #fff;
+      --red: #e05555;
+      --green: #4caf50;
+      --amber: #c8a030;
+      --blue: #4a90d9;
+      --g1: #111;
+      --g2: #1a1a1a;
+      --g3: #222;
+      --g6: #555;
+      --g7: #666;
+      --g9: #888;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      font-size: 15px;
+      line-height: 1.7;
+      padding: 60px 40px 100px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--g6); margin-bottom: 14px; }
+    .eyebrow span { color: var(--white); }
+    h1 { font-size: 38px; font-weight: 900; letter-spacing: -1.5px; line-height: 1.05; margin-bottom: 16px; }
+    .subtitle { font-size: 15px; color: var(--g9); line-height: 1.7; max-width: 560px; margin-bottom: 48px; }
+
+    /* setter funnel */
+    .funnel-wrap { margin-bottom: 48px; }
+    .sec-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--g6); margin-bottom: 18px; }
+    .funnel {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .f-stage { display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; }
+    .f-pill {
+      padding: 9px 14px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+      letter-spacing: .3px;
+      text-transform: uppercase;
+    }
+    .f-pill.active { background: rgba(74,144,217,.1); border: 1px solid rgba(74,144,217,.3); color: var(--blue); }
+    .f-pill.dim { background: var(--g1); border: 1px solid var(--g2); color: #444; }
+    .f-num { font-size: 10px; color: var(--g6); font-weight: 600; }
+    .f-arrow { font-size: 14px; color: var(--g3); padding: 0 6px; padding-bottom: 18px; flex-shrink: 0; }
+
+    /* lever cards */
+    .levers { display: flex; flex-direction: column; gap: 14px; margin-bottom: 48px; }
+    .lever {
+      background: var(--g1);
+      border: 1px solid var(--g2);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .lever-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--g2);
+    }
+    .lever-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    .lever-num.l1 { background: rgba(74,144,217,.12); color: var(--blue); }
+    .lever-num.l2 { background: rgba(76,175,80,.12); color: var(--green); }
+    .lever-num.l3 { background: rgba(224,85,85,.12); color: var(--red); }
+    .lever-num.l4 { background: rgba(200,160,48,.12); color: var(--amber); }
+
+    .lever-meta { flex: 1; }
+    .lever-name { font-size: 16px; font-weight: 800; color: var(--white); letter-spacing: -.3px; }
+    .lever-q { font-size: 13px; color: var(--g7); margin-top: 2px; }
+
+    .lever-status {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+    .lever-status.low { background: rgba(224,85,85,.1); color: var(--red); border: 1px solid rgba(224,85,85,.2); }
+    .lever-status.high { background: rgba(224,85,85,.1); color: var(--red); border: 1px solid rgba(224,85,85,.2); }
+
+    .lever-body { padding: 20px 24px; }
+    .lever-fix-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--g6);
+      margin-bottom: 12px;
+    }
+    .lever-fix-label.low { color: rgba(224,85,85,.6); }
+    .lever-fix-label.high { color: rgba(224,85,85,.6); }
+    .fixes { display: flex; flex-direction: column; gap: 8px; }
+    .fix {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--g7);
+      line-height: 1.5;
+    }
+    .fix-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+    .fix-dot.l1 { background: var(--blue); }
+    .fix-dot.l2 { background: var(--green); }
+    .fix-dot.l3 { background: var(--red); }
+    .fix-dot.l4 { background: var(--amber); }
+    .fix strong { color: var(--g9); }
+
+    /* bottom line */
+    .bottom-line {
+      background: var(--g1);
+      border: 1px solid var(--g2);
+      border-left: 3px solid var(--white);
+      border-radius: 0 12px 12px 0;
+      padding: 24px 28px;
+      margin-bottom: 48px;
+    }
+    .bl-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--g6); margin-bottom: 10px; }
+    .bl-text { font-size: 15px; color: #ccc; line-height: 1.65; }
+    .bl-text strong { color: var(--white); }
+
+    /* diagnostic prompt */
+    .diagnostic {
+      border: 1px solid var(--g3);
+      border-radius: 12px;
+      padding: 24px 28px;
+    }
+    .diag-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--g6); margin-bottom: 16px; }
+    .diag-steps { display: flex; flex-direction: column; gap: 10px; }
+    .diag-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      font-size: 13px;
+      color: var(--g7);
+      line-height: 1.55;
+    }
+    .ds-num {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--g6);
+      width: 20px;
+      flex-shrink: 0;
+      padding-top: 1px;
+    }
+    .diag-step strong { color: var(--g9); }
+
+    @media(max-width:580px){
+      body { padding: 32px 18px 80px; }
+      h1 { font-size: 28px; }
+      .lever-header { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="eyebrow">Sales.io · Phase 2 · Week 5 · <span>Lesson 3</span></div>
+  <h1>Setter Levers</h1>
+  <p class="subtitle">As a setter, your funnel has 4 places it can break. You're never broken in all of them at once. Find the one that's costing you the most — that's your lever.</p>
+
+  <!-- SETTER FUNNEL -->
+  <div class="funnel-wrap">
+    <div class="sec-label">The Setter Funnel</div>
+    <div class="funnel">
+      <div class="f-stage">
+        <div class="f-pill active">Dial</div>
+        <div class="f-num">01</div>
+      </div>
+      <div class="f-arrow">→</div>
+      <div class="f-stage">
+        <div class="f-pill active">Connect</div>
+        <div class="f-num">02</div>
+      </div>
+      <div class="f-arrow">→</div>
+      <div class="f-stage">
+        <div class="f-pill active">Book</div>
+        <div class="f-num">03</div>
+      </div>
+      <div class="f-arrow">→</div>
+      <div class="f-stage">
+        <div class="f-pill active">Confirm</div>
+        <div class="f-num">04</div>
+      </div>
+      <div class="f-arrow">→</div>
+      <div class="f-stage">
+        <div class="f-pill active">Show</div>
+        <div class="f-num">05</div>
+      </div>
+      <div class="f-arrow">→</div>
+      <div class="f-stage">
+        <div class="f-pill dim">Closer</div>
+        <div class="f-num">06</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEVER CARDS -->
+  <div class="sec-label">Your 4 Levers</div>
+  <div class="levers">
+
+    <!-- CONNECT RATE -->
+    <div class="lever">
+      <div class="lever-header">
+        <div class="lever-num l1">01</div>
+        <div class="lever-meta">
+          <div class="lever-name">Connect Rate</div>
+          <div class="lever-q">Are people actually picking up?</div>
+        </div>
+        <div class="lever-status low">If Low</div>
+      </div>
+      <div class="lever-body">
+        <div class="lever-fix-label low">What to fix</div>
+        <div class="fixes">
+          <div class="fix"><div class="fix-dot l1"></div><div><strong>Dial volume</strong> — you might just not be reaching enough people. More dials, more connects.</div></div>
+          <div class="fix"><div class="fix-dot l1"></div><div><strong>Time of day</strong> — most people pick up in the morning or late afternoon. Are you dialing in dead windows?</div></div>
+          <div class="fix"><div class="fix-dot l1"></div><div><strong>Opener</strong> — if people are picking up and immediately hanging up, your first line is the problem. How you open determines if they stay.</div></div>
+          <div class="fix"><div class="fix-dot l1"></div><div><strong>Platform</strong> — cold call, DM, email, SMS — not all channels perform the same for all audiences. Test what the list responds to.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOOKING RATE -->
+    <div class="lever">
+      <div class="lever-header">
+        <div class="lever-num l2">02</div>
+        <div class="lever-meta">
+          <div class="lever-name">Booking Rate</div>
+          <div class="lever-q">Are connects turning into appointments?</div>
+        </div>
+        <div class="lever-status low">If Low</div>
+      </div>
+      <div class="lever-body">
+        <div class="lever-fix-label low">What to fix</div>
+        <div class="fixes">
+          <div class="fix"><div class="fix-dot l2"></div><div><strong>Your pitch</strong> — are you giving them a compelling reason to show up? The set is a mini-sale. Treat it like one.</div></div>
+          <div class="fix"><div class="fix-dot l2"></div><div><strong>Qualifying</strong> — are you booking everyone or the right people? A lower booking rate with higher show quality can still be a win.</div></div>
+          <div class="fix"><div class="fix-dot l2"></div><div><strong>Urgency building</strong> — if there's no reason to show up tomorrow instead of "whenever," they won't. Build a specific reason to be there.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NO-SHOW RATE -->
+    <div class="lever">
+      <div class="lever-header">
+        <div class="lever-num l3">03</div>
+        <div class="lever-meta">
+          <div class="lever-name">No-Show Rate</div>
+          <div class="lever-q">Are booked calls actually happening?</div>
+        </div>
+        <div class="lever-status high">If High</div>
+      </div>
+      <div class="lever-body">
+        <div class="lever-fix-label high">What to fix</div>
+        <div class="fixes">
+          <div class="fix"><div class="fix-dot l3"></div><div><strong>Confirmation sequence</strong> — are you following up before the call? A text the night before and the morning of changes everything.</div></div>
+          <div class="fix"><div class="fix-dot l3"></div><div><strong>Commitment level</strong> — did they actually commit, or just say yes to get off the phone? Real commitment sounds different. Get them to verbally confirm what they're showing up for.</div></div>
+          <div class="fix"><div class="fix-dot l3"></div><div><strong>Rapport in the set</strong> — people cancel on strangers. They show up for people they feel connected to. The relationship starts in the set, not on the call.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SHOW-UP QUALITY -->
+    <div class="lever">
+      <div class="lever-header">
+        <div class="lever-num l4">04</div>
+        <div class="lever-meta">
+          <div class="lever-name">Show-Up Quality</div>
+          <div class="lever-q">Are the people who show up actually qualified?</div>
+        </div>
+        <div class="lever-status low">If Low</div>
+      </div>
+      <div class="lever-body">
+        <div class="lever-fix-label low">What to fix</div>
+        <div class="fixes">
+          <div class="fix"><div class="fix-dot l4"></div><div><strong>Questions before booking</strong> — if unqualified people keep showing up, you're not filtering hard enough on the front end. Your pre-booking questions need to create a barrier, not just fill a calendar.</div></div>
+          <div class="fix"><div class="fix-dot l4"></div><div><strong>What you're promising in the set</strong> — if you're over-promising or under-explaining what the call is, you'll attract the wrong people. Get clear on who this call is and isn't for.</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM LINE -->
+  <div class="bottom-line">
+    <div class="bl-label">The Rule</div>
+    <div class="bl-text">You can only be broken in <strong>one or two of these at a time.</strong> Don't try to fix all four. Pull your last 30 days of data, find where the drop-off is largest, and go to work on that one thing. Everything else will follow.</div>
+  </div>
+
+  <!-- DIAGNOSTIC -->
+  <div class="diagnostic">
+    <div class="diag-label">Find Your Lever — 3 Steps</div>
+    <div class="diag-steps">
+      <div class="diag-step">
+        <div class="ds-num">01</div>
+        <div>Pull your numbers: <strong>dials, connects, bookings, shows, no-shows.</strong> Calculate the conversion rate between each stage.</div>
+      </div>
+      <div class="diag-step">
+        <div class="ds-num">02</div>
+        <div>Find the <strong>biggest percentage drop</strong> between two consecutive stages. That's where your funnel breaks.</div>
+      </div>
+      <div class="diag-step">
+        <div class="ds-num">03</div>
+        <div>Match that stage to the lever above. <strong>That's your one thing for Phase 2.</strong> Write it down and bring it to your next session.</div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

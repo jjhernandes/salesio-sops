@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Closer Levers — Sales.io</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #000;
+      --white: #fff;
+      --red: #e05555;
+      --green: #4caf50;
+      --amber: #c8a030;
+      --purple: #9b6dd6;
+      --g1: #111;
+      --g2: #1a1a1a;
+      --g3: #222;
+      --g6: #555;
+      --g7: #666;
+      --g9: #888;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      font-size: 15px;
+      line-height: 1.7;
+      padding: 60px 40px 100px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--g6); margin-bottom: 14px; }
+    .eyebrow span { color: var(--white); }
+    h1 { font-size: 38px; font-weight: 900; letter-spacing: -1.5px; line-height: 1.05; margin-bottom: 16px; }
+    .subtitle { font-size: 15px; color: var(--g9); line-height: 1.7; max-width: 560px; margin-bottom: 48px; }
+
+    /* closer funnel */
+    .funnel-wrap { margin-bottom: 48px; }
+    .sec-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--g6); margin-bottom: 18px; }
+    .funnel { display: flex; align-items: center; gap: 0; overflow-x: auto; padding-bottom: 4px; }
+    .f-stage { display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; }
+    .f-pill {
+      padding: 9px 14px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+      letter-spacing: .3px;
+      text-transform: uppercase;
+    }
+    .f-pill.active { background: rgba(155,109,214,.1); border: 1px solid rgba(155,109,214,.3); color: var(--purple); }
+    .f-pill.end { background: rgba(76,175,80,.08); border: 1px solid rgba(76,175,80,.3); color: var(--green); }
+    .f-pill.mult { background: rgba(200,160,48,.08); border: 1px solid rgba(200,160,48,.3); color: var(--amber); font-size: 10px; }
+    .f-num { font-size: 10px; color: var(--g6); font-weight: 600; }
+    .f-arrow { font-size: 14px; color: var(--g3); padding: 0 6px; padding-bottom: 18px; flex-shrink: 0; }
+    .f-times { font-size: 14px; color: rgba(200,160,48,.4); padding: 0 6px; padding-bottom: 18px; flex-shrink: 0; }
+
+    /* lever cards */
+    .levers { display: flex; flex-direction: column; gap: 14px; margin-bottom: 48px; }
+    .lever {
+      background: var(--g1);
+      border: 1px solid var(--g2);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .lever-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--g2);
+    }
+    .lever-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    .lever-num.l1 { background: rgba(155,109,214,.12); color: var(--purple); }
+    .lever-num.l2 { background: rgba(76,175,80,.12); color: var(--green); }
+    .lever-num.l3 { background: rgba(224,85,85,.12); color: var(--red); }
+    .lever-num.l4 { background: rgba(200,160,48,.12); color: var(--amber); }
+
+    .lever-meta { flex: 1; }
+    .lever-name { font-size: 16px; font-weight: 800; color: var(--white); letter-spacing: -.3px; }
+    .lever-q { font-size: 13px; color: var(--g7); margin-top: 2px; }
+
+    .lever-status {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+    .lever-status.low { background: rgba(224,85,85,.1); color: var(--red); border: 1px solid rgba(224,85,85,.2); }
+
+    .lever-body { padding: 20px 24px; }
+    .lever-fix-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(224,85,85,.6);
+      margin-bottom: 12px;
+    }
+    .fixes { display: flex; flex-direction: column; gap: 8px; }
+    .fix {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--g7);
+      line-height: 1.5;
+    }
+    .fix-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+    .fix-dot.l1 { background: var(--purple); }
+    .fix-dot.l2 { background: var(--green); }
+    .fix-dot.l3 { background: var(--red); }
+    .fix-dot.l4 { background: var(--amber); }
+    .fix strong { color: var(--g9); }
+
+    /* key insight */
+    .insight {
+      background: rgba(224,85,85,.04);
+      border: 1px solid rgba(224,85,85,.15);
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin-bottom: 48px;
+    }
+    .ins-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(224,85,85,.5); margin-bottom: 12px; }
+    .ins-text { font-size: 17px; font-weight: 700; color: var(--white); line-height: 1.5; letter-spacing: -.3px; }
+    .ins-sub { font-size: 13px; color: var(--g7); margin-top: 10px; line-height: 1.6; }
+    .ins-sub strong { color: var(--g9); }
+
+    /* aov explainer */
+    .aov-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    .aov-card {
+      flex: 1;
+      min-width: 140px;
+      background: var(--black);
+      border: 1px solid var(--g2);
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .aov-label { font-size: 10px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: var(--g6); margin-bottom: 6px; }
+    .aov-val { font-size: 20px; font-weight: 900; letter-spacing: -.5px; }
+    .aov-val.low { color: var(--red); }
+    .aov-val.high { color: var(--green); }
+    .aov-desc { font-size: 11px; color: var(--g7); margin-top: 4px; line-height: 1.4; }
+
+    /* bottom line */
+    .bottom-line {
+      background: var(--g1);
+      border: 1px solid var(--g2);
+      border-left: 3px solid var(--white);
+      border-radius: 0 12px 12px 0;
+      padding: 24px 28px;
+      margin-bottom: 48px;
+    }
+    .bl-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--g6); margin-bottom: 10px; }
+    .bl-text { font-size: 15px; color: #ccc; line-height: 1.65; }
+    .bl-text strong { color: var(--white); }
+
+    /* diagnostic */
+    .diagnostic { border: 1px solid var(--g3); border-radius: 12px; padding: 24px 28px; }
+    .diag-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--g6); margin-bottom: 16px; }
+    .diag-steps { display: flex; flex-direction: column; gap: 10px; }
+    .diag-step { display: flex; align-items: flex-start; gap: 14px; font-size: 13px; color: var(--g7); line-height: 1.55; }
+    .ds-num { font-size: 11px; font-weight: 800; color: var(--g6); width: 20px; flex-shrink: 0; padding-top: 1px; }
+    .diag-step strong { color: var(--g9); }
+
+    @media(max-width:580px){
+      body { padding: 32px 18px 80px; }
+      h1 { font-size: 28px; }
+      .lever-header { flex-wrap: wrap; }
+      .aov-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="eyebrow">Sales.io · Phase 2 · Week 5 · <span>Lesson 4</span></div>
+  <h1>Closer Levers</h1>
+  <p class="subtitle">Your job starts when the call happens. But where it ends — and how much it's worth — depends entirely on which of these four levers you're actually pulling.</p>
+
+  <!-- CLOSER FUNNEL -->
+  <div class="funnel-wrap">
+    <div class="sec-label">The Closer Funnel</div>
+    <div class="funnel">
+      <div class="f-stage">
+        <div class="f-pill active">Scheduled</div>
+        <div class="f-num">01</div>
+      </div>
+      <div class="f-arrow">→</div>
+      <div class="f-stage">
+        <div class="f-pill active">Show</div>
+        <div class="f-num">02</div>
+      </div>
+      <div class="f-arrow">→</div>
+      <div class="f-stage">
+        <div class="f-pill active">Offer</div>
+        <div class="f-num">03</div>
+      </div>
+      <div class="f-arrow">→</div>
+      <div class="f-stage">
+        <div class="f-pill active">Close</div>
+        <div class="f-num">04</div>
+      </div>
+      <div class="f-arrow">→</div>
+      <div class="f-stage">
+        <div class="f-pill end">Revenue</div>
+        <div class="f-num">05</div>
+      </div>
+      <div class="f-times">×</div>
+      <div class="f-stage">
+        <div class="f-pill mult">AOV</div>
+        <div class="f-num">06</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEVER CARDS -->
+  <div class="sec-label">Your 4 Levers</div>
+  <div class="levers">
+
+    <!-- SHOW RATE -->
+    <div class="lever">
+      <div class="lever-header">
+        <div class="lever-num l1">01</div>
+        <div class="lever-meta">
+          <div class="lever-name">Show Rate</div>
+          <div class="lever-q">Are your scheduled calls actually happening?</div>
+        </div>
+        <div class="lever-status low">If Low</div>
+      </div>
+      <div class="lever-body">
+        <div class="lever-fix-label">What to fix</div>
+        <div class="fixes">
+          <div class="fix"><div class="fix-dot l1"></div><div><strong>Pre-call sequence</strong> — are you reaching out before the call? A message the day before and the morning of dramatically changes show rates. Make it personal, not automated.</div></div>
+          <div class="fix"><div class="fix-dot l1"></div><div><strong>Confirmation</strong> — did they actually confirm, or did you just assume? Get a real response, not just a calendar hold.</div></div>
+          <div class="fix"><div class="fix-dot l1"></div><div><strong>Relationship in the set</strong> — if you inherited the lead from a setter, how warm was the handoff? A cold handoff produces cold shows. The relationship has to carry over.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OFFER RATE -->
+    <div class="lever">
+      <div class="lever-header">
+        <div class="lever-num l2">02</div>
+        <div class="lever-meta">
+          <div class="lever-name">Offer Rate</div>
+          <div class="lever-q">Are you making an offer on every qualified call?</div>
+        </div>
+        <div class="lever-status low">If Low</div>
+      </div>
+      <div class="lever-body">
+        <div class="lever-fix-label">What to fix</div>
+        <div class="fixes">
+          <div class="fix"><div class="fix-dot l2"></div><div><strong>Confidence</strong> — if you're hesitating before the offer, they feel it. The hesitation kills the frame before a word comes out. The offer has to come from a place of certainty.</div></div>
+          <div class="fix"><div class="fix-dot l2"></div><div><strong>Frame</strong> — are you positioned as the expert recommending a solution, or are you asking for permission? Frame determines everything. You don't ask if they want to hear an offer. You transition into it.</div></div>
+          <div class="fix"><div class="fix-dot l2"></div><div><strong>Over-qualifying</strong> — if you're self-selecting out before you make the offer, you're closing yourself out of deals. Make the offer. Let them tell you no. Don't make that decision for them.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLOSE RATE -->
+    <div class="lever">
+      <div class="lever-header">
+        <div class="lever-num l3">03</div>
+        <div class="lever-meta">
+          <div class="lever-name">Close Rate</div>
+          <div class="lever-q">Are your offers converting?</div>
+        </div>
+        <div class="lever-status low">If Low</div>
+      </div>
+      <div class="lever-body">
+        <div class="lever-fix-label">What to fix</div>
+        <div class="fixes">
+          <div class="fix"><div class="fix-dot l3"></div><div><strong>Discovery depth</strong> — most closers think they have a closing problem. They don't. They have a discovery problem. If the prospect isn't bought in emotionally before the offer, the close was already lost.</div></div>
+          <div class="fix"><div class="fix-dot l3"></div><div><strong>Emotional urgency</strong> — did you build enough gap between where they are and where they want to be? If the pain isn't real enough, the investment won't feel necessary.</div></div>
+          <div class="fix"><div class="fix-dot l3"></div><div><strong>Objection handling</strong> — are you handling objections or caving to them? An objection is a question in disguise. Understand what they're actually asking before you respond.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AOV -->
+    <div class="lever">
+      <div class="lever-header">
+        <div class="lever-num l4">04</div>
+        <div class="lever-meta">
+          <div class="lever-name">AOV — Average Order Value</div>
+          <div class="lever-q">Are you leaving money on the table?</div>
+        </div>
+        <div class="lever-status low">If Low</div>
+      </div>
+      <div class="lever-body">
+        <div class="lever-fix-label">What to fix</div>
+        <div class="fixes">
+          <div class="fix"><div class="fix-dot l4"></div><div><strong>Defaulting before they ask</strong> — if you're presenting the lower option first or assuming they can't afford the higher one, you're making the pricing decision for them. Present the full value, let them decide.</div></div>
+          <div class="fix"><div class="fix-dot l4"></div><div><strong>Framing the investment</strong> — how you present price determines how they receive it. Anchor to what it's worth, not what it costs.</div></div>
+        </div>
+
+        <div class="aov-row">
+          <div class="aov-card">
+            <div class="aov-label">10 closes at</div>
+            <div class="aov-val low">$3,500</div>
+            <div class="aov-desc">= $35,000 / month</div>
+          </div>
+          <div class="aov-card">
+            <div class="aov-label">Same 10 closes at</div>
+            <div class="aov-val high">$5,000</div>
+            <div class="aov-desc">= $50,000 / month</div>
+          </div>
+          <div class="aov-card">
+            <div class="aov-label">The difference</div>
+            <div class="aov-val" style="color:var(--white)">+$15K</div>
+            <div class="aov-desc">Same calls. Same close rate. Just a different number.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- KEY INSIGHT -->
+  <div class="insight">
+    <div class="ins-label">The Most Important Thing in This Lesson</div>
+    <div class="ins-text">Most closers think they have a closing problem. Usually it's a discovery problem.</div>
+    <div class="ins-sub">If you're hitting the offer and getting consistent nos — go back to your discovery. Ask yourself: did they feel the gap? Did they describe their pain in their own words? Was there a real emotional reason to change? If any of those answers are <strong>no</strong>, you lost the deal before you made the offer.</div>
+  </div>
+
+  <!-- BOTTOM LINE -->
+  <div class="bottom-line">
+    <div class="bl-label">The Rule</div>
+    <div class="bl-text">Pull your numbers: show rate, offer rate, close rate, AOV. Find the one that's lowest relative to where it should be. <strong>That's your lever for Phase 2.</strong> Don't split your focus — go deep on the one thing that, if fixed, changes your monthly number the most.</div>
+  </div>
+
+  <!-- DIAGNOSTIC -->
+  <div class="diagnostic">
+    <div class="diag-label">Find Your Lever — 3 Steps</div>
+    <div class="diag-steps">
+      <div class="diag-step">
+        <div class="ds-num">01</div>
+        <div>Pull your last 30 days: <strong>calls scheduled, calls shown, offers made, deals closed, total revenue.</strong> Calculate each conversion rate.</div>
+      </div>
+      <div class="diag-step">
+        <div class="ds-num">02</div>
+        <div>Find where the biggest drop is. <strong>That's the lever.</strong> If you're offering but not closing — it's discovery. If you're showing but not offering — it's frame and confidence. Follow the number.</div>
+      </div>
+      <div class="diag-step">
+        <div class="ds-num">03</div>
+        <div>Commit to it. <strong>Write down your one lever and your target number by end of Phase 2.</strong> Bring both to your next 1-on-1.</div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
