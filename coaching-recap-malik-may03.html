@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coaching Recap — Malik | Week 1</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #000;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .header {
+      margin-bottom: 56px;
+    }
+
+    .label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .meta {
+      font-size: 14px;
+      color: #555;
+    }
+
+    section {
+      margin-bottom: 56px;
+    }
+
+    h2 {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    p {
+      color: #ccc;
+      margin-bottom: 16px;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    .highlight-block {
+      background: #111;
+      border-left: 3px solid #fff;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .highlight-block p {
+      margin: 0;
+      color: #fff;
+      font-weight: 500;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .card-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 14px;
+      margin: 0;
+      color: #ccc;
+    }
+
+    .card strong {
+      color: #fff;
+    }
+
+    .number-list {
+      counter-reset: item;
+      list-style: none;
+      padding: 0;
+    }
+
+    .number-list li {
+      counter-increment: item;
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+      align-items: flex-start;
+    }
+
+    .number-list li::before {
+      content: counter(item);
+      font-size: 12px;
+      font-weight: 700;
+      color: #555;
+      background: #111;
+      border: 1px solid #333;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .number-list li p {
+      margin: 0;
+      color: #ccc;
+      font-size: 15px;
+    }
+
+    .number-list li p strong {
+      color: #fff;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .quote-block {
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 24px;
+      background: #0a0a0a;
+    }
+
+    .quote-block p {
+      font-size: 17px;
+      font-style: italic;
+      color: #ddd;
+      margin-bottom: 12px;
+      line-height: 1.65;
+    }
+
+    .quote-attr {
+      font-size: 12px;
+      color: #555;
+      font-style: normal;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .milestone-row {
+      display: flex;
+      gap: 0;
+      margin-bottom: 24px;
+      overflow-x: auto;
+    }
+
+    .milestone-step {
+      flex: 1;
+      text-align: center;
+      position: relative;
+      min-width: 100px;
+    }
+
+    .milestone-step::after {
+      content: '';
+      position: absolute;
+      top: 20px;
+      right: -1px;
+      width: 50%;
+      height: 2px;
+      background: #333;
+    }
+
+    .milestone-step::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: -1px;
+      width: 50%;
+      height: 2px;
+      background: #333;
+    }
+
+    .milestone-step:first-child::before {
+      display: none;
+    }
+
+    .milestone-step:last-child::after {
+      display: none;
+    }
+
+    .step-dot {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #111;
+      border: 2px solid #333;
+      margin: 0 auto 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-label {
+      font-size: 11px;
+      color: #777;
+      padding: 0 4px;
+      line-height: 1.4;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .col-block {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .col-block .col-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 12px;
+    }
+
+    .col-block p {
+      font-size: 14px;
+      margin: 0;
+      color: #ccc;
+    }
+
+    .col-block strong {
+      color: #fff;
+    }
+
+    .action-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 16px 0;
+      border-bottom: 1px solid #1a1a1a;
+    }
+
+    .action-item:last-child {
+      border-bottom: none;
+    }
+
+    .action-check {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #333;
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .action-item p {
+      font-size: 15px;
+      margin: 0;
+      color: #ccc;
+    }
+
+    .action-item p strong {
+      color: #fff;
+    }
+
+    .schedule-row {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 14px 0;
+      border-bottom: 1px solid #1a1a1a;
+    }
+
+    .schedule-row:last-child {
+      border-bottom: none;
+    }
+
+    .schedule-when {
+      font-size: 12px;
+      font-weight: 600;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      min-width: 110px;
+      padding-top: 2px;
+    }
+
+    .schedule-what {
+      font-size: 15px;
+      color: #ccc;
+    }
+
+    .bottom-line {
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 32px;
+      text-align: center;
+    }
+
+    .bottom-line p {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .ian-box {
+      background: #0d0d0d;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+    }
+
+    .ian-box .ian-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 14px;
+    }
+
+    .ian-box ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .ian-box ul li {
+      font-size: 14px;
+      color: #ccc;
+      padding: 8px 0;
+      border-bottom: 1px solid #1a1a1a;
+      display: flex;
+      gap: 10px;
+    }
+
+    .ian-box ul li:last-child {
+      border-bottom: none;
+    }
+
+    .ian-box ul li::before {
+      content: '—';
+      color: #444;
+      flex-shrink: 0;
+    }
+
+    .warn-block {
+      background: #0f0f0f;
+      border: 1px solid #2a2a2a;
+      border-left: 3px solid #555;
+      border-radius: 0 6px 6px 0;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+    }
+
+    .warn-block p {
+      margin: 0;
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      margin: 0 0 24px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="label">Coaching Recap</div>
+      <h1>Malik</h1>
+      <div class="meta">Week 1 &nbsp;·&nbsp; May 3, 2026 &nbsp;·&nbsp; Coach: JJ Hernandez</div>
+    </div>
+
+    <!-- Where You Are -->
+    <section>
+      <h2>Where You Are</h2>
+      <p>Week 1. Currently at Amazon. No prior sales experience. Based in Orlando. Your target niche is fitness — you want to close on a fitness offer long-term.</p>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-title">Current Situation</div>
+          <p>Amazon role, ~3-5K/month range. "Bare minimum" — doing what you need to get by. Your time isn't fully in your control yet.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">The Direction</div>
+          <p>Fitness closer. Not just any fitness role — the right one. Build the skill first, then land on an offer doing real money.</p>
+        </div>
+      </div>
+      <div class="highlight-block">
+        <p>Commission feels scary when your skill is uncertain. Once the skill is there, commission is everything — it becomes the most predictable income there is.</p>
+      </div>
+    </section>
+
+    <!-- 3 Lenses -->
+    <section>
+      <h2>The 3 Lenses — Your Clarity System</h2>
+      <p>This isn't a goal-setting exercise. It's a clarity system. The difference: a goal says "I want X." A clarity system breaks down exactly what's in the way of X and gives you the next move.</p>
+      <p>If a 5-year-old can't follow the steps, it's not clear enough.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-title">North Star (one-liner)</div>
+          <p>Something like: <strong>"Get so good at sales that I can close on a fitness offer and do it full-time."</strong> Keep the income number out of this line — that goes in the 6-month goal.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">6-Month Goal</div>
+          <p>Get on a fitness role making <strong>10-20K/month</strong>. Right now it's entry-level. The goal grows once you're in the door.</p>
+        </div>
+      </div>
+
+      <p>Build this out in the doc JJ sends. Don't overthink it. Send it back for review once you've filled it in.</p>
+    </section>
+
+    <!-- Milestone Map -->
+    <section>
+      <h2>Your Milestone Map</h2>
+      <p>Each milestone removes one specific bottleneck between where you are and the role you want. Keep it sequential — you can't skip steps.</p>
+
+      <div class="milestone-row">
+        <div class="milestone-step">
+          <div class="step-dot">1</div>
+          <div class="step-label">Build the Skill</div>
+        </div>
+        <div class="milestone-step">
+          <div class="step-dot">2</div>
+          <div class="step-label">List 10 Targets</div>
+        </div>
+        <div class="milestone-step">
+          <div class="step-dot">3</div>
+          <div class="step-label">Apply to All</div>
+        </div>
+        <div class="milestone-step">
+          <div class="step-dot">4</div>
+          <div class="step-label">Land the Role</div>
+        </div>
+        <div class="milestone-step">
+          <div class="step-dot">5</div>
+          <div class="step-label">Hit First 5K</div>
+        </div>
+      </div>
+
+      <ul class="number-list">
+        <li>
+          <p><strong>Get skilled enough to apply</strong>
+          ~3 more weeks of curriculum. Don't rush the foundation — showing up half-baked costs you opportunities you can't easily get back.</p>
+        </li>
+        <li>
+          <p><strong>Build a list of 10+ fitness offers you'd want to work for</strong>
+          Send the list to JJ. He'll help dissect who's actually making real money vs. who just looks like they are.</p>
+        </li>
+        <li>
+          <p><strong>Apply to all of them</strong>
+          The job board does most of the work. Entry-level roles exist — you can apply to all of them today if you wanted to.</p>
+        </li>
+        <li>
+          <p><strong>Land the role</strong>
+          First major milestone. Everything after this becomes math: commission %, deal size, closes per month.</p>
+        </li>
+        <li>
+          <p><strong>Hit 5K the first month</strong>
+          Then you know the skill is real. Then you scale.</p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Fitness Roles — The Truth -->
+    <section>
+      <h2>Fitness Roles — What You Need to Know</h2>
+      <p>You can't just look at follower count and assume someone has a sales team worth working for. This will waste your time.</p>
+
+      <div class="two-col">
+        <div class="col-block">
+          <div class="col-label">What People Think</div>
+          <p>Big following = big offer = great commission opportunity. So you DM them and try to get on their team.</p>
+        </div>
+        <div class="col-block">
+          <div class="col-label">Reality</div>
+          <p>Follower count tells you <strong>nothing</strong>. Some people with 2M+ followers make $200K/month. Some "small" accounts do $5M/month. You'd never know.</p>
+        </div>
+      </div>
+
+      <div class="warn-block">
+        <p>Andy Elliott looks like the king of sales to someone who doesn't know the space. When you learn more, you realize the style doesn't match how people actually buy. Some people making $390K-$1M+/month on fitness offers have almost no public following. Don't let optics drive your target list.</p>
+      </div>
+
+      <p>The job board solves all of this. Revenue is vetted. Offers are confirmed active. You can filter by niche, experience level, and role type. Fitness roles at the 0-3 months experience level exist right now — you could apply today.</p>
+
+      <p>JJ also has direct connections to fitness offer owners. If a good one shows up on your target list, he can likely make an introduction directly.</p>
+    </section>
+
+    <!-- The Bridge Play -->
+    <section>
+      <h2>The Bridge Play — Car Sales</h2>
+      <p>While you build the skill over the next few weeks, there's a real option to start making more money now and proving the skill in the real world: <strong>car sales in Orlando</strong>.</p>
+
+      <div class="highlight-block">
+        <p>Car sales isn't the destination. It's the fastest way to get real reps, make more money than Amazon, and prove to yourself the skills actually work — before you land the fitness role.</p>
+      </div>
+
+      <p>JJ called Ian (works at a dealership in Orlando) on the spot. Here's what Ian said:</p>
+
+      <div class="ian-box">
+        <div class="ian-label">Intel from Ian — What to Look For</div>
+        <ul>
+          <li>Check the <strong>pay plan first</strong> — some dealerships price their inventory at wholesale and make gross almost impossible</li>
+          <li>Find a dealership that prices above what they own the car for — even after discounting, you make gross</li>
+          <li>Look for back-end pay (finance office %) — even if front commission is thin, finance adds $500+ per deal you'd otherwise miss</li>
+          <li>Toyota: loyal customer base, consistent, easier to sell. Recommend if you're choosing luxury vs. volume</li>
+          <li>Doesn't matter what brand you're selling as much as the pay plan — don't let the logo fool you</li>
+        </ul>
+      </div>
+
+      <p>Ian is also sending specific questions to bring into dealership interviews — insider language that signals you know the space even if you've never sold a car. <strong>Use those questions. They make hiring managers stop and take you seriously.</strong></p>
+
+      <div class="two-col">
+        <div class="col-block">
+          <div class="col-label">How to Use Car Sales</div>
+          <p>Apply to 5-10 roles in Orlando now. Get the reps. Prove the skills work. Make more money. Then transition to a fitness role once qualified.</p>
+        </div>
+        <div class="col-block">
+          <div class="col-label">What It Does for You</div>
+          <p>More income than Amazon. Real sales reps in the field. Confidence going into remote fitness interviews. The skills transfer directly.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interview Prep -->
+    <section>
+      <h2>How to Win the Interview</h2>
+      <p>Hiring managers make decisions in two ways: <strong>look and feel</strong>. If you look the part and make them feel good about you, you get the role. That's it.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-title">Don't Say This</div>
+          <p>"I don't have sales experience, but I'm a hard worker and a fast learner."<br /><br />Nobody hires on work ethic alone. They need to know they can trust you with their leads.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">Say This Instead</div>
+          <p>"Technically, I've been selling my whole life — everything is communication. I've studied sales and understand that we're influencing decisions. That's what I bring."</p>
+        </div>
+      </div>
+
+      <p>And when you use Ian's questions — "What's the OTE?" and "How are leads sourced?" — the interviewer's brain shifts. They stop thinking about your resume and start thinking: <em>this person understands the space</em>. That question doesn't come from nowhere. JJ will help you prep the full list.</p>
+    </section>
+
+    <!-- NBS -->
+    <section>
+      <h2>Never Broken End Syndrome</h2>
+      <div class="quote-block">
+        <p>"Once you understand the skill, you go into any room, any role, and people just want you. You'll see how simple all of it really is."</p>
+        <div class="quote-attr">JJ</div>
+      </div>
+      <p>Once the skill is real, it doesn't matter if it's car sales, fitness, B2B, or anything else — the fundamentals transfer. That's NBS: Never Broken End Syndrome. You become someone who can walk into any sales environment and perform.</p>
+      <p>Right now you're at the bare minimum — doing what you need to get by. There's a level up right in front of you. The skill is the unlock.</p>
+    </section>
+
+    <!-- Action Items -->
+    <section>
+      <h2>Action Items</h2>
+      <hr />
+      <div class="action-item">
+        <div class="action-check"></div>
+        <p><strong>Fill out the 3 Lenses doc</strong> — North Star (lifestyle vision, no income number), 6-month goal (reach X on a fitness offer), milestones with bottleneck analysis. Send to JJ for review.</p>
+      </div>
+      <div class="action-item">
+        <div class="action-check"></div>
+        <p><strong>Build a list of 10-20 fitness coaches/offers you'd want to work for</strong> — send to JJ. He'll help you dissect who's worth targeting and who to skip.</p>
+      </div>
+      <div class="action-item">
+        <div class="action-check"></div>
+        <p><strong>Apply to 5-10 car sales roles in Orlando</strong> — send JJ the application questions first. He'll help you nail the answers before you submit.</p>
+      </div>
+      <div class="action-item">
+        <div class="action-check"></div>
+        <p><strong>Get Ian's interview questions</strong> — Ian is texting them over. Study them. These signal to dealership managers that you know the space.</p>
+      </div>
+      <div class="action-item">
+        <div class="action-check"></div>
+        <p><strong>Continue the curriculum for the next 3 weeks</strong> — skill development is the foundation. Don't rush past it.</p>
+      </div>
+      <div class="action-item">
+        <div class="action-check"></div>
+        <p><strong>Get access to the job board</strong> — JJ is adding you. Use it to filter fitness roles by experience level. The entry-level ones are already there.</p>
+      </div>
+    </section>
+
+    <!-- Schedule -->
+    <section>
+      <h2>What's Next</h2>
+      <hr />
+      <div class="schedule-row">
+        <div class="schedule-when">This Week</div>
+        <div class="schedule-what">Fill out the 3 Lenses. Build the target list. Start applying to car sales roles. Send JJ applications for review before submitting.</div>
+      </div>
+      <div class="schedule-row">
+        <div class="schedule-when">Next 3 Weeks</div>
+        <div class="schedule-what">Curriculum + car sales interviews. Get real reps wherever possible. Nail the fundamentals before stepping into fitness auditions.</div>
+      </div>
+      <div class="schedule-row">
+        <div class="schedule-when">Week 2 Call</div>
+        <div class="schedule-what">Come with the 3 Lenses doc done. Bring the target list. JJ will go deeper on the skill development and map the next steps.</div>
+      </div>
+      <div class="schedule-row">
+        <div class="schedule-when">6-12 Months</div>
+        <div class="schedule-what">Transition from car sales into a fitness role. By then the job board will have $390K-$1M+/month fitness opportunities you'll be qualified for.</div>
+      </div>
+    </section>
+
+    <!-- Bottom Line -->
+    <section>
+      <div class="bottom-line">
+        <p>You're not behind. You're at the starting line with a clear map. The skill is the unlock — everything else is just execution. Apply for car sales now to make more money and get real reps. Build the list. Fill out the doc. The fitness role is closer than it looks.</p>
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>
