@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coaching Recap — Roxana | Week 1</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #000;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .header {
+      margin-bottom: 56px;
+    }
+
+    .label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .meta {
+      font-size: 14px;
+      color: #555;
+    }
+
+    section {
+      margin-bottom: 56px;
+    }
+
+    h2 {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    p {
+      color: #ccc;
+      margin-bottom: 16px;
+    }
+
+    .highlight-block {
+      background: #111;
+      border-left: 3px solid #fff;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .highlight-block p {
+      margin: 0;
+      color: #fff;
+      font-weight: 500;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .card-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 14px;
+      margin: 0;
+      color: #ccc;
+    }
+
+    .card strong {
+      color: #fff;
+    }
+
+    .number-list {
+      counter-reset: item;
+      list-style: none;
+      padding: 0;
+    }
+
+    .number-list li {
+      counter-increment: item;
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+      align-items: flex-start;
+    }
+
+    .number-list li::before {
+      content: counter(item);
+      font-size: 12px;
+      font-weight: 700;
+      color: #555;
+      background: #111;
+      border: 1px solid #333;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .number-list li p {
+      margin: 0;
+      color: #ccc;
+      font-size: 15px;
+    }
+
+    .number-list li p strong {
+      color: #fff;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .quote-block {
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 24px;
+      background: #0a0a0a;
+    }
+
+    .quote-block p {
+      font-size: 17px;
+      font-style: italic;
+      color: #ddd;
+      margin-bottom: 12px;
+      line-height: 1.65;
+    }
+
+    .quote-attr {
+      font-size: 12px;
+      color: #555;
+      font-style: normal;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .milestone-row {
+      display: flex;
+      gap: 0;
+      margin-bottom: 24px;
+    }
+
+    .milestone-step {
+      flex: 1;
+      text-align: center;
+      position: relative;
+    }
+
+    .milestone-step::after {
+      content: '';
+      position: absolute;
+      top: 20px;
+      right: -1px;
+      width: 50%;
+      height: 2px;
+      background: #333;
+    }
+
+    .milestone-step:first-child::before {
+      display: none;
+    }
+
+    .milestone-step::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: -1px;
+      width: 50%;
+      height: 2px;
+      background: #333;
+    }
+
+    .milestone-step:last-child::after {
+      display: none;
+    }
+
+    .step-dot {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #111;
+      border: 2px solid #333;
+      margin: 0 auto 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-label {
+      font-size: 12px;
+      color: #777;
+      padding: 0 6px;
+      line-height: 1.4;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .col-block {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .col-block .col-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 12px;
+    }
+
+    .col-block p {
+      font-size: 14px;
+      margin: 0;
+      color: #ccc;
+    }
+
+    .action-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 16px 0;
+      border-bottom: 1px solid #1a1a1a;
+    }
+
+    .action-item:last-child {
+      border-bottom: none;
+    }
+
+    .action-check {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #333;
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .action-item p {
+      font-size: 15px;
+      margin: 0;
+      color: #ccc;
+    }
+
+    .action-item p strong {
+      color: #fff;
+    }
+
+    .schedule-row {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 14px 0;
+      border-bottom: 1px solid #1a1a1a;
+    }
+
+    .schedule-row:last-child {
+      border-bottom: none;
+    }
+
+    .schedule-when {
+      font-size: 12px;
+      font-weight: 600;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      min-width: 100px;
+      padding-top: 2px;
+    }
+
+    .schedule-what {
+      font-size: 15px;
+      color: #ccc;
+    }
+
+    .bottom-line {
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 32px;
+      text-align: center;
+    }
+
+    .bottom-line p {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #777;
+      padding: 3px 8px;
+      margin-right: 6px;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      margin: 0 0 24px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="label">Coaching Recap</div>
+      <h1>Roxana</h1>
+      <div class="meta">Week 1 &nbsp;·&nbsp; May 1, 2026 &nbsp;·&nbsp; Coach: JJ Hernandez</div>
+    </div>
+
+    <!-- Where She Is -->
+    <section>
+      <h2>Where You Are</h2>
+      <p>Week 1. First 1-on-1. Currently working a 9-to-5, zero prior sales experience, and just joined Sales.io. The goal is clear: build the skill, leave the job, control her time and location.</p>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-title">Starting Point</div>
+          <p>No sales background. Has a 9-to-5. Just completed Week 1 curriculum — or at least the North Star section.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">North Star</div>
+          <p>"Master high ticket sales, consistently earn <strong>30-50K/month</strong> to build a life where I control my time and location."</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- The Reframe -->
+    <section>
+      <h2>The First Thing to Understand</h2>
+      <div class="highlight-block">
+        <p>Sales is not what you think it is. Throw out the old idea.</p>
+      </div>
+      <p>Most people think sales is transactional — get on a call, say the right things, take someone's money. That's wrong.</p>
+      <p>Sales is <strong>transformational</strong>. You're communicating a specific way to influence a specific decision. You're eliciting change inside someone. The money is just the currency of that change.</p>
+      <div class="quote-block">
+        <p>"The way you are, most authentically, is the best way to show up."</p>
+        <div class="quote-attr">JJ, on sales identity</div>
+      </div>
+      <p>What makes great salespeople great isn't what they say. It's self-management and self-recognition. That's what this program builds.</p>
+    </section>
+
+    <!-- Clarity Systems -->
+    <section>
+      <h2>Clarity Systems, Not Goals</h2>
+      <p>There's a difference between a goal and a clarity system. Goals are "I want to do X in Y time." A clarity system is execution made so clear that a 5-year-old could follow it step by step.</p>
+      <div class="highlight-block">
+        <p>If a 5-year-old can't explain your next move, it's not clear enough yet.</p>
+      </div>
+      <p>The example: Andrew, 18 years old, making $10K/month as a setter in Spain. His goal was $25-30K/month so he could travel. The bottleneck? He needed to become a closer, but no closer roles were open for 6 months. So the first step was simple: speak to his sales manager at Tuesday's 1-on-1 to get on their radar. That's it. That's a clarity system.</p>
+      <p>It sounds simple. That's the point. When you're clear, the next step is obvious.</p>
+    </section>
+
+    <!-- Her North Star Refined -->
+    <section>
+      <h2>Your North Star — Refined</h2>
+      <div class="two-col">
+        <div class="col-block">
+          <div class="col-label">What You Built</div>
+          <p>"Master high ticket sales, consistently earn 30-50K a month to build a life where I can control my time and location."</p>
+        </div>
+        <div class="col-block">
+          <div class="col-label">The Refinement</div>
+          <p>Strong, but separate the lifestyle vision from the income number. The North Star should describe the <strong>life and person</strong> — income goes in the 6-month goal.</p>
+        </div>
+      </div>
+      <p>Something like: <em>"Build the skill so strongly that I can leave my job and live life on my terms."</em></p>
+      <p>Put this on your phone background, the top of your Google Calendar — somewhere you see it every day. It keeps you moving when things get hard.</p>
+      <div class="quote-block">
+        <p>"It's more about the woman you will become that will allow you to get the income you want — versus the income, then creating the woman."</p>
+        <div class="quote-attr">JJ</div>
+      </div>
+      <p>Look at Lu. He grew into who he is now first. Then the income followed. That's the order it works in.</p>
+    </section>
+
+    <!-- Identity Before Income -->
+    <section>
+      <h2>Identity Before Income</h2>
+      <p>This is the most important concept from today — and it applies to everything you'll learn.</p>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-title">Most People Think</div>
+          <p>Hit the income first. Then change. "Once I'm making $30K a month, I'll feel like myself."</p>
+        </div>
+        <div class="card">
+          <div class="card-title">How It Actually Works</div>
+          <p>Become the person first. The income is a <strong>byproduct</strong> of who you become. You don't earn your way into identity.</p>
+        </div>
+      </div>
+      <p>Once you land a role and you're selling a $10K offer at 10% commission, the math is simple — you know exactly how many closes you need. But right now, the work is on becoming the kind of closer who gets there. That's what these 12 weeks are.</p>
+    </section>
+
+    <!-- Milestones -->
+    <section>
+      <h2>Your Milestone Map</h2>
+      <p>Here's what the bottleneck analysis looked like for you specifically. Each step removes one obstacle between you and the life you described.</p>
+
+      <div class="milestone-row">
+        <div class="milestone-step">
+          <div class="step-dot">1</div>
+          <div class="step-label">Get Qualified</div>
+        </div>
+        <div class="milestone-step">
+          <div class="step-dot">2</div>
+          <div class="step-label">Pick Role</div>
+        </div>
+        <div class="milestone-step">
+          <div class="step-dot">3</div>
+          <div class="step-label">Land First Role</div>
+        </div>
+        <div class="milestone-step">
+          <div class="step-dot">4</div>
+          <div class="step-label">Hit Targets</div>
+        </div>
+        <div class="milestone-step">
+          <div class="step-dot">5</div>
+          <div class="step-label">Leave the Job</div>
+        </div>
+      </div>
+
+      <ul class="number-list">
+        <li>
+          <p><strong>Get qualified — build the skill first</strong>
+          Minimum 3 more weeks of curriculum before applying anywhere. Don't rush the foundation.</p>
+        </li>
+        <li>
+          <p><strong>Decide: setter or closer?</strong>
+          Both are valid starting points. Most people start as a setter and move to closer. Ask JJ in Circle if you're not sure which fits you better right now.</p>
+        </li>
+        <li>
+          <p><strong>Land your first role</strong>
+          This is the first major milestone. Once you're on an offer, everything else becomes math.</p>
+        </li>
+        <li>
+          <p><strong>Understand your targets and hit them</strong>
+          Know your numbers: commission %, average deal size, how many closes you need per month. Simple arithmetic from there.</p>
+        </li>
+        <li>
+          <p><strong>Replace your income — leave the job</strong>
+          Not "quit when I'm scared." Quit when the numbers support it. That's the real milestone.</p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Setter vs Closer -->
+    <section>
+      <h2>Setter vs. Closer</h2>
+      <p>You asked. Here's the breakdown.</p>
+      <div class="two-col">
+        <div class="col-block">
+          <div class="col-label">Appointment Setter</div>
+          <p>Qualifies and books leads onto calls. Confirms appointments. Gets paid <strong>~5% commission</strong>. That person who called you before this call? That was Faris — a setter.</p>
+        </div>
+        <div class="col-block">
+          <div class="col-label">Closer</div>
+          <p>Takes the booked call and closes the deal. Collects the cash. Gets paid <strong>~10% commission</strong>. Higher income ceiling. Usually where setters grow into.</p>
+        </div>
+      </div>
+      <p>No wrong answer on which to start with. Most people start as setters and move to closing once they understand the full sales process. We'll figure out which makes the most sense for you as you go through the program.</p>
+    </section>
+
+    <!-- Action Items -->
+    <section>
+      <h2>Action Items</h2>
+      <hr />
+      <div class="action-item">
+        <div class="action-check"></div>
+        <p><strong>Build your North Star doc</strong> — JJ will send the template. Fill it out yourself. Separate the lifestyle vision from the income goal. Optional to send back for review.</p>
+      </div>
+      <div class="action-item">
+        <div class="action-check"></div>
+        <p><strong>Revise your North Star statement</strong> — Remove the income number from the vision line. Put the number in the 6-month goal section instead.</p>
+      </div>
+      <div class="action-item">
+        <div class="action-check"></div>
+        <p><strong>Put your North Star somewhere you see it daily</strong> — Top of your Google Calendar, phone background, sticky note — wherever it'll hit you first thing.</p>
+      </div>
+      <div class="action-item">
+        <div class="action-check"></div>
+        <p><strong>Continue Week 2 curriculum</strong> — Once it opens, run through it as normal. That's where the next layer of your skill foundation gets built.</p>
+      </div>
+      <div class="action-item">
+        <div class="action-check"></div>
+        <p><strong>Questions go in Circle</strong> — Text JJ there between sessions. Don't hold questions until next week.</p>
+      </div>
+    </section>
+
+    <!-- Schedule -->
+    <section>
+      <h2>Schedule</h2>
+      <hr />
+      <div class="schedule-row">
+        <div class="schedule-when">This Week</div>
+        <div class="schedule-what">Complete North Star doc. Run through Week 2 curriculum when it opens.</div>
+      </div>
+      <div class="schedule-row">
+        <div class="schedule-when">Week 2 Call</div>
+        <div class="schedule-what">Next 1-on-1 with JJ. Come with the doc filled out and any questions from Week 2 content.</div>
+      </div>
+      <div class="schedule-row">
+        <div class="schedule-when">Ongoing</div>
+        <div class="schedule-what">Group coaching calls each week. Use them. The reps in the room are your fastest feedback loop.</div>
+      </div>
+    </section>
+
+    <!-- Bottom Line -->
+    <section>
+      <div class="bottom-line">
+        <p>You don't need to have it all figured out yet. You need to get qualified, pick a lane, and land the first role. Everything else is math from there. The work right now is on who you're becoming — not on hitting numbers you haven't earned yet.</p>
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>
