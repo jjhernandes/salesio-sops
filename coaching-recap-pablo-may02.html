@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pablo — Week 2 Coaching Recap</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --black:#000; --white:#fff; --g4:#999; --g6:#555; }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',sans-serif; background:var(--black); color:var(--white); font-size:15px; line-height:1.7; padding:60px 40px 100px; max-width:720px; margin:0 auto; }
+
+    .tag { font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--g6); margin-bottom:12px; }
+    h1 { font-size:32px; font-weight:800; letter-spacing:-1px; line-height:1.1; margin-bottom:10px; }
+    .meta { font-size:13px; color:#444; margin-bottom:48px; }
+
+    .div { height:1px; background:#1a1a1a; margin:14px 0 24px; }
+    .sec { margin-bottom:48px; }
+    .sec-title { font-size:18px; font-weight:700; letter-spacing:-.3px; margin-bottom:4px; }
+
+    p { font-size:14px; color:#888; line-height:1.7; margin-bottom:14px; }
+    p:last-child { margin-bottom:0; }
+    p strong { color:#ccc; }
+
+    .insight { background:#111; border-left:3px solid var(--white); border-radius:0 8px 8px 0; padding:16px 20px; margin:16px 0; font-size:15px; color:#ddd; line-height:1.7; font-style:italic; }
+
+    .card { background:#0d0d0d; border:1px solid #1a1a1a; border-radius:10px; padding:18px 22px; margin-bottom:10px; }
+    .card .cl { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--g6); margin-bottom:8px; }
+    .card .cb { font-size:14px; color:#bbb; line-height:1.65; }
+    .card .cb strong { color:var(--white); }
+
+    .pattern-row { display:flex; gap:0; border:1px solid #1a1a1a; border-radius:10px; overflow:hidden; margin:14px 0; }
+    .pattern-col { flex:1; padding:16px 20px; border-right:1px solid #1a1a1a; }
+    .pattern-col:last-child { border-right:none; }
+    .pc-label { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; }
+    .pc-label.red { color:#e05555; }
+    .pc-label.green { color:#4caf50; }
+    .pc-label.amber { color:#c8a030; }
+    .pc-body { font-size:13px; color:#666; line-height:1.6; }
+    .pc-body strong { color:#999; }
+
+    .flag-list { display:flex; flex-direction:column; gap:8px; margin:14px 0; }
+    .flag { display:flex; align-items:flex-start; gap:12px; font-size:13px; color:#666; line-height:1.55; padding:10px 16px; border-radius:8px; border:1px solid #1a1a1a; background:#0a0a0a; }
+    .flag-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; margin-top:6px; }
+    .flag-dot.red { background:#e05555; }
+    .flag-dot.amber { background:#c8a030; }
+    .flag-dot.green { background:#4caf50; }
+    .flag strong { color:#999; }
+
+    .action-list { display:flex; flex-direction:column; gap:8px; }
+    .action { display:flex; align-items:flex-start; gap:14px; background:#0a0a0a; border:1px solid #1a1a1a; border-radius:8px; padding:14px 18px; }
+    .action .num { font-size:11px; font-weight:800; color:#333; width:20px; flex-shrink:0; padding-top:1px; }
+    .action .body { font-size:14px; color:#bbb; line-height:1.5; }
+    .action .body strong { color:var(--white); }
+
+    .note { background:rgba(200,140,0,.06); border:1px solid rgba(200,140,0,.18); border-radius:8px; padding:12px 16px; font-size:13px; color:#c8a030; margin:14px 0; display:flex; gap:10px; line-height:1.5; }
+    .note span { flex-shrink:0; }
+
+    .sched { background:#0d0d0d; border:1px solid #222; border-radius:10px; padding:20px 24px; margin:14px 0; }
+    .sched-row { display:flex; align-items:baseline; gap:12px; padding:8px 0; border-bottom:1px solid #111; font-size:13px; }
+    .sched-row:last-child { border-bottom:none; }
+    .sched-label { color:#444; width:160px; flex-shrink:0; }
+    .sched-val { color:#ccc; }
+
+    .bn-list { display:flex; flex-direction:column; gap:8px; margin:14px 0; }
+    .bn { display:flex; align-items:flex-start; gap:14px; background:#0a0a0a; border:1px solid #1a1a1a; border-radius:8px; padding:13px 18px; }
+    .bn .bn-num { font-size:11px; font-weight:800; color:#e05555; width:20px; flex-shrink:0; padding-top:1px; }
+    .bn .bn-body { font-size:14px; color:#bbb; line-height:1.5; }
+    .bn .bn-body strong { color:var(--white); }
+
+    @media(max-width:580px){
+      body{padding:32px 18px 80px;}
+      .pattern-row{flex-direction:column;}
+      .pattern-col{border-right:none;border-bottom:1px solid #1a1a1a;}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="tag">Sales.io · Coaching Recap</div>
+  <h1>Pablo</h1>
+  <div class="meta">Week 2 of 12 &nbsp;·&nbsp; May 2, 2026 &nbsp;·&nbsp; Current Offer, North Star Doc, Applying the Work</div>
+
+  <!-- CURRENT OFFER -->
+  <div class="sec">
+    <div class="sec-title">The Current Offer — Logan Fulmer / The Blueprint</div>
+    <div class="div"></div>
+
+    <p>You're on a real estate distressed property acquisition offer. The product is legitimate and niche — investors who learn this have a real edge. The problem isn't the offer. It's the infrastructure behind it.</p>
+
+    <div class="card">
+      <div class="cl">What you're working with</div>
+      <div class="cb">
+        Real estate distressed property training ($5,500 core offer, $46K high-ticket mentorship).<br/>
+        You're doing <strong>full cycle</strong> — triaging, setting, and closing with no setters on the team.<br/>
+        100+ dials per day from opt-ins, e-book signups, and form dropouts.<br/>
+        This week: <strong>5 appointments booked, 1 showed.</strong><br/>
+        You built your own PDF presentation and pre-call email sequence — none of that existed before you.
+      </div>
+    </div>
+
+    <p>JJ pulled up the funnel live. Here's the honest read on why leads are cold and shows are low.</p>
+
+    <div class="flag-list">
+      <div class="flag">
+        <div class="flag-dot red"></div>
+        <div><strong>The VSL is ChatGPT and probably isn't being watched in full.</strong> Most people book without watching it — so they show up with zero context. That's why they say "I don't remember signing up for this." The VSL is the first thing to fix on the marketing side.</div>
+      </div>
+      <div class="flag">
+        <div class="flag-dot red"></div>
+        <div><strong>People who say "no" to affordability still get booked.</strong> No filter, no triager — everyone goes straight to the calendar. Without someone qualifying them before the call, you're burning your time on people who were never buyers.</div>
+      </div>
+      <div class="flag">
+        <div class="flag-dot amber"></div>
+        <div><strong>Funnel copy is out of date.</strong> Emails say 20 modules/120 days. Reality is 24 modules/90 days. That creates friction when you're on the call — they've already been given wrong information. Keep flagging these discrepancies to the team.</div>
+      </div>
+      <div class="flag">
+        <div class="flag-dot amber"></div>
+        <div><strong>The $46K deal you sourced.</strong> You found a qualified buyer (sold his business, $20K/month trading, leaning toward the high-ticket). Logan's policy is his partner closes those — you get $750. You wanted to close it yourself at 10%. That's worth one clear conversation with the sales manager.</div>
+      </div>
+      <div class="flag">
+        <div class="flag-dot green"></div>
+        <div><strong>The offer itself is solid.</strong> You understand the niche from your real estate background. That familiarity is an edge when leads do show up ready. The problem is upstream — marketing and lead quality, not your closing.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JJ'S MOVE -->
+  <div class="sec">
+    <div class="sec-title">The Move JJ Gave You</div>
+    <div class="div"></div>
+
+    <p>You're doing full-cycle right now because there are no setters. That's the constraint. Here's what to do about it without waiting for the company to fix it.</p>
+
+    <div class="card">
+      <div class="cl">Bring in your own setter</div>
+      <div class="cb">
+        Ask the sales manager: <strong>"Can I bring in someone to handle setting for me?"</strong><br/><br/>
+        Find someone newer — someone who needs reps and wants to learn. They set, you close. You free yourself up from triage and put your energy where it actually pays. JJ did this exact thing earlier in his career. It works.<br/><br/>
+        You hadn't thought of this. Now you have. Do something with it.
+      </div>
+    </div>
+
+    <div class="note">
+      <span>→</span>
+      Also bring VSL watch-time data to the team. Tell them: "I want to see how many people are actually watching the full VSL before booking." You can track that. Once you know, you know where the funnel breaks. Make yourself useful beyond just dialing.
+    </div>
+  </div>
+
+  <!-- YOUR TIMELINE ON THIS OFFER -->
+  <div class="sec">
+    <div class="sec-title">Your Timeline</div>
+    <div class="div"></div>
+
+    <p>You were clear about this, and JJ heard you.</p>
+
+    <div class="insight">"By the middle of May, I need sales on the board. It's a must. If I don't see it, I'm moving on."</div>
+
+    <p>That's the right energy. You're not being impatient — you're being honest about what's sustainable. You're already connected to DealFuel and have the job board. <strong>Keep both active now, not when things fall apart.</strong> Resume is done. Loom needs to be recorded. Get those assets built this week so you're not scrambling later.</p>
+
+    <p>JJ's read on you: <strong>"You're a talented, mature closer. Landing something won't be hard. Not even a little bit."</strong></p>
+  </div>
+
+  <!-- THE ANGER THING -->
+  <div class="sec">
+    <div class="sec-title">On Getting Pissed Off</div>
+    <div class="div"></div>
+
+    <p>You said it yourself — you take no-shows personally. You get pissed, then you calm yourself down, then you remind yourself it's not you. That loop is honest. Here's JJ's take on it.</p>
+
+    <div class="pattern-row">
+      <div class="pattern-col">
+        <div class="pc-label amber">What anger actually is</div>
+        <div class="pc-body">
+          Not as bad as people think. <strong>Anger creates movement.</strong> It drives action. A lot of people sit in passive frustration and do nothing — your anger makes you dial 100 people. That's not a weakness.
+        </div>
+      </div>
+      <div class="pattern-col">
+        <div class="pc-label green">What's coming next</div>
+        <div class="pc-body">
+          Anger carries you for a while, but not forever. <strong>State Management — Week 2</strong> — opens May 6. When you watch it, something is going to click. JJ's words: "You're gonna be like, whoa. This is different."
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NORTH STAR DOC -->
+  <div class="sec">
+    <div class="sec-title">Your North Star Doc — What JJ Saw</div>
+    <div class="div"></div>
+
+    <p>You built the Google Sheet from the Week 1 modules and shared it live. JJ's reaction: <strong>"This is fucking great. This is actually really solid."</strong> You understood the intent. One thing needed sharpening.</p>
+
+    <div class="card">
+      <div class="cl">What you had right</div>
+      <div class="cb">
+        North Star: <strong>"Be a top closer on their offer."</strong><br/>
+        Goal: <strong>Consistent closing at 40%+ close rate.</strong><br/>
+        This is exactly the right format — specific, measurable, tied to a role.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="cl">What JJ fixed — how to use bottlenecks correctly</div>
+      <div class="cb">
+        Each milestone has its own 3 bottlenecks — not a general list for everything. Bottlenecks should be specific enough that when you solve one, you cross it off and move to the next. They shouldn't be vague. They should be actionable and completable.<br/><br/>
+        Example: Not "need more training" — but <strong>"discuss with JJ what metrics and levers to pull to hit 40% close rate."</strong> That's one conversation. When it's done, it's done. Cross it off.<br/><br/>
+        <strong>The goal is 5 clear steps. Nothing complicated. Nothing uncertain.</strong> If you can't see the next step clearly, that's the bottleneck — not the thing you thought was the problem.
+      </div>
+    </div>
+
+    <div class="insight">"I get you so clear that there's no way you fail. The reason people fail is they're not sure where to start. They're just confused. I want you to have 5 steps — that's it."</div>
+  </div>
+
+  <!-- APPLYING THE WORK -->
+  <div class="sec">
+    <div class="sec-title">You Applied the Work</div>
+    <div class="div"></div>
+
+    <p>You came into this week ready to dig deeper on calls — no more accepting vague answers. You got one call to practice it on. Here's what happened.</p>
+
+    <div class="card">
+      <div class="cl">The call</div>
+      <div class="cb">
+        Prospect said everything was going great — wholesaling, has students, no real pain. You pushed: <strong>"If things are going so well, why not just double down on what's working?"</strong> He kept deflecting. Eventually came out that he just wanted to become an affiliate.<br/><br/>
+        You handled it right. You asked the question. You stayed with it. You found out the truth.<br/><br/>
+        JJ's read: <strong>apathetic buyer, not closable.</strong> The issue isn't your questioning — it's that there was nothing underneath his answers because he had no real reason to be there.
+      </div>
+    </div>
+
+    <p>You're running into more apathetic buyers than most because the offer's lead funnel is pulling unqualified people. That's the offer problem, not your skill. Keep applying the framework — when a real prospect shows up, it'll land.</p>
+  </div>
+
+  <!-- ACTION ITEMS -->
+  <div class="sec">
+    <div class="sec-title">Action Items</div>
+    <div class="div"></div>
+
+    <div class="action-list">
+      <div class="action">
+        <div class="num">01</div>
+        <div class="body"><strong>Ask the sales manager about bringing in your own setter.</strong> One conversation. Either they say yes and you solve the full-cycle problem yourself, or they say no and you have more information.</div>
+      </div>
+      <div class="action">
+        <div class="num">02</div>
+        <div class="body"><strong>Bring VSL watch-time data to the team.</strong> Ask marketing how many people are watching the full video before booking. Frame it as trying to improve show rate — because it is.</div>
+      </div>
+      <div class="action">
+        <div class="num">03</div>
+        <div class="body"><strong>Record your Loom video.</strong> Resume is done — get the Loom done this week. You need both assets ready so you're not rushing if this offer doesn't move.</div>
+      </div>
+      <div class="action">
+        <div class="num">04</div>
+        <div class="body"><strong>Update your North Star doc bottlenecks.</strong> Go milestone by milestone. Each one needs 3 specific, completable bottlenecks — not vague categories. When a step is done, cross it off.</div>
+      </div>
+      <div class="action">
+        <div class="num">05</div>
+        <div class="body"><strong>Watch State Management when it unlocks May 6.</strong> JJ said it specifically — this is the one that's going to click for you. Watch it before Friday's session.</div>
+      </div>
+      <div class="action">
+        <div class="num">06</div>
+        <div class="body"><strong>Keep dialing, keep applying the framework.</strong> Every call is a rep. The lead quality is the offer's problem — your job is to be ready when a real prospect shows up.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCHEDULE -->
+  <div class="sec">
+    <div class="sec-title">Schedule</div>
+    <div class="div"></div>
+
+    <div class="sched">
+      <div class="sched-row">
+        <div class="sched-label">Wednesday May 6</div>
+        <div class="sched-val">Week 2 modules unlock — State Management opens. Watch it.</div>
+      </div>
+      <div class="sched-row">
+        <div class="sched-label">Friday May 9</div>
+        <div class="sched-val">Next 1-on-1 with JJ — curriculum review + offer update. Time TBD.</div>
+      </div>
+      <div class="sched-row">
+        <div class="sched-label">Mid-May deadline</div>
+        <div class="sched-val">Your personal benchmark — sales on the board or actively transitioning offers.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM LINE -->
+  <div class="sec">
+    <div class="sec-title">Bottom Line</div>
+    <div class="div"></div>
+
+    <p>You built the doc, you applied the framework on a real call, you squeezed this session in on a Friday night after a full day of dialing. That says something about who you are.</p>
+
+    <p>The offer situation is what it is — a new company with a real product and a broken funnel. You can't fix their marketing. You can fix your position within it. Bring in a setter, surface the VSL data, keep your resume and Loom sharp, and stay active on the job board in parallel.</p>
+
+    <p>The skill is building. The reps are happening. <strong>When a real prospect shows up — and they will — you'll be ready.</strong></p>
+  </div>
+
+</body>
+</html>
