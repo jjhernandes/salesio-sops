@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your One Thing — Sales.io</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #000;
+      --white: #fff;
+      --red: #e05555;
+      --green: #4caf50;
+      --amber: #c8a030;
+      --g1: #111;
+      --g2: #1a1a1a;
+      --g3: #222;
+      --g6: #555;
+      --g7: #666;
+      --g9: #888;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      font-size: 15px;
+      line-height: 1.7;
+      padding: 60px 40px 100px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--g6); margin-bottom: 14px; }
+    .eyebrow span { color: var(--white); }
+    h1 { font-size: 38px; font-weight: 900; letter-spacing: -1.5px; line-height: 1.05; margin-bottom: 16px; }
+    .subtitle { font-size: 15px; color: var(--g9); line-height: 1.7; max-width: 560px; margin-bottom: 56px; }
+
+    .sec { margin-bottom: 52px; }
+    .sec-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--g6); margin-bottom: 20px; }
+
+    p { font-size: 14px; color: var(--g7); line-height: 1.75; margin-bottom: 14px; }
+    p strong { color: var(--g9); }
+    p:last-child { margin-bottom: 0; }
+
+    /* hard truth */
+    .hard-truth {
+      background: var(--g1);
+      border: 1px solid var(--g2);
+      border-radius: 14px;
+      padding: 32px;
+      margin-bottom: 52px;
+    }
+    .ht-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(224,85,85,.5); margin-bottom: 14px; }
+    .ht-heading { font-size: 21px; font-weight: 800; color: var(--white); line-height: 1.35; letter-spacing: -.4px; margin-bottom: 16px; }
+    .ht-body { font-size: 14px; color: var(--g7); line-height: 1.75; }
+    .ht-body strong { color: var(--g9); }
+
+    /* why people avoid it */
+    .avoidance { display: flex; flex-direction: column; gap: 10px; margin-bottom: 52px; }
+    .avoid-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      background: var(--g1);
+      border: 1px solid var(--g2);
+      border-radius: 10px;
+      padding: 16px 20px;
+    }
+    .avoid-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(224,85,85,.08);
+      border: 1px solid rgba(224,85,85,.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .avoid-body { flex: 1; }
+    .avoid-title { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 3px; }
+    .avoid-sub { font-size: 13px; color: var(--g7); line-height: 1.55; }
+
+    /* picking the right lever */
+    .picker {
+      background: var(--g1);
+      border: 1px solid var(--g2);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 52px;
+    }
+    .picker-top { padding: 24px 28px; border-bottom: 1px solid var(--g2); }
+    .picker-heading { font-size: 17px; font-weight: 800; color: var(--white); letter-spacing: -.3px; margin-bottom: 8px; }
+    .picker-sub { font-size: 13px; color: var(--g7); line-height: 1.6; }
+    .picker-steps { padding: 0; }
+    .picker-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      padding: 18px 28px;
+      border-bottom: 1px solid var(--g2);
+    }
+    .picker-step:last-child { border-bottom: none; }
+    .ps-num {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--g6);
+      width: 24px;
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+    .ps-body { flex: 1; }
+    .ps-q { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 5px; }
+    .ps-detail { font-size: 13px; color: var(--g7); line-height: 1.6; }
+    .ps-detail strong { color: var(--g9); }
+
+    /* target setting */
+    .target-sec { margin-bottom: 52px; }
+    .target-compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .target-card {
+      border-radius: 12px;
+      padding: 20px 22px;
+      border: 1px solid transparent;
+    }
+    .target-card.bad {
+      background: rgba(224,85,85,.04);
+      border-color: rgba(224,85,85,.15);
+    }
+    .target-card.good {
+      background: rgba(76,175,80,.04);
+      border-color: rgba(76,175,80,.15);
+    }
+    .tc-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .tc-label.bad { color: rgba(224,85,85,.6); }
+    .tc-label.good { color: rgba(76,175,80,.6); }
+    .tc-examples { display: flex; flex-direction: column; gap: 8px; }
+    .tc-ex {
+      font-size: 13px;
+      line-height: 1.5;
+      padding: 8px 12px;
+      border-radius: 6px;
+    }
+    .tc-ex.bad { background: rgba(224,85,85,.06); color: #bb4444; }
+    .tc-ex.good { background: rgba(76,175,80,.06); color: #3a9e3f; }
+
+    .target-formula {
+      background: var(--g1);
+      border: 1px solid var(--g2);
+      border-radius: 12px;
+      padding: 22px 26px;
+    }
+    .tf-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--g6); margin-bottom: 14px; }
+    .tf-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .tf-box {
+      background: var(--black);
+      border: 1px solid var(--g3);
+      border-radius: 8px;
+      padding: 12px 16px;
+      text-align: center;
+      flex: 1;
+      min-width: 100px;
+    }
+    .tf-val { font-size: 16px; font-weight: 800; color: var(--white); }
+    .tf-desc { font-size: 10px; color: var(--g6); text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+    .tf-arrow { font-size: 18px; color: var(--g3); flex-shrink: 0; }
+    .tf-in { font-size: 12px; color: var(--g6); flex-shrink: 0; white-space: nowrap; }
+
+    /* example targets */
+    .example-targets { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+    .et-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--black);
+      border: 1px solid var(--g2);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 13px;
+    }
+    .et-lever { color: var(--g6); width: 110px; flex-shrink: 0; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; font-weight: 600; }
+    .et-now { color: var(--red); font-weight: 700; font-size: 14px; width: 50px; }
+    .et-arr { color: var(--g3); flex-shrink: 0; }
+    .et-target { color: var(--green); font-weight: 700; font-size: 14px; width: 50px; }
+    .et-time { color: var(--g6); font-size: 11px; margin-left: auto; }
+
+    /* north star commit */
+    .northstar {
+      border: 1px solid var(--g3);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 52px;
+    }
+    .ns-top {
+      padding: 28px 32px;
+      border-bottom: 1px solid var(--g2);
+    }
+    .ns-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--g6); margin-bottom: 10px; }
+    .ns-heading { font-size: 20px; font-weight: 800; color: var(--white); letter-spacing: -.4px; margin-bottom: 10px; }
+    .ns-body { font-size: 13px; color: var(--g7); line-height: 1.65; }
+    .ns-fields { padding: 0; }
+    .ns-field {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 18px 32px;
+      border-bottom: 1px solid var(--g2);
+    }
+    .ns-field:last-child { border-bottom: none; }
+    .nf-label { font-size: 12px; font-weight: 700; color: var(--g6); width: 140px; flex-shrink: 0; }
+    .nf-line {
+      flex: 1;
+      height: 1px;
+      background: var(--g2);
+      position: relative;
+    }
+    .nf-line::after {
+      content: 'write it here';
+      position: absolute;
+      right: 0;
+      top: -9px;
+      font-size: 10px;
+      color: var(--g3);
+      letter-spacing: .5px;
+      font-style: italic;
+    }
+    .ns-why {
+      padding: 20px 32px;
+      background: rgba(255,255,255,.02);
+      border-top: 1px solid var(--g2);
+      font-size: 13px;
+      color: var(--g7);
+      line-height: 1.6;
+    }
+    .ns-why strong { color: var(--g9); }
+
+    /* week 8 preview */
+    .audit-preview {
+      background: var(--g1);
+      border: 1px solid var(--g2);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 52px;
+    }
+    .ap-top {
+      padding: 24px 28px;
+      border-bottom: 1px solid var(--g2);
+    }
+    .ap-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--g6); margin-bottom: 10px; }
+    .ap-heading { font-size: 17px; font-weight: 800; color: var(--white); letter-spacing: -.3px; }
+    .ap-timeline {
+      display: flex;
+      align-items: stretch;
+    }
+    .ap-col {
+      flex: 1;
+      padding: 20px 24px;
+      border-right: 1px solid var(--g2);
+    }
+    .ap-col:last-child { border-right: none; }
+    .ap-col-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--g6); margin-bottom: 10px; }
+    .ap-col-week { font-size: 22px; font-weight: 900; letter-spacing: -.5px; color: var(--white); }
+    .ap-col-desc { font-size: 12px; color: var(--g7); margin-top: 6px; line-height: 1.5; }
+    .ap-gap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 12px;
+      border-right: 1px solid var(--g2);
+      font-size: 20px;
+      color: var(--g3);
+    }
+    .ap-footer {
+      padding: 18px 28px;
+      border-top: 1px solid var(--g2);
+      font-size: 13px;
+      color: var(--g7);
+      line-height: 1.6;
+    }
+    .ap-footer strong { color: var(--g9); }
+
+    /* bottom line */
+    .bottom-line {
+      background: var(--g1);
+      border: 1px solid var(--g2);
+      border-left: 3px solid var(--white);
+      border-radius: 0 12px 12px 0;
+      padding: 28px 32px;
+    }
+    .bl-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--g6); margin-bottom: 12px; }
+    .bl-text { font-size: 16px; color: #ccc; line-height: 1.7; }
+    .bl-text strong { color: var(--white); }
+
+    @media(max-width:580px){
+      body { padding: 32px 18px 80px; }
+      h1 { font-size: 28px; }
+      .target-compare { grid-template-columns: 1fr; }
+      .tf-row { flex-direction: column; align-items: stretch; }
+      .tf-arrow { transform: rotate(90deg); align-self: center; }
+      .ap-timeline { flex-direction: column; }
+      .ap-col { border-right: none; border-bottom: 1px solid var(--g2); }
+      .ap-gap { padding: 12px; border-right: none; border-bottom: 1px solid var(--g2); }
+      .ns-field { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .nf-line { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="eyebrow">Sales.io · Phase 2 · Week 5 · <span>Lesson 5</span></div>
+  <h1>Your One Thing</h1>
+  <p class="subtitle">You've looked at your numbers. You know where the funnel breaks. Now comes the part most people skip — committing to one thing and actually going to war with it.</p>
+
+  <!-- HARD TRUTH -->
+  <div class="hard-truth">
+    <div class="ht-label">The Hard Truth</div>
+    <div class="ht-heading">Working on ten things at once is just a sophisticated way of avoiding accountability.</div>
+    <div class="ht-body">When your focus is split across everything, nothing can be measured. And when nothing can be measured, nothing can be failed. <strong>Vague goals protect your ego. Specific targets expose your gaps.</strong> That's exactly why most people never set them.</div>
+  </div>
+
+  <!-- WHY PEOPLE AVOID IT -->
+  <div class="sec">
+    <div class="sec-label">Why People Don't Pick One Thing</div>
+    <div class="avoidance">
+      <div class="avoid-item">
+        <div class="avoid-icon">🛡</div>
+        <div class="avoid-body">
+          <div class="avoid-title">It feels safer to work on everything</div>
+          <div class="avoid-sub">If you fail at one thing, you can blame the others. Spread thin means never having to own a single result. Specificity removes the escape route.</div>
+        </div>
+      </div>
+      <div class="avoid-item">
+        <div class="avoid-icon">⚡</div>
+        <div class="avoid-body">
+          <div class="avoid-title">Busy feels like progress</div>
+          <div class="avoid-sub">Tweaking your opener, reading about objection handling, watching call reviews, optimizing your calendar — all of it feels productive. None of it is if it's not tied to one measurable thing you're trying to move.</div>
+        </div>
+      </div>
+      <div class="avoid-item">
+        <div class="avoid-icon">🎭</div>
+        <div class="avoid-body">
+          <div class="avoid-title">Commitment means measurement</div>
+          <div class="avoid-sub">The moment you say "I'm going from 20% to 30% in 4 weeks," you've created a test you can either pass or fail. Most people unconsciously avoid that. The ones who don't are the ones who actually grow.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW TO PICK THE RIGHT ONE -->
+  <div class="sec">
+    <div class="sec-label">How to Pick the Right Lever</div>
+    <div class="picker">
+      <div class="picker-top">
+        <div class="picker-heading">Ask yourself one question</div>
+        <div class="picker-sub">If I could only fix one thing in the next 4 weeks, what would have the biggest downstream impact on my revenue? The answer is almost always the earliest broken stage in your funnel.</div>
+      </div>
+      <div class="picker-steps">
+        <div class="picker-step">
+          <div class="ps-num">01</div>
+          <div class="ps-body">
+            <div class="ps-q">Where is the biggest drop-off?</div>
+            <div class="ps-detail">Look at your cascade from Week 5 Lesson 2. Where does the funnel lose the most volume? That's your constraint. Start there — not at the end.</div>
+          </div>
+        </div>
+        <div class="picker-step">
+          <div class="ps-num">02</div>
+          <div class="ps-body">
+            <div class="ps-q">Does fixing this move things downstream?</div>
+            <div class="ps-detail">A real lever has a multiplier effect. Fix your show rate and suddenly your offer rate, close rate, and revenue all move — without touching anything else. <strong>That's the right lever.</strong></div>
+          </div>
+        </div>
+        <div class="picker-step">
+          <div class="ps-num">03</div>
+          <div class="ps-body">
+            <div class="ps-q">Can you control it?</div>
+            <div class="ps-detail">Pick something you can actually influence through behavior, not market conditions. "Better leads" is not a lever. "Stronger confirmation sequence" is. Stay inside your control.</div>
+          </div>
+        </div>
+        <div class="picker-step">
+          <div class="ps-num">04</div>
+          <div class="ps-body">
+            <div class="ps-q">Is it specific enough to measure?</div>
+            <div class="ps-detail">If you can't put a number on it before and after, it's not a lever — it's a vibe. Every lever has a metric. Find the metric before you commit to the lever.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TARGET SETTING -->
+  <div class="target-sec">
+    <div class="sec-label">Set the Right Target</div>
+    <div class="target-compare">
+      <div class="target-card bad">
+        <div class="tc-label bad">Vague — Don't Do This</div>
+        <div class="tc-examples">
+          <div class="tc-ex bad">"Improve my close rate"</div>
+          <div class="tc-ex bad">"Get better at discovery"</div>
+          <div class="tc-ex bad">"Show up on more calls"</div>
+          <div class="tc-ex bad">"Work on my follow-up"</div>
+        </div>
+      </div>
+      <div class="target-card good">
+        <div class="tc-label good">Specific — Do This</div>
+        <div class="tc-examples">
+          <div class="tc-ex good">"Go from 20% to 30% close rate in 4 weeks"</div>
+          <div class="tc-ex good">"Get discovery to 25+ minutes on every call"</div>
+          <div class="tc-ex good">"Hit 65% show rate by Week 8"</div>
+          <div class="tc-ex good">"Send same-day confirmation on 100% of bookings"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="target-formula">
+      <div class="tf-label">The Formula</div>
+      <div class="tf-row">
+        <div class="tf-box">
+          <div class="tf-val">Current #</div>
+          <div class="tf-desc">Where you are now</div>
+        </div>
+        <div class="tf-arrow">→</div>
+        <div class="tf-box">
+          <div class="tf-val">Target #</div>
+          <div class="tf-desc">Where you'll be</div>
+        </div>
+        <div class="tf-in">in</div>
+        <div class="tf-box">
+          <div class="tf-val">4 Weeks</div>
+          <div class="tf-desc">End of Phase 2</div>
+        </div>
+      </div>
+
+      <div class="example-targets">
+        <div class="et-row">
+          <div class="et-lever">Close Rate</div>
+          <div class="et-now">20%</div>
+          <div class="et-arr">→</div>
+          <div class="et-target">30%</div>
+          <div class="et-time">4 weeks</div>
+        </div>
+        <div class="et-row">
+          <div class="et-lever">Show Rate</div>
+          <div class="et-now">45%</div>
+          <div class="et-arr">→</div>
+          <div class="et-target">65%</div>
+          <div class="et-time">4 weeks</div>
+        </div>
+        <div class="et-row">
+          <div class="et-lever">Booking Rate</div>
+          <div class="et-now">30%</div>
+          <div class="et-arr">→</div>
+          <div class="et-target">45%</div>
+          <div class="et-time">4 weeks</div>
+        </div>
+        <div class="et-row">
+          <div class="et-lever">Offer Rate</div>
+          <div class="et-now">60%</div>
+          <div class="et-arr">→</div>
+          <div class="et-target">85%</div>
+          <div class="et-time">4 weeks</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NORTH STAR COMMIT -->
+  <div class="sec">
+    <div class="sec-label">Write It Down</div>
+    <div class="northstar">
+      <div class="ns-top">
+        <div class="ns-eyebrow">Phase 2 North Star</div>
+        <div class="ns-heading">This is the number everything connects back to.</div>
+        <div class="ns-body">Every lesson in Phase 2, every call you record, every coaching session — it all runs through this. When something you learn clicks, the first question is: how does this move my number? That's the filter.</div>
+      </div>
+      <div class="ns-fields">
+        <div class="ns-field">
+          <div class="nf-label">My lever</div>
+          <div class="nf-line"></div>
+        </div>
+        <div class="ns-field">
+          <div class="nf-label">Current number</div>
+          <div class="nf-line"></div>
+        </div>
+        <div class="ns-field">
+          <div class="nf-label">Target by Week 8</div>
+          <div class="nf-line"></div>
+        </div>
+        <div class="ns-field">
+          <div class="nf-label">What breaks if I fix this</div>
+          <div class="nf-line"></div>
+        </div>
+      </div>
+      <div class="ns-why">
+        <strong>Why you write it down:</strong> an unwritten goal is just a preference. The moment it's on paper — or posted in the community — it becomes a commitment. It has weight. You now have something to answer to. That accountability is the mechanism.
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 8 PREVIEW -->
+  <div class="sec">
+    <div class="sec-label">The Week 8 Audit</div>
+    <div class="audit-preview">
+      <div class="ap-top">
+        <div class="ap-label">What happens at the end of Phase 2</div>
+        <div class="ap-heading">You pull the same numbers. The gap between then and now is your growth.</div>
+      </div>
+      <div class="ap-timeline">
+        <div class="ap-col">
+          <div class="ap-col-label">Week 5</div>
+          <div class="ap-col-week">Now</div>
+          <div class="ap-col-desc">You set your baseline. You pick your lever. You write down your target.</div>
+        </div>
+        <div class="ap-gap">→</div>
+        <div class="ap-col">
+          <div class="ap-col-label">Weeks 6–7</div>
+          <div class="ap-col-week">Work</div>
+          <div class="ap-col-desc">Every lesson connects back to your number. Every call is a rep toward it.</div>
+        </div>
+        <div class="ap-gap">→</div>
+        <div class="ap-col">
+          <div class="ap-col-label">Week 8</div>
+          <div class="ap-col-week">Audit</div>
+          <div class="ap-col-desc">Same data pull. Same metrics. The number either moved or it didn't.</div>
+        </div>
+      </div>
+      <div class="ap-footer">
+        Your growth in Phase 2 isn't measured by what you learned — it's measured by <strong>what your number did.</strong> That's the only honest measure. Concepts are easy. Moving a real metric takes real work.
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM LINE -->
+  <div class="bottom-line">
+    <div class="bl-label">The Point of This Whole Lesson</div>
+    <div class="bl-text">Pick the one lever that, if fixed, moves everything else. Set a number — a real one, not a vibe. Write it down somewhere it can hold you accountable. And then <strong>let every lesson in Phase 2 be about that number.</strong> That's the difference between someone who learns a lot and someone who actually grows.</div>
+  </div>
+
+</body>
+</html>
