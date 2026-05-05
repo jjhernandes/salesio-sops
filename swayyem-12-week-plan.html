@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SwayyEm — 12-Week Clarity Plan</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+      background: #f0f0f0;
+      color: #1a1a1a;
+      padding: 48px 20px 80px;
+    }
+
+    .page {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: #1a1a1a;
+      border-radius: 14px;
+      padding: 52px 56px;
+      margin-bottom: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 300px; height: 300px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 50%;
+    }
+
+    .hero-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #666;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 38px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      max-width: 560px;
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      color: #888;
+      line-height: 1.7;
+      max-width: 520px;
+      margin-bottom: 36px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .stat { display: flex; flex-direction: column; gap: 4px; }
+
+    .stat-value {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ── PHASE BLOCKS ── */
+    .phase {
+      background: #fff;
+      border-radius: 14px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+
+    .phase-header {
+      padding: 28px 40px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .phase-badge {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .phase-1 .phase-badge { background: #f0f0f0; color: #555; }
+    .phase-2 .phase-badge { background: #1a1a1a; color: #fff; }
+    .phase-3 .phase-badge { background: #1a1a1a; color: #fff; }
+
+    .phase-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .phase-weeks {
+      margin-left: auto;
+      font-size: 12px;
+      color: #aaa;
+      white-space: nowrap;
+    }
+
+    /* ── WEEK GRID ── */
+    .weeks {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: #f0f0f0;
+    }
+
+    .week {
+      background: #fff;
+      padding: 28px 32px;
+    }
+
+    .week-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .week-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f4f4f4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: #888;
+      flex-shrink: 0;
+    }
+
+    .phase-2 .week-number { background: #1a1a1a; color: #fff; }
+    .phase-3 .week-number { background: #1a1a1a; color: #fff; }
+
+    .week-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .week ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .week ul li {
+      font-size: 13px;
+      color: #444;
+      line-height: 1.5;
+      padding-left: 16px;
+      position: relative;
+    }
+
+    .week ul li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: #bbb;
+      font-size: 11px;
+      top: 1px;
+    }
+
+    /* ── SUCCESS BLOCK ── */
+    .success {
+      background: #1a1a1a;
+      border-radius: 14px;
+      padding: 40px 48px;
+      margin-bottom: 12px;
+    }
+
+    .success-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .success h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 28px;
+    }
+
+    .success-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .success-item {
+      border: 1px solid #2a2a2a;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .success-icon {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .success-item h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .success-item p {
+      font-size: 12px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: #fff;
+      border-radius: 14px;
+      padding: 28px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-left { display: flex; flex-direction: column; gap: 4px; }
+
+    .footer-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .footer-role {
+      font-size: 12px;
+      color: #888;
+    }
+
+    .footer-right {
+      font-size: 12px;
+      color: #bbb;
+    }
+
+    @media (max-width: 640px) {
+      .hero { padding: 36px 28px; }
+      .hero h1 { font-size: 26px; }
+      .weeks { grid-template-columns: 1fr; }
+      .success-grid { grid-template-columns: 1fr; }
+      .phase-header { flex-wrap: wrap; }
+      .phase-weeks { margin-left: 0; }
+      .week { padding: 24px 20px; }
+    }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+      .hero, .phase, .success, .footer { border-radius: 0; box-shadow: none; margin-bottom: 0; border-bottom: 1px solid #eee; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-label">SwayyEm</div>
+    <h1>12-Week Clarity Plan</h1>
+    <p class="hero-sub">A step-by-step roadmap to go from Matthew closing everything at sub-10% to a system that closes 25-30% without him on every call.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-value">3</span>
+        <span class="stat-label">Phases</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">12</span>
+        <span class="stat-label">Weeks</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">25-30%</span>
+        <span class="stat-label">Target Close Rate</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">+$250k</span>
+        <span class="stat-label">Monthly Revenue Goal</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 1 -->
+  <div class="phase phase-1">
+    <div class="phase-header">
+      <span class="phase-badge">Phase 1</span>
+      <span class="phase-title">Build the Foundation</span>
+      <span class="phase-weeks">Weeks 1 – 4</span>
+    </div>
+    <div class="weeks">
+
+      <div class="week">
+        <div class="week-header">
+          <div class="week-number">W1</div>
+          <div class="week-title">Get the House in Order</div>
+        </div>
+        <ul>
+          <li>Audit current iClosed setup — what exists, what is missing</li>
+          <li>Map the sales process from lead in to contract signed</li>
+          <li>Identify the 3 biggest drop-off points in the pipeline</li>
+          <li>Pull 5 recorded calls and review together — this is where the framework gets grounded in reality</li>
+        </ul>
+      </div>
+
+      <div class="week">
+        <div class="week-header">
+          <div class="week-number">W2</div>
+          <div class="week-title">Build the Communication Infrastructure</div>
+        </div>
+        <ul>
+          <li>Build pre-call sequence in iClosed (confirmation, 24hr reminder, same-day text)</li>
+          <li>Build post-call 1 sequence with proper wait steps</li>
+          <li>Build post-call 2 sequence</li>
+          <li>Test all sequences end to end before going live</li>
+        </ul>
+      </div>
+
+      <div class="week">
+        <div class="week-header">
+          <div class="week-number">W3</div>
+          <div class="week-title">Finalize the Sales Framework</div>
+        </div>
+        <ul>
+          <li>Refine the SIGNAL framework based on Week 1 call recordings</li>
+          <li>Build the objection handling bank from real objections Matthew has heard</li>
+          <li>Document the setter-to-closer briefing standard</li>
+          <li>Define the offer decision tree: when to use each entry offer</li>
+        </ul>
+      </div>
+
+      <div class="week">
+        <div class="week-header">
+          <div class="week-number">W4</div>
+          <div class="week-title">KPI Infrastructure</div>
+        </div>
+        <ul>
+          <li>Set up HubSpot pipeline stages to match the actual sales process</li>
+          <li>Define the weekly reporting standard for reps</li>
+          <li>Establish baseline numbers: close rate, show rate, avg deal size</li>
+          <li>Everything to measure progress is in place before new reps touch anything</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="phase phase-2">
+    <div class="phase-header">
+      <span class="phase-badge">Phase 2</span>
+      <span class="phase-title">Bring in the Team</span>
+      <span class="phase-weeks">Weeks 5 – 8</span>
+    </div>
+    <div class="weeks">
+
+      <div class="week">
+        <div class="week-header">
+          <div class="week-number">W5</div>
+          <div class="week-title">Hiring</div>
+        </div>
+        <ul>
+          <li>Run closer candidates through the interview SOP and scorecard</li>
+          <li>Roleplay screen before any offer goes out</li>
+          <li>Target: hire one closer by end of week</li>
+        </ul>
+      </div>
+
+      <div class="week">
+        <div class="week-header">
+          <div class="week-number">W6</div>
+          <div class="week-title">Onboarding</div>
+        </div>
+        <ul>
+          <li>New closer reads the handbook on Day 1</li>
+          <li>Shadows 3 live calls with Matthew</li>
+          <li>Reviews 3 recorded calls independently with notes</li>
+          <li>Roleplays SIGNAL framework with feedback before going live</li>
+        </ul>
+      </div>
+
+      <div class="week">
+        <div class="week-header">
+          <div class="week-number">W7</div>
+          <div class="week-title">First Live Calls</div>
+        </div>
+        <ul>
+          <li>New closer runs calls with Matthew in the room</li>
+          <li>Debrief after every call: what worked, what to adjust</li>
+          <li>Matthew is coaching, not saving the deal</li>
+          <li>Weekly KPI check-in begins</li>
+        </ul>
+      </div>
+
+      <div class="week">
+        <div class="week-header">
+          <div class="week-number">W8</div>
+          <div class="week-title">First Independent Calls</div>
+        </div>
+        <ul>
+          <li>Closer runs calls solo, recordings reviewed by Matthew</li>
+          <li>Track show rate, close rate, deal size from day one</li>
+          <li>Identify the 2-3 adjustments needed to move from good to great</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="phase phase-3">
+    <div class="phase-header">
+      <span class="phase-badge">Phase 3</span>
+      <span class="phase-title">Optimize and Scale</span>
+      <span class="phase-weeks">Weeks 9 – 12</span>
+    </div>
+    <div class="weeks">
+
+      <div class="week">
+        <div class="week-header">
+          <div class="week-number">W9</div>
+          <div class="week-title">Offer Testing</div>
+        </div>
+        <ul>
+          <li>Review conversion data from each entry offer</li>
+          <li>Test one offer variation based on what the data shows</li>
+          <li>Review outbound sequences and adjust messaging based on response rates</li>
+        </ul>
+      </div>
+
+      <div class="week">
+        <div class="week-header">
+          <div class="week-number">W10</div>
+          <div class="week-title">Process Refinement</div>
+        </div>
+        <ul>
+          <li>Pull the 10 most recent closed deals and 10 most recent losses</li>
+          <li>Find the pattern: what wins have in common, where losses break down</li>
+          <li>Update the SIGNAL framework and objection bank with real data</li>
+        </ul>
+      </div>
+
+      <div class="week">
+        <div class="week-header">
+          <div class="week-number">W11</div>
+          <div class="week-title">Scale What Works</div>
+        </div>
+        <ul>
+          <li>If closer is hitting 20%+: decide whether to hire a second rep or optimize further</li>
+          <li>Review iClosed sequences: open rates, reply rates, drop-off points</li>
+          <li>Matthew should be off the floor for most calls by this point</li>
+        </ul>
+      </div>
+
+      <div class="week">
+        <div class="week-header">
+          <div class="week-number">W12</div>
+          <div class="week-title">Full Review</div>
+        </div>
+        <ul>
+          <li>Compare Week 12 numbers to baseline from Week 4</li>
+          <li>Close rate, show rate, deal size, monthly revenue</li>
+          <li>Identify the one biggest lever left to pull going into Q3</li>
+          <li>Present a clear picture: here is where you were, here is where you are, here is what is next</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success">
+    <div class="success-label">What Success Looks Like at Week 12</div>
+    <h2>The finish line</h2>
+    <div class="success-grid">
+      <div class="success-item">
+        <div class="success-icon">📈</div>
+        <h3>Close Rate at 20%+</h3>
+        <p>On track to hit 25-30% with data to back every decision going forward.</p>
+      </div>
+      <div class="success-item">
+        <div class="success-icon">🤝</div>
+        <h3>Trained Closer Running Independently</h3>
+        <p>One rep fully ramped and closing deals without Matthew on every call.</p>
+      </div>
+      <div class="success-item">
+        <div class="success-icon">⚡</div>
+        <h3>All Sequences Live</h3>
+        <p>Pre-call, post-call 1, and post-call 2 fully automated inside iClosed.</p>
+      </div>
+      <div class="success-item">
+        <div class="success-icon">📊</div>
+        <h3>Clean KPI Data</h3>
+        <p>Every decision backed by real numbers — no more guessing what is working.</p>
+      </div>
+      <div class="success-item">
+        <div class="success-icon">🎯</div>
+        <h3>Matthew Off the Floor</h3>
+        <p>Reviewing pipeline and coaching, not running every call himself.</p>
+      </div>
+      <div class="success-item">
+        <div class="success-icon">🚀</div>
+        <h3>Clear Path to $350k/Month</h3>
+        <p>Systems and team in place to scale without rebuilding everything again.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-left">
+      <span class="footer-name">JJ Hernandez</span>
+      <span class="footer-role">Founder, Sales.io</span>
+    </div>
+    <div class="footer-right">Prepared for Matthew Shealy · SwayyEm · 2026</div>
+  </div>
+
+</div>
+</body>
+</html>
