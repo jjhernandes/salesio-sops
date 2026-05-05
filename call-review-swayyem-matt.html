@@ -20,7 +20,7 @@
 
     .card { background: #0d0d0d; border: 1px solid #1c1c1c; border-radius: 10px; padding: 24px 28px; margin-bottom: 16px; }
 
-    .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 16px; }
+    .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
     .stat-block { background: #0d0d0d; border: 1px solid #1c1c1c; border-radius: 10px; padding: 20px; text-align: center; }
     .stat-block .num { font-size: 28px; font-weight: 900; }
     .stat-block .desc { font-size: 12px; color: #666; margin-top: 4px; font-weight: 500; }
@@ -51,10 +51,10 @@
     .findings-list li { font-size: 14px; color: #bbb; padding: 7px 0; border-bottom: 1px solid #111; display: flex; gap: 10px; }
     .findings-list li:last-child { border-bottom: none; }
     .findings-list li::before { content: '→'; color: #555; flex-shrink: 0; }
+    .findings-list li.good-item::before { content: '✓'; color: #38a169; }
 
     .highlight { background: #111; border: 1px solid #222; border-radius: 8px; padding: 20px 24px; margin-bottom: 16px; }
     .highlight.amber { border-left: 3px solid #f6c90e; }
-    .highlight.red { border-left: 3px solid #e53e3e; }
     .highlight.green { border-left: 3px solid #38a169; }
     .highlight.orange { border-left: 3px solid #ed8936; }
 
@@ -72,11 +72,15 @@
     .priority-badge.med { background: #1a1500; color: #f6c90e; }
     .priority-badge.low { background: #0a1010; color: #4fd1c5; }
 
-    .call-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 32px; }
+    .call-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 8px; }
     .call-mini { background: #0d0d0d; border: 1px solid #1c1c1c; border-radius: 8px; padding: 14px 16px; }
     .call-mini .name { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
     .call-mini .co { font-size: 11px; color: #555; margin-bottom: 8px; }
     .call-mini .tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 2px 8px; border-radius: 10px; }
+
+    .context-box { background: #0a0f0a; border: 1px solid #1a3a20; border-radius: 10px; padding: 20px 24px; margin-bottom: 32px; }
+    .context-box p { font-size: 14px; color: #aaa; }
+    .context-box strong { color: #68d391; }
 
     @media (max-width: 640px) {
       .stat-row, .call-grid { grid-template-columns: 1fr 1fr; }
@@ -90,7 +94,11 @@
   <div class="header">
     <div class="label">Call Review — Full Batch</div>
     <h1>Matt Shealy — SwayyEm</h1>
-    <div class="subtitle">6 intro calls reviewed &nbsp;·&nbsp; 3 deals closing &nbsp;·&nbsp; Digital PR agency sales &nbsp;·&nbsp; April–May 2026</div>
+    <div class="subtitle">6 intro calls reviewed &nbsp;·&nbsp; 3 deals closing &nbsp;·&nbsp; Enterprise &amp; mid-market B2B &nbsp;·&nbsp; April–May 2026</div>
+  </div>
+
+  <div class="context-box">
+    <p><strong>Sales context:</strong> This is enterprise and mid-market B2B. The goal of call one is not to close — it's to qualify the opportunity, understand the business problem, get the right people in the room, and earn a concrete next step. Multi-call cycles are normal. Sending materials, scheduling analysis calls, and building internal champions are all part of the process. This review is graded on that standard, not on B2C single-call close metrics.</p>
   </div>
 
   <!-- Snapshot -->
@@ -105,14 +113,14 @@
       <div class="desc">Deals Closing (Payaza, RAAPID, Pluck PR)</div>
     </div>
     <div class="stat-block">
-      <div class="num">$8K</div>
-      <div class="desc">Monthly Price Point</div>
+      <div class="num">1</div>
+      <div class="desc">Pilot Closed on Call (Javed)</div>
     </div>
   </div>
 
   <!-- Pipeline Status -->
   <h2>Pipeline Status</h2>
-  <div class="call-grid" style="grid-template-columns: repeat(3,1fr); margin-bottom:8px;">
+  <div class="call-grid" style="margin-bottom:8px;">
     <div class="call-mini" style="border-color:#1a3a20;">
       <div class="name">Payaza</div>
       <div class="co">Fintech / Payments</div>
@@ -128,10 +136,10 @@
       <div class="co">Pluck PR</div>
       <span class="tag" style="background:#0a200f;color:#48bb78;">Closing</span>
     </div>
-    <div class="call-mini">
+    <div class="call-mini" style="border-color:#1a3a20;">
       <div class="name">Javed</div>
       <div class="co">Series A SaaS</div>
-      <span class="tag" style="background:#0a1010;color:#4fd1c5;">NDA + Agreement Sent</span>
+      <span class="tag" style="background:#0a200f;color:#48bb78;">Pilot Closed on Call</span>
     </div>
     <div class="call-mini">
       <div class="name">Conner</div>
@@ -154,123 +162,81 @@
       <span class="tag" style="background:#1a0505;color:#fc8181;">Stalled — CEO Not Engaged</span>
     </div>
   </div>
-  <div style="font-size:12px;color:#444;margin-bottom:32px;">Payaza and RAAPID were not in the 6 calls reviewed — closing status confirmed separately.</div>
+  <div style="font-size:12px;color:#444;margin-bottom:16px;">Payaza and RAAPID were not in the 6 calls reviewed — closing status confirmed separately.</div>
 
-  <!-- Call Quality Grid -->
-  <h2>Call Quality</h2>
-  <div class="call-grid">
-    <div class="call-mini">
-      <div class="name">Afra Jabeen</div>
-      <div class="co">Digital Factory</div>
-      <span class="tag" style="background:#1a0505;color:#fc8181;">Weakest Call</span>
-    </div>
-    <div class="call-mini">
-      <div class="name">Conner</div>
-      <div class="co">Addium</div>
-      <span class="tag" style="background:#1a1500;color:#f6c90e;">Mid</span>
-    </div>
-    <div class="call-mini">
-      <div class="name">Lindsey + Caitlyn</div>
-      <div class="co">Podium Education</div>
-      <span class="tag" style="background:#1a1500;color:#f6c90e;">Mid</span>
-    </div>
-    <div class="call-mini">
-      <div class="name">Javed</div>
-      <div class="co">Series A SaaS</div>
-      <span class="tag" style="background:#0a200f;color:#48bb78;">Best Outcome</span>
-    </div>
-    <div class="call-mini">
-      <div class="name">Dakota Moran</div>
-      <div class="co">Campspot</div>
-      <span class="tag" style="background:#0a1a0f;color:#68d391;">Best Discovery</span>
-    </div>
-    <div class="call-mini">
-      <div class="name">Kate Gundry</div>
-      <div class="co">Pluck PR</div>
-      <span class="tag" style="background:#1a0a00;color:#f6ad55;">Partner Opp (Closing)</span>
-    </div>
-  </div>
-
+  <!-- What's Working -->
+  <h2>Overall Assessment</h2>
   <div class="two-col">
     <div class="col-block">
       <h4 class="good">What's Working</h4>
       <ul>
-        <li>Knows the product cold — never stumbles</li>
-        <li>Relaxed, non-pushy tone across all calls</li>
-        <li>Competitive gap analysis offer (Campspot, Conner) — smart</li>
-        <li>Handles editorial/guarantee questions well</li>
-        <li>Gets a follow-up call set on almost every call</li>
-        <li>Does pre-call research (Campspot — knew their competitors)</li>
+        <li>Product knowledge is deep — never fumbles a question</li>
+        <li>Relaxed, non-pushy tone — appropriate for enterprise</li>
+        <li>Pre-call research (Campspot call — knew their competitors)</li>
+        <li>Competitive gap analysis offer — smart value-add for follow-ups</li>
+        <li>Closed Javed on a pilot in one call — handled a warm lead well</li>
+        <li>5 of 6 calls ended with a concrete next step</li>
+        <li>Handles editorial/guarantee questions cleanly</li>
+        <li>25% agency-to-agency business — channel sales instinct is there</li>
       </ul>
     </div>
     <div class="col-block">
-      <h4 class="bad">What's Not</h4>
+      <h4 class="bad">Where to Improve</h4>
       <ul>
-        <li>Pitches before discovering pain (4 of 6 calls)</li>
-        <li>Never asks about consequences of inaction</li>
-        <li>Exclusivity angle used once across all 6 calls</li>
-        <li>Budget objections accepted without a fight</li>
-        <li>Agency partner opportunity completely missed</li>
-        <li>Warm leads treated the same as cold</li>
+        <li>Pitches before understanding the business situation</li>
+        <li>Asks informational questions — not business impact questions</li>
+        <li>Same pitch on every call regardless of what was shared</li>
+        <li>Doesn't identify or route around gatekeepers</li>
+        <li>Misses the channel partner frame (Kate call)</li>
+        <li>Next steps are clear but lack mutual success criteria</li>
+        <li>Social proof doesn't match company size or industry</li>
       </ul>
     </div>
   </div>
 
   <!-- Gaps -->
-  <h2>The 9 Gaps</h2>
+  <h2>The Gaps — Enterprise B2B Lens</h2>
 
   <div class="gap-block">
-    <div class="gap-title">1. Pitch before discovery <span class="priority-badge high">High</span></div>
-    <p>In 4 of 6 calls, Matt opens with a company monologue before the prospect has said anything meaningful. The pitch can't be tailored to a situation that hasn't been shared yet. The prospect ends up hearing a generic presentation instead of feeling like the solution was built for them. The Campspot and Pluck PR calls are exceptions — and they're noticeably better for it.</p>
-    <div class="example">Afra call, 0:54 — "So I'll jump in, give you a bit of background on us..." — 4 minutes of pitch before a single question. Javed call, 1:14 — same pattern, even though Javed already knew the product from Mayur.</div>
+    <div class="gap-title">1. Pitches before understanding the business situation <span class="priority-badge high">High</span></div>
+    <p>In 4 of 6 calls, Matt opens with a company overview before the prospect has shared anything meaningful about their situation. In enterprise B2B, this is costly — not because you need to close faster, but because a generic pitch doesn't help you qualify. You end up having a good conversation with someone who may not be the right fit, or may not be the right stakeholder. Discovery first gives you the information to tailor the pitch, ask sharper follow-up questions, and surface the real buying situation.</p>
+    <div class="example">Afra call, 0:54 — "So I'll jump in, give you a bit of background on us..." — 4 minutes in before a single question. Javed call — same pattern, even though Javed already knew the service from Mayur. The Campspot call is the exception and it's the best-structured call of the batch.</div>
   </div>
 
   <div class="gap-block">
-    <div class="gap-title">2. No pain or consequence questions <span class="priority-badge high">High</span></div>
-    <p>Matt asks informational questions — competitors, traffic sources, customer acquisition — but never digs into pain. He never asks: What have you tried? What happened? What's it costing you to not solve this? Without pain, there's no urgency, and the prospect leaves the call interested but not compelled. Across all 6 calls, pain was zero'd in on zero times.</p>
-    <div class="example">Conner said "we need brand visibility for this new entity." Matt moved straight to pitch. The real question: what happens to Addium's ability to raise or attract partners if no one knows it exists? That question never got asked.</div>
+    <div class="gap-title">2. Informational questions only — no business impact questions <span class="priority-badge high">High</span></div>
+    <p>Matt asks the right operational questions — who are your competitors, what does your acquisition look like, what keywords are you targeting. These are useful. But he never goes a layer deeper into business impact: What happens to the business if this doesn't get solved? What's the internal pressure behind this initiative? Is there a timeline, a launch, a board expectation driving this? In enterprise sales, understanding that context determines whether this is a real priority or a nice-to-have — and that changes everything about how to run the cycle.</p>
+    <div class="example">Podium call — Lindsey mentioned a research study coming out in the next few months and a new program launch. Those are time-sensitive business events. Matt acknowledged them but never asked: "What happens if the PR around that study doesn't land? What's the cost of low visibility at launch?" That question would have told him exactly how urgent this is.</div>
   </div>
 
   <div class="gap-block">
-    <div class="gap-title">3. Exclusivity is completely wasted <span class="priority-badge high">High</span></div>
-    <p>"We only take one client per industry niche" is mentioned once across all 6 calls — as a casual reassurance answer to Afra's question about competitors. This is their single biggest urgency lever and it's being treated like a footnote. Every interested prospect should hear this before the call ends, framed proactively: if a competitor moves first, the space is gone.</p>
-    <div class="example">Afra call, 7:42 — said once in passing, never returned to. Javed, Conner, Dakota, Kate — never mentioned. In a 15-minute call with a prospect showing real interest, this should come up before the next steps.</div>
+    <div class="gap-title">3. Same pitch on every call — doesn't adjust to what was shared <span class="priority-badge high">High</span></div>
+    <p>The core pitch is nearly identical across all 6 calls: 75,000 publications, tier-1 placements, Forbes/Wired/Fortune, editorial content, guaranteed placements, link back to site. This is fine as a foundation. The issue is it doesn't shift after discovery. After Conner explains he's in cannabis B2B SaaS focused on SEO and GEO, the pitch should name the publications that matter in that space and describe what results look like for a company at that stage. It doesn't. In enterprise, the pitch needs to feel like it was built for them specifically.</p>
+    <div class="example">Conner call — after learning he's in cannabis cultivation B2B SaaS, Matt's pitch still mentions Forbes, Wired, Fortune without any cannabis or ag-tech publication specifics. Conner asked good questions about niche publications — Matt addressed it briefly but never made the connection concrete.</div>
   </div>
 
   <div class="gap-block">
-    <div class="gap-title">4. Budget objections accepted without a fight <span class="priority-badge high">High</span></div>
-    <p>When Dakota said "I don't think we could make it work this year — maybe Q4," Matt said "yeah, sure." That's revenue walking out the door. The right response is to understand what's actually blocking it: Is it truly budget? Is it the inability to track ROI? Is it competing priorities? Each of those has a different response. Accepting "maybe Q4" without a single follow-up question is a soft pass dressed up as a courtesy.</p>
-    <div class="example">Dakota call — "This may be something we'd want to revisit in Q4." Matt: "Yeah, sure." No pushback, no ROI reframe, no urgency. A better response: "What would need to change about the business case for this to make sense this quarter rather than Q4?"</div>
+    <div class="gap-title">4. Gatekeepers aren't being identified or routed around <span class="priority-badge high">High</span></div>
+    <p>In enterprise and mid-market, the person who books the discovery call is often not the final decision maker. That's not a problem — it's the reality of the buying process. The problem is not identifying it early and planning accordingly. When Afra said she'd need to take everything to her CEO, the right move was to understand what the CEO cares about, what would make this an easy yes internally, and how to either get the CEO on a call or arm Afra with the right materials to champion it. Instead Matt gave Afra the full pitch and hoped she'd relay it accurately.</p>
+    <div class="example">Afra call — "I want to discuss all of this with my CEO." The right follow-up: "What does your CEO typically need to see to feel good about a decision like this? And is there a version of this conversation we could set up together so he can get his questions answered directly?"</div>
   </div>
 
   <div class="gap-block">
-    <div class="gap-title">5. Agency partner opportunity completely missed <span class="priority-badge high">High</span></div>
-    <p>Kate Gundry at Pluck PR is not a client — she's a potential channel partner. She represents 10–12 clients, runs a boutique firm of 12 people, identified 2–3 clients herself that are perfect fits (Pearl, YouNow), and basically pitched SwayyEm's value back to Matt. He treated her like any other prospect. A partner conversation could yield 3 clients through one relationship and zero acquisition cost.</p>
-    <div class="example">Kate, mid-call: "I almost want to say to them, try this for this, and see how much further it goes." She is selling herself on becoming a referral source. Matt never asked: "Does Pluck PR ever bring in outside agencies for clients? What would that partnership look like?"</div>
+    <div class="gap-title">5. Channel partner opportunity missed with Kate <span class="priority-badge high">High</span></div>
+    <p>Kate Gundry at Pluck PR is not a direct client — she's a potential channel partner. She runs a 12-person boutique firm, she already identified Pearl and YouNow as perfect fits for SwayyEm's service, and she essentially pitched the value proposition back to Matt during the call. In enterprise B2B, agency-to-agency relationships are one of the highest-leverage acquisition channels because one partner can bring multiple clients with zero additional CAC. Matt already does 25% of his business this way — but he treated Kate like a prospect rather than a potential source of 3–5 clients. The good news: it's closing. The gap is that this happened by accident, not by design.</p>
+    <div class="example">Kate, mid-call: "I almost want to say to them, try this for this, and see how much further it goes." She's describing being a referral source. The right pivot: "We actually work with agencies in a white-label or referral model — about 25% of our business. If Pearl and YouNow are good fits, how do you typically handle bringing in outside partners for your clients?"</div>
   </div>
 
   <div class="gap-block">
-    <div class="gap-title">6. Warm leads treated the same as cold <span class="priority-badge high">High</span></div>
-    <p>Javed came in pre-qualified by Mayur — he'd already read the deck, looked at the pricing page, and had specific questions about packages and payment terms. He was ready to move. Matt still opened with the standard company pitch. The result: Javed closed himself. That's fine, but a better approach would have been to skip the pitch, confirm what Mayur had covered, and spend those 15 minutes getting Javed to a larger package or a signed agreement on the call.</p>
-    <div class="example">Javed call — "He forwarded your conversation thread to me, and that's why I decided I should book this call to understand more in detail." This is a warm handoff. The right opening: "Great — so you've seen the deck. What questions came up that you want to dig into?"</div>
+    <div class="gap-title">6. Next steps are set but lack mutual success criteria <span class="priority-badge med">Medium</span></div>
+    <p>Scheduling a follow-up and sending materials is the right move in enterprise — no issue there. The gap is that the next steps are one-sided. Matt commits to delivering something (analysis, deck, examples) but doesn't get the prospect to commit to what they'll bring to the next call or what would need to be true for them to be ready to move forward. That one question changes how engaged the prospect shows up to call two.</p>
+    <div class="example">Campspot call — Matt committed to pulling a competitive gap analysis. Good. But before hanging up: "When we come back with that analysis — if it shows the gap you're describing between you and Firefly and ResNexus, what would you need to see to start building a business case internally?" That answer tells him exactly how to frame the follow-up.</div>
   </div>
 
   <div class="gap-block">
-    <div class="gap-title">7. Generic pitch — doesn't change with context <span class="priority-badge med">Medium</span></div>
-    <p>The core pitch is nearly identical across all 6 calls: 75,000 publications, tier-1 placements, Forbes/Wired/Fortune, editorial content, guaranteed placements, link back to site. After Conner explains he's in cannabis B2B SaaS, the pitch doesn't shift to cannabis-specific publications or outcomes. After Afra says they do zero marketing at all, the pitch doesn't adjust for a company with no existing funnel. Prospects can tell when a pitch wasn't built for them.</p>
-    <div class="example">Conner call — after learning the focus is cannabis cultivation software, Matt's pitch still references Forbes, Wired, Fortune. He never named a single relevant publication for the cannabis or ag-tech space.</div>
-  </div>
-
-  <div class="gap-block">
-    <div class="gap-title">8. Passive close on every call <span class="priority-badge med">Medium</span></div>
-    <p>"I'll shoot over an invite" is not a close. It's a handoff. Five of six calls end with Matt promising to send something — a deck, an invite, an NDA. The prospect leaves with no skin in the game and no real commitment made. Before hanging up, Matt should get a verbal answer to: "If we come back with X on our next call, is this something you're ready to move on?" That answer changes how the next call is prepared.</p>
-    <div class="example">Conner — "I'd love to see the deck and shop it around." Matt: "Cool. Yeah..." — Conner just said he's going to show it to competitors. That's the moment to respond, not to let it pass.</div>
-  </div>
-
-  <div class="gap-block">
-    <div class="gap-title">9. Social proof doesn't match the room <span class="priority-badge low">Lower</span></div>
-    <p>Visa and Binance are dropped as name-drops across multiple calls regardless of who's in the room. For a cannabis SaaS startup (Conner) or an ed-tech company (Podium), those names create distance rather than credibility. The prospect thinks "that's great for enterprise brands — we're not that." Social proof should feel like a mirror: "We've worked with companies in your space doing exactly what you're trying to do."</p>
-    <div class="example">Javed call — Matt mentions SAP, Pegasystems, Visa, Binance upfront. Javed is a Series A startup. Those references don't make him feel understood — they make the service feel built for someone else.</div>
+    <div class="gap-title">7. Social proof doesn't match company size or industry <span class="priority-badge med">Medium</span></div>
+    <p>Visa, Binance, SAP, and Pegasystems are strong names. But dropping them into conversations with a cannabis SaaS startup, an ed-tech company, or a boutique PR agency creates distance rather than credibility. The subtext a prospect hears is "this was built for companies 10x our size." Enterprise buyers want to know you've done this for companies in their situation, not just that you've done it for the biggest logos in the world. Case studies and references should mirror who's in the room.</p>
+    <div class="example">Javed call — Matt opened with SAP, Pegasystems, Visa, Binance. Javed is a Series A company. Those names don't make him feel understood — they raise the question of whether SwayyEm's relationships and content approach will work for a company at his stage.</div>
   </div>
 
   <!-- Call-by-Call -->
@@ -279,172 +245,162 @@
   <div class="call-card">
     <div class="call-meta">Call 1 &nbsp;·&nbsp; April 30, 2026 &nbsp;·&nbsp; 15 min</div>
     <h3>Afra Jabeen — Digital Factory</h3>
-    <div class="company">Small agency, no marketing at all, CEO is the decision maker</div>
+    <div class="company">Small agency, no active marketing, CEO is the decision maker &nbsp;·&nbsp; Status: Stalled</div>
     <span class="verdict weak">Weakest Call</span>
     <ul class="findings-list">
-      <li>Matt opened with a 4-minute pitch before asking Afra anything about her situation</li>
-      <li>Afra is a gatekeeper — this was never identified or addressed. She'll brief a CEO Matt has never spoken to.</li>
-      <li>Afra drove the entire back half: asked about costs, process, examples, competitors. She ran the call.</li>
-      <li>Exclusivity mentioned once as a reassurance answer — never used to create urgency</li>
-      <li>Free placement buried mid-call — should be a trial close, not a side note</li>
-      <li>Close: "I'll shoot over an invite. If you want to add your CEO..." — too loose, no commitment</li>
-      <li>No pain uncovered — Matt doesn't know why they're trying to grow or what's at stake</li>
+      <li>Matt opened with a 4-minute company overview before Afra said anything about her situation</li>
+      <li>Afra is a gatekeeper — this wasn't identified or addressed. She'll brief a CEO who has never spoken to Matt.</li>
+      <li>Afra drove the back half of the call: asked about costs, process, examples, competitors. Matt answered. That's the wrong dynamic.</li>
+      <li>No discovery of what's driving the interest — why now? What's the business goal? What does her CEO care about?</li>
+      <li>Follow-up: "I'll shoot over an invite. If you want to add your CEO..." — too passive. The CEO is the buyer. That has to be more intentional.</li>
+      <li class="good-item">Did mention the free initial placement — good risk-removal tool</li>
     </ul>
   </div>
 
   <div class="call-card">
     <div class="call-meta">Call 2 &nbsp;·&nbsp; April 28, 2026 &nbsp;·&nbsp; 16 min</div>
     <h3>Conner — Addium (Arroya / Aqualab)</h3>
-    <div class="company">Cannabis + instrumentation B2B SaaS, new holding company, needs brand visibility</div>
+    <div class="company">Cannabis + instrumentation B2B SaaS, new holding company &nbsp;·&nbsp; Status: Follow-Up Scheduled</div>
     <span class="verdict mid">Mid — Better Structure, Gaps Remain</span>
     <ul class="findings-list">
-      <li>Matt asked discovery questions first — improvement over Call 1</li>
-      <li>Conner shared real context (new brand, B2B content/SEO focused, cannabis niche) — pitch didn't use any of it</li>
-      <li>Budget soft objection: "something we need to investigate" — left unchallenged, zero follow-up</li>
-      <li>"I'd love to see the deck and shop it around" — Matt agreed. That's a signal to handle: who else is he shopping to?</li>
-      <li>Good: competitive gap analysis offer for follow-up — creates tangible value before a decision</li>
-      <li>No verbal commitment on what Conner would need to see to move forward</li>
+      <li class="good-item">Matt asked discovery questions first — better than Call 1</li>
+      <li>Conner shared clear context (new brand, B2B content/SEO-focused, cannabis niche) — pitch didn't adjust to use any of it</li>
+      <li>Budget soft signal: "something we need to investigate" — worth understanding more: is this budget availability or internal approval process?</li>
+      <li>"I'd love to see the deck and shop it around" — in enterprise, this is fine. In this case, understanding who else is involved in the decision would be useful to know before the follow-up.</li>
+      <li class="good-item">Competitive gap analysis offer for the follow-up — right call, creates concrete value</li>
+      <li>No clarity on who makes the final call or what the internal buying process looks like</li>
     </ul>
   </div>
 
   <div class="call-card">
     <div class="call-meta">Call 3 &nbsp;·&nbsp; April 28, 2026 &nbsp;·&nbsp; 28 min</div>
     <h3>Lindsey Rosenbluth + Caitlyn — Podium Education</h3>
-    <div class="company">Ed-tech B2B2C, university partnerships, research study + new program launch</div>
-    <span class="verdict mid">Mid — Most Discovery, Still No Pain</span>
+    <div class="company">Ed-tech B2B2C, university partnerships, research study + new program launch &nbsp;·&nbsp; Status: Follow-Up Scheduled</div>
+    <span class="verdict mid">Mid — Most Discovery, Missed the Time-Sensitive Hook</span>
     <ul class="findings-list">
-      <li>Best discovery conversation of the first three — both prospects talked a lot, which is a good sign</li>
-      <li>Lindsey mentioned student marketing is a real unsolved problem — Matt acknowledged it but didn't dig in</li>
-      <li>Two distinct use cases (B2B university + B2C student-facing) — could have been two separate value props</li>
-      <li>Lindsey's joke "Yeah, I'm the only person who does that" (about going to Forbes) — signals she gets it. Matt moved past it.</li>
-      <li>Pricing slip: "twelve months, you're at $76.50" — clearly meant $7,650. Unclear delivery causes doubt.</li>
-      <li>Next step left open-ended — "let me check with the other team." No date, no commitment, no urgency.</li>
+      <li class="good-item">Best discovery of the first three calls — both prospects talked extensively, which is the right dynamic</li>
+      <li class="good-item">Two distinct use cases surfaced (B2B university + B2C student-facing) — real opportunity to show depth</li>
+      <li>Lindsey mentioned a research study launching soon and a new program announcement — both are time-sensitive events. Matt didn't explore what's at stake if those don't get picked up.</li>
+      <li>Student marketing described as an unsolved problem — this is a real pain point that could anchor the follow-up. Matt acknowledged it but didn't pursue it.</li>
+      <li>Pricing slip: "twelve months, you're at $76.50" — almost certainly meant $7,650. Small thing but clarity on pricing matters in enterprise.</li>
+      <li>Next step left open: "let me check with the other team." In enterprise, this is normal — but worth setting a date before hanging up.</li>
     </ul>
   </div>
 
   <div class="call-card">
     <div class="call-meta">Call 4 &nbsp;·&nbsp; April 27, 2026 &nbsp;·&nbsp; 15 min</div>
     <h3>Javed — Series A SaaS Company</h3>
-    <div class="company">Pre-qualified by Mayur, Series A raised, ready to move, LLM visibility is the goal</div>
-    <span class="verdict great">Best Outcome — But Prospect Closed Himself</span>
+    <div class="company">Pre-qualified by Mayur, Series A raised, LLM visibility is the goal &nbsp;·&nbsp; Status: Pilot Closed on Call</div>
+    <span class="verdict great">Best Outcome — Pilot Closed</span>
     <ul class="findings-list">
-      <li>Javed came in warmed by Mayur, had seen the deck, and knew the pricing page — Matt still opened with the full company pitch</li>
-      <li>Javed asked about specific packages, discounts, payment terms, W9 — he was already in buying mode</li>
-      <li>Javed directly asked for a discount on longer terms — Matt gave the 3-month pilot at 6-month pricing. Could have pushed for 6-month commitment instead.</li>
-      <li>Javed closed the call himself: "I think we can start this." Matt didn't have to earn it.</li>
-      <li>Good outcome: NDA + agreement sent, discovery kickoff scheduled — right next step</li>
-      <li>Missed: the warm lead was an opportunity to move to a larger package, not just pilot pricing</li>
+      <li class="good-item">Pilot closed on the call — NDA and agreement sent, discovery kickoff scheduled. Right outcome.</li>
+      <li class="good-item">Handled pricing and discount conversation cleanly — 3-month pilot at 6-month pricing was the right offer</li>
+      <li class="good-item">Payment terms and process questions handled well — Javed was operationally ready to move</li>
+      <li>Javed came in pre-qualified by Mayur — Matt still ran the full company overview. When a prospect is warmed, the pitch is already done. Skip to their questions.</li>
+      <li>Javed disclosed a Series A raise and LLM visibility as the goal — two signals that could have been used to discuss a larger initial package rather than just the pilot</li>
+      <li>Overall: right result. The warm lead pipeline (through Mayur) is a model worth systematizing.</li>
     </ul>
   </div>
 
   <div class="call-card">
     <div class="call-meta">Call 5 &nbsp;·&nbsp; April 24, 2026 &nbsp;·&nbsp; 19 min</div>
     <h3>Dakota Moran — Campspot</h3>
-    <div class="company">Campground reservation management SaaS, niche market, direct lead gen tracking is weak</div>
+    <div class="company">Campground reservation management SaaS, niche market, seasonal business &nbsp;·&nbsp; Status: Analysis Pending (May 6)</div>
     <span class="verdict good">Best Discovery Structure</span>
     <ul class="findings-list">
-      <li>Best opening of all 6 calls — Matt led with "walk me through what you're currently doing" before pitching</li>
-      <li>Matt had done pre-call research — knew competitors, recognized two sides of the business. Dakota noticed and appreciated it.</li>
-      <li>Dakota raised a real strategic problem: they can't track this to direct lead gen, which limits internal budget justification</li>
-      <li>Budget objection: "This may be something we'd want to revisit in Q4." Matt said "yeah, sure" and moved on. Zero fight.</li>
-      <li>Good: extracted competitors + keywords before hanging up — smart setup for the follow-up analysis</li>
-      <li>Campspot is announcing an Expedia integration — Matt heard this and didn't use it to build urgency around timing</li>
-      <li>ROI model offer for the follow-up is the right call — it gives Dakota something concrete to take internally</li>
+      <li class="good-item">Best opening of all 6 calls — led with discovery before any pitch</li>
+      <li class="good-item">Pre-call research paid off — Matt knew Campspot's competitors, which earned credibility immediately</li>
+      <li class="good-item">Competitive gap analysis offer is exactly the right next step for a prospect who can't justify cost without seeing ROI</li>
+      <li class="good-item">Extracted keywords and competitor names before the call ended — smart setup for call two</li>
+      <li>Dakota flagged an Expedia integration announcement coming up — a time-sensitive visibility event that could have framed the urgency for the analysis</li>
+      <li>Budget timeline (Q4) is legitimate in a seasonal business — respecting that is the right call. Following up with the analysis still and staying warm is the move.</li>
+      <li>One gap: before hanging up, worth asking what the internal ROI bar looks like so the analysis can be built to answer the actual question Dakota needs answered</li>
     </ul>
   </div>
 
   <div class="call-card">
     <div class="call-meta">Call 6 &nbsp;·&nbsp; April 24, 2026 &nbsp;·&nbsp; 28 min</div>
     <h3>Kate Gundry — Pluck PR</h3>
-    <div class="company">Boutique PR agency, 12 people, 10–12 clients in mobility/aerospace/fintech/AI — not a direct buyer</div>
-    <span class="verdict missed">Missed — This Is a Channel Partner, Not a Client</span>
+    <div class="company">Boutique PR agency, 12 people, 10–12 clients in mobility/aerospace/fintech/AI &nbsp;·&nbsp; Status: Closing</div>
+    <span class="verdict missed">Channel Partner — Closing (Happened by Accident, Not Design)</span>
     <ul class="findings-list">
-      <li>Kate is not a buyer. She's a 16-year PR veteran whose clients got cold outreach from SwayyEm's SDRs.</li>
-      <li>She identified 2–3 specific clients herself as fits: Pearl (dental AI oral health data), YouNow (fintech, can't use client names), and a third she'd already given away</li>
-      <li>She described SwayyEm as "changing the game" and said Pearl is "something that your system could crush" — she sold herself</li>
-      <li>Matt kept treating her like a direct client, pitching features and process, instead of pivoting to a referral/white-label conversation</li>
-      <li>YouNow has a specific problem (can't use customer names publicly) that thought leadership content would solve — Matt started to see it but didn't close the loop</li>
-      <li>The Pearl oral health census (26M dental X-rays, state-by-state breakdown) is a perfect tier-one data story — Matt agreed but didn't propose a path forward for it</li>
-      <li>25% of SwayyEm's business is agency-to-agency — Kate is exactly that profile. Matt never mentioned it.</li>
-      <li>Missed: "We work with agencies like yours all the time — white-label or referral. How do you typically handle situations where a client needs something outside your core?"</li>
+      <li class="good-item">Kate is closing — great outcome</li>
+      <li class="good-item">Most natural, conversational call of the batch — appropriate for a peer-to-peer conversation with an industry veteran</li>
+      <li class="good-item">Pearl oral health census use case identified — Matt recognized it as a strong fit and agreed</li>
+      <li class="good-item">YouNow thought leadership angle — Matt started to see the path forward even without client name disclosure</li>
+      <li>Kate is a channel partner, not a direct client — she has 10–12 clients and identified 2–3 fits herself. This should have been framed as a referral/white-label conversation, not a direct sale pitch.</li>
+      <li>Matt never mentioned that 25% of SwayyEm's business is agency-to-agency. That fact would have reframed the entire conversation.</li>
+      <li>The partnership is closing — but the lesson is to recognize this profile faster and open the channel conversation deliberately next time, not let it emerge organically.</li>
     </ul>
   </div>
 
   <!-- What to Fix -->
-  <h2>What to Fix and How</h2>
+  <h2>What to Improve</h2>
 
   <div class="fix-block">
-    <div class="fix-title">Fix 1: Flip the opening — discovery first, every call</div>
-    <p>Don't offer any background on the company until you understand the prospect's situation. The first 3–5 minutes should be questions. Then your pitch is a response to what they said, not a prepared presentation that happens to them.</p>
-    <div class="script">"Before I give you any background on us, I'd love to understand where you're at. What's working for you right now in terms of getting in front of new clients online — and where are the gaps?" [Then listen. Build the pitch from their words.]</div>
+    <div class="fix-title">Fix 1: Lead with discovery — understand before presenting</div>
+    <p>The first part of a discovery call should be exactly that: discovery. Understand their current situation, what they've tried, what's driving the initiative, and who's involved before presenting anything. The pitch then becomes a direct response to what they said, not a presentation that happens to them.</p>
+    <div class="script">"Before I walk you through what we do — help me understand your situation first. What are you currently doing to get visibility and drive inbound, and what's not working the way you want it to?"</div>
   </div>
 
   <div class="fix-block">
-    <div class="fix-title">Fix 2: Ask the pain question — then dig on consequences</div>
-    <p>Informational discovery tells you what to say. Pain discovery tells you why they'll buy. Get to the cost of the problem. Lost deals, time wasted on bad outreach, competitors gaining ground, a CEO who can't get coverage. That's what creates urgency — not a list of your features.</p>
-    <div class="script">"You mentioned you've tried PR before and didn't get pickup — what happened from there? What did that cost you in time and opportunity? What does it mean for the business if you don't crack this in the next 6 months?"</div>
+    <div class="fix-title">Fix 2: Ask business impact questions, not just operational ones</div>
+    <p>Operational questions (competitors, channels, keywords) tell you what to say. Business impact questions tell you whether this is a priority and what's driving it. In enterprise, you need to know if there's a board deadline, a launch, a competitive threat, or internal pressure — because those are what move timelines.</p>
+    <div class="script">"You mentioned you want to build visibility around this research study — what happens if that doesn't get picked up broadly when it drops? What does low visibility at that moment cost the business?" &nbsp;/&nbsp; "Is there a specific timeline or internal event driving this initiative, or is this more of an ongoing priority?"</div>
   </div>
 
   <div class="fix-block">
-    <div class="fix-title">Fix 3: Use exclusivity as a close — every call, proactively</div>
-    <p>This is the most underused weapon across all 6 calls. Once a prospect shows real interest, bring it up before the call ends — not as an answer to their question, but as a proactive statement. This is the urgency lever that changes "I'll think about it" to "let's move."</p>
-    <div class="script">"One thing worth knowing before we wrap — we only work with one client per industry category. So if a competitor books a call next week and moves forward, your space is taken. I'm not saying that to pressure you, but it's real. If this looks like a fit, it's worth not sitting on it."</div>
+    <div class="fix-title">Fix 3: Tailor the pitch to what they just told you</div>
+    <p>After discovery, connect their situation directly to what you offer — in their words. Don't run the standard 5-minute pitch. Reference what they said. Name the specific publications or outcomes that are relevant to their industry and company stage. The pitch should feel built for this specific person, not pulled from a deck.</p>
+    <div class="script">"Based on what you shared — you're a new entity in the cannabis B2B space, focused on SEO and GEO, no existing visibility — here's specifically what we'd do for you and why it fits that situation..." [then tailor from there]</div>
   </div>
 
   <div class="fix-block">
-    <div class="fix-title">Fix 4: Fight the budget objection before accepting it</div>
-    <p>When a prospect says "maybe later" or "let me check the budget," that's a soft no — not a closed door. Dig before accepting it. Find out if it's truly budget, or if it's uncertainty about ROI, internal approval friction, or competing priorities. Each of those has a different answer.</p>
-    <div class="script">"Before we push this to Q4 — help me understand. Is it the budget itself, or is it more about not having a clear ROI story to take internally? Because if it's the latter, that's actually what our follow-up analysis is designed to solve."</div>
+    <div class="fix-title">Fix 4: Identify the buying process early</div>
+    <p>In enterprise and mid-market, the discovery call almost always involves someone who isn't the final decision maker. That's fine — but figure it out in the first few minutes and plan accordingly. Either get the decision maker on the call, or understand what they need to say yes so the internal champion can build the case properly.</p>
+    <div class="script">"Who else typically gets involved in a decision like this — is it just you, or does your CEO or a finance team need to be part of the conversation? I want to make sure the right people have what they need when it gets to that stage."</div>
   </div>
 
   <div class="fix-block">
-    <div class="fix-title">Fix 5: Recognize agency partners and pivot the conversation</div>
-    <p>When an agency owner shows up, the conversation structure is totally different. They're not a buyer — they're a potential channel. The goal is to understand how they handle gaps in their offering, and whether a referral or white-label arrangement makes sense. Matt works with agencies (25% of business) — he should say so and open that door.</p>
-    <div class="script">"Actually, about 25% of our business comes from PR agencies who either white-label our service or refer clients who need this. Given what you're describing with Pearl and YouNow — how does Pluck typically handle situations where a client needs something outside your core?"</div>
+    <div class="fix-title">Fix 5: Recognize channel partners and open that conversation directly</div>
+    <p>When an agency or consultancy shows up on a call — especially one that mentions multiple clients who could benefit — pivot the conversation. Don't pitch them as a direct client. Ask how they handle gaps in their offering, whether they've brought in outside partners before, and what a referral or white-label arrangement would look like for their firm. One agency partner can be worth 3–5 clients.</p>
+    <div class="script">"Actually — about 25% of our business is agency-to-agency, either white-label or referral. Given what you're describing with Pearl and YouNow, it sounds like this comes up more than once for your clients. How do you typically handle situations where a client needs something outside your core?"</div>
   </div>
 
   <div class="fix-block">
-    <div class="fix-title">Fix 6: Treat warm leads differently — skip the pitch, go deeper</div>
-    <p>When a prospect comes in pre-qualified, the pitch is already done. Use the call to uncover what questions they still have, confirm fit, and push for a larger commitment or a same-call next step. The warm lead already believes — now help them decide.</p>
-    <div class="script">"Sounds like Mayur already walked you through the core of what we do — so let me skip the background and just ask: what questions came up that you want to dig into? And what would need to be true for you to say yes to the 6-month versus the pilot?"</div>
+    <div class="fix-title">Fix 6: Set next steps with mutual commitments, not just deliverables</div>
+    <p>Scheduling a follow-up and sending materials is the right enterprise move. The upgrade is getting the prospect to commit to something too — what they'll bring to the next call, what questions they'll have answered internally, or what would need to be true for them to be ready to move forward after the analysis. This separates engaged prospects from ones who are just taking your call.</p>
+    <div class="script">"I'll pull together the competitive gap analysis before we reconnect. On your end — if the data shows the gap we're describing, who else on your team would need to be part of the conversation about moving forward? Let's make sure the right people are on the next call."</div>
   </div>
 
   <div class="fix-block">
-    <div class="fix-title">Fix 7: Tailor the pitch to what they just told you</div>
-    <p>After discovery, connect what the prospect said directly to what you offer. Don't run the standard pitch. Restate their situation in their words, then show how the solution maps to it. The pitch should feel like it was written for this person specifically.</p>
-    <div class="script">"So based on what you shared — you're a new brand, no existing visibility, in a niche where trade pubs don't move the needle — what we'd actually do for you is [specific approach]. Here's why that matters for your situation specifically..."</div>
-  </div>
-
-  <div class="fix-block">
-    <div class="fix-title">Fix 8: Don't leave without a real commitment</div>
-    <p>Before hanging up, get an answer to one of these: "What would you need to see on our next call to be ready to move forward?" or "Is the budget something you'd have access to this quarter if the analysis looks right?" That answer either advances the sale or surfaces the real objection — both are useful.</p>
-    <div class="script">"Before we wrap — I want to make sure our next call is worth both our time. If we come back with the competitive analysis and it shows a real gap between you and [competitor], is this something you'd be ready to move on this quarter?"</div>
+    <div class="fix-title">Fix 7: Match social proof to company stage and industry</div>
+    <p>Keep Visa and Binance in the back pocket. Lead with references that mirror who's in the room — similar company size, industry, or growth stage. If you don't have an exact match, use the category: "We work with a lot of B2B SaaS companies at your stage..." That lands closer to home than enterprise logos that can feel out of reach.</p>
+    <div class="script">Instead of leading with Visa/Binance — "We work with a lot of B2B SaaS companies that are in a similar position — established product, strong team, but not yet in the public conversation the way their competitors are. That's usually where we see the biggest impact."</div>
   </div>
 
   <!-- Priority Summary -->
   <h2>Priority Order</h2>
   <div class="card">
     <ul class="findings-list">
-      <li><strong>1 — Stop pitching before discovering.</strong> Root cause of most other issues. Nothing else improves until this changes.</li>
-      <li><strong>2 — Ask pain and consequence questions.</strong> Surface questions = surface interest. Pain = urgency and real reasons to buy.</li>
-      <li><strong>3 — Use exclusivity proactively on every call.</strong> It's your best urgency lever. It's been used once across 6 calls. That has to change.</li>
-      <li><strong>4 — Fight the budget objection.</strong> "Maybe Q4" is a soft no. Dig into what's actually blocking it before accepting it.</li>
-      <li><strong>5 — Build an agency partner channel starting with Kate.</strong> One conversation with Kate could yield 2–3 clients. Follow up with a partner proposal, not a sales deck.</li>
-      <li><strong>6 — Treat warm leads differently.</strong> When Mayur pre-qualifies someone, skip the pitch and go straight to commitment.</li>
-      <li><strong>7 — Tailor the pitch to what they said in discovery.</strong> Same pitch every call means it's not a pitch — it's a presentation.</li>
-      <li><strong>8 — Leave every call with a real commitment, not a promise to send something.</strong></li>
-      <li><strong>9 — Match social proof to the room.</strong> Visa and Binance don't resonate with a cannabis startup or a boutique PR agency.</li>
+      <li><strong>1 — Lead with discovery every call.</strong> Understand before presenting. This is the root of most other gaps.</li>
+      <li><strong>2 — Add business impact questions.</strong> Know why this matters to the business, not just what they're doing today. That's what separates a real priority from a nice-to-have.</li>
+      <li><strong>3 — Tailor the pitch to what was shared.</strong> Same presentation every call means it's not a pitch — it's a deck.</li>
+      <li><strong>4 — Identify the buying process in the first few minutes.</strong> Find the decision maker. Either get them on the call or arm the champion properly.</li>
+      <li><strong>5 — Systematize the channel partner play.</strong> Kate happened by accident. Build a profile for agency/partner prospects and run a deliberate conversation with them.</li>
+      <li><strong>6 — Add mutual commitment to next steps.</strong> What does the prospect agree to bring to the next call? That question surfaces engagement level before you invest more time.</li>
+      <li><strong>7 — Lead with relevant social proof.</strong> Mirror the room — company size, industry, growth stage — before dropping enterprise logos.</li>
     </ul>
   </div>
 
-  <div class="highlight orange">
-    <h3 style="margin-bottom:8px;">The Kate Opportunity — Don't Let This One Slide</h3>
-    <p style="font-size:14px;color:#bbb;">Kate Gundry is the most valuable contact in this batch and the call that needs the most urgent follow-up — not with a standard sales deck, but with a partner proposal. She runs a 12-person boutique firm with 10–12 clients. She identified Pearl and YouNow on her own as perfect fits. She's been in PR for 16 years and understands exactly what SwayyEm does and why it's different. She needs a white-label or referral arrangement, not a pitch. One properly structured follow-up here could be worth $16–24K/month in revenue through a single relationship.</p>
+  <div class="highlight green">
+    <h3 style="margin-bottom:8px;">What's Actually Working — Don't Change This</h3>
+    <p style="font-size:14px;color:#bbb;">Matt's tone is right for enterprise. He's not pushy, he doesn't create artificial urgency, and he doesn't rush the sale — all of that is correct for this market. The Javed close, the Pluck PR relationship, and the Payaza and RAAPID deals are proof that the product sells and Matt can close. The competitive gap analysis offer is a strong differentiator and should be used on every eligible call. The improvements here are about going deeper, not moving faster.</p>
   </div>
 
   <div class="highlight amber">
     <h3 style="margin-bottom:8px;">Bottom Line</h3>
-    <p style="font-size:14px;color:#bbb;">Matt knows his product, he's easy to talk to, and he does the prep work — those are real assets. The issue is he's running a presentation, not a sales call. The prospect drives the conversation, reveals objections on their own terms, and often closes themselves (Javed) or doesn't close at all (Dakota, Afra). The fix isn't more product knowledge — it's slowing down, staying in discovery longer, asking the uncomfortable follow-up question, and building urgency from the prospect's own words before the pitch ever starts. That shift changes the conversion rate more than anything else on this list.</p>
+    <p style="font-size:14px;color:#bbb;">Matt has a good process for enterprise B2B — he's building follow-ups, delivering value before asking for anything, and closing when the timing is right. The gap is in discovery depth. He understands what companies are doing but rarely understands why they're doing it, what's at stake if they don't solve it, or who actually makes the decision. Getting clearer on those three things earlier in the call would improve qualification, tighten the follow-up, and surface the real buying timeline — without changing the pace or feel of the sales process at all.</p>
   </div>
 
 </div>
