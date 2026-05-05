@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coaching Recap — Sarah | Week 5-6</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #000;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .header {
+      margin-bottom: 56px;
+    }
+
+    .label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .meta {
+      font-size: 14px;
+      color: #555;
+    }
+
+    section {
+      margin-bottom: 56px;
+    }
+
+    h2 {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    p {
+      color: #ccc;
+      margin-bottom: 16px;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    .highlight-block {
+      background: #111;
+      border-left: 3px solid #fff;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .highlight-block p {
+      margin: 0;
+      color: #fff;
+      font-weight: 500;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .card-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 14px;
+      margin: 0;
+      color: #ccc;
+    }
+
+    .card strong {
+      color: #fff;
+    }
+
+    .quote-block {
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 24px;
+      background: #0a0a0a;
+    }
+
+    .quote-block p {
+      font-size: 17px;
+      font-style: italic;
+      color: #ddd;
+      margin-bottom: 12px;
+      line-height: 1.65;
+    }
+
+    .quote-attr {
+      font-size: 12px;
+      color: #555;
+      font-style: normal;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-block {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-number.dim {
+      color: #555;
+    }
+
+    .stat-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #555;
+    }
+
+    .flag-block {
+      background: #111;
+      border: 1px solid #444;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .flag-icon {
+      font-size: 18px;
+      line-height: 1.4;
+      flex-shrink: 0;
+    }
+
+    .flag-block p {
+      margin: 0;
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    .flag-block strong {
+      color: #fff;
+    }
+
+    .call-block {
+      background: #0a0a0a;
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 22px;
+      margin-bottom: 16px;
+    }
+
+    .call-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .call-tag.lost { color: #a04040; }
+    .call-tag.closed { color: #408040; }
+    .call-tag.review { color: #666; }
+
+    .call-block h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .call-block p {
+      font-size: 14px;
+      color: #aaa;
+      margin: 0;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul li {
+      padding: 12px 0;
+      border-bottom: 1px solid #1a1a1a;
+      color: #ccc;
+      font-size: 15px;
+      padding-left: 16px;
+      position: relative;
+    }
+
+    ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 22px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #444;
+    }
+
+    ul li:last-child {
+      border-bottom: none;
+    }
+
+    ul li strong {
+      color: #fff;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .two-col-block {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .two-col-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 12px;
+    }
+
+    .two-col-block ul li {
+      font-size: 13px;
+      padding: 6px 0;
+      border-bottom: 1px solid #1a1a1a;
+    }
+
+    .two-col-block ul li::before {
+      top: 14px;
+      width: 4px;
+      height: 4px;
+    }
+
+    .schedule-row {
+      display: flex;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid #1a1a1a;
+      align-items: flex-start;
+    }
+
+    .schedule-row:last-child {
+      border-bottom: none;
+    }
+
+    .schedule-time {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #555;
+      width: 120px;
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+
+    .schedule-detail {
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    .schedule-detail strong {
+      color: #fff;
+    }
+
+    .curriculum-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid #1a1a1a;
+    }
+
+    .curriculum-row:last-child {
+      border-bottom: none;
+    }
+
+    .week-badge {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #888;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .week-badge.current {
+      background: #fff;
+      color: #000;
+      border-color: #fff;
+    }
+
+    .curriculum-content strong {
+      display: block;
+      font-size: 14px;
+      color: #fff;
+      margin-bottom: 3px;
+    }
+
+    .curriculum-content span {
+      font-size: 13px;
+      color: #666;
+    }
+
+    .bottom-line {
+      background: #0a0a0a;
+      border: 1px solid #222;
+      border-radius: 10px;
+      padding: 32px;
+    }
+
+    .bottom-line h2 {
+      margin-bottom: 16px;
+    }
+
+    .bottom-line p {
+      font-size: 17px;
+      color: #ddd;
+      line-height: 1.7;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="header">
+      <div class="label">Sales.io — Coaching Recap</div>
+      <h1>Sarah</h1>
+      <div class="meta">Week 5-6 &nbsp;&middot;&nbsp; May 4, 2026</div>
+    </div>
+
+    <!-- WHERE SHE IS -->
+    <section>
+      <h2>Where She Is</h2>
+      <p>Experienced closer, pod leader. Selling on a webinar-based offer at $9,000 (discounted from $11K). Her numbers have been trending up — April was solid relative to prior months — and May is opening strong with 3+ fresh closes in 4 days, 2 of them diamonds. The team around her had cuts this month, but the core stayed intact: Sarah, Sabi, and Eli. That may actually be a good thing.</p>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-title">April Close Rate</div>
+          <p><strong>27.8%</strong> — dropped slightly from 29% prior. JJ's read: not alarming, improving trend overall.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">May (4 days in)</div>
+          <p><strong>3+ fresh closes, 2 diamonds</strong>. Over the $1K/call threshold. Strong opening momentum.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- APRIL METRICS -->
+    <section>
+      <h2>April Metrics</h2>
+      <div class="stat-row">
+        <div class="stat-block">
+          <div class="stat-number">27.8%</div>
+          <div class="stat-label">Close Rate</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">57%</div>
+          <div class="stat-label">Show Rate</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">22%</div>
+          <div class="stat-label">Canceled</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">14%</div>
+          <div class="stat-label">Rescheduled</div>
+        </div>
+      </div>
+      <p>JJ's read: close rate is not alarming — it's decent, and trending in the right direction. Volume is the bigger lever. The data shows improving momentum going into May. Sarah went scrappy at the end of April when the board was light — went back to pipeline and took massive action. That's what moved the needle.</p>
+      <div class="highlight-block">
+        <p>"I think March was a little alarming in comparison. April, healthy. And then this looks like good momentum going into this month."</p>
+      </div>
+    </section>
+
+    <!-- THE WEBINAR CLOSE PROBLEM -->
+    <section>
+      <h2>The Biggest Unlock — Webinar Closes Are Different</h2>
+      <p>This is the single most important thing from this session. Sarah — and most closers on webinar offers — are treating webinar closes like book-a-call closes. They are not the same. At all.</p>
+
+      <div class="two-col">
+        <div class="two-col-block">
+          <div class="two-col-title">Book-a-Call Close</div>
+          <ul>
+            <li>Prospect opted in intentionally</li>
+            <li>Higher intent coming in</li>
+            <li>Longer qualification cycle</li>
+            <li>Buying decision happens over time</li>
+          </ul>
+        </div>
+        <div class="two-col-block">
+          <div class="two-col-title">Webinar Close</div>
+          <ul>
+            <li>Prospect was educated first by the webinar</li>
+            <li>Different emotional state on the call</li>
+            <li>Totally different flow and frame</li>
+            <li>Different process from open to close</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="quote-block">
+        <p>"I know a guy who works 2 to 3 days a week and does about $30K a month with webinar closes. The process in which he takes is very, very different."</p>
+        <div class="quote-attr">JJ</div>
+      </div>
+
+      <p>You don't need a huge team. You don't need more reps. You need more predictable processes that are built specifically for a webinar-based prospect. That's what's missing, and it's the biggest lever available right now.</p>
+    </section>
+
+    <!-- TEAM CUTS / LEAN TEAM THESIS -->
+    <section>
+      <h2>The Lean Team Thesis</h2>
+      <p>The company did cuts this month. JJ's take: this might be exactly what was needed. Adding 3-4 new closers at the end of April with no proven track record diluted the operation. The right move is keeping a tight, proven group and routing volume to them.</p>
+
+      <div class="highlight-block">
+        <p>Gym Launch: multiple millions per month, 4 closers, 32 cold callers. You don't need a big team — you need the right team with predictable processes and enough volume to feed them.</p>
+      </div>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-title">Core Closers</div>
+          <p>Sarah, Sabi, Eli. These are the proven performers. There's culture here, conviction, results.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">JJ's Prediction</div>
+          <p><strong>6-8 lean closers</strong> with proper routing and process can scale to $2-3M/month. The proof of concept exists.</p>
+        </div>
+      </div>
+
+      <p>This isn't JJ's call to make — it's Ravina and those above her. But the direction is clear: get lean, build the webinar close SOP, let volume do the work. Keep exploring other opportunities in the meantime — knowing what's on the other side makes you a better decision maker.</p>
+    </section>
+
+    <!-- CALL REVIEW -->
+    <section>
+      <h2>Call Review — Three Calls to Watch</h2>
+      <p>Sarah brought three calls for review. JJ will go through all of them and send feedback.</p>
+
+      <div class="call-block">
+        <div class="call-tag lost">Lost — 60-Second Breakdown</div>
+        <h3>The $9K Price Confusion Call</h3>
+        <p>Prospect was locked in the entire call — taking notes, comparing them to his own, fully engaged. Sarah sent the payment link at $9K. He thought it was $7K. In 60 seconds, the deal collapsed: "I'll do it later, need to talk to my wife." He has a cybersecurity sales background — this likely wasn't naivety, it may have been a negotiation move or a genuine belief that someone (Mar?) had told him $7K. Sarah held the frame: price is price, it'll go up. JJ wants to review the last 5 minutes. Search for "7" in the recording to find it fast.</p>
+      </div>
+
+      <div class="call-block">
+        <div class="call-tag review">Didn't Close — Wrong Decision Maker</div>
+        <h3>Felippa</h3>
+        <p>Felippa is a co-buyer but not the actual decision maker. Her husband — who is in the military — is the buyer. She had less authority than the person who needed to say yes. Interesting dynamic worth reviewing for how to navigate calls where the decision maker isn't in the room.</p>
+      </div>
+
+      <div class="call-block">
+        <div class="call-tag closed">Closed — Clean</div>
+        <h3>Cindy and Fred</h3>
+        <p>Husband and wife. Both on the call, both ready to go. A clean close. JJ will review for positive feedback and to note what's working in Sarah's process. The high-income buyer demographic ($150-200K/year, late 20s to early 30s) is showing up consistently — that's important data about the offer's ICP.</p>
+      </div>
+    </section>
+
+    <!-- CURRICULUM -->
+    <section>
+      <h2>Curriculum Priority</h2>
+      <div class="curriculum-row">
+        <div class="week-badge">Week 4</div>
+        <div class="curriculum-content">
+          <strong>Sales Call Structure</strong>
+          <span>This is the one. JJ said it'll open her eyes to things she wasn't considering before — and it's probably what she was looking for from the start. Clear flow for the conversation. Not a script, but a map.</span>
+        </div>
+      </div>
+      <div class="curriculum-row">
+        <div class="week-badge">Week 5</div>
+        <div class="curriculum-content">
+          <strong>Sales Call Structure (continued)</strong>
+          <span>Continue through week 5 before jumping to 6. Build the foundation first.</span>
+        </div>
+      </div>
+      <div class="curriculum-row">
+        <div class="week-badge current">Week 6 — Coming Up</div>
+        <div class="curriculum-content">
+          <strong>Cognitive Dissonance + Higher-Level Psychology</strong>
+          <span>This is where the more advanced material lives. JJ said this will make a massive difference on calls. Don't skip ahead — earn it by going through 4-5 first.</span>
+        </div>
+      </div>
+      <div class="curriculum-row">
+        <div class="week-badge">Ongoing</div>
+        <div class="curriculum-content">
+          <strong>Frame Control — Call Review Lens</strong>
+          <span>Sarah mentioned wanting to re-watch the frame training specifically through the call review framework JJ shared. Do that now, before watching more calls, so you know what to look for.</span>
+        </div>
+      </div>
+      <div class="curriculum-row">
+        <div class="week-badge">Books</div>
+        <div class="curriculum-content">
+          <strong>Letting Go + the second one</strong>
+          <span>Purchased, in the bedroom. Bigger than expected. Start them. These are probably the most beneficial non-tactical thing right now.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- HORMOZI AUDIT LOG -->
+    <section>
+      <h2>The 15-Minute Audit Log</h2>
+      <p>From Hormozi. Every 15 minutes, you write down exactly what you did and the activity. It's not about time management — it's about seeing reality. Most people discover they're losing 3-4 hours a day to things they can't account for.</p>
+
+      <div class="flag-block">
+        <div class="flag-icon">&#8594;</div>
+        <p>If you were on a 45-minute call, you'd log: <strong>on call / on call / on call</strong> in three 15-minute blocks. That's it. Simple. But it exposes everything. JJ will send the Hormozi version — it's cleaner than what he showed today.</p>
+      </div>
+
+      <p>The point isn't perfection — it's data. You can't improve what you can't see. Same principle as tracking dials and connects. Apply it to your time.</p>
+    </section>
+
+    <!-- ACTION ITEMS -->
+    <section>
+      <h2>Action Items</h2>
+      <ul>
+        <li><strong>Send the three calls to JJ</strong> — the $9K price breakdown call (search "7" to find the moment), Felippa, and the Cindy/Fred close</li>
+        <li><strong>Go through Week 4-5 content</strong> — sales call structure. Do this before moving to week 6.</li>
+        <li><strong>Re-watch frame control training</strong> with the call review lens in mind</li>
+        <li><strong>Start reading Letting Go</strong> — it's in your bedroom. Open it.</li>
+        <li><strong>Try the 15-minute audit log</strong> for at least 3 days and see what shows up</li>
+      </ul>
+    </section>
+
+    <!-- JJ'S NEXT STEPS -->
+    <section>
+      <h2>JJ's Next Steps</h2>
+      <ul>
+        <li><strong>Review the calls Sarah sent</strong> — starting with the last 5 minutes of the $9K breakdown. Will send feedback before next session.</li>
+        <li><strong>Make personal connections</strong> at $500K-$1M/month companies — including potential mid-market enterprise AE roles (base + commission). Will send when ready.</li>
+        <li><strong>Find a part-time setter</strong> for Sarah — beginner-friendly, good culture fit, someone who can work underneath her. Won't post publicly.</li>
+        <li><strong>Resend the recurring Monday invite</strong> — it didn't show up on Sarah's calendar today.</li>
+        <li><strong>Send Hormozi audit log screenshot</strong> — the cleaner version from the workshop.</li>
+      </ul>
+    </section>
+
+    <!-- SCHEDULE -->
+    <section>
+      <h2>Schedule</h2>
+      <div class="schedule-row">
+        <div class="schedule-time">ASAP</div>
+        <div class="schedule-detail"><strong>Sarah sends calls</strong> — $9K breakdown, Felippa, Cindy/Fred close</div>
+      </div>
+      <div class="schedule-row">
+        <div class="schedule-time">This week</div>
+        <div class="schedule-detail"><strong>JJ reviews calls, sends feedback</strong>. If it's worth another call this week, they'll schedule it.</div>
+      </div>
+      <div class="schedule-row">
+        <div class="schedule-time">May 15</div>
+        <div class="schedule-detail">Sarah's follow-up close — <strong>$5,000 deal</strong> expected to close on that date.</div>
+      </div>
+      <div class="schedule-row">
+        <div class="schedule-time">Mondays</div>
+        <div class="schedule-detail">Recurring weekly session — JJ resending the invite. Confirmed.</div>
+      </div>
+    </section>
+
+    <!-- BOTTOM LINE -->
+    <div class="bottom-line">
+      <h2>Bottom Line</h2>
+      <p>Sarah is progressing. Numbers are improving, May is opening strong, and the core of the team is still intact after the cuts. The single biggest unlock in front of her is understanding how webinar closes work differently from book-a-call closes — once that clicks, and the process gets built around it, the ceiling goes up. Send the calls, go through week 4-5, start the books. That's the week.</p>
+    </div>
+
+  </div>
+</body>
+</html>
