@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coaching Recap — John Dalton | Week 3</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #000;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      padding: 48px 24px;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .header {
+      margin-bottom: 56px;
+    }
+
+    .label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .meta {
+      font-size: 14px;
+      color: #555;
+    }
+
+    section {
+      margin-bottom: 56px;
+    }
+
+    h2 {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    p {
+      color: #ccc;
+      margin-bottom: 16px;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    .highlight-block {
+      background: #111;
+      border-left: 3px solid #fff;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .highlight-block p {
+      margin: 0;
+      color: #fff;
+      font-weight: 500;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .card-title {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 14px;
+      margin: 0;
+      color: #ccc;
+    }
+
+    .card strong {
+      color: #fff;
+    }
+
+    .quote-block {
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 24px;
+      background: #0a0a0a;
+    }
+
+    .quote-block p {
+      font-size: 17px;
+      font-style: italic;
+      color: #ddd;
+      margin-bottom: 12px;
+      line-height: 1.65;
+    }
+
+    .quote-attr {
+      font-size: 12px;
+      color: #555;
+      font-style: normal;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-block {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 28px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #555;
+    }
+
+    .loop-diagram {
+      background: #0a0a0a;
+      border: 1px solid #222;
+      border-radius: 10px;
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+
+    .loop-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .loop-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid #1a1a1a;
+    }
+
+    .loop-step:last-child {
+      border-bottom: none;
+    }
+
+    .loop-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: #888;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .loop-icon.active {
+      background: #fff;
+      color: #000;
+      border-color: #fff;
+    }
+
+    .loop-content strong {
+      display: block;
+      font-size: 14px;
+      color: #fff;
+      margin-bottom: 3px;
+    }
+
+    .loop-content span {
+      font-size: 13px;
+      color: #666;
+    }
+
+    .goal-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .goal-block {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .goal-block.target {
+      border-color: #fff;
+    }
+
+    .goal-block.floor {
+      border-color: #333;
+    }
+
+    .goal-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 8px;
+    }
+
+    .goal-number {
+      font-size: 30px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .goal-block p {
+      font-size: 13px;
+      color: #666;
+      margin: 0;
+    }
+
+    .flag-block {
+      background: #111;
+      border: 1px solid #444;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .flag-icon {
+      font-size: 18px;
+      line-height: 1.4;
+      flex-shrink: 0;
+    }
+
+    .flag-block p {
+      margin: 0;
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    .flag-block strong {
+      color: #fff;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul li {
+      padding: 12px 0;
+      border-bottom: 1px solid #1a1a1a;
+      color: #ccc;
+      font-size: 15px;
+      padding-left: 16px;
+      position: relative;
+    }
+
+    ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 22px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #444;
+    }
+
+    ul li:last-child {
+      border-bottom: none;
+    }
+
+    ul li strong {
+      color: #fff;
+    }
+
+    .schedule-row {
+      display: flex;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid #1a1a1a;
+      align-items: flex-start;
+    }
+
+    .schedule-row:last-child {
+      border-bottom: none;
+    }
+
+    .schedule-time {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #555;
+      width: 120px;
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+
+    .schedule-detail {
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    .schedule-detail strong {
+      color: #fff;
+    }
+
+    .bottom-line {
+      background: #0a0a0a;
+      border: 1px solid #222;
+      border-radius: 10px;
+      padding: 32px;
+    }
+
+    .bottom-line h2 {
+      margin-bottom: 16px;
+    }
+
+    .bottom-line p {
+      font-size: 17px;
+      color: #ddd;
+      line-height: 1.7;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .two-col-block {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .two-col-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 12px;
+    }
+
+    .two-col-block ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .two-col-block ul li {
+      font-size: 13px;
+      color: #ccc;
+      padding: 6px 0;
+      border-bottom: 1px solid #1a1a1a;
+      padding-left: 12px;
+    }
+
+    .two-col-block ul li:last-child {
+      border-bottom: none;
+    }
+
+    .two-col-block ul li::before {
+      top: 15px;
+      width: 4px;
+      height: 4px;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      margin-bottom: 56px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="header">
+      <div class="label">Sales.io — Coaching Recap</div>
+      <h1>John Dalton</h1>
+      <div class="meta">Week 3 &nbsp;&middot;&nbsp; In-Person Session &nbsp;&middot;&nbsp; May 4, 2026</div>
+    </div>
+
+    <!-- WHERE HE IS -->
+    <section>
+      <h2>Where He Is</h2>
+      <p>Week 3. No established role yet. John is actively setting for Simon's B2B offer — a kitchen and bathroom remodeling service targeting local business owners via outbound SMS (100+ messages per day). He is currently converting leads into closing calls himself and has his <strong>first formal closing call tomorrow at 4PM</strong>.</p>
+      <p>Overarching goal: $100K/month across sales and creative work (acting, content). Near-term target for May: $30K. Because he is not locked into a confirmed role yet, goals are still directional — they get real once the Simon opportunity finalizes.</p>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-title">Current Activity</div>
+          <p>Outbound SMS setting for Simon's remodeling offer. Blasting 100+ leads/day, calling back warm responses immediately.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">Next Milestone</div>
+          <p>Tomorrow 4PM — first closing call. Simon opportunity expected to finalize within days. That confirmation changes everything.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANTI-FRAGILITY SYSTEM -->
+    <section>
+      <h2>The Anti-Fragility System</h2>
+      <p>This is the framework JJ runs with every student. It's from SpaceX — how they set goals, hit failure fast, and iterate into success. Most people quit before they ever get useful data. The system prevents that.</p>
+
+      <div class="goal-row">
+        <div class="goal-block target">
+          <div class="goal-label">Desired Outcome</div>
+          <div class="goal-number">$30K</div>
+          <p>This month's target. Not survival — thriving. Don't shoot low.</p>
+        </div>
+        <div class="goal-block floor">
+          <div class="goal-label">Failure Floor</div>
+          <div class="goal-number">$8K</div>
+          <p>The baseline. You should never fall below survival. If you do, the system itself is broken.</p>
+        </div>
+      </div>
+
+      <div class="loop-diagram">
+        <div class="loop-steps">
+          <div class="loop-step">
+            <div class="loop-icon">1</div>
+            <div class="loop-content">
+              <strong>Desired Outcome</strong>
+              <span>$30K this month. Set it big. Beyond survival.</span>
+            </div>
+          </div>
+          <div class="loop-step">
+            <div class="loop-icon">2</div>
+            <div class="loop-content">
+              <strong>Resources</strong>
+              <span>The framework, JJ's network, Simon's offer, Enyaki, any active opportunity.</span>
+            </div>
+          </div>
+          <div class="loop-step">
+            <div class="loop-icon active">3</div>
+            <div class="loop-content">
+              <strong>Initiation &amp; Speed</strong>
+              <span>You're here. Good initiation. Moving faster than most because you're closing for yourself.</span>
+            </div>
+          </div>
+          <div class="loop-step">
+            <div class="loop-icon">4</div>
+            <div class="loop-content">
+              <strong>Breaking Point</strong>
+              <span>~Day 15. If you're not at $4K by mid-month, something is wrong. Is it the vehicle? The skill? That's where we diagnose.</span>
+            </div>
+          </div>
+          <div class="loop-step">
+            <div class="loop-icon">5</div>
+            <div class="loop-content">
+              <strong>Failure Confirmed</strong>
+              <span>Not a loss — it's data. What specifically didn't work? Fix that and iterate.</span>
+            </div>
+          </div>
+          <div class="loop-step">
+            <div class="loop-icon">1</div>
+            <div class="loop-content">
+              <strong>Iterate</strong>
+              <span>Back to the top with real information. That's how you win consistently.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="highlight-block">
+        <p>"I think your movement speed as is anyway. Now it's just a matter of tracking this to see what the breaking point will look like."</p>
+      </div>
+    </section>
+
+    <!-- FERNANDO'S DATA — THE LESSON -->
+    <section>
+      <h2>Fernando's Data — What the Numbers Show</h2>
+      <p>JJ walked through Fernando's setter data from the session right before this one. It's a perfect example of how the Anti-Fragility framework exposes bottlenecks. The offer: Alex Eubanks' program at $6,200/year, targeting 18-19 year olds on Instagram.</p>
+
+      <div class="stat-row">
+        <div class="stat-block">
+          <div class="stat-number">1,700</div>
+          <div class="stat-label">Dials</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">84</div>
+          <div class="stat-label">Connects</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-number">28</div>
+          <div class="stat-label">Qualified</div>
+        </div>
+      </div>
+
+      <p>Setting skill is clearly there — qualify rate from connects is solid. The bottleneck was downstream: the closes weren't happening. Why? <strong>18-year-olds were hopping on closing calls with their parents.</strong> The kid was already sold. The parent wasn't. And the closer was running the call for the kid.</p>
+
+      <div class="highlight-block">
+        <p>The fix is simple: ask the parents "what questions do you have?" Make them certain. Make them feel confident you're legit. The kid is already bought in — close the parent.</p>
+      </div>
+
+      <p>Fernando started mid-month and still closed 2 grand with old leads. Had he started from day one with warm leads and fixed the parents-on-call issue, he would have hit $8K. That's the iteration. Fix one bottleneck, and the math completely changes.</p>
+
+      <div class="two-col">
+        <div class="two-col-block">
+          <div class="two-col-title">The Mistake</div>
+          <ul>
+            <li>Running the call for the kid</li>
+            <li>Treating parent as friction, not the decision maker</li>
+            <li>Not adjusting close strategy to the room</li>
+          </ul>
+        </div>
+        <div class="two-col-block">
+          <div class="two-col-title">The Fix</div>
+          <ul>
+            <li>Ask parents: "What questions do you have?"</li>
+            <li>Establish credibility and competence to the parent</li>
+            <li>The kid is sold — close the adult in the room</li>
+          </ul>
+        </div>
+      </div>
+
+      <p>The lesson for John: data tells you exactly where you're broken. That's why tracking matters. You can't fix what you can't see.</p>
+    </section>
+
+    <!-- JOHN'S SELF-POSITIONING -->
+    <section>
+      <h2>John's Self-Positioning</h2>
+      <p>Before getting paid a single dollar, John has already made himself indispensable to Simon's operation. This is exactly how you create leverage before you even have a title.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-title">Built the English VSL</div>
+          <p>Simon's offer only had a Spanish VSL. John built the English version — <strong>4 minutes, walks through the offer</strong>. Sends it to prospects before closing calls to pre-frame and warm them up.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">Mapped the System</div>
+          <p>Studied the SMS workflow, the delivery rates, the messaging, the contract terms. Shows up to every call knowing more than most paid reps would bother to know.</p>
+        </div>
+      </div>
+
+      <div class="quote-block">
+        <p>"I feel like I've already positioned myself as someone, like, why do you need me, right? Like, that's just good business."</p>
+        <div class="quote-attr">John Dalton</div>
+      </div>
+
+      <p>That is exactly right. Initiation speed plus self-positioning before a paycheck = the kind of person opportunities find. JJ connected John to Simon because of exactly this pattern. He's moving like a closer, not a student waiting for permission.</p>
+    </section>
+
+    <!-- THE SIMON OPPORTUNITY -->
+    <section>
+      <h2>The Simon Opportunity</h2>
+      <p>Simon reached out to JJ looking for someone with B2B experience. JJ immediately connected John. This is how the network works at scale — opportunities come through the relationship, not job boards.</p>
+
+      <div class="flag-block">
+        <div class="flag-icon">&#9888;</div>
+        <p><strong>Within a few days:</strong> Simon is expected to confirm whether John is moving forward as a B2B closer on his offer. When that happens, the goals stop being hypothetical and the real Anti-Fragility tracking begins.</p>
+      </div>
+
+      <p>Simon's offer context: kitchen and bathroom remodeling, targeting local service-based businesses, running Meta ads, delivering results via a guaranteed system ($2K compensation if it doesn't work). He has 40+ Spanish-market clients. The English market is newer — and that's exactly where John has already added value.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-title">Why This Matters</div>
+          <p>A confirmed B2B closer role gives John real volume, real data, and a real breaking point to work from. Right now goals are directional. That changes fast.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">JJ's Assessment</div>
+          <p>Simon has been on a roll for a while. This is a quality opportunity, not a throwaway. <strong>Get the update within days.</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHERE WE'RE NOT YET -->
+    <section>
+      <h2>What We Can't Analyze Yet</h2>
+      <p>John doesn't have an established role with consistent call volume yet. That means the numbers are still directional — $30K target, $8K floor — not carved from real data. That's not a problem. It's just where Week 3 is.</p>
+
+      <div class="highlight-block">
+        <p>"It's like hypothetical goals, not real goals right now. We'll get there once you're on a proven offer with real data to run through."</p>
+      </div>
+
+      <p>John recorded a setting call and offered to send it for review. JJ will review it. That's the first piece of real data. Once Simon confirms and closing volume picks up, there will be enough to run a real breaking point analysis.</p>
+    </section>
+
+    <!-- ACTION ITEMS -->
+    <section>
+      <h2>Action Items</h2>
+      <ul>
+        <li><strong>Closing call tomorrow at 4PM</strong> — run it, record it, send the recording to JJ</li>
+        <li><strong>Send the setting call recording</strong> to JJ for review</li>
+        <li><strong>Track every data point</strong> — dials, connects, qualified, booked, showed, closed. You can't iterate without numbers.</li>
+        <li><strong>Wait for Simon's update</strong> — expected within days. When it comes, treat it as the starting gun.</li>
+        <li><strong>Continue outbound SMS workflow</strong> — 100+ per day, call back warm responses immediately</li>
+        <li><strong>Stay in contact</strong> — JJ wants more touch points, not less. Use that access.</li>
+      </ul>
+    </section>
+
+    <!-- SCHEDULE -->
+    <section>
+      <h2>Schedule</h2>
+      <div class="schedule-row">
+        <div class="schedule-time">Tomorrow 4PM</div>
+        <div class="schedule-detail"><strong>First closing call</strong> — Simon's remodeling offer, English-speaking prospect. Record it.</div>
+      </div>
+      <div class="schedule-row">
+        <div class="schedule-time">This week</div>
+        <div class="schedule-detail"><strong>Simon confirmation</strong> — JJ expects this within a few days. Will change the trajectory immediately.</div>
+      </div>
+      <div class="schedule-row">
+        <div class="schedule-time">Mid-month</div>
+        <div class="schedule-detail"><strong>Breaking point check</strong> — if you're not at ~$4K by Day 15, we diagnose what's wrong and fix it before the month ends.</div>
+      </div>
+      <div class="schedule-row">
+        <div class="schedule-time">Ongoing</div>
+        <div class="schedule-detail">Outbound SMS daily, instant callbacks on warm responses, building English-market pipeline for Simon.</div>
+      </div>
+    </section>
+
+    <!-- BOTTOM LINE -->
+    <div class="bottom-line">
+      <h2>Bottom Line</h2>
+      <p>John is three weeks in and already moving like someone who's been doing this for months. He built something before he was paid to, he's tracking, he's showing up. The pieces are in place. The only variable left is Simon's confirmation — once that lands, everything gets real. First closing call tomorrow is the first real data point. Run it, record it, send it. That's how Week 4 starts.</p>
+    </div>
+
+  </div>
+</body>
+</html>
