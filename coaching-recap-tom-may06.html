@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coaching Recap — Tom Dale / May 6</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.6; padding: 40px 20px; }
+    .container { max-width: 860px; margin: 0 auto; }
+
+    .header { margin-bottom: 48px; }
+    .label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #666; margin-bottom: 12px; }
+    h1 { font-size: 36px; font-weight: 900; line-height: 1.15; margin-bottom: 10px; }
+    .subtitle { font-size: 16px; color: #888; }
+
+    h2 { font-size: 20px; font-weight: 800; margin: 48px 0 20px; padding-bottom: 10px; border-bottom: 1px solid #1a1a1a; }
+    h3 { font-size: 15px; font-weight: 700; margin-bottom: 10px; color: #fff; }
+
+    .context-box { background: #0a0d0a; border: 1px solid #1a2a1a; border-radius: 10px; padding: 20px 24px; margin-bottom: 32px; }
+    .context-box p { font-size: 14px; color: #aaa; line-height: 1.7; }
+
+    .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 32px; }
+    .stat-block { background: #0d0d0d; border: 1px solid #1c1c1c; border-radius: 10px; padding: 18px; text-align: center; }
+    .stat-block .num { font-size: 26px; font-weight: 900; margin-bottom: 4px; }
+    .stat-block .desc { font-size: 11px; color: #555; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.4; }
+
+    .insight-block { border-left: 3px solid #a78bfa; padding: 16px 20px; background: #0a080f; border-radius: 0 8px 8px 0; margin-bottom: 14px; }
+    .insight-block .title { font-size: 14px; font-weight: 700; margin-bottom: 6px; color: #c4b5fd; }
+    .insight-block p { font-size: 14px; color: #bbb; line-height: 1.6; }
+
+    .win-block { border-left: 3px solid #38a169; padding: 16px 20px; background: #050f08; border-radius: 0 8px 8px 0; margin-bottom: 14px; }
+    .win-block .title { font-size: 14px; font-weight: 700; margin-bottom: 6px; color: #68d391; }
+    .win-block p { font-size: 14px; color: #bbb; line-height: 1.6; }
+
+    .focus-block { border-left: 3px solid #f6c90e; padding: 16px 20px; background: #0d0d00; border-radius: 0 8px 8px 0; margin-bottom: 14px; }
+    .focus-block .title { font-size: 14px; font-weight: 700; margin-bottom: 6px; color: #f6c90e; }
+    .focus-block p { font-size: 14px; color: #bbb; line-height: 1.6; }
+
+    .action-block { background: #0d0d0d; border: 1px solid #1c1c1c; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; }
+    .action-block h3 { font-size: 14px; font-weight: 700; color: #63b3ed; margin-bottom: 12px; }
+    .checklist { list-style: none; }
+    .checklist li { font-size: 14px; color: #bbb; padding: 8px 0; border-bottom: 1px solid #111; display: flex; gap: 12px; align-items: flex-start; line-height: 1.5; }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist li .box { width: 16px; height: 16px; border: 1px solid #333; border-radius: 3px; flex-shrink: 0; margin-top: 3px; }
+    .checklist li strong { color: #fff; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+    .col-block { background: #0d0d0d; border: 1px solid #1c1c1c; border-radius: 10px; padding: 20px; }
+    .col-block h4 { font-size: 12px; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .col-block ul { list-style: none; }
+    .col-block ul li { font-size: 13px; color: #aaa; padding: 5px 0; border-bottom: 1px solid #111; line-height: 1.5; }
+    .col-block ul li:last-child { border-bottom: none; }
+
+    .highlight { background: #111; border: 1px solid #222; border-radius: 8px; padding: 20px 24px; margin-bottom: 16px; }
+    .highlight.green { border-left: 3px solid #38a169; background: #050f08; }
+    .highlight.amber { border-left: 3px solid #f6c90e; }
+    .highlight.purple { border-left: 3px solid #a78bfa; background: #0a080f; }
+
+    .tag { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.06em; text-transform: uppercase; }
+    .tag.green { background: #0a200f; color: #48bb78; border: 1px solid #1a4a20; }
+    .tag.red { background: #1a0505; color: #fc8181; border: 1px solid #3a0a0a; }
+    .tag.yellow { background: #1a1500; color: #f6c90e; border: 1px solid #3a3000; }
+
+    @media (max-width: 640px) {
+      .stat-row { grid-template-columns: 1fr 1fr; }
+      .two-col { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="label">Coaching Recap — Tom Dale</div>
+    <h1>May 6, 2026</h1>
+    <div class="subtitle">Launch Review &nbsp;·&nbsp; Numbers, ICP, and Path to Closing</div>
+  </div>
+
+  <div class="context-box">
+    <p><strong style="color:#fff;">Tom,</strong> this covers everything from today's session. We went through your launch numbers, broke down where the levers are, talked about the ICP problem, and had an honest conversation about what the next move looks like for your career. A lot of good stuff. Here it is in one place.</p>
+  </div>
+
+  <!-- LAUNCH NUMBERS -->
+  <h2>Launch Numbers — 2.5 Days</h2>
+
+  <div class="stat-row">
+    <div class="stat-block">
+      <div class="num" style="color:#63b3ed;">280</div>
+      <div class="desc">Total Dials</div>
+    </div>
+    <div class="stat-block">
+      <div class="num" style="color:#68d391;">~50%</div>
+      <div class="desc">Connect Rate</div>
+    </div>
+    <div class="stat-block">
+      <div class="num" style="color:#f6c90e;">12%</div>
+      <div class="desc">Qualify Rate<br>(of connects)</div>
+    </div>
+    <div class="stat-block">
+      <div class="num" style="color:#68d391;">100%</div>
+      <div class="desc">Qualified-to-Set Rate</div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-block">
+      <div class="num" style="color:#68d391;">33</div>
+      <div class="desc">Total Sets</div>
+    </div>
+    <div class="stat-block">
+      <div class="num" style="color:#68d391;">8</div>
+      <div class="desc">Closed (from first 15 calls)</div>
+    </div>
+    <div class="stat-block">
+      <div class="num" style="color:#fc8181;">4</div>
+      <div class="desc">Lost (from first 15 calls)</div>
+    </div>
+    <div class="stat-block">
+      <div class="num" style="color:#a78bfa;">~53%</div>
+      <div class="desc">Close Rate (Tawa)</div>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-bottom:0;">
+    <div class="col-block">
+      <h4 style="color:#68d391;">What the data shows</h4>
+      <ul>
+        <li>50% connect rate — exceptional for a warm waitlist</li>
+        <li>100% qualified-to-set — Tom books everyone he qualifies</li>
+        <li>Prospects texting back within 30 mins if they miss the call</li>
+        <li>Lead intent is high — these people opted in and want help</li>
+        <li>Closer (Tawa) closing ~53% from Tom's sets</li>
+      </ul>
+    </div>
+    <div class="col-block">
+      <h4 style="color:#fc8181;">Where the constraint is</h4>
+      <ul>
+        <li>Only 12% of connects are qualifying — 88% are DQs</li>
+        <li>DQs are all finance: third world countries, under 21s, 0-1K budgets</li>
+        <li>350-person waitlist is essentially exhausted — already on follow-ups</li>
+        <li>Volume capped by time spent on calls, not dials</li>
+        <li>DMs sent: zero — untapped channel</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- WHAT WE COVERED -->
+  <h2>Key Lessons from Today</h2>
+
+  <div class="insight-block">
+    <div class="title">The ICP is the most important lever — and it's not in your control right now</div>
+    <p>Your qualified rate is 12%. That means for every 100 people you connect with, 88 cannot afford it. This is not a setting problem. This is a lead source problem. The audience coming through Discord and YouTube skews young and international — people who are interested but not buyers. If Justin and Tawa can tighten the ICP so that your qualified rate goes from 12% to 20%, your sets almost double without you doing anything differently. That conversation needs to happen on their side. You can flag it, but you cannot fix it alone.</p>
+  </div>
+
+  <div class="insight-block">
+    <div class="title">The funnel type determines how you sell — and right now there is no consistent funnel</div>
+    <p>One of the hardest parts of your situation is that the lead gen keeps changing: waitlist, then webinar, then upsell, then waitlist again. Every format creates different levels of buy-in when someone gets on a call. A webinar prospect is pre-sold. A waitlist applicant is interested but cold. If you treat them the same way you will de-sell one and under-sell the other. The comparison: Hunter's closer works 2 days a week and does $30K because the webinar is so clear that prospects arrive almost ready to close. Eli is on a million-dollar offer and works 6 days a week because he treats every call the same regardless of where the prospect came from. Know what funnel you are working off of and adjust accordingly.</p>
+  </div>
+
+  <div class="insight-block">
+    <div class="title">Dial volume during launches needs to be maximum speed</div>
+    <p>During a launch, the window is short and intent is highest on day one. The goal should be 200+ dials per day, not 50. Your volume dropped from 54 to 52 to 36 across three days because you were spending too much time on calls. That is a good problem — it means people want to talk. But the answer is to get through the list faster early so you are doing follow-ups later, not burning your best days slowly. Next launch: front-load the dials.</p>
+  </div>
+
+  <div class="win-block">
+    <div class="title">Your setting skill is already there</div>
+    <p>100% qualified-to-set rate across 33 leads is not luck. Every person you qualify, you book. That is not something you need to fix. The connect rate is strong, your follow-up instinct is good (calling back off texts within 30 minutes), and you are already reviewing your own recordings and taking notes before sending to Jalen. That level of self-awareness is rare at this stage.</p>
+  </div>
+
+  <!-- CAREER CONVERSATION -->
+  <h2>The Career Conversation</h2>
+
+  <div class="highlight purple">
+    <h3 style="color:#c4b5fd;margin-bottom:10px;">Two paths — be clear on which one you're on</h3>
+    <p style="font-size:14px;color:#bbb;">Tawa and Justin see the natural next move as <strong style="color:#fff;">setter management</strong> — because neither of them has set before, and they need someone who understands it. That is a real role and a real opportunity. The bottleneck is volume. They need to grow to a point where they need to hire more setters before that position makes sense.<br><br>The other option is <strong style="color:#fff;">closing</strong>. The opportunity is right in front of you — Tawa's calendar fills up, the demand is there, and you already understand the leads better than anyone. You do not need to wait for permission. Ask the question: is there a world where I take some of these calls? Even a few closes would accelerate your learning faster than anything else. The goal for the next 6-7 weeks is to be transition-ready either way.</p>
+  </div>
+
+  <div class="focus-block">
+    <div class="title">What JJ said directly</div>
+    <p>"I'd rather be realistic than hopeful. I think the closing opportunity is right in front of you. Ask the question. See what they say. You do not need to be fully trained to take a call — you understand these leads, you understand the offer, and the worst case is you learn something. The setter management path is real but it depends on their growth. Do not wait on something you cannot control when there is something you can act on right now."</p>
+  </div>
+
+  <!-- ACTION ITEMS -->
+  <h2>Action Items</h2>
+
+  <div class="action-block">
+    <h3>Tom — Before Next Session</h3>
+    <ul class="checklist">
+      <li><span class="box"></span><span>Send closing call recordings to JJ in the group chat (Loom or download from GoHighLevel) — the ones you already reviewed and sent notes to Jalen</span></li>
+      <li><span class="box"></span><span>Have the conversation with Tawa about taking some closing calls — even just asking the question. Report back what they say.</span></li>
+      <li><span class="box"></span><span>Keep following up with the waitlist — you've gone through most of the 350 but half haven't connected yet. Daily follow-up for at least a week.</span></li>
+      <li><span class="box"></span><span>Start tracking DMs separately — currently at zero. Even a small DM volume adds pipeline without extra dials.</span></li>
+      <li><span class="box"></span><span>Flag the ICP issue to Justin — the 12% qualify rate is a list quality problem, not a setting problem. He needs to know.</span></li>
+    </ul>
+  </div>
+
+  <div class="action-block">
+    <h3>JJ — Before Next Session</h3>
+    <ul class="checklist">
+      <li><span class="box"></span><span>Unlock Tom's course modules (currently locked until June 1)</span></li>
+      <li><span class="box"></span><span>Set up recurring Monday coaching call</span></li>
+      <li><span class="box"></span><span>Review call recordings Tom sends over</span></li>
+    </ul>
+  </div>
+
+  <!-- NEXT SESSION -->
+  <h2>Next Session</h2>
+
+  <div class="highlight amber">
+    <h3 style="margin-bottom:8px;">Monday — Deeper Psychology</h3>
+    <p style="font-size:14px;color:#bbb;">Next week gets more advanced. The sessions are going to go deeper into psychology — the concepts that sit underneath setting and closing mechanics. They might run longer. Come prepared and come ready to go deeper than tactics. The foundation work from the first few weeks is done. Now we build on top of it.</p>
+  </div>
+
+  <div class="highlight green">
+    <h3 style="margin-bottom:8px;">Bottom Line</h3>
+    <p style="font-size:14px;color:#bbb;">Tom, the numbers are good. Your setting skill is real and the data proves it. The two things to carry forward: one, the ICP conversation needs to happen with Justin and Tawa because the 12% qualify rate is a ceiling you cannot break through on your own. Two, do not wait on the closing opportunity. Ask the question this week. The worst they can say is not yet, and you will learn something either way. You are in a much better place than you were a month ago and the trajectory is pointing the right direction.</p>
+  </div>
+
+</div>
+</body>
+</html>
