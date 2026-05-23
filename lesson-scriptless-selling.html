@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scriptless Selling — Sales.io</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.6; padding: 48px 24px; }
+    .container { max-width: 720px; margin: 0 auto; }
+    .header { margin-bottom: 56px; }
+    .label { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #555; margin-bottom: 12px; }
+    h1 { font-size: 40px; font-weight: 900; line-height: 1.05; margin-bottom: 16px; }
+    .meta { font-size: 14px; color: #555; }
+    section { margin-bottom: 56px; }
+    h2 { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #555; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #111; }
+    .block { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 20px 24px; margin-bottom: 12px; }
+    .block-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #444; margin-bottom: 8px; }
+    .block p { font-size: 14px; color: #999; line-height: 1.7; }
+    .block p + p { margin-top: 10px; }
+    .note-list { list-style: none; }
+    .note-list li { font-size: 14px; color: #999; padding: 8px 0; border-bottom: 1px solid #0f0f0f; display: flex; gap: 12px; line-height: 1.6; align-items: flex-start; }
+    .note-list li:last-child { border-bottom: none; }
+    .note-list li::before { content: "—"; color: #333; flex-shrink: 0; }
+    .highlight { background: #050f08; border: 1px solid #0d2b1a; border-radius: 10px; padding: 20px 24px; margin-bottom: 12px; }
+    .highlight p { font-size: 14px; color: #ccc; line-height: 1.8; }
+    .highlight strong { color: #4ade80; }
+    .watch { background: #0f0800; border: 1px solid #2b1a00; border-radius: 10px; padding: 20px 24px; margin-bottom: 12px; }
+    .watch p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .watch strong { color: #f59e0b; }
+    .quote-block { border-left: 3px solid #222; padding: 14px 20px; background: #050505; border-radius: 0 8px 8px 0; margin: 16px 0; }
+    .quote-block p { font-size: 15px; color: #ddd; font-style: italic; line-height: 1.8; }
+
+    /* SIGNAL CARDS */
+    .signal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .signal-card { border-radius: 10px; padding: 20px 22px; }
+    .signal-card.go { background: #050f08; border: 1px solid #0d2b1a; }
+    .signal-card.stay { background: #0f0800; border: 1px solid #2b1a00; }
+    .signal-header { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+    .signal-card.go .signal-header { color: #4ade80; }
+    .signal-card.stay .signal-header { color: #f59e0b; }
+    .signal-title { font-size: 15px; font-weight: 800; margin-bottom: 12px; }
+    .signal-list { list-style: none; }
+    .signal-list li { font-size: 13px; padding: 6px 0; border-bottom: 1px solid #0f0f0f; display: flex; gap: 10px; line-height: 1.5; align-items: flex-start; }
+    .signal-list li:last-child { border-bottom: none; }
+    .signal-card.go .signal-list li { color: #888; }
+    .signal-card.stay .signal-list li { color: #888; }
+    .signal-card.go .signal-list li::before { content: "✓"; color: #4ade80; font-size: 11px; flex-shrink: 0; padding-top: 2px; }
+    .signal-card.stay .signal-list li::before { content: "↓"; color: #f59e0b; font-size: 11px; flex-shrink: 0; padding-top: 2px; }
+
+    /* SUBJECTIVE WORDS TABLE */
+    .subj-list { display: flex; flex-direction: column; gap: 0; background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
+    .subj-row { display: grid; grid-template-columns: 120px 1fr 1fr; gap: 0; border-bottom: 1px solid #111; }
+    .subj-row:last-child { border-bottom: none; }
+    .subj-row.header-row { background: #0f0f0f; }
+    .subj-cell { padding: 12px 16px; font-size: 13px; line-height: 1.5; }
+    .subj-row.header-row .subj-cell { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #444; }
+    .subj-word { font-weight: 700; color: #f59e0b; }
+    .subj-probe { color: #999; font-style: italic; }
+    .subj-why { color: #666; }
+
+    /* DEPTH METER */
+    .depth-list { display: flex; flex-direction: column; gap: 0; margin-bottom: 12px; }
+    .depth-wrap { display: flex; align-items: stretch; }
+    .depth-left { width: 56px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; }
+    .depth-left .dot { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; flex-shrink: 0; }
+    .depth-left .line { flex: 1; width: 2px; background: #1a1a1a; margin: 4px 0; min-height: 16px; }
+    .depth-right { flex: 1; padding: 4px 0 24px 16px; }
+    .depth-tag { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 3px; }
+    .depth-title { font-size: 15px; font-weight: 800; margin-bottom: 5px; }
+    .depth-ex { font-size: 13px; color: #666; line-height: 1.5; margin-bottom: 4px; }
+    .depth-verdict { font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 5px; display: inline-block; margin-top: 4px; }
+
+    /* PROBE MOVES */
+    .moves-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .move-card { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 18px 20px; }
+    .move-num { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #4ade80; margin-bottom: 6px; }
+    .move-title { font-size: 14px; font-weight: 800; margin-bottom: 8px; }
+    .move-body { font-size: 13px; color: #777; line-height: 1.5; margin-bottom: 10px; }
+    .move-ex { font-size: 12px; color: #555; font-style: italic; line-height: 1.4; border-top: 1px solid #111; padding-top: 10px; }
+
+    /* EXCHANGE EXAMPLES */
+    .exchange { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
+    .exchange-header { background: #0f0f0f; padding: 12px 20px; font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #555; border-bottom: 1px solid #111; }
+    .exchange-body { padding: 16px 20px; display: flex; flex-direction: column; gap: 10px; }
+    .msg { display: flex; gap: 12px; align-items: flex-start; }
+    .msg-who { font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; flex-shrink: 0; padding-top: 2px; width: 60px; }
+    .msg-who.rep { color: #4ade80; }
+    .msg-who.prospect { color: #60a5fa; }
+    .msg-text { font-size: 13px; color: #999; line-height: 1.5; }
+    .msg-text.probe { color: #ccc; }
+    .msg-text em { color: #555; font-size: 12px; }
+    .exchange-verdict { padding: 10px 20px 14px; border-top: 1px solid #111; }
+    .verdict-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .verdict-label.deep { color: #4ade80; }
+    .verdict-label.shallow { color: #f59e0b; }
+    .verdict-text { font-size: 13px; color: #666; line-height: 1.5; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="label">Sales.io — Lesson</div>
+    <h1>Scriptless Selling</h1>
+    <div class="meta">How to probe, how deep to go, and exactly when to move on</div>
+  </div>
+
+  <!-- WHAT THIS ACTUALLY IS -->
+  <section>
+    <h2>What Scriptless Selling Actually Is</h2>
+    <div class="block">
+      <div class="block-label">The Misconception</div>
+      <p>Scriptless doesn't mean improvised. It means you're guided by genuine curiosity instead of a sequence of lines. Scripts make reps sound like they're reading. Curiosity makes reps sound like humans. The prospect feels the difference immediately.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">What Guides You Instead</div>
+      <p>You have a direction — current reality, problem awareness, solution awareness, future state. But the specific words, the next question, the timing of silence — that comes from actually listening. The script gives you the map. Curiosity drives the car.</p>
+    </div>
+    <div class="quote-block">
+      <p>"The best closers don't sound like closers. They sound like the most interested person in the room."</p>
+    </div>
+    <div class="highlight">
+      <p><strong>The single skill that makes this work:</strong> Staying in what the prospect is saying long enough to actually hear it. Most reps are already formulating their next question while the prospect is still talking. That's where the depth dies.</p>
+    </div>
+  </section>
+
+  <!-- SUBJECTIVE LANGUAGE -->
+  <section>
+    <h2>Subjective Language — The Most Overlooked Skill</h2>
+    <div class="block">
+      <div class="block-label">The Problem</div>
+      <p>People speak in conclusions and vague language. "Things are good." "I'm pretty busy." "It's expensive." "I want to do better." These sentences sound like information. They're not. They're placeholders. Until you know what "good," "busy," "expensive," and "better" mean to them specifically, you know nothing.</p>
+      <p>Every time you move past a vague word without probing it, you're building your understanding of their world on assumptions. And assumptions create the gap between your pitch and their reality.</p>
+    </div>
+
+    <div class="subj-list">
+      <div class="subj-row header-row">
+        <div class="subj-cell">They Say</div>
+        <div class="subj-cell">You Ask</div>
+        <div class="subj-cell">Why It Matters</div>
+      </div>
+      <div class="subj-row">
+        <div class="subj-cell"><span class="subj-word">"I'm busy"</span></div>
+        <div class="subj-cell subj-probe">"Walk me through what your week actually looks like right now."</div>
+        <div class="subj-cell subj-why">Busy could mean 80-hour weeks or they're avoiding the real answer. You need to know which.</div>
+      </div>
+      <div class="subj-row">
+        <div class="subj-cell"><span class="subj-word">"Things are good"</span></div>
+        <div class="subj-cell subj-probe">"Good compared to where you want to be, or good overall?" or "What would make things great?"</div>
+        <div class="subj-cell subj-why">Good is never the whole story. There's always a gap between good and where they actually want to be.</div>
+      </div>
+      <div class="subj-row">
+        <div class="subj-cell"><span class="subj-word">"It's expensive"</span></div>
+        <div class="subj-cell subj-probe">"Expensive compared to what?" or "Help me understand what you were expecting it to be."</div>
+        <div class="subj-cell subj-why">Expensive is always a comparison. Find out what they're comparing it to — that's where the real conversation is.</div>
+      </div>
+      <div class="subj-row">
+        <div class="subj-cell"><span class="subj-word">"I want to do better"</span></div>
+        <div class="subj-cell subj-probe">"Better than what? Give me a number." or "What does better actually look like in 6 months?"</div>
+        <div class="subj-cell subj-why">Better is meaningless without a baseline and a target. You need both to create a real gap.</div>
+      </div>
+      <div class="subj-row">
+        <div class="subj-cell"><span class="subj-word">"I feel stuck"</span></div>
+        <div class="subj-cell subj-probe">"What's the specific thing you keep running into? Walk me through what happens."</div>
+        <div class="subj-cell subj-why">Stuck is a feeling. You need the situation behind the feeling — that's where the pain lives.</div>
+      </div>
+      <div class="subj-row">
+        <div class="subj-cell"><span class="subj-word">"I've tried everything"</span></div>
+        <div class="subj-cell subj-probe">"Walk me through the last thing you tried. What actually happened?"</div>
+        <div class="subj-cell subj-why">Everything is never everything. This phrase hides the real pattern — failed attempts that reveal exactly what they're missing.</div>
+      </div>
+      <div class="subj-row">
+        <div class="subj-cell"><span class="subj-word">"I need to think about it"</span></div>
+        <div class="subj-cell subj-probe">"Of course — what specifically do you need to work through?"</div>
+        <div class="subj-cell subj-why">Think about it is almost never about thinking. It's a signal that something didn't land. Find the real thing.</div>
+      </div>
+      <div class="subj-row">
+        <div class="subj-cell"><span class="subj-word">"I'm not sure"</span></div>
+        <div class="subj-cell subj-probe">"What would make you more sure? What's the piece that's missing for you?"</div>
+        <div class="subj-cell subj-why">Uncertainty has a source. Get to the source. Vague reassurance won't fix specific doubt.</div>
+      </div>
+      <div class="subj-row">
+        <div class="subj-cell"><span class="subj-word">"I think it could work"</span></div>
+        <div class="subj-cell subj-probe">"Do you think it could work — or do you know?" Pause. Let them answer.</div>
+        <div class="subj-cell subj-why">Think vs. know is the commitment gap. You need a know before you move toward the close.</div>
+      </div>
+      <div class="subj-row">
+        <div class="subj-cell"><span class="subj-word">"I'm doing okay"</span></div>
+        <div class="subj-cell subj-probe">"Okay as in hitting your goals — or okay as in holding it together?"</div>
+        <div class="subj-cell subj-why">Okay is socially trained deflection. Give them two honest options and watch which one lands.</div>
+      </div>
+    </div>
+
+    <div class="watch">
+      <p><strong>The rule:</strong> Any word that could mean something different to two different people is a subjective word. Those words require a probe before you move on. If you skip them, you're guessing. And guessing loses sales.</p>
+    </div>
+  </section>
+
+  <!-- THE THREE PROBING MOVES -->
+  <section>
+    <h2>The Three Probing Moves</h2>
+    <div class="block">
+      <p>Every probe you ever need fits into one of three moves. Learn these and you never need a script. You just need to hear what they're actually saying.</p>
+    </div>
+    <div class="moves-row">
+      <div class="move-card">
+        <div class="move-num">Move 01</div>
+        <div class="move-title">Define It</div>
+        <div class="move-body">Reflect their word back and ask what it means. Get their specific definition before building on it.</div>
+        <div class="move-ex">"What do you mean by [word]?"<br>"Help me understand what [X] looks like for you."<br>"When you say [word], what are you referring to specifically?"</div>
+      </div>
+      <div class="move-card">
+        <div class="move-num">Move 02</div>
+        <div class="move-title">Quantify It</div>
+        <div class="move-body">Push for a number, a timeframe, or a frequency. Feelings become real when they're attached to something concrete.</div>
+        <div class="move-ex">"Give me a number."<br>"How long has this been going on?"<br>"How often does that happen?"<br>"What's the gap between where you are and where you want to be?"</div>
+      </div>
+      <div class="move-card">
+        <div class="move-num">Move 03</div>
+        <div class="move-title">Extend It</div>
+        <div class="move-body">Take what they gave you and follow it forward. What does this mean for them? What happens because of it?</div>
+        <div class="move-ex">"And what does that mean for you?"<br>"What happens because of that?"<br>"And what else?"<br>"How does that affect [X]?"</div>
+      </div>
+    </div>
+    <div class="highlight">
+      <p><strong>The sequence:</strong> Define it (understand the word) → Quantify it (make it real) → Extend it (feel the weight). Most reps stop at define. The real depth is in extend.</p>
+    </div>
+  </section>
+
+  <!-- DEPTH METER -->
+  <section>
+    <h2>The Depth Meter — Four Levels</h2>
+    <div class="block">
+      <p>Before you move on from any topic, know which level you're at. Level 1 and 2 are surface. You want Level 3 at minimum before moving on. Level 4 is where the close becomes almost effortless.</p>
+    </div>
+
+    <div class="depth-list">
+
+      <div class="depth-wrap">
+        <div class="depth-left">
+          <div class="dot" style="background:#1a0a0a; color:#f87171;">L1</div>
+          <div class="line"></div>
+        </div>
+        <div class="depth-right">
+          <div class="depth-tag" style="color:#f87171;">Level 1 — Social Autopilot</div>
+          <div class="depth-title">They said something. It meant nothing.</div>
+          <div class="depth-ex">Example: "Yeah, I'm not where I want to be, but it's getting there." / "Things are fine. Could always be better."</div>
+          <div class="depth-ex" style="color:#555;">This is the trained social response. They're not lying — they're just not thinking. You're in small talk territory. Go deeper.</div>
+          <div class="depth-verdict" style="background:#1a0a0a; color:#f87171;">Keep probing. Every time.</div>
+        </div>
+      </div>
+
+      <div class="depth-wrap">
+        <div class="depth-left">
+          <div class="dot" style="background:#0f0800; color:#f59e0b;">L2</div>
+          <div class="line"></div>
+        </div>
+        <div class="depth-right">
+          <div class="depth-tag" style="color:#f59e0b;">Level 2 — Problem Acknowledged</div>
+          <div class="depth-title">They admit there's an issue. No feeling attached yet.</div>
+          <div class="depth-ex">Example: "I know I'm leaving money on the table." / "My close rate isn't where it should be." / "I've been in the same place for about 4 months."</div>
+          <div class="depth-ex" style="color:#555;">They're giving you facts. That's progress — but facts without emotion won't create buying decisions. Push further. Extend it.</div>
+          <div class="depth-verdict" style="background:#0f0800; color:#f59e0b;">Not enough. Extend it. What does that mean for them?</div>
+        </div>
+      </div>
+
+      <div class="depth-wrap">
+        <div class="depth-left">
+          <div class="dot" style="background:#06120a; color:#4ade80;">L3</div>
+          <div class="line"></div>
+        </div>
+        <div class="depth-right">
+          <div class="depth-tag" style="color:#4ade80;">Level 3 — Problem Owned</div>
+          <div class="depth-title">They feel it. It's personal now.</div>
+          <div class="depth-ex">Example: "Honestly I'm frustrated. I've been doing this for 8 months and I don't understand why nothing's clicking." / "I told myself I'd be at $20K by now and I'm still at $6K. That's embarrassing."</div>
+          <div class="depth-ex" style="color:#555;">Voice shifts. Pauses get longer. They're not reciting — they're actually thinking about it in real time. This is real. You can work with this.</div>
+          <div class="depth-verdict" style="background:#06120a; color:#4ade80;">Minimum threshold to move on. Don't leave here too quickly.</div>
+        </div>
+      </div>
+
+      <div class="depth-wrap">
+        <div class="depth-left">
+          <div class="dot" style="background:#0a0620; color:#a78bfa;">L4</div>
+        </div>
+        <div class="depth-right">
+          <div class="depth-tag" style="color:#a78bfa;">Level 4 — Problem Tied to Identity or Future</div>
+          <div class="depth-title">It's bigger than the problem. It's about who they are.</div>
+          <div class="depth-ex">Example: "If I can't figure this out I don't know what I'm doing." / "I have a family depending on this. I can't afford another 6 months of nothing." / "I feel like I'm wasting the best years I have to build something."</div>
+          <div class="depth-ex" style="color:#555;">When they connect the problem to their identity, their family, their future, or their self-worth — the emotional lever is fully pulled. The pitch at this stage isn't a pitch. It's a solution they already want.</div>
+          <div class="depth-verdict" style="background:#0a0620; color:#a78bfa;">This is where closes feel effortless. Move on when you're here.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- WHEN TO GO DEEPER vs MOVE ON -->
+  <section>
+    <h2>Go Deeper vs. Move On</h2>
+    <div class="signal-row">
+      <div class="signal-card stay">
+        <div class="signal-header">Stay and Probe Deeper</div>
+        <div class="signal-title">You're seeing these signals</div>
+        <ul class="signal-list">
+          <li>They used a vague or subjective word and you haven't defined it yet</li>
+          <li>They answered in under 5 seconds — too fast, it's surface level</li>
+          <li>Their voice is flat. No emotion, no pause, no shift.</li>
+          <li>They said "fine," "okay," "pretty good," "not bad" — social autopilot</li>
+          <li>You got information but no feeling attached to it</li>
+          <li>They said something significant and immediately changed the subject</li>
+          <li>They contradicted something they said earlier — there's more under the surface</li>
+          <li>They haven't made this personal yet — it's still general and abstract</li>
+          <li>You caught yourself nodding along without actually understanding what they meant</li>
+        </ul>
+      </div>
+      <div class="signal-card go">
+        <div class="signal-header">Move On</div>
+        <div class="signal-title">You're seeing these signals</div>
+        <ul class="signal-list">
+          <li>They gave you specific numbers, dates, or named situations</li>
+          <li>Their voice slowed down, quieted, or they paused mid-sentence</li>
+          <li>They repeated this same pain with emotion — more than once</li>
+          <li>They used personal language: "I feel like I'm failing" not "sales is hard"</li>
+          <li>They said something they haven't said to many people</li>
+          <li>They connected the problem to their identity, family, or future</li>
+          <li>You've gone three levels deep on this specific thread</li>
+          <li>The emotion is clearly there — you can feel it</li>
+          <li>More probing here would feel like therapy or interrogation</li>
+        </ul>
+      </div>
+    </div>
+    <div class="watch">
+      <p><strong>The trap at $10–15K/month:</strong> You feel the emotion start to surface and you immediately comfort it. "Don't worry, you're in the right place now." That kills the sale. When emotion surfaces, lean into it — don't run away from it. Open the door wider before you walk through it.</p>
+    </div>
+  </section>
+
+  <!-- LIVE EXCHANGE EXAMPLES -->
+  <section>
+    <h2>Exchanges — Shallow vs. Deep</h2>
+
+    <div class="exchange">
+      <div class="exchange-header">Situation: Prospect says they want to make more money</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text">"Yeah I just want to make more money."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep (Shallow)</div>
+          <div class="msg-text">"Totally, yeah, that's what we're here for. How much are you making now?"</div>
+        </div>
+      </div>
+      <div class="exchange-verdict">
+        <div class="verdict-label shallow">What's Wrong</div>
+        <div class="verdict-text">You moved straight to a number without understanding what "more money" means to them or why they need it. You have data. You have no emotion. This is stage 1 at best.</div>
+      </div>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-header">Same situation, probed correctly</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text">"Yeah I just want to make more money."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text probe">"When you say more — what does more actually look like for you? Give me a number."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text">"I don't know, like... $20K a month?"</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text probe">"And where are you right now?"</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text">"About $5,500 last month."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text probe">"So there's about a $15K gap. How long have you been sitting at that $5–6K range?"</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text">"Probably... 7, 8 months now."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text probe">"8 months. And what's that been like — knowing the gap is there and not being able to close it?"</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text">"Honestly? Frustrating. I thought I'd be further by now."</div>
+        </div>
+      </div>
+      <div class="exchange-verdict">
+        <div class="verdict-label deep">What Happened</div>
+        <div class="verdict-text">Four questions and you know the gap ($15K), the timeline (8 months), and you're touching the emotion (frustration, expectation vs. reality). That's approaching Level 3. One more extend and you're there.</div>
+      </div>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-header">Situation: Prospect says "I've tried a lot of things already"</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text">"Yeah I've tried a lot of things already, courses and stuff."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep (Shallow)</div>
+          <div class="msg-text">"Yeah totally, a lot of programs don't really work. Ours is different though because—"</div>
+        </div>
+      </div>
+      <div class="exchange-verdict">
+        <div class="verdict-label shallow">What's Wrong</div>
+        <div class="verdict-text">You skipped past "a lot of things" entirely and jumped to a pitch. You don't know what they tried, what failed, or why — so your "different" claim means nothing to them yet.</div>
+      </div>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-header">Same situation, probed correctly</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text">"Yeah I've tried a lot of things already, courses and stuff."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text probe">"Walk me through the last thing you tried. What actually happened?"</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text">"I bought this NEPQ course, did the whole thing. My numbers barely moved."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text probe">"What do you think was missing from it?"</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text">"Honestly? It all sounded scripted. Like I was following a formula. Prospects could feel it."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text probe">"So the script was the issue — not your effort. How much did you spend on that?"</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text">"Like $2,000."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text probe">"And you got almost nothing from it. That's got to be frustrating — spending money to stay stuck."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text">"Yeah. Honestly I'm nervous to invest again because of it."</div>
+        </div>
+      </div>
+      <div class="exchange-verdict">
+        <div class="verdict-label deep">What Happened</div>
+        <div class="verdict-text">You uncovered the real pattern (scripted approach didn't work — which is exactly what you teach against), the dollar amount lost, and now the real objection surface: fear of investing again. This is gold. You didn't sell against a competitor — you let them disqualify scripted approaches themselves.</div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- COMMON MISTAKES -->
+  <section>
+    <h2>The Mistakes That Kill Depth</h2>
+    <div class="block">
+      <div class="block-label">Mistake 01 — Asking two questions at once</div>
+      <p>"What are you doing for lead gen and how's your pipeline looking and what's your close rate been?" The prospect will answer the easiest one and you'll lose the thread. One question. Every time.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">Mistake 02 — Answering your own question</div>
+      <p>"Is that frustrating — like, I imagine it must be pretty difficult, right?" You telegraphed the answer. They'll just confirm it. Now you have their agreement, not their feeling. Ask. Then shut up. Let them fill the silence.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">Mistake 03 — Rescuing them from the pain</div>
+      <p>They say something that sounds hard and you immediately say "totally, but don't worry, we can fix that." You just killed the emotion you built. Pain is the asset. Don't rush to comfort it — let it land.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">Mistake 04 — Accepting "good" or "fine" and moving on</div>
+      <p>Surface-level answers are the start of the conversation, not the end. "Good compared to your goals, or just good overall?" forces them to actually think about it. Never accept autopilot language as a real answer.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">Mistake 05 — Pitching before the emotion is there</div>
+      <p>You hit your checklist of questions and jump to the pitch because "you've covered everything." But if you can't feel the emotion in the room — if there's no weight to the conversation — you're pitching into a void. The emotions have to be built before the pitch is earned.</p>
+    </div>
+  </section>
+
+  <!-- SILENCE -->
+  <section>
+    <h2>Silence Is a Probe</h2>
+    <div class="block">
+      <p>After you ask a real question — one that makes them actually think — stay quiet. Most reps panic in silence and fill it. Don't. The silence is where the real answer lives. They'll say something in those 3 extra seconds that they wouldn't have said otherwise.</p>
+    </div>
+    <div class="highlight">
+      <p><strong>"And what else?"</strong> — the most underrated probe in sales. After they answer, pause, and say "what else?" It almost always surfaces something more true than the first answer. Use it sparingly. But use it.</p>
+    </div>
+  </section>
+
+  <!-- THE RULE -->
+  <section>
+    <h2>The Rule</h2>
+    <div class="highlight">
+      <p style="font-size:16px; font-weight:700; line-height:1.7;"><strong>Never assume you know what a word means to someone else.</strong></p>
+      <p style="margin-top:12px;">The moment you assume, you stop listening. The moment you stop listening, you start guessing. And guessing creates the gap between what you think they need and what they actually buy. Define every vague word. Quantify every feeling. Extend every pain. Then move on.</p>
+    </div>
+    <div class="quote-block">
+      <p>"Connection is what people actually buy. And you can't connect with someone you're making assumptions about."</p>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
