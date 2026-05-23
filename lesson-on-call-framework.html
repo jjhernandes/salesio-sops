@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The On-Call Framework — Sales.io</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.6; padding: 48px 24px; }
+    .container { max-width: 720px; margin: 0 auto; }
+    .header { margin-bottom: 56px; }
+    .label { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #555; margin-bottom: 12px; }
+    h1 { font-size: 40px; font-weight: 900; line-height: 1.05; margin-bottom: 16px; }
+    .meta { font-size: 14px; color: #555; }
+    section { margin-bottom: 56px; }
+    h2 { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #555; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #111; }
+    .block { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 20px 24px; margin-bottom: 12px; }
+    .block-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #444; margin-bottom: 8px; }
+    .block p { font-size: 14px; color: #999; line-height: 1.7; }
+    .block p + p { margin-top: 10px; }
+    .note-list { list-style: none; }
+    .note-list li { font-size: 14px; color: #999; padding: 8px 0; border-bottom: 1px solid #0f0f0f; display: flex; gap: 12px; line-height: 1.6; align-items: flex-start; }
+    .note-list li:last-child { border-bottom: none; }
+    .note-list li::before { content: "—"; color: #333; flex-shrink: 0; }
+    .highlight { background: #050f08; border: 1px solid #0d2b1a; border-radius: 10px; padding: 20px 24px; margin-bottom: 12px; }
+    .highlight p { font-size: 14px; color: #ccc; line-height: 1.8; }
+    .highlight strong { color: #4ade80; }
+    .watch { background: #0f0800; border: 1px solid #2b1a00; border-radius: 10px; padding: 20px 24px; margin-bottom: 12px; }
+    .watch p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .watch strong { color: #f59e0b; }
+    .quote-block { border-left: 3px solid #222; padding: 14px 20px; background: #050505; border-radius: 0 8px 8px 0; margin: 16px 0; }
+    .quote-block p { font-size: 15px; color: #ddd; font-style: italic; line-height: 1.8; }
+
+    /* STAGE LOOP */
+    .stage-list { display: flex; flex-direction: column; gap: 0; margin-bottom: 12px; }
+    .stage-wrap { display: flex; }
+    .stage-left { width: 48px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; }
+    .stage-left .dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; flex-shrink: 0; }
+    .stage-left .line { flex: 1; width: 2px; background: #1a1a1a; margin: 4px 0; min-height: 20px; }
+    .stage-right { flex: 1; padding: 2px 0 28px 16px; }
+    .stage-tag { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .stage-title { font-size: 17px; font-weight: 800; margin-bottom: 6px; }
+    .stage-body { font-size: 14px; color: #777; line-height: 1.6; }
+    .stage-body + .stage-sub { margin-top: 10px; }
+    .stage-sub { list-style: none; margin-top: 8px; }
+    .stage-sub li { font-size: 13px; color: #666; padding: 5px 0; border-bottom: 1px solid #0f0f0f; display: flex; gap: 10px; line-height: 1.5; }
+    .stage-sub li:last-child { border-bottom: none; }
+    .stage-sub li::before { content: "·"; color: #333; flex-shrink: 0; }
+
+    /* RULES GRID */
+    .rules-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .rule-card { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 18px 20px; }
+    .rule-num { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #4ade80; margin-bottom: 6px; }
+    .rule-title { font-size: 14px; font-weight: 800; margin-bottom: 8px; }
+    .rule-body { font-size: 13px; color: #777; line-height: 1.5; }
+
+    /* LEVELS */
+    .level-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .level-card { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 16px 18px; }
+    .level-badge { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+    .level-card:nth-child(1) .level-badge { color: #60a5fa; }
+    .level-card:nth-child(2) .level-badge { color: #a78bfa; }
+    .level-card:nth-child(3) .level-badge { color: #4ade80; }
+    .level-q { font-size: 13px; color: #ccc; font-style: italic; line-height: 1.5; margin-bottom: 6px; }
+    .level-note { font-size: 12px; color: #555; line-height: 1.4; }
+
+    /* GAP VISUAL */
+    .gap-visual { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 24px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; }
+    .gap-side { flex: 1; text-align: center; }
+    .gap-side-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+    .gap-side.current .gap-side-label { color: #f87171; }
+    .gap-side.future .gap-side-label { color: #4ade80; }
+    .gap-side-text { font-size: 13px; color: #777; line-height: 1.5; }
+    .gap-arrow { font-size: 28px; color: #333; flex-shrink: 0; }
+    .gap-middle { flex-shrink: 0; text-align: center; }
+    .gap-middle-label { font-size: 9px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #4ade80; margin-bottom: 4px; }
+    .gap-middle-text { font-size: 12px; color: #555; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="label">Sales.io — Lesson</div>
+    <h1>The On-Call Framework</h1>
+    <div class="meta">Foundations, Discovery, Gap Building, Pitch, Objections</div>
+  </div>
+
+  <!-- THE THREE RULES -->
+  <section>
+    <h2>Three Rules Before Anything Else</h2>
+    <div class="rules-row">
+      <div class="rule-card">
+        <div class="rule-num">Rule 01</div>
+        <div class="rule-title">Never pitch blind</div>
+        <div class="rule-body">You would never propose unless you knew they'd say yes. Don't throw a Hail Mary. Earn the right to present.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">Rule 02</div>
+        <div class="rule-title">Discovery is everything</div>
+        <div class="rule-body">Every objection you get at the end was preventable in the discovery. Every. Single. One.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">Rule 03</div>
+        <div class="rule-title">Emotion drives decisions</div>
+        <div class="rule-body">Humans decide based on emotion and compensate logically. Make them feel something first.</div>
+      </div>
+    </div>
+    <div class="highlight">
+      <p><strong>The core truth:</strong> If you get to the end of a call with a pile of objections, you created that resistance. It didn't come from the prospect. It came from a weak discovery.</p>
+    </div>
+  </section>
+
+  <!-- THE FRAMEWORK STAGES -->
+  <section>
+    <h2>The Six Stages</h2>
+    <div class="stage-list">
+
+      <!-- Stage 1 -->
+      <div class="stage-wrap">
+        <div class="stage-left">
+          <div class="dot" style="background:#0a200a; color:#4ade80;">01</div>
+          <div class="line"></div>
+        </div>
+        <div class="stage-right">
+          <div class="stage-tag" style="color:#4ade80;">Intro</div>
+          <div class="stage-title">Gain Respect First, Likeability Later</div>
+          <div class="stage-body">No need to become their best friend. Confirm they have time. Reference how they found you. Stay calm and grounded. You're not there to impress anyone.</div>
+          <ul class="stage-sub">
+            <li>Confirm they still have the full time: "You still have the 45 minutes — that good?"</li>
+            <li>One context question max if you want to break the ice: "What caught your attention?" or "Tell me about your journey."</li>
+            <li>With sophisticated B2B buyers, skip the rapport entirely and get straight to it.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Stage 2 -->
+      <div class="stage-wrap">
+        <div class="stage-left">
+          <div class="dot" style="background:#061220; color:#60a5fa;">02</div>
+          <div class="line"></div>
+        </div>
+        <div class="stage-right">
+          <div class="stage-tag" style="color:#60a5fa;">Current Reality</div>
+          <div class="stage-title">Understand Where They Are Right Now</div>
+          <div class="stage-body">This is the start of building the bridge. Find out what they're doing now, how long they've been doing it, and what led them there. Go three levels deep on every thread.</div>
+          <div class="level-row" style="margin-top:12px;">
+            <div class="level-card">
+              <div class="level-badge">Level 1</div>
+              <div class="level-q">"What are you doing for X right now?"</div>
+              <div class="level-note">Surface — what's happening</div>
+            </div>
+            <div class="level-card">
+              <div class="level-badge">Level 2</div>
+              <div class="level-q">"How long have you been doing that?"</div>
+              <div class="level-note">Context — how deep does it go</div>
+            </div>
+            <div class="level-card">
+              <div class="level-badge">Level 3</div>
+              <div class="level-q">"What caused you to go that route?"</div>
+              <div class="level-note">Why — reveals real motivation</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 3 -->
+      <div class="stage-wrap">
+        <div class="stage-left">
+          <div class="dot" style="background:#12060e; color:#a78bfa;">03</div>
+          <div class="line"></div>
+        </div>
+        <div class="stage-right">
+          <div class="stage-tag" style="color:#a78bfa;">Problem Awareness</div>
+          <div class="stage-title">Help Them See What They Don't See</div>
+          <div class="stage-body">People say things but they don't feel them. Your job is to make the pain conscious. Take what they give you and expand it. Don't leave pain on the surface. Extract it.</div>
+          <ul class="stage-sub">
+            <li>Don't do leading questions — "You see how that would be beneficial, right?" kills credibility fast.</li>
+            <li>Use doubt to pull out what they haven't considered. "What's your runway right now?" forces them to face it.</li>
+            <li>If they say everything's fine — don't buy it. "Then why are we on this call? Help me understand."</li>
+            <li>When emotions surface, do not say "it's okay." That's where most reps kill the sale. Extract it. Go deeper.</li>
+          </ul>
+          <div class="watch" style="margin-top:12px;">
+            <p><strong>Biggest mistake at $10–15K/month:</strong> The prospect shows pain and the rep immediately reassures them. "No no, it's okay, we're here to help." Stop. That is where you are losing sales. Don't comfort it away — open the door wider.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 4 -->
+      <div class="stage-wrap">
+        <div class="stage-left">
+          <div class="dot" style="background:#060e12; color:#38bdf8;">04</div>
+          <div class="line"></div>
+        </div>
+        <div class="stage-right">
+          <div class="stage-tag" style="color:#38bdf8;">Solution Awareness</div>
+          <div class="stage-title">Find Out How Lost They Are</div>
+          <div class="stage-body">Now they know they have a problem. Do they know how to solve it? Most don't. This is where the gap starts to crack open.</div>
+          <ul class="stage-sub">
+            <li>"How do you know which agency is actually a good fit for you?" — This one question stops people cold.</li>
+            <li>If they can't answer it, they're turning to you for expertise. Own that.</li>
+            <li>If they give you an answer, it tells you exactly what you need to show them.</li>
+            <li>B2B: lean on metrics and data to tie into the emotion. B2C: the emotion is the data.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Stage 5 -->
+      <div class="stage-wrap">
+        <div class="stage-left">
+          <div class="dot" style="background:#120a06; color:#f59e0b;">05</div>
+          <div class="line"></div>
+        </div>
+        <div class="stage-right">
+          <div class="stage-tag" style="color:#f59e0b;">Future Pacing + Consequence</div>
+          <div class="stage-title">Close the Gap, Create Tension</div>
+          <div class="stage-body">Current state vs. future state. This is where cognitive dissonance is built. The bigger the gap, the stronger the pull toward action.</div>
+          <ul class="stage-sub">
+            <li>If emotions are already running high from Stage 3, slow down here. Less is more. Going too salesy now loses the sale.</li>
+            <li>Cost of inaction only works if they're emotionally attached. "What happens if nothing changes?" lands flat without it.</li>
+            <li>You can start future-state first and work backwards to current state — both directions work.</li>
+          </ul>
+          <div class="highlight" style="margin-top:12px;">
+            <p><strong>What you're building:</strong> A gap so clear they feel the distance between where they are and where they need to be. That tension is what makes the pitch feel like relief, not a pitch.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 6 -->
+      <div class="stage-wrap">
+        <div class="stage-left">
+          <div class="dot" style="background:#0a200a; color:#4ade80;">06</div>
+        </div>
+        <div class="stage-right">
+          <div class="stage-tag" style="color:#4ade80;">Pitch + Close</div>
+          <div class="stage-title">You Should Feel It Before You Say It</div>
+          <div class="stage-body">By this point you should feel the emotion in the room. If it's there, the pitch is simple. If it's not there, you're not ready to pitch.</div>
+          <ul class="stage-sub">
+            <li>"Based on everything you told me, I think this is a really great fit. Let me walk you through how the program works."</li>
+            <li>Throughout the pitch: get confirmations. Yep. Makes sense. Cool. Move on.</li>
+            <li>At the close — make them commit to the decision, not just say yes. There's a difference between "I think it could work" and "I know this is right for me."</li>
+            <li>If energy shifts at the close, break the fourth wall: "I can feel things shifted a little. Am I missing something?" Don't run a script. Be real.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- THE GAP VISUAL -->
+  <section>
+    <h2>What You're Actually Building</h2>
+    <div class="gap-visual">
+      <div class="gap-side current">
+        <div class="gap-side-label">Current State</div>
+        <div class="gap-side-text">Problem they have.<br>Pain they haven't faced.<br>Solutions they've tried and failed.</div>
+      </div>
+      <div class="gap-arrow">→</div>
+      <div class="gap-middle">
+        <div class="gap-middle-label">The Gap</div>
+        <div class="gap-middle-text">Cognitive dissonance.<br>Tension. Anxiety.<br>Need to resolve it.</div>
+      </div>
+      <div class="gap-arrow">→</div>
+      <div class="gap-side future">
+        <div class="gap-side-label">Future State</div>
+        <div class="gap-side-text">What they actually want.<br>Who they want to become.<br>What solving it is worth.</div>
+      </div>
+    </div>
+    <div class="block">
+      <div class="block-label">The Real Job</div>
+      <p>Current reality builds the foundation. Problem awareness makes the left side of the gap real. Solution awareness makes the right side feel far away. Future pacing widens the gap until the tension demands resolution. The pitch is just the bridge.</p>
+    </div>
+  </section>
+
+  <!-- DISCOVERY DEEP DIVE -->
+  <section>
+    <h2>Discovery — The Real Truth</h2>
+    <div class="highlight">
+      <p><strong>Everything is won in the discovery.</strong> If there are objections at the end, the discovery was too weak. If they're not interested in the pitch, you created that resistance in the discovery. There is no other explanation.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">Why objection hacks from Instagram don't work</div>
+      <p>You try a word-for-word objection response you saw on a video and it completely blows up. Here's why: they didn't tell you the discovery was already done before they handled it. Without someone on the same side of the table as you, objection handling isn't handling — it's arguing. You're fighting about who's right, not coming to a decision together.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">Awareness alignment</div>
+      <p>The biggest discrepancy in any sales conversation is when your awareness and their awareness are in different stages. They're at problem-unaware. You're already in pitch mode. That mismatch is the source of almost every failed call. Your job is to close the awareness gap before anything else.</p>
+    </div>
+    <div class="quote-block">
+      <p>"The emotions are only built in the discovery. If you didn't build them there, they won't open up in the objections either."</p>
+    </div>
+  </section>
+
+  <!-- LOGICAL + EMOTIONAL LEVERAGE -->
+  <section>
+    <h2>Logical and Emotional Leverage</h2>
+    <div class="block">
+      <div class="block-label">The principle</div>
+      <p>People make decisions based on emotions and compensate logically. That's not manipulation — that's how humans work. Your job is to make them feel something real so they can justify what they already know they need to do.</p>
+    </div>
+    <div class="rules-row">
+      <div class="rule-card">
+        <div class="rule-num">B2B</div>
+        <div class="rule-title">Data ties to emotion</div>
+        <div class="rule-body">Pull up the numbers. Make them see what they've been ignoring. Negative profit every month hits differently when it's their numbers on a screen.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">B2C</div>
+        <div class="rule-title">Questions elicit feeling</div>
+        <div class="rule-body">Not "how would that make you feel?" — that's a script. Ask intentional questions that pull out doubt, fear, and the reality they've been avoiding.</div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">Both</div>
+        <div class="rule-title">Never reassure too early</div>
+        <div class="rule-body">When pain surfaces, most reps comfort it. That kills the sale. The emotion is the asset. Use it. Expand it. Don't smother it with false reassurance.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMITMENT -->
+  <section>
+    <h2>Commitment — What Closing Actually Is</h2>
+    <div class="block">
+      <div class="block-label">Forget tie-downs and looping</div>
+      <p>The tactical stuff misses the point. What you actually need is for them to commit — to the decision, to the new version of who they're becoming, to the direction they want to go. If they're committed, the close is easy. If they're not, no technique will save you.</p>
+    </div>
+    <div class="highlight">
+      <p><strong>Wishy-washy language is a signal.</strong> "I think it could work" is not a committed prospect. "I know this is right" is. Don't move forward until they mean it. "Do you think — or do you know?" That single question does more than any script.</p>
+    </div>
+    <div class="watch">
+      <p><strong>At the close:</strong> Make them feel comfortable. If the energy shifts and something feels off — break the fourth wall. Don't run a sequence. Say it directly: "I can feel something shifted. Am I missing something or is there something you're not telling me?" That honesty does more than any objection framework ever will.</p>
+    </div>
+  </section>
+
+  <!-- THE RULE -->
+  <section>
+    <h2>The One Thing</h2>
+    <div class="highlight">
+      <p style="font-size:16px; font-weight:700; line-height:1.7;"><strong>Humans make decisions based on emotions and compensate logically.</strong></p>
+      <p style="margin-top:12px;">If you remember nothing else from this lesson, remember that. Make them feel something real, and the logic will follow. Skip the feeling, and no amount of logic will close them.</p>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
