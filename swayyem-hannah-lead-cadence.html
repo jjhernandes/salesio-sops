@@ -58,7 +58,6 @@
     .cad-left { width: 60px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; }
     .cad-left .day-dot { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .cad-left .day-dot .day-num { font-size: 11px; font-weight: 900; line-height: 1.1; text-align: center; }
-    .cad-left .day-dot .day-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
     .cad-left .cad-line { flex: 1; width: 2px; background: #111; margin: 4px 0; min-height: 16px; }
     .cad-right { flex: 1; padding: 4px 0 28px 16px; }
     .cad-touches { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
@@ -85,17 +84,41 @@
     .script-block .note { font-style: normal; color: #555; font-size: 12px; margin-top: 6px; }
 
     /* EMAIL TEMPLATE */
-    .email-template { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
-    .email-meta { background: #0f0f0f; padding: 12px 20px; border-bottom: 1px solid #111; display: flex; flex-direction: column; gap: 4px; }
-    .email-meta-row { display: flex; gap: 8px; font-size: 12px; }
-    .email-meta-row .key { color: #444; width: 60px; flex-shrink: 0; }
-    .email-meta-row .val { color: #aaa; }
+    .email-template { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; overflow: hidden; margin-bottom: 16px; }
+    .email-meta { background: #0f0f0f; padding: 14px 20px; border-bottom: 1px solid #111; display: flex; flex-direction: column; gap: 6px; }
+    .email-meta-tag { font-size: 9px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .email-meta-row { display: flex; gap: 8px; font-size: 12px; align-items: flex-start; }
+    .email-meta-row .key { color: #444; width: 60px; flex-shrink: 0; padding-top: 1px; }
+    .email-meta-row .val { color: #aaa; line-height: 1.5; }
     .email-meta-row .val.subject { color: #fff; font-weight: 700; }
-    .email-meta-tag { font-size: 9px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
-    .email-body { padding: 16px 20px; }
-    .email-body p { font-size: 13px; color: #999; line-height: 1.8; }
+    .email-subj-list { list-style: none; display: flex; flex-direction: column; gap: 3px; }
+    .email-subj-list li { font-size: 12px; color: #888; padding: 3px 0; display: flex; gap: 8px; }
+    .email-subj-list li::before { content: "·"; color: #333; flex-shrink: 0; }
+    .email-subj-list li.primary { color: #fff; font-weight: 700; }
+    .email-subj-list li.primary::before { content: "→"; color: #4ade80; }
+    .email-body { padding: 18px 20px; }
+    .email-body p { font-size: 13px; color: #ccc; line-height: 1.9; }
     .email-body p + p { margin-top: 10px; }
     .email-body .sig { color: #555; font-size: 12px; margin-top: 14px; padding-top: 14px; border-top: 1px solid #111; }
+    .email-footer { background: #080808; border-top: 1px solid #111; padding: 12px 20px; display: flex; flex-direction: column; gap: 6px; }
+    .email-footer-label { font-size: 9px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #333; margin-bottom: 2px; }
+    .email-footer-list { list-style: none; }
+    .email-footer-list li { font-size: 12px; color: #666; padding: 3px 0; display: flex; gap: 8px; line-height: 1.4; }
+    .email-footer-list li::before { content: "→"; color: #333; flex-shrink: 0; }
+    .prep-list { list-style: none; display: flex; flex-direction: column; gap: 3px; }
+    .prep-list li { font-size: 12px; color: #666; padding: 3px 0; display: flex; gap: 8px; line-height: 1.4; }
+    .prep-list li::before { content: "□"; color: #333; flex-shrink: 0; }
+
+    /* SUBJECT LINE PERSONA TABLE */
+    .persona-table { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
+    .persona-row { display: grid; grid-template-columns: 140px 1fr 1fr; border-bottom: 1px solid #111; }
+    .persona-row:last-child { border-bottom: none; }
+    .persona-row.header { background: #0f0f0f; }
+    .persona-cell { padding: 10px 14px; font-size: 13px; line-height: 1.5; }
+    .persona-row.header .persona-cell { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #444; }
+    .persona-type { font-weight: 700; color: #ccc; }
+    .persona-signal { color: #666; font-size: 12px; }
+    .persona-pick { color: #4ade80; font-size: 12px; font-style: italic; }
 
     /* RESPONSE TREE */
     .response-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 12px; }
@@ -123,6 +146,13 @@
     .rules-list li { font-size: 14px; color: #999; padding: 10px 0; border-bottom: 1px solid #0f0f0f; display: flex; gap: 12px; line-height: 1.6; align-items: flex-start; }
     .rules-list li:last-child { border-bottom: none; }
     .rules-list li::before { content: "—"; color: #333; flex-shrink: 0; }
+
+    /* STATS ROW */
+    .stats-mini { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .stat-mini { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 16px 20px; }
+    .stat-mini-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #444; margin-bottom: 4px; }
+    .stat-mini-value { font-size: 22px; font-weight: 900; color: #4ade80; margin-bottom: 2px; }
+    .stat-mini-note { font-size: 12px; color: #555; }
   </style>
 </head>
 <body>
@@ -131,18 +161,30 @@
   <div class="header">
     <div class="label">SwayyEm — Hannah's Playbook</div>
     <h1>Old Lead Re-Engagement Cadence</h1>
-    <div class="meta">Phone + Email Protocol &nbsp;·&nbsp; Three Tracks by Lead Age &nbsp;·&nbsp; Full Script Bank</div>
+    <div class="meta">5-Email Sequence Over 18 Days &nbsp;·&nbsp; Phone Layered by Lead Age &nbsp;·&nbsp; Full Script Bank</div>
   </div>
 
   <!-- OVERVIEW -->
   <section>
     <h2>What This Is</h2>
     <div class="context-box">
-      <p>Matt is giving you ~44 HubSpot leads that were qualified in the last 2–3 months but never moved forward. These are real people who had some contact with SwayyEm — they're not cold, they're just quiet. Your job is to re-engage them and get them back onto a call. Not to pitch. Just to get the conversation open again.</p>
-      <p><strong style="color:#fff;">Channel priority: Phone first. Email same day if no answer. Repeat until the cadence ends or they respond.</strong> Do not text. Do not rely on LinkedIn for these leads — Matt is building that channel but it's not active enough yet for outbound at this volume.</p>
+      <p>Matt is giving you ~44 HubSpot leads who had a prior conversation 30–120 days ago and didn't convert. These are warm-but-dormant — not cold. Your job is to re-engage them and get them back on a call. Not to pitch. Not to inform. Just to reopen the conversation.</p>
+      <p><strong style="color:#fff;">The backbone is a 5-email sequence over 18 days. Phone is layered on top based on lead age. Stop the sequence the moment they reply — any reply.</strong> Every email has a distinct angle. None of them say "just checking in." None of them say "hope this finds you well." Every one of them gives the lead a reason to care right now.</p>
+    </div>
+    <div class="stats-mini">
+      <div class="stat-mini">
+        <div class="stat-mini-label">Target Reply Rate</div>
+        <div class="stat-mini-value">15–25%</div>
+        <div class="stat-mini-note">vs. 5–10% on old "checking in" sequences</div>
+      </div>
+      <div class="stat-mini">
+        <div class="stat-mini-label">Best Performing Emails</div>
+        <div class="stat-mini-value">Email 5, then 1</div>
+        <div class="stat-mini-note">Permission close + personalized audit drive the most replies</div>
+      </div>
     </div>
     <div class="watch">
-      <p><strong>Before you dial anything:</strong> Pull up their HubSpot record. Read any Fathom notes from prior calls. Read any email thread. Know what they discussed with Matt, what their pain was, and why they went cold. Calling blind when the context is sitting right there is a wasted call.</p>
+      <p><strong>Before you dial or send anything:</strong> Pull up their HubSpot record. Read Fathom notes from prior calls if they exist. Read any email thread. Know what they discussed with Matt, what their pain was, and why they went cold. Use the info — it's what makes Email 1 land.</p>
     </div>
   </section>
 
@@ -150,253 +192,441 @@
   <section>
     <h2>Step 1 — Segment Your Leads Into Three Tracks</h2>
     <div class="block">
-      <p>Before you pick up the phone, sort every lead into one of these three tracks. The age of the lead determines the approach. Treating a 90-day lead like a 30-day lead makes you sound out of touch. Treating a 30-day lead too gently loses momentum. Match the energy to the timeline.</p>
+      <p>All three tracks use the same 5-email sequence. What changes by track is how many phone calls you layer on top and how you open on the phone. Segment before you start.</p>
     </div>
     <div class="segment-row">
       <div class="segment-card seg-a">
         <div class="seg-label">Track A</div>
         <div class="seg-title">30 Days or Less</div>
-        <div class="seg-body">Still fresh. They probably remember Matt. Reference the last conversation directly. Be direct and warm.</div>
-        <div class="seg-tag">5 touches over 8 days</div>
+        <div class="seg-body">Still fresh. Reference the last conversation directly. Heavy phone cadence — 3 calls layered into the email sequence.</div>
+        <div class="seg-tag">3 calls + 5 emails / 18 days</div>
       </div>
       <div class="segment-card seg-b">
         <div class="seg-label">Track B</div>
         <div class="seg-title">31–60 Days</div>
-        <div class="seg-body">Cooler but not gone. Re-establish context before going anywhere. Don't assume they remember the details.</div>
-        <div class="seg-tag">4 touches over 10 days</div>
+        <div class="seg-body">Cooler. Re-establish context. Two calls, focused on Day 1 and Day 7.</div>
+        <div class="seg-tag">2 calls + 5 emails / 18 days</div>
       </div>
       <div class="segment-card seg-c">
         <div class="seg-label">Track C</div>
-        <div class="seg-title">61–90+ Days</div>
-        <div class="seg-body">Almost cold. Lead with something new — a hook that's relevant to right now. Don't lean on the prior connection.</div>
-        <div class="seg-tag">3 touches over 7 days</div>
+        <div class="seg-title">61–120 Days</div>
+        <div class="seg-body">Almost cold. Lead with something new. One call on Day 1 — email carries the rest.</div>
+        <div class="seg-tag">1 call + 5 emails / 18 days</div>
       </div>
     </div>
   </section>
 
-  <!-- TRACK A -->
+  <!-- EMAIL SEQUENCE — THE BACKBONE -->
   <section>
-    <h2>Track A — 30-Day Leads (5 Touches, 8 Days)</h2>
-    <div class="cadence">
+    <h2>The 5-Email Sequence — Full Copy</h2>
+    <div class="block">
+      <p>Under 150 words per email. One CTA per email. Each one is independent — if they respond to Email 3 without seeing 1 or 2, it still lands. Stop the moment they reply. Do not send the next touch to someone who already responded.</p>
+    </div>
 
-      <div class="cad-wrap">
-        <div class="cad-left">
-          <div class="day-dot" style="background:#0a2018; border:1px solid #1a4a30;">
-            <div class="day-num" style="color:#4ade80;">Day<br>1</div>
+    <!-- EMAIL 1 -->
+    <div class="email-template">
+      <div class="email-meta">
+        <div class="email-meta-tag" style="color:#4ade80;">Email 1 — The Citation Gap Audit &nbsp;·&nbsp; Day 0</div>
+        <div class="email-meta-row">
+          <span class="key">Subject:</span>
+          <div>
+            <ul class="email-subj-list">
+              <li class="primary">Quick update — [Their company] in AI search</li>
+              <li>[Competitor name] keeps showing up. You don't.</li>
+              <li>Where [Their company] ranks in AI today</li>
+            </ul>
           </div>
-          <div class="cad-line"></div>
         </div>
-        <div class="cad-right">
-          <div class="cad-touches">
-            <span class="touch-pill touch-phone">Phone Call</span>
-            <span class="touch-pill touch-vm">Voicemail if no answer</span>
-            <span class="touch-pill touch-email">Email same day</span>
-          </div>
-          <div class="cad-title">First Contact — Reference the Prior Connection</div>
-          <div class="cad-body">Call first. If they pick up, use the Track A live answer script. If they don't, leave the short voicemail and send Email 1 within the hour. Don't wait until end of day.</div>
-          <div class="cad-note">If they answer and book a call — you're done. Move to the response protocol.</div>
-        </div>
+        <div class="email-meta-row"><span class="key">Goal:</span><span class="val">Land with something personalized. Make them see their specific gap.</span></div>
       </div>
-
-      <div class="cad-wrap">
-        <div class="cad-left">
-          <div class="day-dot" style="background:#0a2018; border:1px solid #1a4a30;">
-            <div class="day-num" style="color:#4ade80;">Day<br>3</div>
-          </div>
-          <div class="cad-line"></div>
-        </div>
-        <div class="cad-right">
-          <div class="cad-touches">
-            <span class="touch-pill touch-phone">Phone Call</span>
-          </div>
-          <div class="cad-title">Second Call — No Voicemail This Time</div>
-          <div class="cad-body">Call again. If they don't pick up, do not leave another voicemail — you already left one. Just hang up and wait for Day 5. Two voicemails in three days feels aggressive.</div>
-          <div class="cad-note">If they answer — great. Refer to Email 1 you sent on Day 1 as a soft reference point.</div>
-        </div>
+      <div class="email-body">
+        <p>Hey [Name],</p>
+        <p>Hannah here at SwayyEm — work with Matt. You and Matt connected [timeframe ago] about [their stated focus]. Wanted to share something I ran this morning.</p>
+        <p>I searched [category query] across ChatGPT, Perplexity, and Google AI. Here's what came back:</p>
+        <p>[Competitor 1] — cited in [X of 5] results<br>[Competitor 2] — cited in [X of 5] results<br>[Their company] — not in any of them</p>
+        <p>Wasn't the case 90 days ago for at least one of them. The AI search landscape moved.</p>
+        <p>Worth a 15-minute reconnect to look at the gap? I'll bring the full citation report — yours and your top competitors.</p>
+        <div class="sig">— Hannah</div>
       </div>
-
-      <div class="cad-wrap">
-        <div class="cad-left">
-          <div class="day-dot" style="background:#0a2018; border:1px solid #1a4a30;">
-            <div class="day-num" style="color:#4ade80;">Day<br>5</div>
-          </div>
-          <div class="cad-line"></div>
-        </div>
-        <div class="cad-right">
-          <div class="cad-touches">
-            <span class="touch-pill touch-email">Email — New Angle</span>
-          </div>
-          <div class="cad-title">Second Email — The AI Competitor Hook</div>
-          <div class="cad-body">Send Email 2. Different subject line, different angle. This one leads with their specific competitive gap in AI search — not a generic follow-up. Make it feel like you did something for them, not that you're following up.</div>
-        </div>
+      <div class="email-footer">
+        <div class="email-footer-label">Pre-Send Prep (10 min)</div>
+        <ul class="prep-list">
+          <li>Open ChatGPT, Perplexity, Google AI. Search 3 buyer-intent variants of their category query.</li>
+          <li>Note exactly who's cited and how often. Confirm [Their company] is NOT cited.</li>
+          <li>Fill: [Name], [Their company], [Competitor 1], [Competitor 2], [category query], [X of 5], [timeframe ago], [their stated focus from HubSpot notes]</li>
+        </ul>
       </div>
+    </div>
 
-      <div class="cad-wrap">
-        <div class="cad-left">
-          <div class="day-dot" style="background:#0a2018; border:1px solid #1a4a30;">
-            <div class="day-num" style="color:#4ade80;">Day<br>7</div>
+    <!-- EMAIL 2 -->
+    <div class="email-template">
+      <div class="email-meta">
+        <div class="email-meta-tag" style="color:#818cf8;">Email 2 — The Mechanism + Proof &nbsp;·&nbsp; Day 3</div>
+        <div class="email-meta-row">
+          <span class="key">Subject:</span>
+          <div>
+            <ul class="email-subj-list">
+              <li class="primary">Why [Competitor 1] keeps showing up in ChatGPT</li>
+              <li>The 82% rule (and why it explains your AI gap)</li>
+              <li>How Campaign Monitor 2.5x'd organic — same playbook</li>
+            </ul>
           </div>
-          <div class="cad-line"></div>
         </div>
-        <div class="cad-right">
-          <div class="cad-touches">
-            <span class="touch-pill touch-phone">Final Call</span>
-            <span class="touch-pill touch-vm">Voicemail if no answer</span>
-          </div>
-          <div class="cad-title">Third Call — Create Urgency Around the Gap</div>
-          <div class="cad-body">This is the penultimate touch. If no answer, leave the second voicemail (the curiosity-gap version). Mention that you'll be sending one final note. Then send Email 3 same day.</div>
-        </div>
+        <div class="email-meta-row"><span class="key">Goal:</span><span class="val">Explain why the gap exists. Establish authority. Drop proof.</span></div>
       </div>
-
-      <div class="cad-wrap">
-        <div class="cad-left">
-          <div class="day-dot" style="background:#1a0505; border:1px solid #3a1010;">
-            <div class="day-num" style="color:#f87171;">Day<br>9</div>
-          </div>
-        </div>
-        <div class="cad-right">
-          <div class="cad-touches">
-            <span class="touch-pill touch-stop">Break-Up Email</span>
-          </div>
-          <div class="cad-title">Last Touch — The Break-Up</div>
-          <div class="cad-body">Send the break-up email. Short, no pressure, leaves the door open. After this, move them to "Archived — No Response" in HubSpot and stop outreach. You've done your job.</div>
-          <div class="cad-note">Do not send a 6th touch. Respect their silence after this point.</div>
-        </div>
+      <div class="email-body">
+        <p>Hey [Name],</p>
+        <p>Quick follow-up on the citation report. Wanted to share why the gap exists.</p>
+        <p>Muck Rack just published research across 500K AI prompts. Their finding: 82% of AI citations come from earned media — Forbes, USA Today, VentureBeat. Not blog posts. Not ads. Editorial content.</p>
+        <p>[Competitor 1] is being cited because they've been placed in those publications. You haven't yet.</p>
+        <p>When Campaign Monitor ran this playbook with us: 200% organic traffic lift, 2,500 new referring domains, 150K new monthly visits. Same mechanism in their category as we'd run in yours.</p>
+        <p>Worth 15 min this week to walk through what that would look like for [Their company]?</p>
+        <div class="sig">— Hannah</div>
       </div>
+      <div class="email-footer">
+        <div class="email-footer-label">Fill</div>
+        <ul class="prep-list">
+          <li>[Name], [Their company], [Competitor 1]</li>
+        </ul>
+      </div>
+    </div>
 
+    <!-- EMAIL 3 -->
+    <div class="email-template">
+      <div class="email-meta">
+        <div class="email-meta-tag" style="color:#f59e0b;">Email 3 — The Compound Cost of Waiting &nbsp;·&nbsp; Day 7</div>
+        <div class="email-meta-row">
+          <span class="key">Subject:</span>
+          <div>
+            <ul class="email-subj-list">
+              <li class="primary">Every month you wait = 18 months out of AI answers</li>
+              <li>AI training cycles are about to freeze — here's what that means</li>
+              <li>[Competitor 1] started in 2024. You started in…?</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-meta-row"><span class="key">Goal:</span><span class="val">Urgency through math. The gap compounds. Waiting costs more than starting.</span></div>
+      </div>
+      <div class="email-body">
+        <p>Hey [Name],</p>
+        <p>One thing worth flagging on the citation gap conversation.</p>
+        <p>AI models don't update day to day — they train on data over months-long cycles. Brands cited before the next training refresh get recommended for 12–18 months. Brands that miss the window stay invisible until the next cycle.</p>
+        <p>[Competitor 1] is already inside the corpus from their 2024 work. Every month you stay out, their lead compounds and the gap gets harder to close.</p>
+        <p>Not pressure — just the math of how AI training works.</p>
+        <p>Open to 15 minutes next week to look at where you stand and what closing the gap actually takes?</p>
+        <div class="sig">— Hannah</div>
+      </div>
+      <div class="email-footer">
+        <div class="email-footer-label">Fill</div>
+        <ul class="prep-list">
+          <li>[Name], [Competitor 1] — use the strongest competitor from the Email 1 audit</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- EMAIL 4 -->
+    <div class="email-template">
+      <div class="email-meta">
+        <div class="email-meta-tag" style="color:#a78bfa;">Email 4 — The Guarantee Changed &nbsp;·&nbsp; Day 12</div>
+        <div class="email-meta-row">
+          <span class="key">Subject:</span>
+          <div>
+            <ul class="email-subj-list">
+              <li class="primary">We changed how we charge</li>
+              <li>After day 90, the campaign is on us — read this if you passed on us before</li>
+              <li>No more open-ended PR bets</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-meta-row"><span class="key">Goal:</span><span class="val">Remove the "too risky" objection. The guarantee was re-engineered. Make that the news.</span></div>
+      </div>
+      <div class="email-body">
+        <p>Hey [Name],</p>
+        <p>If part of why you didn't move forward last time was risk — that's been re-engineered.</p>
+        <p>The new SwayyEm guarantee: After day 90, the campaign is on us. If AI isn't recommending your brand by day 90, the campaign continues at no additional cost until we deliver. Your cost past day 90 is zero.</p>
+        <p>You're funding a 90-day proof window, not an open-ended PR bet. We've delivered this for 800+ brands. We can offer it because it's what we do.</p>
+        <p>Worth 15 minutes this week to look at what that would mean for [Their company]?</p>
+        <div class="sig">— Hannah</div>
+      </div>
+      <div class="email-footer">
+        <div class="email-footer-label">Fill</div>
+        <ul class="prep-list">
+          <li>[Name], [Their company]</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- EMAIL 5 -->
+    <div class="email-template">
+      <div class="email-meta">
+        <div class="email-meta-tag" style="color:#f87171;">Email 5 — The Permission Break-Up &nbsp;·&nbsp; Day 18</div>
+        <div class="email-meta-row">
+          <span class="key">Subject:</span>
+          <div>
+            <ul class="email-subj-list">
+              <li class="primary">Should I close the file?</li>
+              <li>Last note from my side</li>
+              <li>Closing this out unless I hear from you</li>
+            </ul>
+          </div>
+        </div>
+        <div class="email-meta-row"><span class="key">Goal:</span><span class="val">Closing email. Paradoxically increases replies — some people respond because they don't want the door closed.</span></div>
+      </div>
+      <div class="email-body">
+        <p>Hey [Name],</p>
+        <p>Last note from me on this. I've reached out a few times about the AI search gap for [Their company] and the new day-90 on-us guarantee, and totally get if the timing isn't right.</p>
+        <p>Three options — just reply with the letter and I'll handle the rest:</p>
+        <p><strong style="color:#fff;">A</strong> — Still interested, just slammed. Hit me again in 60 days.<br><strong style="color:#fff;">B</strong> — Worth a 15-minute call. Send a time.<br><strong style="color:#fff;">C</strong> — Not the right time. Close the file.</p>
+        <p>No wrong answer. Just want to respect your inbox.</p>
+        <div class="sig">— Hannah</div>
+      </div>
+      <div class="email-footer">
+        <div class="email-footer-label">Fill</div>
+        <ul class="prep-list">
+          <li>[Name], [Their company]</li>
+          <li>After sending: archive in HubSpot regardless of response. This is the last touch.</li>
+        </ul>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- SUBJECT LINE SELECTION -->
+  <section>
+    <h2>Subject Line Selection — Match to Persona</h2>
+    <div class="block">
+      <p>Each email above has three subject line options. Pick the one that fits what you know about this lead from Matt's notes. When in doubt, use the one marked with →.</p>
+    </div>
+    <div class="persona-table">
+      <div class="persona-row header">
+        <div class="persona-cell">Lead Persona</div>
+        <div class="persona-cell">Signal to Look For</div>
+        <div class="persona-cell">Subject Angle to Use</div>
+      </div>
+      <div class="persona-row">
+        <div class="persona-cell"><span class="persona-type">Data-Driven / Analytical</span></div>
+        <div class="persona-cell"><span class="persona-signal">Asked for ROI data, case studies, metrics on prior call. CFO, COO, or ops background.</span></div>
+        <div class="persona-cell"><span class="persona-pick">"The 82% rule" · "Campaign Monitor 2.5x'd" · "Every month you wait = 18 months"</span></div>
+      </div>
+      <div class="persona-row">
+        <div class="persona-cell"><span class="persona-type">Competitive / Category-Focused</span></div>
+        <div class="persona-cell"><span class="persona-signal">Mentioned competitors by name. Focused on market position. CEO or founder energy.</span></div>
+        <div class="persona-cell"><span class="persona-pick">"[Competitor] keeps showing up" · "You don't." · "[Competitor] started in 2024"</span></div>
+      </div>
+      <div class="persona-row">
+        <div class="persona-cell"><span class="persona-type">Risk-Averse / Cautious</span></div>
+        <div class="persona-cell"><span class="persona-signal">Said "not sure," mentioned budget concerns, needed approval from someone else, stalled on contract.</span></div>
+        <div class="persona-cell"><span class="persona-pick">"We changed how we charge" · "No more open-ended PR bets" · "After day 90, it's on us"</span></div>
+      </div>
+      <div class="persona-row">
+        <div class="persona-cell"><span class="persona-type">No Context Available</span></div>
+        <div class="persona-cell"><span class="persona-signal">No Fathom notes. No email thread. Only a name and a company in HubSpot.</span></div>
+        <div class="persona-cell"><span class="persona-pick">Use the → defaults for each email. Run the Email 1 audit fresh.</span></div>
+      </div>
     </div>
   </section>
 
-  <!-- TRACK B -->
+  <!-- PHONE CADENCE BY TRACK -->
   <section>
-    <h2>Track B — 60-Day Leads (4 Touches, 10 Days)</h2>
-    <div class="cadence">
+    <h2>Phone Cadence — Layered By Track</h2>
+    <div class="block">
+      <p>The email sequence is the same for all three tracks. The phone calls are layered on top based on how fresh the lead is. Phone calls always precede the email send on the same day.</p>
+    </div>
 
+    <h2 style="margin-top:0; border-bottom:none; margin-bottom:12px; color:#4ade80; font-size:11px;">Track A — 30-Day Leads</h2>
+    <div class="cadence">
       <div class="cad-wrap">
         <div class="cad-left">
-          <div class="day-dot" style="background:#0a1228; border:1px solid #1a2a4a;">
-            <div class="day-num" style="color:#60a5fa;">Day<br>1</div>
-          </div>
+          <div class="day-dot" style="background:#0a2018; border:1px solid #1a4a30;"><div class="day-num" style="color:#4ade80;">Day<br>0</div></div>
           <div class="cad-line"></div>
         </div>
         <div class="cad-right">
           <div class="cad-touches">
-            <span class="touch-pill touch-phone">Phone Call</span>
+            <span class="touch-pill touch-phone">Call First</span>
             <span class="touch-pill touch-vm">Voicemail if no answer</span>
-            <span class="touch-pill touch-email">Email same day</span>
+            <span class="touch-pill touch-email">Email 1 same day</span>
+          </div>
+          <div class="cad-title">Citation Gap Audit — Reference the Last Conversation</div>
+          <div class="cad-body">Call first. Use the Track A live answer script. If no answer, leave the first voicemail and send Email 1 within the hour.</div>
+        </div>
+      </div>
+      <div class="cad-wrap">
+        <div class="cad-left">
+          <div class="day-dot" style="background:#0a2018; border:1px solid #1a4a30;"><div class="day-num" style="color:#4ade80;">Day<br>3</div></div>
+          <div class="cad-line"></div>
+        </div>
+        <div class="cad-right">
+          <div class="cad-touches">
+            <span class="touch-pill touch-phone">Call — No Voicemail</span>
+            <span class="touch-pill touch-email">Email 2 same day</span>
+          </div>
+          <div class="cad-title">Mechanism + Proof — No Second Voicemail</div>
+          <div class="cad-body">Call first. If no answer, do not leave a voicemail — you already left one on Day 0. Send Email 2 within the hour regardless of whether they picked up.</div>
+        </div>
+      </div>
+      <div class="cad-wrap">
+        <div class="cad-left">
+          <div class="day-dot" style="background:#0a2018; border:1px solid #1a4a30;"><div class="day-num" style="color:#4ade80;">Day<br>7</div></div>
+          <div class="cad-line"></div>
+        </div>
+        <div class="cad-right">
+          <div class="cad-touches">
+            <span class="touch-pill touch-phone">Call</span>
+            <span class="touch-pill touch-vm">Second Voicemail</span>
+            <span class="touch-pill touch-email">Email 3 same day</span>
+          </div>
+          <div class="cad-title">Compound Cost — Final Phone Push</div>
+          <div class="cad-body">Call again. If no answer, leave the second voicemail (the curiosity-gap version). Send Email 3 same day.</div>
+        </div>
+      </div>
+      <div class="cad-wrap">
+        <div class="cad-left">
+          <div class="day-dot" style="background:#0a0a0a; border:1px solid #1a1a1a;"><div class="day-num" style="color:#555;">Day<br>12</div></div>
+          <div class="cad-line"></div>
+        </div>
+        <div class="cad-right">
+          <div class="cad-touches"><span class="touch-pill touch-email">Email 4 only</span></div>
+          <div class="cad-title">The Guarantee Changed</div>
+          <div class="cad-body">Email only. No phone call at this stage.</div>
+        </div>
+      </div>
+      <div class="cad-wrap">
+        <div class="cad-left">
+          <div class="day-dot" style="background:#1a0505; border:1px solid #3a1010;"><div class="day-num" style="color:#f87171;">Day<br>18</div></div>
+        </div>
+        <div class="cad-right">
+          <div class="cad-touches"><span class="touch-pill touch-stop">Email 5 — Break-Up</span></div>
+          <div class="cad-title">Permission Close — Last Touch</div>
+          <div class="cad-body">Send Email 5. Archive in HubSpot after sending. This is the final touch no matter what.</div>
+        </div>
+      </div>
+    </div>
+
+    <h2 style="margin-top:0; border-bottom:none; margin-bottom:12px; color:#60a5fa; font-size:11px;">Track B — 60-Day Leads</h2>
+    <div class="cadence">
+      <div class="cad-wrap">
+        <div class="cad-left">
+          <div class="day-dot" style="background:#0a1228; border:1px solid #1a2a4a;"><div class="day-num" style="color:#60a5fa;">Day<br>0</div></div>
+          <div class="cad-line"></div>
+        </div>
+        <div class="cad-right">
+          <div class="cad-touches">
+            <span class="touch-pill touch-phone">Call First</span>
+            <span class="touch-pill touch-vm">Voicemail if no answer</span>
+            <span class="touch-pill touch-email">Email 1 same day</span>
           </div>
           <div class="cad-title">Re-Introduction — Re-Establish Who You Are</div>
-          <div class="cad-body">Don't assume they remember SwayyEm in detail. Re-establish context quickly: "I'm Hannah, I work with Matt at SwayyEm — you'd connected a while back about digital PR." If no answer, leave voicemail and send Email 1 same day.</div>
+          <div class="cad-body">Don't assume they remember SwayyEm in detail. Use the Track B script. Send Email 1 within the hour whether or not they picked up.</div>
         </div>
       </div>
-
       <div class="cad-wrap">
         <div class="cad-left">
-          <div class="day-dot" style="background:#0a1228; border:1px solid #1a2a4a;">
-            <div class="day-num" style="color:#60a5fa;">Day<br>4</div>
-          </div>
+          <div class="day-dot" style="background:#0a0a0a; border:1px solid #1a1a1a;"><div class="day-num" style="color:#555;">Day<br>3</div></div>
+          <div class="cad-line"></div>
+        </div>
+        <div class="cad-right">
+          <div class="cad-touches"><span class="touch-pill touch-email">Email 2 only</span></div>
+          <div class="cad-title">Mechanism + Proof — Email Only</div>
+          <div class="cad-body">No phone call on Day 3 for Track B. Email 2 carries this touch.</div>
+        </div>
+      </div>
+      <div class="cad-wrap">
+        <div class="cad-left">
+          <div class="day-dot" style="background:#0a1228; border:1px solid #1a2a4a;"><div class="day-num" style="color:#60a5fa;">Day<br>7</div></div>
           <div class="cad-line"></div>
         </div>
         <div class="cad-right">
           <div class="cad-touches">
-            <span class="touch-pill touch-email">Email — Competitor Gap</span>
+            <span class="touch-pill touch-phone">Call — No Voicemail</span>
+            <span class="touch-pill touch-email">Email 3 same day</span>
           </div>
-          <div class="cad-title">The AI Search Gap Email</div>
-          <div class="cad-body">Send Email 2. This time, if you can, name a specific competitor of theirs that IS showing up in AI search results. Makes it personal and hard to ignore. Even one named competitor in the subject line changes the open rate entirely.</div>
+          <div class="cad-title">Compound Cost — Second and Final Call</div>
+          <div class="cad-body">Call. No voicemail — they've already heard from you. Send Email 3 same day regardless.</div>
         </div>
       </div>
-
       <div class="cad-wrap">
         <div class="cad-left">
-          <div class="day-dot" style="background:#0a1228; border:1px solid #1a2a4a;">
-            <div class="day-num" style="color:#60a5fa;">Day<br>7</div>
-          </div>
+          <div class="day-dot" style="background:#0a0a0a; border:1px solid #1a1a1a;"><div class="day-num" style="color:#555;">Day<br>12</div></div>
           <div class="cad-line"></div>
         </div>
         <div class="cad-right">
-          <div class="cad-touches">
-            <span class="touch-pill touch-phone">Phone Call</span>
-          </div>
-          <div class="cad-title">Second Call — No Voicemail</div>
-          <div class="cad-body">Don't leave a voicemail. They've heard from you. If they're going to call back, they will. Just try the call — if no answer, move to Day 10.</div>
+          <div class="cad-touches"><span class="touch-pill touch-email">Email 4 only</span></div>
+          <div class="cad-title">The Guarantee Changed</div>
+          <div class="cad-body">Email only.</div>
         </div>
       </div>
-
       <div class="cad-wrap">
         <div class="cad-left">
-          <div class="day-dot" style="background:#1a0505; border:1px solid #3a1010;">
-            <div class="day-num" style="color:#f87171;">Day<br>10</div>
-          </div>
+          <div class="day-dot" style="background:#1a0505; border:1px solid #3a1010;"><div class="day-num" style="color:#f87171;">Day<br>18</div></div>
         </div>
         <div class="cad-right">
-          <div class="cad-touches">
-            <span class="touch-pill touch-stop">Break-Up Email</span>
-          </div>
-          <div class="cad-title">Last Touch — Close the Loop</div>
-          <div class="cad-body">Send the break-up email. Same template as Track A. Archive in HubSpot and move on. You gave them a real shot — it wasn't the right timing, and that's okay.</div>
+          <div class="cad-touches"><span class="touch-pill touch-stop">Email 5 — Break-Up</span></div>
+          <div class="cad-title">Permission Close — Last Touch</div>
+          <div class="cad-body">Send Email 5. Archive in HubSpot.</div>
         </div>
       </div>
-
     </div>
-  </section>
 
-  <!-- TRACK C -->
-  <section>
-    <h2>Track C — 90+ Day Leads (3 Touches, 7 Days)</h2>
-    <div class="block">
-      <p>These leads are cold. Don't lean on "we spoke a while back" as your hook — it's too weak after 3+ months. Lead with something new that's relevant right now. The most effective angle: something has changed in their space (AI search is accelerating, a competitor just showed up in results, a new package is available). Give them a reason to care today, not a reason to remember a conversation they've forgotten.</p>
-    </div>
+    <h2 style="margin-top:0; border-bottom:none; margin-bottom:12px; color:#f59e0b; font-size:11px;">Track C — 61–120 Day Leads</h2>
     <div class="cadence">
-
       <div class="cad-wrap">
         <div class="cad-left">
-          <div class="day-dot" style="background:#1a0f00; border:1px solid #3a2000;">
-            <div class="day-num" style="color:#f59e0b;">Day<br>1</div>
-          </div>
+          <div class="day-dot" style="background:#1a0f00; border:1px solid #3a2000;"><div class="day-num" style="color:#f59e0b;">Day<br>0</div></div>
           <div class="cad-line"></div>
         </div>
         <div class="cad-right">
           <div class="cad-touches">
-            <span class="touch-pill touch-phone">Phone Call</span>
+            <span class="touch-pill touch-phone">One Call</span>
             <span class="touch-pill touch-vm">Short Voicemail</span>
-            <span class="touch-pill touch-email">Email same day</span>
+            <span class="touch-pill touch-email">Email 1 same day</span>
           </div>
-          <div class="cad-title">The Fresh Start — Treat It Almost Like a New Lead</div>
-          <div class="cad-body">Brief mention of the prior connection, then get to the hook fast. "The reason I'm reaching out now specifically is..." Give them a concrete reason why now, not just a generic check-in.</div>
+          <div class="cad-title">Fresh Start — Lead With the New Hook</div>
+          <div class="cad-body">Don't lean on the prior conversation. Brief mention of Matt, then immediately into why you're reaching out now. Use the Track C script. Send Email 1 within the hour. This is your only phone call for this track.</div>
         </div>
       </div>
-
       <div class="cad-wrap">
         <div class="cad-left">
-          <div class="day-dot" style="background:#1a0f00; border:1px solid #3a2000;">
-            <div class="day-num" style="color:#f59e0b;">Day<br>4</div>
-          </div>
+          <div class="day-dot" style="background:#0a0a0a; border:1px solid #1a1a1a;"><div class="day-num" style="color:#555;">Day<br>3</div></div>
           <div class="cad-line"></div>
         </div>
         <div class="cad-right">
-          <div class="cad-touches">
-            <span class="touch-pill touch-email">Email — New Option</span>
-          </div>
-          <div class="cad-title">Email — Lead With the Starter Tier</div>
-          <div class="cad-body">If price or commitment was a reason they didn't move forward, this is the angle. SwayyEm now has a Starter option (~$5K/month, 3-month pilot). Lower barrier to entry. Frame it as: "We added something that might change the math from when we last talked."</div>
+          <div class="cad-touches"><span class="touch-pill touch-email">Email 2 only</span></div>
+          <div class="cad-title">Mechanism + Proof</div>
+          <div class="cad-body">Email only. No phone.</div>
         </div>
       </div>
-
       <div class="cad-wrap">
         <div class="cad-left">
-          <div class="day-dot" style="background:#1a0505; border:1px solid #3a1010;">
-            <div class="day-num" style="color:#f87171;">Day<br>7</div>
-          </div>
+          <div class="day-dot" style="background:#0a0a0a; border:1px solid #1a1a1a;"><div class="day-num" style="color:#555;">Day<br>7</div></div>
+          <div class="cad-line"></div>
         </div>
         <div class="cad-right">
-          <div class="cad-touches">
-            <span class="touch-pill touch-stop">Break-Up Email</span>
-          </div>
-          <div class="cad-title">Final Touch — Keep the Door Open</div>
-          <div class="cad-body">Send the break-up email. Very short. No pressure. They know how to find you. Archive in HubSpot.</div>
+          <div class="cad-touches"><span class="touch-pill touch-email">Email 3 only</span></div>
+          <div class="cad-title">Compound Cost</div>
+          <div class="cad-body">Email only. No phone.</div>
         </div>
       </div>
-
+      <div class="cad-wrap">
+        <div class="cad-left">
+          <div class="day-dot" style="background:#0a0a0a; border:1px solid #1a1a1a;"><div class="day-num" style="color:#555;">Day<br>12</div></div>
+          <div class="cad-line"></div>
+        </div>
+        <div class="cad-right">
+          <div class="cad-touches"><span class="touch-pill touch-email">Email 4 only</span></div>
+          <div class="cad-title">The Guarantee Changed</div>
+          <div class="cad-body">Email only.</div>
+        </div>
+      </div>
+      <div class="cad-wrap">
+        <div class="cad-left">
+          <div class="day-dot" style="background:#1a0505; border:1px solid #3a1010;"><div class="day-num" style="color:#f87171;">Day<br>18</div></div>
+        </div>
+        <div class="cad-right">
+          <div class="cad-touches"><span class="touch-pill touch-stop">Email 5 — Break-Up</span></div>
+          <div class="cad-title">Permission Close — Last Touch</div>
+          <div class="cad-body">Send Email 5. Archive in HubSpot.</div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -409,7 +639,7 @@
       <div class="script-block green" style="margin-top:8px;">
         <div class="script-label">Live Answer Script</div>
         <p>"Hey [Name], this is Hannah — I work with Matt over at SwayyEm. I know you and Matt had connected a little while back and I just wanted to personally reach out and see if this is still something you're thinking about. Has anything changed on your end since you two spoke?"</p>
-        <p class="note">Goal: get them talking. Don't pitch on this call. Just find out where they're at and get them to a call.</p>
+        <p class="note">Goal: get them talking. Don't pitch on this call. Find out where they're at and get them to a call.</p>
       </div>
     </div>
 
@@ -417,114 +647,61 @@
       <div class="block-label">When They Pick Up — Track B (60-Day Lead)</div>
       <div class="script-block blue" style="margin-top:8px;">
         <div class="script-label">Live Answer Script</div>
-        <p>"Hey [Name], this is Hannah — I'm on the sales side at SwayyEm, I work with Matt Shealy. You had connected with Matt a couple months back about digital PR and earned media. I wanted to reach out because a few things have shifted on our end and I thought it was worth a quick conversation to see if the timing makes more sense now. Do you have 10 minutes this week?"</p>
+        <p>"Hey [Name], this is Hannah — I'm on the sales side at SwayyEm, I work with Matt Shealy. You had connected with Matt a couple months back about digital PR and earned media. I wanted to reach out because a few things have shifted on our end — including how we guarantee results — and I thought it was worth a quick conversation to see if the timing makes more sense now. Do you have 10 minutes this week?"</p>
       </div>
     </div>
 
     <div class="block">
-      <div class="block-label">When They Pick Up — Track C (90+ Day Lead)</div>
+      <div class="block-label">When They Pick Up — Track C (61–120 Day Lead)</div>
       <div class="script-block amber" style="margin-top:8px;">
         <div class="script-label">Live Answer Script</div>
-        <p>"Hey [Name], this is Hannah from SwayyEm — I work with Matt Shealy. I know it's been a while since you two had connected. The reason I'm calling now specifically is that AI search has changed a lot in the last few months — and I've been going through our pipeline to reach back out to companies in [their industry] who this is most relevant for right now. Would it be worth 10–15 minutes to see where things stand?"</p>
-        <p class="note">If you know a competitor of theirs is now showing up in AI results, lead with that instead: "The reason I'm reaching out specifically is that I was looking at AI search results for [their industry keyword] and I noticed [Competitor] is showing up consistently. Wanted to flag it."</p>
+        <p>"Hey [Name], this is Hannah from SwayyEm — I work with Matt Shealy. I know it's been a while since you two connected. The reason I'm calling now specifically is that I ran your category in ChatGPT and Google AI this morning and there's something specific I wanted to flag with you. [Competitor] is showing up consistently — you're not in the results at all. Worth 10 minutes to see what that means and what's changed on our end since you last spoke with Matt?"</p>
+        <p class="note">If you don't know a competitor yet, use: "...the AI search landscape in [their industry] has shifted pretty significantly since you last spoke with Matt, and there's something I wanted to flag with you specifically."</p>
       </div>
     </div>
 
     <div class="block">
-      <div class="block-label">Voicemail — First Voicemail (Any Track)</div>
+      <div class="block-label">Voicemail — First Voicemail (Any Track, Day 0)</div>
       <div class="script-block green" style="margin-top:8px;">
-        <div class="script-label">Keep it under 20 seconds</div>
-        <p>"Hey [Name], this is Hannah from SwayyEm — I work with Matt. Had something I wanted to flag with you specifically. If you have a few minutes this week, give me a call back at [number] or I'll follow up over email. Thanks."</p>
-        <p class="note">Do NOT summarize what SwayyEm does in the voicemail. Curiosity gets callbacks. Information doesn't.</p>
+        <div class="script-label">Under 20 seconds</div>
+        <p>"Hey [Name], this is Hannah from SwayyEm — I work with Matt. I was actually running your category in AI search this morning and found something specific to your company I wanted to flag. Give me a call back at [number] or I'll send it over in an email. Thanks."</p>
+        <p class="note">Do NOT explain what you found. Curiosity gets callbacks. Information doesn't.</p>
       </div>
     </div>
 
     <div class="block">
-      <div class="block-label">Voicemail — Second Voicemail (Day 7 Track A only)</div>
+      <div class="block-label">Voicemail — Second Voicemail (Track A only, Day 7)</div>
       <div class="script-block amber" style="margin-top:8px;">
-        <div class="script-label">Slightly more specific — create curiosity around the gap</div>
-        <p>"Hey [Name], Hannah from SwayyEm again. I was actually looking at AI search results for [their keyword or industry] today and there's something specific to your situation I wanted to walk you through. Going to send you a quick note — but if you'd rather just hop on a call, you can reach me at [number]. Talk soon."</p>
+        <div class="script-label">Slightly more specific — reference the gap directly</div>
+        <p>"Hey [Name], Hannah from SwayyEm again. I've been sending over some info on the AI search gap for [Their company] — I think the Day 90 guarantee we just launched changes the math pretty significantly from when you last spoke with Matt. Going to send one more note. But if you want to just hop on a call, I'm at [number]. Talk soon."</p>
       </div>
     </div>
 
     <div class="highlight" style="margin-top:4px;">
-      <p><strong>Two voicemail rules:</strong> Never leave two voicemails in a row on back-to-back days — it feels like pressure. And never explain what you want to tell them in the voicemail — the point of a voicemail is to get them curious enough to call back or open your email, not to deliver information.</p>
+      <p><strong>Two voicemail rules:</strong> Never leave two voicemails back-to-back on consecutive days. And never explain what you found in the voicemail — the point is to get them curious enough to call back or open the email, not to deliver the information right there.</p>
     </div>
   </section>
 
-  <!-- EMAIL TEMPLATES -->
+  <!-- CITATION GAP REPORT -->
   <section>
-    <h2>Email Templates — Full Copy</h2>
-
-    <!-- Email 1 -->
-    <div class="email-template">
-      <div class="email-meta">
-        <div class="email-meta-tag" style="color:#4ade80;">Email 1 — First Re-Engagement (All Tracks)</div>
-        <div class="email-meta-row"><span class="key">Subject:</span><span class="val subject">Quick question, [Name]</span></div>
-        <div class="email-meta-row"><span class="key">Alt:</span><span class="val">[Their Company] + Forbes — worth reconnecting?</span></div>
-        <div class="email-meta-row"><span class="key">Send:</span><span class="val">Day 1, within 1 hour of call attempt</span></div>
-      </div>
-      <div class="email-body">
-        <p>Hey [Name],</p>
-        <p>I'm Hannah — I work with Matt over at SwayyEm. I know you'd connected with him a while back and I didn't want to reach back out without having something worth saying.</p>
-        <p>What I've been seeing lately with companies in [their space] is that AI search is shifting faster than most people realize — and the gap between who shows up in Google AI Overview and ChatGPT versus who doesn't is widening every month. The companies closing that gap right now are doing it through tier one earned media (Forbes, USA Today, VentureBeat). The ones waiting are getting harder to catch up.</p>
-        <p>Would it make sense to jump on a quick call this week — 15 minutes — just to see if the timing is different now than when you and Matt spoke?</p>
-        <div class="sig">Hannah<br>SwayyEm | [Phone Number]</div>
-      </div>
+    <h2>The Citation Gap Report — When They Ask for It</h2>
+    <div class="block">
+      <p>If a lead replies to any email asking "can you send the report?" — this is a great sign. Send a one-pager, then follow up with a call ask. Do not use the report as a pitch. Use it as the Call 1 opener.</p>
     </div>
-
-    <!-- Email 2 -->
-    <div class="email-template">
-      <div class="email-meta">
-        <div class="email-meta-tag" style="color:#818cf8;">Email 2 — AI Competitor Gap (Tracks A and B)</div>
-        <div class="email-meta-row"><span class="key">Subject:</span><span class="val subject">[Competitor Name] is showing up here — you're not</span></div>
-        <div class="email-meta-row"><span class="key">Alt:</span><span class="val">Pulled something for [Their Company]</span></div>
-        <div class="email-meta-row"><span class="key">Send:</span><span class="val">Day 5 (Track A) / Day 4 (Track B)</span></div>
-      </div>
-      <div class="email-body">
-        <p>Hey [Name],</p>
-        <p>Before I followed up I actually pulled up [their keyword] in Google AI Overview and ChatGPT. [Competitor A] is showing up consistently in both. You're not in either result right now.</p>
-        <p>82% of what AI models cite comes from earned media — Forbes, USA Today, VentureBeat and similar. Your competitors are getting placed in those publications. That's why they're showing up when your buyers use AI to research. That's the gap.</p>
-        <p>We guarantee the placements — not pitches, actual published articles. If one doesn't go live, we replace it or shift it. No wasted spend.</p>
-        <p>Happy to show you the exact results I pulled. 15 minutes this week?</p>
-        <div class="sig">Hannah<br>SwayyEm | [Phone Number]</div>
-      </div>
+    <div class="block">
+      <div class="block-label">What Goes in the Report</div>
+      <ul class="rules-list">
+        <li>The category queries you searched — 3 buyer-intent variants</li>
+        <li>Screenshots of each AI result (ChatGPT, Perplexity, Google AI)</li>
+        <li>Competitor citation counts with publication names</li>
+        <li>Their company's citation count (usually 0)</li>
+        <li>The publications competitors are cited from (Forbes, USA Today, etc.)</li>
+        <li>One closing line: "This gap is what SwayyEm closes — guaranteed by day 90 or the campaign is on us."</li>
+      </ul>
     </div>
-
-    <!-- Email 3 — Starter Tier (Track C Day 4) -->
-    <div class="email-template">
-      <div class="email-meta">
-        <div class="email-meta-tag" style="color:#f59e0b;">Email 3 — New Starter Option (Track C Day 4)</div>
-        <div class="email-meta-row"><span class="key">Subject:</span><span class="val subject">Something that might change the math for you</span></div>
-        <div class="email-meta-row"><span class="key">Alt:</span><span class="val">New option for [Their Company]</span></div>
-        <div class="email-meta-row"><span class="key">Send:</span><span class="val">Day 4 (Track C only)</span></div>
-      </div>
-      <div class="email-body">
-        <p>Hey [Name],</p>
-        <p>One thing that's changed since you and Matt connected: we've added an entry-level option for companies that want to start smaller before committing to a full campaign. It's a 3-month pilot — mix of tier one and tier two publications — and it comes in around $5K/month instead of the full package.</p>
-        <p>If the investment was part of what made it a hard decision before, this might shift the math. Same guarantee on placements. Just a smaller starting point.</p>
-        <p>Worth 15 minutes this week to walk through it?</p>
-        <div class="sig">Hannah<br>SwayyEm | [Phone Number]</div>
-      </div>
+    <div class="watch">
+      <p><strong>Don't pitch the report.</strong> Send it as a deliverable. The Call 1 is the next step. After sending: "Wanted to make sure you had the full picture. Happy to walk through what closing this gap would actually look like — do you have 15 minutes this week?"</p>
     </div>
-
-    <!-- Break-Up Email -->
-    <div class="email-template">
-      <div class="email-meta">
-        <div class="email-meta-tag" style="color:#f87171;">Break-Up Email — Final Touch (All Tracks)</div>
-        <div class="email-meta-row"><span class="key">Subject:</span><span class="val subject">Closing the loop, [Name]</span></div>
-        <div class="email-meta-row"><span class="key">Alt:</span><span class="val">Last note from me</span></div>
-        <div class="email-meta-row"><span class="key">Send:</span><span class="val">Day 9 (Track A) / Day 10 (Track B) / Day 7 (Track C)</span></div>
-      </div>
-      <div class="email-body">
-        <p>Hey [Name],</p>
-        <p>I've reached out a few times and haven't heard back — I get it, timing isn't always right.</p>
-        <p>I'm going to close this out on my end so I'm not filling up your inbox. If the AI search gap ever becomes a priority — or if you want to see where your competitors are showing up right now — you know where to find me.</p>
-        <p>Good luck with everything at [Their Company].</p>
-        <div class="sig">Hannah<br>SwayyEm | [Phone Number]</div>
-      </div>
-    </div>
-
   </section>
 
   <!-- WHEN THEY RESPOND -->
@@ -534,42 +711,42 @@
 
       <div class="response-card">
         <div>
-          <div class="response-what">"Yes, let's find a time"</div>
-          <div class="response-body">Book it immediately. Don't email back asking for availability — send a Calendly link or give two specific times. Confirm with a short email. Brief them to have 20 minutes and a quiet space.</div>
+          <div class="response-what">"Yes, let's find a time" / "B — Send a time"</div>
+          <div class="response-body">Book it immediately. Don't ask for availability — send a Calendly link or two specific options. Stop the cadence. Brief them to have 20 minutes and a quiet space.</div>
         </div>
         <div class="response-action action-green">Book the call</div>
       </div>
 
       <div class="response-card">
         <div>
-          <div class="response-what">"Not right now, try me in [X]"</div>
-          <div class="response-body">Thank them, confirm the timeframe, and set a task in HubSpot to follow up on that exact date. Do not follow up early. Do not follow up without a specific trigger. Honor what they said.</div>
+          <div class="response-what">"A — Hit me again in 60 days" / "Not right now"</div>
+          <div class="response-body">Thank them. Set a HubSpot task for the exact date they gave. Stop the current cadence. Do not follow up earlier than stated.</div>
         </div>
         <div class="response-action action-blue">Set HubSpot task</div>
       </div>
 
       <div class="response-card">
         <div>
-          <div class="response-what">"Send me more info"</div>
-          <div class="response-body">Send a short one-paragraph summary — not a deck, not a PDF. Keep it to 3–4 lines: what SwayyEm does, the guarantee, one stat. Then say: "Happy to walk you through the specifics — easier to show than explain. Do you have 15 minutes this week?" Don't let "send more info" kill the call.</div>
+          <div class="response-what">"Can you send the report?" / "Send me more info"</div>
+          <div class="response-body">Send the Citation Gap Report (one-pager, not a deck). Then immediately follow up: "Happy to walk through the specifics — do you have 15 minutes this week?" Don't let "send more info" kill the call.</div>
         </div>
-        <div class="response-action action-amber">Short reply + ask for call</div>
+        <div class="response-action action-amber">Report + ask for call</div>
       </div>
 
       <div class="response-card">
         <div>
-          <div class="response-what">"We went with someone else"</div>
-          <div class="response-body">Short and gracious: "Completely understand — hope it goes well. If you ever want a second opinion on results or want to compare approaches down the line, I'm here." Log it in HubSpot and move on. Don't pitch against whoever they chose.</div>
-        </div>
-        <div class="response-action action-red">Log + archive</div>
-      </div>
-
-      <div class="response-card">
-        <div>
-          <div class="response-what">"Not interested"</div>
-          <div class="response-body">Ask one question: "Can I ask what changed from when you and Matt first spoke?" — not to argue, but to understand. If they give you a reason, acknowledge it and keep the door open. If they just want to be left alone, respect it immediately. Log and archive.</div>
+          <div class="response-what">"C — Close the file" / "Not interested"</div>
+          <div class="response-body">Ask one question if you want: "Can I ask what changed from when you and Matt first spoke?" — not to argue, just to understand. Then respect it. Log the reason and archive.</div>
         </div>
         <div class="response-action action-red">One question, then stop</div>
+      </div>
+
+      <div class="response-card">
+        <div>
+          <div class="response-what">Out-of-office auto-reply</div>
+          <div class="response-body">Pause the cadence. Note their return date in HubSpot. Resume the sequence from where you left off when they're back. Don't send on a day they said they'd be out.</div>
+        </div>
+        <div class="response-action action-blue">Pause + resume on return</div>
       </div>
 
     </div>
@@ -579,7 +756,7 @@
   <section>
     <h2>HubSpot — Log Every Touch</h2>
     <div class="block">
-      <p>Log every call and email in HubSpot immediately — not at end of day. Use these status labels so Matt can see where each lead is without having to ask you.</p>
+      <p>Log every call and email immediately — not at end of day. Use these status labels so Matt can see where each lead is without asking you.</p>
     </div>
     <div class="hs-table">
       <div class="hs-row header">
@@ -588,45 +765,46 @@
       </div>
       <div class="hs-row">
         <div class="hs-cell"><span class="hs-status" style="color:#4ade80;">Contacted — In Cadence</span></div>
-        <div class="hs-desc hs-cell">First touch made. Cadence is running.</div>
+        <div class="hs-desc hs-cell">First touch made. Sequence running.</div>
       </div>
       <div class="hs-row">
         <div class="hs-cell"><span class="hs-status" style="color:#60a5fa;">Responded — Nurturing</span></div>
-        <div class="hs-desc hs-cell">They replied but aren't ready to book yet. Following up on a specific date.</div>
+        <div class="hs-desc hs-cell">They replied but aren't ready to book. Following up on specific date.</div>
       </div>
       <div class="hs-row">
         <div class="hs-cell"><span class="hs-status" style="color:#a78bfa;">Call Booked</span></div>
-        <div class="hs-desc hs-cell">A call is on the calendar. Move to call prep.</div>
+        <div class="hs-desc hs-cell">Call is on calendar. Move to call prep.</div>
       </div>
       <div class="hs-row">
         <div class="hs-cell"><span class="hs-status" style="color:#f59e0b;">Archived — No Response</span></div>
-        <div class="hs-desc hs-cell">Full cadence completed, no reply. Stop outreach. Leave the record clean.</div>
+        <div class="hs-desc hs-cell">Full sequence completed, no reply. Done.</div>
       </div>
       <div class="hs-row">
         <div class="hs-cell"><span class="hs-status" style="color:#f87171;">Archived — Not Interested</span></div>
-        <div class="hs-desc hs-cell">They explicitly said no. Note the reason. Done.</div>
+        <div class="hs-desc hs-cell">They said no. Note the reason. Done.</div>
       </div>
     </div>
     <div class="watch" style="margin-top:4px;">
-      <p><strong>Log the outcome, not just the activity.</strong> "Called — no answer" tells Matt nothing useful. "Called Day 1 — no answer, voicemail left, Email 1 sent. Day 3 call — no answer. Waiting for Day 5 email." — that tells him everything. Take 60 seconds to write it correctly.</p>
+      <p><strong>Log the outcome, not just the activity.</strong> "Called — no answer" is useless. "Day 0: Called, no answer, VM left, Email 1 sent. Day 3: Called, no answer, Email 2 sent." — that tells Matt everything in 10 seconds.</p>
     </div>
   </section>
 
-  <!-- RULES -->
+  <!-- RULES + LOGISTICS -->
   <section>
-    <h2>Rules</h2>
+    <h2>Rules + Logistics</h2>
     <div class="block">
       <ul class="rules-list">
-        <li>Phone first, always. An email is easy to ignore. A missed call followed by a specific voicemail creates real curiosity.</li>
-        <li>Send the Day 1 email within 1 hour of the call attempt — not at end of day. Momentum matters.</li>
-        <li>Never leave two voicemails back-to-back on consecutive days. Space them out. One voicemail per stretch.</li>
-        <li>Never send more than one email a day. You're reaching out, not spamming.</li>
-        <li>Do not deviate from the cadence sequence. Skip a day, lose the rhythm — the lead goes colder with each delay.</li>
-        <li>The goal of every touch is to get them on a call, not to pitch over email or voicemail. One CTA. That's it.</li>
-        <li>If they respond at any point in the cadence — stop the cadence immediately and move to the response protocol.</li>
-        <li>After the break-up email: stop. No follow-up unless they reach out first. Chasing past this point damages the brand.</li>
-        <li>Log every touch in HubSpot immediately. Not at the end of the day. Right after you hang up or send.</li>
-        <li>If you don't know something on a live call — don't guess. Say "let me check with Matt and follow up." Then actually do it.</li>
+        <li>Any reply stops the sequence immediately. Do not send the next scheduled touch to someone who already responded.</li>
+        <li>Phone always precedes email on days when both are scheduled. Call first, then send the email within the hour.</li>
+        <li>Never leave two voicemails back-to-back on consecutive days. One voicemail per stretch.</li>
+        <li>Never send more than one email per day. You're reaching out, not running a drip campaign.</li>
+        <li>Best send times: Tuesday/Wednesday/Thursday, 8–10 AM in their timezone. Avoid Friday afternoon, Monday morning, and holidays.</li>
+        <li>Stagger sends — don't batch all 44 leads on the same day at the same time. Spread them out to avoid spam pattern detection and to keep your own volume manageable.</li>
+        <li>Log every touch in HubSpot immediately after the call or send. Not at end of day.</li>
+        <li>Hard bounce → close the lead, note the dead email, done.</li>
+        <li>"Unsubscribe me" → confirm receipt politely, close the file, do not retry ever.</li>
+        <li>After Email 5: stop. No follow-up unless they reach out first. Chasing past this point damages the brand.</li>
+        <li>If you don't know something on a live call — don't guess. "Let me check with Matt and follow up." Then actually do it.</li>
       </ul>
     </div>
   </section>
