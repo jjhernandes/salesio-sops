@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Week 7 Mastery Test — Sales.io</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #000; --white: #fff;
+      --gray-900: #0a0a0a; --gray-800: #111; --gray-700: #1a1a1a;
+      --gray-600: #222; --gray-500: #333; --gray-400: #555;
+      --gray-300: #888; --gray-200: #bbb; --gray-100: #e0e0e0;
+      --green: #4ade80; --green-bg: #050f08; --green-border: #0d2b1a;
+      --amber: #f59e0b; --amber-bg: #0f0800; --amber-border: #2b1a00;
+      --red: #f87171; --red-bg: #0f0505; --red-border: #2b0d0d;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--black); color: var(--white); min-height: 100vh; }
+
+    /* SCREENS */
+    .screen { display: none; min-height: 100vh; }
+    .screen.active { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 24px; }
+
+    /* INTRO */
+    #screen-intro { background: var(--black); }
+    .intro-inner { max-width: 580px; width: 100%; }
+    .intro-tag { font-size: 11px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--gray-400); margin-bottom: 20px; }
+    .intro-title { font-size: 42px; font-weight: 900; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 16px; }
+    .intro-sub { font-size: 16px; color: var(--gray-300); line-height: 1.7; margin-bottom: 32px; }
+    .intro-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
+    .pill { background: var(--gray-800); border: 1px solid var(--gray-600); border-radius: 20px; padding: 6px 14px; font-size: 12px; font-weight: 600; color: var(--gray-300); }
+    .name-input { width: 100%; background: var(--gray-900); border: 1px solid var(--gray-600); border-radius: 10px; padding: 14px 18px; font-size: 15px; font-family: 'Inter', sans-serif; color: var(--white); margin-bottom: 16px; outline: none; transition: border-color 0.15s; }
+    .name-input::placeholder { color: var(--gray-400); }
+    .name-input:focus { border-color: var(--gray-400); }
+    .btn-primary { width: 100%; background: var(--white); color: var(--black); border: none; border-radius: 10px; padding: 16px; font-size: 15px; font-weight: 700; font-family: 'Inter', sans-serif; cursor: pointer; transition: opacity 0.15s; }
+    .btn-primary:hover { opacity: 0.9; }
+    .intro-note { font-size: 12px; color: var(--gray-400); text-align: center; margin-top: 14px; line-height: 1.6; }
+
+    /* QUIZ */
+    #screen-quiz { background: var(--black); padding: 0; display: flex; flex-direction: column; }
+    .quiz-topbar { width: 100%; padding: 20px 32px; border-bottom: 1px solid var(--gray-700); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: var(--black); z-index: 10; }
+    .quiz-logo { font-size: 14px; font-weight: 700; color: var(--white); }
+    .quiz-progress-wrap { flex: 1; max-width: 320px; margin: 0 32px; }
+    .quiz-progress-label { font-size: 11px; color: var(--gray-400); font-weight: 600; text-align: center; margin-bottom: 6px; }
+    .quiz-progress-bar { height: 4px; background: var(--gray-700); border-radius: 2px; overflow: hidden; }
+    .quiz-progress-fill { height: 100%; background: var(--white); border-radius: 2px; transition: width 0.4s ease; }
+    .quiz-section-label { font-size: 12px; font-weight: 700; color: var(--gray-400); }
+
+    .quiz-body { flex: 1; display: flex; align-items: flex-start; justify-content: center; padding: 52px 24px 80px; }
+    .quiz-inner { max-width: 620px; width: 100%; }
+    .q-week-tag { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gray-400); margin-bottom: 12px; }
+    .q-number { font-size: 13px; color: var(--gray-400); font-weight: 600; margin-bottom: 8px; }
+    .q-text { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; line-height: 1.45; margin-bottom: 32px; color: var(--white); }
+    .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 36px; }
+    .option { background: var(--gray-900); border: 1.5px solid var(--gray-600); border-radius: 12px; padding: 16px 20px; cursor: pointer; transition: all 0.15s; display: flex; align-items: flex-start; gap: 14px; }
+    .option:hover { border-color: var(--gray-400); background: var(--gray-800); }
+    .option.selected { border-color: var(--white); background: var(--gray-800); }
+    .option.correct { border-color: var(--green); background: var(--green-bg); }
+    .option.incorrect { border-color: var(--red); background: var(--red-bg); }
+    .option.reveal-correct { border-color: var(--green); background: var(--green-bg); }
+    .option-letter { width: 26px; height: 26px; border-radius: 6px; background: var(--gray-700); border: 1px solid var(--gray-500); font-size: 12px; font-weight: 700; color: var(--gray-300); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; transition: all 0.15s; }
+    .option.selected .option-letter { background: var(--white); color: var(--black); border-color: var(--white); }
+    .option.correct .option-letter { background: var(--green); color: var(--black); border-color: var(--green); }
+    .option.incorrect .option-letter { background: var(--red); color: var(--black); border-color: var(--red); }
+    .option.reveal-correct .option-letter { background: var(--green); color: var(--black); border-color: var(--green); }
+    .option-text { font-size: 14px; color: var(--gray-200); line-height: 1.55; flex: 1; }
+    .option.correct .option-text, .option.reveal-correct .option-text { color: var(--green); }
+    .option.incorrect .option-text { color: var(--red); }
+    .option.locked { pointer-events: none; }
+
+    .feedback-box { background: var(--gray-900); border: 1px solid var(--gray-600); border-radius: 10px; padding: 14px 18px; margin-bottom: 28px; display: none; }
+    .feedback-box.show { display: block; }
+    .feedback-box.right { border-color: var(--green-border); background: var(--green-bg); }
+    .feedback-box.wrong { border-color: var(--red-border); background: var(--red-bg); }
+    .feedback-box p { font-size: 13px; line-height: 1.65; }
+    .feedback-box.right p { color: var(--green); }
+    .feedback-box.wrong p { color: #fca5a5; }
+    .feedback-box strong { font-weight: 700; }
+
+    .quiz-footer { display: flex; align-items: center; justify-content: space-between; }
+    .btn-next { background: var(--white); color: var(--black); border: none; border-radius: 10px; padding: 14px 32px; font-size: 14px; font-weight: 700; font-family: 'Inter', sans-serif; cursor: pointer; transition: opacity 0.15s; opacity: 0.3; pointer-events: none; }
+    .btn-next.enabled { opacity: 1; pointer-events: all; }
+    .btn-next.enabled:hover { opacity: 0.85; }
+    .q-counter { font-size: 13px; color: var(--gray-400); font-weight: 600; }
+
+    /* RESULTS */
+    #screen-results { background: var(--black); align-items: flex-start; padding: 0; }
+    .results-inner { max-width: 680px; width: 100%; margin: 0 auto; padding: 60px 24px 80px; }
+    .results-header { margin-bottom: 48px; }
+    .results-tag { font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--gray-400); margin-bottom: 14px; }
+    .results-title { font-size: 38px; font-weight: 900; letter-spacing: -1.2px; line-height: 1.1; margin-bottom: 12px; }
+    .results-sub { font-size: 15px; color: var(--gray-300); line-height: 1.7; }
+
+    .score-hero { background: var(--gray-900); border: 1px solid var(--gray-600); border-radius: 16px; padding: 32px; margin-bottom: 32px; text-align: center; }
+    .score-num { font-size: 72px; font-weight: 900; letter-spacing: -3px; line-height: 1; margin-bottom: 8px; }
+    .score-label { font-size: 13px; color: var(--gray-400); font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 20px; }
+    .score-bar-wrap { height: 8px; background: var(--gray-700); border-radius: 4px; overflow: hidden; max-width: 320px; margin: 0 auto; }
+    .score-bar-fill { height: 100%; border-radius: 4px; transition: width 1s ease; }
+
+    .section-breakdown { margin-bottom: 40px; }
+    .breakdown-title { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gray-400); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--gray-700); }
+    .breakdown-row { background: var(--gray-900); border: 1px solid var(--gray-700); border-radius: 12px; padding: 18px 20px; margin-bottom: 8px; }
+    .breakdown-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .breakdown-week { font-size: 13px; font-weight: 700; color: var(--white); }
+    .breakdown-score { font-size: 13px; font-weight: 700; }
+    .breakdown-bar-wrap { height: 5px; background: var(--gray-700); border-radius: 3px; overflow: hidden; }
+    .breakdown-bar-fill { height: 100%; border-radius: 3px; transition: width 1s ease 0.3s; }
+    .score-green { color: var(--green); }
+    .score-amber { color: var(--amber); }
+    .score-red { color: var(--red); }
+    .bar-green { background: var(--green); }
+    .bar-amber { background: var(--amber); }
+    .bar-red { background: var(--red); }
+
+    .recommendations { margin-bottom: 40px; }
+    .rec-title { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gray-400); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--gray-700); }
+    .rec-card { border-radius: 12px; padding: 20px 22px; margin-bottom: 12px; }
+    .rec-card.strong { background: var(--green-bg); border: 1px solid var(--green-border); }
+    .rec-card.review { background: var(--amber-bg); border: 1px solid var(--amber-border); }
+    .rec-card.redo { background: var(--red-bg); border: 1px solid var(--red-border); }
+    .rec-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .rec-badge { font-size: 10px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; }
+    .rec-badge.strong { background: #0d2b1a; color: var(--green); }
+    .rec-badge.review { background: #2b1a00; color: var(--amber); }
+    .rec-badge.redo { background: #2b0d0d; color: var(--red); }
+    .rec-week { font-size: 14px; font-weight: 700; color: var(--white); }
+    .rec-body p { font-size: 13.5px; line-height: 1.7; }
+    .rec-card.strong .rec-body p { color: #86efac; }
+    .rec-card.review .rec-body p { color: #fcd34d; }
+    .rec-card.redo .rec-body p { color: #fca5a5; }
+    .rec-steps { list-style: none; margin-top: 10px; display: flex; flex-direction: column; gap: 4px; }
+    .rec-steps li { font-size: 13px; line-height: 1.6; display: flex; gap: 10px; align-items: flex-start; }
+    .rec-card.strong .rec-steps li { color: #86efac; }
+    .rec-card.review .rec-steps li { color: #fcd34d; }
+    .rec-card.redo .rec-steps li { color: #fca5a5; }
+    .rec-steps li::before { content: "→"; flex-shrink: 0; opacity: 0.6; }
+
+    .results-cta { background: var(--gray-900); border: 1px solid var(--gray-600); border-radius: 14px; padding: 28px; text-align: center; }
+    .results-cta p { font-size: 14px; color: var(--gray-300); line-height: 1.7; margin-bottom: 20px; }
+    .btn-restart { background: var(--white); color: var(--black); border: none; border-radius: 10px; padding: 13px 32px; font-size: 14px; font-weight: 700; font-family: 'Inter', sans-serif; cursor: pointer; transition: opacity 0.15s; }
+    .btn-restart:hover { opacity: 0.85; }
+
+    @media (max-width: 600px) {
+      .intro-title { font-size: 32px; }
+      .quiz-topbar { padding: 16px 20px; }
+      .quiz-progress-wrap { max-width: 180px; margin: 0 16px; }
+      .quiz-body { padding: 36px 20px 80px; }
+      .q-text { font-size: 17px; }
+      .results-title { font-size: 28px; }
+      .score-num { font-size: 56px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- INTRO SCREEN -->
+<div class="screen active" id="screen-intro">
+  <div class="intro-inner">
+    <div class="intro-tag">Sales.io — Week 7</div>
+    <h1 class="intro-title">Weeks 1–6<br>Mastery Test</h1>
+    <p class="intro-sub">30 questions covering everything from the first six weeks. No notes, no replays. This is what you actually know — and at the end, you'll get a clear picture of where to go next.</p>
+    <div class="intro-pills">
+      <span class="pill">Week 1 — Identity</span>
+      <span class="pill">Week 2 — Why Humans Buy</span>
+      <span class="pill">Week 3 — Four Levels</span>
+      <span class="pill">Week 4 — PACE Method</span>
+      <span class="pill">Week 5 — Cognitive Dissonance</span>
+      <span class="pill">Week 6 — Closing & Objections</span>
+    </div>
+    <input type="text" class="name-input" id="student-name" placeholder="Your first name (optional)" maxlength="40"/>
+    <button class="btn-primary" onclick="startQuiz()">Start the Test</button>
+    <p class="intro-note">30 questions &nbsp;·&nbsp; ~15 minutes &nbsp;·&nbsp; Personalized results at the end</p>
+  </div>
+</div>
+
+<!-- QUIZ SCREEN -->
+<div class="screen" id="screen-quiz">
+  <div class="quiz-topbar">
+    <div class="quiz-logo">Sales.io</div>
+    <div class="quiz-progress-wrap">
+      <div class="quiz-progress-label" id="progress-label">Question 1 of 30</div>
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="progress-fill" style="width:3.3%"></div></div>
+    </div>
+    <div class="quiz-section-label" id="section-label">Week 1</div>
+  </div>
+  <div class="quiz-body">
+    <div class="quiz-inner">
+      <div class="q-week-tag" id="q-week-tag">Week 1 — Identity & Mindset</div>
+      <div class="q-number" id="q-number">Question 1</div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="options-container"></div>
+      <div class="feedback-box" id="feedback-box"><p id="feedback-text"></p></div>
+      <div class="quiz-footer">
+        <div class="q-counter" id="q-counter">1 / 30</div>
+        <button class="btn-next" id="btn-next" onclick="nextQuestion()">Next</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS SCREEN -->
+<div class="screen" id="screen-results">
+  <div class="results-inner">
+    <div class="results-header">
+      <div class="results-tag">Week 7 — Mastery Test Results</div>
+      <h1 class="results-title" id="results-title">Here's where you're at.</h1>
+      <p class="results-sub" id="results-sub"></p>
+    </div>
+
+    <div class="score-hero">
+      <div class="score-num" id="score-num">0%</div>
+      <div class="score-label">Overall Score</div>
+      <div class="score-bar-wrap"><div class="score-bar-fill" id="score-bar" style="width:0%"></div></div>
+    </div>
+
+    <div class="section-breakdown">
+      <div class="breakdown-title">Breakdown by Week</div>
+      <div id="breakdown-rows"></div>
+    </div>
+
+    <div class="recommendations">
+      <div class="rec-title">Your Next Steps</div>
+      <div id="rec-cards"></div>
+    </div>
+
+    <div class="results-cta">
+      <p>Share these results with JJ before your Week 7 session. The areas flagged for review are exactly where your coaching focus should go this week.</p>
+      <button class="btn-restart" onclick="restartQuiz()">Retake the Test</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+  // WEEK 1 — Identity & Mindset (Q 0-4)
+  {
+    week: 1, weekLabel: "Week 1 — Identity & Mindset",
+    text: "Your actions keep falling short of your goals. According to what we covered on identity, what is the root cause?",
+    options: [
+      "You don't have the right strategy or information yet",
+      "Your identity — who you believe yourself to be — hasn't changed to match the person who achieves those goals",
+      "You need a better coach or mentor",
+      "Your environment is holding you back"
+    ],
+    correct: 1,
+    feedback: {
+      right: "Exactly. Results follow identity. You can't consistently act outside of who you believe you are. The actions you take always align with your self-image — which is why identity work comes before tactics.",
+      wrong: "The root cause is identity. You can have the right strategy and still fail — because if your identity doesn't match the goal, your behavior will unconsciously self-sabotage. Identity first, everything else second."
+    }
+  },
+  {
+    week: 1, weekLabel: "Week 1 — Identity & Mindset",
+    text: "You skip your daily prospecting block and immediately feel anxious. What does this anxiety signal, according to Week 1?",
+    options: [
+      "You're overworked and your body needs rest",
+      "The task wasn't important enough to prioritize",
+      "Your action (skipping) is misaligned with your identity — you know who you're supposed to be",
+      "You have poor time management habits"
+    ],
+    correct: 2,
+    feedback: {
+      right: "Right. That anxiety isn't random — it's your identity defending itself. Your body creates discomfort when your actions contradict the image you have of yourself. That discomfort is information.",
+      wrong: "That anxiety is cognitive dissonance at work. Your identity — the image you hold of yourself — is in conflict with the action you just took. The discomfort is your brain telling you that you violated who you're supposed to be."
+    }
+  },
+  {
+    week: 1, weekLabel: "Week 1 — Identity & Mindset",
+    text: "In the limiting beliefs framework, if limiting beliefs are the walls of a square — what is the area inside the square?",
+    options: [
+      "Your income ceiling",
+      "Your goals",
+      "Your identity — the full range of what you believe is possible for you",
+      "Your habits and routines"
+    ],
+    correct: 2,
+    feedback: {
+      right: "Correct. The area inside = your identity. Expand or tear down the walls (limiting beliefs) and you expand what your identity can hold — which expands what you're capable of creating.",
+      wrong: "The area inside is your identity. When you destroy a limiting belief, you don't just remove a wall — you expand the entire territory of who you can be and what you can achieve."
+    }
+  },
+  {
+    week: 1, weekLabel: "Week 1 — Identity & Mindset",
+    text: "A rep knows exactly what they need to do to hit $20K this month but keeps avoiding it. The most accurate explanation is:",
+    options: [
+      "They're lazy and lack discipline",
+      "Their $20K behaviors are misaligned with their current identity — doing those things doesn't feel like 'them' yet",
+      "They don't actually want to earn $20K",
+      "They need a clearer plan"
+    ],
+    correct: 1,
+    feedback: {
+      right: "Spot on. Avoidance is almost never about laziness — it's about identity mismatch. The actions required for $20K belong to a different version of them than the one they currently inhabit. That gap creates resistance.",
+      wrong: "This is an identity issue, not a discipline issue. When an action feels foreign to your identity, your brain treats it as a threat and creates resistance. The work is making $20K behaviors feel like 'you.'"
+    }
+  },
+  {
+    week: 1, weekLabel: "Week 1 — Identity & Mindset",
+    text: "What is the correct sequence for sustainable achievement according to Week 1?",
+    options: [
+      "Set goals → Take action → Build identity over time",
+      "Build skills → Set goals → Change identity",
+      "Become the person who achieves the goal → Take aligned actions → Achieve the result",
+      "Get accountability → Change habits → Identity shifts automatically"
+    ],
+    correct: 2,
+    feedback: {
+      right: "Yes. Identity first. You can't sustain actions that belong to a version of you that doesn't exist yet. Become that person first — consciously, through repetition and belief — and the actions follow naturally.",
+      wrong: "The sequence is: identity → aligned action → result. Not the other way around. If you try to force the actions before the identity is there, you'll burn out or self-sabotage because the behavior doesn't feel like 'you.'"
+    }
+  },
+
+  // WEEK 2 — Why Humans Buy (Q 5-9)
+  {
+    week: 2, weekLabel: "Week 2 — Why Humans Buy",
+    text: "According to Sales.io, the real reason people buy is:",
+    options: [
+      "Logic, features, and return on investment",
+      "Price relative to competitors",
+      "Emotions — they buy on feeling and justify the decision with logic after",
+      "Social proof and testimonials alone"
+    ],
+    correct: 2,
+    feedback: {
+      right: "Correct. People buy based on emotions and compensate logically. The logical case — ROI, features, guarantees — is how they justify to themselves and others what they've already emotionally decided. Sell to the feeling first.",
+      wrong: "People buy on emotion and justify with logic. The ROI, features, and guarantees are the story they tell themselves after the emotional decision is made. If you're only selling logic, you're selling to the wrong part of the brain."
+    }
+  },
+  {
+    week: 2, weekLabel: "Week 2 — Why Humans Buy",
+    text: "A prospect says 'I need to think about it.' What does this almost always actually mean?",
+    options: [
+      "They genuinely need more time to process information",
+      "The price is higher than they expected",
+      "The emotional buy-in isn't there yet — you haven't made them feel the gap strongly enough",
+      "They have too many other options to consider"
+    ],
+    correct: 2,
+    feedback: {
+      right: "Exactly. 'I need to think about it' is rarely about thinking. It's a polite way of saying they're not emotionally sold. They don't feel the urgency. The pain of staying the same hasn't outweighed the discomfort of change.",
+      wrong: "'I need to think about it' = they're not emotionally sold. If someone is genuinely excited and connected, they don't need to think — they want to move. This objection is a signal that more emotional work was needed earlier in the call."
+    }
+  },
+  {
+    week: 2, weekLabel: "Week 2 — Why Humans Buy",
+    text: "In the Heaven and Hell Framework, what is the correct order?",
+    options: [
+      "Solution → Gap → Current state → Future state",
+      "Future state (Heaven) → Current state (Hell) → Gap → Solution",
+      "Current state → Future state → Solution → Gap",
+      "Gap → Hell → Heaven → Solution"
+    ],
+    correct: 1,
+    feedback: {
+      right: "Right. You paint the future they want first (Heaven), bring them back to where they are now (Hell), make the gap visceral, then position your solution as the bridge. This sequence creates emotional momentum before the pitch.",
+      wrong: "The order is: Heaven (future state) → Hell (current state) → the Gap → Solution. You show them where they want to go, bring them back to where they are, amplify the distance between those two realities, then offer the bridge."
+    }
+  },
+  {
+    week: 2, weekLabel: "Week 2 — Why Humans Buy",
+    text: "A prospect is genuinely interested but keeps delaying. What is usually the real reason?",
+    options: [
+      "Their budget isn't available yet",
+      "They haven't felt the pain of their current situation strongly enough to justify moving",
+      "They need more information about the program",
+      "The timing is genuinely bad for them"
+    ],
+    correct: 1,
+    feedback: {
+      right: "Yes. Delayed buyers are almost always under-sold on the cost of not changing. When the pain of staying the same outweighs the discomfort of the investment, the delay disappears. You need to make the current state feel more expensive than it does.",
+      wrong: "Delay = the status quo doesn't hurt enough yet. If someone truly felt the full weight of what staying stuck was costing them — in money, time, identity — they would not delay. Your job is to make that cost real and present."
+    }
+  },
+  {
+    week: 2, weekLabel: "Week 2 — Why Humans Buy",
+    text: "The single most important factor in why someone buys from YOU specifically is:",
+    options: [
+      "Your offer's guarantee and track record",
+      "Your price relative to other options",
+      "The connection and trust built during the conversation itself",
+      "Your credentials and social proof"
+    ],
+    correct: 2,
+    feedback: {
+      right: "Connection is what people actually buy. Credentials matter. Proof matters. But the thing that tips the decision is whether they feel understood, trusted, and safe with you. Connection is the close.",
+      wrong: "Connection closes deals. Two offers with identical credentials, price, and proof — the one the prospect felt more connected to wins every time. Connection is not just rapport-building. It's the actual product they're buying."
+    }
+  },
+
+  // WEEK 3 — Four Levels of Communication (Q 10-14)
+  {
+    week: 3, weekLabel: "Week 3 — Four Levels of Communication",
+    text: "The Four Levels of Communication are ranked by impact. Which level has the greatest impact on your prospect?",
+    options: [
+      "Level 1 — what you say (the words)",
+      "Level 2 — how you say it (tonality and pace)",
+      "Level 3 — your intention toward the prospect",
+      "Level 4 — how you feel about yourself"
+    ],
+    correct: 3,
+    feedback: {
+      right: "Level 4 — how you feel about yourself — is the most powerful. Your internal state transmits. If you're insecure, needy, or uncertain about your value, that leaks into every word and silence on the call, even if your words are perfect.",
+      wrong: "Level 4 — how you feel about yourself — has the most impact. Your self-image is not invisible to prospects. It transmits through your pace, your certainty, your willingness to hold silence, and how you handle resistance. Fix the internal state first."
+    }
+  },
+  {
+    week: 3, weekLabel: "Week 3 — Four Levels of Communication",
+    text: "What percentage of communication impact comes from the actual words you choose?",
+    options: ["55%", "38%", "25%", "7%"],
+    correct: 3,
+    feedback: {
+      right: "7%. The words are almost irrelevant compared to how you sound, what you intend, and how you feel about yourself. This is why scripts are the least important thing to study.",
+      wrong: "7%. Only 7% of communication impact comes from the actual words. This is why memorizing scripts changes almost nothing. The other 93% — your tone, your intention, your internal state — is what the prospect is actually responding to."
+    }
+  },
+  {
+    week: 3, weekLabel: "Week 3 — Four Levels of Communication",
+    text: "You're on a call needing the commission badly. You say all the right things. What happens at Level 4?",
+    options: [
+      "Nothing — your internal state is invisible to the prospect",
+      "It only affects you after the call, not the prospect during it",
+      "Your desperation transmits unconsciously and undermines the trust and authority you need to close",
+      "It actually helps because it makes you work harder on the call"
+    ],
+    correct: 2,
+    feedback: {
+      right: "Exactly. The person who needs the sale the most will always lose. Neediness is felt before it's heard. The prospect doesn't know why, but something feels off — and that feeling kills deals that should have closed.",
+      wrong: "Neediness transmits. The prospect can't articulate it, but they feel a pull from you — a subtle pressure, a slight overcorrection in your tone — and it creates resistance. You can't think your way out of this. You have to actually not need the sale."
+    }
+  },
+  {
+    week: 3, weekLabel: "Week 3 — Four Levels of Communication",
+    text: "\"The best closers don't sound like closers.\" Which level of communication does this statement most directly refer to?",
+    options: [
+      "Level 1 — they use different words than other reps",
+      "Level 2 — their tonality is smoother",
+      "Level 3 — they have purer intentions",
+      "Level 4 — their internal self-image doesn't require the sale, so they have nothing to prove"
+    ],
+    correct: 3,
+    feedback: {
+      right: "Right. The best closers don't sound like closers because they don't need to be. Their internal frame is secure. They're not performing. They're just having a real conversation with someone they're genuinely trying to help — or not.",
+      wrong: "This is a Level 4 statement. Closers who 'sound like closers' are usually compensating — performing confidence, forcing urgency, using techniques. The ones who don't sound like closers have nothing to prove. Their self-image doesn't depend on the outcome."
+    }
+  },
+  {
+    week: 3, weekLabel: "Week 3 — Four Levels of Communication",
+    text: "A rep is technically correct in everything they say but consistently loses deals. The most likely Level 4 issue is:",
+    options: [
+      "They need better scripts and more information",
+      "Their tonality is too formal",
+      "They haven't built enough product knowledge",
+      "They don't fully believe they deserve to close, or they're not certain the solution is right for the prospect"
+    ],
+    correct: 3,
+    feedback: {
+      right: "Yes. Technically correct but consistently losing = a belief problem. Either they don't fully believe in their offer, in their right to ask for money, or in themselves as the authority in the room. That doubt leaks through everything.",
+      wrong: "If everything is technically right but deals keep dying, look at Level 4. Uncertainty about your value, your offer, or your right to close creates a frequency that smart prospects pick up on — even when they can't name it."
+    }
+  },
+
+  // WEEK 4 — PACE Method (Q 15-19)
+  {
+    week: 4, weekLabel: "Week 4 — PACE Method",
+    text: "What does PACE stand for?",
+    options: [
+      "Persistent, Aggressive, Confident, Empathetic",
+      "Practical, Action, Social, Emotional",
+      "Patient, Analytical, Creative, Energetic",
+      "Professional, Assertive, Calm, Enthusiastic"
+    ],
+    correct: 1,
+    feedback: {
+      right: "Practical, Action, Social, Emotional. Four distinct ways people process information and make decisions. Identifying which type your prospect is early in the call lets you communicate in their language, not yours.",
+      wrong: "PACE = Practical, Action, Social, Emotional. These are four personality types that describe how people process decisions and what they respond to. Matching your communication style to their type dramatically increases connection and close rate."
+    }
+  },
+  {
+    week: 4, weekLabel: "Week 4 — PACE Method",
+    text: "Two minutes into a call, your prospect asks: 'What's the ROI, what's the process, and how long does it take?' Which PACE type are they most likely?",
+    options: ["Social", "Emotional", "Practical", "Action"],
+    correct: 2,
+    feedback: {
+      right: "Practical. They want data, process, and measurable outcomes. They're not interested in stories or feelings. Give them structure, specifics, and logical proof. Skip the emotional rapport-building phase — they'll find it inefficient.",
+      wrong: "This is a Practical type. They want to know the mechanics — what's the process, what's the return, what's the evidence. Trying to build emotional connection with them first will feel like wasted time. Lead with structure and data."
+    }
+  },
+  {
+    week: 4, weekLabel: "Week 4 — PACE Method",
+    text: "Your prospect talks fast, interrupts you, and says 'just tell me what I need to know.' Which PACE type, and what's the right approach?",
+    options: [
+      "Emotional — slow down and build rapport first",
+      "Practical — give them a full breakdown of the program in detail",
+      "Action — match their pace, get to the point fast, give a decisive recommendation",
+      "Social — ask them about their background and goals first"
+    ],
+    correct: 2,
+    feedback: {
+      right: "Action type. They have low tolerance for anything that feels like filler. Match their energy, cut to the value, give them a confident recommendation. They respect directness. Slow, thorough explanations will lose them.",
+      wrong: "Action type — and they need you to be fast, direct, and decisive. Detailed explanations, rapport-building warmup, or thorough walkthroughs will frustrate them. They want the bottom line immediately and a clear 'here's what I recommend.'"
+    }
+  },
+  {
+    week: 4, weekLabel: "Week 4 — PACE Method",
+    text: "A prospect starts sharing personal stories unprompted, asks about your team culture, and says 'I just want to make sure this feels right.' Which PACE type is this?",
+    options: ["Practical", "Action", "Social", "Emotional"],
+    correct: 2,
+    feedback: {
+      right: "Social type. They buy based on people, connection, and trust in the community. Rushing to pitch features or ROI will kill the call. Let them talk. Build genuine connection. The decision for a Social type is about whether they like and trust you.",
+      wrong: "This is a Social type. They're evaluating the relationship, the community, the people they'd be joining. They don't buy until they feel connected. Let them share, ask about them, make them feel genuinely seen — then the pitch will land."
+    }
+  },
+  {
+    week: 4, weekLabel: "Week 4 — PACE Method",
+    text: "Why does identifying a prospect's PACE type in the first 5 minutes matter so much?",
+    options: [
+      "So you know which script to use for the rest of the call",
+      "So you can mirror their language style and seem more relatable",
+      "So you communicate in alignment with how they process decisions and what they value — making your message land instead of being filtered out",
+      "So you can predict which objection they'll raise at the end"
+    ],
+    correct: 2,
+    feedback: {
+      right: "Exactly. PACE is not about mirroring — it's about speaking to what actually matters to them. An Emotional type doesn't care about ROI. A Practical type doesn't care about community culture. Matching their type means your pitch is relevant to how they decide.",
+      wrong: "PACE identification lets you speak directly to how that person makes decisions. Every type processes differently and values different things. A one-size pitch ignores this and loses half the room. The right message for the right type closes deals that a generic pitch loses."
+    }
+  },
+
+  // WEEK 5 — Cognitive Dissonance (Q 20-24)
+  {
+    week: 5, weekLabel: "Week 5 — Cognitive Dissonance in Sales",
+    text: "Cognitive dissonance in sales is best described as:",
+    options: [
+      "Confusing prospects with conflicting information to make them uncertain",
+      "Creating a gap between who the prospect currently is and who they say they want to be — making inaction feel psychologically uncomfortable",
+      "Using fear and urgency to pressure faster decisions",
+      "Highlighting inconsistencies in competitor offers"
+    ],
+    correct: 1,
+    feedback: {
+      right: "Right. You're not tricking anyone. You're helping them see — clearly and honestly — the distance between where they are and where they say they want to be. Their brain does the rest. Inaction becomes the uncomfortable option.",
+      wrong: "Cognitive dissonance in sales = making the gap between who they are and who they want to be visible and felt. Once someone has articulated that gap out loud, staying in it becomes psychologically uncomfortable. Not buying starts to hurt."
+    }
+  },
+  {
+    week: 5, weekLabel: "Week 5 — Cognitive Dissonance in Sales",
+    text: "A prospect says 'I'm good where I am right now.' What is the correct cognitive dissonance response?",
+    options: [
+      "Respect their position and move on — they're not the right fit",
+      "Immediately pitch the program benefits to show them what they're missing",
+      "Ask questions that help them articulate the gap between 'good right now' and where they actually want to be",
+      "Share a testimonial from someone in a similar situation"
+    ],
+    correct: 2,
+    feedback: {
+      right: "Yes. Don't pitch at them — ask them questions. 'What does good look like 12 months from now? Where are you today?' Let them describe the gap themselves. Their own words create far more dissonance than anything you say.",
+      wrong: "The move is questions, not pitch. 'Good where I am' needs to be tested — not with pressure, but with curiosity. Ask them to describe where they want to be, then compare it to where they are. They'll often realize mid-sentence that 'good' isn't actually good enough."
+    }
+  },
+  {
+    week: 5, weekLabel: "Week 5 — Cognitive Dissonance in Sales",
+    text: "The identity-reality gap is most powerful when:",
+    options: [
+      "You describe it to the prospect using data and comparisons",
+      "You use a testimonial to illustrate what's possible",
+      "The prospect articulates the gap themselves, in their own words",
+      "You present the gap at the end of the call as a close"
+    ],
+    correct: 2,
+    feedback: {
+      right: "Their words, not yours. There's a massive difference between you telling someone they have a gap and them discovering it themselves mid-conversation. The second version creates urgency that sticks — because they can't argue with their own conclusion.",
+      wrong: "Self-articulation is the most powerful form. When a prospect describes the gap in their own words, they own it. You can't talk someone into feeling dissonance — but you can ask questions that lead them to discover it themselves."
+    }
+  },
+  {
+    week: 5, weekLabel: "Week 5 — Cognitive Dissonance in Sales",
+    text: "A prospect says 'I already know how to sell — I've been doing this for 3 years.' The best cognitive dissonance response is:",
+    options: [
+      "'That's great — then our advanced material will really level you up.'",
+      "Present a list of Sales.io testimonials from experienced reps",
+      "Ask them what 'knowing how to sell' looks like for them in their numbers right now — and let the gap between their answer and their goals become visible",
+      "Challenge them directly: 'If you knew how to sell, you'd be making more.'"
+    ],
+    correct: 2,
+    feedback: {
+      right: "Right. Don't argue and don't pitch. Get curious. 'Walk me through what your calls look like right now — what's working, and where do things break down?' The gap will surface in their own answer. You don't have to create the dissonance — you just have to ask the right questions.",
+      wrong: "Get curious about their numbers. 'Tell me what's working and where you're stuck right now.' Their answer will reveal the gap more clearly than any pitch could. You're not trying to prove them wrong — you're letting reality do it."
+    }
+  },
+  {
+    week: 5, weekLabel: "Week 5 — Cognitive Dissonance in Sales",
+    text: "Why does cognitive dissonance work as a closing mechanism — not just as a discovery tool?",
+    options: [
+      "Because it creates logical proof that the program is worth the investment",
+      "Because the prospect's own brain generates discomfort when their actions don't match their stated identity — and buying resolves that tension",
+      "Because it builds social pressure through group commitment",
+      "Because it triggers loss aversion through scarcity"
+    ],
+    correct: 1,
+    feedback: {
+      right: "Exactly. Once someone has said out loud who they want to be, not buying creates ongoing internal tension. The decision to invest is also a decision to relieve that discomfort. You're not selling a program — you're offering a way for them to become consistent with their own stated identity.",
+      wrong: "The mechanism is internal tension. Once a prospect articulates who they want to be, every day they don't act on it creates dissonance. Buying resolves it. This is why a well-run cognitive dissonance process closes deals that price resistance would normally block."
+    }
+  },
+
+  // WEEK 6 — Closing & Objection Handling (Q 25-29)
+  {
+    week: 6, weekLabel: "Week 6 — Closing & Objections",
+    text: "A prospect says 'I need to talk to my partner before I commit.' Your best first move is:",
+    options: [
+      "Respect it and schedule a follow-up call with the partner",
+      "Create urgency: let them know the offer expires soon",
+      "Acknowledge it, then ask: 'If your partner is fully on board — is this something YOU personally want to move forward with?'",
+      "Send them a follow-up email with more information to share with their partner"
+    ],
+    correct: 2,
+    feedback: {
+      right: "Right move. You're separating their personal buy-in from the partner logistics. If they say 'yes, I want this' — the partner becomes a process question, not a blocker. If they say 'I'm not sure' — the partner was never the real objection.",
+      wrong: "Test their personal conviction first. Ask if THEY want it, independent of the partner's approval. If the answer is yes, the partner is logistics. If the answer is uncertain, the partner isn't the objection — they just gave you a socially acceptable reason to stall."
+    }
+  },
+  {
+    week: 6, weekLabel: "Week 6 — Closing & Objections",
+    text: "Scriptless selling means:",
+    options: [
+      "Winging every call with zero preparation",
+      "Using natural conversation guided by genuine curiosity — fully present, responsive to what the prospect actually says in real time",
+      "Letting the prospect lead the entire conversation without direction",
+      "Avoiding structured questions so the call feels casual"
+    ],
+    correct: 1,
+    feedback: {
+      right: "Correct. Scriptless is not unprepared. You know your frameworks, you know your outcomes, but you're not following a track — you're having a real conversation. Your curiosity is genuine. That's what makes it feel different.",
+      wrong: "Scriptless = prepared but not scripted. You understand the frameworks deeply enough that you don't need a script — you just talk to people. The difference is felt immediately by prospects. A script creates a performance. A genuine conversation creates connection."
+    }
+  },
+  {
+    week: 6, weekLabel: "Week 6 — Closing & Objections",
+    text: "'The person who needs the sale the most will always lose.' What does this principle mean for how you approach a call?",
+    options: [
+      "Only take calls with prospects who clearly have money",
+      "Don't follow up more than twice — it signals desperation",
+      "Your internal neediness and desperation are transmitted to the prospect and undermine your authority — staying unattached to the outcome protects your frame",
+      "Never discount your price, even under pressure"
+    ],
+    correct: 2,
+    feedback: {
+      right: "Yes. Neediness is the fastest way to lose a call you should have won. It doesn't have to be spoken — it's in the over-explanation, the slight panic when they push back, the way you rush to close. Detach from the outcome and your presence changes completely.",
+      wrong: "Neediness transmits before a word is said. When you need the sale, you over-explain, you get shaky under pressure, you give too much ground too early. The prospect feels it as something 'off.' Detachment from outcome is the actual frame that protects your ability to close."
+    }
+  },
+  {
+    week: 6, weekLabel: "Week 6 — Closing & Objections",
+    text: "The Lever Framework in closing refers to:",
+    options: [
+      "Psychological manipulation techniques to accelerate decisions",
+      "A pricing negotiation strategy for handling money objections",
+      "Identifying the specific emotional and logical levers that matter most to THIS prospect and aligning your close to those — not a generic close",
+      "A step-by-step script for the final 10 minutes of a call"
+    ],
+    correct: 2,
+    feedback: {
+      right: "Right. There's no universal close — there's the close that's right for this person based on what matters most to them. You should know by the end of discovery which levers move them. The close is just pulling those levers in the right order.",
+      wrong: "The Lever Framework is about personalization. Every prospect has different emotional and logical triggers. A great close doesn't use the same pitch for everyone — it reflects back exactly what that prospect told you mattered most, in their own language."
+    }
+  },
+  {
+    week: 6, weekLabel: "Week 6 — Closing & Objections",
+    text: "A prospect says 'it's too expensive.' Your correct first move is:",
+    options: [
+      "Immediately offer a payment plan or discount to reduce the barrier",
+      "Defend the price by listing more features and results",
+      "End the call — if price is the objection, they're not the right fit",
+      "Explore what 'expensive' means to them — is it truly a budget constraint, or has the value not been fully established yet?"
+    ],
+    correct: 3,
+    feedback: {
+      right: "Exactly right. 'Too expensive' is almost never purely a money problem — it's a value perception problem. Before you adjust price, find out what expensive means to them. Often they have the money. The value just hasn't been made concrete enough relative to the cost.",
+      wrong: "Before you move on price, find out what 'expensive' really means. In most cases, the prospect has the resources — they just don't yet believe the return is real enough to justify the number. The fix is going back to value, not lowering the price."
+    }
+  }
+];
+
+const SECTIONS = [
+  { week: 1, label: "Week 1 — Identity & Mindset", start: 0, end: 4 },
+  { week: 2, label: "Week 2 — Why Humans Buy", start: 5, end: 9 },
+  { week: 3, label: "Week 3 — Four Levels of Communication", start: 10, end: 14 },
+  { week: 4, label: "Week 4 — PACE Method", start: 15, end: 19 },
+  { week: 5, label: "Week 5 — Cognitive Dissonance", start: 20, end: 24 },
+  { week: 6, label: "Week 6 — Closing & Objections", start: 25, end: 29 }
+];
+
+const RECOMMENDATIONS = {
+  1: {
+    strong: { title: "Week 1 — Identity & Mindset", body: "Your identity foundation is solid. You understand the mechanics of how self-image drives behavior and results.", steps: ["Continue reinforcing the identity-before-achievement principle in your daily practice", "Use the cognitive dissonance framework on yourself — identify where your actions and identity still don't match", "Start teaching this to others — explaining it deepens it"] },
+    review: { title: "Week 1 — Identity & Mindset", body: "You have a grasp of the concepts but some gaps in application. The theory is there — the embodiment needs work.", steps: ["Re-read your Week 1 notes and identify which concept you got wrong here", "Write out: 'My current identity allows me to ___. The identity I need to build allows me to ___.'", "Name one specific behavior you avoid because it doesn't feel like 'you' yet — and do it five times this week"] },
+    redo: { title: "Week 1 — Identity & Mindset", body: "The foundation needs rebuilding. Everything else in this program sits on top of identity — if this is shaky, tactics won't stick.", steps: ["Rewatch the Week 1 identity module completely before moving forward", "Journal: 'Who am I currently being on my calls? Who do I need to be?'", "Book a coaching session focused entirely on identity before tackling weeks 2-6 again"] }
+  },
+  2: {
+    strong: { title: "Week 2 — Why Humans Buy", body: "You understand the emotional mechanics of buying decisions. This will show up in how you run discovery.", steps: ["Make sure your Heaven/Hell framework questions are built into every call", "Keep surfacing the emotional cost of staying the same — not just the logical benefits of moving forward", "Practice articulating 'people buy on emotion, justify with logic' to new students"] },
+    review: { title: "Week 2 — Why Humans Buy", body: "You know the framework conceptually but it's not fully integrated into how you think about calls yet.", steps: ["Rewatch the Why Humans Buy lesson — focus specifically on the Heaven/Hell sequence", "On your next 5 calls, track: did the prospect feel the pain of their current situation, or just the appeal of the solution?", "Practice the Heaven/Hell framework out loud — walk someone through it top to bottom"] },
+    redo: { title: "Week 2 — Why Humans Buy", body: "This is a critical gap. If you don't understand why people buy, you can't build a call that leads them there.", steps: ["Rewatch the Why Humans Buy lesson before anything else this week", "Write out the Heaven/Hell framework from memory and compare to the original — note every gap", "On your next call, your only goal is to make the prospect feel the gap. Not pitch. Just make the gap real."] }
+  },
+  3: {
+    strong: { title: "Week 3 — Four Levels of Communication", body: "Your understanding of the levels is strong — especially Level 4. This shows up as frame and authority on calls.", steps: ["Audit your recent calls: which level was weakest? That's your focus", "Record yourself on a call and listen back for Level 2 — is your tonality doing the work?", "Teach the four levels to another student this week — gaps in your explanation reveal gaps in your knowledge"] },
+    review: { title: "Week 3 — Four Levels of Communication", body: "Some of the levels are clicking but the hierarchy isn't fully locked in. Level 4 understanding may be partial.", steps: ["Rewatch the Four Levels module — pay specific attention to Level 4 examples", "Record a 5-minute mock call and analyze it: what was Level 2 communicating? What was Level 4?", "Spend a week doing daily tonality drills — vary your pace and pausing intentionally"] },
+    redo: { title: "Week 3 — Four Levels of Communication", body: "The Four Levels are foundational to how Sales.io teaches communication. This needs to be rebuilt from the ground up.", steps: ["Rewatch the entire Four Levels module — take notes", "Memorize the hierarchy: 7% words, tonality, intention, self-image. Know it cold.", "Do 10 mock calls this week where your only focus is Level 4 — how you feel about yourself going in and during"] }
+  },
+  4: {
+    strong: { title: "Week 4 — PACE Method", body: "Your PACE identification is sharp. You can adapt your communication style to match what each prospect actually responds to.", steps: ["On every call this week, name the PACE type out loud to yourself within the first 3 minutes — build the habit", "Practice switching PACE styles mid-call if you misread the type at the start", "Start teaching PACE to other students — explaining it to others will sharpen your own pattern recognition"] },
+    review: { title: "Week 4 — PACE Method", body: "You know the types but your identification speed and application need sharpening.", steps: ["Rewatch the PACE module and write out 3 specific behaviors that signal each type", "On your next 5 calls, write down which PACE type you identified and when — build the recognition muscle", "Practice PACE identification in everyday conversations, not just sales calls"] },
+    redo: { title: "Week 4 — PACE Method", body: "PACE needs to become second nature — right now it's still a concept, not a reflex.", steps: ["Rewatch the PACE module completely — focus on the behavioral signals for each type", "Memorize at least 3 distinct behaviors per type until you can identify them in 2 minutes", "Don't run calls this week without naming the prospect's PACE type in the first 5 minutes — even if you're wrong, practice the habit"] }
+  },
+  5: {
+    strong: { title: "Week 5 — Cognitive Dissonance", body: "Your cognitive dissonance application is strong. You understand both the mechanism and how to deploy it through questions.", steps: ["Make sure you're letting prospects articulate the gap themselves — don't tell them the gap, ask them to find it", "Practice the identity-reality gap questions until they feel natural and genuinely curious, not leading", "Start applying the same framework to your own growth — where is your identity-reality gap right now?"] },
+    review: { title: "Week 5 — Cognitive Dissonance", body: "The concept is there but the execution — specifically using it as questions rather than statements — needs work.", steps: ["Rewatch the Cognitive Dissonance module — focus on the questioning sequence", "Practice the gap-surfacing questions out loud: 'Where do you want to be in 12 months? Where are you today?'", "On your next 3 calls, your only goal during discovery is to get the prospect to articulate their own gap"] },
+    redo: { title: "Week 5 — Cognitive Dissonance", body: "This is one of the most powerful tools in the program and it needs to be rebuilt. Without it, you're pitching at people instead of helping them discover why they need to move.", steps: ["Rewatch the Cognitive Dissonance lesson from the start", "Write out the mechanism from memory: what is it, why does it work, how do you deploy it through questions?", "Book a coaching session specifically on cognitive dissonance — practice the gap questions live with JJ or a coach"] }
+  },
+  6: {
+    strong: { title: "Week 6 — Closing & Objections", body: "Your closing fundamentals are solid. You understand that closing is not about pressure — it's about the work that comes before the ask.", steps: ["Keep refining your Lever Framework — know the 3 levers that move each individual prospect before you pitch", "Practice detachment from outcome as a daily discipline — not just on calls", "Record your closes and listen back: are you pulling the right levers for each prospect?"] },
+    review: { title: "Week 6 — Closing & Objections", body: "Some closing mechanics are there but your objection handling or Lever Framework application needs more depth.", steps: ["Rewatch the Closing and Lever Framework module", "Write out your current objection handling for: 'need to think about it,' 'too expensive,' and 'need to talk to my partner' — compare to what you know from the curriculum", "Do 5 mock calls this week where the mock ends with a hard objection — practice staying in frame"] },
+    redo: { title: "Week 6 — Closing & Objections", body: "Your closing mechanics need to be rebuilt. This is the last thing that happens on a call, but it depends on everything that came before.", steps: ["Rewatch the Closing module and the Lever Framework module back to back", "Write out every major objection category and your current handle for each — then compare to the correct approach", "Run 10 mock calls this week focused entirely on the back half of the call — don't practice opening, practice closing"] }
+  }
+};
+
+let currentQ = 0;
+let answers = new Array(30).fill(null);
+let studentName = '';
+
+function startQuiz() {
+  studentName = document.getElementById('student-name').value.trim();
+  showScreen('screen-quiz');
+  renderQuestion(0);
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function renderQuestion(idx) {
+  const q = QUESTIONS[idx];
+  const section = SECTIONS.find(s => idx >= s.start && idx <= s.end);
+  const progress = ((idx + 1) / 30) * 100;
+
+  document.getElementById('progress-label').textContent = `Question ${idx + 1} of 30`;
+  document.getElementById('progress-fill').style.width = progress + '%';
+  document.getElementById('section-label').textContent = 'Week ' + q.week;
+  document.getElementById('q-week-tag').textContent = q.weekLabel;
+  document.getElementById('q-number').textContent = 'Question ' + (idx + 1);
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('q-counter').textContent = (idx + 1) + ' / 30';
+
+  const letters = ['A', 'B', 'C', 'D'];
+  const container = document.getElementById('options-container');
+  container.innerHTML = '';
+
+  q.options.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'option';
+    div.innerHTML = `<div class="option-letter">${letters[i]}</div><div class="option-text">${opt}</div>`;
+    div.addEventListener('click', () => selectAnswer(idx, i));
+    container.appendChild(div);
+  });
+
+  // If already answered (going forward), restore state
+  const fb = document.getElementById('feedback-box');
+  fb.className = 'feedback-box';
+  document.getElementById('feedback-text').textContent = '';
+  fb.style.display = 'none';
+
+  const btnNext = document.getElementById('btn-next');
+  btnNext.textContent = idx === 29 ? 'See Results' : 'Next';
+  btnNext.classList.remove('enabled');
+}
+
+function selectAnswer(qIdx, optIdx) {
+  if (answers[qIdx] !== null) return;
+  answers[qIdx] = optIdx;
+
+  const q = QUESTIONS[qIdx];
+  const opts = document.querySelectorAll('.option');
+  const isCorrect = optIdx === q.correct;
+
+  opts.forEach((o, i) => {
+    o.classList.add('locked');
+    if (i === optIdx) o.classList.add(isCorrect ? 'correct' : 'incorrect');
+    if (!isCorrect && i === q.correct) o.classList.add('reveal-correct');
+  });
+
+  const fb = document.getElementById('feedback-box');
+  fb.style.display = 'block';
+  if (isCorrect) {
+    fb.className = 'feedback-box show right';
+    document.getElementById('feedback-text').innerHTML = '<strong>Correct.</strong> ' + q.feedback.right;
+  } else {
+    fb.className = 'feedback-box show wrong';
+    document.getElementById('feedback-text').innerHTML = '<strong>Not quite.</strong> ' + q.feedback.wrong;
+  }
+
+  document.getElementById('btn-next').classList.add('enabled');
+}
+
+function nextQuestion() {
+  if (answers[currentQ] === null) return;
+  currentQ++;
+  if (currentQ >= 30) { showResults(); return; }
+  renderQuestion(currentQ);
+  document.querySelector('.quiz-body').scrollTop = 0;
+  window.scrollTo(0, 0);
+}
+
+function showResults() {
+  showScreen('screen-results');
+
+  const total = answers.filter((a, i) => a === QUESTIONS[i].correct).length;
+  const pct = Math.round((total / 30) * 100);
+
+  // Personalize title
+  const name = studentName ? studentName.split(' ')[0] : null;
+  document.getElementById('results-title').textContent = name
+    ? `${name}, here's where you're at.`
+    : "Here's where you're at.";
+
+  const subMap = [
+    [0, 49, "There are some real gaps here — but that's what this test is for. The recommendations below are your roadmap."],
+    [50, 69, "You have a solid base but there are specific areas that need more reps before they're locked in."],
+    [70, 84, "Strong overall. A couple of sections need reinforcement — focus there this week."],
+    [85, 100, "Excellent. You've internalized the material. The focus now is execution and application on live calls."]
+  ];
+  const sub = subMap.find(([min, max]) => pct >= min && pct <= max);
+  document.getElementById('results-sub').textContent = sub ? sub[2] : '';
+
+  // Score display
+  const scoreEl = document.getElementById('score-num');
+  const barEl = document.getElementById('score-bar');
+  scoreEl.textContent = pct + '%';
+  scoreEl.className = 'score-num ' + (pct >= 80 ? 'score-green' : pct >= 60 ? 'score-amber' : 'score-red');
+  barEl.style.width = pct + '%';
+  barEl.className = 'score-bar-fill ' + (pct >= 80 ? 'bar-green' : pct >= 60 ? 'bar-amber' : 'bar-red');
+
+  // Section breakdown
+  const breakdownEl = document.getElementById('breakdown-rows');
+  breakdownEl.innerHTML = '';
+  SECTIONS.forEach(sec => {
+    let correct = 0;
+    for (let i = sec.start; i <= sec.end; i++) {
+      if (answers[i] === QUESTIONS[i].correct) correct++;
+    }
+    const sPct = Math.round((correct / 5) * 100);
+    const color = sPct >= 80 ? 'green' : sPct >= 60 ? 'amber' : 'red';
+    breakdownEl.innerHTML += `
+      <div class="breakdown-row">
+        <div class="breakdown-top">
+          <div class="breakdown-week">${sec.label}</div>
+          <div class="breakdown-score score-${color}">${correct}/5 &nbsp;(${sPct}%)</div>
+        </div>
+        <div class="breakdown-bar-wrap">
+          <div class="breakdown-bar-fill bar-${color}" style="width:${sPct}%"></div>
+        </div>
+      </div>`;
+  });
+
+  // Recommendations
+  const recEl = document.getElementById('rec-cards');
+  recEl.innerHTML = '';
+  SECTIONS.forEach(sec => {
+    let correct = 0;
+    for (let i = sec.start; i <= sec.end; i++) {
+      if (answers[i] === QUESTIONS[i].correct) correct++;
+    }
+    const sPct = Math.round((correct / 5) * 100);
+    const tier = sPct >= 80 ? 'strong' : sPct >= 60 ? 'review' : 'redo';
+    const rec = RECOMMENDATIONS[sec.week][tier];
+    const badgeLabels = { strong: 'Solid', review: 'Review', redo: 'Redo This Week' };
+    recEl.innerHTML += `
+      <div class="rec-card ${tier}">
+        <div class="rec-card-header">
+          <span class="rec-badge ${tier}">${badgeLabels[tier]}</span>
+          <span class="rec-week">${rec.title}</span>
+        </div>
+        <div class="rec-body">
+          <p>${rec.body}</p>
+          <ul class="rec-steps">${rec.steps.map(s => `<li>${s}</li>`).join('')}</ul>
+        </div>
+      </div>`;
+  });
+
+  // Animate bars after render
+  setTimeout(() => {
+    document.querySelectorAll('.breakdown-bar-fill, .score-bar-fill').forEach(el => {
+      const w = el.style.width; el.style.width = '0%';
+      setTimeout(() => el.style.width = w, 50);
+    });
+  }, 100);
+}
+
+function restartQuiz() {
+  currentQ = 0;
+  answers = new Array(30).fill(null);
+  showScreen('screen-intro');
+}
+</script>
+</body>
+</html>
