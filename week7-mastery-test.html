@@ -109,15 +109,28 @@
     .q-feedback.wrong { background: var(--red-bg); border: 1px solid #2b0d0d; color: #f0a0a0; }
 
     /* SUBMIT */
-    .submit-row { margin-top: 32px; display: flex; align-items: center; gap: 16px; }
+    .submit-wrap { margin-top: 40px; background: var(--g1); border: 1px solid var(--g2); border-radius: 12px; padding: 24px 28px; }
+    .submit-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--g6); margin-bottom: 16px; }
+    .submit-fields { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+    .submit-field { flex: 1; min-width: 180px; }
+    .submit-field input {
+      width: 100%; background: var(--bg); border: 1px solid var(--g2); border-radius: 8px;
+      padding: 11px 14px; font-size: 14px; color: var(--white); font-family: 'Inter', sans-serif;
+      outline: none; transition: border-color .15s;
+    }
+    .submit-field input::placeholder { color: var(--g6); }
+    .submit-field input:focus { border-color: var(--g3); }
+    .submit-row { display: flex; align-items: center; gap: 16px; }
     .btn-submit {
       background: var(--white); color: var(--bg); font-size: 14px; font-weight: 800;
       border: none; border-radius: 8px; padding: 12px 28px; cursor: pointer;
-      letter-spacing: 0.02em; transition: opacity .15s;
+      letter-spacing: 0.02em; transition: opacity .15s; white-space: nowrap;
     }
     .btn-submit:hover { opacity: .88; }
     .btn-submit:disabled { opacity: .3; cursor: default; }
     .submit-note { font-size: 12px; color: var(--g6); }
+    .submit-success { display: none; font-size: 13px; color: var(--green); padding: 10px 14px; background: var(--green-bg); border: 1px solid var(--green-border); border-radius: 8px; }
+    .submit-error { display: none; font-size: 13px; color: var(--red); padding: 10px 14px; background: var(--red-bg); border: 1px solid #2b0d0d; border-radius: 8px; }
 
     @media (max-width: 780px) {
       .sidebar { display: none; }
@@ -614,9 +627,22 @@
   </section>
 
 
-  <div class="submit-row">
-    <button class="btn-submit" id="btn-submit" disabled>See My Results</button>
-    <span class="submit-note" id="submit-note">Answer all 30 questions to unlock your personalized study plan.</span>
+  <div class="submit-wrap">
+    <div class="submit-label">Submit Your Results</div>
+    <div class="submit-fields">
+      <div class="submit-field">
+        <input type="text" id="student-name" placeholder="Your name" autocomplete="name" />
+      </div>
+      <div class="submit-field">
+        <input type="email" id="student-email" placeholder="Your email" autocomplete="email" />
+      </div>
+    </div>
+    <div class="submit-row">
+      <button class="btn-submit" id="btn-submit" disabled>See My Results</button>
+      <span class="submit-note" id="submit-note">Answer all 30 questions to unlock your personalized study plan.</span>
+    </div>
+    <div class="submit-success" id="submit-success">Results sent to your coach. Check your study plan above.</div>
+    <div class="submit-error" id="submit-error">Couldn't send results right now — but your study plan is still visible above.</div>
   </div>
 
 </main>
@@ -711,32 +737,50 @@
   }
 
   document.getElementById('btn-submit').addEventListener('click', function() {
-    const banner = document.getElementById('results-banner');
-    banner.style.display = 'block';
+    const btn = this;
+    const name = document.getElementById('student-name').value.trim();
+    const email = document.getElementById('student-email').value.trim();
 
-    const scoreRow = document.getElementById('rb-score-row');
-    const recsList = document.getElementById('rb-recs-list');
-    scoreRow.innerHTML = '';
-    recsList.innerHTML = '';
+    if (!name || !email) {
+      document.getElementById('student-name').style.borderColor = name ? '' : 'var(--red)';
+      document.getElementById('student-email').style.borderColor = email ? '' : 'var(--red)';
+      document.getElementById('submit-note').textContent = 'Enter your name and email first.';
+      return;
+    }
 
+    // Build scores
+    const scores = {};
+    let total = 0;
     const needsStudy = [];
     const solidWeeks = [];
 
     Object.entries(WEEKS).forEach(function([wk, meta]) {
       const wqList = Object.values(state).filter(s => s.week === wk);
       const correctCount = wqList.filter(s => s.isCorrect).length;
-      const pct = Math.round((correctCount / 5) * 100);
-      let grade = correctCount >= 5 ? 'pass' : (correctCount >= 3 ? 'ok' : 'fail');
+      scores[wk] = correctCount;
+      total += correctCount;
+      if (correctCount < 4) needsStudy.push(wk);
+      else solidWeeks.push(wk);
+    });
 
+    // Show results banner
+    const banner = document.getElementById('results-banner');
+    banner.style.display = 'block';
+    const scoreRow = document.getElementById('rb-score-row');
+    const recsList = document.getElementById('rb-recs-list');
+    scoreRow.innerHTML = '';
+    recsList.innerHTML = '';
+
+    Object.entries(WEEKS).forEach(function([wk, meta]) {
+      const correctCount = scores[wk];
+      const pct = Math.round((correctCount / 5) * 100);
+      const grade = correctCount >= 5 ? 'pass' : (correctCount >= 3 ? 'ok' : 'fail');
       const card = document.createElement('div');
       card.className = 'rb-score-card';
       card.innerHTML = '<div class="rb-sc-label">' + meta.label + '</div>' +
         '<div class="rb-sc-val ' + grade + '">' + correctCount + '/5</div>' +
         '<div class="rb-sc-sub">' + pct + '%</div>';
       scoreRow.appendChild(card);
-
-      if (correctCount < 4) needsStudy.push(wk);
-      else solidWeeks.push(wk);
     });
 
     if (needsStudy.length === 0) {
@@ -747,8 +791,7 @@
       recsList.appendChild(item);
     } else {
       needsStudy.forEach(function(wk) {
-        const wqList = Object.values(state).filter(s => s.week === wk);
-        const correctCount = wqList.filter(s => s.isCorrect).length;
+        const correctCount = scores[wk];
         const item = document.createElement('div');
         item.className = 'rec-item';
         item.innerHTML = '<div class="rec-icon fail">!</div>' +
@@ -760,14 +803,44 @@
         const item = document.createElement('div');
         item.className = 'rec-item';
         item.innerHTML = '<div class="rec-icon pass">✓</div>' +
-          '<div>Solid on: <strong>' + solidLabels + '</strong>. Keep showing these strengths in your mock calls and live calls.</div>';
+          '<div>Solid on: <strong>' + solidLabels + '</strong>. Keep showing these on your mock and live calls.</div>';
         recsList.appendChild(item);
       }
     }
 
     banner.scrollIntoView({ behavior: 'smooth' });
-    this.disabled = true;
-    this.textContent = 'Results Saved';
+    btn.disabled = true;
+    btn.textContent = 'Submitted';
+
+    // POST to Formspree
+    const payload = {
+      name: name,
+      email: email,
+      'Week 1 — Why Humans Buy': scores.week1 + '/5',
+      'Week 2 — 4 Levels of Communication': scores.week2 + '/5',
+      'Week 3 — Anti-Fragility System': scores.week3 + '/5',
+      'Week 4 — Cognitive Dissonance': scores.week4 + '/5',
+      'Week 5 — Lever Framework': scores.week5 + '/5',
+      'Week 6 — Scriptless Selling': scores.week6 + '/5',
+      'Total Score': total + '/30',
+      'Study Needed': needsStudy.map(w => WEEKS[w].label).join(', ') || 'None — all weeks passed',
+    };
+
+    fetch('https://formspree.io/f/mlgvadlo', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+    .then(function(r) {
+      if (r.ok) {
+        document.getElementById('submit-success').style.display = 'block';
+      } else {
+        document.getElementById('submit-error').style.display = 'block';
+      }
+    })
+    .catch(function() {
+      document.getElementById('submit-error').style.display = 'block';
+    });
   });
 
   // Scroll spy
