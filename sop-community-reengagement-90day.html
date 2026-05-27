@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>90-Day Community Re-Engagement — Sales.io</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #000000; --white: #ffffff;
+      --gray-100: #f5f5f5; --gray-200: #e0e0e0;
+      --gray-400: #999999; --gray-600: #555555;
+      --gray-800: #1a1a1a; --gray-900: #111111;
+      --green: #4ade80; --amber: #f59e0b; --red: #f87171;
+      --sidebar-width: 270px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--black); color: var(--white); display: flex; min-height: 100vh; font-size: 15px; line-height: 1.6; }
+
+    /* SIDEBAR */
+    .sidebar { width: var(--sidebar-width); min-height: 100vh; background: var(--gray-900); border-right: 1px solid #1a1a1a; position: fixed; top: 0; left: 0; display: flex; flex-direction: column; z-index: 100; }
+    .sidebar-logo { padding: 28px 24px 20px; border-bottom: 1px solid #1a1a1a; }
+    .logo-text { font-size: 15px; font-weight: 700; color: var(--white); }
+    .logo-sub { font-size: 11px; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.3px; margin-top: 2px; }
+    .sidebar-nav { padding: 16px 0; flex: 1; overflow-y: auto; }
+    .nav-section { padding: 12px 24px 4px; font-size: 10px; font-weight: 700; color: var(--gray-600); letter-spacing: 1.2px; text-transform: uppercase; }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 24px; color: var(--gray-400); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.15s; border-left: 2px solid transparent; cursor: pointer; }
+    .nav-item:hover { color: var(--white); background: #1a1a1a; }
+    .nav-item.active { color: var(--white); border-left-color: var(--white); background: #1a1a1a; }
+    .nav-dot { width: 6px; height: 6px; border-radius: 50%; background: #333; flex-shrink: 0; }
+    .nav-dot.green { background: var(--green); }
+    .sidebar-footer { padding: 16px 24px; border-top: 1px solid #1a1a1a; font-size: 11px; color: var(--gray-600); }
+
+    /* MAIN */
+    .main { margin-left: var(--sidebar-width); flex: 1; padding: 60px 64px; max-width: 920px; }
+    .page-header { margin-bottom: 56px; }
+    .page-tag { font-size: 11px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--gray-400); display: block; margin-bottom: 16px; }
+    .page-title { font-size: 42px; font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 16px; }
+    .page-desc { font-size: 16px; color: var(--gray-400); max-width: 580px; line-height: 1.7; }
+    .page-meta { display: flex; gap: 28px; margin-top: 28px; padding-top: 28px; border-top: 1px solid #1a1a1a; flex-wrap: wrap; }
+    .meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .meta-label { font-size: 10px; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; }
+    .meta-value { font-size: 14px; color: var(--white); font-weight: 600; }
+
+    /* SECTIONS */
+    .section { margin-bottom: 64px; scroll-margin-top: 40px; }
+    .section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+    .section-num { width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid #2a2a2a; color: var(--gray-400); font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .section-title { font-size: 22px; font-weight: 700; letter-spacing: -0.4px; }
+    .section-divider { height: 1px; background: #1a1a1a; margin-bottom: 28px; }
+
+    /* CARDS */
+    .card { background: var(--gray-900); border: 1px solid #1e1e1e; border-radius: 12px; padding: 22px 24px; margin-bottom: 12px; }
+    .card-label { font-size: 10px; font-weight: 700; color: var(--gray-600); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+    .card p { font-size: 13.5px; color: var(--gray-400); line-height: 1.7; }
+    .card p + p { margin-top: 8px; }
+
+    /* PLATFORM CARD */
+    .platform-card { background: var(--gray-900); border: 1px solid #1e1e1e; border-radius: 14px; overflow: hidden; margin-bottom: 16px; }
+    .platform-header { padding: 16px 22px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid #1a1a1a; background: #0d0d0d; }
+    .platform-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .platform-icon.skool { background: #1a0f2e; }
+    .platform-icon.linkedin { background: #0a1628; }
+    .platform-icon.youtube { background: #1a0505; }
+    .platform-icon.facebook { background: #0a1230; }
+    .platform-icon.whatsapp { background: #0a1a0f; }
+    .platform-icon.circle { background: #1a1a0a; }
+    .platform-name { font-size: 15px; font-weight: 700; }
+    .platform-role { font-size: 12px; color: var(--gray-600); font-weight: 500; margin-top: 1px; }
+    .platform-body { padding: 20px 22px; }
+    .platform-body ul { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+    .platform-body ul li { font-size: 13.5px; color: var(--gray-400); padding: 7px 0; border-bottom: 1px solid #111; display: flex; gap: 10px; line-height: 1.6; align-items: flex-start; }
+    .platform-body ul li:last-child { border-bottom: none; }
+    .platform-body ul li::before { content: "—"; color: #2a2a2a; flex-shrink: 0; }
+
+    /* MONTH CARD */
+    .month-block { border: 1px solid #1e1e1e; border-radius: 14px; overflow: hidden; margin-bottom: 20px; }
+    .month-header { padding: 16px 22px; background: #0d0d0d; border-bottom: 1px solid #1a1a1a; display: flex; align-items: center; justify-content: space-between; }
+    .month-title { font-size: 15px; font-weight: 700; }
+    .month-theme { font-size: 12px; color: var(--gray-600); font-weight: 500; }
+    .month-body { padding: 0; }
+    .week-row { padding: 14px 22px; border-bottom: 1px solid #111; display: flex; gap: 16px; align-items: flex-start; }
+    .week-row:last-child { border-bottom: none; }
+    .week-label { font-size: 11px; font-weight: 700; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.5px; width: 52px; flex-shrink: 0; padding-top: 2px; }
+    .week-content { flex: 1; }
+    .week-name { font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+    .week-detail { font-size: 13px; color: var(--gray-400); line-height: 1.65; }
+
+    /* DM CARD */
+    .dm-card { background: var(--gray-900); border: 1px solid #1e1e1e; border-radius: 12px; overflow: hidden; margin-bottom: 14px; }
+    .dm-header { padding: 14px 20px; background: #0d0d0d; border-bottom: 1px solid #1a1a1a; display: flex; align-items: center; justify-content: space-between; }
+    .dm-type { font-size: 11px; font-weight: 700; color: var(--green); letter-spacing: 0.5px; text-transform: uppercase; }
+    .dm-trigger { font-size: 12px; color: var(--gray-600); }
+    .dm-body { padding: 16px 20px; }
+    .dm-platform-tags { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+    .dm-tag { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 4px; background: #1a1a1a; color: var(--gray-600); border: 1px solid #2a2a2a; }
+    .dm-body pre { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--gray-200); line-height: 1.8; white-space: pre-wrap; word-break: break-word; }
+    .copy-btn { background: #1a1a1a; border: 1px solid #2a2a2a; color: var(--gray-600); font-size: 11px; font-weight: 600; font-family: 'Inter', sans-serif; padding: 5px 10px; border-radius: 5px; cursor: pointer; transition: all 0.15s; float: right; }
+    .copy-btn:hover { background: #222; color: var(--white); }
+    .copy-btn.copied { background: #0a1a0a; color: var(--green); border-color: #1a3a1a; }
+
+    /* HIGHLIGHT */
+    .highlight { background: #050f08; border: 1px solid #0d2b1a; border-radius: 12px; padding: 20px 24px; margin-bottom: 14px; }
+    .highlight p { font-size: 13.5px; color: #ccc; line-height: 1.75; }
+    .highlight strong { color: var(--green); }
+    .warning { background: #0f0800; border: 1px solid #2b1a00; border-radius: 12px; padding: 20px 24px; margin-bottom: 14px; }
+    .warning p { font-size: 13.5px; color: #ccc; line-height: 1.75; }
+    .warning strong { color: var(--amber); }
+
+    /* TABLE */
+    .table-wrap { background: var(--gray-900); border: 1px solid #1e1e1e; border-radius: 12px; overflow: hidden; margin-bottom: 14px; }
+    table { width: 100%; border-collapse: collapse; }
+    th { font-size: 10px; font-weight: 700; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.8px; padding: 10px 16px; border-bottom: 1px solid #1e1e1e; text-align: left; }
+    td { padding: 12px 16px; font-size: 13px; color: var(--gray-400); border-bottom: 1px solid #111; vertical-align: top; line-height: 1.6; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #0a0a0a; }
+    .tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 4px; background: #1a1a1a; color: var(--gray-600); border: 1px solid #2a2a2a; }
+    .tag.green { background: #0a1a0a; color: var(--green); border-color: #1a3a1a; }
+    .tag.amber { background: #1a1000; color: var(--amber); border-color: #2b2000; }
+
+    /* QUOTE */
+    .quote-block { border-left: 3px solid #222; padding: 14px 20px; background: #050505; border-radius: 0 8px 8px 0; margin: 16px 0; }
+    .quote-block p { font-size: 14px; color: #ddd; font-style: italic; line-height: 1.8; }
+
+    /* 2-COL */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+
+    @media (max-width: 900px) { .sidebar { display: none; } .main { margin-left: 0; padding: 32px 20px; } .two-col { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text">Sales.io</div>
+    <div class="logo-sub">Community Re-Engagement</div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-section">Strategy</div>
+    <a class="nav-item active" href="#why"><span class="nav-dot"></span>Why Communities Die</a>
+    <a class="nav-item" href="#principles"><span class="nav-dot"></span>Core Principles</a>
+    <div class="nav-section">90-Day Plan</div>
+    <a class="nav-item" href="#month1"><span class="nav-dot green"></span>Month 1 — Foundation</a>
+    <a class="nav-item" href="#month2"><span class="nav-dot green"></span>Month 2 — Momentum</a>
+    <a class="nav-item" href="#month3"><span class="nav-dot green"></span>Month 3 — Identity</a>
+    <div class="nav-section">Platforms</div>
+    <a class="nav-item" href="#skool"><span class="nav-dot"></span>Skool</a>
+    <a class="nav-item" href="#linkedin"><span class="nav-dot"></span>LinkedIn</a>
+    <a class="nav-item" href="#youtube"><span class="nav-dot"></span>YouTube</a>
+    <a class="nav-item" href="#facebook"><span class="nav-dot"></span>Facebook</a>
+    <a class="nav-item" href="#whatsapp"><span class="nav-dot"></span>WhatsApp</a>
+    <a class="nav-item" href="#circle"><span class="nav-dot"></span>Circle</a>
+    <div class="nav-section">Playbooks</div>
+    <a class="nav-item" href="#dms"><span class="nav-dot"></span>DM Playbook</a>
+    <a class="nav-item" href="#cadence"><span class="nav-dot"></span>Weekly Cadence</a>
+    <a class="nav-item" href="#prompts"><span class="nav-dot"></span>Prompt Library</a>
+  </div>
+  <div class="sidebar-footer">June — August 2026</div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <span class="page-tag">Standard Operating Procedure</span>
+    <h1 class="page-title">90-Day Community<br>Re-Engagement</h1>
+    <p class="page-desc">A platform-by-platform strategy to wake up the Sales.io community across Skool, LinkedIn, YouTube, Facebook, WhatsApp, and Circle — with a DM playbook and weekly cadence built in.</p>
+    <div class="page-meta">
+      <div class="meta-item"><span class="meta-label">Timeline</span><span class="meta-value">June — August 2026</span></div>
+      <div class="meta-item"><span class="meta-label">Owner</span><span class="meta-value">JJ Hernandez</span></div>
+      <div class="meta-item"><span class="meta-label">Platforms</span><span class="meta-value">6</span></div>
+      <div class="meta-item"><span class="meta-label">Goal</span><span class="meta-value">Daily active engagement across all channels</span></div>
+    </div>
+  </div>
+
+  <!-- WHY -->
+  <div class="section" id="why">
+    <div class="section-header"><div class="section-num">1</div><h2 class="section-title">Why Communities Go Quiet</h2></div>
+    <div class="section-divider"></div>
+
+    <div class="highlight">
+      <p>A quiet community is not a people problem. It's a <strong>structure problem</strong>. People don't engage when there's no reason to show up, no one to show up for, and no cost to staying silent. Fix the structure and the people follow.</p>
+    </div>
+
+    <div class="two-col">
+      <div class="card"><div class="card-label">What kills it</div><p>Broadcast-only content. One person talking, everyone watching. No prompts, no accountability, no stakes. Members feel like subscribers, not participants.</p></div>
+      <div class="card"><div class="card-label">What builds it</div><p>Rituals. Recurring moments people can anchor to. Daily questions, weekly wins, challenges with a finish line. Community is a habit, not an event.</p></div>
+    </div>
+    <div class="two-col">
+      <div class="card"><div class="card-label">The real issue</div><p>When JJ is quiet, the community is quiet. The founder sets the temperature. If you're not posting, not DMing, not showing up, neither are they.</p></div>
+      <div class="card"><div class="card-label">The fix</div><p>Consistency over intensity. One intentional post per day beats a launch-day flood. Show up every day for 90 days — the community will mirror you.</p></div>
+    </div>
+  </div>
+
+  <!-- PRINCIPLES -->
+  <div class="section" id="principles">
+    <div class="section-header"><div class="section-num">2</div><h2 class="section-title">Core Principles</h2></div>
+    <div class="section-divider"></div>
+
+    <div class="card"><div class="card-label">Principle 01</div><p><strong style="color:#fff;">Identity over information.</strong> Posts that make people reflect on who they are get more replies than posts that teach something. "What do you believe about yourself that's keeping you stuck?" will outperform a framework post every time.</p></div>
+    <div class="card"><div class="card-label">Principle 02</div><p><strong style="color:#fff;">Surface wins relentlessly.</strong> Nothing activates a quiet community faster than visible proof that other members are winning. One win post creates 10 "I want that" moments. Make wins public, specific, and frequent.</p></div>
+    <div class="card"><div class="card-label">Principle 03</div><p><strong style="color:#fff;">DMs are the real community.</strong> Every public post JJ makes should be backed by 5-10 personal DMs to specific members. Public content creates the signal. DMs create the relationship. The combination is unstoppable.</p></div>
+    <div class="card"><div class="card-label">Principle 04</div><p><strong style="color:#fff;">Give them a reason to come back tomorrow.</strong> Every post should end with a hook forward — a challenge, a question to answer, a result to report back on. "Tell me how this goes" creates return visits.</p></div>
+    <div class="card"><div class="card-label">Principle 05</div><p><strong style="color:#fff;">Peer-to-peer beats top-down.</strong> JJ can't personally engage with everyone. Structure the community so members engage with each other. Breakout rooms, accountability pairs, student spotlights — systems that create connection horizontally, not just vertically.</p></div>
+  </div>
+
+  <!-- MONTH 1 -->
+  <div class="section" id="month1">
+    <div class="section-header"><div class="section-num">3</div><h2 class="section-title">Month 1 — Foundation (June)</h2></div>
+    <div class="section-divider"></div>
+    <div class="card"><div class="card-label">Theme</div><p>Reactivation. You're reigniting the fire, not starting a new one. The goal is to break the silence, establish daily presence, and remind every member why they paid to be here.</p></div>
+
+    <div class="month-block">
+      <div class="month-header"><span class="month-title">Week 1 — The Wake-Up</span><span class="month-theme">Break the silence</span></div>
+      <div class="month-body">
+        <div class="week-row"><div class="week-label">Mon</div><div class="week-content"><div class="week-name">The Announcement</div><div class="week-detail">JJ posts across all platforms: "The next 90 days of this community are going to look different. I'm showing up every day. Here's what's coming." Make it specific — challenges, spotlights, live Q&As. This is a statement of intent, not a hype post.</div></div></div>
+        <div class="week-row"><div class="week-label">Tue</div><div class="week-content"><div class="week-name">The Honest Question</div><div class="week-detail">Post in Circle and WhatsApp: "Be honest — where are you actually at right now? Not where you want to be. Where you are." Give a 3-option reply format: on track / stuck / starting over. No judgment, just data. Watch who replies.</div></div></div>
+        <div class="week-row"><div class="week-label">Wed</div><div class="week-content"><div class="week-name">DM Sweep</div><div class="week-detail">Personally DM every member who hasn't posted in 14+ days. Use the "I noticed you" DM template. Don't broadcast — personalize. Reference something specific from their profile or a past conversation. This week the goal is 15 personal DMs minimum.</div></div></div>
+        <div class="week-row"><div class="week-label">Thu</div><div class="week-content"><div class="week-name">Voice Note Drop</div><div class="week-detail">Record a 60-second voice note in WhatsApp — not a text, a voice note. JJ's voice, raw and direct. "I've been thinking about where you all are at. Here's what I want you to do this week." This is the highest-converting thing you can do in WhatsApp. Nobody else does it.</div></div></div>
+        <div class="week-row"><div class="week-label">Fri</div><div class="week-content"><div class="week-name">First Win Spotlight</div><div class="week-detail">Reach out to 3 students who have had a recent win (pull from Close CRM or ask coaches). Post a proper win spotlight across Skool and Circle. Full story — where they started, what changed, what they did. Tag them. This starts the win culture.</div></div></div>
+      </div>
+    </div>
+
+    <div class="month-block">
+      <div class="month-header"><span class="month-title">Week 2 — The Commitment</span><span class="month-theme">Get people to declare publicly</span></div>
+      <div class="month-body">
+        <div class="week-row"><div class="week-label">Mon</div><div class="week-content"><div class="week-name">Public Commitment Thread</div><div class="week-detail">Launch a thread in Skool and Circle: "Post your #1 commitment for June. One specific, measurable thing. I'll be checking in on this at the end of the month." Public commitments have 3x the follow-through rate of private ones. Make them say it out loud.</div></div></div>
+        <div class="week-row"><div class="week-label">Tue</div><div class="week-content"><div class="week-name">LinkedIn Social Proof Drop</div><div class="week-detail">Post on LinkedIn about the community: real results, real names (with permission), real numbers. Not a sales post. A proof post. "A student I've been coaching for 6 weeks just [specific result]." Drive curiosity about what Sales.io actually does.</div></div></div>
+        <div class="week-row"><div class="week-label">Wed</div><div class="week-content"><div class="week-name">YouTube Drop</div><div class="week-detail">Upload a coaching clip (from a group call or 1-on-1 with permission) and post in Skool with the prompt: "This is what we work on in Sales.io. Watch this and tell me: which part of your calls does this most apply to?"</div></div></div>
+        <div class="week-row"><div class="week-label">Thu</div><div class="week-content"><div class="week-name">Challenge Launch</div><div class="week-detail">Announce the first challenge: the 5-Day Mock Call Challenge. One mock call per day, posted in the designated channel, with one thing they're working on and one thing they improved. Starts Monday. Create urgency: "The reps who do this will have more reps in a week than most people get in a month."</div></div></div>
+        <div class="week-row"><div class="week-label">Fri</div><div class="week-content"><div class="week-name">Reply to Everything</div><div class="week-detail">Every post, every comment from the week — JJ replies personally. Just this week, go all-in on responsiveness. This signals to the community that when you post, JJ actually sees it. Changes behavior immediately.</div></div></div>
+      </div>
+    </div>
+
+    <div class="month-block">
+      <div class="month-header"><span class="month-title">Week 3 — The Challenge</span><span class="month-theme">5-Day Mock Call Challenge</span></div>
+      <div class="month-body">
+        <div class="week-row"><div class="week-label">Mon–Fri</div><div class="week-content"><div class="week-name">5-Day Mock Call Challenge is live</div><div class="week-detail">Daily accountability in WhatsApp and Circle. JJ checks in each morning: "Who's posting their call today?" and each evening: "What was your best moment from today's call?" DM anyone who goes silent mid-challenge. The ones who complete it get a personal shoutout from JJ on Friday.</div></div></div>
+        <div class="week-row"><div class="week-label">Mid-week</div><div class="week-content"><div class="week-name">Content from the Challenge</div><div class="week-detail">Film a short reaction to one of the mock call summaries (anonymized or with permission). Post to YouTube Shorts and Instagram Reels. This turns community activity into content and shows prospects what it's like inside Sales.io.</div></div></div>
+        <div class="week-row"><div class="week-label">Fri</div><div class="week-content"><div class="week-name">Challenge Recap</div><div class="week-detail">Post the results: who completed it, what they noticed, what changed. Make it feel like a milestone. Even if 3 people completed it, celebrate those 3 loudly. The next challenge will have more participants.</div></div></div>
+      </div>
+    </div>
+
+    <div class="month-block">
+      <div class="month-header"><span class="month-title">Week 4 — The Identity Post</span><span class="month-theme">Go deeper — make it personal</span></div>
+      <div class="month-body">
+        <div class="week-row"><div class="week-label">Mon</div><div class="week-content"><div class="week-name">JJ Vulnerability Post</div><div class="week-detail">JJ posts something real about his own journey — a specific moment he failed, doubted himself, or had to make a hard call. Not inspirational fluff. A real story with a real low point. This breaks the "guru on a pedestal" dynamic and invites the community to open up too.</div></div></div>
+        <div class="week-row"><div class="week-label">Tue</div><div class="week-content"><div class="week-name">Identity Question Thread</div><div class="week-detail">Post in Circle: "One question. Who are you being on your calls right now — and who do you need to be?" Let it breathe. Don't give the answer. The most interesting communities are the ones where members teach each other.</div></div></div>
+        <div class="week-row"><div class="week-label">Thu</div><div class="week-content"><div class="week-name">Month 1 Check-In</div><div class="week-detail">DM everyone who posted their commitment in Week 2. Check in personally: "You said [their specific commitment]. Where are you at?" Report back to the group publicly with how the month went overall. Close the loop — this is what builds trust.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MONTH 2 -->
+  <div class="section" id="month2">
+    <div class="section-header"><div class="section-num">4</div><h2 class="section-title">Month 2 — Momentum (July)</h2></div>
+    <div class="section-divider"></div>
+    <div class="card"><div class="card-label">Theme</div><p>Now that the community is active, deepen the structures. Introduce accountability pairs, peer coaching, and content from inside the community itself. The goal is to reduce dependence on JJ for every post and build horizontal connection between members.</p></div>
+
+    <div class="month-block">
+      <div class="month-header"><span class="month-title">Week 5–6 — Accountability Pairs</span><span class="month-theme">Peer-to-peer structure</span></div>
+      <div class="month-body">
+        <div class="week-row"><div class="week-label">Launch</div><div class="week-content"><div class="week-name">Pair Every Member</div><div class="week-detail">Match members into accountability pairs — ideally similar level and goal. Pairs check in with each other twice a week (Wednesday and Sunday) in their own DM thread. Give them a template: "This week I committed to ___. I did / didn't do it because ___. This week I'm committing to ___." JJ checks in on pairs monthly, not weekly.</div></div></div>
+        <div class="week-row"><div class="week-label">Ongoing</div><div class="week-content"><div class="week-name">Hot Seat Thread</div><div class="week-detail">Weekly in Circle: one member volunteers to be in the "hot seat." They post their biggest current challenge in detail. The community coaches them for 48 hours. JJ adds his take at the end. This creates engagement, teaches everyone, and makes the volunteer feel genuinely supported.</div></div></div>
+      </div>
+    </div>
+
+    <div class="month-block">
+      <div class="month-header"><span class="month-title">Week 7–8 — The Student Spotlight Series</span><span class="month-theme">Social proof engine</span></div>
+      <div class="month-body">
+        <div class="week-row"><div class="week-label">Weekly</div><div class="week-content"><div class="week-name">One Student, One Story</div><div class="week-detail">Every week, pick one student and go deep on their story. Not a testimonial — a transformation story. Where were they 30 days ago? What did they believe about themselves? What changed? What specific result happened? Publish on LinkedIn and Skool. Cross-post to YouTube Shorts. These become your best lead gen content.</div></div></div>
+        <div class="week-row"><div class="week-label">LinkedIn</div><div class="week-content"><div class="week-name">Tag and Amplify</div><div class="week-detail">When you post the spotlight on LinkedIn, tag the student. Ask them to share their own version of the story in their own words. This creates organic reach into their network, which is likely other sales reps who are exactly your ICP.</div></div></div>
+      </div>
+    </div>
+
+    <div class="month-block">
+      <div class="month-header"><span class="month-title">Week 9 — Live Event</span><span class="month-theme">High-energy group moment</span></div>
+      <div class="month-body">
+        <div class="week-row"><div class="week-label">Event</div><div class="week-content"><div class="week-name">Live Community Q&A / Game Tape Session</div><div class="week-detail">Schedule a live call specifically for the community — not a regular coaching call. "Bring your worst call from this month. We're going to pick it apart." Record it. Post the highlights to YouTube. This creates a moment the whole community rallies around and gives you 3-4 pieces of content from a single session.</div></div></div>
+        <div class="week-row"><div class="week-label">DM</div><div class="week-content"><div class="week-name">Pre-Event Hype</div><div class="week-detail">DM 20 members personally the week before: "I want you to bring something to this call. What's the one moment from a recent call you wish had gone differently?" This pre-sells attendance and gives you content before the event even happens.</div></div></div>
+      </div>
+    </div>
+
+    <div class="month-block">
+      <div class="month-header"><span class="month-title">Week 10 — The Challenge Round 2</span><span class="month-theme">Bigger, better, more visible</span></div>
+      <div class="month-body">
+        <div class="week-row"><div class="week-label">Launch</div><div class="week-content"><div class="week-name">The Objection Gauntlet</div><div class="week-detail">A 7-day challenge. Each day a different objection is posted in WhatsApp and Circle (timing, money, need to think, partner, already has a coach, etc.). Members post their handle of the objection as a voice note or short video. Top response each day gets a shoutout from JJ. This is competitive, specific, and directly builds the skill.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MONTH 3 -->
+  <div class="section" id="month3">
+    <div class="section-header"><div class="section-num">5</div><h2 class="section-title">Month 3 — Identity (August)</h2></div>
+    <div class="section-divider"></div>
+    <div class="card"><div class="card-label">Theme</div><p>The deepest work. By now the community has rhythm and trust. Month 3 is where you go into identity, belief systems, and what it actually means to be a Sales.io closer. This content converts prospects and retains students simultaneously.</p></div>
+
+    <div class="month-block">
+      <div class="month-header"><span class="month-title">Week 11–12 — The Four Wounds Series</span><span class="month-theme">Deep identity content</span></div>
+      <div class="month-body">
+        <div class="week-row"><div class="week-label">Series</div><div class="week-content"><div class="week-name">One Wound Per Week</div><div class="week-detail">Over 4 weeks, JJ breaks down each of the Four Wounds in a long-form post — what it is, how it shows up in sales specifically, and what breaking it looks like. Post the full version in Circle and Skool. Post a condensed version on LinkedIn. After each post, ask: "Which of these do you see in yourself?" The replies will be the most engaged posts in 90 days.</div></div></div>
+      </div>
+    </div>
+
+    <div class="month-block">
+      <div class="month-header"><span class="month-title">Week 13 — The 90-Day Recap</span><span class="month-theme">Close the loop, set the next chapter</span></div>
+      <div class="month-body">
+        <div class="week-row"><div class="week-label">Recap</div><div class="week-content"><div class="week-name">Results Post Across All Platforms</div><div class="week-detail">Document what the community did in 90 days: wins, challenges completed, mock calls logged, commitments kept. Specific numbers where possible. Post it everywhere. This is your proof that the community is alive and working — and it becomes your best lead gen asset for Q4.</div></div></div>
+        <div class="week-row"><div class="week-label">DM</div><div class="week-content"><div class="week-name">Personal Note to Every Active Member</div><div class="week-detail">Send every member who engaged meaningfully in 90 days a personal DM: what you noticed about their growth, one thing they should focus on next. This takes time. It's worth every minute. It's the thing they'll screenshot and remember for years.</div></div></div>
+        <div class="week-row"><div class="week-label">Preview</div><div class="week-content"><div class="week-name">Set Up Q4</div><div class="week-detail">Announce what's coming in Q4 — quarterly mastermind, new curriculum, new offers. Give the community something to stay for. The worst time to think about retention is when someone's already left.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLATFORM: SKOOL -->
+  <div class="section" id="skool">
+    <div class="section-header"><div class="section-num">6</div><h2 class="section-title">Platform Playbooks</h2></div>
+    <div class="section-divider"></div>
+
+    <div class="platform-card">
+      <div class="platform-header">
+        <div class="platform-icon skool">🎓</div>
+        <div><div class="platform-name">Skool</div><div class="platform-role">Home base — modules, recordings, community feed</div></div>
+      </div>
+      <div class="platform-body">
+        <ul>
+          <li>Pin one post every Monday: "This week's focus is ___. Here's the one thing to apply by Friday." Keep it short, specific, actionable.</li>
+          <li>Win of the Week thread — pinned every Friday, replaced every week. Anyone can post a win, big or small. JJ reacts to every single one.</li>
+          <li>Monthly "Confessions" thread — anonymous option. "What's the one thing you're still struggling with that you haven't said out loud?" Creates safety and surfaces real coaching needs.</li>
+          <li>Attach a question prompt to every course module: "After watching this, what's one belief you need to change?" Forces engagement with the content itself.</li>
+          <li>Leaderboard for course completion — visible to all members. People are competitive. Make progress visible.</li>
+          <li>Replay of the Week post — tag a specific call recording with a coaching question attached. Don't just post the link. Give them something to look for.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- LINKEDIN -->
+    <div class="platform-card" id="linkedin">
+      <div class="platform-header">
+        <div class="platform-icon linkedin">💼</div>
+        <div><div class="platform-name">LinkedIn</div><div class="platform-role">Personal brand + social proof engine + inbound leads</div></div>
+      </div>
+      <div class="platform-body">
+        <ul>
+          <li>3-4 posts per week. Mix: identity takes (1), student stories (1), controversial sales opinion (1), personal story (1). Not selling on every post.</li>
+          <li>Weekly "Sales.io Student Spotlight" — short format. Name, where they started, one specific result. Always ends with: "This is what we do inside Sales.io."</li>
+          <li>Hot take posts that spark debate: "Scripts are why you're stuck." "NEPQ is dead." "The best closers don't try to close." These drive comments from people who disagree — which is reach.</li>
+          <li>Post a question to community members publicly and tag them: "I asked my community this question. Here are the answers." Shows the community is alive and thinking.</li>
+          <li>DM every person who comments something thoughtful on a post. Don't pitch. Just reply genuinely. Engagement creates connection which creates inbound.</li>
+          <li>Once a month: post behind-the-scenes of a coaching call (no personal info). "This is the exact conversation we have in Sales.io coaching."</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- YOUTUBE -->
+    <div class="platform-card" id="youtube">
+      <div class="platform-header">
+        <div class="platform-icon youtube">▶️</div>
+        <div><div class="platform-name">YouTube</div><div class="platform-role">Primary inbound driver + evergreen community content</div></div>
+      </div>
+      <div class="platform-body">
+        <ul>
+          <li>Source video topics directly from the community. Post in Circle weekly: "What do you want me to break down on YouTube this week?" Then make exactly that video and tag them when it drops.</li>
+          <li>"Community Questions Answered" monthly video — compile the best questions from Circle and Skool, answer them on camera. This makes community members feel seen and creates curiosity for prospects watching.</li>
+          <li>Student transformation videos — structured interviews: where were you, what changed, what specifically improved. 10-15 minutes. These become the best sales tools you have.</li>
+          <li>Game tape reaction series — react to anonymous call recordings submitted by members (with permission). Educational for the community, addictive content for the channel.</li>
+          <li>Always end community-sourced videos with: "This came from inside Sales.io. If you want in, the link is in the description." Soft CTA that converts.</li>
+          <li>YouTube Shorts from coaching moments — pull 60-second clips from group calls. Hook in the first 3 seconds: "This is the moment most sales reps lose the frame."</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- FACEBOOK -->
+    <div class="platform-card" id="facebook">
+      <div class="platform-header">
+        <div class="platform-icon facebook">📘</div>
+        <div><div class="platform-name">Facebook</div><div class="platform-role">Retargeting warm leads + alumni + extended network</div></div>
+      </div>
+      <div class="platform-body">
+        <ul>
+          <li>Cross-post LinkedIn content 24-48 hours later. Don't write separate content — repurpose. Facebook audience and LinkedIn audience rarely overlap.</li>
+          <li>Facebook Group (if exists) should have a weekly question post pinned every Monday. One specific question, simple to answer, low barrier to engage.</li>
+          <li>Facebook Live once a month — unscripted Q&A. Announce it 48 hours in advance. 20-30 minutes max. These build trust fast with people who haven't pulled the trigger yet.</li>
+          <li>Use Facebook to retarget people who interacted with past posts but never converted — run a simple retargeting ad to the YouTube channel or Skool community page during active enrollment periods.</li>
+          <li>Post student win graphics (simple, branded, name + result) — these get shared more than any other content type on Facebook.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- WHATSAPP -->
+    <div class="platform-card" id="whatsapp">
+      <div class="platform-header">
+        <div class="platform-icon whatsapp">💬</div>
+        <div><div class="platform-name">WhatsApp</div><div class="platform-role">Daily pulse — highest open rate, most personal</div></div>
+      </div>
+      <div class="platform-body">
+        <ul>
+          <li><strong style="color:#fff;">Voice notes over text, always.</strong> A 45-second voice note from JJ will get more replies than any text post. It's personal, it's human, nobody else is doing it. Make this a non-negotiable habit.</li>
+          <li>Monday voice note: "Here's what I want you focused on this week. One thing. Not five things. Tell me yours." Ask for a reply.</li>
+          <li>Wednesday mid-week check: "How's the week going? Real answer. DM me if you need me." Short. Not a lecture.</li>
+          <li>Thursday accountability push: "It's Thursday. If you've been avoiding something this week — you know what it is. Do it today." No fluff, no motivation speech. Just a direct push.</li>
+          <li>Sunday wind-down: "What was your biggest win this week? Drop it here." The replies become the Monday win shoutout, which creates a loop.</li>
+          <li>Use WhatsApp for rapid challenge check-ins during challenge weeks. Quick polls ("who posted their call today?") and instant accountability before it slips.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- CIRCLE -->
+    <div class="platform-card" id="circle">
+      <div class="platform-header">
+        <div class="platform-icon circle">⭕</div>
+        <div><div class="platform-name">Circle</div><div class="platform-role">Deep engagement hub — JJ's fastest response channel</div></div>
+      </div>
+      <div class="platform-body">
+        <ul>
+          <li>Daily Ask-JJ thread — one post per day where any member can ask JJ one question. JJ answers every one within 24 hours. This is the highest-value habit in the community. Members will check Circle just to see the daily answer.</li>
+          <li>Weekly "Framework of the Week" — JJ breaks down one Sales.io concept in detail, then asks: "How have you seen this show up in your calls this week?" The replies become coaching content.</li>
+          <li>Monthly "Identity Check-In" — post the same 3 questions every month: What belief about yourself has changed this month? What belief is still holding you back? What's one thing you did this month that the old version of you wouldn't have done? Track the evolution over 90 days.</li>
+          <li>Hot Seat thread every week (see Month 2). This is Circle's signature format — member-driven, community-coached, JJ closes it out.</li>
+          <li>"Commit and Report" channel — members post a commitment on Sunday evening, then report back Friday. Public accountability, low effort to set up, high impact.</li>
+          <li>JJ commits to responding to every post on the first day of each month — "Super Response Day." This creates a month-start ritual that pulls people back in.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DM PLAYBOOK -->
+  <div class="section" id="dms">
+    <div class="section-header"><div class="section-num">7</div><h2 class="section-title">DM Playbook</h2></div>
+    <div class="section-divider"></div>
+
+    <div class="highlight">
+      <p>DMs are the single highest-leverage activity in this list. <strong>10 personal DMs per day will do more for community engagement than 10 public posts.</strong> The templates below are starting points — always personalize with something specific to that person.</p>
+    </div>
+
+    <div class="dm-card">
+      <div class="dm-header"><span class="dm-type">The Re-Engagement DM</span><span class="dm-trigger">Trigger: member hasn't posted in 14+ days</span></div>
+      <div class="dm-body">
+        <div class="dm-platform-tags"><span class="dm-tag">WhatsApp</span><span class="dm-tag">Instagram</span><span class="dm-tag">Circle</span></div>
+        <button class="copy-btn" onclick="copyDM(this)">Copy</button>
+        <pre>Hey [name], I noticed you've been quiet lately.
+
+How are you actually doing with [specific thing from their profile or last conversation]?
+
+Not looking for a polished answer. Just want to know what's real.</pre>
+      </div>
+    </div>
+
+    <div class="dm-card">
+      <div class="dm-header"><span class="dm-type">The Win Follow-Up DM</span><span class="dm-trigger">Trigger: member posts a win in the community</span></div>
+      <div class="dm-body">
+        <div class="dm-platform-tags"><span class="dm-tag">WhatsApp</span><span class="dm-tag">Circle</span><span class="dm-tag">Skool</span></div>
+        <button class="copy-btn" onclick="copyDM(this)">Copy</button>
+        <pre>Saw your win in the group. That's not small — most people at your stage would have given up on [the specific thing they pushed through].
+
+What actually changed for you? I want to hear the real version.</pre>
+      </div>
+    </div>
+
+    <div class="dm-card">
+      <div class="dm-header"><span class="dm-type">The Challenge Invite DM</span><span class="dm-trigger">Trigger: before launching a community challenge</span></div>
+      <div class="dm-body">
+        <div class="dm-platform-tags"><span class="dm-tag">WhatsApp</span><span class="dm-tag">Instagram DM</span></div>
+        <button class="copy-btn" onclick="copyDM(this)">Copy</button>
+        <pre>I'm running a [5-Day Mock Call Challenge / Objection Gauntlet] next week and I want to personally invite you.
+
+Based on what I know about where you're at — this is exactly what's going to move the needle for you right now.
+
+You in?</pre>
+      </div>
+    </div>
+
+    <div class="dm-card">
+      <div class="dm-header"><span class="dm-type">The Stuck DM</span><span class="dm-trigger">Trigger: member comments something negative, or you sense friction</span></div>
+      <div class="dm-body">
+        <div class="dm-platform-tags"><span class="dm-tag">WhatsApp</span><span class="dm-tag">Circle</span></div>
+        <button class="copy-btn" onclick="copyDM(this)">Copy</button>
+        <pre>Quick honest question — what's the biggest thing actually getting in your way right now?
+
+Not the surface answer. The real one.
+
+I'm asking because I think I know, but I want to hear it from you.</pre>
+      </div>
+    </div>
+
+    <div class="dm-card">
+      <div class="dm-header"><span class="dm-type">The Commitment Check DM</span><span class="dm-trigger">Trigger: follow up on a public commitment they posted</span></div>
+      <div class="dm-body">
+        <div class="dm-platform-tags"><span class="dm-tag">WhatsApp</span><span class="dm-tag">Circle</span><span class="dm-tag">Skool</span></div>
+        <button class="copy-btn" onclick="copyDM(this)">Copy</button>
+        <pre>You said at the start of the month: "[their exact commitment]."
+
+Where are you at with that?
+
+Not judging — just checking in. A lot can happen in a few weeks and I want to know where you actually are.</pre>
+      </div>
+    </div>
+
+    <div class="dm-card">
+      <div class="dm-header"><span class="dm-type">The Content Reaction DM</span><span class="dm-trigger">Trigger: you drop a video or post you know is relevant to a specific member</span></div>
+      <div class="dm-body">
+        <div class="dm-platform-tags"><span class="dm-tag">WhatsApp</span><span class="dm-tag">Instagram</span><span class="dm-tag">LinkedIn</span></div>
+        <button class="copy-btn" onclick="copyDM(this)">Copy</button>
+        <pre>Just dropped a video on [topic] and I thought about you immediately — based on what you shared about [their specific situation].
+
+Let me know what you think when you watch it. Curious if it lands the same way for you.</pre>
+      </div>
+    </div>
+
+    <div class="dm-card">
+      <div class="dm-header"><span class="dm-type">The LinkedIn Prospect DM</span><span class="dm-trigger">Trigger: someone comments thoughtfully on a LinkedIn post</span></div>
+      <div class="dm-body">
+        <div class="dm-platform-tags"><span class="dm-tag">LinkedIn DM</span></div>
+        <button class="copy-btn" onclick="copyDM(this)">Copy</button>
+        <pre>Hey [name], appreciated your comment on my post about [topic].
+
+You clearly get the distinction — most people don't think about sales that way.
+
+What does your current situation look like? Sounds like you might be someone I'd want to talk to.</pre>
+      </div>
+    </div>
+
+    <div class="dm-card">
+      <div class="dm-header"><span class="dm-type">The End-of-Month Recognition DM</span><span class="dm-trigger">Trigger: end of each month, sent to every active member</span></div>
+      <div class="dm-body">
+        <div class="dm-platform-tags"><span class="dm-tag">WhatsApp</span><span class="dm-tag">Circle</span></div>
+        <button class="copy-btn" onclick="copyDM(this)">Copy</button>
+        <pre>I've been watching you this month and I want to say something directly:
+
+[One specific observation — what you noticed about their growth, their consistency, or their mindset shift.]
+
+That's not nothing. That's the actual work. Keep going.</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEKLY CADENCE -->
+  <div class="section" id="cadence">
+    <div class="section-header"><div class="section-num">8</div><h2 class="section-title">Weekly Cadence</h2></div>
+    <div class="section-divider"></div>
+    <div class="card"><div class="card-label">How to use this</div><p>This is the recurring weekly rhythm once Month 1 is established. Not every action requires JJ — delegate to Adamo or a community manager where marked. JJ's personal involvement is highest-leverage on DMs, voice notes, and live sessions.</p></div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Day</th><th>Action</th><th>Platform(s)</th><th>Owner</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag">Monday</span></td><td>Weekly focus post — one concept, one challenge, one prompt</td><td>Circle, Skool, WhatsApp voice note</td><td>JJ</td></tr>
+          <tr><td><span class="tag">Monday</span></td><td>DM sweep — reach out to 5 members personally</td><td>WhatsApp / Circle</td><td>JJ</td></tr>
+          <tr><td><span class="tag">Tuesday</span></td><td>LinkedIn post — student story or identity take</td><td>LinkedIn</td><td>JJ / Adamo</td></tr>
+          <tr><td><span class="tag">Wednesday</span></td><td>Mid-week check-in voice note</td><td>WhatsApp</td><td>JJ</td></tr>
+          <tr><td><span class="tag">Wednesday</span></td><td>YouTube drop — community-sourced topic</td><td>YouTube, Skool</td><td>JJ / Adamo</td></tr>
+          <tr><td><span class="tag">Thursday</span></td><td>Hot Seat thread opens in Circle</td><td>Circle</td><td>JJ</td></tr>
+          <tr><td><span class="tag">Thursday</span></td><td>Accountability push — WhatsApp message</td><td>WhatsApp</td><td>JJ</td></tr>
+          <tr><td><span class="tag">Friday</span></td><td>Win of the Week post — spotlight one member</td><td>Skool, Circle, LinkedIn</td><td>JJ / Adamo</td></tr>
+          <tr><td><span class="tag">Friday</span></td><td>JJ closes out the Hot Seat thread</td><td>Circle</td><td>JJ</td></tr>
+          <tr><td><span class="tag">Sunday</span></td><td>Win thread — "drop your biggest win from this week"</td><td>WhatsApp</td><td>JJ</td></tr>
+          <tr><td><span class="tag">Sunday</span></td><td>Accountability pairs check in with each other</td><td>DMs</td><td>Members</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PROMPT LIBRARY -->
+  <div class="section" id="prompts">
+    <div class="section-header"><div class="section-num">9</div><h2 class="section-title">Prompt Library</h2></div>
+    <div class="section-divider"></div>
+    <div class="card"><div class="card-label">How to use</div><p>Pull from this bank when you need a quick post. Rotate through them across platforms. These are designed to trigger replies, not just views.</p></div>
+
+    <div class="two-col">
+      <div class="card"><div class="card-label">Identity Prompts</div><p>
+        "Who are you being on your calls right now?"<br><br>
+        "What's one thing you believe about yourself that is costing you sales?"<br><br>
+        "Describe the version of you that closes $30K months. What does that person do differently on a Tuesday morning?"<br><br>
+        "What's the one story you keep telling yourself that isn't true?"
+      </p></div>
+      <div class="card"><div class="card-label">Sales Psychology Prompts</div><p>
+        "What's the last objection you heard that you didn't know how to handle — and what do you think was really going on?"<br><br>
+        "When did you last lose frame on a call? What triggered it?"<br><br>
+        "What does your prospect feel in the first 5 minutes of your call? How do you know?"<br><br>
+        "What's the difference between a rep who closes 30% and one who closes 60%? One answer only."
+      </p></div>
+    </div>
+    <div class="two-col">
+      <div class="card"><div class="card-label">Accountability Prompts</div><p>
+        "What did you commit to this week that you haven't done yet? Why?"<br><br>
+        "Rate your calls this week 1-10. What would make it a 10 next week?"<br><br>
+        "What's the one thing you've been avoiding? Say it out loud."<br><br>
+        "If your results this week were permanent — is that okay with you?"
+      </p></div>
+      <div class="card"><div class="card-label">Engagement Sparks</div><p>
+        "Controversial take: [hot take]. Agree or disagree?"<br><br>
+        "The best advice I got about sales that nobody talks about: _____. What's yours?"<br><br>
+        "Post your #1 close from this month. Full story. I want to hear it."<br><br>
+        "What's one thing you learned in Sales.io that changed how you think — not just on calls, but in life?"
+      </p></div>
+    </div>
+
+    <div class="warning">
+      <p><strong>One rule:</strong> Never end a post with a statement. Always end with a question or a directive. "Let me know in the comments" is weak. "Drop your answer below — I read every one" is better. "What's yours?" is best. Open loops pull people in. Closed statements push them away.</p>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  function copyDM(btn) {
+    const pre = btn.nextElementSibling;
+    navigator.clipboard.writeText(pre.innerText).then(() => {
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+  const sections = document.querySelectorAll('.section');
+  const navItems = document.querySelectorAll('.nav-item');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        navItems.forEach(n => n.classList.toggle('active', n.getAttribute('href') === '#' + id));
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
