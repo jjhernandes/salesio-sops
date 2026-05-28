@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weekly Team Cadence — Sales Manager SOP</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.6; display: flex; min-height: 100vh; }
+
+    /* SIDEBAR */
+    .sidebar { width: 220px; flex-shrink: 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; border-right: 1px solid #1a1a1a; padding: 40px 0; }
+    .sidebar-logo { font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: #555; padding: 0 24px 24px; border-bottom: 1px solid #1a1a1a; margin-bottom: 20px; }
+    .nav-section { padding: 6px 24px; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #2a2a2a; margin-top: 16px; margin-bottom: 4px; }
+    .nav-link { display: block; padding: 7px 24px; font-size: 13px; color: #555; text-decoration: none; transition: color .15s, border-color .15s; border-left: 2px solid transparent; }
+    .nav-link:hover { color: #ccc; }
+    .nav-link.active { color: #4ade80; border-left-color: #4ade80; }
+
+    .main { flex: 1; max-width: 760px; padding: 56px 40px 120px; }
+    .header { margin-bottom: 60px; }
+    .header-label { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 12px; }
+    h1 { font-size: 40px; font-weight: 900; line-height: 1.05; letter-spacing: -1px; margin-bottom: 16px; }
+    .header-meta { font-size: 14px; color: #555; }
+
+    section { margin-bottom: 64px; }
+    h2 { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 24px; padding-bottom: 10px; border-bottom: 1px solid #111; }
+
+    .block { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 22px 26px; margin-bottom: 14px; }
+    .block-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #444; margin-bottom: 10px; }
+    .block p { font-size: 14px; color: #999; line-height: 1.7; }
+    .block p + p { margin-top: 10px; }
+
+    .highlight { background: #050f08; border: 1px solid #0d2b1a; border-radius: 10px; padding: 22px 26px; margin-bottom: 14px; }
+    .highlight p { font-size: 14px; color: #ccc; line-height: 1.8; }
+    .highlight strong { color: #4ade80; }
+
+    .warning { background: #0f0800; border: 1px solid #2b1a00; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; }
+    .warning p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .warning strong { color: #f59e0b; }
+
+    .red-block { background: #0f0505; border: 1px solid #2b0d0d; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; }
+    .red-block p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .red-block strong { color: #f87171; }
+
+    /* Day cards */
+    .day-card { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
+    .day-header { display: flex; align-items: center; gap: 16px; padding: 18px 24px; border-bottom: 1px solid #111; }
+    .day-pill { font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 6px; padding: 4px 12px; flex-shrink: 0; }
+    .day-title { font-size: 16px; font-weight: 800; }
+    .day-body { padding: 20px 24px; }
+    .day-body p { font-size: 14px; color: #999; line-height: 1.7; margin-bottom: 10px; }
+    .day-body p:last-child { margin-bottom: 0; }
+    .day-sub { list-style: none; margin-top: 14px; }
+    .day-sub li { font-size: 13px; color: #666; padding: 7px 0; border-bottom: 1px solid #0d0d0d; display: flex; gap: 10px; line-height: 1.6; }
+    .day-sub li:last-child { border-bottom: none; }
+    .day-sub li::before { content: "→"; flex-shrink: 0; }
+
+    .mon .day-pill { background: #0d2b1a; color: #4ade80; }
+    .mon .day-sub li::before { color: #4ade80; }
+    .tue .day-pill { background: #061220; color: #60a5fa; }
+    .tue .day-sub li::before { color: #60a5fa; }
+    .wed .day-pill { background: #12060e; color: #a78bfa; }
+    .wed .day-sub li::before { color: #a78bfa; }
+    .thu .day-pill { background: #061220; color: #60a5fa; }
+    .thu .day-sub li::before { color: #60a5fa; }
+    .fri .day-pill { background: #0f0800; color: #f59e0b; }
+    .fri .day-sub li::before { color: #f59e0b; }
+
+    /* BAM table */
+    .bam-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+    .bam-table th { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #444; padding: 10px 14px; text-align: left; border-bottom: 1px solid #1a1a1a; }
+    .bam-table td { font-size: 13px; color: #888; padding: 10px 14px; border-bottom: 1px solid #0d0d0d; line-height: 1.5; }
+    .bam-table tr:last-child td { border-bottom: none; }
+    .bam-table td.label { font-weight: 700; color: #ccc; white-space: nowrap; }
+    .bam-table td.green { color: #4ade80; font-weight: 700; }
+    .bam-table td.amber { color: #f59e0b; font-weight: 700; }
+
+    /* Cross-ref visual */
+    .crossref { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; }
+    .cr-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #444; margin-bottom: 14px; }
+    .cr-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; font-size: 13px; color: #888; }
+    .cr-badge { border-radius: 6px; padding: 3px 10px; font-size: 10px; font-weight: 800; letter-spacing: 0.06em; white-space: nowrap; flex-shrink: 0; }
+    .cr-badge.setter { background: #061220; color: #60a5fa; }
+    .cr-badge.closer { background: #0d2b1a; color: #4ade80; }
+    .cr-badge.q { background: #0f0800; color: #f59e0b; }
+
+    /* Note list */
+    .note-list { list-style: none; }
+    .note-list li { font-size: 14px; color: #999; padding: 9px 0; border-bottom: 1px solid #0f0f0f; display: flex; gap: 12px; line-height: 1.6; }
+    .note-list li:last-child { border-bottom: none; }
+    .note-list li::before { content: "—"; color: #333; flex-shrink: 0; }
+
+    /* Quote */
+    .quote-block { border-left: 3px solid #222; padding: 14px 20px; background: #050505; border-radius: 0 8px 8px 0; margin: 16px 0; }
+    .quote-block p { font-size: 15px; color: #ddd; font-style: italic; line-height: 1.8; }
+    .quote-block .attribution { font-size: 12px; color: #444; font-style: normal; margin-top: 8px; font-weight: 600; letter-spacing: 0.05em; }
+
+    @media (max-width: 780px) {
+      .sidebar { display: none; }
+      .main { padding: 40px 20px 80px; max-width: 100%; }
+      h1 { font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">Document</div>
+  <a href="#overview" class="nav-link active">Overview</a>
+  <div class="nav-section">The Week</div>
+  <a href="#monday" class="nav-link">Monday — Goals</a>
+  <a href="#tuesday" class="nav-link">Tuesday — Call Review</a>
+  <a href="#wednesday" class="nav-link">Wednesday — Stat Check</a>
+  <a href="#thursday" class="nav-link">Thursday — Role Play</a>
+  <a href="#friday" class="nav-link">Friday — Culture</a>
+  <div class="nav-section">Systems</div>
+  <a href="#bam" class="nav-link">The BAM System</a>
+  <a href="#crossref" class="nav-link">Set Quality Tracking</a>
+  <a href="#culture" class="nav-link">Managing the Room</a>
+</nav>
+
+<main class="main">
+
+  <div class="header" id="overview">
+    <div class="header-label">From JJ — Sales Manager SOP</div>
+    <h1>Weekly Team<br>Cadence</h1>
+    <div class="header-meta">Sales.io &nbsp;·&nbsp; For Tom Dale &nbsp;·&nbsp; Setting Manager Transition</div>
+  </div>
+
+
+  <!-- OVERVIEW -->
+  <section>
+    <h2>The Structure</h2>
+
+    <div class="block">
+      <div class="block-label">Why a cadence matters</div>
+      <p>A team with no structure will create its own structure — and it won't be the one you want. The weekly cadence isn't about filling time. It's about setting a rhythm that holds people accountable without you having to chase them. Do this right and the team runs itself by week four.</p>
+    </div>
+
+    <div class="block">
+      <p>This is what we ran at E-Monks. Adapt it to your team size and offer mix, but don't cut the structure down just because it feels like a lot. The structure is what creates the standard. The standard is what creates the results.</p>
+    </div>
+
+    <div class="highlight">
+      <p><strong>Mon:</strong> Goals &nbsp;·&nbsp; <strong>Tue:</strong> Call Review or Role Play &nbsp;·&nbsp; <strong>Wed:</strong> Midweek Stats + Cross-Reference &nbsp;·&nbsp; <strong>Thu:</strong> Call Review or Role Play &nbsp;·&nbsp; <strong>Fri:</strong> Culture Day</p>
+    </div>
+  </section>
+
+
+  <!-- MONDAY -->
+  <section id="monday">
+    <h2>Monday — Goal Setting</h2>
+
+    <div class="day-card mon">
+      <div class="day-header">
+        <div class="day-pill">Monday</div>
+        <div class="day-title">Set the BAM. Set the Reach. Own the week.</div>
+      </div>
+      <div class="day-body">
+        <p>A team with no goal to hit is a team with nothing to track. Monday is where you create the standard for the week. You're not motivating anyone — you're building an internal commitment they made publicly. That's the whole mechanism.</p>
+        <ul class="day-sub">
+          <li>Go around the room. Every rep states their BAM (Bare Ass Minimum) and their Reach Goal for the week.</li>
+          <li>They write it. They say it out loud. You write it down. Now it's real.</li>
+          <li>End with a Q&A — "What are you seeing out there? What can we improve? What do you need from me?"</li>
+          <li>Keep Monday tight. 20–30 minutes max. Start the week fast.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label">The tone to set</div>
+      <p>This isn't a motivational speech. You're not cheerleading. You're setting a contract. "Hey, what are you putting your name on the line for this week?" — and then you hold the silence until they answer. The discomfort of the pause is part of it. It makes the commitment feel real.</p>
+    </div>
+  </section>
+
+
+  <!-- TUESDAY -->
+  <section id="tuesday">
+    <h2>Tuesday — Call Review or Role Play</h2>
+
+    <div class="day-card tue">
+      <div class="day-header">
+        <div class="day-pill">Tuesday</div>
+        <div class="day-title">Call Review or Role Play — your choice.</div>
+      </div>
+      <div class="day-body">
+        <p>Rotate between the two week to week. Call review is reactive — you're pulling actual calls from the team and working through what happened. Role play is proactive — you're building skills before they need them live.</p>
+        <ul class="day-sub">
+          <li>Call review: pull one recording, listen as a group, let the rep self-assess first before anyone else speaks.</li>
+          <li>Role play: give a realistic scenario from the actual offer — inbound DM, phone setting, a common objection.</li>
+          <li>Always debrief after. What went well? What would you change? What's the one thing to focus on this week?</li>
+          <li>Keep it practical, not theoretical. If it doesn't connect to a real situation they'll face this week, cut it.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- WEDNESDAY -->
+  <section id="wednesday">
+    <h2>Wednesday — Midweek Stat Check</h2>
+
+    <div class="day-card wed">
+      <div class="day-header">
+        <div class="day-pill">Wednesday</div>
+        <div class="day-title">Where are you vs. your BAM? What needs to shift?</div>
+      </div>
+      <div class="day-body">
+        <p>Wednesday is the gut check. Half the week is gone. You pull the numbers and you go rep by rep. No one gets to coast — you create the conditions where Friday's conversation is never a surprise. This is also where you run the setter-closer cross-reference if you have both sides of the team in.</p>
+        <ul class="day-sub">
+          <li>Pull each rep's numbers: sets booked, shows, qualified sets, disqualified sets.</li>
+          <li>Where are they vs. their BAM? Have a direct conversation about the gap — not later, now.</li>
+          <li>Bring closers and setters into the same room for the cross-reference (see Set Quality Tracking below).</li>
+          <li>If someone is already at their BAM by Wednesday — what's their stretch for the back half?</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- THURSDAY -->
+  <section id="thursday">
+    <h2>Thursday — Call Review or Role Play</h2>
+
+    <div class="day-card thu">
+      <div class="day-header">
+        <div class="day-pill">Thursday</div>
+        <div class="day-title">Whichever you didn't do Tuesday — do it today.</div>
+      </div>
+      <div class="day-body">
+        <p>Thursday is the pressure valve before Friday. If Tuesday was call review, Thursday is role play. If Tuesday was role play, Thursday is call review. You're reinforcing the skill or the accountability pattern — whichever one the team needed more of that week.</p>
+        <ul class="day-sub">
+          <li>Keep energy up — people are tired by Thursday. Make the session sharp and short.</li>
+          <li>Use Thursday role play to simulate end-of-week pressure — reps who are behind need reps, not pep talks.</li>
+          <li>If you have a rep who's consistently behind by Thursday, have a private conversation before Friday.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- FRIDAY -->
+  <section id="friday">
+    <h2>Friday — Culture Day</h2>
+
+    <div class="day-card fri">
+      <div class="day-header">
+        <div class="day-pill">Friday</div>
+        <div class="day-title">Wins and Shout Outs. All hands on deck.</div>
+      </div>
+      <div class="day-body">
+        <p>Everyone in the room — setters, closers, managers. No data review, no pressure. This is wins and shout outs. A personal win from your week, and a genuine shout out to someone on the team who showed up the way you want this team to show up.</p>
+        <ul class="day-sub">
+          <li>You go first. Share a real personal win — not work, anything. Then give a genuine shout out to someone specific.</li>
+          <li>Go around the room. Everyone participates. No exceptions.</li>
+          <li>Let it be natural. Don't rush it. Don't script it.</li>
+          <li>Keep it consistent every week. The power builds over time, not in week one.</li>
+        </ul>
+        <p style="margin-top:14px;">Watch who gets shouted out consistently. Watch who never does. Over two to three weeks, the pattern tells you more than your data does.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label">How to run the shout out</div>
+      <p>It should feel genuine — because it should be genuine. You're creating a space where the people who are actually showing up get recognized. Over time, the people who aren't showing up will feel the absence of that recognition. You don't have to say anything. They'll already know. And that's when you have the private conversation.</p>
+    </div>
+  </section>
+
+
+  <!-- BAM SYSTEM -->
+  <section id="bam">
+    <h2>The BAM System</h2>
+
+    <div class="block">
+      <div class="block-label">What BAM stands for</div>
+      <p>BAM = Bare Ass Minimum. It's not your goal. It's your floor. The number you're putting your name on the line for no matter what. If you hit nothing else this week, you hit this. The Reach is what you're chasing selfishly — the number that gets you out of bed on a Saturday if you're behind.</p>
+    </div>
+
+    <table class="bam-table">
+      <thead>
+        <tr>
+          <th>Role</th>
+          <th>BAM Example</th>
+          <th>Reach Example</th>
+          <th>What it does</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="label">Setter (DM)</td>
+          <td class="amber">12 qualified sets</td>
+          <td class="green">20 qualified sets</td>
+          <td>Creates daily minimum activity and a target worth chasing</td>
+        </tr>
+        <tr>
+          <td class="label">Setter (Phone)</td>
+          <td class="amber">8 booked shows</td>
+          <td class="green">14 booked shows</td>
+          <td>Same principle — floor vs. ceiling</td>
+        </tr>
+        <tr>
+          <td class="label">Closer</td>
+          <td class="amber">$20K cash collected</td>
+          <td class="green">$40K cash collected</td>
+          <td>The reach makes them push through Friday even if BAM is hit</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="highlight">
+      <p><strong>The mechanism:</strong> When a rep commits to their BAM publicly on Monday, missing it by Friday isn't just a number problem — it's a character problem. They said it. Everyone heard it. That internal pressure is what drives weekend effort without you having to ask for it. You're not managing their calendar. You're managing their identity.</p>
+    </div>
+
+    <div class="warning">
+      <p><strong>Never let a miss slide without a conversation.</strong> The first time you let someone miss their BAM without saying anything, you've told the whole team the BAM is optional. Silence is endorsement. Address it the same day Friday ends.</p>
+    </div>
+  </section>
+
+
+  <!-- SET QUALITY TRACKING -->
+  <section id="crossref">
+    <h2>Set Quality Tracking — Wednesday Cross-Reference</h2>
+
+    <div class="block">
+      <div class="block-label">The core problem this solves</div>
+      <p>Setters set to look good on their numbers. Closers mark leads as unqualified to explain away bad closes. Without a cross-reference, you never know who's actually creating the problem. This process forces both sides of the table to own their performance.</p>
+    </div>
+
+    <div class="crossref">
+      <div class="cr-label">How the cross-reference works</div>
+      <div class="cr-row"><span class="cr-badge closer">Closer</span> John flags 3 sets from this week as unqualified.</div>
+      <div class="cr-row"><span class="cr-badge q">Question</span> Where did those 3 sets come from? All from Ben (setter).</div>
+      <div class="cr-row"><span class="cr-badge setter">Setter</span> Ben explains: "The prospect said they had money, they were interested, and they confirmed the call."</div>
+      <div class="cr-row"><span class="cr-badge q">Review</span> You pull the set recording. Ben went surface level on qualification — never went deeper, never confirmed real intent.</div>
+      <div class="cr-row"><span class="cr-badge q">Outcome</span> Is the problem Ben setting just to hit his numbers? Or is John being a softie on objections? You now have the evidence to make that call.</div>
+    </div>
+
+    <div class="block">
+      <div class="block-label">What to do with the data</div>
+      <ul class="note-list">
+        <li>Track qualified vs. unqualified sets weekly — by setter, by closer, and by offer.</li>
+        <li>Run the cross-reference every Wednesday for the first four to six weeks. After that, patterns are established and the team self-corrects.</li>
+        <li>Always review the recording before making a judgment call. Data plus evidence. Never just data.</li>
+        <li>Celebrate when a setter catches themselves about to take a weak set and passes. That's the standard you're building.</li>
+      </ul>
+    </div>
+
+    <div class="highlight">
+      <p><strong>Within four weeks of running this consistently, unqualified sets become rare.</strong> Not because you scared the setters — because the team now has a shared, concrete understanding of what a qualified set looks like. The standard becomes self-enforcing.</p>
+    </div>
+  </section>
+
+
+  <!-- MANAGING THE ROOM -->
+  <section id="culture">
+    <h2>Managing People — Not Just a Sales Team</h2>
+
+    <div class="block">
+      <div class="block-label">The thing most managers miss</div>
+      <p>You're managing people and their emotions. Not just a sales team. The data matters — and the data will never lie to you. But behind every number is a human who has something going on in their life that's either helping or hurting their performance.</p>
+      <p>If someone has problems in their personal life, it will show up on their calls. If someone has money stress, it will show up in how they handle objections. This is what "who you are off your calls is who you are on your calls" means for your role as a manager — it's your job to see it before the numbers confirm it.</p>
+    </div>
+
+    <div class="quote-block">
+      <p>"Culture is an accumulation — the standard you set, the energy you bring, the vibe of the room. You build that. That is on you."</p>
+      <div class="attribution">— JJ Hernandez</div>
+    </div>
+
+    <div class="block">
+      <div class="block-label">What to watch for</div>
+      <ul class="note-list">
+        <li>A rep whose numbers drop suddenly — don't jump straight to accountability. Ask first. Something changed.</li>
+        <li>A rep who gets quieter in team meetings — energy is data. Don't ignore it.</li>
+        <li>A rep who stops getting shouted out on Fridays — by week three, this is a signal, not a coincidence.</li>
+        <li>A rep who works harder when praised and deflates when ignored — know your people.</li>
+      </ul>
+    </div>
+
+    <div class="highlight">
+      <p><strong>The most important thing you can build is a team that doesn't want to let each other down.</strong> Not a team that's afraid of you. One where the culture is strong enough that an off week feels wrong — not because you said something, but because it doesn't match who they've decided they are. That's when you've built something real.</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('section, .header');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        navLinks.forEach(function(l) {
+          l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+  sections.forEach(function(s) { observer.observe(s); });
+</script>
+
+</body>
+</html>
