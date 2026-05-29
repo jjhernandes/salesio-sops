@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rep Interview Reference — Sales.io</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.6; display: flex; min-height: 100vh; }
+
+    /* SIDEBAR */
+    .sidebar { width: 220px; flex-shrink: 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; border-right: 1px solid #1a1a1a; padding: 40px 0; }
+    .sidebar-logo { font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: #555; padding: 0 24px 24px; border-bottom: 1px solid #1a1a1a; margin-bottom: 20px; }
+    .nav-section { padding: 6px 24px; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #2a2a2a; margin-top: 16px; margin-bottom: 4px; }
+    .nav-link { display: block; padding: 7px 24px; font-size: 13px; color: #555; text-decoration: none; transition: color .15s, border-color .15s; border-left: 2px solid transparent; }
+    .nav-link:hover { color: #ccc; }
+    .nav-link.active { color: #4ade80; border-left-color: #4ade80; }
+
+    /* MAIN */
+    .main { flex: 1; max-width: 760px; padding: 56px 40px 120px; }
+    .header { margin-bottom: 60px; }
+    .header-label { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 12px; }
+    h1 { font-size: 40px; font-weight: 900; line-height: 1.05; letter-spacing: -1px; margin-bottom: 16px; }
+    .header-meta { font-size: 14px; color: #555; }
+
+    section { margin-bottom: 64px; }
+    h2 { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 24px; padding-bottom: 10px; border-bottom: 1px solid #111; }
+
+    .block { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 22px 26px; margin-bottom: 14px; }
+    .block-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #444; margin-bottom: 10px; }
+    .block p { font-size: 14px; color: #999; line-height: 1.7; }
+    .block p + p { margin-top: 10px; }
+
+    .highlight { background: #050f08; border: 1px solid #0d2b1a; border-radius: 10px; padding: 22px 26px; margin-bottom: 14px; }
+    .highlight p { font-size: 14px; color: #ccc; line-height: 1.8; }
+    .highlight strong { color: #4ade80; }
+
+    .warning { background: #0f0800; border: 1px solid #2b1a00; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; }
+    .warning p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .warning strong { color: #f59e0b; }
+
+    .red-block { background: #0f0505; border: 1px solid #2b0d0d; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; }
+    .red-block p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .red-block strong { color: #f87171; }
+
+    /* Question cards */
+    .q-group { margin-bottom: 28px; }
+    .q-group-label { font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #444; margin-bottom: 12px; }
+    .q-item { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 18px 22px; margin-bottom: 8px; }
+    .q-item:last-child { margin-bottom: 0; }
+    .q-text { font-size: 15px; font-weight: 600; color: #fff; line-height: 1.5; margin-bottom: 8px; }
+    .q-why { font-size: 13px; color: #666; line-height: 1.6; }
+    .q-why strong { color: #888; }
+
+    /* Signal rows */
+    .signal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+    .signal-card { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 18px 20px; }
+    .signal-header { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px; }
+    .signal-header.green { color: #4ade80; }
+    .signal-header.red { color: #f87171; }
+    .signal-list { list-style: none; }
+    .signal-list li { font-size: 13px; color: #888; padding: 6px 0; border-bottom: 1px solid #0d0d0d; line-height: 1.55; display: flex; gap: 8px; align-items: flex-start; }
+    .signal-list li:last-child { border-bottom: none; }
+    .signal-list.green li::before { content: "✓"; color: #4ade80; flex-shrink: 0; font-weight: 700; margin-top: 1px; }
+    .signal-list.red li::before { content: "✕"; color: #f87171; flex-shrink: 0; font-weight: 700; margin-top: 1px; }
+
+    /* Quote */
+    .quote-block { border-left: 3px solid #222; padding: 14px 20px; background: #050505; border-radius: 0 8px 8px 0; margin: 16px 0; }
+    .quote-block p { font-size: 15px; color: #ddd; font-style: italic; line-height: 1.8; }
+    .quote-block .attribution { font-size: 12px; color: #444; font-style: normal; margin-top: 8px; font-weight: 600; letter-spacing: 0.05em; }
+
+    /* Proof checklist */
+    .proof-item { display: flex; gap: 14px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid #0f0f0f; }
+    .proof-item:last-child { border-bottom: none; }
+    .proof-box { width: 20px; height: 20px; border: 1px solid #2a2a2a; border-radius: 4px; flex-shrink: 0; margin-top: 2px; }
+    .proof-text { flex: 1; }
+    .proof-q { font-size: 14px; font-weight: 600; color: #ccc; line-height: 1.5; margin-bottom: 4px; }
+    .proof-note { font-size: 12px; color: #555; line-height: 1.5; }
+
+    @media (max-width: 780px) {
+      .sidebar { display: none; }
+      .main { padding: 40px 20px 80px; max-width: 100%; }
+      h1 { font-size: 30px; }
+      .signal-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">Document</div>
+  <a href="#overview" class="nav-link active">Overview</a>
+  <div class="nav-section">Questions</div>
+  <a href="#compensation" class="nav-link">Compensation & OTE</a>
+  <a href="#proof" class="nav-link">Proof & Verification</a>
+  <a href="#offer" class="nav-link">The Offer</a>
+  <a href="#pipeline" class="nav-link">Pipeline & Leads</a>
+  <a href="#team" class="nav-link">Team & Management</a>
+  <div class="nav-section">Decision</div>
+  <a href="#redflags" class="nav-link">Red Flags</a>
+  <a href="#greenflags" class="nav-link">Green Flags</a>
+  <a href="#mindset" class="nav-link">The Mindset</a>
+</nav>
+
+<main class="main">
+
+  <div class="header" id="overview">
+    <div class="header-label">Sales.io — Rep Reference</div>
+    <h1>Interview<br>Vetting Guide</h1>
+    <div class="header-meta">Questions every rep should ask before accepting any offer</div>
+  </div>
+
+
+  <!-- INTRO -->
+  <section>
+    <h2>Before You Walk In</h2>
+
+    <div class="block">
+      <div class="block-label">The frame</div>
+      <p>You are not going to an interview. You are evaluating whether this offer deserves your time and your skillset. That is the only frame to walk in with. The moment you show up trying to impress them, you've lost your leverage — and you'll take a bad deal because you wanted to be chosen.</p>
+      <p>A good operator wants a rep who asks hard questions. It shows you know what you're doing. A bad operator will get uncomfortable when you ask for proof. That discomfort is the answer.</p>
+    </div>
+
+    <div class="highlight">
+      <p><strong>Every question on this list has one job:</strong> either confirm this is a real opportunity worth your time, or expose the gap before you're three months in and frustrated. Ask all of them. The ones they dodge tell you more than the ones they answer.</p>
+    </div>
+  </section>
+
+
+  <!-- COMPENSATION -->
+  <section id="compensation">
+    <h2>Compensation &amp; OTE</h2>
+
+    <div class="q-group">
+      <div class="q-group-label">The numbers you need before you say yes</div>
+
+      <div class="q-item">
+        <div class="q-text">"What is the OTE for this role — and what does it take to hit it?"</div>
+        <div class="q-why">OTE means nothing without the path to hit it. You want a number AND the conditions. How many calls per week? What close rate? What price point? If they can't tell you the math, the OTE is a fantasy number.</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-text">"What is the commission structure — and is it on gross or net revenue?"</div>
+        <div class="q-why">This is the most overlooked question. Gross means commission is calculated before any fees, refunds, or chargebacks. Net means after. The difference can cut your paycheck by 20–30% on a bad month without you ever seeing it coming.</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-text">"What is the top closer on the team earning right now — in a good month and an average month?"</div>
+        <div class="q-why">The top earner tells you what's actually possible. Not what they're promising you — what a real human is actually generating on this specific offer. Ask for both numbers. A big good month with a terrible average month means the offer is inconsistent.</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-text">"What is the lowest-earning closer making right now?"</div>
+        <div class="q-why">This is as important as the top number. It tells you the floor — what happens if you're not clicking. If the bottom is zero or near-zero, ask why. Is the offer weak? Are they over-hiring? Are the leads bad? You want to know before you're the bottom rep.</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-text">"What does the average closer on the team earn per month?"</div>
+        <div class="q-why">The average is your most honest benchmark. Not the top, not the bottom — what does the median rep earn? That's closer to what you should plan for in months 1 and 2.</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-text">"When are commissions paid out — and what's the policy on clawbacks?"</div>
+        <div class="q-why">Some offers pay weekly, some bi-weekly, some monthly. Some hold commissions until the client's refund window closes. Clawbacks mean if a client refunds, the commission comes back out of your next check. You need to know both before you take your first call.</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-text">"Is there a base salary, a draw, or is this purely commission?"</div>
+        <div class="q-why">Purely commission roles are fine if the offer is proven and leads are consistent. A draw against commission means you're borrowing against future earnings — you owe it back if you don't hit the target. Know exactly what you're agreeing to.</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- PROOF -->
+  <section id="proof">
+    <h2>Proof &amp; Verification</h2>
+
+    <div class="block">
+      <div class="block-label">Ask for it. Every time.</div>
+      <p>Anyone can say the offer does $200K a month. Real operators can show you. Asking for proof is not rude — it's professional. If they get offended that you asked, that's your answer.</p>
+    </div>
+
+    <div class="block">
+      <div class="proof-item">
+        <div class="proof-box"></div>
+        <div class="proof-text">
+          <div class="proof-q">"Can you show me the offer's revenue for the last 90 days?"</div>
+          <div class="proof-note">Stripe dashboard, bank statement, or payment processor screenshot. You're looking for consistency — not just a good month they're proud of.</div>
+        </div>
+      </div>
+      <div class="proof-item">
+        <div class="proof-box"></div>
+        <div class="proof-text">
+          <div class="proof-q">"Can you show me the team's sales data — close rates, show rates, average deal value?"</div>
+          <div class="proof-note">A CRM screenshot or tracking sheet. If they don't have this, the team isn't being managed — and your performance will be a guess.</div>
+        </div>
+      </div>
+      <div class="proof-item">
+        <div class="proof-box"></div>
+        <div class="proof-text">
+          <div class="proof-q">"Can I speak with a current closer on your team before I decide?"</div>
+          <div class="proof-note">A confident operator says yes immediately. A closer who's happy on the offer will tell you. A closer who isn't will tell you that too — if you ask the right questions.</div>
+        </div>
+      </div>
+      <div class="proof-item">
+        <div class="proof-box"></div>
+        <div class="proof-text">
+          <div class="proof-q">"What was your refund rate last month — and how does that affect rep commissions?"</div>
+          <div class="proof-note">High refund rates kill cash collected. If refunds trigger clawbacks, a 15% refund rate can wipe out weeks of commission. Get the number.</div>
+        </div>
+      </div>
+      <div class="proof-item">
+        <div class="proof-box"></div>
+        <div class="proof-text">
+          <div class="proof-q">"How long has this offer been running at its current price point?"</div>
+          <div class="proof-note">An offer that launched 6 weeks ago is unproven. An offer that's been running and converting for 12+ months is a different conversation. You want stability, not a test.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- THE OFFER -->
+  <section id="offer">
+    <h2>The Offer</h2>
+
+    <div class="q-group">
+      <div class="q-group-label">Understand what you're actually selling</div>
+
+      <div class="q-item">
+        <div class="q-text">"What is the price point — and is there a payment plan option?"</div>
+        <div class="q-why">Higher price points mean bigger commission per close but fewer buyers. Payment plans can improve close rates but often come with higher chargeback risk. Know the structure before your first call.</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-text">"What results are clients getting? Can you show me testimonials or case studies?"</div>
+        <div class="q-why">You are going to sell this offer hundreds of times. If the offer doesn't work, you'll feel it — in objections, in refunds, and in your own conscience. Know what you're putting your name behind.</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-text">"What is the fulfillment process after someone buys — who handles it and how does it work?"</div>
+        <div class="q-why">Bad fulfillment creates refunds. If the product breaks after the sale, reps take the blame and the clawback. Understanding fulfillment tells you how stable your commissions actually are.</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-text">"Is this offer B2B or B2C — and who is the actual buyer?"</div>
+        <div class="q-why">B2C buyers are emotional and move faster but refund more. B2B buyers take longer but tend to stick. The buyer profile changes everything about how you sell and what objections you'll face.</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-text">"What is the core promise of the offer — what outcome does the client buy expecting to get?"</div>
+        <div class="q-why">If you can't repeat the core promise back clearly after this conversation, the offer is either confused or they're hiding what they actually sell. Either way, it'll show up on your calls.</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- PIPELINE & LEADS -->
+  <section id="pipeline">
+    <h2>Pipeline &amp; Leads</h2>
+
+    <div class="q-group">
+      <div class="q-group-label">Where the calls actually come from</div>
+
+      <div class="q-item">
+        <div class="q-text">"How many calls per week can I expect, and how are they generated?"</div>
+        <div class="q-why">Volume and quality. You need both. Ten booked calls from cold outreach is a different job than ten booked calls from warm inbound. Ask the source — YouTube, ads, DMs, referrals — and how consistent it's been over the last 90 days.</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-text">"What is the current show rate on the team?"</div>
+        <div class="q-why">Industry average for warm inbound is 60–80%. If the show rate is under 50%, there's either a setter problem, a lead quality problem, or a confirmation process problem. You'll feel all three on your calendar.</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-text">"Are leads inbound, outbound, or a mix? Who qualifies them before they hit my calendar?"</div>
+        <div class="q-why">Inbound leads are pre-warmed. Outbound leads require more discovery and take longer. If there's a setter — what does a qualified lead look like in their system? If there's no setter, you're closing and qualifying at the same time.</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-text">"How many closers are sharing this pipeline right now?"</div>
+        <div class="q-why">If three closers are splitting 15 calls a week, that's 5 calls each. That's not a full-time income opportunity — that's a side hustle. Know the math before you walk away from something else.</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-text">"How is the pipeline distributed between closers — is it round-robin, performance-based, or something else?"</div>
+        <div class="q-why">Round-robin means equal distribution. Performance-based means top reps get more. One rewards loyalty, the other rewards results. Know which system you're entering and whether it matches how you work.</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- TEAM & MANAGEMENT -->
+  <section id="team">
+    <h2>Team &amp; Management</h2>
+
+    <div class="q-group">
+      <div class="q-group-label">Who you're actually working with</div>
+
+      <div class="q-item">
+        <div class="q-text">"Why is this position open — what happened to the last closer?"</div>
+        <div class="q-why">This is the most important question on the list. Did they leave for a better opportunity? Were they fired? Did the offer change? If they can't give you a clear answer, or the answer is vague, push. "What specifically wasn't working for them?"</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-text">"What does the training and onboarding process look like in the first 30 days?"</div>
+        <div class="q-why">A team with no onboarding process will throw you on calls before you're ready, blame your close rate when it's low, and move on to the next hire. A structured onboarding tells you this operator takes rep development seriously.</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-text">"Is there a weekly call review process? Who runs it and how often?"</div>
+        <div class="q-why">Call reviews mean the manager is actively invested in your improvement. No call reviews means you're on your own. If you're early in your career, you want reviews. If you're experienced, you still want them — it's how you know the standards are being held.</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-text">"What does success look like in 30, 60, and 90 days for this role?"</div>
+        <div class="q-why">If they can't answer this with specifics, they haven't thought about your development. A good operator knows exactly where a rep should be at each milestone and what it takes to get there.</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-text">"What does the worst month on this offer look like — and what caused it?"</div>
+        <div class="q-why">Everyone will tell you the good months. The bad months reveal whether the offer is seasonal, inconsistent, or poorly managed. A transparent operator will tell you. A defensive one won't — and that's the answer.</div>
+      </div>
+
+      <div class="q-item">
+        <div class="q-text">"What is the expectation on working hours and availability?"</div>
+        <div class="q-why">Some offers run calls Mon–Fri 9–5. Others expect evenings and weekends. Some have strict hour requirements, others are purely performance-based. Know what you're agreeing to before your lifestyle is built around someone else's schedule.</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- RED FLAGS -->
+  <section id="redflags">
+    <h2>Red Flags — Walk Away</h2>
+
+    <div class="red-block">
+      <p><strong>They can't or won't show you revenue proof.</strong> "We don't share that" is not a policy — it's a dodge. Real operators are proud of their numbers. If they're hiding them, the numbers aren't what they told you.</p>
+    </div>
+
+    <div class="red-block">
+      <p><strong>They dodge the question about what the last closer earned or why they left.</strong> This is the tell. If they change the subject, give you a non-answer, or say "it just wasn't a good fit" without specifics — a rep left and didn't leave voluntarily or happily.</p>
+    </div>
+
+    <div class="red-block">
+      <p><strong>The OTE is quoted without any math behind it.</strong> "$15K months are realistic" with no explanation of how many calls, at what close rate, at what price point is a sales pitch — not a compensation structure. Numbers without math are fiction.</p>
+    </div>
+
+    <div class="red-block">
+      <p><strong>They pressure you to decide in the same call.</strong> A good offer doesn't need urgency tactics to fill a rep seat. If they're rushing you, they're either desperate or hiding something that due diligence would expose.</p>
+    </div>
+
+    <div class="red-block">
+      <p><strong>The commission is on net and they mention it casually mid-conversation.</strong> Net commission with high refunds, chargebacks, and fees can reduce your payout by 30–40% against what the OTE suggested. This should be in writing before you agree to anything.</p>
+    </div>
+
+    <div class="red-block">
+      <p><strong>They won't let you speak to a current rep on the team.</strong> No legitimate reason exists to block this. If the team is happy and the offer is real, they want you to talk to their people. Blocking access means the people on the inside would tell you something they don't want you to hear.</p>
+    </div>
+
+    <div class="red-block">
+      <p><strong>The offer is brand new with no proof of concept.</strong> A new offer with no close history, no testimonials, and no proven lead source is a beta test — and you're the one taking the risk. Only accept this if you have runway to absorb an unpaid 60–90 day build period. Most reps don't.</p>
+    </div>
+  </section>
+
+
+  <!-- GREEN FLAGS -->
+  <section id="greenflags">
+    <h2>Green Flags — This Is Real</h2>
+
+    <div class="signal-row">
+      <div class="signal-card">
+        <div class="signal-header green">Signs the operator is legitimate</div>
+        <ul class="signal-list green">
+          <li>They show you revenue proof without hesitation</li>
+          <li>They tell you what the bottom closer earns and why</li>
+          <li>They explain the worst months transparently</li>
+          <li>They offer to connect you with a current rep</li>
+          <li>They have a clear onboarding process ready</li>
+          <li>They do weekly call reviews with the team</li>
+          <li>They have data on close rates, show rates, and AOV</li>
+          <li>They're specific about what success looks like in 30/60/90 days</li>
+        </ul>
+      </div>
+      <div class="signal-card">
+        <div class="signal-header green">Signs the offer is worth your time</div>
+        <ul class="signal-list green">
+          <li>Inbound warm leads with a consistent source</li>
+          <li>Show rate above 65% consistently</li>
+          <li>The offer has been running 6+ months at the same price point</li>
+          <li>Client results are real and they can show testimonials</li>
+          <li>Refund rate under 10%</li>
+          <li>Commission is on gross, paid weekly or bi-weekly</li>
+          <li>Multiple closers averaging good months — not just one outlier</li>
+          <li>The math on OTE actually works with the numbers they're showing you</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- MINDSET -->
+  <section id="mindset">
+    <h2>The Mindset Going In</h2>
+
+    <div class="quote-block">
+      <p>"The person who needs the sale the most will always lose."</p>
+      <div class="attribution">— JJ Hernandez</div>
+    </div>
+
+    <div class="block">
+      <p>This applies to you in an interview just as much as it applies to a prospect on a call. If you walk in needing this job, they will feel it. And they will use it — consciously or not — to offer you less, give you worse terms, and hold leverage over you the entire time you're on the team.</p>
+      <p>Walk in with options. Even if you don't have them, act like you do. You have a skillset that generates revenue. That is worth something. Do not discount it for the sake of being chosen.</p>
+    </div>
+
+    <div class="highlight">
+      <p>The right offer will not feel like a favor. <strong>It will feel like a fair exchange.</strong> You bring your time, your skills, and your commitment. They bring a proven offer, qualified leads, and a structure that supports your success. If either side is getting the worse deal, it's not the right fit.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">Before you leave the call</div>
+      <p>Ask one final question: <strong>"Is there anything about this role that you think I should know before making my decision?"</strong> Good operators will give you something real. The ones who say "no, it's all great" with no substance — that's telling too.</p>
+      <p>Take 24 hours before you decide. No good offer disappears overnight. If they pull it because you took a day to think — it wasn't the right offer.</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('section, .header');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        navLinks.forEach(function(l) {
+          l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+  sections.forEach(function(s) { observer.observe(s); });
+</script>
+
+</body>
+</html>
