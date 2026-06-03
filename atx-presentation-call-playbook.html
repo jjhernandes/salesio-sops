@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Presentation Call Playbook — ATX Global</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #000;
+      --white: #fff;
+      --gray-400: #999;
+      --gray-600: #555;
+      --gray-800: #1a1a1a;
+      --gray-900: #111;
+      --gold: #f5c518;
+      --gold-dim: #a88400;
+      --green: #38a169;
+      --red: #e53e3e;
+      --blue: #4299e1;
+      --sidebar-width: 260px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      display: flex;
+      min-height: 100vh;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-width);
+      min-height: 100vh;
+      background: var(--gray-900);
+      border-right: 1px solid #222;
+      position: fixed;
+      top: 0; left: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+    }
+
+    .sidebar-logo {
+      padding: 24px;
+      border-bottom: 1px solid #222;
+    }
+
+    .logo-text { font-size: 15px; font-weight: 700; }
+    .logo-sub  { font-size: 11px; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.4px; margin-top: 2px; }
+
+    .sidebar-nav { padding: 16px 0; flex: 1; overflow-y: auto; }
+
+    .nav-group-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--gray-600);
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      padding: 12px 24px 6px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 24px;
+      color: var(--gray-400);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.15s;
+      border-left: 2px solid transparent;
+      cursor: pointer;
+    }
+
+    .nav-item:hover { color: var(--white); background: #1a1a1a; }
+    .nav-item.active { color: var(--white); border-left-color: var(--white); background: #1a1a1a; }
+
+    .nav-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #444;
+      flex-shrink: 0;
+    }
+
+    .nav-item.active .nav-dot { background: var(--white); }
+
+    .sidebar-footer {
+      padding: 16px 24px;
+      border-top: 1px solid #222;
+      font-size: 11px;
+      color: var(--gray-600);
+    }
+
+    /* ── MAIN ── */
+    .main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 56px 64px;
+      max-width: 920px;
+    }
+
+    /* ── HEADER ── */
+    .page-header { margin-bottom: 56px; }
+
+    .page-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 14px;
+    }
+
+    .page-title {
+      font-size: 38px;
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+
+    .page-desc {
+      font-size: 15px;
+      color: var(--gray-400);
+      max-width: 540px;
+      line-height: 1.7;
+    }
+
+    .page-meta {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid #1e1e1e;
+    }
+
+    .meta-item { display: flex; flex-direction: column; gap: 3px; }
+    .meta-label { font-size: 10px; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; }
+    .meta-value { font-size: 13px; color: var(--white); font-weight: 600; }
+
+    /* ── SECTION ── */
+    .section {
+      margin-bottom: 72px;
+      scroll-margin-top: 40px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 6px;
+    }
+
+    .section-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: #1a1a1a;
+      color: var(--gray-400);
+      border: 1px solid #2a2a2a;
+    }
+
+    .section-tag.blue  { background: #0a1a2a; color: var(--blue);  border-color: #1a3a5a; }
+    .section-tag.red   { background: #1a0a0a; color: #fc8181;      border-color: #3a1a1a; }
+    .section-tag.green { background: #0a1a0f; color: #68d391;      border-color: #1a3a20; }
+    .section-tag.gold  { background: #1a1200; color: var(--gold);  border-color: #3a2a00; }
+
+    .section-title {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      margin-bottom: 6px;
+      margin-top: 10px;
+    }
+
+    .section-subtitle {
+      font-size: 13.5px;
+      color: var(--gray-400);
+      margin-bottom: 24px;
+    }
+
+    .section-divider {
+      height: 1px;
+      background: #1a1a1a;
+      margin-bottom: 28px;
+    }
+
+    /* ── SCRIPT BOX ── */
+    .script-box {
+      background: #0a0a0a;
+      border: 1px solid #222;
+      border-left: 3px solid var(--blue);
+      border-radius: 0 10px 10px 0;
+      padding: 18px 22px;
+      margin-bottom: 14px;
+    }
+
+    .script-box .script-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 10px;
+    }
+
+    .script-box p {
+      font-size: 14px;
+      color: #ccc;
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    .script-box.green { border-left-color: #38a169; }
+    .script-box.green .script-label { color: #68d391; }
+
+    .script-box.gold { border-left-color: var(--gold); }
+    .script-box.gold .script-label { color: var(--gold); }
+
+    .script-box.red { border-left-color: #e53e3e; }
+    .script-box.red .script-label { color: #fc8181; }
+
+    /* ── DISCOVERY PILL ── */
+    .discovery-var {
+      display: inline-block;
+      background: #1a1a00;
+      border: 1px solid #3a3a00;
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 1px 8px;
+      border-radius: 4px;
+      font-style: normal;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--gray-900);
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 22px 24px;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .card p { font-size: 13.5px; color: var(--gray-400); line-height: 1.65; }
+
+    /* ── STAT ROW ── */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .stat-block {
+      background: var(--gray-900);
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 20px 16px;
+      text-align: center;
+    }
+
+    .stat-block .stat-num {
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      color: var(--white);
+    }
+
+    .stat-block .stat-label {
+      font-size: 11px;
+      color: var(--gray-600);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    /* ── COMPARE TABLE ── */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 16px;
+    }
+
+    .compare-table th {
+      padding: 12px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      border-bottom: 1px solid #222;
+    }
+
+    .compare-table th:first-child { text-align: left; color: var(--gray-600); }
+    .compare-table th.bad  { color: #fc8181; background: #1a0808; }
+    .compare-table th.good { color: #68d391; background: #081a0f; }
+
+    .compare-table td {
+      padding: 12px 16px;
+      font-size: 13.5px;
+      border-bottom: 1px solid #111;
+      vertical-align: middle;
+    }
+
+    .compare-table td:first-child { color: var(--gray-600); font-size: 13px; }
+    .compare-table td.bad  { color: #fc8181; background: #0d0404; }
+    .compare-table td.good { color: #68d391; background: #040d07; }
+
+    .compare-table tr:last-child td { border-bottom: none; }
+
+    /* ── DEAL CARD ── */
+    .deal-card {
+      background: var(--gray-900);
+      border: 1px solid #2a2a00;
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .deal-card-header {
+      background: #111100;
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #2a2a00;
+    }
+
+    .deal-card-header .deal-name {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--gold);
+      letter-spacing: -0.3px;
+    }
+
+    .deal-card-header .deal-tag {
+      font-size: 11px;
+      font-weight: 700;
+      background: #1a1400;
+      color: var(--gold);
+      border: 1px solid #3a3000;
+      padding: 3px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.4px;
+    }
+
+    .deal-card-body { padding: 24px; }
+
+    .deal-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .deal-stat {
+      background: #0d0d00;
+      border: 1px solid #2a2a00;
+      border-radius: 10px;
+      padding: 14px 16px;
+      text-align: center;
+    }
+
+    .deal-stat .ds-num {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--gold);
+      letter-spacing: -0.8px;
+    }
+
+    .deal-stat .ds-label {
+      font-size: 11px;
+      color: var(--gray-600);
+      margin-top: 2px;
+      font-weight: 500;
+    }
+
+    /* ── PHOTO PLACEHOLDER ── */
+    .photo-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .photo-placeholder {
+      aspect-ratio: 4/3;
+      background: #0d0d0d;
+      border: 1px dashed #2a2a2a;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      color: #333;
+    }
+
+    .photo-placeholder .ph-icon { font-size: 24px; }
+    .photo-placeholder .ph-label { font-size: 11px; font-weight: 600; letter-spacing: 0.4px; text-transform: uppercase; }
+
+    .photo-placeholder-wide {
+      width: 100%;
+      height: 180px;
+      background: #0d0d0d;
+      border: 1px dashed #2a2a2a;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      color: #333;
+      margin-bottom: 16px;
+    }
+
+    .photo-placeholder-wide .ph-icon  { font-size: 28px; }
+    .photo-placeholder-wide .ph-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
+
+    /* ── LIST ── */
+    .list { display: flex; flex-direction: column; gap: 2px; margin-bottom: 16px; }
+
+    .list-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      color: var(--gray-400);
+      line-height: 1.55;
+    }
+
+    .list-item:hover { background: #0d0d0d; }
+    .list-item::before { content: '→'; color: #444; flex-shrink: 0; margin-top: 1px; }
+    .list-item.bad::before  { content: '✕'; color: #7a2020; }
+    .list-item.good::before { content: '✓'; color: var(--green); }
+
+    /* ── CALLOUT ── */
+    .callout {
+      background: #0d0d0d;
+      border: 1px solid #222;
+      border-left: 3px solid #333;
+      border-radius: 0 10px 10px 0;
+      padding: 16px 20px;
+      margin-bottom: 14px;
+      font-size: 13.5px;
+      color: var(--gray-400);
+      line-height: 1.65;
+    }
+
+    .callout strong { color: var(--white); }
+    .callout.gold  { border-left-color: var(--gold);  background: #0d0d00; }
+    .callout.green { border-left-color: var(--green); background: #040d07; }
+    .callout.red   { border-left-color: #e53e3e;      background: #0d0404; }
+    .callout.blue  { border-left-color: var(--blue);  background: #04080d; }
+
+    /* ── TAX TABLE ── */
+    .tax-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .tax-card {
+      background: var(--gray-900);
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 18px;
+    }
+
+    .tax-card .tc-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--gray-600);
+      margin-bottom: 8px;
+    }
+
+    .tax-card .tc-saving {
+      font-size: 22px;
+      font-weight: 900;
+      color: #68d391;
+      letter-spacing: -0.8px;
+    }
+
+    .tax-card .tc-sub {
+      font-size: 12px;
+      color: var(--gray-600);
+      margin-top: 2px;
+    }
+
+    /* ── RETURNS BOX ── */
+    .returns-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .returns-block {
+      background: #0d0d00;
+      border: 1px solid #2a2a00;
+      border-radius: 12px;
+      padding: 18px 16px;
+      text-align: center;
+    }
+
+    .returns-block .rb-num {
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--gold);
+      letter-spacing: -0.8px;
+    }
+
+    .returns-block .rb-label {
+      font-size: 11px;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    /* ── STEP ── */
+    .step-row {
+      display: flex;
+      gap: 18px;
+      margin-bottom: 16px;
+    }
+
+    .step-num {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 1.5px solid #333;
+      color: var(--gray-600);
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    .step-body h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .step-body p  { font-size: 13.5px; color: var(--gray-400); line-height: 1.65; }
+
+    /* ── CHECKLIST ── */
+    .checklist { display: flex; flex-direction: column; gap: 4px; }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .check-item:hover { background: #0d0d0d; }
+
+    .check-item input[type="checkbox"] {
+      appearance: none;
+      width: 18px; height: 18px;
+      border: 1.5px solid #333;
+      border-radius: 5px;
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: all 0.15s;
+      position: relative;
+    }
+
+    .check-item input[type="checkbox"]:checked {
+      background: var(--white);
+      border-color: var(--white);
+    }
+
+    .check-item input[type="checkbox"]:checked::after {
+      content: '✓';
+      position: absolute;
+      top: -1px; left: 2px;
+      font-size: 12px;
+      color: #000;
+      font-weight: 700;
+    }
+
+    .check-item label {
+      font-size: 13.5px;
+      color: var(--gray-400);
+      cursor: pointer;
+      line-height: 1.5;
+    }
+
+    .check-item input:checked + label {
+      text-decoration: line-through;
+      color: var(--gray-600);
+    }
+
+    /* ── TIMER BADGE ── */
+    .timer-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 12px;
+      color: var(--gray-400);
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .timer-badge::before { content: '⏱'; font-size: 12px; }
+
+    /* ── TWO COL ── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 32px 20px; }
+      .stat-row, .deal-stats, .returns-grid, .tax-grid { grid-template-columns: 1fr 1fr; }
+      .photo-row { grid-template-columns: 1fr 1fr; }
+      .two-col { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text">ATX Global</div>
+    <div class="logo-sub">Presentation Call Playbook</div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-group-label">Before the Call</div>
+    <a class="nav-item active" href="#prep">
+      <span class="nav-dot"></span> Pre-Call Prep
+    </a>
+
+    <div class="nav-group-label" style="margin-top:8px;">The Call</div>
+    <a class="nav-item" href="#recap">
+      <span class="nav-dot"></span> 1. Reconnect & Recap
+    </a>
+    <a class="nav-item" href="#problem">
+      <span class="nav-dot"></span> 2. The Problem
+    </a>
+    <a class="nav-item" href="#alternative">
+      <span class="nav-dot"></span> 3. The Alternative
+    </a>
+    <a class="nav-item" href="#tax">
+      <span class="nav-dot"></span> 4. Tax Structuring
+    </a>
+    <a class="nav-item" href="#asset">
+      <span class="nav-dot"></span> 5. How It Works
+    </a>
+    <a class="nav-item" href="#risk">
+      <span class="nav-dot"></span> 6. The Risk Question
+    </a>
+    <a class="nav-item" href="#deal">
+      <span class="nav-dot"></span> 7. Live Deals
+    </a>
+    <a class="nav-item" href="#exit">
+      <span class="nav-dot"></span> 8. Exit Options
+    </a>
+    <a class="nav-item" href="#close">
+      <span class="nav-dot"></span> 9. The Close
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <span style="color:#f5c518;">●</span> &nbsp;Personalise every section with discovery notes
+  </div>
+</aside>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-tag">ATX Global · Call 2</div>
+    <h1 class="page-title">Presentation Call<br>Playbook</h1>
+    <p class="page-desc">Use this as your live guide during Call 2. Every section is built to follow logically from what you learned in discovery. The <span class="discovery-var">gold tags</span> are where you personalise using your notes.</p>
+    <div class="page-meta">
+      <div class="meta-item"><span class="meta-label">Call Length</span><span class="meta-value">45–60 min</span></div>
+      <div class="meta-item"><span class="meta-label">Goal</span><span class="meta-value">Decision or committed next step</span></div>
+      <div class="meta-item"><span class="meta-label">Tool</span><span class="meta-value">Fathom on before they join</span></div>
+      <div class="meta-item"><span class="meta-label">Deck</span><span class="meta-value">ATX Global Notion Guide open</span></div>
+    </div>
+  </div>
+
+  <!-- PRE-CALL PREP -->
+  <section class="section" id="prep">
+    <div class="section-header">
+      <span class="section-tag">Before You Dial</span>
+    </div>
+    <h2 class="section-title">Pre-Call Prep</h2>
+    <p class="section-subtitle">Do this before every presentation call. Walking in prepared is what separates a consultant from a salesperson.</p>
+    <div class="section-divider"></div>
+
+    <div class="checklist">
+      <div class="check-item">
+        <input type="checkbox" id="c1"/>
+        <label for="c1">Re-read your full Call 1 notes in Pipedrive — know their situation better than they remember it</label>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="c2"/>
+        <label for="c2">Identify which deal to lead with — match the property to their capital, goals, and timeline</label>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="c3"/>
+        <label for="c3">Prepare their specific financial comparison — what their current setup earns vs what this deal would earn</label>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="c4"/>
+        <label for="c4">Know their primary driver — income, tax, capital protection, or legacy. Lead with that.</label>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="c5"/>
+        <label for="c5">Anticipate the objections most likely to come from this specific person. Know your answers before they ask.</label>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="c6"/>
+        <label for="c6">Fathom recording enabled before they enter the call</label>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="c7"/>
+        <label for="c7">ATX Global Notion deck open and ready to share screen</label>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="c8"/>
+        <label for="c8">If their adviser or partner is joining — know their name and what they care about</label>
+      </div>
+    </div>
+
+    <div class="callout gold" style="margin-top:16px;">
+      <strong>The single most important thing you can do before this call:</strong> build the financial case for their specific situation. Take their current setup — capital sitting in BTL or cash — and show them side by side what this deal does instead. Make the maths unavoidable.
+    </div>
+  </section>
+
+  <!-- 1. RECONNECT & RECAP -->
+  <section class="section" id="recap">
+    <div class="section-header">
+      <span class="section-tag blue">Step 1 · 3–5 min</span>
+    </div>
+    <h2 class="section-title">Reconnect & Recap</h2>
+    <p class="section-subtitle">Start by showing you listened. Mirror their situation back before you show them anything. This earns you the room.</p>
+    <div class="section-divider"></div>
+
+    <div class="timer-badge">3 – 5 minutes</div>
+
+    <div class="script-box">
+      <div class="script-label">Opening</div>
+      <p>"[Name], good to be back. Before I walk you through what I have put together — I want to make sure nothing has shifted since we last spoke. When we talked you mentioned <span class="discovery-var">[their main frustration]</span>, and the core goal was <span class="discovery-var">[their stated goal — income / capital protection / tax / legacy]</span>. Is that still the right frame for today, or has anything changed?"</p>
+    </div>
+
+    <div class="callout blue">
+      <strong>Why this works:</strong> It re-anchors them on the problem they described in their own words before they see the solution. The contrast between where they are and where they want to be is what creates genuine interest — not the pitch.
+    </div>
+
+    <div class="card">
+      <div class="card-title">Discovery Personalisation Prompts</div>
+      <div class="list" style="margin-top:10px;">
+        <div class="list-item">If they had BTL frustrations → reference the specific ones they mentioned (tenant issues, Renters Rights Act, yield drop)</div>
+        <div class="list-item">If they mentioned tax as a concern → flag that the first thing you want to cover is structuring</div>
+        <div class="list-item">If they have capital sitting idle → acknowledge it: "You mentioned [£X] is ready to move. I want to make sure we look at the right opportunity for that amount."</div>
+        <div class="list-item">If their adviser is on the call → acknowledge them directly and confirm their role</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. THE PROBLEM -->
+  <section class="section" id="problem">
+    <div class="section-header">
+      <span class="section-tag red">Step 2 · 5–8 min</span>
+    </div>
+    <h2 class="section-title">The Problem</h2>
+    <p class="section-subtitle">Don't skip this. Even if they already know BTL is broken, walking them through it makes the alternative feel necessary — not just interesting.</p>
+    <div class="section-divider"></div>
+
+    <div class="timer-badge">5 – 8 minutes</div>
+
+    <div class="script-box red">
+      <div class="script-label">Transition into the problem</div>
+      <p>"Before I show you the specific opportunity, I want to spend two minutes making sure we are on the same page about why we are even having this conversation. Because the market that most investors defaulted to for the last 20 years has fundamentally changed. And most people haven't caught up with that yet."</p>
+    </div>
+
+    <div class="photo-placeholder-wide">
+      <div class="ph-icon">📊</div>
+      <div class="ph-label">Slide: Buy-to-Let Is No Longer a Profitable Investment</div>
+    </div>
+
+    <div class="card" style="border-color:#2a1a1a; margin-bottom:20px;">
+      <div class="card-title" style="color:#fc8181;">What has changed with buy-to-let</div>
+      <div class="list" style="margin-top:10px;">
+        <div class="list-item bad">Section 21 abolished — problem tenant means a 12-month legal battle to regain your own property</div>
+        <div class="list-item bad">Four months notice required before you can sell — your capital is locked on someone else's terms</div>
+        <div class="list-item bad">Cannot re-let for 12 months after a tenant vacates</div>
+        <div class="list-item bad">EPC upgrade requirements mandatory by 2028 — tens of thousands per property</div>
+        <div class="list-item bad">One tenant, one income stream — one bad month and your mortgage still needs paying</div>
+        <div class="list-item bad">Rolling 2-month contracts — no warning, no replacement lined up</div>
+        <div class="list-item bad">Every cost goes one way: more voids, more fees, more compliance, less kept</div>
+      </div>
+    </div>
+
+    <div class="script-box red">
+      <div class="script-label">Land the point personally</div>
+      <p>"You mentioned <span class="discovery-var">[their specific BTL frustration from discovery]</span>. That is not bad luck — that is the direction the market is moving. The investors building serious wealth right now have moved on to something different. That is what I want to show you today."</p>
+    </div>
+
+    <div class="callout red">
+      <strong>If they did not have BTL experience:</strong> adjust the framing — "The reason I cover this is that most people we speak to have either been in BTL and come out frustrated, or they were considering it. Either way, understanding why the market shifted explains exactly why what we do is gaining so much traction with serious investors."
+    </div>
+  </section>
+
+  <!-- 3. THE ALTERNATIVE -->
+  <section class="section" id="alternative">
+    <div class="section-header">
+      <span class="section-tag green">Step 3 · 5–7 min</span>
+    </div>
+    <h2 class="section-title">The Alternative</h2>
+    <p class="section-subtitle">Introduce ATX Global and the sector. Keep it brief — this is the bridge, not the pitch.</p>
+    <div class="section-divider"></div>
+
+    <div class="timer-badge">5 – 7 minutes</div>
+
+    <div class="script-box green">
+      <div class="script-label">Introduce ATX Global</div>
+      <p>"ATX Global specialises in government-funded property investment across the UK. Think of it as commercial real estate — but with stronger income security, longer leases, and zero landlord duties. We operate across four sectors: supported living, elderly care, social housing, and children's care homes."</p>
+    </div>
+
+    <div class="two-col" style="margin-bottom:20px;">
+      <div style="background:#0a1a0f;border:1px solid #1a3a20;border-radius:12px;padding:20px;">
+        <div style="font-size:12px;font-weight:700;color:#68d391;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:12px;">Four Sectors</div>
+        <div class="list">
+          <div class="list-item good" style="padding:6px 4px;">🏠 Supported Living</div>
+          <div class="list-item good" style="padding:6px 4px;">🏥 Elderly Care</div>
+          <div class="list-item good" style="padding:6px 4px;">🏘️ Social Housing</div>
+          <div class="list-item good" style="padding:6px 4px;">👶 Children's Care Homes</div>
+        </div>
+      </div>
+      <div style="background:#0d0d00;border:1px solid #2a2a00;border-radius:12px;padding:20px;">
+        <div style="font-size:12px;font-weight:700;color:#f5c518;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:12px;">Track Record</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div style="text-align:center;">
+            <div style="font-size:22px;font-weight:900;color:#f5c518;">£162m+</div>
+            <div style="font-size:11px;color:#666;margin-top:2px;">Placed</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:22px;font-weight:900;color:#f5c518;">176+</div>
+            <div style="font-size:11px;color:#666;margin-top:2px;">Properties</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:22px;font-weight:900;color:#f5c518;">96%</div>
+            <div style="font-size:11px;color:#666;margin-top:2px;">Repeat Rate</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:22px;font-weight:900;color:#f5c518;">10+</div>
+            <div style="font-size:11px;color:#666;margin-top:2px;">Years</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="script-box green">
+      <div class="script-label">The key differentiator</div>
+      <p>"One thing I want to be clear about: we are investors, not just advisors. Our own capital sits in this sector alongside our clients. Every deal we bring to you is one we would put our own money into. That is not something most property consultancies can say."</p>
+    </div>
+  </section>
+
+  <!-- 4. TAX STRUCTURING -->
+  <section class="section" id="tax">
+    <div class="section-header">
+      <span class="section-tag gold">Step 4 · 8–10 min</span>
+    </div>
+    <h2 class="section-title">Pillar 1 — Tax Structuring</h2>
+    <p class="section-subtitle">Most advisors skip this entirely. This is your strongest differentiator and the one that most surprises serious investors. Lead with it if tax came up in discovery.</p>
+    <div class="section-divider"></div>
+
+    <div class="timer-badge">8 – 10 minutes</div>
+
+    <div class="callout gold">
+      <strong>99% of agents do not do this.</strong> They push personal name or limited company without analysing the full picture. Without the right structure, a good investment gets quietly eaten away by tax over 15–30 years. This is where we start, and it is why our clients stay.
+    </div>
+
+    <div class="photo-placeholder-wide">
+      <div class="ph-icon">🏗️</div>
+      <div class="ph-label">Slide: Property Ownership Structures in the UK</div>
+    </div>
+
+    <div class="script-box gold">
+      <div class="script-label">Set the frame</div>
+      <p>"Before we look at any specific deal, I want to show you something that most people never see until it is too late. The structure you hold a property in determines how much of your income you actually keep. Let me show you what the difference looks like in real numbers."</p>
+    </div>
+
+    <div class="tax-grid">
+      <div class="tax-card">
+        <div class="tc-label">Case Study 1</div>
+        <div class="tc-saving">£141,700</div>
+        <div class="tc-sub">saved over 15 years vs personal ownership</div>
+      </div>
+      <div class="tax-card">
+        <div class="tc-label">Case Study 2</div>
+        <div class="tc-saving">£244,166</div>
+        <div class="tc-sub">saved over 15 years vs existing structure</div>
+      </div>
+      <div class="tax-card">
+        <div class="tc-label">Case Study 3</div>
+        <div class="tc-saving">£622,767</div>
+        <div class="tc-sub">saved over 15 years — 489% difference</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;">
+      <div class="card-title">What the review covers</div>
+      <p>Current structure analysis → goal identification → tax exposure mapping → structure comparison → scenario modelling → implementation planning → compliance check → ongoing review framework</p>
+    </div>
+
+    <div class="script-box gold">
+      <div class="script-label">Personalise to what they told you</div>
+      <p>"You mentioned <span class="discovery-var">[their current setup — personal name BTL / limited company / cash sitting in business]</span>. Based on that, the structuring conversation is directly relevant to you. We do a full review before any investment is placed. One structure does not fit everyone — we find the right one for your specific situation."</p>
+    </div>
+
+    <div class="callout">
+      <strong>If they have a financial adviser on the call:</strong> "This is exactly the kind of analysis that is most useful to share with your adviser. I can provide the full breakdown in a format that makes that conversation easy."
+    </div>
+  </section>
+
+  <!-- 5. HOW IT WORKS -->
+  <section class="section" id="asset">
+    <div class="section-header">
+      <span class="section-tag green">Step 5 · 8–10 min</span>
+    </div>
+    <h2 class="section-title">Pillar 2 — How It Works</h2>
+    <p class="section-subtitle">Walk the mechanics. Keep it simple — asset, operator, contract, income. Then contrast it directly against what they have experienced before.</p>
+    <div class="section-divider"></div>
+
+    <div class="timer-badge">8 – 10 minutes</div>
+
+    <div class="script-box green">
+      <div class="script-label">The simple explanation</div>
+      <p>"You purchase a residential property outright. A government-funded housing association takes on a lease — typically 5 to 25 years. They manage everything inside the property: they source the residents, deliver the care, and pay you a contracted monthly income. You own the asset. You do nothing else."</p>
+    </div>
+
+    <div class="photo-placeholder-wide">
+      <div class="ph-icon">🔄</div>
+      <div class="ph-label">Diagram: How It All Works</div>
+    </div>
+
+    <div class="card" style="border-color:#1a3a20; margin-bottom:20px;">
+      <div class="card-title" style="color:#68d391;">What you get</div>
+      <div class="list" style="margin-top:10px;">
+        <div class="list-item good">Full title ownership — sits on your balance sheet, grows in value over time</div>
+        <div class="list-item good">Long-term contracted income — 5 to 25 year leases, not rolling monthly tenancies</div>
+        <div class="list-item good">8–13% net yield, predictable and contractual capital appreciation</div>
+        <div class="list-item good">Completely passive — no tenant calls, no repair bills, no void periods, no agency fees</div>
+        <div class="list-item good">Zero running costs — the housing association covers every maintenance cost under a Fully Repairing and Insuring lease</div>
+        <div class="list-item good">Income grows every year — CPI inflation plus 1% annually, built into the contract</div>
+        <div class="list-item good">Government-funded income — paid by DWP and local authority budgets, not an individual</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Head-to-Head: BTL vs Supported Living</div>
+      <table class="compare-table" style="margin-top:12px;">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="bad">Buy-to-Let</th>
+            <th class="good">ATX Global</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Income source</td>
+            <td class="bad">Individual tenant</td>
+            <td class="good">Government-funded operator</td>
+          </tr>
+          <tr>
+            <td>Lease length</td>
+            <td class="bad">2-month rolling</td>
+            <td class="good">5 to 25 years, contracted</td>
+          </tr>
+          <tr>
+            <td>Yield</td>
+            <td class="bad">3–5% (falling)</td>
+            <td class="good">8–13% net</td>
+          </tr>
+          <tr>
+            <td>Running costs</td>
+            <td class="bad">Agency, maintenance, voids</td>
+            <td class="good">Zero — FRI lease</td>
+          </tr>
+          <tr>
+            <td>Tenant risk</td>
+            <td class="bad">12-month eviction process</td>
+            <td class="good">Government statutory obligation</td>
+          </tr>
+          <tr>
+            <td>Income growth</td>
+            <td class="bad">Negotiated, uncertain</td>
+            <td class="good">CPI + 1% annually, contractual</td>
+          </tr>
+          <tr>
+            <td>Your time</td>
+            <td class="bad">Ongoing management</td>
+            <td class="good">Completely passive</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 6. RISK -->
+  <section class="section" id="risk">
+    <div class="section-header">
+      <span class="section-tag">Step 6 · 5–8 min</span>
+    </div>
+    <h2 class="section-title">The Risk Question</h2>
+    <p class="section-subtitle">Raise this before they do. Analytical investors will have this question. Addressing it proactively builds more trust than waiting for them to ask.</p>
+    <div class="section-divider"></div>
+
+    <div class="timer-badge">5 – 8 minutes</div>
+
+    <div class="script-box">
+      <div class="script-label">Raise it first</div>
+      <p>"Before we go further, I want to address the question I know you are thinking about. What happens if the housing association goes bust? It is a fair question and I would rather you asked it now than thought about it later. The answer is more robust than most people expect."</p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;">
+      <div class="card-title">The Legal Protection</div>
+      <p>The Housing and Planning Act 2016 (Part 4, Chapter 5) was built specifically for this scenario. A housing association cannot be wound up without 28 days notice to the Regulator of Social Housing. The Regulator must consent before any winding up. A housing administrator can be appointed whose sole job is protecting income and residents. The Secretary of State can provide grants and guarantees to ensure continuity.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:14px;">
+      <div class="card-title">Who Steps In: MYSHON</div>
+      <p>MYSHON manages over 11,000 homes across the UK with 150 local authority partnerships. When One CIC went into administration in August 2024, MYSHON stepped in within 72 hours. Services continued. Income kept flowing. The system worked exactly as the legislation intended.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-title">Three Real Cases That Prove the System Works</div>
+      <div class="list" style="margin-top:10px;">
+        <div class="list-item good">One CIC (2024) — into administration, MYSHON stepped in day three, zero income interruption</div>
+        <div class="list-item good">Cosmopolitan Housing Group (2012) — £100M+ liabilities, Regulator intervened, Sanctuary Group stepped in, zero residents lost their home. Triggered the Housing Administration Regime.</div>
+        <div class="list-item good">Ujima Housing Association (2007) — only housing association in English history to fully collapse. Government stepped in, stock transferred to L&Q Group, all 5,000+ families protected. Triggered the Housing and Regeneration Act 2008.</div>
+      </div>
+    </div>
+
+    <div class="callout green">
+      <strong>The institutional signal:</strong> Canada Life, Aviva, BlackRock, Henley Investment Management, and the Universities Superannuation Scheme have all committed hundreds of millions to this sector. USS completed a £405M deal in 2024 — the largest pension-backed affordable housing transaction in UK history. These are the most risk-averse institutions in the world. They have looked at this sector and committed.
+    </div>
+
+    <div class="script-box green">
+      <div class="script-label">Close the risk section</div>
+      <p>"Every time something has gone wrong in this sector, the government has intervened, protected residents and investors, and come back with stronger legislation. The system has been tested. It has got stronger each time. With buy to let, there is no legal framework protecting you. No regulator. No government intervention. Just an 11 to 14 month eviction process and up to £12,000 in legal fees with zero income throughout. That is the difference."</p>
+    </div>
+  </section>
+
+  <!-- 7. LIVE DEALS -->
+  <section class="section" id="deal">
+    <div class="section-header">
+      <span class="section-tag gold">Step 7 · 12–15 min</span>
+    </div>
+    <h2 class="section-title">The Live Deals</h2>
+    <p class="section-subtitle">Present the deal you selected in prep — the one that fits their capital and goals. Walk every number. Make it specific, not generic.</p>
+    <div class="section-divider"></div>
+
+    <div class="timer-badge">12 – 15 minutes</div>
+
+    <div class="script-box gold">
+      <div class="script-label">Transition into the deal</div>
+      <p>"Now I want to show you what this looks like in practice. Based on what you shared with me — <span class="discovery-var">[their capital position and goal]</span> — I pulled a specific opportunity I think fits your situation well. Let me walk you through the numbers."</p>
+    </div>
+
+    <!-- DEAL 1 -->
+    <div class="deal-card">
+      <div class="deal-card-header">
+        <div class="deal-name">Deal A — 2 Bed · Doncaster</div>
+        <div class="deal-tag">Supported Living · 25 Years</div>
+      </div>
+      <div class="deal-card-body">
+
+        <div class="deal-stats">
+          <div class="deal-stat">
+            <div class="ds-num">£260k</div>
+            <div class="ds-label">Purchase Price</div>
+          </div>
+          <div class="deal-stat">
+            <div class="ds-num">13%</div>
+            <div class="ds-label">Net Yield</div>
+          </div>
+          <div class="deal-stat">
+            <div class="ds-num">£33,700</div>
+            <div class="ds-label">Annual Rent</div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;font-size:13.5px;">
+          <div>
+            <div style="color:var(--gray-600);font-size:11px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;">Property</div>
+            <div style="color:var(--gray-400);">105 Nutwell Grange, Armthorpe, Doncaster, DN3 3HA</div>
+          </div>
+          <div>
+            <div style="color:var(--gray-600);font-size:11px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;">Operator</div>
+            <div style="color:var(--gray-400);">Nurture Housing CBS — £29M turnover, 3,500 units, FCA registered</div>
+          </div>
+          <div>
+            <div style="color:var(--gray-600);font-size:11px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;">Monthly Rent</div>
+            <div style="color:var(--white);font-weight:700;">£2,816 / month</div>
+          </div>
+          <div>
+            <div style="color:var(--gray-600);font-size:11px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;">Ownership</div>
+            <div style="color:var(--white);font-weight:700;">Freehold · Stamp duty covered to 5%</div>
+          </div>
+        </div>
+
+        <div class="photo-row">
+          <div class="photo-placeholder"><div class="ph-icon">🏠</div><div class="ph-label">Front exterior</div></div>
+          <div class="photo-placeholder"><div class="ph-icon">🛋️</div><div class="ph-label">Interior</div></div>
+          <div class="photo-placeholder"><div class="ph-icon">📍</div><div class="ph-label">Location map</div></div>
+        </div>
+
+        <div class="callout green" style="margin-bottom:14px;">
+          <strong>Zero running costs.</strong> No voids. No maintenance. No ground rent. No service charges. No management fees. Net income = gross income.
+        </div>
+
+        <div class="photo-placeholder-wide">
+          <div class="ph-icon">📈</div>
+          <div class="ph-label">Financial Forecast Chart — 25 Year Projection</div>
+        </div>
+
+        <div class="photo-placeholder-wide">
+          <div class="ph-icon">📊</div>
+          <div class="ph-label">Vacant Value vs Investment Value Comparison</div>
+        </div>
+
+        <div class="photo-placeholder-wide">
+          <div class="ph-icon">🏙️</div>
+          <div class="ph-label">Savills Capital Growth — South Yorkshire Region</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- DEAL 2 -->
+    <div class="deal-card">
+      <div class="deal-card-header">
+        <div class="deal-name">Deal B — 3 Bed · Hull</div>
+        <div class="deal-tag">Supported Living · 25 Years</div>
+      </div>
+      <div class="deal-card-body">
+
+        <div class="deal-stats">
+          <div class="deal-stat">
+            <div class="ds-num">£309k</div>
+            <div class="ds-label">Purchase Price</div>
+          </div>
+          <div class="deal-stat">
+            <div class="ds-num">14%</div>
+            <div class="ds-label">Net Yield</div>
+          </div>
+          <div class="deal-stat">
+            <div class="ds-num">£43,200</div>
+            <div class="ds-label">Annual Rent</div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;font-size:13.5px;">
+          <div>
+            <div style="color:var(--gray-600);font-size:11px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;">Property</div>
+            <div style="color:var(--gray-400);">21 Kingston Fields, Preston Road, Hull, HU9 5HH</div>
+          </div>
+          <div>
+            <div style="color:var(--gray-600);font-size:11px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;">Operator</div>
+            <div style="color:var(--gray-400);">Nurture Housing CBS — £29M turnover, 3,500 units, FCA registered</div>
+          </div>
+          <div>
+            <div style="color:var(--gray-600);font-size:11px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;">Monthly Rent</div>
+            <div style="color:var(--white);font-weight:700;">£3,600 / month</div>
+          </div>
+          <div>
+            <div style="color:var(--gray-600);font-size:11px;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px;">Ownership</div>
+            <div style="color:var(--white);font-weight:700;">Freehold</div>
+          </div>
+        </div>
+
+        <div class="photo-row">
+          <div class="photo-placeholder"><div class="ph-icon">🏠</div><div class="ph-label">Front exterior</div></div>
+          <div class="photo-placeholder"><div class="ph-icon">🛋️</div><div class="ph-label">Interior</div></div>
+          <div class="photo-placeholder"><div class="ph-icon">📍</div><div class="ph-label">Location map</div></div>
+        </div>
+
+        <div class="photo-placeholder-wide">
+          <div class="ph-icon">📈</div>
+          <div class="ph-label">Financial Forecast Chart — 25 Year Projection</div>
+        </div>
+
+        <div class="photo-placeholder-wide">
+          <div class="ph-icon">📊</div>
+          <div class="ph-label">Vacant Value vs Investment Value — Hull</div>
+        </div>
+
+        <div class="photo-placeholder-wide">
+          <div class="ph-icon">🏙️</div>
+          <div class="ph-label">Savills Capital Growth — East Yorkshire Region</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. EXIT OPTIONS -->
+  <section class="section" id="exit">
+    <div class="section-header">
+      <span class="section-tag">Step 8 · 5–7 min</span>
+    </div>
+    <h2 class="section-title">Exit Options</h2>
+    <p class="section-subtitle">Show them they are not locked in. Two clean exit routes — the buyback and yield compression. Walk the numbers on whichever fits their mindset.</p>
+    <div class="section-divider"></div>
+
+    <div class="timer-badge">5 – 7 minutes</div>
+
+    <div class="script-box">
+      <div class="script-label">Frame it</div>
+      <p>"One thing I want to cover before we get to the decision — your exit options. This is a long-hold asset class, but that does not mean you are locked in indefinitely. You have two clear routes out, and both work in your favour."</p>
+    </div>
+
+    <!-- Buyback -->
+    <div class="card" style="border-color:#2a2a00; margin-bottom:14px;">
+      <div class="card-title" style="color:var(--gold);">Option 1 — Buyback Clause (Deal A)</div>
+      <p style="margin-bottom:16px;">The developer has the option to buy the property back within three years at a guaranteed 30% uplift. This is an option for them, not an obligation for you — if they do not exercise it, you keep full ownership for the remaining 25-year lease.</p>
+
+      <div class="returns-grid">
+        <div class="returns-block">
+          <div class="rb-num">£78,000</div>
+          <div class="rb-label">Capital appreciation (30% uplift)</div>
+        </div>
+        <div class="returns-block">
+          <div class="rb-num">£101,400</div>
+          <div class="rb-label">Rental income over 3 years</div>
+        </div>
+        <div class="returns-block">
+          <div class="rb-num">£179,400</div>
+          <div class="rb-label">Total return in 3 years</div>
+        </div>
+      </div>
+
+      <div class="callout gold" style="margin-bottom:0;">
+        <strong>69% total return over 3 years.</strong> £439,400 returned to you (capital + income). If the option is not exercised, you retain full ownership and continue receiving government-backed rental income for the remaining 22 years.
+      </div>
+    </div>
+
+    <div class="photo-placeholder-wide">
+      <div class="ph-icon">💰</div>
+      <div class="ph-label">Buyback Clause Diagram — 3 Year Return Breakdown</div>
+    </div>
+
+    <!-- Yield Compression -->
+    <div class="card" style="border-color:#1a2a1a; margin-bottom:14px;">
+      <div class="card-title" style="color:#68d391;">Option 2 — Sell to Another Investor (Yield Compression)</div>
+      <p style="margin-bottom:12px;">As the income on this asset grows annually (CPI + 1%), the investment value of the property increases. An investor buying later will pay a higher price to acquire the same income stream — which means your asset appreciates simply by holding it and letting the rent grow.</p>
+      <p>We handle the resale through our investor network. Done-for-you exit.</p>
+    </div>
+
+    <div class="photo-placeholder-wide">
+      <div class="ph-icon">📉</div>
+      <div class="ph-label">Yield Compression Strategy — Value Over Time Diagram</div>
+    </div>
+  </section>
+
+  <!-- 9. THE CLOSE -->
+  <section class="section" id="close">
+    <div class="section-header">
+      <span class="section-tag blue">Step 9 · 5–10 min</span>
+    </div>
+    <h2 class="section-title">The Close</h2>
+    <p class="section-subtitle">Anchor on value before asking. Then ask once, clearly, and wait. Never end the call without a decision or a specific committed next step.</p>
+    <div class="section-divider"></div>
+
+    <div class="timer-badge">5 – 10 minutes</div>
+
+    <div class="script-box">
+      <div class="script-label">Anchor before asking</div>
+      <p>"Before I walk you through what the next step looks like — based on everything we have covered today, and what you told me about <span class="discovery-var">[their goal]</span>, does this look like the kind of investment that makes sense for your position?"</p>
+    </div>
+
+    <div class="callout blue" style="margin-bottom:20px;">
+      Wait for their answer. Do not fill the silence. Whatever they say next is the real conversation.
+    </div>
+
+    <div class="card" style="margin-bottom:12px;">
+      <div class="card-title">If yes</div>
+      <p>"The next step is to reserve the asset. That takes it off the market while we complete the structuring review and instruct solicitors. I can get that moving today — shall I send over what you need to review?"</p>
+    </div>
+
+    <div class="card" style="margin-bottom:12px;">
+      <div class="card-title">If maybe — find the real blocker</div>
+      <p>"What is the one thing that needs to be answered before you can move forward? I want to make sure I am not leaving you with an unanswered question."</p>
+    </div>
+
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-title">If they need to involve their adviser</div>
+      <p>"That is exactly the right approach at this level. Would it make sense to get 30 minutes on the calendar with the three of us so I can answer their questions directly? That usually moves things faster and means nothing gets lost in the handoff. When are they typically available?"</p>
+    </div>
+
+    <div class="callout">
+      <strong>Never leave without a committed next step.</strong> Either a decision, a booked three-way call with their adviser, or a specific date to reconnect — with a reason and a calendar invite before they leave the Zoom.
+    </div>
+
+    <div class="script-box green">
+      <div class="script-label">Creating real urgency</div>
+      <p>"I want to be straight with you — this specific asset has had interest from two other investors who have been through a similar process. I cannot hold it indefinitely without a reservation in place. I am not saying that to pressure you — I am saying it because I would rather you had the full picture."</p>
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('.section');
+  const navItems = document.querySelectorAll('.nav-item');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navItems.forEach(n => n.classList.remove('active'));
+        const match = document.querySelector(`.nav-item[href="#${entry.target.id}"]`);
+        if (match) match.classList.add('active');
+      }
+    });
+  }, { threshold: 0.25 });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
