@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Heaven & Hell Framework — Sales.io</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.6; display: flex; min-height: 100vh; }
+
+    /* SIDEBAR */
+    .sidebar { width: 220px; flex-shrink: 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; border-right: 1px solid #1a1a1a; padding: 40px 0; }
+    .sidebar-logo { font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: #555; padding: 0 24px 24px; border-bottom: 1px solid #1a1a1a; margin-bottom: 20px; }
+    .nav-section { padding: 6px 24px; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #2a2a2a; margin-top: 16px; margin-bottom: 4px; }
+    .nav-link { display: block; padding: 7px 24px; font-size: 13px; color: #555; text-decoration: none; transition: color .15s, border-color .15s; border-left: 2px solid transparent; }
+    .nav-link:hover { color: #ccc; }
+    .nav-link.active { color: #4ade80; border-left-color: #4ade80; }
+
+    /* MAIN */
+    .main { flex: 1; max-width: 760px; padding: 56px 40px 120px; }
+    .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 12px; }
+    h1 { font-size: 40px; font-weight: 900; line-height: 1.05; letter-spacing: -1px; margin-bottom: 16px; }
+    .subtitle { font-size: 15px; color: #666; margin-bottom: 60px; line-height: 1.6; max-width: 560px; }
+
+    section { margin-bottom: 64px; }
+    h2 { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 24px; padding-bottom: 10px; border-bottom: 1px solid #111; }
+
+    /* Core blocks */
+    .block { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 22px 26px; margin-bottom: 14px; }
+    .block-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #444; margin-bottom: 10px; }
+    .block p { font-size: 14px; color: #999; line-height: 1.7; }
+    .block p + p { margin-top: 10px; }
+
+    .highlight { background: #050f08; border: 1px solid #0d2b1a; border-radius: 10px; padding: 22px 26px; margin-bottom: 14px; }
+    .highlight p { font-size: 14px; color: #ccc; line-height: 1.8; }
+    .highlight strong { color: #4ade80; }
+
+    .warning { background: #0f0800; border: 1px solid #2b1a00; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; }
+    .warning p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .warning strong { color: #f59e0b; }
+
+    .red-block { background: #0f0505; border: 1px solid #2b0d0d; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; }
+    .red-block p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .red-block strong { color: #f87171; }
+
+    /* FRAMEWORK VISUAL */
+    .framework-visual { display: flex; gap: 0; margin-bottom: 28px; border-radius: 12px; overflow: hidden; border: 1px solid #1a1a1a; }
+    .fw-col { flex: 1; padding: 24px 20px; text-align: center; }
+    .fw-col.heaven { background: #020a04; border-right: 1px solid #0d2b1a; }
+    .fw-col.gap { background: #0a0a0a; border-right: 1px solid #1a1a1a; }
+    .fw-col.hell { background: #0a0202; border-right: 1px solid #2b0d0d; }
+    .fw-col.bridge { background: #050a12; }
+    .fw-icon { font-size: 24px; margin-bottom: 8px; }
+    .fw-label { font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px; }
+    .fw-col.heaven .fw-label { color: #4ade80; }
+    .fw-col.gap .fw-label { color: #f59e0b; }
+    .fw-col.hell .fw-label { color: #f87171; }
+    .fw-col.bridge .fw-label { color: #60a5fa; }
+    .fw-title { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+    .fw-sub { font-size: 11px; color: #555; line-height: 1.4; }
+
+    /* Heaven / Hell big cards */
+    .hh-card { border-radius: 14px; overflow: hidden; margin-bottom: 20px; }
+    .hh-card.heaven { border: 1px solid #0d2b1a; }
+    .hh-card.hell { border: 1px solid #2b0d0d; }
+    .hh-top { padding: 28px 32px; }
+    .hh-card.heaven .hh-top { background: #020a04; }
+    .hh-card.hell .hh-top { background: #0a0202; }
+    .hh-eyebrow { font-size: 10px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 10px; }
+    .hh-card.heaven .hh-eyebrow { color: #4ade80; }
+    .hh-card.hell .hh-eyebrow { color: #f87171; }
+    .hh-title { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 12px; }
+    .hh-desc { font-size: 14px; color: #888; line-height: 1.7; }
+    .hh-body { padding: 0; background: #0a0a0a; }
+    .hh-row { display: flex; border-top: 1px solid #111; }
+    .hh-col { flex: 1; padding: 18px 22px; border-right: 1px solid #111; }
+    .hh-col:last-child { border-right: none; }
+    .hh-col-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #444; margin-bottom: 12px; }
+    .q-list { list-style: none; }
+    .q-list li { font-size: 13px; color: #777; padding: 7px 0; border-bottom: 1px solid #0d0d0d; line-height: 1.55; font-style: italic; }
+    .q-list li:last-child { border-bottom: none; }
+
+    /* Gap visual */
+    .gap-visual { display: flex; align-items: stretch; gap: 0; margin-bottom: 14px; border: 1px solid #1a1a1a; border-radius: 12px; overflow: hidden; }
+    .gap-side { flex: 1; padding: 20px 22px; }
+    .gap-side.current { background: #0a0202; border-right: 1px solid #2b0d0d; }
+    .gap-side.future { background: #020a04; }
+    .gap-middle { padding: 20px 22px; background: #0a0a0a; border-right: 1px solid #1a1a1a; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 100px; text-align: center; }
+    .gap-side-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .gap-side.current .gap-side-label { color: #f87171; }
+    .gap-side.future .gap-side-label { color: #4ade80; }
+    .gap-middle-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #f59e0b; margin-bottom: 8px; }
+    .gap-side-body { font-size: 13px; color: #666; line-height: 1.6; }
+    .gap-middle-body { font-size: 12px; color: #555; line-height: 1.5; text-align: center; }
+    .gap-arrow { font-size: 20px; color: #333; margin: 0 4px; display: flex; align-items: center; }
+
+    /* Depth levels */
+    .depth-list { display: flex; flex-direction: column; }
+    .depth-wrap { display: flex; gap: 20px; margin-bottom: 4px; }
+    .depth-left { display: flex; flex-direction: column; align-items: center; width: 40px; flex-shrink: 0; }
+    .dot { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; }
+    .line { flex: 1; width: 1px; background: #111; margin: 4px 0; min-height: 16px; }
+    .depth-right { flex: 1; padding-bottom: 24px; }
+    .depth-tag { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .depth-title { font-size: 16px; font-weight: 800; margin-bottom: 8px; }
+    .depth-body { font-size: 14px; color: #888; line-height: 1.7; margin-bottom: 8px; }
+    .depth-ex { font-size: 13px; color: #555; font-style: italic; line-height: 1.6; padding: 8px 12px; background: #050505; border-radius: 6px; border-left: 2px solid #111; margin-bottom: 6px; }
+
+    /* Exchange */
+    .exchange { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 12px; overflow: hidden; margin-bottom: 20px; }
+    .exchange-header { padding: 14px 22px; border-bottom: 1px solid #111; font-size: 12px; font-weight: 700; color: #555; letter-spacing: 0.04em; }
+    .exchange-body { padding: 20px 22px; display: flex; flex-direction: column; gap: 10px; }
+    .msg { display: flex; flex-direction: column; gap: 4px; }
+    .msg-who { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+    .msg-who.rep { color: #4ade80; }
+    .msg-who.prospect { color: #60a5fa; }
+    .msg-text { font-size: 14px; color: #ccc; line-height: 1.6; padding: 10px 14px; border-radius: 8px; }
+    .msg-text.rep-msg { background: #050f08; border: 1px solid #0d2b1a; color: #a3e8bb; }
+    .msg-text.prospect-msg { background: #050a12; border: 1px solid #0a2040; color: #93c5fd; }
+    .msg-text.probe { background: #050f08; border: 1px solid #0d2b1a; color: #a3e8bb; font-style: italic; }
+
+    /* Order cards */
+    .order-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+    .order-card { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 20px 22px; }
+    .order-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #4ade80; margin-bottom: 8px; }
+    .order-title { font-size: 15px; font-weight: 800; margin-bottom: 10px; }
+    .order-body { font-size: 13px; color: #777; line-height: 1.6; }
+    .order-seq { margin-top: 12px; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    .seq-step { font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 5px; }
+    .seq-arrow { color: #333; font-size: 12px; }
+
+    /* Note list */
+    .note-list { list-style: none; }
+    .note-list li { font-size: 14px; color: #999; padding: 9px 0; border-bottom: 1px solid #0f0f0f; display: flex; gap: 12px; line-height: 1.6; }
+    .note-list li:last-child { border-bottom: none; }
+    .note-list li::before { content: "—"; color: #333; flex-shrink: 0; }
+
+    /* Quote */
+    .quote-block { border-left: 3px solid #222; padding: 16px 22px; background: #050505; border-radius: 0 8px 8px 0; margin: 16px 0; }
+    .quote-block p { font-size: 15px; color: #ddd; font-style: italic; line-height: 1.8; }
+    .quote-block .attribution { font-size: 12px; color: #444; font-style: normal; margin-top: 8px; font-weight: 600; letter-spacing: 0.05em; }
+
+    @media (max-width: 780px) {
+      .sidebar { display: none; }
+      .main { padding: 40px 20px 80px; max-width: 100%; }
+      h1 { font-size: 30px; }
+      .framework-visual { flex-direction: column; }
+      .fw-col { border-right: none !important; border-bottom: 1px solid #1a1a1a; }
+      .fw-col:last-child { border-bottom: none; }
+      .gap-visual { flex-direction: column; }
+      .gap-side, .gap-middle { border-right: none !important; border-bottom: 1px solid #1a1a1a; }
+      .hh-row { flex-direction: column; }
+      .hh-col { border-right: none; border-bottom: 1px solid #111; }
+      .hh-col:last-child { border-bottom: none; }
+      .order-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">Lesson</div>
+  <a href="#overview" class="nav-link active">Overview</a>
+  <div class="nav-section">The Framework</div>
+  <a href="#heaven" class="nav-link">Heaven — Future State</a>
+  <a href="#hell" class="nav-link">Hell — Current Reality</a>
+  <a href="#gap" class="nav-link">The Gap</a>
+  <a href="#bridge" class="nav-link">The Bridge</a>
+  <div class="nav-section">Execution</div>
+  <a href="#depth" class="nav-link">Levels of Heaven & Hell</a>
+  <a href="#order" class="nav-link">Direction & Order</a>
+  <a href="#exchange" class="nav-link">Live Exchange</a>
+  <a href="#mistakes" class="nav-link">Common Mistakes</a>
+  <a href="#connection" class="nav-link">The Deeper Mechanism</a>
+</nav>
+
+<main class="main">
+
+  <div id="overview">
+    <div class="eyebrow">Sales.io — JJ Hernandez</div>
+    <h1>Heaven &amp;<br>Hell Framework</h1>
+    <p class="subtitle">How to create the emotional tension that makes a prospect sell themselves — before you ever make an offer.</p>
+  </div>
+
+
+  <!-- CONCEPT -->
+  <section>
+    <h2>The Core Concept</h2>
+
+    <div class="block">
+      <div class="block-label">What it is</div>
+      <p>Every person on a sales call is living in one of two places. They're either moving away from something painful — or moving toward something they want. Usually both. The Heaven and Hell Framework is the structure that makes both of those things real, felt, and emotionally charged before you ever open your mouth to pitch.</p>
+      <p>Most salespeople know their offer well. They understand the features, the price, the terms. What they miss is the emotional architecture underneath the decision. No one buys a program. They buy escape from Hell and the belief that Heaven is actually reachable. Your job is to build both states so vividly that the gap between them demands action.</p>
+    </div>
+
+    <div class="framework-visual">
+      <div class="fw-col heaven">
+        <div class="fw-icon">☀️</div>
+        <div class="fw-label">Heaven</div>
+        <div class="fw-title">Future State</div>
+        <div class="fw-sub">Who they want to become. What their life looks like when this is solved.</div>
+      </div>
+      <div class="fw-col gap">
+        <div class="fw-icon">⚡</div>
+        <div class="fw-label">The Gap</div>
+        <div class="fw-title">Tension</div>
+        <div class="fw-sub">The cognitive dissonance between where they are and where they need to be.</div>
+      </div>
+      <div class="fw-col hell">
+        <div class="fw-icon">🔥</div>
+        <div class="fw-label">Hell</div>
+        <div class="fw-title">Current Reality</div>
+        <div class="fw-sub">The pain they're living in. What staying here costs them daily.</div>
+      </div>
+      <div class="fw-col bridge">
+        <div class="fw-icon">🌉</div>
+        <div class="fw-label">The Bridge</div>
+        <div class="fw-title">Your Offer</div>
+        <div class="fw-sub">The only path from Hell to Heaven. Presented only after the gap is real and felt.</div>
+      </div>
+    </div>
+
+    <div class="highlight">
+      <p><strong>The offer is not the pitch. The gap is the pitch.</strong> When you've built both states with enough depth and specificity, the prospect isn't waiting for you to sell them — they're waiting for you to tell them how to get out. That's when the pitch stops feeling like a pitch. It feels like a solution they already needed.</p>
+    </div>
+  </section>
+
+
+  <!-- HEAVEN -->
+  <section id="heaven">
+    <h2>Heaven — Future State</h2>
+
+    <div class="hh-card heaven">
+      <div class="hh-top">
+        <div class="hh-eyebrow">Heaven</div>
+        <div class="hh-title">Where they want to go — and who they want to become when they get there.</div>
+        <div class="hh-desc">Heaven is not a number. Heaven is an identity. The prospect who says "$20K months" isn't just describing income — they're describing a version of themselves that they haven't been able to become yet. Your job is to pull that vision out of them, make it specific, and make it feel real enough that staying in their current reality becomes emotionally unbearable.</div>
+      </div>
+      <div class="hh-body">
+        <div class="hh-row">
+          <div class="hh-col">
+            <div class="hh-col-label">Questions to build Heaven</div>
+            <ul class="q-list">
+              <li>"What does the version of you that's already figured this out look like?"</li>
+              <li>"If we spoke 12 months from now and everything went right — walk me through what happened."</li>
+              <li>"What's the number that changes everything for you? And what does life look like when you're there?"</li>
+              <li>"What does your day-to-day look like when this is solved?"</li>
+              <li>"Who do you become when you get there? How does that person carry themselves?"</li>
+              <li>"What does this give you that you don't have right now?"</li>
+              <li>"What's the first thing that changes in your life when you get there?"</li>
+            </ul>
+          </div>
+          <div class="hh-col">
+            <div class="hh-col-label">What you're actually listening for</div>
+            <ul class="q-list">
+              <li>Specific numbers and timelines — not vague desires</li>
+              <li>Identity language — "I want to be the person who..."</li>
+              <li>What the outcome gives them beyond money (freedom, respect, family, security)</li>
+              <li>Emotional charge in their voice — when they light up talking about it</li>
+              <li>The gap between their current self and their Heaven self</li>
+              <li>What they've already sacrificed trying to get there</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label">Surface Heaven vs. Real Heaven</div>
+      <p>Most prospects will give you their surface Heaven first. "I want to make more money." "I want more freedom." These are real — but they're not specific enough to create emotional pull. Your job is to probe until you get to Real Heaven: the version of that desire that's personal, specific, and attached to their identity.</p>
+      <p>Surface Heaven: <em>"I want to hit $20K months."</em><br>
+      Real Heaven: <em>"I want to be able to tell my mom she doesn't have to work anymore. I've been promising her that for three years and I'm still not there."</em></p>
+      <p>One is a number. The other is a reason to act. Get to Real Heaven before you move on.</p>
+    </div>
+
+    <div class="warning">
+      <p><strong>Don't rush past Heaven.</strong> Most reps are so eager to get to the pain that they skim the future state. A prospect who has articulated their Heaven clearly and emotionally has given you the most powerful close ammunition you'll have on the entire call. Let them live in it for a moment. The more real it feels, the more painful Hell becomes by comparison.</p>
+    </div>
+  </section>
+
+
+  <!-- HELL -->
+  <section id="hell">
+    <h2>Hell — Current Reality</h2>
+
+    <div class="hh-card hell">
+      <div class="hh-top">
+        <div class="hh-eyebrow">Hell</div>
+        <div class="hh-title">Where they are stuck — and what it's actually costing them every day they stay there.</div>
+        <div class="hh-desc">Hell isn't just "things aren't going well." Hell is the specific reality the prospect has been living in — the failed attempts, the frustration, the months that have passed without movement, the identity of someone who can't get out of their own way. If you leave Hell at the surface level, the prospect won't feel the urgency. Your job is to make Hell visceral. Make it real. Make them feel the weight of staying there.</div>
+      </div>
+      <div class="hh-body">
+        <div class="hh-row">
+          <div class="hh-col">
+            <div class="hh-col-label">Questions to build Hell</div>
+            <ul class="q-list">
+              <li>"How long have you been in this place?"</li>
+              <li>"What have you tried that hasn't worked? Walk me through it."</li>
+              <li>"What does a normal day look like right now — give me the real picture."</li>
+              <li>"What's the worst part of where you are right now?"</li>
+              <li>"If nothing changes in the next 12 months, what does that mean for you?"</li>
+              <li>"What does staying here cost you every month?"</li>
+              <li>"What's this doing to you beyond the numbers — personally, emotionally?"</li>
+              <li>"You said you've been at this for 8 months. What's that been like — knowing the gap is there and not being able to close it?"</li>
+            </ul>
+          </div>
+          <div class="hh-col">
+            <div class="hh-col-label">Layers of Hell to uncover</div>
+            <ul class="q-list">
+              <li><strong>Financial Hell</strong> — the actual numbers: income lost, time wasted, money spent on things that didn't work</li>
+              <li><strong>Identity Hell</strong> — the story they've started telling themselves about who they are and what they're capable of</li>
+              <li><strong>Time Hell</strong> — the months and years already spent in this place. The awareness that time is running out.</li>
+              <li><strong>Relational Hell</strong> — what this is doing to their relationships, their family, their ability to show up as the person others need them to be</li>
+              <li><strong>Opportunity Hell</strong> — what they've had to pass on, postpone, or give up because they're stuck here</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="red-block">
+      <p><strong>Never comfort Hell away.</strong> The moment emotion surfaces — frustration, embarrassment, fear — most reps immediately reach for reassurance. "Don't worry, you're in the right place now." That is the single biggest mistake in sales. The pain is not the problem. The pain is the asset. When emotion surfaces, open the door wider. Go deeper. That is exactly where you need to be.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">The cost of inaction</div>
+      <p>The most powerful Hell question is about cost over time. Not "how much have you lost" — but "what happens if this is still your reality in 12 months?" This pulls the prospect out of the present and forces them to face a future version of their Hell. That projection is where urgency lives.</p>
+      <p>A prospect who says "I've been stuck at $5K for 8 months" is giving you data. A prospect who says "If I'm still here in a year I genuinely don't know what I'll do — I've promised myself and my family I was going to figure this out" is giving you the close.</p>
+    </div>
+  </section>
+
+
+  <!-- THE GAP -->
+  <section id="gap">
+    <h2>The Gap</h2>
+
+    <div class="gap-visual">
+      <div class="gap-side current">
+        <div class="gap-side-label">Hell — Current State</div>
+        <div class="gap-side-body">The pain they're in. The failed attempts. The months that have passed. The identity of someone who can't get out.</div>
+      </div>
+      <div class="gap-arrow">→</div>
+      <div class="gap-middle">
+        <div class="gap-middle-label">The Gap</div>
+        <div class="gap-middle-body">Cognitive dissonance. Emotional tension. The need to resolve this.</div>
+      </div>
+      <div class="gap-arrow">→</div>
+      <div class="gap-side future">
+        <div class="gap-side-label">Heaven — Future State</div>
+        <div class="gap-side-body">Who they want to become. What changes when they get there. The version of life they've been chasing.</div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label">What the gap actually is</div>
+      <p>The gap is the space between who they are and who they've decided they need to be. It's not a logical problem. It's an identity problem — and it produces emotional tension that demands resolution. The wider and more specific you make that gap, the more urgently the prospect needs something to bridge it.</p>
+      <p>This is not manipulation. The gap already exists. You're not creating it — you're revealing it. The prospect already knows they're stuck. They already know where they want to go. What you're doing is making that reality impossible to ignore for the next hour, because most people have learned to live with their gap without facing it directly.</p>
+    </div>
+
+    <div class="highlight">
+      <p><strong>The gap is the sale.</strong> Not your offer. Not your pitch. The gap. When someone feels the full distance between where they are and where they need to be, your offer stops being a cost. It becomes a solution they're already reaching for before you say it.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">Gap questions — after both states are built</div>
+      <ul class="note-list">
+        <li>"So you're here — but you want to be there. What do you think is standing in the way?"</li>
+        <li>"How long is this gap acceptable to you?"</li>
+        <li>"You've known about this gap for a while. What's kept you from closing it?"</li>
+        <li>"What happens — to your family, to your goals, to the version of yourself you've been working toward — if this gap stays where it is?"</li>
+        <li>"If I told you there was a direct path from where you are to where you want to be — what would you need to see before you'd believe it?"</li>
+      </ul>
+    </div>
+
+    <div class="warning">
+      <p><strong>Don't rush the gap.</strong> This is the most important moment of the call. If you've built both states with depth, the prospect is already feeling the weight of the distance. Let them sit in it. A pause here is not awkward — it's powerful. The silence is the gap doing its work. You do not need to fill it.</p>
+    </div>
+  </section>
+
+
+  <!-- THE BRIDGE -->
+  <section id="bridge">
+    <h2>The Bridge — Your Offer</h2>
+
+    <div class="block">
+      <div class="block-label">When to present the offer</div>
+      <p>The bridge only works when both sides of the gap are real and felt. If you pitch before the prospect has fully articulated their Hell and fully visualized their Heaven, your offer is just a price tag. If you pitch after — when they're sitting in the discomfort of the gap — your offer is a lifeline.</p>
+      <p>You'll know you're ready to pitch when: the prospect has described their pain emotionally, not just factually. When they've connected their current state to something bigger than a number — their identity, their family, their time. When they've told you what Heaven looks like in specific terms. At that point, the pitch is not a pitch. It's the next obvious thing.</p>
+    </div>
+
+    <div class="highlight">
+      <p><strong>Frame the offer as the bridge — not the destination.</strong> "Based on everything you've told me, here's how we get you from where you are to where you want to be." That's the only pitch you need. The rest is walking them through the path. You're not selling them a product. You're showing them the route.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">How to transition into the pitch</div>
+      <p>The transition should feel earned, not abrupt. After the gap has been built:</p>
+      <ul class="note-list">
+        <li>"Based on everything you've just shared with me — I think I know exactly what needs to happen. Let me walk you through it."</li>
+        <li>"Everything you just described — the stuck income, the failed attempts, the timeline you're working with — that's exactly why this exists. Let me show you how it works."</li>
+        <li>"I've heard enough. Here's what I want to do with you." (When emotions are already high — keep it short.)</li>
+      </ul>
+    </div>
+
+    <div class="red-block">
+      <p><strong>If you pitch before the gap is real, you're selling features to someone who hasn't committed to solving the problem.</strong> They'll hear your pitch politely. They'll say "I need to think about it." And they'll mean it — because you never gave them a reason urgent enough to decide now. The gap is what creates urgency. The offer resolves it. Do not reverse the order.</p>
+    </div>
+  </section>
+
+
+  <!-- DEPTH LEVELS -->
+  <section id="depth">
+    <h2>Levels of Heaven &amp; Hell</h2>
+
+    <div class="block">
+      <p>Not every Heaven or Hell you surface will carry the same emotional weight. There are four levels — and you need to know which one you're at before you move on. Level 1 and 2 are information. Level 3 and 4 are the close.</p>
+    </div>
+
+    <div class="depth-list">
+
+      <div class="depth-wrap">
+        <div class="depth-left">
+          <div class="dot" style="background:#1a0a0a; color:#f87171;">L1</div>
+          <div class="line"></div>
+        </div>
+        <div class="depth-right">
+          <div class="depth-tag" style="color:#f87171;">Level 1 — Surface Statement</div>
+          <div class="depth-title">They said something. It hasn't hit yet.</div>
+          <div class="depth-body">This is social autopilot. The trained response that sounds like a real answer but carries no emotional weight. You have data. You have no leverage.</div>
+          <div class="depth-ex">Hell: "Yeah I'm not where I want to be, but you know, it is what it is."</div>
+          <div class="depth-ex">Heaven: "I just want to be making good money doing something I actually care about."</div>
+          <div class="depth-body" style="margin-top:8px; color:#555;">Keep probing. Every time. Don't build on L1 — there's nothing real underneath it yet.</div>
+        </div>
+      </div>
+
+      <div class="depth-wrap">
+        <div class="depth-left">
+          <div class="dot" style="background:#0f0800; color:#f59e0b;">L2</div>
+          <div class="line"></div>
+        </div>
+        <div class="depth-right">
+          <div class="depth-tag" style="color:#f59e0b;">Level 2 — Acknowledged Reality</div>
+          <div class="depth-title">They admit there's a real situation. Still no emotion attached.</div>
+          <div class="depth-body">They're giving you facts now. Progress. But facts without feeling won't move someone to action. You need to extend — take what they gave you and follow it deeper.</div>
+          <div class="depth-ex">Hell: "I've been stuck around $5–6K for about 7 months. I know the gap is there. I just haven't figured out how to close it."</div>
+          <div class="depth-ex">Heaven: "I want to hit $25K. That's the number. I've written it down. I know what it takes."</div>
+          <div class="depth-body" style="margin-top:8px; color:#555;">Good foundation. Not enough. Extend it — "What does 7 months of that feel like?" "What does $25K change that $5K doesn't?"</div>
+        </div>
+      </div>
+
+      <div class="depth-wrap">
+        <div class="depth-left">
+          <div class="dot" style="background:#06120a; color:#4ade80;">L3</div>
+          <div class="line"></div>
+        </div>
+        <div class="depth-right">
+          <div class="depth-tag" style="color:#4ade80;">Level 3 — Owned &amp; Felt</div>
+          <div class="depth-title">It's personal now. They feel it.</div>
+          <div class="depth-body">Voice shifts. Pace slows. They're no longer reciting — they're actually thinking about it in real time. This is where the sell starts. Minimum threshold before you consider moving on.</div>
+          <div class="depth-ex">Hell: "Honestly? It's been exhausting. I told myself six months ago I'd have it figured out by now. I haven't. And that's hard to say out loud."</div>
+          <div class="depth-ex">Heaven: "I want to be the person who can just handle it. Like, my parents stressed about money my whole life. I promised myself I wouldn't live like that."</div>
+        </div>
+      </div>
+
+      <div class="depth-wrap">
+        <div class="depth-left">
+          <div class="dot" style="background:#0a0620; color:#a78bfa;">L4</div>
+        </div>
+        <div class="depth-right">
+          <div class="depth-tag" style="color:#a78bfa;">Level 4 — Identity &amp; Stakes</div>
+          <div class="depth-title">It's bigger than the problem. It's about who they are and who depends on them.</div>
+          <div class="depth-body">When they connect Hell to identity, family, or their sense of self-worth — and Heaven to who they need to become — the emotional lever is fully pulled. At this point, the pitch isn't a pitch. It's a release.</div>
+          <div class="depth-ex">Hell: "If I'm still here in another year I genuinely don't know what I'm doing. I have a kid. She's watching me. I can't keep telling her things are going to get better while proving otherwise."</div>
+          <div class="depth-ex">Heaven: "I want her to see that her dad figured it out. I don't care about the money. I care about what the money means — that I kept the promise I made to myself."</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ORDER & DIRECTION -->
+  <section id="order">
+    <h2>Direction &amp; Order</h2>
+
+    <div class="block">
+      <p>There is no single correct order for running the Heaven and Hell Framework. Both directions work. What matters is that you reach both states with depth before you build the gap. The direction you choose depends on what you sense about the prospect in the first few minutes of the call.</p>
+    </div>
+
+    <div class="order-row">
+      <div class="order-card">
+        <div class="order-label">Option 01</div>
+        <div class="order-title">Hell First → Heaven</div>
+        <div class="order-body">Start with the pain. Dig into where they are, how long they've been there, and what it's cost them. Once Hell is real and felt — then paint Heaven. The contrast hits harder because they're already in the pain when you show them the way out.</div>
+        <div class="order-seq">
+          <span class="seq-step" style="background:#0a0202; color:#f87171; border:1px solid #2b0d0d;">Hell</span>
+          <span class="seq-arrow">→</span>
+          <span class="seq-step" style="background:#020a04; color:#4ade80; border:1px solid #0d2b1a;">Heaven</span>
+          <span class="seq-arrow">→</span>
+          <span class="seq-step" style="background:#0a0a0a; color:#f59e0b; border:1px solid #2b1a00;">Gap</span>
+          <span class="seq-arrow">→</span>
+          <span class="seq-step" style="background:#050a12; color:#60a5fa; border:1px solid #0a2040;">Bridge</span>
+        </div>
+      </div>
+      <div class="order-card">
+        <div class="order-label">Option 02</div>
+        <div class="order-title">Heaven First → Hell</div>
+        <div class="order-body">Start with the vision. Pull out their Heaven first — make it vivid and specific. Then work back to current reality. The contrast lands differently here: the prospect has just articulated exactly what they want, and now they're looking at how far away they actually are from it.</div>
+        <div class="order-seq">
+          <span class="seq-step" style="background:#020a04; color:#4ade80; border:1px solid #0d2b1a;">Heaven</span>
+          <span class="seq-arrow">→</span>
+          <span class="seq-step" style="background:#0a0202; color:#f87171; border:1px solid #2b0d0d;">Hell</span>
+          <span class="seq-arrow">→</span>
+          <span class="seq-step" style="background:#0a0a0a; color:#f59e0b; border:1px solid #2b1a00;">Gap</span>
+          <span class="seq-arrow">→</span>
+          <span class="seq-step" style="background:#050a12; color:#60a5fa; border:1px solid #0a2040;">Bridge</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight">
+      <p><strong>When to choose Heaven First:</strong> The prospect seems aspirational and forward-thinking. They want to talk about where they're going. Lead with that. <strong>When to choose Hell First:</strong> The prospect seems frustrated, stuck, or already close to the pain. Meet them where they are. Either way — you need both states before the gap is real.</p>
+    </div>
+  </section>
+
+
+  <!-- LIVE EXCHANGE -->
+  <section id="exchange">
+    <h2>Live Exchange</h2>
+
+    <div class="block">
+      <p>This is what a full Heaven and Hell build looks like on a call — from the surface-level opener to L4 depth on both sides. Pay attention to how each probe is a natural continuation of what the prospect just gave, and how the rep never jumps to the offer before the gap is earned.</p>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-header">Hell Build — Surface to L4</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"So tell me — where are you at right now with your income? What's the real picture?"</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"I mean, it's okay. I'm making about $5K, $6K a month. Could definitely be better."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text probe">"How long have you been sitting around that range?"</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"Probably... seven, eight months. Something like that."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text probe">"Eight months at the same number. What have you tried in that time to move it?"</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"I've tried different offers, switched companies twice. Watched a ton of content. Nothing's really clicked."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text probe">"Eight months of trying different things and still not moving — what's that actually been like for you?"</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"Honestly? It's been pretty rough. I told myself I'd have this figured out by now. I feel like I'm going in circles."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text probe">"What does going in circles for eight months do to you — beyond just the money?"</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"It messes with your head, man. Like I question whether I'm actually capable of this. My girlfriend's been patient but I can tell she's watching. I said I'd figure it out and I haven't."</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-header">Heaven Build — Following the Hell</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text probe">"So on the other side of this — what does it look like when you've actually figured it out? Give me the real version."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"I want to be at $20K, $25K a month consistently. Not just a one-off good month. Consistent."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text probe">"And when you're there consistently — what changes for you beyond the number itself?"</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"Everything. I stop worrying every month. I can actually be present. And honestly — I just want to prove to myself that I can do this. That I'm not the guy who talks about it and never gets there."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text probe">"So there's about a $15K–20K gap right now. You've been trying for eight months to close it. You told me it's affecting how you see yourself and how your girlfriend sees you. And on the other side, you become the person who actually did what they said they would. How long is that gap acceptable to you?"</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"It's not. Honestly it's not. I'm done going in circles."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"Good. Then let me show you exactly how we close it."</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- MISTAKES -->
+  <section id="mistakes">
+    <h2>Common Mistakes</h2>
+
+    <div class="red-block">
+      <p><strong>Pitching before both states are built.</strong> You got a number from them and went straight to the offer. You have a financial gap. You don't have an emotional one. The prospect will hear your pitch, say "I need to think about it," and mean it.</p>
+    </div>
+
+    <div class="red-block">
+      <p><strong>Building Hell without building Heaven.</strong> You've made them feel stuck and frustrated — and then you offered them something without showing them where it takes them. You've created anxiety with no resolution point. They disengage or get defensive.</p>
+    </div>
+
+    <div class="red-block">
+      <p><strong>Building Heaven without making Hell real.</strong> You've given them a great vision of what could be possible — and they're excited. But they haven't faced the cost of inaction. Without Hell, there's no urgency. They leave the call inspired and do nothing.</p>
+    </div>
+
+    <div class="red-block">
+      <p><strong>Comforting the pain the moment it surfaces.</strong> They say something emotionally charged and you immediately say "don't worry, you're in the right place." You just erased the most powerful moment of the call. Let the pain breathe. That discomfort is what creates the decision.</p>
+    </div>
+
+    <div class="red-block">
+      <p><strong>Stopping at L2.</strong> They gave you the factual version of their situation and you built your pitch on that. Without L3 or L4 depth, you're pitching someone who intellectually acknowledges a problem but hasn't emotionally committed to solving it. Those people almost never buy on the call.</p>
+    </div>
+
+    <div class="red-block">
+      <p><strong>Making the gap logical instead of emotional.</strong> "So there's a $15K gap between where you are and where you want to be" is data. "You've spent 8 months going in circles while the life you've been promising yourself stays out of reach" is the gap. One is math. The other creates urgency.</p>
+    </div>
+  </section>
+
+
+  <!-- CONNECTION -->
+  <section id="connection">
+    <h2>The Deeper Mechanism</h2>
+
+    <div class="block">
+      <div class="block-label">Why this works</div>
+      <p>The Heaven and Hell Framework works because it operates on the same psychological engine that drives every human decision: cognitive dissonance. When a person's current identity — someone who hasn't figured it out, who keeps going in circles, who hasn't kept the promises they made — sits next to a vivid, specific, emotionally real version of who they want to become, the brain cannot hold both states comfortably. Something has to change. That discomfort is not something you create. It's something you reveal.</p>
+    </div>
+
+    <div class="quote-block">
+      <p>"People make decisions based on emotions and compensate logically. Make them feel something first, and the logic will follow."</p>
+      <div class="attribution">— JJ Hernandez</div>
+    </div>
+
+    <div class="block">
+      <div class="block-label">Heaven and Hell is identity work</div>
+      <p>At its deepest level, this framework isn't about future state vs. current state. It's about the identity of who they are today vs. the identity of who they need to become. Hell is the identity of the person who hasn't figured it out yet. Heaven is the identity of the person who has. The gap between them is the identity gap — and that gap is far more painful than any financial gap, because it's not about money. It's about who they are.</p>
+      <p>When you reach L4, you're not closing on a program. You're closing on the chance to become someone different. That is the real sale. And that is the reason this framework, done correctly, produces decisions that hold — decisions people don't rescind, don't refund, don't second-guess — because they made them from a place of genuine clarity about where they are and where they need to go.</p>
+    </div>
+
+    <div class="highlight">
+      <p><strong>The pitch that works every time:</strong> Current state is real and painful. Future state is vivid and personal. The gap between them is undeniable. Your offer is the only bridge. When all four conditions exist, the close isn't a close. It's a confirmation of a decision they've already made.</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('section, #overview');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        navLinks.forEach(function(l) {
+          l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+  sections.forEach(function(s) { observer.observe(s); });
+</script>
+
+</body>
+</html>
