@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Building Urgency — Sales.io</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.6; display: flex; min-height: 100vh; }
+
+    .sidebar { width: 220px; flex-shrink: 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; border-right: 1px solid #1a1a1a; padding: 40px 0; }
+    .sidebar-logo { font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: #555; padding: 0 24px 24px; border-bottom: 1px solid #1a1a1a; margin-bottom: 20px; }
+    .nav-section { padding: 6px 24px; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #2a2a2a; margin-top: 16px; margin-bottom: 4px; }
+    .nav-link { display: block; padding: 7px 24px; font-size: 13px; color: #555; text-decoration: none; transition: color .15s, border-color .15s; border-left: 2px solid transparent; }
+    .nav-link:hover { color: #ccc; }
+    .nav-link.active { color: #4ade80; border-left-color: #4ade80; }
+
+    .main { flex: 1; max-width: 760px; padding: 56px 40px 120px; }
+    .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 12px; }
+    h1 { font-size: 40px; font-weight: 900; line-height: 1.05; letter-spacing: -1px; margin-bottom: 16px; }
+    .subtitle { font-size: 15px; color: #666; margin-bottom: 60px; line-height: 1.6; max-width: 560px; }
+
+    section { margin-bottom: 64px; }
+    h2 { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 24px; padding-bottom: 10px; border-bottom: 1px solid #111; }
+
+    .block { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 22px 26px; margin-bottom: 14px; }
+    .block-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #444; margin-bottom: 10px; }
+    .block p { font-size: 14px; color: #999; line-height: 1.7; }
+    .block p + p { margin-top: 10px; }
+
+    .highlight { background: #050f08; border: 1px solid #0d2b1a; border-radius: 10px; padding: 22px 26px; margin-bottom: 14px; }
+    .highlight p { font-size: 14px; color: #ccc; line-height: 1.8; }
+    .highlight strong { color: #4ade80; }
+
+    .warning { background: #0f0800; border: 1px solid #2b1a00; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; }
+    .warning p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .warning strong { color: #f59e0b; }
+
+    .red-block { background: #0f0505; border: 1px solid #2b0d0d; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; }
+    .red-block p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .red-block strong { color: #f87171; }
+
+    /* Source cards */
+    .source-grid { display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px; }
+    .source-card { border-radius: 12px; overflow: hidden; }
+    .source-top { display: flex; align-items: flex-start; gap: 20px; padding: 20px 24px; }
+    .source-num { font-size: 11px; font-weight: 900; border-radius: 8px; padding: 4px 10px; flex-shrink: 0; letter-spacing: 0.06em; margin-top: 2px; }
+    .source-meta { flex: 1; }
+    .source-label { font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 4px; }
+    .source-title { font-size: 17px; font-weight: 800; margin-bottom: 8px; }
+    .source-desc { font-size: 14px; color: #888; line-height: 1.7; margin-bottom: 10px; }
+    .source-q { font-size: 13px; font-style: italic; padding: 8px 14px; border-radius: 6px; line-height: 1.6; }
+
+    .source-card.s1 { border: 1px solid #0a2040; }
+    .source-card.s1 .source-top { background: #020810; }
+    .source-card.s1 .source-num { background: #050a12; color: #60a5fa; border: 1px solid #0a2040; }
+    .source-card.s1 .source-label { color: #60a5fa; }
+    .source-card.s1 .source-q { background: #020810; color: #93c5fd; border: 1px solid #0a2040; }
+
+    .source-card.s2 { border: 1px solid #2b0d0d; }
+    .source-card.s2 .source-top { background: #0a0202; }
+    .source-card.s2 .source-num { background: #0f0505; color: #f87171; border: 1px solid #2b0d0d; }
+    .source-card.s2 .source-label { color: #f87171; }
+    .source-card.s2 .source-q { background: #0a0202; color: #fca5a5; border: 1px solid #2b0d0d; }
+
+    .source-card.s3 { border: 1px solid #2a1040; }
+    .source-card.s3 .source-top { background: #080208; }
+    .source-card.s3 .source-num { background: #12060e; color: #a78bfa; border: 1px solid #2a1040; }
+    .source-card.s3 .source-label { color: #a78bfa; }
+    .source-card.s3 .source-q { background: #080208; color: #c4b5fd; border: 1px solid #2a1040; }
+
+    .source-card.s4 { border: 1px solid #2b1a00; }
+    .source-card.s4 .source-top { background: #080400; }
+    .source-card.s4 .source-num { background: #0f0800; color: #f59e0b; border: 1px solid #2b1a00; }
+    .source-card.s4 .source-label { color: #f59e0b; }
+    .source-card.s4 .source-q { background: #080400; color: #fcd34d; border: 1px solid #2b1a00; }
+
+    .source-card.s5 { border: 1px solid #0d2b1a; }
+    .source-card.s5 .source-top { background: #020a04; }
+    .source-card.s5 .source-num { background: #050f08; color: #4ade80; border: 1px solid #0d2b1a; }
+    .source-card.s5 .source-label { color: #4ade80; }
+    .source-card.s5 .source-q { background: #020a04; color: #a3e8bb; border: 1px solid #0d2b1a; }
+
+    /* Fake vs Real table */
+    .fvr-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; border-radius: 10px; overflow: hidden; border: 1px solid #1a1a1a; }
+    .fvr-table thead tr { background: #0a0a0a; }
+    .fvr-table th { padding: 12px 18px; text-align: left; font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; border-bottom: 1px solid #1a1a1a; }
+    .fvr-table th.fake { color: #f87171; }
+    .fvr-table th.real { color: #4ade80; }
+    .fvr-table th.result { color: #555; }
+    .fvr-table td { padding: 13px 18px; font-size: 13px; line-height: 1.6; vertical-align: top; border-bottom: 1px solid #0d0d0d; }
+    .fvr-table tr:last-child td { border-bottom: none; }
+    .fvr-table td.fake-td { color: #f87171; background: rgba(248,113,113,.03); font-style: italic; }
+    .fvr-table td.real-td { color: #a3e8bb; background: rgba(74,222,128,.03); font-style: italic; }
+    .fvr-table td.result-td { color: #666; }
+
+    /* Cost calculator visual */
+    .cost-visual { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 12px; overflow: hidden; margin-bottom: 14px; }
+    .cv-header { padding: 18px 24px; border-bottom: 1px solid #111; }
+    .cv-label { font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #555; margin-bottom: 6px; }
+    .cv-title { font-size: 16px; font-weight: 800; }
+    .cv-body { padding: 20px 24px; }
+    .cv-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #0d0d0d; }
+    .cv-row:last-child { border-bottom: none; }
+    .cv-step { font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #555; width: 60px; flex-shrink: 0; }
+    .cv-content { flex: 1; }
+    .cv-q { font-size: 13px; color: #777; font-style: italic; line-height: 1.5; }
+    .cv-math { font-size: 13px; color: #f59e0b; font-weight: 700; margin-top: 4px; }
+    .cv-impact { font-size: 13px; color: #f87171; font-weight: 700; margin-top: 4px; }
+
+    /* Language signals */
+    .lang-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+    .lang-card { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 18px 20px; }
+    .lang-header { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px; }
+    .lang-header.no-urgency { color: #f87171; }
+    .lang-header.urgency { color: #4ade80; }
+    .lang-list { list-style: none; }
+    .lang-list li { font-size: 13px; padding: 6px 0; border-bottom: 1px solid #0d0d0d; font-style: italic; line-height: 1.5; display: flex; gap: 8px; align-items: flex-start; }
+    .lang-list li:last-child { border-bottom: none; }
+    .lang-list.no li { color: #f87171; }
+    .lang-list.no li::before { content: "✕"; color: #f87171; flex-shrink: 0; font-style: normal; font-weight: 800; font-size: 10px; margin-top: 3px; }
+    .lang-list.yes li { color: #a3e8bb; }
+    .lang-list.yes li::before { content: "✓"; color: #4ade80; flex-shrink: 0; font-style: normal; font-weight: 800; font-size: 10px; margin-top: 3px; }
+
+    /* Recovery sequence */
+    .rec-list { display: flex; flex-direction: column; }
+    .rec-wrap { display: flex; gap: 20px; margin-bottom: 4px; }
+    .rec-left { display: flex; flex-direction: column; align-items: center; width: 40px; flex-shrink: 0; }
+    .dot { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; }
+    .line { flex: 1; width: 1px; background: #111; margin: 4px 0; min-height: 16px; }
+    .rec-right { flex: 1; padding-bottom: 24px; }
+    .rec-tag { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .rec-title { font-size: 16px; font-weight: 800; margin-bottom: 8px; }
+    .rec-body { font-size: 14px; color: #888; line-height: 1.7; }
+    .rec-ex { font-size: 13px; color: #555; font-style: italic; padding: 8px 12px; background: #050505; border-radius: 6px; border-left: 2px solid #1a1a1a; margin-top: 8px; line-height: 1.6; }
+
+    /* Exchange */
+    .exchange { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 12px; overflow: hidden; margin-bottom: 20px; }
+    .exchange-header { padding: 14px 22px; border-bottom: 1px solid #111; font-size: 12px; font-weight: 700; color: #555; }
+    .exchange-body { padding: 20px 22px; display: flex; flex-direction: column; gap: 10px; }
+    .msg { display: flex; flex-direction: column; gap: 4px; }
+    .msg-who { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+    .msg-who.rep { color: #4ade80; }
+    .msg-who.prospect { color: #60a5fa; }
+    .msg-text { font-size: 14px; color: #ccc; line-height: 1.6; padding: 10px 14px; border-radius: 8px; }
+    .msg-text.rep-msg { background: #050f08; border: 1px solid #0d2b1a; color: #a3e8bb; }
+    .msg-text.prospect-msg { background: #050a12; border: 1px solid #0a2040; color: #93c5fd; }
+    .annotation { font-size: 11px; color: #f59e0b; padding: 4px 10px; background: #0f0800; border-radius: 5px; border: 1px solid #2b1a00; display: inline-block; margin-top: 4px; }
+
+    /* Note list */
+    .note-list { list-style: none; }
+    .note-list li { font-size: 14px; color: #999; padding: 9px 0; border-bottom: 1px solid #0f0f0f; display: flex; gap: 12px; line-height: 1.6; }
+    .note-list li:last-child { border-bottom: none; }
+    .note-list li::before { content: "—"; color: #333; flex-shrink: 0; }
+
+    .quote-block { border-left: 3px solid #222; padding: 16px 22px; background: #050505; border-radius: 0 8px 8px 0; margin: 16px 0; }
+    .quote-block p { font-size: 15px; color: #ddd; font-style: italic; line-height: 1.8; }
+    .quote-block .attribution { font-size: 12px; color: #444; font-style: normal; margin-top: 8px; font-weight: 600; letter-spacing: 0.05em; }
+
+    @media (max-width: 780px) {
+      .sidebar { display: none; }
+      .main { padding: 40px 20px 80px; max-width: 100%; }
+      h1 { font-size: 30px; }
+      .lang-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">Lesson</div>
+  <a href="#overview" class="nav-link active">Overview</a>
+  <div class="nav-section">Foundations</div>
+  <a href="#what" class="nav-link">What Urgency Actually Is</a>
+  <a href="#where" class="nav-link">Where It Comes From</a>
+  <a href="#sources" class="nav-link">The 5 Sources</a>
+  <div class="nav-section">Execution</div>
+  <a href="#fake-vs-real" class="nav-link">Fake vs. Real</a>
+  <a href="#cost" class="nav-link">Cost of Inaction</a>
+  <a href="#language" class="nav-link">Urgency Language</a>
+  <a href="#recovery" class="nav-link">When It's Not There</a>
+  <a href="#live" class="nav-link">Live Exchange</a>
+  <a href="#mistakes" class="nav-link">Mistakes</a>
+</nav>
+
+<main class="main">
+
+  <div id="overview">
+    <div class="eyebrow">Sales.io — JJ Hernandez</div>
+    <h1>Building Urgency</h1>
+    <p class="subtitle">Real urgency is never created at the close. It's built in the discovery — or it isn't there at all.</p>
+  </div>
+
+
+  <!-- WHAT URGENCY ACTUALLY IS -->
+  <section id="what">
+    <h2>What Urgency Actually Is</h2>
+
+    <div class="block">
+      <div class="block-label">The misunderstanding</div>
+      <p>Most reps think urgency is something you apply to a prospect at the close. A limited-time offer. A price that expires Friday. Telling them two spots are left when there aren't. That's not urgency. That's pressure. And there's a fundamental difference between the two.</p>
+      <p>Pressure is external. It comes from you. The prospect feels it as manipulation — and they resist it, consciously or not. They say they need to think about it. They ghost. They come back weeks later and the decision they almost made has cooled completely.</p>
+    </div>
+
+    <div class="highlight">
+      <p><strong>Real urgency is internal. It lives inside the prospect.</strong> It's the feeling that comes from fully understanding what staying in their current situation is actually costing them — every month, every week, every day. You don't create it. You reveal it. Your job is to build the discovery so thoroughly that the prospect arrives at urgency themselves, before you've said a single word about why they should decide now.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">The test for real urgency</div>
+      <p>Ask yourself this after any call where you lost: did the prospect feel the cost of inaction? Not acknowledge it — feel it. There is a massive difference between a prospect who says "yeah I know I need to figure this out" and a prospect who says "I can't keep going another year like this." One is intellectual agreement. The other is urgency. Intellectual agreement does not close.</p>
+    </div>
+
+    <div class="quote-block">
+      <p>"The emotions are only built in the discovery. If you didn't build them there, they won't open up in the objections either."</p>
+      <div class="attribution">— JJ Hernandez</div>
+    </div>
+  </section>
+
+
+  <!-- WHERE IT COMES FROM -->
+  <section id="where">
+    <h2>Where It Comes From</h2>
+
+    <div class="block">
+      <div class="block-label">Built in discovery — not injected at the close</div>
+      <p>Every objection you get at the end of a call was created somewhere in the first 40 minutes. "I need to think about it" means the pain wasn't real enough. "I can't afford it" means you never made the cost of staying put feel greater than the cost of moving. "Let me talk to my partner" means they don't feel certain enough to own the decision — which means you never got them to L4 depth.</p>
+      <p>These aren't closing problems. They are discovery problems wearing closing masks. When the discovery is done right, urgency shows up before the pitch. The prospect starts leaning in. Their questions shift from skeptical to logistical. They stop asking "will this work?" and start asking "how do I get started?" That's urgency. You didn't create it at the close — you built it in the previous 30 minutes.</p>
+    </div>
+
+    <div class="warning">
+      <p><strong>If you're trying to build urgency at the close, you're already behind.</strong> You can recover — and this doc will show you how — but understand that every tactic you run at the close is an attempt to do in two minutes what should have been built in thirty. It's possible. It's just harder. Do the work in the discovery and the close becomes a formality.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">The three conditions for genuine urgency</div>
+      <ul class="note-list">
+        <li><strong style="color:#ccc;">Hell is real and felt.</strong> Not described — felt. The prospect has articulated their current situation at an emotional level, not just a factual one. They've connected the pain to their identity, their relationships, or their time.</li>
+        <li><strong style="color:#ccc;">Heaven is specific and personal.</strong> Not "I want to make more money." The number, what it changes, who it changes it for, and who they become when they get there.</li>
+        <li><strong style="color:#ccc;">The cost of the gap is quantified.</strong> Not abstract — specific. How much per month. How many months. What that adds up to. What they've already spent in time and money going in circles. The math makes the urgency undeniable.</li>
+      </ul>
+    </div>
+  </section>
+
+
+  <!-- THE 5 SOURCES -->
+  <section id="sources">
+    <h2>The 5 Sources of Urgency</h2>
+
+    <div class="block">
+      <p>Every piece of genuine urgency you build in a call comes from one of these five places. Knowing which source is most alive for your specific prospect tells you where to probe deeper and which angle to run when building the gap. Most prospects have two or three active sources — find them and stack them.</p>
+    </div>
+
+    <div class="source-grid">
+
+      <div class="source-card s1">
+        <div class="source-top">
+          <div class="source-num">01</div>
+          <div class="source-meta">
+            <div class="source-label">Time Urgency</div>
+            <div class="source-title">Every month they wait is a month they don't get back.</div>
+            <div class="source-desc">Time is the most finite resource a person has. When you make a prospect calculate what another 6 or 12 months of inaction actually costs them — in income, in identity, in opportunity — time stops feeling abstract. It becomes a real asset they're bleeding out. Time urgency isn't about deadlines you create. It's about deadlines that already exist in their life.</div>
+            <div class="source-q">"You've been in this place for 8 months. How many more months is this acceptable to you before you make a real change?"</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="source-card s2">
+        <div class="source-top">
+          <div class="source-num">02</div>
+          <div class="source-meta">
+            <div class="source-label">Cost Urgency</div>
+            <div class="source-title">Staying put is expensive. Make the math impossible to ignore.</div>
+            <div class="source-desc">The cost of inaction is almost always higher than the cost of the solution — but prospects never calculate it because no one makes them. Your job is to quantify it. What is the monthly gap between where they are and where they want to be? Multiply that by 12. Add in the money they've already spent on things that didn't work. Now the cost of doing nothing is concrete, real, and sitting in the room with both of you.</div>
+            <div class="source-q">"The gap between where you are and where you want to be is about $15K a month. That's $180K over the next 12 months you're leaving on the table. What does that number feel like when you say it out loud?"</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="source-card s3">
+        <div class="source-top">
+          <div class="source-num">03</div>
+          <div class="source-meta">
+            <div class="source-label">Identity Urgency</div>
+            <div class="source-title">They made a promise to themselves. They haven't kept it.</div>
+            <div class="source-desc">This is the deepest and most powerful source of urgency. When a prospect has been telling themselves — and maybe others — that they're going to figure this out, every month that passes without movement widens the gap between who they said they'd become and who they actually are. That gap is identity-level pain. When you surface it, the urgency to close it is not manufactured. It's real, personal, and already burning.</div>
+            <div class="source-q">"You said you've been telling yourself you'd have this figured out for over a year. What does another year of that same story cost you — beyond just the money?"</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="source-card s4">
+        <div class="source-top">
+          <div class="source-num">04</div>
+          <div class="source-meta">
+            <div class="source-label">Pattern Urgency</div>
+            <div class="source-title">They've tried before. Without changing the approach, the result is already decided.</div>
+            <div class="source-desc">When a prospect has tried multiple things and none of them worked, they're sitting in a pattern. Most people don't recognize their own patterns until someone names them. When you identify the pattern — different tools, same result, same stopping point — you create urgency by making the inevitable future visible. They can see exactly where this path goes if nothing changes. That's not pressure. That's clarity.</div>
+            <div class="source-q">"You've tried three different approaches in 18 months. What's been different about your approach each time — or has the approach actually changed?" Then: "So what makes this time different if the approach stays the same?"</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="source-card s5">
+        <div class="source-top">
+          <div class="source-num">05</div>
+          <div class="source-meta">
+            <div class="source-label">Relational Urgency</div>
+            <div class="source-title">Someone else is watching. Someone else is affected.</div>
+            <div class="source-desc">One of the most powerful urgency triggers is when a prospect realizes their inaction is not just affecting them. A partner who's been patient. A parent they promised they'd take care of. A child who's watching. When the cost of staying stuck extends beyond the individual — to someone who depends on them or believes in them — the urgency becomes responsibility. That's a completely different type of motivation than self-interest, and it runs deeper.</div>
+            <div class="source-q">"Who else in your life is affected by where you are right now — financially, emotionally, in terms of what they see from you?" Then: "What do you want them to see happen in the next 12 months?"</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- FAKE VS REAL -->
+  <section id="fake-vs-real">
+    <h2>Fake Urgency vs. Real Urgency</h2>
+
+    <div class="block">
+      <p>Fake urgency is urgency you invented. Real urgency is urgency that already existed in the prospect's life — you just made it visible. The difference is not just ethical. It's practical. Fake urgency is countered the moment the prospect walks away and realizes nothing actually expired. Real urgency doesn't go away. It goes home with them.</p>
+    </div>
+
+    <table class="fvr-table">
+      <thead>
+        <tr>
+          <th class="fake">Fake Urgency</th>
+          <th class="real">Real Urgency</th>
+          <th class="result">What Happens</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fake-td">"This price is only available today."</td>
+          <td class="real-td">"Every month at $5K instead of $20K costs you $15K. That's already happened for 8 months."</td>
+          <td class="result-td">Fake creates resentment when they realize nothing expired. Real creates urgency that compounds — it was always true, you just said it out loud.</td>
+        </tr>
+        <tr>
+          <td class="fake-td">"We only have 2 spots left."</td>
+          <td class="real-td">"You've tried three things. The pattern isn't the tools — it's the approach. What changes if the approach doesn't?"</td>
+          <td class="result-td">Fake is forgotten the moment they leave the call. Real is a question they'll still be sitting with at midnight.</td>
+        </tr>
+        <tr>
+          <td class="fake-td">"My manager said I can only hold this deal for 24 hours."</td>
+          <td class="real-td">"You told me your daughter is watching you build this. What do you want the next 12 months to show her?"</td>
+          <td class="result-td">Fake creates suspicion. Real creates emotional commitment that doesn't evaporate after the call ends.</td>
+        </tr>
+        <tr>
+          <td class="fake-td">"A lot of people are looking at this right now."</td>
+          <td class="real-td">"A year from now, you're still here. What does that mean for the promise you made yourself?"</td>
+          <td class="result-td">Fake is ignored by any prospect who has been on more than two sales calls. Real lands because it belongs to them, not to you.</td>
+        </tr>
+        <tr>
+          <td class="fake-td">"This is the best offer you're going to find anywhere."</td>
+          <td class="real-td">"You said this isn't the first time you've tried to solve this. What was different about every other attempt — and why does this feel different?"</td>
+          <td class="result-td">Fake invites comparison and objection. Real invites self-reflection and commitment. One makes the prospect defensive. The other makes them honest.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+
+  <!-- COST OF INACTION -->
+  <section id="cost">
+    <h2>The Cost of Inaction Framework</h2>
+
+    <div class="block">
+      <div class="block-label">Make the invisible visible</div>
+      <p>The biggest source of urgency that reps almost never use is simple math. The prospect has a gap. That gap has a cost. That cost compounds every month they don't close it. Most people are living inside this equation without ever doing the arithmetic. When you do it with them — out loud, with their real numbers — the decision to move stops being about your offer and starts being about what it's costing them not to.</p>
+    </div>
+
+    <div class="cost-visual">
+      <div class="cv-header">
+        <div class="cv-label">The Cost of Inaction — Step by Step</div>
+        <div class="cv-title">Run this framework live with the prospect's actual numbers.</div>
+      </div>
+      <div class="cv-body">
+        <div class="cv-row">
+          <div class="cv-step">Step 01</div>
+          <div class="cv-content">
+            <div class="cv-q">"What are you making right now — give me a real monthly number."</div>
+            <div class="cv-math">Current: $5,000 / month</div>
+          </div>
+        </div>
+        <div class="cv-row">
+          <div class="cv-step">Step 02</div>
+          <div class="cv-content">
+            <div class="cv-q">"What's the number that actually changes things for you?"</div>
+            <div class="cv-math">Target: $20,000 / month</div>
+          </div>
+        </div>
+        <div class="cv-row">
+          <div class="cv-step">Step 03</div>
+          <div class="cv-content">
+            <div class="cv-q">"So the gap right now is — $15,000 a month. Say that back to me."</div>
+            <div class="cv-math">Monthly gap: $15,000</div>
+          </div>
+        </div>
+        <div class="cv-row">
+          <div class="cv-step">Step 04</div>
+          <div class="cv-content">
+            <div class="cv-q">"How long have you been in this gap?"</div>
+            <div class="cv-math">8 months at $15K/month gap</div>
+          </div>
+        </div>
+        <div class="cv-row">
+          <div class="cv-step">Step 05</div>
+          <div class="cv-content">
+            <div class="cv-q">"So you've already left $120,000 on the table in the last 8 months. What does that number feel like when you say it out loud?"</div>
+            <div class="cv-impact">$15,000 × 8 = $120,000 already gone</div>
+          </div>
+        </div>
+        <div class="cv-row">
+          <div class="cv-step">Step 06</div>
+          <div class="cv-content">
+            <div class="cv-q">"If nothing changes in the next 12 months — that's another $180,000. What does staying here actually cost you?"</div>
+            <div class="cv-impact">$15,000 × 12 = $180,000 cost of another year of inaction</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight">
+      <p><strong>The most important moment in this framework is when you make them say the number out loud.</strong> Don't say it for them. "So you've left about... $120,000 on the table." That lands differently when they do the math themselves. Ask the question and wait. Let the number exist in the room. That is the moment urgency becomes real.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">Beyond money — the full cost</div>
+      <p>After you've run the financial cost, go wider. "And beyond the money — what else has staying here cost you?" This opens the door to identity cost, relational cost, opportunity cost, and time cost. Each one stacks on top of the last. By the time you pitch, the prospect isn't comparing your price to their bank account. They're comparing it to everything they've already lost.</p>
+    </div>
+  </section>
+
+
+  <!-- URGENCY LANGUAGE -->
+  <section id="language">
+    <h2>Urgency Language — Reading the Room</h2>
+
+    <div class="block">
+      <div class="block-label">What you're listening for</div>
+      <p>Before you close, scan for urgency signals in what the prospect is saying. Their language tells you whether urgency has been built or whether you need to go back in. A prospect who has real urgency sounds fundamentally different from one who doesn't. These aren't tricks — they're diagnostic signals that tell you where you actually are in the call.</p>
+    </div>
+
+    <div class="lang-row">
+      <div class="lang-card">
+        <div class="lang-header no-urgency">No Urgency — Stay in Discovery</div>
+        <ul class="lang-list no">
+          <li>"I'll have to look into that."</li>
+          <li>"It sounds interesting."</li>
+          <li>"I think it could work."</li>
+          <li>"Yeah, that makes sense."</li>
+          <li>"I'll talk to my partner about it."</li>
+          <li>"I want to think it through."</li>
+          <li>"Maybe in a couple months."</li>
+          <li>"Things are busy right now."</li>
+          <li>"I like the idea, I'm just not sure."</li>
+        </ul>
+      </div>
+      <div class="lang-card">
+        <div class="lang-header urgency">Urgency Present — Move Toward the Close</div>
+        <ul class="lang-list yes">
+          <li>"I can't keep going like this."</li>
+          <li>"I know I need to do something different."</li>
+          <li>"How do I actually get started?"</li>
+          <li>"I've waited long enough on this."</li>
+          <li>"What would the first 30 days look like?"</li>
+          <li>"I don't want to be having this same conversation in a year."</li>
+          <li>"I know this is what I need."</li>
+          <li>"I'm done trying things that don't work."</li>
+          <li>"I'm ready — what does it take?"</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="warning">
+      <p><strong>The think-vs-know gap.</strong> "I think this could work" and "I know this is what I need" are not the same commitment. The first is intellectual. The second is decided. Before you close, name it: <em>"Do you think this is the right move — or do you know?"</em> Let them answer. If they say think, there's still a gap to close. If they say know, you're done building. Present the investment and ask for the decision.</p>
+    </div>
+  </section>
+
+
+  <!-- WHEN IT'S NOT THERE -->
+  <section id="recovery">
+    <h2>When Urgency Isn't There at the Close</h2>
+
+    <div class="block">
+      <div class="block-label">You're at the close. It doesn't feel right. What now?</div>
+      <p>You can feel when urgency isn't there. The energy is flat. Their answers are polite. They're agreeable but not committed. If you pitch anyway, you'll get an objection you can't handle because the objection isn't really the objection — the real problem is that the cost of staying put doesn't feel greater than the cost of moving.</p>
+      <p>Do not panic. Do not push harder. Go back in. You have more discovery to do.</p>
+    </div>
+
+    <div class="rec-list">
+
+      <div class="rec-wrap">
+        <div class="rec-left">
+          <div class="dot" style="background:#0d2b1a; color:#4ade80; border:1px solid #1a4a20;">01</div>
+          <div class="line"></div>
+        </div>
+        <div class="rec-right">
+          <div class="rec-tag" style="color:#4ade80;">Break the fourth wall</div>
+          <div class="rec-title">Name what you're sensing. Don't run a script.</div>
+          <div class="rec-body">The most powerful thing you can do when energy shifts is say it out loud. Don't pretend it didn't happen. The prospect already knows something feels off — they're just waiting to see if you'll acknowledge it or push through it.</div>
+          <div class="rec-ex">"I can feel something shifted — am I missing something, or is there something you haven't told me yet that's relevant here?"</div>
+          <div class="rec-ex">"Before I walk you through everything — I want to make sure I actually understand where you are. Can I ask you something directly?"</div>
+        </div>
+      </div>
+
+      <div class="rec-wrap">
+        <div class="rec-left">
+          <div class="dot" style="background:#2b1a00; color:#f59e0b; border:1px solid #3a2200;">02</div>
+          <div class="line"></div>
+        </div>
+        <div class="rec-right">
+          <div class="rec-tag" style="color:#f59e0b;">Run the cost framework</div>
+          <div class="rec-title">Make the monthly number impossible to ignore.</div>
+          <div class="rec-body">If the financial gap hasn't been quantified yet, do it now. Take them through the math. Current number. Target number. Monthly gap. Months already in that gap. Total already left on the table. Another 12 months of the same. Let them sit with what those numbers add up to.</div>
+          <div class="rec-ex">"Before we go further — let me ask you something. What is the gap right now between where you are and where you want to be, per month?"</div>
+        </div>
+      </div>
+
+      <div class="rec-wrap">
+        <div class="rec-left">
+          <div class="dot" style="background:#0a0202; color:#f87171; border:1px solid #2b0d0d;">03</div>
+          <div class="line"></div>
+        </div>
+        <div class="rec-right">
+          <div class="rec-tag" style="color:#f87171;">Surface the pattern</div>
+          <div class="rec-title">Name the cycle they're in. Make the future predictable.</div>
+          <div class="rec-body">If this isn't the first time they've looked at solving this problem, the pattern itself becomes a source of urgency. You're not attacking their history — you're making the future visible. Without a change in approach, the next iteration of this same cycle is already written.</div>
+          <div class="rec-ex">"Help me understand — is this the first time you've looked at something like this? ... So what was different about the last attempt? ... What makes this time different if the approach doesn't change?"</div>
+        </div>
+      </div>
+
+      <div class="rec-wrap">
+        <div class="rec-left">
+          <div class="dot" style="background:#12060e; color:#a78bfa; border:1px solid #2a1040;">04</div>
+        </div>
+        <div class="rec-right">
+          <div class="rec-tag" style="color:#a78bfa;">Project forward — one year</div>
+          <div class="rec-title">Make them face where they end up if nothing changes.</div>
+          <div class="rec-body">Pull the prospect out of the present moment and put them into a future version of their same situation. The question is not "what if this doesn't work?" It's "what if nothing changes?" Most people have spent so much time optimizing and hoping that they haven't faced what staying stuck actually looks like as a long-term outcome.</div>
+          <div class="rec-ex">"If we're having this same conversation 12 months from now and nothing has changed — what does that mean for you? Not just the number. What does it mean for you personally?"</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- LIVE EXCHANGE -->
+  <section id="live">
+    <h2>Live Exchange — Urgency Built and Named</h2>
+
+    <div class="exchange">
+      <div class="exchange-header">Running the cost of inaction with a hesitating prospect</div>
+      <div class="exchange-body">
+
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"Before I walk you through everything — I want to make sure I've got the full picture. What are you actually bringing in right now, monthly?"</div>
+          <div class="annotation">Opens the cost framework — gets the real number first</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"Somewhere around $6K last month. Maybe $7K the month before. It fluctuates."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"And the number that actually changes things for you — what is that?"</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"Consistent $20K. That's where everything shifts for me."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"So the gap right now is roughly $13–14K a month. How long have you been living in that gap?"</div>
+          <div class="annotation">Monthly gap named and quantified — asks them to sit with how long</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"Honestly... close to a year. Maybe a little more."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"So you've left somewhere in the range of $150,000 on the table in the last 12 months. Say that number back to me."</div>
+          <div class="annotation">Makes them say the number — doesn't say it for them</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"...Yeah. $150,000. That's wild when you say it like that."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"And if the next 12 months look the same — that's another $150,000. What does staying here actually cost you beyond just the money?"</div>
+          <div class="annotation">Extends to full cost — opens the identity and relational layers</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"It costs me my confidence. My girlfriend's getting impatient. I told everyone I was going to figure this out. Every month I don't, I feel like I'm proving myself wrong."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"How long is that acceptable?"</div>
+          <div class="annotation">One sentence. No pitch. Let the urgency land.</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"It's not. It's genuinely not anymore."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"Good. Then let me show you exactly how we close it."</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- MISTAKES -->
+  <section id="mistakes">
+    <h2>The Mistakes That Kill Urgency</h2>
+
+    <div class="red-block">
+      <p><strong>Trying to create urgency through tactics instead of discovery.</strong> Artificial deadlines and inventory scarcity are a crutch for reps who didn't do the work in the discovery. The prospect feels the manipulation, even if they can't name it. It either kills trust or produces a fragile yes that unravels before payment clears.</p>
+    </div>
+
+    <div class="red-block">
+      <p><strong>Assuming urgency is there because they scheduled the call.</strong> Booking a call means they're interested. It does not mean they're urgent. People book calls all the time without any intention of deciding. Urgency has to be built on the call, from scratch, every time.</p>
+    </div>
+
+    <div class="red-block">
+      <p><strong>Pitching before the gap is felt.</strong> You know they have a problem. You know your offer solves it. So you pitch. But they haven't felt the weight of the problem yet — they've only described it. Description without emotion produces no urgency. The pitch lands flat. They say they need to think about it. And they mean it.</p>
+    </div>
+
+    <div class="red-block">
+      <p><strong>Letting "I'll think about it" end the conversation.</strong> "I need to think about it" is almost never about thinking. It's a signal that urgency wasn't built. The response is not to push — it's to go back in. "Of course — what specifically do you need to work through?" That question almost always surfaces the real objection, which is almost always a gap in the discovery.</p>
+    </div>
+
+    <div class="red-block">
+      <p><strong>Comforting the pain away the moment it surfaces.</strong> The prospect says something real — frustrated, embarrassed, scared. And the rep says "don't worry, you're in the right place now." That sentence killed the urgency. The emotion was the urgency. When you comfort it, you dissolve it. Let it breathe. Let them sit in it. Then keep going.</p>
+    </div>
+
+    <div class="red-block">
+      <p><strong>Not doing the math with them.</strong> The gap between $6K and $20K is $14K a month. Most reps never say that number out loud. They leave a $168,000-a-year urgency argument on the table because they're afraid the math makes them sound salesy. It doesn't. It makes them sound honest. Run the numbers. Every time.</p>
+    </div>
+
+    <div class="highlight">
+      <p><strong>The rep who makes the prospect feel the full weight of where they are — and clearly shows them the path to where they want to be — never needs a tactic at the close.</strong> The decision is already made by the time the pitch starts. That's not magic. That's what happens when you do the discovery right.</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('section, #overview');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        navLinks.forEach(function(l) {
+          l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+  sections.forEach(function(s) { observer.observe(s); });
+</script>
+
+</body>
+</html>
