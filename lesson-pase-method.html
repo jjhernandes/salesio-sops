@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The PASE Method — Sales.io</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.6; display: flex; min-height: 100vh; }
+
+    /* SIDEBAR */
+    .sidebar { width: 220px; flex-shrink: 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; border-right: 1px solid #1a1a1a; padding: 40px 0; }
+    .sidebar-logo { font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: #555; padding: 0 24px 24px; border-bottom: 1px solid #1a1a1a; margin-bottom: 20px; }
+    .nav-section { padding: 6px 24px; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #2a2a2a; margin-top: 16px; margin-bottom: 4px; }
+    .nav-link { display: block; padding: 7px 24px; font-size: 13px; color: #555; text-decoration: none; transition: color .15s, border-color .15s; border-left: 2px solid transparent; }
+    .nav-link:hover { color: #ccc; }
+    .nav-link.active { color: #4ade80; border-left-color: #4ade80; }
+
+    /* MAIN */
+    .main { flex: 1; max-width: 760px; padding: 56px 40px 120px; }
+    .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 12px; }
+    h1 { font-size: 40px; font-weight: 900; line-height: 1.05; letter-spacing: -1px; margin-bottom: 16px; }
+    .subtitle { font-size: 15px; color: #666; margin-bottom: 60px; line-height: 1.6; max-width: 560px; }
+
+    section { margin-bottom: 64px; }
+    h2 { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 24px; padding-bottom: 10px; border-bottom: 1px solid #111; }
+
+    .block { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 22px 26px; margin-bottom: 14px; }
+    .block-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #444; margin-bottom: 10px; }
+    .block p { font-size: 14px; color: #999; line-height: 1.7; }
+    .block p + p { margin-top: 10px; }
+
+    .highlight { background: #050f08; border: 1px solid #0d2b1a; border-radius: 10px; padding: 22px 26px; margin-bottom: 14px; }
+    .highlight p { font-size: 14px; color: #ccc; line-height: 1.8; }
+    .highlight strong { color: #4ade80; }
+
+    .warning { background: #0f0800; border: 1px solid #2b1a00; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; }
+    .warning p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .warning strong { color: #f59e0b; }
+
+    /* PASE overview grid */
+    .pase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .pase-card { border-radius: 12px; padding: 22px 24px; }
+    .pase-card.practical { background: #050a12; border: 1px solid #0a2040; }
+    .pase-card.action { background: #0f0800; border: 1px solid #2b1a00; }
+    .pase-card.social { background: #050f08; border: 1px solid #0d2b1a; }
+    .pase-card.emotional { background: #12060e; border: 1px solid #2a1040; }
+    .pase-letter { font-size: 32px; font-weight: 900; letter-spacing: -1px; margin-bottom: 8px; }
+    .pase-card.practical .pase-letter { color: #60a5fa; }
+    .pase-card.action .pase-letter { color: #f59e0b; }
+    .pase-card.social .pase-letter { color: #4ade80; }
+    .pase-card.emotional .pase-letter { color: #a78bfa; }
+    .pase-name { font-size: 16px; font-weight: 800; margin-bottom: 6px; }
+    .pase-card.practical .pase-name { color: #60a5fa; }
+    .pase-card.action .pase-name { color: #f59e0b; }
+    .pase-card.social .pase-name { color: #4ade80; }
+    .pase-card.emotional .pase-name { color: #a78bfa; }
+    .pase-tagline { font-size: 12px; color: #555; line-height: 1.5; }
+
+    /* Deep energy cards */
+    .energy-card { border-radius: 14px; overflow: hidden; margin-bottom: 20px; }
+    .energy-card.practical { border: 1px solid #0a2040; }
+    .energy-card.action { border: 1px solid #2b1a00; }
+    .energy-card.social { border: 1px solid #0d2b1a; }
+    .energy-card.emotional { border: 1px solid #2a1040; }
+    .energy-top { padding: 24px 28px; }
+    .energy-card.practical .energy-top { background: #020810; }
+    .energy-card.action .energy-top { background: #080400; }
+    .energy-card.social .energy-top { background: #020a04; }
+    .energy-card.emotional .energy-top { background: #080208; }
+    .energy-label { font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+    .energy-card.practical .energy-label { color: #60a5fa; }
+    .energy-card.action .energy-label { color: #f59e0b; }
+    .energy-card.social .energy-label { color: #4ade80; }
+    .energy-card.emotional .energy-label { color: #a78bfa; }
+    .energy-title { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 10px; }
+    .energy-desc { font-size: 14px; color: #888; line-height: 1.7; }
+    .energy-example { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 12px; }
+    .energy-card.practical .energy-example { color: #60a5fa; }
+    .energy-card.action .energy-example { color: #f59e0b; }
+    .energy-card.social .energy-example { color: #4ade80; }
+    .energy-card.emotional .energy-example { color: #a78bfa; }
+    .energy-bottom { padding: 0; }
+    .energy-row { display: flex; border-top: 1px solid #111; }
+    .energy-col { flex: 1; padding: 16px 20px; border-right: 1px solid #111; }
+    .energy-col:last-child { border-right: none; }
+    .energy-col-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #444; margin-bottom: 8px; }
+    .energy-col-body { font-size: 13px; color: #777; line-height: 1.55; }
+    .trait-list { list-style: none; }
+    .trait-list li { font-size: 13px; color: #777; padding: 5px 0; border-bottom: 1px solid #0d0d0d; display: flex; gap: 8px; line-height: 1.5; }
+    .trait-list li:last-child { border-bottom: none; }
+    .trait-list li::before { content: "—"; color: #2a2a2a; flex-shrink: 0; }
+
+    /* Correlation strip */
+    .correlation-row { display: flex; gap: 12px; margin-bottom: 14px; }
+    .corr-card { flex: 1; background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 18px 20px; }
+    .corr-pair { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .corr-badge { font-size: 13px; font-weight: 800; border-radius: 6px; padding: 4px 12px; }
+    .corr-badge.p { background: #050a12; color: #60a5fa; border: 1px solid #0a2040; }
+    .corr-badge.a { background: #0f0800; color: #f59e0b; border: 1px solid #2b1a00; }
+    .corr-badge.s { background: #050f08; color: #4ade80; border: 1px solid #0d2b1a; }
+    .corr-badge.e { background: #12060e; color: #a78bfa; border: 1px solid #2a1040; }
+    .corr-plus { color: #333; font-weight: 700; }
+    .corr-body { font-size: 13px; color: #666; line-height: 1.6; }
+
+    /* Development cards */
+    .dev-card { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 20px 24px; margin-bottom: 12px; }
+    .dev-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .dev-badge { font-size: 11px; font-weight: 800; letter-spacing: 0.06em; border-radius: 6px; padding: 4px 12px; }
+    .dev-badge.p { background: #050a12; color: #60a5fa; border: 1px solid #0a2040; }
+    .dev-badge.a { background: #0f0800; color: #f59e0b; border: 1px solid #2b1a00; }
+    .dev-badge.s { background: #050f08; color: #4ade80; border: 1px solid #0d2b1a; }
+    .dev-badge.e { background: #12060e; color: #a78bfa; border: 1px solid #2a1040; }
+    .dev-title { font-size: 15px; font-weight: 700; }
+    .dev-list { list-style: none; }
+    .dev-list li { font-size: 13px; color: #777; padding: 7px 0; border-bottom: 1px solid #0d0d0d; display: flex; gap: 10px; line-height: 1.55; }
+    .dev-list li:last-child { border-bottom: none; }
+    .dev-list li::before { content: "→"; color: #555; flex-shrink: 0; }
+
+    /* Sales application */
+    .sales-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .sales-card { border-radius: 10px; padding: 18px 20px; }
+    .sales-card.practical { background: #020810; border: 1px solid #0a2040; }
+    .sales-card.action { background: #080400; border: 1px solid #2b1a00; }
+    .sales-card.social { background: #020a04; border: 1px solid #0d2b1a; }
+    .sales-card.emotional { background: #080208; border: 1px solid #2a1040; }
+    .sales-card-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+    .sales-card.practical .sales-card-label { color: #60a5fa; }
+    .sales-card.action .sales-card-label { color: #f59e0b; }
+    .sales-card.social .sales-card-label { color: #4ade80; }
+    .sales-card.emotional .sales-card-label { color: #a78bfa; }
+    .sales-card ul { list-style: none; }
+    .sales-card ul li { font-size: 13px; color: #777; padding: 5px 0; border-bottom: 1px solid #0d0d0d; line-height: 1.55; display: flex; gap: 8px; }
+    .sales-card ul li:last-child { border-bottom: none; }
+    .sales-card ul li::before { content: "→"; flex-shrink: 0; font-size: 12px; margin-top: 1px; }
+    .sales-card.practical ul li::before { color: #60a5fa; }
+    .sales-card.action ul li::before { color: #f59e0b; }
+    .sales-card.social ul li::before { color: #4ade80; }
+    .sales-card.emotional ul li::before { color: #a78bfa; }
+
+    /* Self assess */
+    .assess-wrap { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 14px; overflow: hidden; margin-bottom: 14px; }
+    .assess-top { padding: 24px 28px; border-bottom: 1px solid #111; }
+    .assess-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #555; margin-bottom: 8px; }
+    .assess-heading { font-size: 18px; font-weight: 800; }
+    .assess-fields { padding: 0; }
+    .assess-field { display: flex; align-items: center; gap: 20px; padding: 16px 28px; border-bottom: 1px solid #0d0d0d; }
+    .assess-field:last-child { border-bottom: none; }
+    .af-label { font-size: 12px; font-weight: 700; color: #555; width: 80px; flex-shrink: 0; }
+    .af-line { flex: 1; height: 1px; background: #1a1a1a; position: relative; }
+    .af-line::after { content: 'write it here'; position: absolute; right: 0; top: -9px; font-size: 10px; color: #2a2a2a; letter-spacing: .5px; font-style: italic; }
+    .assess-note { padding: 16px 28px; font-size: 13px; color: #444; line-height: 1.6; border-top: 1px solid #0d0d0d; }
+
+    /* Quote */
+    .quote-block { border-left: 3px solid #222; padding: 16px 22px; background: #050505; border-radius: 0 8px 8px 0; margin: 16px 0; }
+    .quote-block p { font-size: 15px; color: #ddd; font-style: italic; line-height: 1.8; }
+    .quote-block .attribution { font-size: 12px; color: #444; font-style: normal; margin-top: 8px; font-weight: 600; letter-spacing: 0.05em; }
+
+    @media (max-width: 780px) {
+      .sidebar { display: none; }
+      .main { padding: 40px 20px 80px; max-width: 100%; }
+      h1 { font-size: 30px; }
+      .pase-grid { grid-template-columns: 1fr 1fr; }
+      .sales-row { grid-template-columns: 1fr; }
+      .correlation-row { flex-direction: column; }
+      .energy-row { flex-direction: column; }
+      .energy-col { border-right: none; border-bottom: 1px solid #111; }
+      .energy-col:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">Lesson</div>
+  <a href="#overview" class="nav-link active">Overview</a>
+  <div class="nav-section">The Four Energies</div>
+  <a href="#practical" class="nav-link">P — Practical</a>
+  <a href="#action" class="nav-link">A — Action</a>
+  <a href="#social" class="nav-link">S — Social</a>
+  <a href="#emotional" class="nav-link">E — Emotional</a>
+  <div class="nav-section">Application</div>
+  <a href="#correlations" class="nav-link">P&E and S&A</a>
+  <a href="#develop" class="nav-link">How to Develop Each</a>
+  <a href="#sales" class="nav-link">On Sales Calls</a>
+  <a href="#selfassess" class="nav-link">Know Yourself</a>
+</nav>
+
+<main class="main">
+
+  <div id="overview">
+    <div class="eyebrow">Sales.io — JJ Hernandez</div>
+    <h1>The PASE Method</h1>
+    <p class="subtitle">How to read anyone's energy, adapt to it, and become the most versatile person in any room — on calls, in life, and in business.</p>
+  </div>
+
+
+  <!-- INTRO -->
+  <section>
+    <h2>The Concept</h2>
+
+    <div class="block">
+      <div class="block-label">You've seen this person</div>
+      <p>There's always that one person who can talk to anyone. Doesn't matter if they're in a different country, a different tax bracket, a completely different world. They can sit with a Fortune 500 CEO and hold the room. Then walk outside and become best friends with someone they just met on the street. That's not luck. That's not just personality. That's energy manipulation — and it's learnable.</p>
+    </div>
+
+    <div class="quote-block">
+      <p>"I saw that to accomplish anything, I must bring all my physical and moral faculties in play. Make the acquaintance of the great and powerful. Exercise strict self-control and play the chameleon."</p>
+      <div class="attribution">— Casanova</div>
+    </div>
+
+    <div class="block">
+      <div class="block-label">Casanova's real superpower</div>
+      <p>Casanova wasn't known just for seducing women. He was friends with peasants and kings. He walked into any room in any circle and was memorable to every single person inside it. He had a versatility that made him feel like whatever the other person needed him to be — not through manipulation, but through genuine adaptability.</p>
+      <p>You've seen this in real life too. The friend who was somehow friends with the anime kids, the band kids, the athletes, and the popular kids all at once. That breadth doesn't happen by accident. It's a cumulative result of experiences, exposure, and a conscious understanding of energy.</p>
+    </div>
+
+    <div class="highlight">
+      <p>Every person comes with a dominant energy. <strong>And all four energies exist inside every single person.</strong> The goal isn't to become someone you're not. It's to understand which one is running the show in other people — and then meet them there. That's when connection stops being something that happens by chance and starts being something you create intentionally.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">Origin</div>
+      <p>The PASE framework is attributed to Dr. David Buss and has been taught and developed through figures like Ty Lopez. JJ has adapted and applied it specifically to the sales context over years of coaching — because every person on the other side of your call has a dominant energy, and the fastest way to lose a deal is to speak to the wrong one.</p>
+    </div>
+  </section>
+
+
+  <!-- OVERVIEW GRID -->
+  <section>
+    <h2>The Four Energies</h2>
+
+    <div class="pase-grid">
+      <div class="pase-card practical">
+        <div class="pase-letter">P</div>
+        <div class="pase-name">Practical</div>
+        <div class="pase-tagline">Planned. Structured. Serious. They came prepared and they expect the same from you.</div>
+      </div>
+      <div class="pase-card action">
+        <div class="pase-letter">A</div>
+        <div class="pase-name">Action</div>
+        <div class="pase-tagline">Fast. Sharp. Go. They don't want to wait, overthink, or be slowed down.</div>
+      </div>
+      <div class="pase-card social">
+        <div class="pase-letter">S</div>
+        <div class="pase-name">Social</div>
+        <div class="pase-tagline">Warm. Extroverted. People-first. They buy the relationship before they buy the offer.</div>
+      </div>
+      <div class="pase-card emotional">
+        <div class="pase-letter">E</div>
+        <div class="pase-name">Emotional</div>
+        <div class="pase-tagline">Intuitive. Sensitive. Feeling-driven. They need to be understood before they move.</div>
+      </div>
+    </div>
+
+    <div class="block">
+      <p>These are not personality boxes that define who someone is. They're dominant frequencies — the energy that runs in the foreground while the other three stay in the background. You have all four. So does every person you'll ever sell to. The one that's running loudest tells you exactly how to communicate with them.</p>
+    </div>
+  </section>
+
+
+  <!-- PRACTICAL -->
+  <section id="practical">
+    <h2>P — Practical</h2>
+
+    <div class="energy-card practical">
+      <div class="energy-top">
+        <div class="energy-label">Practical Energy</div>
+        <div class="energy-title">Planned. Structured. Deliberate.</div>
+        <div class="energy-desc">Practical-dominant people walk into a room and you feel it immediately. There's a weight to how they carry themselves. They think before they speak. They have a reason for everything and they expect you to have a reason too. They are not here to waste time — theirs or yours.</div>
+        <div class="energy-example">Reference: Elon Musk</div>
+      </div>
+      <div class="energy-bottom">
+        <div class="energy-row">
+          <div class="energy-col">
+            <div class="energy-col-label">Core Traits</div>
+            <ul class="trait-list">
+              <li>Strict with timelines and deadlines</li>
+              <li>Plans everything — days, weeks, months</li>
+              <li>Serious in demeanor; not cold, just measured</li>
+              <li>Budget-conscious and data-aware</li>
+              <li>Slow to trust, but deeply loyal when earned</li>
+              <li>Doesn't say yes to things without thinking them through</li>
+            </ul>
+          </div>
+          <div class="energy-col">
+            <div class="energy-col-label">What They Value</div>
+            <ul class="trait-list">
+              <li>Proof over promises</li>
+              <li>Structure over spontaneity</li>
+              <li>Logic over emotion</li>
+              <li>Respect for their time</li>
+              <li>Someone who is equally prepared</li>
+              <li>Directness — no fluff, no filler</li>
+            </ul>
+          </div>
+        </div>
+        <div class="energy-row">
+          <div class="energy-col" style="border-right:none; width:100%;">
+            <div class="energy-col-label">What pushes them away</div>
+            <ul class="trait-list" style="display:flex; flex-wrap:wrap; gap:0;">
+              <li style="width:50%;">Being unprepared</li>
+              <li style="width:50%;">Wasting their time</li>
+              <li style="width:50%;">Emotional appeals without logic</li>
+              <li style="width:50%;">Vague or unsubstantiated claims</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ACTION -->
+  <section id="action">
+    <h2>A — Action</h2>
+
+    <div class="energy-card action">
+      <div class="energy-top">
+        <div class="energy-label">Action Energy</div>
+        <div class="energy-title">Fast. Sharp. Relentless.</div>
+        <div class="energy-desc">Action-dominant people are moving before the conversation is over. They make decisions quickly, speak quickly, and lose patience with people who can't keep up. They don't need all the information to start — they need enough to go. Momentum is everything to them.</div>
+        <div class="energy-example">Reference: Andy Elliott</div>
+      </div>
+      <div class="energy-bottom">
+        <div class="energy-row">
+          <div class="energy-col">
+            <div class="energy-col-label">Core Traits</div>
+            <ul class="trait-list">
+              <li>Witty and fast in conversation</li>
+              <li>Straight to the point — no preamble</li>
+              <li>High energy, constant forward movement</li>
+              <li>Responds fast, decides fast</li>
+              <li>Gets bored or distracted with slow pacing</li>
+              <li>Competitive — they want to win</li>
+            </ul>
+          </div>
+          <div class="energy-col">
+            <div class="energy-col-label">What They Value</div>
+            <ul class="trait-list">
+              <li>Speed and decisiveness</li>
+              <li>Bold claims backed by results</li>
+              <li>A rep who can match their energy</li>
+              <li>Short path from question to answer</li>
+              <li>Momentum — keep things moving</li>
+              <li>Confidence without hesitation</li>
+            </ul>
+          </div>
+        </div>
+        <div class="energy-row">
+          <div class="energy-col" style="border-right:none; width:100%;">
+            <div class="energy-col-label">What pushes them away</div>
+            <ul class="trait-list" style="display:flex; flex-wrap:wrap; gap:0;">
+              <li style="width:50%;">Slow responses or long pauses</li>
+              <li style="width:50%;">Over-explanation</li>
+              <li style="width:50%;">Indecisiveness or hesitation</li>
+              <li style="width:50%;">Not matching their pace</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SOCIAL -->
+  <section id="social">
+    <h2>S — Social</h2>
+
+    <div class="energy-card social">
+      <div class="energy-top">
+        <div class="energy-label">Social Energy</div>
+        <div class="energy-title">Warm. Extroverted. Relationship-first.</div>
+        <div class="energy-desc">Social-dominant people are the ones who walk into a room and immediately start talking to everyone in it. They don't need a reason to start a conversation. They light up around other people and drain without them. They're magnetic, agreeable, and highly likable — sometimes to the point where they struggle to say no or hold a firm position.</div>
+        <div class="energy-example">The friend who's friends with everyone. The one who talks to strangers.</div>
+      </div>
+      <div class="energy-bottom">
+        <div class="energy-row">
+          <div class="energy-col">
+            <div class="energy-col-label">Core Traits</div>
+            <ul class="trait-list">
+              <li>Extremely extroverted — needs people around them</li>
+              <li>Highly likable and easy to talk to</li>
+              <li>Goes along with what others want</li>
+              <li>Can be hard to pin down on commitments</li>
+              <li>Prioritizes connection over logic or speed</li>
+              <li>Very influenced by what their circle does</li>
+            </ul>
+          </div>
+          <div class="energy-col">
+            <div class="energy-col-label">What They Value</div>
+            <ul class="trait-list">
+              <li>Feeling genuinely liked and heard</li>
+              <li>A real human conversation, not a pitch</li>
+              <li>Warmth and humor</li>
+              <li>Being part of something — community, tribe</li>
+              <li>Social proof — who else is doing this?</li>
+              <li>A rep who feels like a friend</li>
+            </ul>
+          </div>
+        </div>
+        <div class="energy-row">
+          <div class="energy-col" style="border-right:none; width:100%;">
+            <div class="energy-col-label">What pushes them away</div>
+            <ul class="trait-list" style="display:flex; flex-wrap:wrap; gap:0;">
+              <li style="width:50%;">Feeling like a transaction</li>
+              <li style="width:50%;">Stiff, formal energy</li>
+              <li style="width:50%;">No warmth or personal connection built</li>
+              <li style="width:50%;">Moving too fast to the close</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- EMOTIONAL -->
+  <section id="emotional">
+    <h2>E — Emotional</h2>
+
+    <div class="energy-card emotional">
+      <div class="energy-top">
+        <div class="energy-label">Emotional Energy</div>
+        <div class="energy-title">Intuitive. Feeling-driven. Deeply aware.</div>
+        <div class="energy-desc">Emotional-dominant people feel things intensely and process the world through that lens. They're reading the room constantly — including you. They pick up on inauthenticity faster than anyone else. They don't just want to be heard. They want to feel understood. If you can give them that, you'll have them completely. If you miss it, you've lost them before you even know it.</div>
+        <div class="energy-example">Reference: Jay Shetty</div>
+      </div>
+      <div class="energy-bottom">
+        <div class="energy-row">
+          <div class="energy-col">
+            <div class="energy-col-label">Core Traits</div>
+            <ul class="trait-list">
+              <li>Holds things in — processes internally</li>
+              <li>Highly sensitive to tone and subtext</li>
+              <li>Reads people constantly — always deciphering</li>
+              <li>Can be slow to make decisions due to overthinking</li>
+              <li>Deep loyalty when they trust someone</li>
+              <li>Intuitive about people and situations</li>
+            </ul>
+          </div>
+          <div class="energy-col">
+            <div class="energy-col-label">What They Value</div>
+            <ul class="trait-list">
+              <li>Genuine empathy — not performed</li>
+              <li>Being fully heard without being rushed</li>
+              <li>A rep who is present, not scripted</li>
+              <li>Feeling safe to be honest</li>
+              <li>Understanding before solutions</li>
+              <li>Patience and calm energy</li>
+            </ul>
+          </div>
+        </div>
+        <div class="energy-row">
+          <div class="energy-col" style="border-right:none; width:100%;">
+            <div class="energy-col-label">What pushes them away</div>
+            <ul class="trait-list" style="display:flex; flex-wrap:wrap; gap:0;">
+              <li style="width:50%;">Feeling rushed or pressured</li>
+              <li style="width:50%;">Generic responses that don't acknowledge them specifically</li>
+              <li style="width:50%;">Inauthenticity — they'll detect it immediately</li>
+              <li style="width:50%;">Jumping to solutions before they feel understood</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warning">
+      <p><strong>Important distinction:</strong> Being emotionally dominant is not the same as being overly sensitive or fragile. Emotional intelligence — understanding and empathizing with how others feel — is one of the most powerful tools in sales. Most men have the lowest emotional intelligence of any energy type. Developing it changes everything about how you close.</p>
+    </div>
+  </section>
+
+
+  <!-- CORRELATIONS -->
+  <section id="correlations">
+    <h2>P &amp; E — S &amp; A</h2>
+
+    <div class="block">
+      <div class="block-label">Why these pairs go together</div>
+      <p>Think of your dominant energy as your primary muscle. The energy that correlates to it is your secondary — it gets trained at the same time. This is why most highly practical people also tend to have developed emotional depth, and most action-oriented people tend to be social as well. You'll see this pattern everywhere once you know to look for it.</p>
+    </div>
+
+    <div class="correlation-row">
+      <div class="corr-card">
+        <div class="corr-pair">
+          <span class="corr-badge p">Practical</span>
+          <span class="corr-plus">+</span>
+          <span class="corr-badge e">Emotional</span>
+        </div>
+        <div class="corr-body">Both process internally and deliberately. Practical people think deeply before acting. Emotional people feel deeply before acting. They share the same slow-before-moving rhythm — just one is driven by logic and the other by feeling. If someone is Practical-dominant, their secondary gear is usually Emotional. They may not show it, but it's there.</div>
+      </div>
+      <div class="corr-card">
+        <div class="corr-pair">
+          <span class="corr-badge s">Social</span>
+          <span class="corr-plus">+</span>
+          <span class="corr-badge a">Action</span>
+        </div>
+        <div class="corr-body">Both are externally oriented and high-energy. Social people move toward people. Action people move toward goals. They share momentum — the bias toward doing over thinking. An Action-dominant person almost always has Social as their secondary. They're the ones who are loud, fast, and magnetic all at once.</div>
+      </div>
+    </div>
+
+    <div class="highlight">
+      <p>When you spot someone's primary energy on a call, <strong>their secondary is already close behind.</strong> A Practical prospect who starts opening up emotionally isn't shifting — they're just letting the secondary come forward. Recognizing this tells you how deep the conversation can go and when to shift your approach.</p>
+    </div>
+  </section>
+
+
+  <!-- DEVELOP -->
+  <section id="develop">
+    <h2>How to Develop Each Energy</h2>
+
+    <div class="block">
+      <div class="block-label">The principle</div>
+      <p>You are not locked into your dominant energy. Every energy can be trained. The one that's weakest in you is the one that costs you the most on calls — because when it comes up in a prospect, you won't know how to meet them. Work your weakest energies daily. They get stronger. It's not different from the gym.</p>
+    </div>
+
+    <div class="dev-card">
+      <div class="dev-header">
+        <span class="dev-badge p">Practical</span>
+        <div class="dev-title">How to develop it</div>
+      </div>
+      <ul class="dev-list">
+        <li>Plan your days and weeks deliberately — not just a list, but time-blocked and sequenced</li>
+        <li>Set a monthly budget and stick to it. Practical energy comes with financial discipline.</li>
+        <li>Stop saying yes to everything. Learn to think before you commit.</li>
+        <li>Sit in conversations without jumping to a response. Let the silence exist.</li>
+        <li>Build systems for things you currently handle by feel — processes, SOPs, routines</li>
+      </ul>
+    </div>
+
+    <div class="dev-card">
+      <div class="dev-header">
+        <span class="dev-badge a">Action</span>
+        <div class="dev-title">How to develop it</div>
+      </div>
+      <ul class="dev-list">
+        <li>Practice responding fast — in conversation, in text, in decisions. Speed is a muscle.</li>
+        <li>Say yes before you feel ready. Start before you have the full plan.</li>
+        <li>Do something uncomfortable every day without overthinking it first</li>
+        <li>Stop waiting for certainty before you move. Action creates clarity, not the other way around.</li>
+        <li>Compete with yourself — set a daily output standard and hit it without debate</li>
+      </ul>
+    </div>
+
+    <div class="dev-card">
+      <div class="dev-header">
+        <span class="dev-badge s">Social</span>
+        <div class="dev-title">How to develop it</div>
+      </div>
+      <ul class="dev-list">
+        <li>Talk to strangers — in line, in an elevator, anywhere. Start with a compliment.</li>
+        <li>Go to social events you'd normally skip. Stay longer than feels comfortable.</li>
+        <li>Make friends with people outside your usual circles. Different worlds, different energy.</li>
+        <li>Initiate — don't wait for others to come to you. The social rep is the one who starts.</li>
+        <li>Practice small talk until it stops feeling like work</li>
+      </ul>
+    </div>
+
+    <div class="dev-card">
+      <div class="dev-header">
+        <span class="dev-badge e">Emotional</span>
+        <div class="dev-title">How to develop it</div>
+      </div>
+      <ul class="dev-list">
+        <li>Have real conversations with people — not just talking, but actually listening to understand</li>
+        <li>Practice empathy: when someone tells you something hard, resist the urge to fix it. Just receive it.</li>
+        <li>Slow your reactions down. The emotionally intelligent person pauses before they respond.</li>
+        <li>Have conversations with people whose emotional world is different from yours — sit in it without judgment</li>
+        <li>After a call, ask yourself: "How were they feeling — not just what were they saying?" Start training that read.</li>
+      </ul>
+    </div>
+  </section>
+
+
+  <!-- SALES CALLS -->
+  <section id="sales">
+    <h2>On Sales Calls</h2>
+
+    <div class="block">
+      <div class="block-label">Why this changes everything</div>
+      <p>On every call, you have roughly the first 60 to 90 seconds to pick up the dominant energy. How fast are they talking? Are they asking questions or answering them? Are they warm and chatty or sharp and to the point? Are they measured and careful with their words or expansive and free-flowing?</p>
+      <p>That signal tells you how to pace, how to probe, how to present, and how to close. Get it right and the call feels effortless — like you already know them. Get it wrong and you'll be fighting resistance you never should have created.</p>
+    </div>
+
+    <div class="sales-row">
+      <div class="sales-card practical">
+        <div class="sales-card-label">Practical Prospect</div>
+        <ul>
+          <li>Don't waste their time — get to the point quickly</li>
+          <li>Lead with data, proof, and structure</li>
+          <li>Be prepared — have your numbers ready</li>
+          <li>Respect their timeline; don't rush the close</li>
+          <li>Let them process — silence is okay here</li>
+          <li>Give them a reason for everything you say</li>
+        </ul>
+      </div>
+      <div class="sales-card action">
+        <div class="sales-card-label">Action Prospect</div>
+        <ul>
+          <li>Match their pace — don't slow them down</li>
+          <li>Skip the preamble, get into it</li>
+          <li>Be bold and direct with your close</li>
+          <li>Create urgency — they respond to momentum</li>
+          <li>Keep energy up through the full call</li>
+          <li>They decide fast — don't over-explain when they're ready</li>
+        </ul>
+      </div>
+      <div class="sales-card social">
+        <div class="sales-card-label">Social Prospect</div>
+        <ul>
+          <li>Warm up before you go deep — earn the relationship</li>
+          <li>Let them talk. They want to be heard.</li>
+          <li>Use humor and lightness — keep it human</li>
+          <li>Social proof is powerful here — "others like you have..."</li>
+          <li>Make them feel like they're joining a community, not buying a product</li>
+          <li>Don't be stiff — they'll feel the script immediately</li>
+        </ul>
+      </div>
+      <div class="sales-card emotional">
+        <div class="sales-card-label">Emotional Prospect</div>
+        <ul>
+          <li>Be patient — don't rush to solutions</li>
+          <li>Acknowledge what they share before building on it</li>
+          <li>Be genuine — they will detect performance instantly</li>
+          <li>Probe deeper on feelings, not just facts</li>
+          <li>Create safety — give them permission to be honest</li>
+          <li>They need to trust you before they buy from you</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="highlight">
+      <p><strong>The fastest way to lose a deal is to speak to the wrong energy.</strong> A Practical prospect who gets hit with high-energy Action pacing feels like they're being bulldozed. An Action prospect who gets an emotional, slow-paced rep gets bored and checks out. The energy adaptation is the sale. The words are secondary.</p>
+    </div>
+  </section>
+
+
+  <!-- SELF ASSESS -->
+  <section id="selfassess">
+    <h2>Know Yourself</h2>
+
+    <div class="block">
+      <div class="block-label">Why this starts with you</div>
+      <p>You can't adapt to someone else's energy until you know your own. Your dominant energy is the lens you see every conversation through — and it's the one you'll unconsciously push on other people when you're not paying attention. Knowing what you are is the first step to becoming what the moment needs.</p>
+      <p>Your dominant energy will change over time. Life does that. JJ used to be very EP — action and social dominant. Now he'd call himself APES, skewing more toward practical as he's gotten older and built more. That's normal. It doesn't mean who you were was wrong. It means you grew.</p>
+    </div>
+
+    <div class="assess-wrap">
+      <div class="assess-top">
+        <div class="assess-label">Self Assessment</div>
+        <div class="assess-heading">Order your four energies — most to least dominant</div>
+      </div>
+      <div class="assess-fields">
+        <div class="assess-field">
+          <div class="af-label">You</div>
+          <div class="af-line"></div>
+        </div>
+        <div class="assess-field">
+          <div class="af-label">Mom</div>
+          <div class="af-line"></div>
+        </div>
+        <div class="assess-field">
+          <div class="af-label">Dad</div>
+          <div class="af-line"></div>
+        </div>
+      </div>
+      <div class="assess-note">JJ's order: APES — Action, Practical, Emotional, Social. Starting somewhere is more important than starting with the right answer. Write it, watch yourself for a week, and revise.</div>
+    </div>
+
+    <div class="block">
+      <div class="block-label">How to find your weakest energy</div>
+      <p>Think about the type of person you struggle to connect with. The call that always feels off. The prospect who leaves you flat. That's your weak energy showing up. The interaction that costs you the most is almost always the one your dominant energy doesn't know how to meet. That's the one to work on.</p>
+    </div>
+
+    <div class="highlight">
+      <p><strong>This is a superpower.</strong> If you can genuinely adapt to all four energies, there is no person you can't connect with, no call you can't run, and no close you can't facilitate. You put someone in front of you — any personality, any background, any energy — and you find the version of yourself that speaks their language. That's what the best salespeople have. Now you know what it's called.</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('section, #overview');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        navLinks.forEach(function(l) {
+          l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+  sections.forEach(function(s) { observer.observe(s); });
+</script>
+
+</body>
+</html>
