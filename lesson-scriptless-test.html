@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scriptless Selling — Sales.io [LAYOUT TEST]</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.6; }
+
+    /* ─── STICKY TOP BAR ─────────────────────────────────── */
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(0,0,0,.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid #1a1a1a;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 52px;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 24px; }
+    .topbar-logo { font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: #555; }
+    .topbar-title { font-size: 13px; font-weight: 600; color: #888; }
+    .topbar-nav { display: flex; align-items: center; gap: 4px; }
+    .topbar-dot { width: 6px; height: 6px; border-radius: 50%; background: #222; cursor: pointer; transition: background .2s; }
+    .topbar-dot.active { background: #4ade80; }
+    .topbar-dot:hover { background: #555; }
+    .topbar-progress { font-size: 11px; color: #444; font-weight: 600; letter-spacing: 0.06em; }
+
+    /* ─── WRAPPER ─────────────────────────────────────────── */
+    .wrap { max-width: 920px; margin: 0 auto; padding: 0 40px; }
+
+    /* ─── HERO ───────────────────────────────────────────── */
+    .hero { padding: 80px 0 64px; border-bottom: 1px solid #111; }
+    .hero-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #4ade80; margin-bottom: 20px; }
+    .hero h1 { font-size: 64px; font-weight: 900; line-height: 1.0; letter-spacing: -2px; margin-bottom: 20px; }
+    .hero h1 span { color: #4ade80; }
+    .hero-sub { font-size: 17px; color: #666; max-width: 580px; line-height: 1.65; margin-bottom: 48px; }
+
+    /* Stats bar */
+    .stats-bar { display: flex; gap: 0; border: 1px solid #1a1a1a; border-radius: 12px; overflow: hidden; }
+    .stat { flex: 1; padding: 20px 24px; border-right: 1px solid #1a1a1a; }
+    .stat:last-child { border-right: none; }
+    .stat-num { font-size: 36px; font-weight: 900; letter-spacing: -1.5px; color: #fff; line-height: 1; margin-bottom: 6px; }
+    .stat-num span { color: #4ade80; }
+    .stat-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #555; }
+
+    /* ─── MODULE SECTIONS ────────────────────────────────── */
+    .module { padding: 72px 0; border-bottom: 1px solid #0d0d0d; }
+    .module:last-child { border-bottom: none; }
+
+    .module-header { display: flex; align-items: flex-start; gap: 28px; margin-bottom: 40px; }
+    .module-num {
+      font-size: 72px; font-weight: 900; line-height: 1; letter-spacing: -3px;
+      color: #111; flex-shrink: 0; width: 80px; text-align: right;
+      user-select: none;
+    }
+    .module-meta { flex: 1; }
+    .module-label { font-size: 10px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #4ade80; margin-bottom: 8px; }
+    .module h2 { font-size: 36px; font-weight: 900; letter-spacing: -1px; line-height: 1.1; margin-bottom: 10px; }
+    .module-desc { font-size: 15px; color: #555; line-height: 1.65; max-width: 560px; }
+
+    /* ─── CONTENT BLOCKS ─────────────────────────────────── */
+    .block { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 12px; padding: 24px 28px; margin-bottom: 14px; }
+    .block-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #444; margin-bottom: 10px; }
+    .block p { font-size: 14px; color: #999; line-height: 1.75; }
+    .block p + p { margin-top: 12px; }
+
+    .highlight { background: #050f08; border: 1px solid #0d2b1a; border-radius: 12px; padding: 24px 28px; margin-bottom: 14px; }
+    .highlight p { font-size: 15px; color: #ccc; line-height: 1.8; }
+    .highlight strong { color: #4ade80; }
+
+    .warning { background: #0f0800; border: 1px solid #2b1a00; border-radius: 12px; padding: 20px 24px; margin-bottom: 14px; }
+    .warning p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .warning strong { color: #f59e0b; }
+
+    /* ─── SUBJECTIVE TABLE ───────────────────────────────── */
+    .subj-header { display: grid; grid-template-columns: 160px 1fr 1fr; gap: 0; background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 12px 12px 0 0; padding: 10px 20px; margin-bottom: 0; }
+    .subj-header span { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #444; }
+    .subj-rows { border: 1px solid #1a1a1a; border-top: none; border-radius: 0 0 12px 12px; overflow: hidden; margin-bottom: 14px; }
+    .subj-row { display: grid; grid-template-columns: 160px 1fr 1fr; gap: 0; border-bottom: 1px solid #0a0a0a; }
+    .subj-row:last-child { border-bottom: none; }
+    .subj-cell { padding: 13px 20px; font-size: 13px; line-height: 1.55; }
+    .subj-word { font-weight: 800; color: #fff; }
+    .subj-probe { color: #a3e8bb; font-style: italic; }
+    .subj-why { color: #555; }
+    .subj-row:nth-child(odd) .subj-cell { background: #040404; }
+    .subj-row:nth-child(even) .subj-cell { background: #000; }
+
+    /* ─── PROBING MOVES ──────────────────────────────────── */
+    .moves-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 14px; }
+    .move-card { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 12px; padding: 24px 22px; }
+    .move-num { font-size: 42px; font-weight: 900; letter-spacing: -2px; color: #0d2b1a; line-height: 1; margin-bottom: 12px; }
+    .move-title { font-size: 17px; font-weight: 800; margin-bottom: 8px; color: #4ade80; }
+    .move-body { font-size: 13px; color: #777; line-height: 1.65; margin-bottom: 12px; }
+    .move-examples { list-style: none; }
+    .move-examples li { font-size: 12px; color: #4a7a5a; font-style: italic; padding: 4px 0; border-bottom: 1px solid #0d0d0d; line-height: 1.5; }
+    .move-examples li:last-child { border-bottom: none; }
+
+    /* ─── DEPTH METER ────────────────────────────────────── */
+    .depth-blocks { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+    .depth-block { border-radius: 12px; overflow: hidden; display: flex; align-items: stretch; }
+    .depth-block.l1 { border: 1px solid #2b0d0d; }
+    .depth-block.l2 { border: 1px solid #2b1a00; }
+    .depth-block.l3 { border: 1px solid #0d2b1a; }
+    .depth-block.l4 { border: 1px solid #2a1040; }
+    .depth-level { width: 72px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 900; letter-spacing: -1px; }
+    .depth-block.l1 .depth-level { background: #1a0505; color: #f87171; }
+    .depth-block.l2 .depth-level { background: #1a0f00; color: #f59e0b; }
+    .depth-block.l3 .depth-level { background: #0a200a; color: #4ade80; }
+    .depth-block.l4 .depth-level { background: #150a2a; color: #a78bfa; }
+    .depth-content { flex: 1; padding: 16px 22px; }
+    .depth-block.l1 .depth-content { background: #0f0505; }
+    .depth-block.l2 .depth-content { background: #0f0800; }
+    .depth-block.l3 .depth-content { background: #050f08; }
+    .depth-block.l4 .depth-content { background: #0a0620; }
+    .depth-tag { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .depth-block.l1 .depth-tag { color: #f87171; }
+    .depth-block.l2 .depth-tag { color: #f59e0b; }
+    .depth-block.l3 .depth-tag { color: #4ade80; }
+    .depth-block.l4 .depth-tag { color: #a78bfa; }
+    .depth-title { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
+    .depth-body { font-size: 13px; color: #777; line-height: 1.6; margin-bottom: 6px; }
+    .depth-ex { font-size: 12px; font-style: italic; color: #555; line-height: 1.5; }
+    .depth-verdict { display: inline-block; font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 5px; margin-top: 6px; }
+    .depth-block.l1 .depth-verdict { background: #1a0505; color: #f87171; border: 1px solid #2b0d0d; }
+    .depth-block.l2 .depth-verdict { background: #1a0f00; color: #f59e0b; border: 1px solid #2b1a00; }
+    .depth-block.l3 .depth-verdict { background: #0a200a; color: #4ade80; border: 1px solid #0d2b1a; }
+    .depth-block.l4 .depth-verdict { background: #150a2a; color: #a78bfa; border: 1px solid #2a1040; }
+
+    /* ─── SIGNAL CARDS ───────────────────────────────────── */
+    .signal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+    .signal-card { border-radius: 12px; padding: 22px 24px; }
+    .signal-card.stay { background: #0f0800; border: 1px solid #2b1a00; }
+    .signal-card.go { background: #050f08; border: 1px solid #0d2b1a; }
+    .signal-head { font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px; }
+    .signal-card.stay .signal-head { color: #f59e0b; }
+    .signal-card.go .signal-head { color: #4ade80; }
+    .signal-list { list-style: none; }
+    .signal-list li { font-size: 13px; color: #888; padding: 6px 0; border-bottom: 1px solid #0d0d0d; line-height: 1.5; display: flex; gap: 8px; align-items: flex-start; }
+    .signal-list li:last-child { border-bottom: none; }
+    .signal-card.stay .signal-list li::before { content: "↓"; color: #f59e0b; flex-shrink: 0; font-weight: 700; }
+    .signal-card.go .signal-list li::before { content: "✓"; color: #4ade80; flex-shrink: 0; font-weight: 700; }
+
+    /* ─── EXCHANGE ───────────────────────────────────────── */
+    .exchange { border: 1px solid #1a1a1a; border-radius: 12px; overflow: hidden; margin-bottom: 14px; }
+    .exchange-head { padding: 14px 22px; border-bottom: 1px solid #111; background: #0a0a0a; font-size: 12px; font-weight: 700; color: #555; letter-spacing: 0.04em; }
+    .exchange-body { padding: 20px 22px; background: #000; display: flex; flex-direction: column; gap: 10px; }
+    .msg { display: flex; flex-direction: column; gap: 4px; }
+    .msg-who { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+    .msg-who.rep { color: #4ade80; }
+    .msg-who.prospect { color: #60a5fa; }
+    .msg-text { font-size: 14px; line-height: 1.6; padding: 10px 14px; border-radius: 8px; }
+    .msg-text.rep-msg { background: #050f08; border: 1px solid #0d2b1a; color: #a3e8bb; }
+    .msg-text.prospect-msg { background: #050a12; border: 1px solid #0a2040; color: #93c5fd; }
+    .verdict-row { display: flex; gap: 12px; margin-top: 8px; padding-top: 12px; border-top: 1px solid #0a0a0a; }
+    .verdict { flex: 1; padding: 10px 14px; border-radius: 8px; font-size: 12px; line-height: 1.5; }
+    .verdict.wrong { background: #0f0505; border: 1px solid #2b0d0d; color: #fca5a5; }
+    .verdict.label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+
+    /* ─── QUOTE ──────────────────────────────────────────── */
+    .quote-block { border-left: 4px solid #4ade80; padding: 18px 24px; background: #050505; border-radius: 0 10px 10px 0; margin: 16px 0; }
+    .quote-block p { font-size: 17px; color: #ddd; font-style: italic; line-height: 1.8; }
+
+    /* ─── NOTE LIST ──────────────────────────────────────── */
+    .note-list { list-style: none; }
+    .note-list li { font-size: 14px; color: #999; padding: 10px 0; border-bottom: 1px solid #0d0d0d; display: flex; gap: 12px; line-height: 1.65; }
+    .note-list li:last-child { border-bottom: none; }
+    .note-list li::before { content: "—"; color: #333; flex-shrink: 0; }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 700px) {
+      .wrap { padding: 0 20px; }
+      .hero h1 { font-size: 40px; }
+      .module h2 { font-size: 26px; }
+      .module-num { font-size: 48px; width: 56px; }
+      .stats-bar { flex-direction: column; }
+      .stat { border-right: none; border-bottom: 1px solid #1a1a1a; }
+      .stat:last-child { border-bottom: none; }
+      .moves-grid { grid-template-columns: 1fr; }
+      .signal-grid { grid-template-columns: 1fr; }
+      .topbar { padding: 0 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- STICKY TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="topbar-logo">Sales.io</span>
+    <span class="topbar-title">Scriptless Selling</span>
+  </div>
+  <div style="display:flex; align-items:center; gap:16px;">
+    <div class="topbar-nav" id="topbar-nav"></div>
+    <span class="topbar-progress" id="topbar-progress">Section 1 of 5</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero" id="sec-overview">
+    <div class="hero-eyebrow">Sales.io · JJ Hernandez</div>
+    <h1>Scriptless<br><span>Selling</span></h1>
+    <p class="hero-sub">The art of genuine conversation guided by frameworks — not words to say. Learn to hear what prospects actually mean and respond to that.</p>
+
+    <div class="stats-bar">
+      <div class="stat">
+        <div class="stat-num"><span>10</span></div>
+        <div class="stat-label">Subjective Words Mapped</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span>3</span></div>
+        <div class="stat-label">Core Probing Moves</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span>4</span></div>
+        <div class="stat-label">Depth Levels</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span>L4</span></div>
+        <div class="stat-label">Target Depth Before Pitch</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODULE 01 — WHAT SCRIPTLESS IS -->
+  <div class="module" id="sec-1">
+    <div class="module-header">
+      <div class="module-num">01</div>
+      <div class="module-meta">
+        <div class="module-label">Foundation</div>
+        <h2>What Scriptless Selling Actually Is</h2>
+        <p class="module-desc">Most reps think "scriptless" means improvising. It doesn't. It means you've internalized the right frameworks deeply enough that structure becomes invisible.</p>
+      </div>
+    </div>
+
+    <div class="highlight">
+      <p><strong>Scriptless selling is not the absence of a framework.</strong> It's the presence of one so well-practiced it disappears. You're not winging it. You're running a calibrated diagnostic while appearing to have a relaxed conversation — and the only way to get there is reps.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">What it means in practice</div>
+      <p>You're not reading lines. You're not following a sequence. You're genuinely curious about what the prospect means — and you have enough pattern recognition to know which thread to pull, how deep to go, and when you're ready to pitch. The script is invisible. The structure is always there.</p>
+      <p>The rep who has done 10 calls is improvising. The rep who has done 1,000 calls is running an invisible framework with full presence. That's the goal.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">The rule</div>
+      <ul class="note-list">
+        <li>Any word that could mean something different to two different people is a <strong style="color:#ccc;">subjective word</strong> — and it requires a probe before you move on</li>
+        <li>If you skip a subjective word, you're guessing. Guessing loses sales.</li>
+        <li>The probe is never an attack. It's curiosity. You actually want to know what they mean.</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <!-- MODULE 02 — SUBJECTIVE LANGUAGE -->
+  <div class="module" id="sec-2">
+    <div class="module-header">
+      <div class="module-num">02</div>
+      <div class="module-meta">
+        <div class="module-label">Core Tool</div>
+        <h2>Subjective Language</h2>
+        <p class="module-desc">Every vague word a prospect uses is a probe waiting to happen. Here are the ten most common — and exactly how to open each one up.</p>
+      </div>
+    </div>
+
+    <div class="subj-header">
+      <span>What they say</span>
+      <span>The probe</span>
+      <span>Why it matters</span>
+    </div>
+    <div class="subj-rows">
+      <div class="subj-row">
+        <div class="subj-cell"><span class="subj-word">"I'm busy"</span></div>
+        <div class="subj-cell subj-probe">"Busy with what specifically? Walk me through a typical week."</div>
+        <div class="subj-cell subj-why">Busy protecting time is different from busy because they're drowning. You need to know which.</div>
+      </div>
+      <div class="subj-row">
+        <div class="subj-cell"><span class="subj-word">"Things are good"</span></div>
+        <div class="subj-cell subj-probe">"Good compared to where you want to be — or good overall?"</div>
+        <div class="subj-cell subj-why">Good is never the whole story. There's always a gap between good and where they actually want to be.</div>
+      </div>
+      <div class="subj-row">
+        <div class="subj-cell"><span class="subj-word">"It's expensive"</span></div>
+        <div class="subj-cell subj-probe">"Expensive compared to what? Help me understand what you were expecting."</div>
+        <div class="subj-cell subj-why">Expensive is always a comparison. Find out what they're anchoring to — that's where the real conversation is.</div>
+      </div>
+      <div class="subj-row">
+        <div class="subj-cell"><span class="subj-word">"I want to do better"</span></div>
+        <div class="subj-cell subj-probe">"Better than what? Give me a number. What does better look like in 6 months?"</div>
+        <div class="subj-cell subj-why">Better is meaningless without a baseline and a target. You need both to create a real gap.</div>
+      </div>
+      <div class="subj-row">
+        <div class="subj-cell"><span class="subj-word">"I feel stuck"</span></div>
+        <div class="subj-cell subj-probe">"What's the specific thing you keep running into? Walk me through what happens."</div>
+        <div class="subj-cell subj-why">Stuck is a feeling. You need the situation behind the feeling — that's where the pain lives.</div>
+      </div>
+      <div class="subj-row">
+        <div class="subj-cell"><span class="subj-word">"I've tried everything"</span></div>
+        <div class="subj-cell subj-probe">"Walk me through the last thing you tried. What actually happened?"</div>
+        <div class="subj-cell subj-why">Everything is never everything. This phrase hides the real pattern — failed attempts that reveal exactly what they're missing.</div>
+      </div>
+      <div class="subj-row">
+        <div class="subj-cell"><span class="subj-word">"I need to think about it"</span></div>
+        <div class="subj-cell subj-probe">"Of course — what specifically do you need to work through?"</div>
+        <div class="subj-cell subj-why">Think about it is almost never about thinking. It's a signal that something didn't land. Find the real thing.</div>
+      </div>
+      <div class="subj-row">
+        <div class="subj-cell"><span class="subj-word">"I'm not sure"</span></div>
+        <div class="subj-cell subj-probe">"What would make you more sure? What's the piece that's missing for you?"</div>
+        <div class="subj-cell subj-why">Uncertainty has a source. Get to the source. Vague reassurance won't fix specific doubt.</div>
+      </div>
+      <div class="subj-row">
+        <div class="subj-cell"><span class="subj-word">"I think it could work"</span></div>
+        <div class="subj-cell subj-probe">"Do you think it could work — or do you know?" Pause. Let them answer.</div>
+        <div class="subj-cell subj-why">Think vs. know is the commitment gap. You need a know before you move toward the close.</div>
+      </div>
+      <div class="subj-row">
+        <div class="subj-cell"><span class="subj-word">"I'm doing okay"</span></div>
+        <div class="subj-cell subj-probe">"Okay as in hitting your goals — or okay as in holding it together?"</div>
+        <div class="subj-cell subj-why">Okay is social deflection. Give them two honest options and watch which one lands.</div>
+      </div>
+    </div>
+
+    <div class="warning">
+      <p><strong>The rule:</strong> Any word that could mean something different to two different people is a subjective word. Those words require a probe before you move on. If you skip them, you're guessing. And guessing loses sales.</p>
+    </div>
+  </div>
+
+
+  <!-- MODULE 03 — THREE PROBING MOVES -->
+  <div class="module" id="sec-3">
+    <div class="module-header">
+      <div class="module-num">03</div>
+      <div class="module-meta">
+        <div class="module-label">Core Tool</div>
+        <h2>The Three Probing Moves</h2>
+        <p class="module-desc">Every probe you'll ever need fits one of three moves. Learn these and you never need a script again — you just need to hear what they're actually saying.</p>
+      </div>
+    </div>
+
+    <div class="moves-grid">
+      <div class="move-card">
+        <div class="move-num">01</div>
+        <div class="move-title">Define It</div>
+        <div class="move-body">Reflect their word back and ask what it means. Get their specific definition before building on it.</div>
+        <ul class="move-examples">
+          <li>"What do you mean by [word]?"</li>
+          <li>"Help me understand what [X] looks like for you."</li>
+          <li>"When you say [word] — what specifically?"</li>
+        </ul>
+      </div>
+      <div class="move-card">
+        <div class="move-num">02</div>
+        <div class="move-title">Quantify It</div>
+        <div class="move-body">Push for a number, timeframe, or frequency. Feelings become real when attached to something concrete.</div>
+        <ul class="move-examples">
+          <li>"Give me a number."</li>
+          <li>"How long has this been going on?"</li>
+          <li>"How often does that happen?"</li>
+          <li>"What's the gap between where you are and where you want to be?"</li>
+        </ul>
+      </div>
+      <div class="move-card">
+        <div class="move-num">03</div>
+        <div class="move-title">Extend It</div>
+        <div class="move-body">Take what they gave you and follow it forward. What does this mean for them? What happens because of it?</div>
+        <ul class="move-examples">
+          <li>"And what does that mean for you?"</li>
+          <li>"What happens because of that?"</li>
+          <li>"And what else?"</li>
+          <li>"How does that affect [X]?"</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="highlight">
+      <p><strong>The sequence:</strong> Define it → Quantify it → Extend it. Most reps stop at Define. The real depth is in Extend — that's where feelings attach to facts, and where the close becomes possible.</p>
+    </div>
+  </div>
+
+
+  <!-- MODULE 04 — DEPTH METER -->
+  <div class="module" id="sec-4">
+    <div class="module-header">
+      <div class="module-num">04</div>
+      <div class="module-meta">
+        <div class="module-label">Depth Calibration</div>
+        <h2>The Depth Meter</h2>
+        <p class="module-desc">Before you move on from any topic, know which level you're at. L3 is the minimum. L4 is where closes feel effortless.</p>
+      </div>
+    </div>
+
+    <div class="depth-blocks">
+      <div class="depth-block l1">
+        <div class="depth-level">L1</div>
+        <div class="depth-content">
+          <div class="depth-tag">Social Autopilot</div>
+          <div class="depth-title">They said something. It meant nothing.</div>
+          <div class="depth-body">Trained social response. No real thinking behind it. You're still a stranger to them.</div>
+          <div class="depth-ex">"Yeah, I'm not where I want to be, but it's getting there." / "Things are fine. Could always be better."</div>
+          <div class="depth-verdict">Keep probing — every time.</div>
+        </div>
+      </div>
+      <div class="depth-block l2">
+        <div class="depth-level">L2</div>
+        <div class="depth-content">
+          <div class="depth-tag">Problem Acknowledged</div>
+          <div class="depth-title">They admit there's an issue. No feeling attached yet.</div>
+          <div class="depth-body">Facts without emotion. Progress — but facts don't create buying decisions. Push further. Extend it.</div>
+          <div class="depth-ex">"I know I'm leaving money on the table." / "My close rate isn't where it should be. I've been at the same level for about 4 months."</div>
+          <div class="depth-verdict">Not enough. Extend it. What does that mean for them?</div>
+        </div>
+      </div>
+      <div class="depth-block l3">
+        <div class="depth-level">L3</div>
+        <div class="depth-content">
+          <div class="depth-tag">Problem Owned</div>
+          <div class="depth-title">They feel it. It's personal now.</div>
+          <div class="depth-body">Voice shifts. Pauses get longer. They're not reciting — they're actually thinking in real time. This is real. You can work with this.</div>
+          <div class="depth-ex">"Honestly I'm frustrated. I've been doing this for 8 months and I don't understand why nothing's clicking." / "I told myself I'd be at $20K by now. I'm still at $6K. That's embarrassing."</div>
+          <div class="depth-verdict">Minimum threshold to move on. Don't leave here too fast.</div>
+        </div>
+      </div>
+      <div class="depth-block l4">
+        <div class="depth-level">L4</div>
+        <div class="depth-content">
+          <div class="depth-tag">Problem Tied to Identity or Future</div>
+          <div class="depth-title">It's bigger than the problem. It's about who they are.</div>
+          <div class="depth-body">They connect the problem to their identity, family, or future. When they get here, the pitch isn't a pitch. It's a solution they already want.</div>
+          <div class="depth-ex">"If I can't figure this out I don't know what I'm doing." / "I have a family depending on this." / "I feel like I'm wasting the best years I have."</div>
+          <div class="depth-verdict">This is where closes feel effortless. Move on when you're here.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODULE 05 — GO DEEPER VS MOVE ON -->
+  <div class="module" id="sec-5">
+    <div class="module-header">
+      <div class="module-num">05</div>
+      <div class="module-meta">
+        <div class="module-label">Decision Framework</div>
+        <h2>Stay and Probe vs. Move On</h2>
+        <p class="module-desc">Knowing when to go deeper and when you're ready to move is the skill that separates a rep closing at 20% from one closing at 40%.</p>
+      </div>
+    </div>
+
+    <div class="signal-grid">
+      <div class="signal-card stay">
+        <div class="signal-head">Stay — Probe Deeper</div>
+        <ul class="signal-list">
+          <li>They used a vague or subjective word you haven't defined yet</li>
+          <li>They answered in under 5 seconds — too fast, it's surface level</li>
+          <li>Their voice is flat. No emotion, no pause, no shift.</li>
+          <li>They said "fine," "okay," "pretty good" — social autopilot</li>
+          <li>You got information but no feeling attached to it</li>
+          <li>They said something significant and immediately changed the subject</li>
+          <li>They contradicted something earlier — there's more under the surface</li>
+          <li>It hasn't become personal yet — still general and abstract</li>
+          <li>You caught yourself nodding without actually understanding</li>
+        </ul>
+      </div>
+      <div class="signal-card go">
+        <div class="signal-head">Move On</div>
+        <ul class="signal-list">
+          <li>They gave you specific numbers, dates, or named situations</li>
+          <li>Their voice slowed, quieted, or they paused mid-sentence</li>
+          <li>They repeated this same pain with emotion — more than once</li>
+          <li>Personal language: "I feel like I'm failing" not "sales is hard"</li>
+          <li>They said something they haven't said to many people</li>
+          <li>They connected the problem to their identity, family, or future</li>
+          <li>You've gone three levels deep on this specific thread</li>
+          <li>The emotion is clearly there — you can feel it</li>
+          <li>More probing here would feel like therapy or interrogation</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="warning">
+      <p><strong>The trap at $10–15K/month:</strong> You feel the emotion start to surface and you immediately comfort it. "Don't worry, you're in the right place now." That kills the sale. When emotion surfaces, lean into it — don't run away from it. Open the door wider before you walk through it.</p>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-head">Shallow vs. Deep — Same Situation, Different Outcome</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"Yeah I just want to make more money."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep (Shallow)</div>
+          <div class="msg-text rep-msg">"Totally, yeah, that's what we're here for. How much are you making now?"</div>
+        </div>
+        <div class="verdict-row">
+          <div class="verdict wrong"><div class="verdict label">What's Wrong</div>You moved straight to a number without understanding what "more money" means to them or why they need it. You have data. You have no emotion. This is L1 at best.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-head">Same situation — probed correctly</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"Yeah I just want to make more money."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"When you say more — what does more actually look like for you? Give me a number."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"I don't know, like... $20K a month?"</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"And where are you right now?"</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"About $5,500 last month."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"So there's about a $15K gap. How long have you been sitting at that $5–6K range?"</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"Probably... 7, 8 months now."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"8 months. And what's that been like — knowing the gap is there and not being able to close it?"</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"Honestly? Frustrating. I thought I'd be further by now."</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quote-block">
+      <p>"The emotions are only built in the discovery. If you didn't build them there, they won't open up in the objections either."</p>
+    </div>
+  </div>
+
+  <!-- BOTTOM PADDING -->
+  <div style="height: 80px;"></div>
+
+</div><!-- /wrap -->
+
+<script>
+(function(){
+  const sections = [
+    { id: 'sec-overview', label: '0' },
+    { id: 'sec-1', label: '1' },
+    { id: 'sec-2', label: '2' },
+    { id: 'sec-3', label: '3' },
+    { id: 'sec-4', label: '4' },
+    { id: 'sec-5', label: '5' },
+  ];
+
+  const nav = document.getElementById('topbar-nav');
+  const progress = document.getElementById('topbar-progress');
+
+  sections.forEach(function(s, i) {
+    const dot = document.createElement('div');
+    dot.className = 'topbar-dot' + (i === 0 ? ' active' : '');
+    dot.title = 'Section ' + (i === 0 ? 'Overview' : i);
+    dot.addEventListener('click', function() {
+      document.getElementById(s.id).scrollIntoView({ behavior: 'smooth' });
+    });
+    nav.appendChild(dot);
+  });
+
+  const dots = nav.querySelectorAll('.topbar-dot');
+
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        const idx = sections.findIndex(s => s.id === e.target.id);
+        if (idx === -1) return;
+        dots.forEach(function(d, i) {
+          d.classList.toggle('active', i === idx);
+        });
+        const num = idx === 0 ? 'Overview' : 'Section ' + idx + ' of ' + (sections.length - 1);
+        progress.textContent = num;
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+
+  sections.forEach(function(s) {
+    const el = document.getElementById(s.id);
+    if (el) observer.observe(el);
+  });
+})();
+</script>
+
+</body>
+</html>
