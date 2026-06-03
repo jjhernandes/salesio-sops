@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Referral Partner Program — Sales.io</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #000000;
+      --white: #ffffff;
+      --gray-100: #f5f5f5;
+      --gray-200: #e0e0e0;
+      --gray-400: #999999;
+      --gray-600: #555555;
+      --gray-800: #1a1a1a;
+      --gray-900: #111111;
+      --accent: #ffffff;
+      --sidebar-width: 260px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      display: flex;
+      min-height: 100vh;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-width);
+      min-height: 100vh;
+      background: var(--gray-900);
+      border-right: 1px solid #222;
+      position: fixed;
+      top: 0; left: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+    }
+
+    .sidebar-logo {
+      padding: 28px 24px 24px;
+      border-bottom: 1px solid #222;
+    }
+
+    .logo-text {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.3px;
+    }
+
+    .logo-sub {
+      font-size: 11px;
+      color: var(--gray-400);
+      font-weight: 400;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .sidebar-nav {
+      padding: 20px 0;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .nav-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--gray-600);
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      padding: 0 24px 8px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 24px;
+      color: var(--gray-400);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 500;
+      transition: all 0.15s;
+      cursor: pointer;
+      border-left: 2px solid transparent;
+    }
+
+    .nav-item:hover { color: var(--white); background: #1a1a1a; }
+    .nav-item.active { color: var(--white); border-left-color: var(--white); background: #1a1a1a; }
+
+    .nav-item .step-num {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: #222;
+      color: var(--gray-400);
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .sidebar-footer {
+      padding: 20px 24px;
+      border-top: 1px solid #222;
+      font-size: 12px;
+      color: var(--gray-600);
+    }
+
+    /* ── MAIN ── */
+    .main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 60px 64px;
+      max-width: 900px;
+    }
+
+    /* ── PAGE HEADER ── */
+    .page-header { margin-bottom: 56px; }
+
+    .page-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 16px;
+    }
+
+    .page-title {
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .page-desc {
+      font-size: 16px;
+      color: var(--gray-400);
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    .page-meta {
+      display: flex;
+      gap: 24px;
+      margin-top: 28px;
+      padding-top: 28px;
+      border-top: 1px solid #1e1e1e;
+    }
+
+    .meta-item { display: flex; flex-direction: column; gap: 4px; }
+
+    .meta-label {
+      font-size: 11px;
+      color: var(--gray-600);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-weight: 600;
+    }
+
+    .meta-value {
+      font-size: 14px;
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    /* ── SECTIONS ── */
+    .section {
+      margin-bottom: 64px;
+      scroll-margin-top: 40px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .section-number {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1.5px solid #333;
+      color: var(--gray-400);
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .section-divider {
+      height: 1px;
+      background: #1a1a1a;
+      margin-bottom: 28px;
+    }
+
+    /* ── TIER TABLE ── */
+    .tier-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 12px;
+    }
+
+    .tier-table th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--gray-600);
+      padding: 0 20px 12px;
+      border-bottom: 1px solid #222;
+    }
+
+    .tier-table td {
+      padding: 16px 20px;
+      font-size: 14px;
+      border-bottom: 1px solid #1a1a1a;
+      vertical-align: middle;
+    }
+
+    .tier-table tr:last-child td { border-bottom: none; }
+
+    .tier-table tr { transition: background 0.15s; }
+    .tier-table tr:hover td { background: #0d0d0d; }
+
+    .tier-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .tier-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .tier-bronze .tier-dot { background: #cd7f32; }
+    .tier-silver .tier-dot { background: #aaa; }
+    .tier-gold   .tier-dot { background: #f5c518; }
+    .tier-plat   .tier-dot { background: #e0e0ff; }
+
+    .rate-chip {
+      display: inline-block;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.5px;
+    }
+
+    .earn-val {
+      font-size: 13px;
+      color: var(--gray-400);
+    }
+
+    /* ── EARNINGS GRID ── */
+    .earn-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .earn-card {
+      background: var(--gray-900);
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 20px 18px;
+    }
+
+    .earn-card .tier-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--gray-600);
+      margin-bottom: 10px;
+    }
+
+    .earn-card .earn-num {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .earn-card .earn-sub {
+      font-size: 12px;
+      color: var(--gray-400);
+      line-height: 1.4;
+    }
+
+    .earn-card.highlight {
+      border-color: #333;
+      background: #0d0d0d;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--gray-900);
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--white);
+    }
+
+    .card p, .card-desc {
+      font-size: 13.5px;
+      color: var(--gray-400);
+      line-height: 1.65;
+    }
+
+    /* ── LIST ── */
+    .list { display: flex; flex-direction: column; gap: 2px; }
+
+    .list-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      color: var(--gray-400);
+      line-height: 1.5;
+    }
+
+    .list-item:hover { background: #111; }
+
+    .list-item::before {
+      content: '→';
+      color: #444;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .list-item.warn::before { content: '✕'; color: #555; }
+    .list-item.check::before { content: '✓'; color: #38a169; }
+
+    /* ── STEP CARDS ── */
+    .step-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .step-card {
+      display: flex;
+      gap: 20px;
+      background: var(--gray-900);
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .step-n {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 1.5px solid #333;
+      color: var(--gray-600);
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .step-body {}
+    .step-body h4 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+    .step-body p  { font-size: 13.5px; color: var(--gray-400); line-height: 1.65; }
+
+    /* ── TERMS TABLE ── */
+    .terms-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .terms-table td {
+      padding: 14px 0;
+      font-size: 14px;
+      border-bottom: 1px solid #1a1a1a;
+      vertical-align: top;
+    }
+
+    .terms-table tr:last-child td { border-bottom: none; }
+
+    .terms-table td:first-child {
+      color: var(--gray-600);
+      font-size: 13px;
+      width: 200px;
+      padding-right: 24px;
+      font-weight: 500;
+    }
+
+    .terms-table td:last-child { color: var(--gray-400); }
+
+    /* ── CALLOUT ── */
+    .callout {
+      background: #0d0d0d;
+      border: 1px solid #222;
+      border-left: 3px solid #444;
+      border-radius: 0 10px 10px 0;
+      padding: 18px 20px;
+      margin-bottom: 12px;
+      font-size: 13.5px;
+      color: var(--gray-400);
+      line-height: 1.65;
+    }
+
+    .callout strong { color: var(--white); }
+
+    /* ── QUICK REF ── */
+    .quick-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: 1px solid #1a1a1a;
+      font-size: 14px;
+    }
+
+    .quick-row:last-child { border-bottom: none; }
+    .quick-row .qr-label { color: var(--gray-400); }
+    .quick-row .qr-val   { color: var(--white); font-weight: 600; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 40px 24px; }
+      .earn-grid { grid-template-columns: 1fr 1fr; }
+      .tier-table thead { display: none; }
+      .tier-table td { display: block; padding: 8px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text">Sales.io</div>
+    <div class="logo-sub">Referral Partner Program</div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-label">Sections</div>
+    <a class="nav-item active" href="#overview">
+      <span class="step-num">1</span> Overview
+    </a>
+    <a class="nav-item" href="#who">
+      <span class="step-num">2</span> Who to Refer
+    </a>
+    <a class="nav-item" href="#tiers">
+      <span class="step-num">3</span> Commission Tiers
+    </a>
+    <a class="nav-item" href="#earnings">
+      <span class="step-num">4</span> Earnings Examples
+    </a>
+    <a class="nav-item" href="#process">
+      <span class="step-num">5</span> How It Works
+    </a>
+    <a class="nav-item" href="#terms">
+      <span class="step-num">6</span> Payment Terms
+    </a>
+    <a class="nav-item" href="#rules">
+      <span class="step-num">7</span> Partner Rules
+    </a>
+    <a class="nav-item" href="#start">
+      <span class="step-num">8</span> Getting Started
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    Questions? Slack the team directly.
+  </div>
+</aside>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div class="page-tag">Sales.io</div>
+    <h1 class="page-title">Referral Partner<br>Program</h1>
+    <p class="page-desc">You were invited to this program. We do not run an open affiliate program — every partner comes in through JJ directly. If you are reading this, that is you.</p>
+    <div class="page-meta">
+      <div class="meta-item">
+        <span class="meta-label">Top Commission</span>
+        <span class="meta-value">35%</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Program Price</span>
+        <span class="meta-value">$7,500</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Attribution Window</span>
+        <span class="meta-value">60 Days</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Payout</span>
+        <span class="meta-value">Within 7 Days</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1. Overview -->
+  <section class="section" id="overview">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <h2 class="section-title">What Is Sales.io</h2>
+    </div>
+    <div class="section-divider"></div>
+
+    <div class="card" style="margin-bottom:12px;">
+      <p class="card-desc">Sales.io is a 12-week sales coaching mastermind for people in the remote high-ticket sales space. We teach communication, influence, and human psychology at a depth no other program in this industry touches. The flagship offer — the Sales.io Mastermind — is $7,500.</p>
+    </div>
+
+    <div class="list">
+      <div class="list-item check">2,100+ sales reps coached</div>
+      <div class="list-item check">549 successful payments. 1 refund in program history.</div>
+      <div class="list-item check">Every student has landed a role within their first month</div>
+      <div class="list-item check">Zero disputes. Ever.</div>
+      <div class="list-item check">Money-back ROI guarantee — make the investment back in 90 days or full refund</div>
+    </div>
+
+    <div class="callout" style="margin-top:16px;">
+      <strong>When you refer someone to Sales.io, you are sending them to a program with a real track record.</strong> That matters for your reputation as much as it does for ours. We qualify every referral before they enroll — if they are not a fit, we tell them. You never have to worry about us pushing someone through who should not be there.
+    </div>
+  </section>
+
+  <!-- 2. Who to Refer -->
+  <section class="section" id="who">
+    <div class="section-header">
+      <div class="section-number">2</div>
+      <h2 class="section-title">Who to Refer</h2>
+    </div>
+    <div class="section-divider"></div>
+
+    <div class="card" style="margin-bottom: 20px;">
+      <div class="card-title">Ideal Partners</div>
+      <p class="card-desc" style="margin-bottom:14px;">You do not need a large audience. You need the right one. One partner who knows 20 serious reps is worth more than one with 50,000 followers who are not in the market.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;">
+      <div class="card">
+        <div class="card-title">Best fit partners</div>
+        <div class="list" style="margin-top:8px;">
+          <div class="list-item" style="padding:8px 4px;">Sales.io alumni</div>
+          <div class="list-item" style="padding:8px 4px;">Content creators in sales or remote work</div>
+          <div class="list-item" style="padding:8px 4px;">Agency owners with a sales team</div>
+          <div class="list-item" style="padding:8px 4px;">Skool community owners</div>
+          <div class="list-item" style="padding:8px 4px;">Podcast hosts in sales or personal dev</div>
+          <div class="list-item" style="padding:8px 4px;">Offer owners hiring or training reps</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Best fit referrals</div>
+        <div class="list" style="margin-top:8px;">
+          <div class="list-item check" style="padding:8px 4px;">$5K–$15K/month rep who has hit a ceiling</div>
+          <div class="list-item check" style="padding:8px 4px;">Someone actively breaking into high-ticket</div>
+          <div class="list-item check" style="padding:8px 4px;">Career changer who is serious, not just curious</div>
+          <div class="list-item check" style="padding:8px 4px;">Anyone who has tried scripts and knows that is not it</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="border-color:#2a1a1a;">
+      <div class="card-title" style="color:#fc8181;">Do not refer</div>
+      <div class="list" style="margin-top:8px;">
+        <div class="list-item warn" style="padding:8px 4px;">People who want to make money fast without doing the work</div>
+        <div class="list-item warn" style="padding:8px 4px;">People who are not in or moving toward sales</div>
+        <div class="list-item warn" style="padding:8px 4px;">Anyone you are not confident would complete the program</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Commission Tiers -->
+  <section class="section" id="tiers">
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <h2 class="section-title">Commission Tiers</h2>
+    </div>
+    <div class="section-divider"></div>
+
+    <div class="callout" style="margin-bottom:20px;">
+      Commission is based on your <strong>rolling 12-month closed referral volume</strong>. As your volume grows, your rate automatically increases — you do not need to renegotiate. Tier upgrades apply immediately. Downgrades are reviewed quarterly.
+    </div>
+
+    <div class="card" style="padding:0;overflow:hidden;">
+      <table class="tier-table">
+        <thead>
+          <tr>
+            <th style="padding-left:24px;">Tier</th>
+            <th>Closed Referrals (12 mo.)</th>
+            <th>Commission Rate</th>
+            <th>Per $7,500 Enrollment</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding-left:24px;">
+              <span class="tier-badge tier-bronze">
+                <span class="tier-dot"></span> Bronze
+              </span>
+            </td>
+            <td style="color:var(--gray-400);">1 – 3</td>
+            <td><span class="rate-chip">15%</span></td>
+            <td><span class="earn-val">$1,125 / deal</span></td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px;">
+              <span class="tier-badge tier-silver">
+                <span class="tier-dot"></span> Silver
+              </span>
+            </td>
+            <td style="color:var(--gray-400);">4 – 7</td>
+            <td><span class="rate-chip">22%</span></td>
+            <td><span class="earn-val">$1,650 / deal</span></td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px;">
+              <span class="tier-badge tier-gold">
+                <span class="tier-dot"></span> Gold
+              </span>
+            </td>
+            <td style="color:var(--gray-400);">8 – 12</td>
+            <td><span class="rate-chip">28%</span></td>
+            <td><span class="earn-val">$2,100 / deal</span></td>
+          </tr>
+          <tr>
+            <td style="padding-left:24px;">
+              <span class="tier-badge tier-plat">
+                <span class="tier-dot"></span> Platinum
+              </span>
+            </td>
+            <td style="color:var(--gray-400);">13+</td>
+            <td><span class="rate-chip">35%</span></td>
+            <td><span class="earn-val">$2,625 / deal</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size:12px;color:var(--gray-600);margin-top:10px;padding-left:4px;">Split-pay commissions are paid proportionally as each payment clears. See Section 6 for details.</p>
+  </section>
+
+  <!-- 4. Earnings Examples -->
+  <section class="section" id="earnings">
+    <div class="section-header">
+      <div class="section-number">4</div>
+      <h2 class="section-title">Earnings Examples</h2>
+    </div>
+    <div class="section-divider"></div>
+
+    <p style="font-size:14px;color:var(--gray-400);margin-bottom:20px;line-height:1.7;">Annual earnings at the minimum volume required to hold each tier. Based on $7,500 pay-in-full enrollments.</p>
+
+    <div class="earn-grid">
+      <div class="earn-card">
+        <div class="tier-label" style="color:#cd7f32;">Bronze · 15%</div>
+        <div class="earn-num">$3,375</div>
+        <div class="earn-sub">3 referrals / year<br>$1,125 each</div>
+      </div>
+      <div class="earn-card">
+        <div class="tier-label" style="color:#aaa;">Silver · 22%</div>
+        <div class="earn-num">$11,550</div>
+        <div class="earn-sub">7 referrals / year<br>$1,650 each</div>
+      </div>
+      <div class="earn-card">
+        <div class="tier-label" style="color:#f5c518;">Gold · 28%</div>
+        <div class="earn-num">$25,200</div>
+        <div class="earn-sub">12 referrals / year<br>$2,100 each</div>
+      </div>
+      <div class="earn-card highlight">
+        <div class="tier-label" style="color:#c0c0ff;">Platinum · 35%</div>
+        <div class="earn-num">$52,500</div>
+        <div class="earn-sub">20 referrals / year<br>$2,625 each</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      At Platinum, 20 referrals a year is <strong>fewer than 2 per month</strong>. For a partner with an engaged audience in the right space, that is a realistic number.
+    </div>
+  </section>
+
+  <!-- 5. How It Works -->
+  <section class="section" id="process">
+    <div class="section-header">
+      <div class="section-number">5</div>
+      <h2 class="section-title">How It Works</h2>
+    </div>
+    <div class="section-divider"></div>
+
+    <div class="step-list">
+      <div class="step-card">
+        <div class="step-n">1</div>
+        <div class="step-body">
+          <h4>You make the introduction</h4>
+          <p>When you have someone ready to refer, send a warm introduction to the Sales.io team. This can be a DM on Instagram, WhatsApp, or LinkedIn — or a referral through your unique partner link. Warm introductions close at a significantly higher rate than cold link clicks. If you can send a personal message alongside the referral, do it.</p>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-n">2</div>
+        <div class="step-body">
+          <h4>We take it from there</h4>
+          <p>Once you make the intro, Sales.io handles everything — qualification call, discovery, enrollment. You do not need to sell the program, handle pricing questions, or manage objections. Your job is the introduction. Ours is the close.</p>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-n">3</div>
+        <div class="step-body">
+          <h4>You get paid</h4>
+          <p>When the referral enrolls and their first payment clears, your commission is triggered. You will receive a confirmation with the enrollment details and the commission amount. You can track every referral and its status in your partner dashboard at any time.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <div class="card-title">Attribution and Tracking</div>
+      <div class="list" style="margin-top:8px;">
+        <div class="list-item check" style="padding:8px 4px;">Referrals tracked via your unique partner link and direct introduction logs</div>
+        <div class="list-item check" style="padding:8px 4px;">Link click attributed to you if the prospect enrolls within 60 days</div>
+        <div class="list-item check" style="padding:8px 4px;">Warm introductions attributed to you regardless of timing</div>
+        <div class="list-item check" style="padding:8px 4px;">Attribution disputes always resolved in favor of the referring partner</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Payment Terms -->
+  <section class="section" id="terms">
+    <div class="section-header">
+      <div class="section-number">6</div>
+      <h2 class="section-title">Payment Terms</h2>
+    </div>
+    <div class="section-divider"></div>
+
+    <div class="card" style="padding:0;overflow:hidden;">
+      <table class="terms-table" style="padding:8px;">
+        <tbody>
+          <tr>
+            <td style="padding:16px 24px;">Pay in full — $7,500</td>
+            <td style="padding:16px 24px;">Commission paid within 7 days of payment clearing</td>
+          </tr>
+          <tr>
+            <td style="padding:16px 24px;">2-way split — $3,750 × 2</td>
+            <td style="padding:16px 24px;">Commission on each payment paid within 7 days of that payment clearing</td>
+          </tr>
+          <tr>
+            <td style="padding:16px 24px;">3-way split — $3,333 × 3</td>
+            <td style="padding:16px 24px;">Commission on each payment paid within 7 days of that payment clearing</td>
+          </tr>
+          <tr>
+            <td style="padding:16px 24px;">Klarna / Affirm</td>
+            <td style="padding:16px 24px;">Commission paid in full within 14 days of financing approval</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+      <div class="card">
+        <div class="card-title">Payment Method</div>
+        <p class="card-desc">Bank transfer or PayPal depending on your preference and location. Confirmed when you join the program.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Minimum Payout</div>
+        <p class="card-desc">$500 per cycle. If your earned commission is below $500, it rolls to the next cycle.</p>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:12px;">
+      <strong>Clawback policy:</strong> In the rare event a student invokes the money-back guarantee, commission is clawed back proportionally. In program history, only one refund has ever been issued — for a medical emergency, not dissatisfaction. This is included for transparency, not because it is likely to affect you.
+    </div>
+  </section>
+
+  <!-- 7. Partner Rules -->
+  <section class="section" id="rules">
+    <div class="section-header">
+      <div class="section-number">7</div>
+      <h2 class="section-title">Partner Rules</h2>
+    </div>
+    <div class="section-divider"></div>
+
+    <div class="card" style="margin-bottom:12px;">
+      <div class="card-title">What we ask of you</div>
+      <div class="list" style="margin-top:8px;">
+        <div class="list-item check" style="padding:8px 4px;">Only refer people you genuinely believe are a fit. The program works when the students are serious.</div>
+        <div class="list-item check" style="padding:8px 4px;">Do not make earnings claims beyond the documented track record. It speaks for itself — use it.</div>
+        <div class="list-item check" style="padding:8px 4px;">Set honest expectations. This is 12 weeks of real work — not passive income for the student.</div>
+        <div class="list-item check" style="padding:8px 4px;">If a referral has questions about the program, send them to the team rather than answering on our behalf.</div>
+      </div>
+    </div>
+
+    <div class="card" style="border-color:#2a1a1a;">
+      <div class="card-title" style="color:#fc8181;">What removes you from the program</div>
+      <div class="list" style="margin-top:8px;">
+        <div class="list-item warn" style="padding:8px 4px;">Misrepresenting the program, the results, or the pricing</div>
+        <div class="list-item warn" style="padding:8px 4px;">Referring people who are not a genuine fit in order to collect commission</div>
+        <div class="list-item warn" style="padding:8px 4px;">Any behavior that damages the Sales.io brand or community</div>
+      </div>
+    </div>
+
+    <p style="font-size:13.5px;color:var(--gray-600);margin-top:16px;padding-left:4px;">The program is based on trust. That goes both ways.</p>
+  </section>
+
+  <!-- 8. Getting Started -->
+  <section class="section" id="start">
+    <div class="section-header">
+      <div class="section-number">8</div>
+      <h2 class="section-title">Getting Started</h2>
+    </div>
+    <div class="section-divider"></div>
+
+    <div class="step-list" style="margin-bottom:24px;">
+      <div class="step-card">
+        <div class="step-n">1</div>
+        <div class="step-body">
+          <h4>Confirm with JJ</h4>
+          <p>Let JJ or the team know you are in. This is how you get added to the program officially.</p>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-n">2</div>
+        <div class="step-body">
+          <h4>Get your partner link and onboarding details</h4>
+          <p>You will receive your unique referral link, partner dashboard access, and a welcome to the partner Slack channel.</p>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-n">3</div>
+        <div class="step-body">
+          <h4>Make your first introduction</h4>
+          <p>Whenever you have someone ready, send the intro. That is it. We handle the rest.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">What you get as a partner</div>
+      <div class="list" style="margin-top:8px;">
+        <div class="list-item check" style="padding:8px 4px;">Unique referral link with 60-day attribution window</div>
+        <div class="list-item check" style="padding:8px 4px;">Access to the partner Slack channel</div>
+        <div class="list-item check" style="padding:8px 4px;">Partner dashboard — track referrals, status, and earnings in real time</div>
+        <div class="list-item check" style="padding:8px 4px;">Shareable content assets: testimonials, program overview, results data</div>
+        <div class="list-item check" style="padding:8px 4px;">Direct contact with the Sales.io team for any referral-specific questions</div>
+      </div>
+    </div>
+
+    <!-- Quick Reference -->
+    <div style="margin-top:40px;">
+      <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;color:var(--gray-400);text-transform:uppercase;letter-spacing:0.8px;font-size:12px;">Quick Reference</h3>
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div class="quick-row"><span class="qr-label">Bronze (1–3 deals)</span><span class="qr-val">15% · $1,125/deal</span></div>
+        <div class="quick-row"><span class="qr-label">Silver (4–7 deals)</span><span class="qr-val">22% · $1,650/deal</span></div>
+        <div class="quick-row"><span class="qr-label">Gold (8–12 deals)</span><span class="qr-val">28% · $2,100/deal</span></div>
+        <div class="quick-row"><span class="qr-label">Platinum (13+ deals)</span><span class="qr-val">35% · $2,625/deal</span></div>
+        <div class="quick-row"><span class="qr-label">Volume window</span><span class="qr-val">Rolling 12 months</span></div>
+        <div class="quick-row"><span class="qr-label">Attribution</span><span class="qr-val">60 days (link) · Unlimited (warm intro)</span></div>
+        <div class="quick-row"><span class="qr-label">Payout</span><span class="qr-val">Within 7 days of payment clearing</span></div>
+        <div class="quick-row"><span class="qr-label">Minimum payout</span><span class="qr-val">$500 per cycle</span></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // Active nav on scroll
+  const sections = document.querySelectorAll('.section');
+  const navItems = document.querySelectorAll('.nav-item');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navItems.forEach(n => n.classList.remove('active'));
+        const active = document.querySelector(`.nav-item[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
