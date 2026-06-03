@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scriptless Selling — Advanced — Sales.io</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.6; display: flex; min-height: 100vh; }
+
+    .sidebar { width: 220px; flex-shrink: 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; border-right: 1px solid #1a1a1a; padding: 40px 0; }
+    .sidebar-logo { font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: #555; padding: 0 24px 24px; border-bottom: 1px solid #1a1a1a; margin-bottom: 20px; }
+    .nav-section { padding: 6px 24px; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #2a2a2a; margin-top: 16px; margin-bottom: 4px; }
+    .nav-link { display: block; padding: 7px 24px; font-size: 13px; color: #555; text-decoration: none; transition: color .15s, border-color .15s; border-left: 2px solid transparent; }
+    .nav-link:hover { color: #ccc; }
+    .nav-link.active { color: #4ade80; border-left-color: #4ade80; }
+
+    .main { flex: 1; max-width: 760px; padding: 56px 40px 120px; }
+    .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 12px; }
+    h1 { font-size: 40px; font-weight: 900; line-height: 1.05; letter-spacing: -1px; margin-bottom: 16px; }
+    .subtitle { font-size: 15px; color: #666; margin-bottom: 60px; line-height: 1.6; max-width: 560px; }
+
+    section { margin-bottom: 64px; }
+    h2 { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 24px; padding-bottom: 10px; border-bottom: 1px solid #111; }
+
+    .block { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 22px 26px; margin-bottom: 14px; }
+    .block-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #444; margin-bottom: 10px; }
+    .block p { font-size: 14px; color: #999; line-height: 1.7; }
+    .block p + p { margin-top: 10px; }
+
+    .highlight { background: #050f08; border: 1px solid #0d2b1a; border-radius: 10px; padding: 22px 26px; margin-bottom: 14px; }
+    .highlight p { font-size: 14px; color: #ccc; line-height: 1.8; }
+    .highlight strong { color: #4ade80; }
+
+    .warning { background: #0f0800; border: 1px solid #2b1a00; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; }
+    .warning p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .warning strong { color: #f59e0b; }
+
+    .red-block { background: #0f0505; border: 1px solid #2b0d0d; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; }
+    .red-block p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .red-block strong { color: #f87171; }
+
+    /* Truth section — levels */
+    .level-stack { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+    .level-card { border-radius: 10px; padding: 18px 22px; display: flex; gap: 16px; align-items: flex-start; }
+    .level-card.l1 { background: #0f0505; border: 1px solid #2b0d0d; }
+    .level-card.l2 { background: #0f0800; border: 1px solid #2b1a00; }
+    .level-card.l3 { background: #050f08; border: 1px solid #0d2b1a; }
+    .level-num { font-size: 11px; font-weight: 900; border-radius: 6px; padding: 3px 10px; flex-shrink: 0; margin-top: 2px; }
+    .level-card.l1 .level-num { background: #1a0505; color: #f87171; border: 1px solid #2b0d0d; }
+    .level-card.l2 .level-num { background: #1a0f00; color: #f59e0b; border: 1px solid #2b1a00; }
+    .level-card.l3 .level-num { background: #0d2b1a; color: #4ade80; border: 1px solid #1a4a20; }
+    .level-body { flex: 1; }
+    .level-title { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
+    .level-desc { font-size: 13px; color: #777; line-height: 1.6; }
+
+    /* Internal nav visual */
+    .nav-visual { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 12px; overflow: hidden; margin-bottom: 14px; }
+    .nv-header { padding: 16px 22px; border-bottom: 1px solid #111; }
+    .nv-header-label { font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #555; margin-bottom: 4px; }
+    .nv-header-title { font-size: 16px; font-weight: 800; }
+    .nv-body { padding: 4px 0; }
+    .nv-row { display: flex; align-items: flex-start; gap: 16px; padding: 14px 22px; border-bottom: 1px solid #0a0a0a; }
+    .nv-row:last-child { border-bottom: none; }
+    .nv-q { font-size: 13px; color: #4ade80; font-weight: 700; flex: 1; line-height: 1.5; }
+    .nv-answer { font-size: 12px; color: #555; flex: 1; line-height: 1.5; }
+    .nv-arrow { color: #333; flex-shrink: 0; padding-top: 2px; }
+
+    /* Execution map */
+    .exec-map { display: flex; flex-direction: column; gap: 0; margin-bottom: 14px; }
+    .exec-phase { border: 1px solid #1a1a1a; border-radius: 0; overflow: hidden; }
+    .exec-phase:first-child { border-radius: 10px 10px 0 0; }
+    .exec-phase:last-child { border-radius: 0 0 10px 10px; border-top: none; }
+    .exec-phase + .exec-phase { border-top: none; }
+    .exec-top { display: flex; align-items: center; gap: 16px; padding: 16px 22px; background: #0a0a0a; }
+    .exec-badge { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 6px; padding: 4px 12px; flex-shrink: 0; }
+    .exec-title { font-size: 15px; font-weight: 800; }
+    .exec-time { font-size: 11px; color: #444; margin-left: auto; white-space: nowrap; }
+    .exec-body { padding: 14px 22px; background: #050505; }
+    .exec-body p { font-size: 13px; color: #666; line-height: 1.6; margin-bottom: 8px; }
+    .exec-body p:last-child { margin-bottom: 0; }
+    .exec-tools { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+    .exec-tool { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 5px; background: #0a0a0a; border: 1px solid #1a1a1a; color: #555; }
+
+    .exec-phase.p1 .exec-badge { background: #050a12; color: #60a5fa; border: 1px solid #0a2040; }
+    .exec-phase.p2 .exec-badge { background: #12060e; color: #a78bfa; border: 1px solid #2a1040; }
+    .exec-phase.p3 .exec-badge { background: #0a0202; color: #f87171; border: 1px solid #2b0d0d; }
+    .exec-phase.p4 .exec-badge { background: #020a04; color: #4ade80; border: 1px solid #0d2b1a; }
+    .exec-phase.p5 .exec-badge { background: #0f0800; color: #f59e0b; border: 1px solid #2b1a00; }
+
+    /* Probing moves */
+    .moves-row { display: flex; gap: 10px; margin-bottom: 14px; }
+    .move-card { flex: 1; background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 18px 20px; }
+    .move-num { font-size: 11px; font-weight: 900; color: #4ade80; background: #0d2b1a; border-radius: 6px; padding: 3px 10px; letter-spacing: 0.05em; display: inline-block; margin-bottom: 8px; }
+    .move-title { font-size: 15px; font-weight: 800; margin-bottom: 8px; }
+    .move-body { font-size: 13px; color: #777; line-height: 1.6; margin-bottom: 10px; }
+    .move-ex { font-size: 12px; color: #555; font-style: italic; line-height: 1.6; }
+
+    /* NCI section */
+    .nci-intro { background: #0a0202; border: 1px solid #2b0d0d; border-radius: 10px; padding: 22px 26px; margin-bottom: 14px; }
+    .nci-intro p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .nci-intro strong { color: #f87171; }
+
+    .nci-types { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+    .nci-card { border-radius: 10px; overflow: hidden; }
+    .nci-card.cascade { border: 1px solid #2b0d0d; }
+    .nci-card.cost { border: 1px solid #2b1a00; }
+    .nci-card.identity { border: 1px solid #2a1040; }
+    .nci-card.momentum { border: 1px solid #0a2040; }
+    .nci-top { padding: 16px 22px; }
+    .nci-card.cascade .nci-top { background: #0a0202; }
+    .nci-card.cost .nci-top { background: #080400; }
+    .nci-card.identity .nci-top { background: #080208; }
+    .nci-card.momentum .nci-top { background: #020810; }
+    .nci-label { font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 4px; }
+    .nci-card.cascade .nci-label { color: #f87171; }
+    .nci-card.cost .nci-label { color: #f59e0b; }
+    .nci-card.identity .nci-label { color: #a78bfa; }
+    .nci-card.momentum .nci-label { color: #60a5fa; }
+    .nci-title { font-size: 16px; font-weight: 800; margin-bottom: 8px; }
+    .nci-desc { font-size: 13px; color: #777; line-height: 1.6; }
+    .nci-bottom { background: #0a0a0a; padding: 14px 22px; border-top: 1px solid #111; }
+    .nci-ex-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #444; margin-bottom: 8px; }
+    .nci-examples { list-style: none; }
+    .nci-examples li { font-size: 13px; font-style: italic; line-height: 1.55; padding: 5px 0; border-bottom: 1px solid #0d0d0d; }
+    .nci-examples li:last-child { border-bottom: none; }
+    .nci-card.cascade .nci-examples li { color: #fca5a5; }
+    .nci-card.cost .nci-examples li { color: #fcd34d; }
+    .nci-card.identity .nci-examples li { color: #c4b5fd; }
+    .nci-card.momentum .nci-examples li { color: #93c5fd; }
+
+    /* Versus visual */
+    .versus { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .vs-card { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 18px 20px; }
+    .vs-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+    .vs-label.probe { color: #4ade80; }
+    .vs-label.nci { color: #f87171; }
+    .vs-desc { font-size: 12px; color: #555; margin-bottom: 12px; line-height: 1.5; }
+    .vs-ex { font-size: 13px; font-style: italic; line-height: 1.6; padding: 8px 12px; border-radius: 6px; }
+    .vs-card:first-child .vs-ex { background: #050f08; color: #a3e8bb; border: 1px solid #0d2b1a; }
+    .vs-card:last-child .vs-ex { background: #0a0202; color: #fca5a5; border: 1px solid #2b0d0d; }
+
+    /* Subjective table */
+    .subj-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; border-radius: 10px; overflow: hidden; border: 1px solid #1a1a1a; }
+    .subj-table thead tr { background: #0a0a0a; }
+    .subj-table th { padding: 11px 16px; text-align: left; font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #444; border-bottom: 1px solid #1a1a1a; }
+    .subj-table td { padding: 13px 16px; font-size: 13px; vertical-align: top; border-bottom: 1px solid #0a0a0a; line-height: 1.55; }
+    .subj-table tr:last-child td { border-bottom: none; }
+    .subj-table td:first-child { color: #fff; font-weight: 700; white-space: nowrap; width: 130px; }
+    .subj-table td:nth-child(2) { color: #777; font-style: italic; }
+    .subj-table td:nth-child(3) { color: #555; }
+    .subj-table td:nth-child(4) { color: #f87171; font-style: italic; font-size: 12px; }
+
+    /* Depth meter */
+    .depth-list { display: flex; flex-direction: column; }
+    .depth-wrap { display: flex; gap: 20px; margin-bottom: 4px; }
+    .depth-left { display: flex; flex-direction: column; align-items: center; width: 40px; flex-shrink: 0; }
+    .dot { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; }
+    .vline { flex: 1; width: 1px; background: #111; margin: 4px 0; min-height: 16px; }
+    .depth-right { flex: 1; padding-bottom: 24px; }
+    .depth-tag { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .depth-title { font-size: 16px; font-weight: 800; margin-bottom: 8px; }
+    .depth-body { font-size: 14px; color: #888; line-height: 1.7; margin-bottom: 8px; }
+    .depth-ex { font-size: 13px; color: #555; font-style: italic; line-height: 1.6; padding: 8px 12px; background: #050505; border-radius: 6px; border-left: 2px solid #111; margin-bottom: 6px; }
+    .depth-verdict { font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 5px; display: inline-block; margin-top: 6px; }
+
+    /* Exchange */
+    .exchange { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 12px; overflow: hidden; margin-bottom: 20px; }
+    .exchange-header { padding: 14px 22px; border-bottom: 1px solid #111; font-size: 12px; font-weight: 700; color: #555; }
+    .exchange-body { padding: 20px 22px; display: flex; flex-direction: column; gap: 10px; }
+    .msg { display: flex; flex-direction: column; gap: 4px; }
+    .msg-who { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+    .msg-who.rep { color: #4ade80; }
+    .msg-who.prospect { color: #60a5fa; }
+    .msg-text { font-size: 14px; line-height: 1.6; padding: 10px 14px; border-radius: 8px; }
+    .msg-text.rep-msg { background: #050f08; border: 1px solid #0d2b1a; color: #a3e8bb; }
+    .msg-text.prospect-msg { background: #050a12; border: 1px solid #0a2040; color: #93c5fd; }
+    .annotation { font-size: 11px; color: #f59e0b; padding: 4px 10px; background: #0f0800; border-radius: 5px; border: 1px solid #2b1a00; display: inline-block; margin-top: 4px; }
+
+    /* Internalization ladder */
+    .ladder { display: flex; flex-direction: column; gap: 0; margin-bottom: 14px; border: 1px solid #1a1a1a; border-radius: 10px; overflow: hidden; }
+    .rung { display: flex; align-items: flex-start; gap: 18px; padding: 18px 22px; border-bottom: 1px solid #0d0d0d; background: #0a0a0a; }
+    .rung:last-child { border-bottom: none; }
+    .rung-num { font-size: 11px; font-weight: 900; color: #4ade80; background: #0d2b1a; border-radius: 6px; padding: 3px 10px; flex-shrink: 0; margin-top: 2px; }
+    .rung-body { flex: 1; }
+    .rung-title { font-size: 14px; font-weight: 800; margin-bottom: 5px; }
+    .rung-desc { font-size: 13px; color: #666; line-height: 1.6; }
+
+    .note-list { list-style: none; }
+    .note-list li { font-size: 14px; color: #999; padding: 9px 0; border-bottom: 1px solid #0f0f0f; display: flex; gap: 12px; line-height: 1.6; }
+    .note-list li:last-child { border-bottom: none; }
+    .note-list li::before { content: "—"; color: #333; flex-shrink: 0; }
+
+    .quote-block { border-left: 3px solid #222; padding: 16px 22px; background: #050505; border-radius: 0 8px 8px 0; margin: 16px 0; }
+    .quote-block p { font-size: 15px; color: #ddd; font-style: italic; line-height: 1.8; }
+    .quote-block .attribution { font-size: 12px; color: #444; font-style: normal; margin-top: 8px; font-weight: 600; letter-spacing: 0.05em; }
+
+    /* Signal cards */
+    .signal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+    .signal-card { border-radius: 10px; padding: 18px 20px; }
+    .signal-card.stay { background: #0f0800; border: 1px solid #2b1a00; }
+    .signal-card.go { background: #050f08; border: 1px solid #0d2b1a; }
+    .signal-header { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .signal-card.stay .signal-header { color: #f59e0b; }
+    .signal-card.go .signal-header { color: #4ade80; }
+    .signal-list { list-style: none; }
+    .signal-list li { font-size: 13px; color: #888; padding: 6px 0; border-bottom: 1px solid #0d0d0d; line-height: 1.5; display: flex; gap: 8px; align-items: flex-start; }
+    .signal-list li:last-child { border-bottom: none; }
+    .signal-card.stay .signal-list li::before { content: "↓"; color: #f59e0b; flex-shrink: 0; font-weight: 700; }
+    .signal-card.go .signal-list li::before { content: "✓"; color: #4ade80; flex-shrink: 0; font-weight: 700; }
+
+    @media (max-width: 780px) {
+      .sidebar { display: none; }
+      .main { padding: 40px 20px 80px; max-width: 100%; }
+      h1 { font-size: 30px; }
+      .moves-row { flex-direction: column; }
+      .versus { grid-template-columns: 1fr; }
+      .signal-row { grid-template-columns: 1fr; }
+      .subj-table td:nth-child(4) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">Lesson</div>
+  <a href="#overview" class="nav-link active">Overview</a>
+  <div class="nav-section">Foundation</div>
+  <a href="#truth" class="nav-link">The Truth About Scriptless</a>
+  <a href="#invisible" class="nav-link">The Invisible Script</a>
+  <a href="#execution" class="nav-link">Execution Map</a>
+  <div class="nav-section">Core Tools</div>
+  <a href="#subjective" class="nav-link">Subjective Language</a>
+  <a href="#probing" class="nav-link">Three Probing Moves</a>
+  <a href="#nci" class="nav-link">NCI — Negative Consequence</a>
+  <a href="#depth" class="nav-link">The Depth Meter</a>
+  <div class="nav-section">Mastery</div>
+  <a href="#signals" class="nav-link">Stay vs. Move On</a>
+  <a href="#internalize" class="nav-link">Internalization Path</a>
+</nav>
+
+<main class="main">
+
+  <div id="overview">
+    <div class="eyebrow">Sales.io — Advanced · JJ Hernandez</div>
+    <h1>Scriptless Selling<br>Advanced</h1>
+    <p class="subtitle">The deeper reality: nothing is ever truly scriptless. What separates average reps from elite ones is what their script is made of — and how invisible it becomes.</p>
+  </div>
+
+
+  <!-- THE TRUTH ABOUT SCRIPTLESS -->
+  <section id="truth">
+    <h2>The Truth About Scriptless</h2>
+
+    <div class="block">
+      <div class="block-label">What nobody tells you</div>
+      <p>The best closers in the world are not improvising. They are not winging it. They are not just "being themselves" and hoping the conversation goes somewhere useful. They are running a deeply internalized framework — one they've practiced thousands of times until it lives in their nervous system rather than on a notepad.</p>
+      <p>"Scriptless" doesn't mean no structure. It means the structure has been internalized to the point where it's invisible. The same way a jazz musician isn't guessing — they've internalized music theory so deeply that their improvisation is actually highly structured. They just don't sound like they're reading sheet music. That's the goal.</p>
+    </div>
+
+    <div class="level-stack">
+      <div class="level-card l1">
+        <div class="level-num">Level 1</div>
+        <div class="level-body">
+          <div class="level-title">The Script Rep</div>
+          <div class="level-desc">Works from written phrases and memorized rebuttals. Sounds rehearsed. Loses the thread the moment a prospect goes off-script. Gets rattled by unexpected answers. Relies on sequence, not instinct.</div>
+        </div>
+      </div>
+      <div class="level-card l2">
+        <div class="level-num">Level 2</div>
+        <div class="level-body">
+          <div class="level-title">The Internalized Rep</div>
+          <div class="level-desc">Has practiced patterns long enough that they appear natural. Adapts when prospects go sideways. Follows threads instead of sequences. The script is there — you just can't see it from the outside.</div>
+        </div>
+      </div>
+      <div class="level-card l3">
+        <div class="level-num">Level 3</div>
+        <div class="level-body">
+          <div class="level-title">The Mastery Rep</div>
+          <div class="level-desc">The framework is fully wired in. They're running multiple tracks simultaneously — surface conversation, internal diagnostic, emotional read, depth calibration — without conscious effort. This is what "scriptless" actually looks like from the outside. It took years of reps to get here.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight">
+      <p><strong>The goal of this lesson is to show you what the invisible script actually contains</strong> — so you can practice the right things, internalize the right patterns, and eventually run them without thinking. You cannot skip to Level 3 by reading this once. You get there by doing it until it stops requiring thought.</p>
+    </div>
+  </section>
+
+
+  <!-- THE INVISIBLE SCRIPT -->
+  <section id="invisible">
+    <h2>The Invisible Script</h2>
+
+    <div class="block">
+      <div class="block-label">What's actually running in the background</div>
+      <p>While a scriptless rep appears to be having a relaxed, open conversation — their internal track is constantly running diagnostics. These aren't conscious questions they stop to answer. They're trained pattern recognition operating below the surface of the conversation. Here's what that looks like.</p>
+    </div>
+
+    <div class="nav-visual">
+      <div class="nv-header">
+        <div class="nv-header-label">Internal diagnostic — running in real time</div>
+        <div class="nv-header-title">What the rep is actually tracking while they talk</div>
+      </div>
+      <div class="nv-body">
+        <div class="nv-row">
+          <div class="nv-q">Are we in discovery or closing?</div>
+          <div class="nv-arrow">→</div>
+          <div class="nv-answer">Determines whether to probe deeper or start bridging toward the offer. Never pitch until discovery is complete.</div>
+        </div>
+        <div class="nv-row">
+          <div class="nv-q">What's the most loaded thing they just said?</div>
+          <div class="nv-arrow">→</div>
+          <div class="nv-answer">The word or phrase that carries the most emotional charge. That's the thread to follow. Everything else waits.</div>
+        </div>
+        <div class="nv-row">
+          <div class="nv-q">What level is this answer at — L1, L2, L3, or L4?</div>
+          <div class="nv-arrow">→</div>
+          <div class="nv-answer">L1–L2 means keep probing. L3 means good, but push one more level. L4 means the pain is real — don't leave, but you're close to ready.</div>
+        </div>
+        <div class="nv-row">
+          <div class="nv-q">Have they connected the problem to their identity or stakes?</div>
+          <div class="nv-arrow">→</div>
+          <div class="nv-answer">If not, NCI. Pull the downstream consequences. Make the problem bigger by showing what it touches beyond the surface.</div>
+        </div>
+        <div class="nv-row">
+          <div class="nv-q">Do I have a clear Heaven state from them?</div>
+          <div class="nv-arrow">→</div>
+          <div class="nv-answer">Specific number, what it changes, who it changes it for, who they become. If it's vague — go back. A vague Heaven can't create urgency.</div>
+        </div>
+        <div class="nv-row">
+          <div class="nv-q">Is the gap between Hell and Heaven visible and felt?</div>
+          <div class="nv-arrow">→</div>
+          <div class="nv-answer">Not just understood — felt. The prospect should be able to articulate the gap in their own words. If they can, the urgency is already there.</div>
+        </div>
+        <div class="nv-row">
+          <div class="nv-q">Is the energy right to pitch?</div>
+          <div class="nv-arrow">→</div>
+          <div class="nv-answer">Feel the room before you present. If energy is flat, you haven't built enough yet. If they're leaning in, asking logistical questions, or saying "I need to fix this" — go.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label">What this looks like on the surface</div>
+      <p>None of this internal tracking is visible in the conversation. The rep sounds genuinely curious. They follow threads naturally. They ask the next question without hesitation. They pause comfortably. They don't fill silences. From the outside, it looks like a gifted person just having a great conversation. From the inside, they're running a highly calibrated diagnostic the whole time.</p>
+      <p>That's scriptless selling. Not the absence of structure. The invisibility of it.</p>
+    </div>
+  </section>
+
+
+  <!-- EXECUTION MAP -->
+  <section id="execution">
+    <h2>Execution Map — How It Actually Runs</h2>
+
+    <div class="block">
+      <p>Scriptless selling is not the same in every phase of the call. What "scriptless" looks like in the opener is different from what it looks like in the close. Here's the macro structure that every great call runs through — and where each tool in this lesson lives.</p>
+    </div>
+
+    <div class="exec-map">
+      <div class="exec-phase p1">
+        <div class="exec-top">
+          <div class="exec-badge">Phase 1</div>
+          <div class="exec-title">Establish — Gain Respect, Set the Frame</div>
+          <div class="exec-time">0–5 min</div>
+        </div>
+        <div class="exec-body">
+          <p>Don't try to make them like you. Confirm they have the full time. Reference how they found you. Stay grounded. Respect comes before likeability. The frame is set in the first 60 seconds — control it.</p>
+          <p>Script equivalent: Tone, pace, the first two sentences. These are not improvised. They are practiced until natural.</p>
+          <div class="exec-tools">
+            <span class="exec-tool">Composure Pendulum</span>
+            <span class="exec-tool">4 Levels — L4 first</span>
+            <span class="exec-tool">Frame Setting</span>
+          </div>
+        </div>
+      </div>
+      <div class="exec-phase p2">
+        <div class="exec-top">
+          <div class="exec-badge">Phase 2</div>
+          <div class="exec-title">Current Reality — Where Are They Right Now</div>
+          <div class="exec-time">5–15 min</div>
+        </div>
+        <div class="exec-body">
+          <p>Open the door wide. Let them talk. Follow the most loaded thread. Use subjective language awareness here — every vague word they use is a probe waiting to happen. Go three levels deep before moving on.</p>
+          <p>This is where the invisible script is busiest. Surface answer → subjective word → probe → extend → probe deeper.</p>
+          <div class="exec-tools">
+            <span class="exec-tool">Subjective Language</span>
+            <span class="exec-tool">Three Probing Moves</span>
+            <span class="exec-tool">Depth Meter</span>
+          </div>
+        </div>
+      </div>
+      <div class="exec-phase p3">
+        <div class="exec-top">
+          <div class="exec-badge">Phase 3</div>
+          <div class="exec-title">Problem Depth — Make the Pain Real and Specific</div>
+          <div class="exec-time">15–30 min</div>
+        </div>
+        <div class="exec-body">
+          <p>You have surface pain. Now go downstream. NCI lives here. What else does this problem cause? What has it made impossible? What does having this problem say about them? This is where L3 becomes L4.</p>
+          <p>Do not comfort the pain when it surfaces. Open the door wider. The emotion is the asset. Stay in it.</p>
+          <div class="exec-tools">
+            <span class="exec-tool">NCI Questions</span>
+            <span class="exec-tool">Consequence Questions</span>
+            <span class="exec-tool">Identity Questions</span>
+          </div>
+        </div>
+      </div>
+      <div class="exec-phase p4">
+        <div class="exec-top">
+          <div class="exec-badge">Phase 4</div>
+          <div class="exec-title">Heaven + Gap — Future State and the Distance</div>
+          <div class="exec-time">30–40 min</div>
+        </div>
+        <div class="exec-body">
+          <p>Build the Heaven state. Make it specific, personal, and identity-level. Then make the gap between Hell and Heaven undeniable. Quantify it if possible. Let them sit in the distance before you offer the bridge.</p>
+          <p>The gap creates urgency. You don't create urgency — you make the gap visible.</p>
+          <div class="exec-tools">
+            <span class="exec-tool">Heaven & Hell Framework</span>
+            <span class="exec-tool">Cost of Inaction</span>
+            <span class="exec-tool">Projection Questions</span>
+          </div>
+        </div>
+      </div>
+      <div class="exec-phase p5">
+        <div class="exec-top">
+          <div class="exec-badge">Phase 5</div>
+          <div class="exec-title">Pitch + Close — Present the Bridge</div>
+          <div class="exec-time">40–55 min</div>
+        </div>
+        <div class="exec-body">
+          <p>Only pitch when you feel the emotion in the room. Walk them through the offer as the path from where they are to where they want to be. Get confirmations throughout. At the close — commit them to the decision, not just a yes. "Do you think — or do you know?"</p>
+          <p>If energy shifts, break the fourth wall immediately. Don't run a script. Say what you sense.</p>
+          <div class="exec-tools">
+            <span class="exec-tool">Offer Presentation</span>
+            <span class="exec-tool">Commitment Language</span>
+            <span class="exec-tool">Think vs. Know</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SUBJECTIVE LANGUAGE -->
+  <section id="subjective">
+    <h2>Subjective Language</h2>
+
+    <div class="block">
+      <div class="block-label">The rule</div>
+      <p>Any word that could mean something different to two different people is a subjective word. You do not move on from a subjective word. You probe it. If you skip it, you're guessing at what they mean — and guessing loses sales.</p>
+    </div>
+
+    <table class="subj-table">
+      <thead>
+        <tr>
+          <th>What they say</th>
+          <th>The probe</th>
+          <th>Why it matters</th>
+          <th>NCI follow-up</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>"I'm busy"</td>
+          <td>"Busy with what specifically? Walk me through a typical week."</td>
+          <td>Busy protecting their time means they need efficiency. Busy because they're overwhelmed means they need a system.</td>
+          <td>"And what does being that stretched mean for the things you actually want to be building?"</td>
+        </tr>
+        <tr>
+          <td>"Things are good"</td>
+          <td>"Good compared to where you want to be — or good overall?"</td>
+          <td>Good is never the full story. There's always a gap between good and where they actually want to be.</td>
+          <td>"What would make things great instead of good — and how far away is that?"</td>
+        </tr>
+        <tr>
+          <td>"It's expensive"</td>
+          <td>"Expensive compared to what? Help me understand what you were expecting."</td>
+          <td>Expensive is always a comparison. Find what they're anchoring to.</td>
+          <td>"What has doing nothing about this cost you so far — in real numbers?"</td>
+        </tr>
+        <tr>
+          <td>"I want to do better"</td>
+          <td>"Better than what? Give me a number. And what does better actually look like in 6 months?"</td>
+          <td>Better is meaningless without a baseline and a target.</td>
+          <td>"If you're still at the same level in 6 months — what does that mean for everything else you're working toward?"</td>
+        </tr>
+        <tr>
+          <td>"I feel stuck"</td>
+          <td>"What's the specific thing you keep running into? Walk me through what happens."</td>
+          <td>Stuck is a feeling. You need the situation behind the feeling.</td>
+          <td>"How long have you been in this place — and what has staying stuck cost you beyond just the frustration?"</td>
+        </tr>
+        <tr>
+          <td>"I've tried everything"</td>
+          <td>"Walk me through the last thing you tried. What actually happened?"</td>
+          <td>Everything is never everything. This hides the real pattern.</td>
+          <td>"What does that pattern of trying and stopping tell you — about the approach, not about you?"</td>
+        </tr>
+        <tr>
+          <td>"I need to think about it"</td>
+          <td>"Of course — what specifically do you need to work through?"</td>
+          <td>Think about it is almost never about thinking. Surface the real objection.</td>
+          <td>"What's the cost of another week or month while you're thinking about it?"</td>
+        </tr>
+        <tr>
+          <td>"I'm not sure"</td>
+          <td>"What would make you more sure? What's the piece that's missing for you?"</td>
+          <td>Uncertainty has a source. Get to the source.</td>
+          <td>"What happens if you stay unsure — what's the default outcome if nothing changes?"</td>
+        </tr>
+        <tr>
+          <td>"I think it could work"</td>
+          <td>"Do you think it could work — or do you know?" Pause. Let them answer.</td>
+          <td>Think vs. know is the commitment gap. You need a know before you close.</td>
+          <td>"What would need to be true for you to know instead of think?"</td>
+        </tr>
+        <tr>
+          <td>"I'm doing okay"</td>
+          <td>"Okay as in hitting your goals — or okay as in holding it together?"</td>
+          <td>Okay is social deflection. Give them two honest options.</td>
+          <td>"And if okay stays okay — is that acceptable to you, or is there a version of this you're not saying out loud?"</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+
+  <!-- THREE PROBING MOVES -->
+  <section id="probing">
+    <h2>The Three Probing Moves</h2>
+
+    <div class="block">
+      <p>Every probe you need in discovery fits one of three moves. Learn these and you never need a script. You just need to hear what they're actually saying — and respond to that.</p>
+    </div>
+
+    <div class="moves-row">
+      <div class="move-card">
+        <div class="move-num">Move 01</div>
+        <div class="move-title">Define It</div>
+        <div class="move-body">Reflect their word back and ask what it means to them specifically. Get their definition before you build on it.</div>
+        <div class="move-ex">"What do you mean by [word]?"<br>"Help me understand what [X] looks like for you."<br>"When you say [word] — what specifically are you referring to?"</div>
+      </div>
+      <div class="move-card">
+        <div class="move-num">Move 02</div>
+        <div class="move-title">Quantify It</div>
+        <div class="move-body">Push for a number, timeframe, or frequency. Feelings become real when attached to something concrete.</div>
+        <div class="move-ex">"Give me a number."<br>"How long has this been going on?"<br>"How often does that happen?"<br>"What's the gap between where you are and where you want to be?"</div>
+      </div>
+      <div class="move-card">
+        <div class="move-num">Move 03</div>
+        <div class="move-title">Extend It</div>
+        <div class="move-body">Take what they gave you and follow it forward. What does this mean for them? What happens because of it?</div>
+        <div class="move-ex">"And what does that mean for you?"<br>"What happens because of that?"<br>"And what else?"<br>"How does that affect [X]?"</div>
+      </div>
+    </div>
+
+    <div class="highlight">
+      <p><strong>The sequence:</strong> Define it (understand the word) → Quantify it (make it real) → Extend it (feel the weight). Most reps stop at Define. The real depth — and the real emotional pull — is in Extend. That's where Move 03 hands off directly to NCI.</p>
+    </div>
+  </section>
+
+
+  <!-- NCI -->
+  <section id="nci">
+    <h2>NCI — Negative Consequence Implication</h2>
+
+    <div class="nci-intro">
+      <p><strong>NCI is the tool that turns a problem into a reality the prospect can no longer ignore.</strong> Regular probing goes deeper into the problem. NCI goes outward from it — downstream. It doesn't ask "how bad is this problem?" It asks "what else does this problem cause?" It shows the blast radius. It makes pain multi-dimensional.</p>
+    </div>
+
+    <div class="versus">
+      <div class="vs-card">
+        <div class="vs-label probe">Standard Probe</div>
+        <div class="vs-desc">Goes deeper INTO the problem. Clarifies and intensifies the immediate pain.</div>
+        <div class="vs-ex">"How long have you been stuck at that number?"</div>
+      </div>
+      <div class="vs-card">
+        <div class="vs-label nci">NCI Question</div>
+        <div class="vs-desc">Goes OUTWARD from the problem. Exposes what it causes, costs, and touches.</div>
+        <div class="vs-ex">"And because you've been stuck there for 8 months — what has become impossible that was possible before?"</div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label">Why NCI is different</div>
+      <p>A rep who only probes deeper eventually hits the bottom of the problem. The pain is real, but it's contained. NCI breaks the container. Every problem has downstream effects — on other goals, on other people, on identity, on time, on what the prospect has had to give up or postpone. NCI questions surface all of that. By the time you're done, the problem isn't a problem anymore. It's a system of consequences that runs through their whole life.</p>
+      <p>That's not manipulation. That's clarity. Most people haven't consciously connected their stuck income to their strained relationship, their deferred dreams, and their eroding self-belief all at once. NCI makes those connections explicit — and when a prospect does, the urgency to act becomes undeniable.</p>
+    </div>
+
+    <div class="nci-types">
+
+      <div class="nci-card cascade">
+        <div class="nci-top">
+          <div class="nci-label">NCI Type 01 — Cascade</div>
+          <div class="nci-title">What else breaks down when this problem is happening?</div>
+          <div class="nci-desc">Cascade NCI maps the problem to its downstream effects in the same domain. One broken thing causes other things to break. Make the chain visible.</div>
+        </div>
+        <div class="nci-bottom">
+          <div class="nci-ex-label">Examples</div>
+          <ul class="nci-examples">
+            <li>"And when your close rate stays low — what else in your pipeline does that affect?"</li>
+            <li>"Because you're not consistent — what decisions are you having to make that you shouldn't be making?"</li>
+            <li>"When the income isn't there — what else gets put on hold because of it?"</li>
+            <li>"What breaks down in your day-to-day when this isn't solved?"</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="nci-card cost">
+        <div class="nci-top">
+          <div class="nci-label">NCI Type 02 — Cost</div>
+          <div class="nci-title">What have they had to give up, delay, or pass on because of this?</div>
+          <div class="nci-desc">Cost NCI quantifies what the problem has already taken from them — not in the future, but in the past. Opportunities missed. Decisions made from scarcity. Things promised that haven't happened. The cost is already real. Make them feel it.</div>
+        </div>
+        <div class="nci-bottom">
+          <div class="nci-ex-label">Examples</div>
+          <ul class="nci-examples">
+            <li>"What opportunities have you had to pass on in the last 6 months because of where you are financially?"</li>
+            <li>"What's something you've promised yourself or someone else that hasn't happened because of this?"</li>
+            <li>"What have you already spent — time, money, energy — trying to solve this that hasn't worked?"</li>
+            <li>"What's the version of life you've been putting on hold while this is unresolved?"</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="nci-card identity">
+        <div class="nci-top">
+          <div class="nci-label">NCI Type 03 — Identity</div>
+          <div class="nci-title">What does having this problem make them believe about themselves?</div>
+          <div class="nci-desc">Identity NCI is the deepest form. It connects the problem to the story the prospect is telling themselves about who they are. Every unresolved problem leaves a residue on identity. When you surface that residue, you're no longer talking about a business problem — you're talking about a person's relationship with themselves.</div>
+        </div>
+        <div class="nci-bottom">
+          <div class="nci-ex-label">Examples</div>
+          <ul class="nci-examples">
+            <li>"After 8 months of this not changing — what does that start to say to you about what you're capable of?"</li>
+            <li>"What's the story you've been telling yourself about why this hasn't worked yet?"</li>
+            <li>"What does staying stuck here make you start to believe — even if you know it's not fully true?"</li>
+            <li>"Who did you tell yourself you were going to be by now — and how far from that do you feel?"</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="nci-card momentum">
+        <div class="nci-top">
+          <div class="nci-label">NCI Type 04 — Momentum</div>
+          <div class="nci-title">What does the pattern look like if nothing changes?</div>
+          <div class="nci-desc">Momentum NCI makes the future predictable by naming the pattern. If someone has tried three approaches and stopped at the same point each time — that's not bad luck, it's a pattern. When you name the pattern and project it forward, the prospect sees exactly where this road goes. That visibility creates urgency without pressure.</div>
+        </div>
+        <div class="nci-bottom">
+          <div class="nci-ex-label">Examples</div>
+          <ul class="nci-examples">
+            <li>"You've tried three things in 18 months and stopped at the same point. What changes about the next attempt if the approach stays the same?"</li>
+            <li>"If we're having this same conversation 12 months from now — what does that mean for you?"</li>
+            <li>"What's the version of this problem you're going to be describing to someone a year from now if nothing shifts?"</li>
+            <li>"How many more iterations of this cycle are you willing to go through before something has to change?"</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="warning">
+      <p><strong>NCI is not about piling on.</strong> You don't run all four types back to back. You use the one that fits what the prospect just gave you. If they mentioned something they've had to give up — Cost NCI. If they mentioned feeling like they're going in circles — Momentum NCI. If they mentioned what people think of them — Identity NCI. Follow the thread. The type chooses itself.</p>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-header">Probe → NCI sequence — how they connect</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"How long have you been sitting at that number?"</div>
+          <div class="annotation">Standard probe — Quantify It</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"About 8 months now. It just doesn't seem to move."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"And because it hasn't moved for 8 months — what else has that affected? What's become harder or impossible because of it?"</div>
+          <div class="annotation">Cascade NCI — opens the downstream</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"My confidence, honestly. And I had to say no to some stuff I wanted to do. A trip I promised my girlfriend. It's just like everything is on pause."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"What does having everything on pause — and feeling like your confidence is taking hits — what does that start to tell you about yourself after 8 months of it?"</div>
+          <div class="annotation">Identity NCI — takes what they gave and goes to the self-belief layer</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"Honestly? It makes me question whether I'm actually cut out for this. And I hate that I even think that."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"Say more about that."</div>
+          <div class="annotation">One line. No question. Holds the space.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- DEPTH METER -->
+  <section id="depth">
+    <h2>The Depth Meter</h2>
+
+    <div class="block">
+      <p>Before you move on from any topic, know which level you're at. L1 and L2 are surface — you have information but no leverage. L3 is minimum threshold. L4 is where the close becomes effortless. NCI is what gets you from L2 to L4 when standard probing alone isn't enough.</p>
+    </div>
+
+    <div class="depth-list">
+
+      <div class="depth-wrap">
+        <div class="depth-left">
+          <div class="dot" style="background:#1a0a0a; color:#f87171;">L1</div>
+          <div class="vline"></div>
+        </div>
+        <div class="depth-right">
+          <div class="depth-tag" style="color:#f87171;">Level 1 — Social Autopilot</div>
+          <div class="depth-title">They said something. It meant nothing yet.</div>
+          <div class="depth-body">Trained social response. No real thinking behind it. This is the version of the answer they'd give a stranger at a party. You are still a stranger. Keep probing.</div>
+          <div class="depth-ex">"Yeah, I'm not where I want to be, but it's getting there."</div>
+          <div class="depth-verdict" style="background:#1a0a0a; color:#f87171; border:1px solid #2b0d0d;">Keep probing — every time.</div>
+        </div>
+      </div>
+
+      <div class="depth-wrap">
+        <div class="depth-left">
+          <div class="dot" style="background:#0f0800; color:#f59e0b;">L2</div>
+          <div class="vline"></div>
+        </div>
+        <div class="depth-right">
+          <div class="depth-tag" style="color:#f59e0b;">Level 2 — Problem Acknowledged</div>
+          <div class="depth-title">They admit there's an issue. No feeling attached yet.</div>
+          <div class="depth-body">Facts without emotion. Progress — but facts don't create buying decisions. This is where most average reps stop probing. Don't. Extend it. Run NCI. Follow the thread.</div>
+          <div class="depth-ex">"I know I'm leaving money on the table. My close rate isn't where it should be. I've been at the same level for 4 months."</div>
+          <div class="depth-verdict" style="background:#0f0800; color:#f59e0b; border:1px solid #2b1a00;">Not enough. Extend. NCI.</div>
+        </div>
+      </div>
+
+      <div class="depth-wrap">
+        <div class="depth-left">
+          <div class="dot" style="background:#06120a; color:#4ade80;">L3</div>
+          <div class="vline"></div>
+        </div>
+        <div class="depth-right">
+          <div class="depth-tag" style="color:#4ade80;">Level 3 — Problem Owned</div>
+          <div class="depth-title">They feel it. It's personal now.</div>
+          <div class="depth-body">Voice shifts. Pace slows. They're thinking in real time, not reciting. This is the minimum threshold to move on from a topic. You can build the gap from here. One more level and you close effortlessly.</div>
+          <div class="depth-ex">"Honestly I'm frustrated. I've been doing this for 8 months and I don't understand why nothing's clicking." / "I told myself I'd be at $20K by now. I'm still at $6K. That's embarrassing."</div>
+          <div class="depth-verdict" style="background:#06120a; color:#4ade80; border:1px solid #0d2b1a;">Minimum threshold. Push one more level if possible.</div>
+        </div>
+      </div>
+
+      <div class="depth-wrap">
+        <div class="depth-left">
+          <div class="dot" style="background:#0a0620; color:#a78bfa;">L4</div>
+        </div>
+        <div class="depth-right">
+          <div class="depth-tag" style="color:#a78bfa;">Level 4 — Problem Tied to Identity or Stakes</div>
+          <div class="depth-title">It's bigger than the problem. It's about who they are.</div>
+          <div class="depth-body">They connect the problem to their identity, their family, their future, or their sense of self-worth. This is the NCI payoff. The emotional lever is fully pulled. At this stage, the pitch isn't a pitch — it's a solution they're already reaching for.</div>
+          <div class="depth-ex">"If I can't figure this out I don't know what I'm doing." / "I have a family depending on this. I can't afford another 6 months of nothing." / "I feel like I'm wasting the best years I have to build something."</div>
+          <div class="depth-verdict" style="background:#0a0620; color:#a78bfa; border:1px solid #2a1040;">This is where closes feel effortless. You're ready.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- SIGNALS -->
+  <section id="signals">
+    <h2>Stay and Probe Deeper vs. Move On</h2>
+
+    <div class="signal-row">
+      <div class="signal-card stay">
+        <div class="signal-header">Stay — Probe Deeper</div>
+        <ul class="signal-list">
+          <li>They used a subjective word you haven't probed yet</li>
+          <li>They answered in under 5 seconds — it's surface level</li>
+          <li>Voice is flat. No emotion, no pause, no shift.</li>
+          <li>They said "fine," "okay," "pretty good" — social autopilot</li>
+          <li>You have information but no feeling attached to it</li>
+          <li>They said something significant and immediately changed the subject</li>
+          <li>They contradicted an earlier answer — there's more underneath</li>
+          <li>It's still general and abstract — hasn't become personal yet</li>
+          <li>You found yourself nodding without really understanding what they meant</li>
+        </ul>
+      </div>
+      <div class="signal-card go">
+        <div class="signal-header">Move On</div>
+        <ul class="signal-list">
+          <li>They gave you specific numbers, dates, or named situations</li>
+          <li>Voice slowed down, quieted, or they paused mid-sentence</li>
+          <li>They repeated this same pain point with emotion — more than once</li>
+          <li>Personal language appeared: "I feel like I'm failing" not "sales is hard"</li>
+          <li>They said something they clearly haven't said to many people</li>
+          <li>They connected the problem to their identity, family, or future</li>
+          <li>You've gone three levels deep on this specific thread</li>
+          <li>The emotion is clearly there — you can feel it</li>
+          <li>More probing here would feel like therapy or interrogation</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="warning">
+      <p><strong>The trap at $10–15K/month:</strong> Emotion surfaces and the rep immediately comforts it away. "No no, it's okay — you're in the right place now." That sentence kills the sale. The emotion is the asset. When it surfaces, lean into it. Open the door wider before you walk through it.</p>
+    </div>
+  </section>
+
+
+  <!-- INTERNALIZATION PATH -->
+  <section id="internalize">
+    <h2>The Internalization Path</h2>
+
+    <div class="block">
+      <div class="block-label">How you get from reading this to running it</div>
+      <p>Reading this document is Level 1. Understanding it is Level 2. Running it naturally on live calls is Level 3. The gap between reading and running is reps. There's no shortcut. But there is a specific sequence that gets you there faster than random practice.</p>
+    </div>
+
+    <div class="ladder">
+      <div class="rung">
+        <div class="rung-num">01</div>
+        <div class="rung-body">
+          <div class="rung-title">Learn the categories, not the lines</div>
+          <div class="rung-desc">Don't memorize the specific questions in this doc. Learn what each tool is for. Know that NCI Type 02 is about cost. Know that Move 03 extends meaning. Categories are durable. Specific lines are fragile — they break the moment a prospect goes sideways.</div>
+        </div>
+      </div>
+      <div class="rung">
+        <div class="rung-num">02</div>
+        <div class="rung-body">
+          <div class="rung-title">Practice one tool at a time</div>
+          <div class="rung-desc">Don't try to run the full system in your first ten calls. Pick one thing — the subjective language table, or NCI Type 01, or just the depth meter diagnostic. Practice that one thing until it requires no thought. Then add the next tool. This is how the invisible script gets built.</div>
+        </div>
+      </div>
+      <div class="rung">
+        <div class="rung-num">03</div>
+        <div class="rung-body">
+          <div class="rung-title">After every call, debrief against the map</div>
+          <div class="rung-desc">Which phase did you spend most time in? Where did you lose the thread? What level did you reach on their main pain point? Did you use NCI — and if not, where was the opening? This is what call review is for. Not "what did I do wrong" but "where exactly did the invisible script break down."</div>
+        </div>
+      </div>
+      <div class="rung">
+        <div class="rung-num">04</div>
+        <div class="rung-body">
+          <div class="rung-title">Do mock calls specifically on your weak spots</div>
+          <div class="rung-desc">If NCI feels forced, do 10 mock calls where you only practice NCI. If you always stop at L2, do 10 mocks where the only goal is reaching L4. Targeted reps build targeted mastery faster than full-call practice at a skill you're still weak on.</div>
+        </div>
+      </div>
+      <div class="rung">
+        <div class="rung-num">05</div>
+        <div class="rung-body">
+          <div class="rung-title">Know you're there when it stops requiring thought</div>
+          <div class="rung-desc">The invisible script is fully built when you finish a call and realize you ran the whole framework without once consciously thinking about it. You followed threads, hit NCI naturally, reached L4, built the gap, and closed — and the structure was invisible the entire time. That's Level 3. That's scriptless. That's the goal.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quote-block">
+      <p>"The best closers don't sound like closers. They sound like the person who actually gives a damn."</p>
+      <div class="attribution">— JJ Hernandez</div>
+    </div>
+
+    <div class="highlight">
+      <p><strong>Nothing is ever truly scriptless. Every elite rep is running a script — you just can't see it.</strong> What you're building with every rep, every call review, every mock call, is the depth of internalization that makes your structure invisible. Do the reps. Build the invisible script. Then forget it's there.</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('section, #overview');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        navLinks.forEach(function(l) {
+          l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+  sections.forEach(function(s) { observer.observe(s); });
+</script>
+
+</body>
+</html>
