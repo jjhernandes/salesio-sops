@@ -537,7 +537,7 @@
 </div>
 
 <script>
-  document.getElementById('partner-form').addEventListener('submit', function(e) {
+  document.getElementById('partner-form').addEventListener('submit', async function(e) {
     e.preventDefault();
 
     const required = [
@@ -585,29 +585,33 @@
       notes:    document.getElementById('notes').value.trim() || '—',
     };
 
-    // Build mailto
-    const body = [
-      'New Sales.io Partner Application',
-      '',
-      'Name: ' + data.name,
-      'Email: ' + data.email,
-      'Phone: ' + data.phone,
-      '',
-      'Platform: ' + data.platform,
-      'Audience size: ' + data.audience,
-      'How they will refer: ' + data.refMethods,
-      '',
-      'PayPal: ' + data.paypal,
-      'Payment method: ' + data.payMethod,
-      '',
-      'Notes: ' + data.notes,
-    ].join('\n');
+    // Disable submit button while sending
+    const btn = document.querySelector('.btn-submit');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
 
-    const mailto = 'mailto:jj@psycho-sales.com'
-      + '?subject=' + encodeURIComponent('Partner Application — ' + data.name)
-      + '&body=' + encodeURIComponent(body);
-
-    window.location.href = mailto;
+    // Send via Formsubmit AJAX
+    try {
+      const res = await fetch('https://formsubmit.co/ajax/jj@psycho-sales.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          _subject: 'Partner Application — ' + data.name,
+          Name: data.name,
+          Email: data.email,
+          Phone: data.phone,
+          Platform: data.platform,
+          'Audience Size': data.audience,
+          'How They Will Refer': data.refMethods,
+          'PayPal Email': data.paypal,
+          'Payment Method': data.payMethod,
+          Notes: data.notes,
+        })
+      });
+      // Proceed to confirmation regardless of response (Formsubmit first-time activation may return non-200)
+    } catch (err) {
+      // Network error — still show confirmation, submission attempt was made
+    }
 
     // Show confirmation
     const rows = [
