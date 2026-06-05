@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Affiliate Tracker — Sales.io</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #000;
+      --white: #fff;
+      --gray-400: #999;
+      --gray-600: #555;
+      --gray-800: #1a1a1a;
+      --gray-900: #111;
+      --gold: #f5c518;
+      --green: #38a169;
+      --red: #e53e3e;
+      --blue: #4299e1;
+      --sidebar-width: 240px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      display: flex;
+      min-height: 100vh;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-width);
+      min-height: 100vh;
+      background: var(--gray-900);
+      border-right: 1px solid #222;
+      position: fixed;
+      top: 0; left: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+    }
+
+    .sidebar-logo { padding: 22px 20px; border-bottom: 1px solid #222; }
+    .logo-text { font-size: 15px; font-weight: 800; letter-spacing: -0.3px; }
+    .logo-sub  { font-size: 10px; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
+    .sidebar-nav { padding: 12px 0; flex: 1; }
+
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 20px;
+      color: var(--gray-400);
+      font-size: 13px; font-weight: 500;
+      cursor: pointer;
+      border-left: 2px solid transparent;
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .nav-item:hover  { color: var(--white); background: #1a1a1a; }
+    .nav-item.active { color: var(--white); border-left-color: var(--white); background: #1a1a1a; }
+    .nav-icon { font-size: 14px; width: 18px; text-align: center; flex-shrink: 0; }
+
+    .sidebar-footer { padding: 14px 20px; border-top: 1px solid #222; font-size: 11px; color: var(--gray-600); line-height: 1.6; }
+
+    /* ── MAIN ── */
+    .main { margin-left: var(--sidebar-width); flex: 1; padding: 40px 48px; }
+
+    /* ── VIEWS ── */
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* ── PAGE HEADER ── */
+    .page-hdr { margin-bottom: 32px; }
+    .page-hdr h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.8px; margin-bottom: 4px; }
+    .page-hdr p  { font-size: 13px; color: var(--gray-400); }
+
+    /* ── STATS ROW ── */
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px; }
+
+    .stat-card {
+      background: var(--gray-900);
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 18px 20px;
+    }
+    .stat-card .sc-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--gray-600); margin-bottom: 6px; }
+    .stat-card .sc-num   { font-size: 28px; font-weight: 900; letter-spacing: -1px; line-height: 1; }
+    .stat-card .sc-sub   { font-size: 11px; color: var(--gray-600); margin-top: 4px; }
+
+    /* ── SECTION ── */
+    .section-hdr {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .section-hdr h2 { font-size: 16px; font-weight: 700; }
+
+    /* ── BUTTON ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px; font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.15s;
+    }
+    .btn:hover { opacity: 0.85; }
+    .btn-primary { background: var(--white); color: var(--black); }
+    .btn-ghost   { background: transparent; color: var(--gray-400); border: 1px solid #333; }
+    .btn-sm      { padding: 5px 10px; font-size: 12px; border-radius: 6px; }
+    .btn-green   { background: #0a1a0f; color: #68d391; border: 1px solid #1a3a20; }
+    .btn-red     { background: #1a0808; color: #fc8181; border: 1px solid #3a1a1a; }
+    .btn-danger  { background: #1a0808; color: #fc8181; border: 1px solid #3a1a1a; }
+
+    /* ── TABLE ── */
+    .table-wrap { background: var(--gray-900); border: 1px solid #222; border-radius: 12px; overflow: hidden; margin-bottom: 28px; }
+
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      padding: 11px 16px;
+      font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px;
+      color: var(--gray-600);
+      border-bottom: 1px solid #1a1a1a;
+      text-align: left;
+    }
+    tbody td { padding: 13px 16px; font-size: 13px; border-bottom: 1px solid #111; vertical-align: middle; }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: #0d0d0d; }
+
+    .empty-row td { text-align: center; color: var(--gray-600); padding: 32px; }
+
+    /* ── TIER BADGE ── */
+    .tier-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+      padding: 3px 10px; border-radius: 20px;
+    }
+    .tier-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .tier-none     { background: #1a1a1a; color: var(--gray-600); border: 1px solid #2a2a2a; }
+    .tier-bronze   { background: #1a0e00; color: #cd7f32; border: 1px solid #3a2000; }
+    .tier-silver   { background: #141414; color: #aaa;    border: 1px solid #2a2a2a; }
+    .tier-gold     { background: #1a1200; color: #f5c518; border: 1px solid #3a2a00; }
+    .tier-platinum { background: #0f0f1a; color: #c0c0ff; border: 1px solid #2a2a40; }
+    .dot-bronze   { background: #cd7f32; }
+    .dot-silver   { background: #aaa; }
+    .dot-gold     { background: #f5c518; }
+    .dot-platinum { background: #c0c0ff; }
+
+    /* ── STATUS BADGE ── */
+    .status-badge {
+      display: inline-block;
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px;
+      padding: 2px 8px; border-radius: 10px;
+    }
+    .status-owed { background: #1a1200; color: #f5c518; border: 1px solid #3a2a00; }
+    .status-paid { background: #0a1a0f; color: #68d391; border: 1px solid #1a3a20; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 16px;
+      padding: 32px;
+      width: 100%;
+      max-width: 480px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal h3 { font-size: 18px; font-weight: 700; margin-bottom: 20px; letter-spacing: -0.3px; }
+
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: var(--gray-600); margin-bottom: 6px; }
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      background: #000;
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: var(--white);
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      padding: 10px 14px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .form-group input:focus,
+    .form-group select:focus { border-color: #555; }
+    .form-group select option { background: #111; }
+
+    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; }
+
+    /* ── AFFILIATE NAME CHIP ── */
+    .aff-name { font-weight: 600; color: var(--white); }
+    .aff-email { font-size: 11px; color: var(--gray-600); margin-top: 1px; }
+
+    /* ── PROGRESS BAR ── */
+    .progress-wrap { background: #1a1a1a; border-radius: 4px; height: 4px; margin-top: 6px; overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 4px; transition: width 0.4s; }
+
+    /* ── CALLOUT ── */
+    .callout {
+      background: #0d0d0d; border: 1px solid #222; border-left: 3px solid #333;
+      border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 16px;
+      font-size: 13px; color: var(--gray-400); line-height: 1.6;
+    }
+    .callout strong { color: var(--white); }
+    .callout.gold { border-left-color: var(--gold); background: #0d0d00; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 24px 16px; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text">Sales.io</div>
+    <div class="logo-sub">Affiliate Tracker</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-item active" onclick="showView('dashboard')">
+      <span class="nav-icon">📊</span> Dashboard
+    </div>
+    <div class="nav-item" onclick="showView('affiliates')">
+      <span class="nav-icon">👥</span> Affiliates
+    </div>
+    <div class="nav-item" onclick="showView('deals')">
+      <span class="nav-icon">💰</span> Deal Log
+    </div>
+    <div class="nav-item" onclick="showView('payouts')">
+      <span class="nav-icon">💳</span> Payouts
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    Data stored locally in your browser.<br>Use the same browser to access records.
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- ── DASHBOARD ── -->
+  <div class="view active" id="view-dashboard">
+    <div class="page-hdr">
+      <h1>Dashboard</h1>
+      <p>Affiliate program overview — all partners, all deals</p>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="sc-label">Total Partners</div>
+        <div class="sc-num" id="stat-partners">0</div>
+        <div class="sc-sub">Active affiliates</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-label">Deals Closed</div>
+        <div class="sc-num" id="stat-deals">0</div>
+        <div class="sc-sub">All time via affiliates</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-label">Commission Owed</div>
+        <div class="sc-num" id="stat-owed" style="color:#f5c518;">$0</div>
+        <div class="sc-sub">Not yet paid out</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-label">Total Paid Out</div>
+        <div class="sc-num" id="stat-paid" style="color:#68d391;">$0</div>
+        <div class="sc-sub">Commission paid to date</div>
+      </div>
+    </div>
+
+    <div class="callout gold">
+      <strong>Tier structure (rolling 12 months):</strong> Bronze 1–3 deals = 10% · Silver 4–7 = 15% · Gold 8–12 = 20% · Platinum 13+ = 25% · Based on closed deals in the last 365 days per partner.
+    </div>
+
+    <div class="section-hdr">
+      <h2>Partner Leaderboard</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Partner</th>
+            <th>Tier</th>
+            <th>Deals (12 mo)</th>
+            <th>All-Time Deals</th>
+            <th>Commission Rate</th>
+            <th>Owed</th>
+            <th>Paid</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-body">
+          <tr class="empty-row"><td colspan="7">No affiliates yet. Add your first partner.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── AFFILIATES ── -->
+  <div class="view" id="view-affiliates">
+    <div class="page-hdr">
+      <h1>Affiliates</h1>
+      <p>Manage your referral partners</p>
+    </div>
+
+    <div class="section-hdr">
+      <h2>All Partners</h2>
+      <button class="btn btn-primary" onclick="openAddAffiliate()">+ Add Partner</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Joined</th>
+            <th>Tier</th>
+            <th>Rate</th>
+            <th>Deals (12 mo)</th>
+            <th>Progress to Next</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="affiliates-body">
+          <tr class="empty-row"><td colspan="7">No affiliates yet. Add your first partner.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── DEALS ── -->
+  <div class="view" id="view-deals">
+    <div class="page-hdr">
+      <h1>Deal Log</h1>
+      <p>Every deal attributed to an affiliate partner</p>
+    </div>
+
+    <div class="section-hdr">
+      <h2>All Deals</h2>
+      <button class="btn btn-primary" onclick="openLogDeal()">+ Log Deal</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Affiliate</th>
+            <th>Student / Prospect</th>
+            <th>Deal Value</th>
+            <th>Payment Type</th>
+            <th>Commission</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="deals-body">
+          <tr class="empty-row"><td colspan="8">No deals logged yet.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── PAYOUTS ── -->
+  <div class="view" id="view-payouts">
+    <div class="page-hdr">
+      <h1>Payouts</h1>
+      <p>Outstanding and completed commission payments</p>
+    </div>
+
+    <div class="stats-row" style="grid-template-columns: repeat(2,1fr);">
+      <div class="stat-card">
+        <div class="sc-label">Total Owed</div>
+        <div class="sc-num" id="payout-owed" style="color:#f5c518;">$0</div>
+        <div class="sc-sub">Commissions not yet paid</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-label">Total Paid</div>
+        <div class="sc-num" id="payout-paid" style="color:#68d391;">$0</div>
+        <div class="sc-sub">Commissions paid out</div>
+      </div>
+    </div>
+
+    <div class="section-hdr">
+      <h2>Outstanding Commissions</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Affiliate</th>
+            <th>Student</th>
+            <th>Deal Value</th>
+            <th>Commission</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="owed-body">
+          <tr class="empty-row"><td colspan="6">No outstanding commissions.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-hdr">
+      <h2>Paid Commissions</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Date Paid</th>
+            <th>Affiliate</th>
+            <th>Student</th>
+            <th>Deal Value</th>
+            <th>Commission Paid</th>
+          </tr>
+        </thead>
+        <tbody id="paid-body">
+          <tr class="empty-row"><td colspan="5">No paid commissions yet.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</main>
+
+<!-- ── MODAL: ADD AFFILIATE ── -->
+<div class="modal-overlay" id="modal-affiliate">
+  <div class="modal">
+    <h3>Add Affiliate Partner</h3>
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="aff-name" placeholder="e.g. Alex Johnson"/>
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="aff-email" placeholder="alex@email.com"/>
+    </div>
+    <div class="form-group">
+      <label>Platform / Notes</label>
+      <input type="text" id="aff-platform" placeholder="e.g. Instagram, podcast, alumni"/>
+    </div>
+    <div class="form-group">
+      <label>Date Joined</label>
+      <input type="date" id="aff-date"/>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-affiliate')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveAffiliate()">Add Partner</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL: LOG DEAL ── -->
+<div class="modal-overlay" id="modal-deal">
+  <div class="modal">
+    <h3>Log a Deal</h3>
+    <div class="form-group">
+      <label>Affiliate Partner</label>
+      <select id="deal-affiliate">
+        <option value="">Select partner...</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Student / Prospect Name</label>
+      <input type="text" id="deal-student" placeholder="e.g. Marcus Williams"/>
+    </div>
+    <div class="form-group">
+      <label>Date Closed</label>
+      <input type="date" id="deal-date"/>
+    </div>
+    <div class="form-group">
+      <label>Payment Type</label>
+      <select id="deal-payment" onchange="updateDealValue()">
+        <option value="7500">Pay in Full — $7,500</option>
+        <option value="10000">3-Way Split — $10,000</option>
+        <option value="7500-2way">2-Way Split — $7,500</option>
+        <option value="custom">Custom Amount</option>
+      </select>
+    </div>
+    <div class="form-group" id="deal-custom-group" style="display:none;">
+      <label>Custom Deal Value ($)</label>
+      <input type="number" id="deal-custom-value" placeholder="7500"/>
+    </div>
+    <div class="form-group">
+      <label>Commission Rate</label>
+      <select id="deal-commission-override">
+        <option value="auto">Auto (based on affiliate tier)</option>
+        <option value="10">10% — Bronze</option>
+        <option value="15">15% — Silver</option>
+        <option value="20">20% — Gold</option>
+        <option value="25">25% — Platinum</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-deal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveDeal()">Log Deal</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL: CONFIRM DELETE ── -->
+<div class="modal-overlay" id="modal-confirm">
+  <div class="modal" style="max-width:360px;">
+    <h3 id="confirm-title">Are you sure?</h3>
+    <p id="confirm-msg" style="font-size:13px;color:#999;margin-bottom:24px;"></p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-confirm')">Cancel</button>
+      <button class="btn btn-danger" id="confirm-action">Delete</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── DATA ──
+  const TIERS = [
+    { name: 'Platinum', min: 13, max: Infinity, rate: 25, dotClass: 'dot-platinum', badgeClass: 'tier-platinum' },
+    { name: 'Gold',     min: 8,  max: 12,       rate: 20, dotClass: 'dot-gold',     badgeClass: 'tier-gold'     },
+    { name: 'Silver',   min: 4,  max: 7,         rate: 15, dotClass: 'dot-silver',   badgeClass: 'tier-silver'   },
+    { name: 'Bronze',   min: 1,  max: 3,         rate: 10, dotClass: 'dot-bronze',   badgeClass: 'tier-bronze'   },
+    { name: '—',        min: 0,  max: 0,         rate: 10, dotClass: '',             badgeClass: 'tier-none'     },
+  ];
+
+  function load(key, def) {
+    try { return JSON.parse(localStorage.getItem('sio_aff_' + key)) || def; } catch { return def; }
+  }
+  function save(key, val) { localStorage.setItem('sio_aff_' + key, JSON.stringify(val)); }
+
+  function getAffiliates() { return load('affiliates', []); }
+  function getDeals()      { return load('deals', []); }
+  function setAffiliates(a){ save('affiliates', a); }
+  function setDeals(d)     { save('deals', d); }
+
+  function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+
+  // ── TIER LOGIC ──
+  function getTierForCount(n) {
+    return TIERS.find(t => n >= t.min && n <= t.max) || TIERS[TIERS.length - 1];
+  }
+
+  function getDealsLast12Months(affiliateId) {
+    const cutoff = new Date();
+    cutoff.setFullYear(cutoff.getFullYear() - 1);
+    return getDeals().filter(d => d.affiliateId === affiliateId && new Date(d.date) >= cutoff);
+  }
+
+  function getTierForAffiliate(affiliateId) {
+    const n = getDealsLast12Months(affiliateId).length;
+    return getTierForCount(n);
+  }
+
+  function getRateForAffiliate(affiliateId) {
+    return getTierForAffiliate(affiliateId).rate;
+  }
+
+  // ── NEXT TIER PROGRESS ──
+  function nextTierProgress(n) {
+    const currentTier = getTierForCount(n);
+    if (currentTier.name === 'Platinum') return { label: 'Max tier reached', pct: 100, next: null };
+    const tiers = [...TIERS].reverse();
+    const nextIdx = tiers.findIndex(t => t.name === currentTier.name) + 1;
+    const next = tiers[nextIdx];
+    if (!next || next.name === 'Platinum') {
+      const needed = 13;
+      const pct = Math.min(100, Math.round((n / needed) * 100));
+      return { label: `${needed - n} more to Platinum`, pct, next: 'Platinum' };
+    }
+    const needed = next.min;
+    const pct = Math.min(100, Math.round((n / needed) * 100));
+    return { label: `${Math.max(0, needed - n)} more to ${next.name}`, pct, next: next.name };
+  }
+
+  // ── FORMAT ──
+  function fmtMoney(n) {
+    if (n >= 1000) return '$' + (n / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    return '$' + n.toLocaleString();
+  }
+
+  function fmtDate(d) {
+    if (!d) return '—';
+    const dt = new Date(d + 'T12:00:00');
+    return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  function tierBadge(tier) {
+    const dot = tier.dotClass ? `<span class="tier-dot ${tier.dotClass}"></span>` : '';
+    return `<span class="tier-badge ${tier.badgeClass}">${dot}${tier.name}</span>`;
+  }
+
+  function statusBadge(status) {
+    return status === 'paid'
+      ? '<span class="status-badge status-paid">Paid</span>'
+      : '<span class="status-badge status-owed">Owed</span>';
+  }
+
+  // ── VIEWS ──
+  function showView(name) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('view-' + name).classList.add('active');
+    document.querySelector(`[onclick="showView('${name}')"]`).classList.add('active');
+    renderAll();
+  }
+
+  // ── RENDER ──
+  function renderAll() {
+    renderDashboard();
+    renderAffiliates();
+    renderDeals();
+    renderPayouts();
+  }
+
+  function renderDashboard() {
+    const affiliates = getAffiliates();
+    const deals = getDeals();
+    const owed = deals.filter(d => d.status === 'owed').reduce((s, d) => s + d.commissionAmount, 0);
+    const paid = deals.filter(d => d.status === 'paid').reduce((s, d) => s + d.commissionAmount, 0);
+
+    document.getElementById('stat-partners').textContent = affiliates.length;
+    document.getElementById('stat-deals').textContent = deals.length;
+    document.getElementById('stat-owed').textContent = fmtMoney(owed);
+    document.getElementById('stat-paid').textContent = fmtMoney(paid);
+
+    const tbody = document.getElementById('leaderboard-body');
+    if (!affiliates.length) {
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="7">No affiliates yet. Add your first partner.</td></tr>';
+      return;
+    }
+
+    const rows = affiliates.map(a => {
+      const tier = getTierForAffiliate(a.id);
+      const all12 = getDealsLast12Months(a.id).length;
+      const allTime = deals.filter(d => d.affiliateId === a.id).length;
+      const aOwed = deals.filter(d => d.affiliateId === a.id && d.status === 'owed').reduce((s, d) => s + d.commissionAmount, 0);
+      const aPaid = deals.filter(d => d.affiliateId === a.id && d.status === 'paid').reduce((s, d) => s + d.commissionAmount, 0);
+      return `<tr>
+        <td><div class="aff-name">${a.name}</div><div class="aff-email">${a.platform || ''}</div></td>
+        <td>${tierBadge(tier)}</td>
+        <td><strong>${all12}</strong></td>
+        <td>${allTime}</td>
+        <td style="font-weight:700;">${tier.rate}%</td>
+        <td style="color:#f5c518;font-weight:600;">${fmtMoney(aOwed)}</td>
+        <td style="color:#68d391;font-weight:600;">${fmtMoney(aPaid)}</td>
+      </tr>`;
+    });
+
+    tbody.innerHTML = rows.join('');
+  }
+
+  function renderAffiliates() {
+    const affiliates = getAffiliates();
+    const deals = getDeals();
+    const tbody = document.getElementById('affiliates-body');
+
+    if (!affiliates.length) {
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="7">No affiliates yet. Add your first partner.</td></tr>';
+      return;
+    }
+
+    const rows = affiliates.map(a => {
+      const tier = getTierForAffiliate(a.id);
+      const n12 = getDealsLast12Months(a.id).length;
+      const prog = nextTierProgress(n12);
+      const progressBar = `<div style="font-size:11px;color:#666;margin-bottom:4px;">${prog.label}</div>
+        <div class="progress-wrap"><div class="progress-fill" style="width:${prog.pct}%;background:${prog.next === 'Platinum' ? '#c0c0ff' : prog.next === 'Gold' ? '#f5c518' : prog.next === 'Silver' ? '#aaa' : '#cd7f32'}"></div></div>`;
+
+      return `<tr>
+        <td><div class="aff-name">${a.name}</div><div class="aff-email">${a.email || ''}</div></td>
+        <td>${fmtDate(a.dateJoined)}</td>
+        <td>${tierBadge(tier)}</td>
+        <td style="font-weight:700;">${tier.rate}%</td>
+        <td><strong>${n12}</strong></td>
+        <td style="min-width:160px;">${progressBar}</td>
+        <td>
+          <button class="btn btn-sm btn-ghost" onclick="openLogDealFor('${a.id}')">+ Deal</button>
+          <button class="btn btn-sm btn-danger" onclick="confirmDelete('affiliate','${a.id}','${a.name}')" style="margin-left:4px;">✕</button>
+        </td>
+      </tr>`;
+    });
+
+    tbody.innerHTML = rows.join('');
+  }
+
+  function renderDeals() {
+    const deals = getDeals().slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+    const affiliates = getAffiliates();
+    const tbody = document.getElementById('deals-body');
+
+    if (!deals.length) {
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="8">No deals logged yet.</td></tr>';
+      return;
+    }
+
+    const rows = deals.map(d => {
+      const aff = affiliates.find(a => a.id === d.affiliateId);
+      return `<tr>
+        <td>${fmtDate(d.date)}</td>
+        <td><div class="aff-name">${aff ? aff.name : '—'}</div></td>
+        <td>${d.student || '—'}</td>
+        <td style="font-weight:600;">${fmtMoney(d.dealValue)}</td>
+        <td style="color:#999;">${d.paymentLabel || '—'}</td>
+        <td style="font-weight:600;color:#f5c518;">${fmtMoney(d.commissionAmount)} <span style="font-size:11px;color:#555;">(${d.commissionRate}%)</span></td>
+        <td>${statusBadge(d.status)}</td>
+        <td>
+          ${d.status === 'owed' ? `<button class="btn btn-sm btn-green" onclick="markPaid('${d.id}')">Mark Paid</button>` : '<span style="font-size:11px;color:#555;">✓ Done</span>'}
+          <button class="btn btn-sm btn-danger" onclick="confirmDelete('deal','${d.id}','')" style="margin-left:4px;">✕</button>
+        </td>
+      </tr>`;
+    });
+
+    tbody.innerHTML = rows.join('');
+  }
+
+  function renderPayouts() {
+    const deals = getDeals().slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+    const affiliates = getAffiliates();
+
+    const owed = deals.filter(d => d.status === 'owed').reduce((s, d) => s + d.commissionAmount, 0);
+    const paid = deals.filter(d => d.status === 'paid').reduce((s, d) => s + d.commissionAmount, 0);
+    document.getElementById('payout-owed').textContent = fmtMoney(owed);
+    document.getElementById('payout-paid').textContent = fmtMoney(paid);
+
+    const owedDeals = deals.filter(d => d.status === 'owed');
+    const paidDeals = deals.filter(d => d.status === 'paid');
+
+    const owedBody = document.getElementById('owed-body');
+    owedBody.innerHTML = owedDeals.length
+      ? owedDeals.map(d => {
+          const aff = affiliates.find(a => a.id === d.affiliateId);
+          return `<tr>
+            <td>${fmtDate(d.date)}</td>
+            <td><div class="aff-name">${aff ? aff.name : '—'}</div></td>
+            <td>${d.student || '—'}</td>
+            <td style="font-weight:600;">${fmtMoney(d.dealValue)}</td>
+            <td style="font-weight:700;color:#f5c518;">${fmtMoney(d.commissionAmount)}</td>
+            <td><button class="btn btn-sm btn-green" onclick="markPaid('${d.id}')">Mark Paid</button></td>
+          </tr>`;
+        }).join('')
+      : '<tr class="empty-row"><td colspan="6">No outstanding commissions.</td></tr>';
+
+    const paidBody = document.getElementById('paid-body');
+    paidBody.innerHTML = paidDeals.length
+      ? paidDeals.map(d => {
+          const aff = affiliates.find(a => a.id === d.affiliateId);
+          return `<tr>
+            <td>${fmtDate(d.datePaid || d.date)}</td>
+            <td><div class="aff-name">${aff ? aff.name : '—'}</div></td>
+            <td>${d.student || '—'}</td>
+            <td style="font-weight:600;">${fmtMoney(d.dealValue)}</td>
+            <td style="font-weight:700;color:#68d391;">${fmtMoney(d.commissionAmount)}</td>
+          </tr>`;
+        }).join('')
+      : '<tr class="empty-row"><td colspan="5">No paid commissions yet.</td></tr>';
+  }
+
+  // ── MODALS ──
+  function openModal(id)  { document.getElementById(id).classList.add('open'); }
+  function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+  document.querySelectorAll('.modal-overlay').forEach(m => {
+    m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+  });
+
+  function openAddAffiliate() {
+    document.getElementById('aff-name').value = '';
+    document.getElementById('aff-email').value = '';
+    document.getElementById('aff-platform').value = '';
+    document.getElementById('aff-date').value = new Date().toISOString().split('T')[0];
+    openModal('modal-affiliate');
+  }
+
+  function saveAffiliate() {
+    const name = document.getElementById('aff-name').value.trim();
+    if (!name) { alert('Name is required.'); return; }
+    const affiliates = getAffiliates();
+    affiliates.push({
+      id: uid(),
+      name,
+      email: document.getElementById('aff-email').value.trim(),
+      platform: document.getElementById('aff-platform').value.trim(),
+      dateJoined: document.getElementById('aff-date').value,
+    });
+    setAffiliates(affiliates);
+    closeModal('modal-affiliate');
+    renderAll();
+  }
+
+  function populateAffiliateSelect(preselect) {
+    const sel = document.getElementById('deal-affiliate');
+    const affiliates = getAffiliates();
+    sel.innerHTML = '<option value="">Select partner...</option>' +
+      affiliates.map(a => `<option value="${a.id}" ${a.id === preselect ? 'selected' : ''}>${a.name}</option>`).join('');
+  }
+
+  function openLogDeal() {
+    populateAffiliateSelect(null);
+    document.getElementById('deal-student').value = '';
+    document.getElementById('deal-date').value = new Date().toISOString().split('T')[0];
+    document.getElementById('deal-payment').value = '7500';
+    document.getElementById('deal-commission-override').value = 'auto';
+    document.getElementById('deal-custom-group').style.display = 'none';
+    openModal('modal-deal');
+  }
+
+  function openLogDealFor(affiliateId) {
+    openLogDeal();
+    populateAffiliateSelect(affiliateId);
+  }
+
+  function updateDealValue() {
+    const val = document.getElementById('deal-payment').value;
+    document.getElementById('deal-custom-group').style.display = val === 'custom' ? 'block' : 'none';
+  }
+
+  function saveDeal() {
+    const affiliateId = document.getElementById('deal-affiliate').value;
+    const student     = document.getElementById('deal-student').value.trim();
+    const date        = document.getElementById('deal-date').value;
+    const payType     = document.getElementById('deal-payment').value;
+    const override    = document.getElementById('deal-commission-override').value;
+
+    if (!affiliateId) { alert('Select an affiliate partner.'); return; }
+    if (!student)     { alert('Enter the student name.'); return; }
+    if (!date)        { alert('Enter a date.'); return; }
+
+    let dealValue, paymentLabel;
+    if (payType === 'custom') {
+      dealValue = parseFloat(document.getElementById('deal-custom-value').value) || 7500;
+      paymentLabel = 'Custom';
+    } else if (payType === '10000') {
+      dealValue = 10000; paymentLabel = '3-Way Split';
+    } else if (payType === '7500-2way') {
+      dealValue = 7500; paymentLabel = '2-Way Split';
+    } else {
+      dealValue = 7500; paymentLabel = 'Pay in Full';
+    }
+
+    let commissionRate;
+    if (override === 'auto') {
+      commissionRate = getRateForAffiliate(affiliateId);
+    } else {
+      commissionRate = parseInt(override);
+    }
+
+    const commissionAmount = Math.round(dealValue * commissionRate / 100);
+    const deals = getDeals();
+
+    deals.push({
+      id: uid(),
+      affiliateId,
+      student,
+      date,
+      dealValue,
+      paymentLabel,
+      commissionRate,
+      commissionAmount,
+      status: 'owed',
+    });
+
+    setDeals(deals);
+    closeModal('modal-deal');
+    renderAll();
+  }
+
+  function markPaid(dealId) {
+    const deals = getDeals();
+    const d = deals.find(x => x.id === dealId);
+    if (d) { d.status = 'paid'; d.datePaid = new Date().toISOString().split('T')[0]; }
+    setDeals(deals);
+    renderAll();
+  }
+
+  // ── DELETE ──
+  let _deleteAction = null;
+
+  function confirmDelete(type, id, name) {
+    const msg = type === 'affiliate'
+      ? `Remove "${name}" and all their associated deals?`
+      : 'Delete this deal record permanently?';
+    document.getElementById('confirm-title').textContent = type === 'affiliate' ? 'Remove Partner?' : 'Delete Deal?';
+    document.getElementById('confirm-msg').textContent = msg;
+    _deleteAction = () => {
+      if (type === 'affiliate') {
+        setAffiliates(getAffiliates().filter(a => a.id !== id));
+        setDeals(getDeals().filter(d => d.affiliateId !== id));
+      } else {
+        setDeals(getDeals().filter(d => d.id !== id));
+      }
+      closeModal('modal-confirm');
+      renderAll();
+    };
+    document.getElementById('confirm-action').onclick = _deleteAction;
+    openModal('modal-confirm');
+  }
+
+  // ── INIT ──
+  renderAll();
+</script>
+
+</body>
+</html>
