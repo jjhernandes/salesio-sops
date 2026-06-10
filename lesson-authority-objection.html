@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Authority Objection — Sales.io</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.6; display: flex; min-height: 100vh; }
+
+    .sidebar { width: 220px; flex-shrink: 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; border-right: 1px solid #1a1a1a; padding: 40px 0; }
+    .sidebar-logo { font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: #555; padding: 0 24px 24px; border-bottom: 1px solid #1a1a1a; margin-bottom: 20px; }
+    .nav-section { padding: 6px 24px; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #2a2a2a; margin-top: 16px; margin-bottom: 4px; }
+    .nav-link { display: block; padding: 7px 24px; font-size: 13px; color: #555; text-decoration: none; transition: color .15s, border-color .15s; border-left: 2px solid transparent; }
+    .nav-link:hover { color: #ccc; }
+    .nav-link.active { color: #4ade80; border-left-color: #4ade80; }
+
+    .main { flex: 1; max-width: 760px; padding: 56px 40px 120px; }
+    .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 12px; }
+    h1 { font-size: 40px; font-weight: 900; line-height: 1.05; letter-spacing: -1px; margin-bottom: 16px; }
+    .subtitle { font-size: 15px; color: #666; margin-bottom: 60px; line-height: 1.6; max-width: 560px; }
+
+    section { margin-bottom: 64px; }
+    h2 { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 24px; padding-bottom: 10px; border-bottom: 1px solid #111; }
+
+    .block { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 22px 26px; margin-bottom: 14px; }
+    .block-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #444; margin-bottom: 10px; }
+    .block p { font-size: 14px; color: #999; line-height: 1.7; }
+    .block p + p { margin-top: 10px; }
+
+    .highlight { background: #050f08; border: 1px solid #0d2b1a; border-radius: 10px; padding: 22px 26px; margin-bottom: 14px; }
+    .highlight p { font-size: 14px; color: #ccc; line-height: 1.8; }
+    .highlight strong { color: #4ade80; }
+
+    .warning { background: #0f0800; border: 1px solid #2b1a00; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; }
+    .warning p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .warning strong { color: #f59e0b; }
+
+    .red-block { background: #0f0505; border: 1px solid #2b0d0d; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; }
+    .red-block p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .red-block strong { color: #f87171; }
+
+    .quote-block { border-left: 3px solid #222; padding: 16px 22px; background: #050505; border-radius: 0 8px 8px 0; margin: 16px 0; }
+    .quote-block p { font-size: 15px; color: #ddd; font-style: italic; line-height: 1.8; }
+    .quote-block .attribution { font-size: 12px; color: #444; font-style: normal; margin-top: 8px; font-weight: 600; letter-spacing: 0.05em; }
+
+    /* Type cards */
+    .type-card { border-radius: 12px; overflow: hidden; margin-bottom: 14px; }
+    .type-top { padding: 22px 26px; }
+    .type-label { font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 5px; }
+    .type-title { font-size: 18px; font-weight: 900; letter-spacing: -0.4px; margin-bottom: 10px; }
+    .type-desc { font-size: 14px; color: #888; line-height: 1.7; }
+    .type-bottom { background: #0a0a0a; padding: 18px 26px; border-top: 1px solid #111; }
+    .type-sub { font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #444; margin-bottom: 10px; }
+    .type-signals { list-style: none; }
+    .type-signals li { font-size: 13px; line-height: 1.55; padding: 6px 0; border-bottom: 1px solid #0d0d0d; color: #777; font-style: italic; display: flex; gap: 10px; align-items: flex-start; }
+    .type-signals li:last-child { border-bottom: none; }
+    .type-signals li::before { content: "→"; color: #333; flex-shrink: 0; font-style: normal; margin-top: 1px; }
+
+    .type-card.t1 { border: 1px solid #0a2040; }
+    .type-card.t1 .type-top { background: #020810; }
+    .type-card.t1 .type-label { color: #60a5fa; }
+
+    .type-card.t2 { border: 1px solid #2b0d0d; }
+    .type-card.t2 .type-top { background: #0a0202; }
+    .type-card.t2 .type-label { color: #f87171; }
+
+    .type-card.t3 { border: 1px solid #2b1a00; }
+    .type-card.t3 .type-top { background: #080400; }
+    .type-card.t3 .type-label { color: #f59e0b; }
+
+    /* NCI steps */
+    .nci-list { display: flex; flex-direction: column; }
+    .nci-wrap { display: flex; gap: 20px; margin-bottom: 4px; }
+    .nci-left { display: flex; flex-direction: column; align-items: center; width: 40px; flex-shrink: 0; }
+    .dot { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; }
+    .line { flex: 1; width: 1px; background: #111; margin: 4px 0; min-height: 16px; }
+    .nci-right { flex: 1; padding-bottom: 28px; }
+    .nci-tag { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .nci-title { font-size: 16px; font-weight: 800; margin-bottom: 8px; }
+    .nci-body { font-size: 14px; color: #888; line-height: 1.7; }
+    .nci-ex { font-size: 13px; color: #555; font-style: italic; padding: 8px 12px; background: #050505; border-radius: 6px; border-left: 2px solid #1a1a1a; margin-top: 8px; line-height: 1.6; }
+    .nci-ex + .nci-ex { margin-top: 6px; }
+
+    /* Diagnosis table */
+    .diag-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; border-radius: 10px; overflow: hidden; border: 1px solid #1a1a1a; }
+    .diag-table thead tr { background: #0a0a0a; }
+    .diag-table th { padding: 12px 18px; text-align: left; font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; border-bottom: 1px solid #1a1a1a; color: #555; }
+    .diag-table td { padding: 14px 18px; font-size: 13px; line-height: 1.6; vertical-align: top; border-bottom: 1px solid #0d0d0d; color: #888; }
+    .diag-table tr:last-child td { border-bottom: none; }
+    .diag-table td:first-child { color: #ccc; font-weight: 600; }
+    .diag-table td:last-child { color: #4ade80; font-style: italic; }
+
+    /* Exchange */
+    .exchange { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 12px; overflow: hidden; margin-bottom: 20px; }
+    .exchange-header { padding: 14px 22px; border-bottom: 1px solid #111; font-size: 12px; font-weight: 700; color: #555; }
+    .exchange-body { padding: 20px 22px; display: flex; flex-direction: column; gap: 10px; }
+    .msg { display: flex; flex-direction: column; gap: 4px; }
+    .msg-who { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+    .msg-who.rep { color: #4ade80; }
+    .msg-who.prospect { color: #60a5fa; }
+    .msg-text { font-size: 14px; color: #ccc; line-height: 1.6; padding: 10px 14px; border-radius: 8px; }
+    .msg-text.rep-msg { background: #050f08; border: 1px solid #0d2b1a; color: #a3e8bb; }
+    .msg-text.prospect-msg { background: #050a12; border: 1px solid #0a2040; color: #93c5fd; }
+    .annotation { font-size: 11px; color: #f59e0b; padding: 4px 10px; background: #0f0800; border-radius: 5px; border: 1px solid #2b1a00; display: inline-block; margin-top: 4px; }
+    .annotation.blue { color: #93c5fd; background: #020810; border-color: #0a2040; }
+    .annotation.red { color: #fca5a5; background: #0a0202; border-color: #2b0d0d; }
+    .annotation.green { color: #a3e8bb; background: #020a04; border-color: #0d2b1a; }
+
+    /* Note list */
+    .note-list { list-style: none; }
+    .note-list li { font-size: 14px; color: #999; padding: 9px 0; border-bottom: 1px solid #0f0f0f; display: flex; gap: 12px; line-height: 1.6; }
+    .note-list li:last-child { border-bottom: none; }
+    .note-list li::before { content: "—"; color: #333; flex-shrink: 0; }
+
+    /* Preempt block */
+    .preempt { background: #050f08; border: 1px solid #0d2b1a; border-radius: 10px; padding: 20px 24px; margin-bottom: 12px; }
+    .preempt-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #4ade80; margin-bottom: 6px; }
+    .preempt p { font-size: 14px; color: #999; line-height: 1.7; }
+    .preempt .line-example { font-size: 13px; color: #a3e8bb; font-style: italic; padding: 10px 14px; background: #020a04; border-radius: 6px; border-left: 2px solid #0d2b1a; margin-top: 10px; line-height: 1.65; }
+
+    @media (max-width: 780px) {
+      .sidebar { display: none; }
+      .main { padding: 40px 20px 80px; max-width: 100%; }
+      h1 { font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">Lesson</div>
+  <a href="#overview" class="nav-link active">Overview</a>
+  <div class="nav-section">Understanding It</div>
+  <a href="#what-it-means" class="nav-link">What It Actually Means</a>
+  <a href="#three-types" class="nav-link">The 3 Types</a>
+  <a href="#diagnosis" class="nav-link">Diagnosing Which One</a>
+  <div class="nav-section">The NCI Approach</div>
+  <a href="#nci" class="nav-link">What NCI Is</a>
+  <a href="#framework" class="nav-link">The Framework</a>
+  <div class="nav-section">Live Exchanges</div>
+  <a href="#live-fear" class="nav-link">Fear / Permission</a>
+  <a href="#live-stall" class="nav-link">Stall / Escape</a>
+  <a href="#live-real" class="nav-link">Real Decision-Maker</a>
+  <div class="nav-section">Prevention</div>
+  <a href="#preempt" class="nav-link">Preempting in Discovery</a>
+  <a href="#mistakes" class="nav-link">Mistakes</a>
+</nav>
+
+<main class="main">
+
+  <div id="overview">
+    <div class="eyebrow">Sales.io — JJ Hernandez</div>
+    <h1>Authority &amp; the Partner Objection</h1>
+    <p class="subtitle">When someone says "I need to run this by my partner" — they almost never mean what they said. Here's how to actually find out what they do mean, and what to do about it.</p>
+  </div>
+
+
+  <!-- WHAT IT ACTUALLY MEANS -->
+  <section id="what-it-means">
+    <h2>What It Actually Means</h2>
+
+    <div class="block">
+      <div class="block-label">The surface and what's underneath</div>
+      <p>"I need to talk to my partner" is one of the most common objections in sales and one of the most mishandled. Most reps hear it and either immediately back off and schedule a follow-up — or they try to overcome it by making the case for why the partner doesn't need to be involved. Both are wrong. Both miss the point entirely.</p>
+      <p>The objection is not about the partner. The partner is a vehicle. A way out. A socially acceptable reason to not make a decision on this call. When someone says this, what they're almost always telling you is one of three things — none of which have anything to do with their partner.</p>
+    </div>
+
+    <div class="highlight">
+      <p><strong>The partner is never the problem. The prospect is the problem.</strong> Either they're not fully decided and they're using the partner as cover, or they're scared and using the partner as permission, or there's a real gap in the discovery that you missed — and that gap is what's driving the hesitation. Your job is to find out which one. You do that by asking, not by handling.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">What reps do wrong</div>
+      <p>The average rep hears "I need to talk to my partner" and does one of two things. They say "Of course, totally understand" — and the deal dies on the follow-up. Or they say "Well, can we get your partner on a call?" — which sometimes works but often just delays the real issue. Neither approach gets to what's actually happening.</p>
+      <p>The right move is to get genuinely curious. Not about the partner — about the prospect. The question is not "how do we involve your partner?" The question is "what is this person actually feeling right now that's making them reach for the partner as a reason to pause?"</p>
+    </div>
+
+    <div class="quote-block">
+      <p>"The emotions are only built in the discovery. If you didn't build them there, they won't open up in the objections either."</p>
+      <div class="attribution">— JJ Hernandez</div>
+    </div>
+  </section>
+
+
+  <!-- THE 3 TYPES -->
+  <section id="three-types">
+    <h2>The 3 Types of Authority Objection</h2>
+
+    <div class="block">
+      <p>Every "I need to talk to my partner" is one of these three things. Knowing which one you're dealing with changes everything about how you respond. Running a generic rebuttal on all three will land wrong on two of them. Diagnose first. Respond after.</p>
+    </div>
+
+    <div class="type-card t1">
+      <div class="type-top">
+        <div class="type-label">Type 01 — Fear / Permission Seeking</div>
+        <div class="type-title">They've decided. They're scared to own it.</div>
+        <div class="type-desc">This prospect actually wants this. The problem isn't certainty — it's courage. They're using the partner as emotional permission to do something they know they need to do. The partner isn't blocking anything. The prospect's own fear is. They're outsourcing the decision so that if it goes wrong, they're not fully responsible. This is the most common type and the most closeable.</div>
+      </div>
+      <div class="type-bottom">
+        <div class="type-sub">Signs you're dealing with Type 01</div>
+        <ul class="type-signals">
+          <li>They were engaged throughout the call — now they've pulled back</li>
+          <li>Their tone shifted right when the investment came up</li>
+          <li>They said "I know I need to do this" or "this makes sense" earlier in the call</li>
+          <li>The partner objection came up immediately after price — not after a genuine pause</li>
+          <li>They can't tell you what specifically the partner will want to know</li>
+          <li>"My partner is pretty supportive" — which means there's no real opposition</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="type-card t2">
+      <div class="type-top">
+        <div class="type-label">Type 02 — Stall / Escape Hatch</div>
+        <div class="type-title">They're not sold. The partner is a polite exit.</div>
+        <div class="type-desc">This prospect isn't ready. Something didn't land in the discovery — either the problem didn't feel real enough, the solution didn't feel credible, or the value wasn't there. The partner objection is not the real thing. It's the most socially acceptable way to end a conversation without saying "I don't believe this is worth it." This type needs more discovery, not a partner strategy.</div>
+      </div>
+      <div class="type-bottom">
+        <div class="type-sub">Signs you're dealing with Type 02</div>
+        <ul class="type-signals">
+          <li>The energy was lukewarm throughout — never really turned on</li>
+          <li>They gave short answers during discovery and didn't go deep</li>
+          <li>They've been agreeable but not committed — a lot of "yeah, sure" and "that makes sense"</li>
+          <li>The partner objection was offered too quickly and too easily — almost rehearsed</li>
+          <li>When you ask "if this was purely your call" — they hesitate or say they're "not sure"</li>
+          <li>They can't tell you what the right time would look like</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="type-card t3">
+      <div class="type-top">
+        <div class="type-label">Type 03 — Real Decision-Maker</div>
+        <div class="type-title">The partner genuinely needs to be part of this.</div>
+        <div class="type-desc">This is the rarest type — and it only exists if you didn't ask about decision-making structure early in the call. Some investments — especially joint finances, business decisions, or major life changes — genuinely involve two people. If the partner is actually a co-decision-maker, the only move is to get both of them on a call together. Never try to coach one person to sell the other. It doesn't work and it puts the prospect in an uncomfortable position.</div>
+      </div>
+      <div class="type-bottom">
+        <div class="type-sub">Signs you're dealing with Type 03</div>
+        <ul class="type-signals">
+          <li>They mentioned the partner or shared finances naturally earlier in the call</li>
+          <li>They can tell you exactly what the partner will want to know — it's specific</li>
+          <li>Their tone is matter-of-fact, not defensive or evasive</li>
+          <li>They say "we" when talking about finances or decisions — not "I"</li>
+          <li>The call is the first time money has come up and they're genuinely surprised by the investment</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- DIAGNOSIS -->
+  <section id="diagnosis">
+    <h2>Diagnosing Which Type You're Dealing With</h2>
+
+    <div class="block">
+      <p>Before you run any framework, you need to know which type you're dealing with. One question does most of the diagnostic work. The rest come from listening carefully to how they answer it.</p>
+    </div>
+
+    <div class="block" style="border-color:#1a4a20;">
+      <div class="block-label" style="color:#4ade80;">The diagnostic question</div>
+      <p style="color:#ccc; font-size:14.5px; font-style:italic; line-height:1.8;">"Of course — before we talk about that, I want to ask you something honestly. If this was purely your call — no one else involved — where are you?"</p>
+    </div>
+
+    <table class="diag-table">
+      <thead>
+        <tr>
+          <th>Their answer</th>
+          <th>What it means</th>
+          <th>Your move</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>"Honestly, I'd probably just do it."</td>
+          <td>Type 01 — Fear/Permission. They're in. They need to own it.</td>
+          <td>Run the NCI framework for Type 01 — surface the fear and separate it from the decision.</td>
+        </tr>
+        <tr>
+          <td>"I think so, but I'm still not 100% sure."</td>
+          <td>Type 02 — Stall. Something didn't fully land. The partner is a cover.</td>
+          <td>Go back into discovery. Find the gap. "What's the piece that's still not sitting right for you specifically?"</td>
+        </tr>
+        <tr>
+          <td>"I mean, we make all big decisions together."</td>
+          <td>Type 03 — Real decision-maker situation.</td>
+          <td>Respect it. Get both people on a call. Don't try to coach one to sell the other.</td>
+        </tr>
+        <tr>
+          <td>They pause, deflect, or give a vague answer.</td>
+          <td>Type 02 — there's something unspoken. They're not ready to say what it is.</td>
+          <td>"I can feel there's something you haven't said yet. What is it?" — then wait.</td>
+        </tr>
+        <tr>
+          <td>"To be honest — she's pretty supportive of whatever I do."</td>
+          <td>Type 01 confirmed. The partner isn't the real thing.</td>
+          <td>"So the real question is — do YOU feel good about this?" Surface the internal barrier directly.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+
+  <!-- WHAT NCI IS -->
+  <section id="nci">
+    <h2>What NCI Is — and Why It Works Here</h2>
+
+    <div class="block">
+      <div class="block-label">Neuro-Cognitive Influence</div>
+      <p>NCI is not a tactic. It's an approach to influencing how a person thinks — not by pushing a conclusion on them, but by guiding them to arrive at the conclusion themselves through the right questions in the right sequence. The brain doesn't resist conclusions it generated on its own. It resists conclusions that come from the outside.</p>
+      <p>When a prospect says "I need to talk to my partner," they're operating from a surface-level thought. NCI creates the conditions for them to go deeper — to examine the real thought underneath, to feel the weight of the decision, and to arrive at clarity without you telling them what to decide. The questions do the work. Your job is to ask the right ones and stay out of the way.</p>
+    </div>
+
+    <div class="highlight">
+      <p><strong>The core principle: people act on what they feel, not what they understand.</strong> A prospect can logically agree with everything you've said and still not move. Logic doesn't close people. Emotional clarity closes people. NCI creates emotional clarity by making the prospect surface and examine their own feelings — not by you describing those feelings to them, but by asking questions that make them say it themselves.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">Why standard objection scripts don't work here</div>
+      <p>A script assumes you know what the objection means. You don't. The partner objection sounds the same whether it's fear, a stall, or a real decision-making dynamic. Running the same rebuttal on all three will land wrong on two of them and feel manipulative on the third. NCI works because it doesn't try to handle the surface objection — it tries to understand what's actually happening and create conditions for the prospect to do the same.</p>
+    </div>
+
+    <div class="warning">
+      <p><strong>NCI requires you to slow down.</strong> Most reps speed up when they hit an objection — they start firing questions or running their handle. NCI is the opposite. You get quieter. You ask one question. You wait. You let the prospect feel what you just asked. The silence after an NCI question is not awkward — it means the question landed somewhere real. Don't fill it.</p>
+    </div>
+  </section>
+
+
+  <!-- THE FRAMEWORK -->
+  <section id="framework">
+    <h2>The NCI Framework for Authority Objections</h2>
+
+    <div class="block">
+      <p>Five moves. Not a script — a sequence of intentions. Each one builds on what the last revealed. The goal is not to remove the partner from the equation. The goal is to surface what's actually driving the objection so you can address the real thing.</p>
+    </div>
+
+    <div class="nci-list">
+
+      <div class="nci-wrap">
+        <div class="nci-left">
+          <div class="dot" style="background:#0d2b1a; color:#4ade80; border:1px solid #1a4a20;">01</div>
+          <div class="line"></div>
+        </div>
+        <div class="nci-right">
+          <div class="nci-tag" style="color:#4ade80;">Acknowledge — don't react</div>
+          <div class="nci-title">Land soft. Neutralize the defense mechanism.</div>
+          <div class="nci-body">The moment you react to this objection — with a counter, a push, a script — the prospect's defenses go up. They feel handled. One quiet acknowledgment before anything else signals that you're not panicking, not pushing, and you actually heard them. This creates safety. Safety creates honesty.</div>
+          <div class="nci-ex">"Of course. Before we talk about that — can I ask you something?"</div>
+          <div class="nci-ex">"Absolutely. I want to make sure I understand where you are first."</div>
+        </div>
+      </div>
+
+      <div class="nci-wrap">
+        <div class="nci-left">
+          <div class="dot" style="background:#061220; color:#60a5fa; border:1px solid #0a2a40;">02</div>
+          <div class="line"></div>
+        </div>
+        <div class="nci-right">
+          <div class="nci-tag" style="color:#60a5fa;">Diagnose — separate them from the partner</div>
+          <div class="nci-title">Get their honest take before involving anyone else.</div>
+          <div class="nci-body">This is the diagnostic question. You need to know if this is about courage, a gap, or a genuine shared decision before you do anything else. Ask it once. Then wait. Their answer tells you everything about what actually needs to happen next.</div>
+          <div class="nci-ex">"If this was purely your call — just you, no one else involved — where are you?"</div>
+          <div class="nci-ex">"Before we even get to the partner conversation — where are YOU with this, honestly?"</div>
+        </div>
+      </div>
+
+      <div class="nci-wrap">
+        <div class="nci-left">
+          <div class="dot" style="background:#0f0800; color:#f59e0b; border:1px solid #3a2200;">03</div>
+          <div class="line"></div>
+        </div>
+        <div class="nci-right">
+          <div class="nci-tag" style="color:#f59e0b;">Surface the real thing — name what's underneath</div>
+          <div class="nci-title">Make the actual barrier visible.</div>
+          <div class="nci-body">Once you know whether you're dealing with fear, a gap, or a genuine decision-maker situation — you need to get whatever's actually there into the room. Don't name it for them. Ask a question that makes them name it. The moment they say the real thing out loud, you have something to work with. You can't work with the partner objection — it's too vague. You can work with fear. You can work with doubt. You can work with a specific gap.</div>
+          <div class="nci-ex">"What specifically are you unsure about — is it the program itself, the timing, or something else?"</div>
+          <div class="nci-ex">"What would need to be true for you to feel fully confident in this — what's the thing that isn't there yet?"</div>
+          <div class="nci-ex">"What are you actually afraid of here — what's the worst version of what could happen?"</div>
+        </div>
+      </div>
+
+      <div class="nci-wrap">
+        <div class="nci-left">
+          <div class="dot" style="background:#0a0202; color:#f87171; border:1px solid #2b0d0d;">04</div>
+          <div class="line"></div>
+        </div>
+        <div class="nci-right">
+          <div class="nci-tag" style="color:#f87171;">Cost it — what staying here actually means</div>
+          <div class="nci-title">Reconnect them to why they got on this call.</div>
+          <div class="nci-body">When fear or doubt is driving the objection, the prospect has lost touch with their Hell state. They're thinking about the risk of moving forward and have stopped feeling the cost of staying put. One question reconnects them to that cost — and rebalances the equation. Not as pressure. As honesty.</div>
+          <div class="nci-ex">"If you don't move on this — and six months from now you're in the same spot — what does that look like for you?"</div>
+          <div class="nci-ex">"We talked earlier about [their specific pain]. How much longer is that acceptable?"</div>
+          <div class="nci-ex">"What does another conversation like this one look like in 3 months if nothing has changed?"</div>
+        </div>
+      </div>
+
+      <div class="nci-wrap">
+        <div class="nci-left">
+          <div class="dot" style="background:#12060e; color:#a78bfa; border:1px solid #2a1040;">05</div>
+        </div>
+        <div class="nci-right">
+          <div class="nci-tag" style="color:#a78bfa;">Resolve — let them own the decision</div>
+          <div class="nci-title">Get them to say what's true. Then stop talking.</div>
+          <div class="nci-body">After the real thing is on the table and the cost has been felt — close the loop with one direct question. Not a pitch. Not a summary. A simple, direct question that puts the decision back in their hands. Whatever they say next tells you exactly where you are. If they're in, let them close themselves. If there's still something there, go back to step 3.</div>
+          <div class="nci-ex">"So given everything — what's the honest answer here?"</div>
+          <div class="nci-ex">"What do you actually need to feel good about this — is it something I can address right now?"</div>
+          <div class="nci-ex">"Do you think this is the right thing to do — or do you know?"</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- LIVE EXCHANGE: FEAR -->
+  <section id="live-fear">
+    <h2>Live Exchange — Type 01: Fear / Permission</h2>
+
+    <div class="exchange">
+      <div class="exchange-header">Prospect said "I need to run this by my wife" — NCI reveals it's fear, not the wife</div>
+      <div class="exchange-body">
+
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"This all sounds great, I'm just — I want to run it by my wife before I pull the trigger on something like this."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"Of course. Before we talk about that — can I ask you something first?"</div>
+          <div class="annotation green">Acknowledges it. Doesn't react. Doesn't run a rebuttal. Asks for permission to go deeper.</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"Sure, yeah."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"If this was purely your call — your wife is fully on board, this decision is just yours — where are you?"</div>
+          <div class="annotation blue">Diagnostic question. Separates the prospect from the partner. Forces them to face their own position.</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"Honestly? I'd probably just do it. I know I need to make a change."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"Okay. So this isn't really about your wife."</div>
+          <div class="annotation">Said plainly. Not confrontationally. Just naming what they just revealed. Then silence.</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"...No, I guess it's not. I think I'm just nervous about spending that kind of money."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"That's fair. What specifically are you nervous about — is it the money itself, or is it what happens if it doesn't work?"</div>
+          <div class="annotation blue">Names two real fears. Gives them options. Makes it safe to pick the honest one.</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"More the second one. I've spent money on things before that didn't pan out. It stings when it doesn't work."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"I hear that. Let me ask you this — you told me earlier you've been stuck at $6K for close to a year. What has doing nothing cost you in that time?"</div>
+          <div class="annotation red">Reconnects them to the cost of inaction. Not as pressure — as a legitimate question they haven't fully faced.</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"Probably... a lot. I mean if I'm being real about it, yeah. That gap's been costing me every month."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"So the risk of doing nothing is already happening. The fear of spending money and it not working — I get that. But what you're comparing it to is another year of the same. What's the honest answer here?"</div>
+          <div class="annotation green">Frames the real comparison. Then stops. Lets them close themselves.</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"Yeah. Yeah, I think I know what I need to do."</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- LIVE EXCHANGE: STALL -->
+  <section id="live-stall">
+    <h2>Live Exchange — Type 02: Stall / Escape Hatch</h2>
+
+    <div class="exchange">
+      <div class="exchange-header">Partner objection is a polite exit — discovery didn't land deep enough</div>
+      <div class="exchange-body">
+
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"Yeah, I think I want to chat with my partner about it before I move forward."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"Absolutely. Before we get there — where are YOU with this if it was just your call?"</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"I mean... I'm not sure yet. I think it could be good. I just need to think through it."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"Got it. So something's not fully sitting right for you yet — what's the piece that isn't there?"</div>
+          <div class="annotation blue">Type 02 confirmed. Goes back into discovery — doesn't try to overcome the partner objection.</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"Honestly I'm just not sure the timing is right. Things are kind of busy right now."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"When you say timing — what specifically would need to look different for the timing to be right?"</div>
+          <div class="annotation blue">Forces them to define the condition. Vague timing objections don't survive specific questions.</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"I guess... I'd want things to settle down at work a bit. Maybe a couple months."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"In a couple of months — what specifically changes? Because from what you told me, the situation you're in right now doesn't go away in two months on its own. What changes?"</div>
+          <div class="annotation red">Not aggressive. Honest. Makes them face that waiting doesn't solve anything — they have to say it themselves.</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"...I mean, nothing really changes. I'd still be in the same spot."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"Right. So the question isn't really timing — it's whether this is the right thing. What would make you feel confident this is the right thing to do?"</div>
+          <div class="annotation green">Reframes to the real question. Invites them to name the actual gap so you can close it.</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- LIVE EXCHANGE: REAL -->
+  <section id="live-real">
+    <h2>Live Exchange — Type 03: Real Decision-Maker</h2>
+
+    <div class="exchange">
+      <div class="exchange-header">Partner genuinely needs to be involved — how to handle it the right way</div>
+      <div class="exchange-body">
+
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"This sounds exactly like what I've been looking for, honestly. I just need to talk to my husband — we make all financial decisions together, it's been our thing since we got married."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"I love that. And I should have asked this earlier in the call — that's on me. Where are you with it personally though — does this feel like the right fit from what you've heard?"</div>
+          <div class="annotation green">Respects the dynamic. Takes accountability for not asking earlier. But still checks their own conviction first.</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"Yeah, genuinely. I think this is exactly what I need. He's going to want to understand the details though."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"Makes complete sense. Here's what I'd suggest — rather than you trying to relay all of this to him, let's get him on a call together. I can walk him through exactly what I walked you through, and you both can ask questions at the same time. That way nothing gets lost in translation and he can hear it from me directly. What does his schedule look like in the next couple of days?"</div>
+          <div class="annotation blue">Doesn't try to coach her to sell him. Gets both people in the room. Sets up the second call with two decision-makers.</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"One thing I want to make sure before we hang up — what's your husband like when it comes to decisions like this? Is he someone who wants all the details upfront, or does he need to feel good about the direction first and then look at specifics?"</div>
+          <div class="annotation">Understanding the second decision-maker's style before the call. So you don't walk in cold.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="warning">
+      <p><strong>Never coach the prospect to sell their partner for you.</strong> "Here's what you should tell them" is one of the most common mistakes on Type 03 calls. It puts the prospect in an awkward position — they now have to make a sales pitch to their partner with incomplete information and no ability to handle questions. It almost always fails. Get everyone in the room together.</p>
+    </div>
+  </section>
+
+
+  <!-- PREEMPTING IN DISCOVERY -->
+  <section id="preempt">
+    <h2>Preempting It in Discovery</h2>
+
+    <div class="block">
+      <div class="block-label">The best handle is the one you never need</div>
+      <p>The partner objection at the close is almost always a discovery failure. If you ask the right question early in the call — before the investment is ever discussed — you eliminate this objection entirely or you bring the right people into the process from the start. This is one question. Ask it every time, on every call, without exception.</p>
+    </div>
+
+    <div class="preempt">
+      <div class="preempt-label">Ask this in qualification — every single call</div>
+      <p>Before you've talked about price or next steps, get this into the conversation naturally.</p>
+      <div class="line-example">"Besides yourself — is there anyone else who's going to be involved in a decision like this, or is this something you make on your own?"</div>
+    </div>
+
+    <div class="block">
+      <div class="block-label">What to do with the answer</div>
+      <ul class="note-list">
+        <li><strong style="color:#ccc;">If they say it's their decision alone</strong> — great. When the partner objection comes up at the close, you can reference this: "You mentioned earlier this was your call to make — what shifted?"</li>
+        <li><strong style="color:#ccc;">If they say their partner is involved</strong> — get them both on the call before you do the full pitch. "I'd love to have both of you on the next call — that way I'm presenting to the full picture and your partner can ask questions directly."</li>
+        <li><strong style="color:#ccc;">If they're vague</strong> — clarify it. "Just so I know how to structure this — are we making a decision today if it's the right fit, or is there a conversation that needs to happen first?"</li>
+      </ul>
+    </div>
+
+    <div class="preempt">
+      <div class="preempt-label">Locking it in at the start of the pitch</div>
+      <p>Before you walk through the offer, close the loop one more time so there's no ambiguity about decision-making authority.</p>
+      <div class="line-example">"Before I walk you through everything — you mentioned earlier this is your decision to make. If what I walk you through today makes sense and it's the right fit for your situation, is there anything that would stop you from moving forward today?"</div>
+    </div>
+
+    <div class="highlight">
+      <p><strong>That last question is one of the most important in sales.</strong> It surfaces any remaining authority, timing, or financial objections before you've invested 30 minutes in a pitch. If there's something in the way — you want to know now. Whatever they name, you can address before you even start. Or you reschedule and bring the right people in. Either way, you're not walking into a close blind.</p>
+    </div>
+  </section>
+
+
+  <!-- MISTAKES -->
+  <section id="mistakes">
+    <h2>Mistakes That Kill the Deal Here</h2>
+
+    <div class="red-block">
+      <p><strong>Accepting "I need to talk to my partner" and scheduling a follow-up.</strong> In the vast majority of cases, that follow-up never happens. Or it happens and you're starting from scratch with two people — one of whom has no emotional investment in the problem. You have to work through what's actually driving the objection before you let the prospect off the call.</p>
+    </div>
+
+    <div class="red-block">
+      <p><strong>Arguing that the partner doesn't need to be involved.</strong> "You're the one who did the call, you're the one who understands the problem" — this puts the prospect on the defensive and makes them feel like you're trying to isolate them from their partner. You're not trying to remove the partner from the equation. You're trying to understand whether the partner is actually the thing, or whether it's something else.</p>
+    </div>
+
+    <div class="red-block">
+      <p><strong>Coaching the prospect to sell their partner.</strong> "Here's what you should say to them" almost always fails. The prospect doesn't have the context you have, they can't answer follow-up questions, and they feel like they're doing your job for you. Get everyone in the room or it doesn't work.</p>
+    </div>
+
+    <div class="red-block">
+      <p><strong>Running the NCI framework without actually listening.</strong> NCI only works when you genuinely want to understand what's happening. If you're asking these questions as a technique — to get through a checklist and close — the prospect feels it. The questions are disarming because they're honest. The moment they become tactical, they become another script.</p>
+    </div>
+
+    <div class="red-block">
+      <p><strong>Not asking the decision-maker question in discovery.</strong> This one objection is almost entirely preventable. One question, early in the call, changes the entire close. If you're getting hit with this at the end of every call — go back to your discovery structure. The fix is up front.</p>
+    </div>
+
+    <div class="highlight">
+      <p><strong>The partner objection is only a problem if you treat it like an objection.</strong> Treat it like what it actually is — a signal that something is unresolved — and you will almost always find the real thing underneath it. The real thing is always more closeable than "I need to talk to my partner."</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('section, #overview');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        navLinks.forEach(function(l) {
+          l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+  sections.forEach(function(s) { observer.observe(s); });
+</script>
+
+</body>
+</html>
