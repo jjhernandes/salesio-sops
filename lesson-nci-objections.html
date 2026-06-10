@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Objection Handling — NCI Approach — Sales.io</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.6; display: flex; min-height: 100vh; }
+
+    .sidebar { width: 230px; flex-shrink: 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; border-right: 1px solid #1a1a1a; padding: 40px 0; }
+    .sidebar-logo { font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: #555; padding: 0 24px 24px; border-bottom: 1px solid #1a1a1a; margin-bottom: 20px; }
+    .nav-section { padding: 6px 24px; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #2a2a2a; margin-top: 16px; margin-bottom: 4px; }
+    .nav-link { display: block; padding: 7px 24px; font-size: 13px; color: #555; text-decoration: none; transition: color .15s, border-color .15s; border-left: 2px solid transparent; }
+    .nav-link:hover { color: #ccc; }
+    .nav-link.active { color: #4ade80; border-left-color: #4ade80; }
+
+    .main { flex: 1; max-width: 800px; padding: 56px 48px 120px; }
+    .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 12px; }
+    h1 { font-size: 40px; font-weight: 900; line-height: 1.05; letter-spacing: -1px; margin-bottom: 16px; }
+    .subtitle { font-size: 15px; color: #666; margin-bottom: 60px; line-height: 1.6; max-width: 580px; }
+
+    section { margin-bottom: 72px; }
+    h2 { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 24px; padding-bottom: 10px; border-bottom: 1px solid #111; }
+
+    /* Objection header */
+    .obj-header { border-radius: 12px; overflow: hidden; margin-bottom: 20px; }
+    .obj-title-block { padding: 22px 26px 18px; }
+    .obj-eyebrow { font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+    .obj-said { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 10px; font-style: italic; }
+    .obj-means { font-size: 14px; line-height: 1.7; }
+    .obj-footer { padding: 16px 26px; border-top: 1px solid #111; background: #050505; }
+    .obj-footer-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #444; margin-bottom: 6px; }
+    .obj-footer p { font-size: 13px; color: #666; line-height: 1.65; font-style: italic; }
+
+    .obj-header.think  { border: 1px solid #0a2040; background: #020810; }
+    .obj-header.think .obj-eyebrow { color: #60a5fa; }
+    .obj-header.think .obj-said { color: #93c5fd; }
+    .obj-header.think .obj-means { color: #7a9abf; }
+
+    .obj-header.partner { border: 1px solid #2a1040; background: #080208; }
+    .obj-header.partner .obj-eyebrow { color: #a78bfa; }
+    .obj-header.partner .obj-said { color: #c4b5fd; }
+    .obj-header.partner .obj-means { color: #9a80c0; }
+
+    .obj-header.money { border: 1px solid #0d2b1a; background: #020a04; }
+    .obj-header.money .obj-eyebrow { color: #4ade80; }
+    .obj-header.money .obj-said { color: #a3e8bb; }
+    .obj-header.money .obj-means { color: #6aab86; }
+
+    .obj-header.timing { border: 1px solid #2b1a00; background: #080400; }
+    .obj-header.timing .obj-eyebrow { color: #f59e0b; }
+    .obj-header.timing .obj-said { color: #fcd34d; }
+    .obj-header.timing .obj-means { color: #c0943a; }
+
+    .obj-header.research { border: 1px solid #1a1a2a; background: #030308; }
+    .obj-header.research .obj-eyebrow { color: #818cf8; }
+    .obj-header.research .obj-said { color: #a5b4fc; }
+    .obj-header.research .obj-means { color: #6b74c0; }
+
+    .obj-header.tried { border: 1px solid #2b0d0d; background: #0a0202; }
+    .obj-header.tried .obj-eyebrow { color: #f87171; }
+    .obj-header.tried .obj-said { color: #fca5a5; }
+    .obj-header.tried .obj-means { color: #c06060; }
+
+    .obj-header.info { border: 1px solid #1a1a1a; background: #060606; }
+    .obj-header.info .obj-eyebrow { color: #888; }
+    .obj-header.info .obj-said { color: #bbb; }
+    .obj-header.info .obj-means { color: #777; }
+
+    .obj-header.doubt { border: 1px solid #1a0a20; background: #050208; }
+    .obj-header.doubt .obj-eyebrow { color: #e879f9; }
+    .obj-header.doubt .obj-said { color: #f0abfc; }
+    .obj-header.doubt .obj-means { color: #a855b5; }
+
+    /* Blocks */
+    .block { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 20px 24px; margin-bottom: 12px; }
+    .block-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #444; margin-bottom: 10px; }
+    .block p { font-size: 14px; color: #999; line-height: 1.7; }
+    .block p + p { margin-top: 10px; }
+
+    .highlight { background: #050f08; border: 1px solid #0d2b1a; border-radius: 10px; padding: 20px 24px; margin-bottom: 12px; }
+    .highlight p { font-size: 14px; color: #ccc; line-height: 1.8; }
+    .highlight strong { color: #4ade80; }
+
+    .warning { background: #0f0800; border: 1px solid #2b1a00; border-radius: 10px; padding: 18px 22px; margin-bottom: 12px; }
+    .warning p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .warning strong { color: #f59e0b; }
+
+    .red-block { background: #0f0505; border: 1px solid #2b0d0d; border-radius: 10px; padding: 18px 22px; margin-bottom: 12px; }
+    .red-block p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .red-block strong { color: #f87171; }
+
+    .quote-block { border-left: 3px solid #222; padding: 14px 20px; background: #050505; border-radius: 0 8px 8px 0; margin: 14px 0; }
+    .quote-block p { font-size: 15px; color: #ddd; font-style: italic; line-height: 1.8; }
+    .quote-block .attribution { font-size: 12px; color: #444; font-style: normal; margin-top: 8px; font-weight: 600; }
+
+    /* Variations */
+    .var-group { margin-bottom: 20px; }
+    .var-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #444; margin-bottom: 10px; padding-left: 2px; }
+    .var { background: #080808; border: 1px solid #1a1a1a; border-radius: 8px; padding: 14px 18px; margin-bottom: 8px; font-size: 13.5px; color: #999; line-height: 1.7; font-style: italic; }
+    .var-note { font-size: 11px; color: #444; font-style: normal; margin-top: 6px; }
+    .var-diag { background: #050a12; border: 1px solid #0a2040; border-radius: 8px; padding: 14px 18px; margin-bottom: 8px; font-size: 13.5px; color: #93c5fd; line-height: 1.7; font-style: italic; }
+    .var-diag .var-note { color: #3a5a7a; }
+    .var-green { background: #020a04; border: 1px solid #0d2b1a; border-radius: 8px; padding: 14px 18px; margin-bottom: 8px; font-size: 13.5px; color: #a3e8bb; line-height: 1.7; font-style: italic; }
+    .var-green .var-note { color: #2a5a3a; }
+    .var-gold { background: #080400; border: 1px solid #2b1a00; border-radius: 8px; padding: 14px 18px; margin-bottom: 8px; font-size: 13.5px; color: #fcd34d; line-height: 1.7; font-style: italic; }
+    .var-gold .var-note { color: #6a4a10; }
+    .var-red { background: #0a0202; border: 1px solid #2b0d0d; border-radius: 8px; padding: 14px 18px; margin-bottom: 8px; font-size: 13.5px; color: #fca5a5; line-height: 1.7; font-style: italic; }
+    .var-red .var-note { color: #5a2020; }
+
+    /* Exchange */
+    .exchange { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 12px; overflow: hidden; margin-bottom: 14px; }
+    .exchange-header { padding: 13px 20px; border-bottom: 1px solid #111; font-size: 12px; font-weight: 700; color: #444; }
+    .exchange-body { padding: 18px 20px; display: flex; flex-direction: column; gap: 10px; }
+    .msg { display: flex; flex-direction: column; gap: 4px; }
+    .msg-who { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+    .msg-who.rep { color: #4ade80; }
+    .msg-who.prospect { color: #60a5fa; }
+    .msg-text { font-size: 13.5px; color: #ccc; line-height: 1.65; padding: 10px 14px; border-radius: 8px; }
+    .msg-text.rep-msg { background: #050f08; border: 1px solid #0d2b1a; color: #a3e8bb; }
+    .msg-text.prospect-msg { background: #050a12; border: 1px solid #0a2040; color: #93c5fd; }
+    .annotation { font-size: 11px; color: #f59e0b; padding: 3px 9px; background: #0f0800; border-radius: 5px; border: 1px solid #2b1a00; display: inline-block; margin-top: 3px; }
+
+    /* Note list */
+    .note-list { list-style: none; }
+    .note-list li { font-size: 14px; color: #999; padding: 9px 0; border-bottom: 1px solid #0f0f0f; display: flex; gap: 12px; line-height: 1.6; }
+    .note-list li:last-child { border-bottom: none; }
+    .note-list li::before { content: "—"; color: #333; flex-shrink: 0; }
+
+    /* Foundation pillars */
+    .pillar { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 14px; padding: 18px 20px; background: #080808; border: 1px solid #1a1a1a; border-radius: 10px; }
+    .pillar-num { font-size: 11px; font-weight: 900; color: #333; flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; border: 1px solid #222; display: flex; align-items: center; justify-content: center; margin-top: 2px; }
+    .pillar-body h4 { font-size: 14px; font-weight: 700; color: #ccc; margin-bottom: 5px; }
+    .pillar-body p { font-size: 13.5px; color: #777; line-height: 1.65; }
+
+    @media (max-width: 800px) {
+      .sidebar { display: none; }
+      .main { padding: 40px 20px 80px; max-width: 100%; }
+      h1 { font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">Foundation</div>
+  <a href="#overview" class="nav-link active">Overview</a>
+  <a href="#nci" class="nav-link">The NCI Approach</a>
+  <div class="nav-section">Objections</div>
+  <a href="#think" class="nav-link">"I need to think about it"</a>
+  <a href="#partner" class="nav-link">"I need to talk to my partner"</a>
+  <a href="#money" class="nav-link">"I can't afford it"</a>
+  <a href="#timing" class="nav-link">"The timing isn't right"</a>
+  <a href="#research" class="nav-link">"I need to do more research"</a>
+  <a href="#tried" class="nav-link">"I've tried things like this"</a>
+  <a href="#info" class="nav-link">"Send me more info"</a>
+  <a href="#doubt" class="nav-link">"I'm not sure it'll work for me"</a>
+  <div class="nav-section">Principles</div>
+  <a href="#rules" class="nav-link">Rules That Apply to All</a>
+</nav>
+
+<main class="main">
+
+  <div id="overview">
+    <div class="eyebrow">Sales.io — JJ Hernandez</div>
+    <h1>Objection Handling<br>The NCI Approach</h1>
+    <p class="subtitle">Every objection is a signal. Not a no. A signal that something in the discovery didn't land deep enough — or that the prospect needs a better question before they can get honest with themselves.</p>
+  </div>
+
+
+  <!-- NCI FOUNDATION -->
+  <section id="nci">
+    <h2>The NCI Approach</h2>
+
+    <div class="block">
+      <div class="block-label">Why word tracks fail</div>
+      <p>A word track assumes you already know what the objection means. You don't. "I can't afford it" might mean the money literally isn't there, or it might mean they don't believe the value justifies the investment, or it might mean they're scared and looking for an out. Running the same rebuttal on all three gets you one hit and two misses — and the prospect who gets the wrong rebuttal feels handled, not heard.</p>
+      <p>NCI — Neuro-Cognitive Influence — doesn't try to overcome the objection. It tries to understand what's actually underneath it. When you understand the real thing, responding becomes obvious. When you don't, you're guessing with a script.</p>
+    </div>
+
+    <div class="highlight">
+      <p><strong>The prospect's brain doesn't resist conclusions it generated itself.</strong> When you push a conclusion — "here's why that objection doesn't apply to you" — the brain defends against it. When you ask the right question and the prospect arrives at the conclusion themselves, there's nothing to defend against. NCI is the art of asking questions that create self-discovery. Not overcoming. Not convincing. Guiding someone to what they already know but haven't faced yet.</p>
+    </div>
+
+    <div class="pillar">
+      <div class="pillar-num">1</div>
+      <div class="pillar-body">
+        <h4>Acknowledge before you respond</h4>
+        <p>Never react to an objection. One quiet acknowledgment before anything else — "of course," "I hear that," "that's fair" — lands soft and drops the prospect's guard. The moment they feel like you're about to handle them, they shut down.</p>
+      </div>
+    </div>
+
+    <div class="pillar">
+      <div class="pillar-num">2</div>
+      <div class="pillar-body">
+        <h4>Diagnose before you respond</h4>
+        <p>Ask one question to find out what the objection actually means before you say anything substantive. The same words can mean four different things. Find out which one you're dealing with or you're just guessing.</p>
+      </div>
+    </div>
+
+    <div class="pillar">
+      <div class="pillar-num">3</div>
+      <div class="pillar-body">
+        <h4>Isolate before you handle</h4>
+        <p>Before you work through the objection, make sure it's the only one. "If we can work through this — is this the one thing standing between you and moving forward?" If the answer is no, find out what else is there before you invest energy on the first one.</p>
+      </div>
+    </div>
+
+    <div class="pillar">
+      <div class="pillar-num">4</div>
+      <div class="pillar-body">
+        <h4>Ask, don't tell</h4>
+        <p>At every step, your job is to ask questions that make the prospect surface the answer — not to give them the answer. "Here's why that isn't a problem" is a rebuttal. "What would need to be true for this to feel like the right move?" is NCI. One creates resistance. The other creates clarity.</p>
+      </div>
+    </div>
+
+    <div class="pillar">
+      <div class="pillar-num">5</div>
+      <div class="pillar-body">
+        <h4>Confirm it's resolved before you close</h4>
+        <p>After you work through an objection, ask directly: "Does that address what you were sitting with?" Don't assume silence is satisfaction. If it's not fully resolved, find out what's still there. Close only when you actually know the path is clear.</p>
+      </div>
+    </div>
+
+    <div class="warning">
+      <p><strong>Most objections at the close were planted in the discovery.</strong> "I need to think about it" — the problem wasn't real enough. "I can't afford it" — you never made the cost of inaction feel greater than the investment. "I need to talk to my partner" — you never asked who makes decisions like this. The best time to handle an objection is before it ever gets said. If you're getting the same objection on every call, fix the discovery — don't sharpen the handle.</p>
+    </div>
+  </section>
+
+
+  <!-- OBJECTION 1: THINK ABOUT IT -->
+  <section id="think">
+    <h2>Objection 01</h2>
+
+    <div class="obj-header think">
+      <div class="obj-title-block">
+        <div class="obj-eyebrow">What they say</div>
+        <div class="obj-said">"I need to think about it."</div>
+        <div class="obj-means">Almost never about thinking. It's the safest, most socially acceptable way to exit an uncomfortable decision. It means something didn't land — urgency, value, trust, or certainty. Your job is to find out which one.</div>
+      </div>
+      <div class="obj-footer">
+        <div class="obj-footer-label">What it's almost never about</div>
+        <p>Thinking. People who are genuinely processing a decision tell you what they're processing. "I want to think about it" with no specifics is a polite no in disguise.</p>
+      </div>
+    </div>
+
+    <div class="var-group">
+      <div class="var-label">Step 1 — Diagnose what's underneath</div>
+      <div class="var-diag">"Of course. Help me understand what specifically you need to work through — what's the part that isn't fully clear yet?"
+        <div class="var-note">Forces specificity. Vague objections don't survive specific questions. If they can name the thing, you can work with it. If they can't, the real objection is still hiding.</div>
+      </div>
+      <div class="var-diag">"Totally. What's the one thing that would make this feel like a clear yes — what's missing right now?"
+        <div class="var-note">Asks them to define the gap themselves. Their answer tells you exactly what you need to address.</div>
+      </div>
+      <div class="var-diag">"I hear that. Is it a question about whether this works — or whether it works for you specifically?"
+        <div class="var-note">Contrast question. Two options, both honest. Separates product doubt from personal doubt — completely different conversations.</div>
+      </div>
+    </div>
+
+    <div class="var-group">
+      <div class="var-label">When the real issue is urgency — they acknowledged the problem but didn't feel it</div>
+      <div class="var-gold">"If you don't move on this and six months from now you're in the same spot — what does that look like for you? Not the number. What does it mean personally?"
+        <div class="var-note">Pulls them back into Hell state. Rebalances the equation. Not pressure — reconnection to what they already told you.</div>
+      </div>
+      <div class="var-gold">"You mentioned [specific pain they shared]. How much longer is that acceptable — genuinely?"
+        <div class="var-note">Uses their own words. The most powerful question in this position.</div>
+      </div>
+    </div>
+
+    <div class="var-group">
+      <div class="var-label">When the real issue is certainty — they're not fully confident in the decision</div>
+      <div class="var">"Do you think this is the right move — or do you know?"
+        <div class="var-note">That one word difference — think vs. know — surfaces exactly how decided they are. If they say think, you have more work to do.</div>
+      </div>
+      <div class="var">"What would you need to see or hear right now to feel completely certain? What's the gap?"
+        <div class="var-note">Lets them define what certainty looks like. Often they realize they already have everything they need.</div>
+      </div>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-header">Live exchange — surfacing what "think about it" actually means</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"This all sounds good. I just want to take some time to think it over."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"Of course. Help me understand what specifically you need to work through — what's the part that isn't fully sitting right?"</div>
+          <div class="annotation">Diagnose. Don't react.</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"I guess I'm just not sure the timing is right. I've got a lot going on."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"That's fair. When you say timing — what specifically would need to look different for the timing to feel right? What changes?"</div>
+          <div class="annotation">Forces them to define the condition. Timing objections are almost always vague on purpose.</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"I mean... nothing really changes. I just feel like it's a big decision."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"It is a big decision. So let me ask you this — do you think this is the right move, or do you know?"</div>
+          <div class="annotation">Named the real thing. Then asked the think/know question.</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"Honestly? I think I know. I'm just scared to pull the trigger on something this size."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"That's honest — I respect that. So the question isn't whether this is right. The question is whether you're willing to bet on yourself. What's your answer to that?"</div>
+          <div class="annotation">Reframes it precisely. Puts the real decision on the table. Then stops.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- OBJECTION 2: PARTNER -->
+  <section id="partner">
+    <h2>Objection 02</h2>
+
+    <div class="obj-header partner">
+      <div class="obj-title-block">
+        <div class="obj-eyebrow">What they say</div>
+        <div class="obj-said">"I need to run this by my partner / spouse / wife / husband."</div>
+        <div class="obj-means">In most cases, not about the partner at all. The partner is a vehicle — a socially acceptable way to buy time without saying what's really in the way. Could be fear, could be a gap in the discovery, could be a genuine joint decision. Your job is to figure out which one before you do anything else.</div>
+      </div>
+      <div class="obj-footer">
+        <div class="obj-footer-label">What it's almost never about</div>
+        <p>The partner. Ask "if this was purely your call — where are you?" and watch what happens.</p>
+      </div>
+    </div>
+
+    <div class="var-group">
+      <div class="var-label">Step 1 — The diagnostic question. Ask this every time, first.</div>
+      <div class="var-diag">"Of course. Before we talk about that — if this was purely your call, no one else involved, where are you?"
+        <div class="var-note">The answer tells you everything. "I'd do it" = fear/permission. "I'm not sure yet" = discovery gap. "We always decide together" = real decision-maker.</div>
+      </div>
+    </div>
+
+    <div class="var-group">
+      <div class="var-label">When they say "I'd probably just do it" — it's fear, not the partner</div>
+      <div class="var">"So this isn't really about your partner." [pause] "What's actually in the way?"
+        <div class="var-note">Say it plainly. Not aggressively. Let it land. The silence after this does the work.</div>
+      </div>
+      <div class="var">"Got it. So what are you actually afraid of here — is it the money, or what happens if it doesn't work?"
+        <div class="var-note">Give them two honest options. Makes it safe to pick the real one instead of hiding behind something vague.</div>
+      </div>
+      <div class="var-green">"Your partner is supportive — you said that. So the question is whether YOU feel good about this. Do you?"
+        <div class="var-note">Closes the loop. Puts the decision back in their hands. Clean.</div>
+      </div>
+    </div>
+
+    <div class="var-group">
+      <div class="var-label">When it's a real shared decision — don't fight it, facilitate it</div>
+      <div class="var-green">"That makes total sense. Rather than you having to relay all of this, let's get your partner on a call together — that way they can hear it directly and ask questions in real time. What does their schedule look like this week?"
+        <div class="var-note">Never coach them to sell their partner. It almost always fails. Get both people in the room.</div>
+      </div>
+      <div class="var-green">"Before we set that up — what does your partner typically want to understand when a decision like this comes up? I want to make sure I cover what matters to them."
+        <div class="var-note">Shows you're taking the partner seriously. Also tells you how to run that call.</div>
+      </div>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-header">Live exchange — partner objection is fear in disguise</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"I like everything I've heard. I just want to talk to my wife before I commit to something like this."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"Of course. Before we get to that — if this was just your call, where are you?"</div>
+          <div class="annotation">Diagnostic. Clean. One sentence.</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"Honestly I'd probably go for it. She's pretty supportive of whatever I decide."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"So this isn't really about her."</div>
+          <div class="annotation">Plain. Not aggressive. Silence after this does the work.</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"No, I guess it's not. I think I'm just nervous about spending that amount."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"That's real. Is the nervousness about whether you can afford it — or about whether it'll actually work for you?"</div>
+          <div class="annotation">Two options. Finds the real root.</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"More whether it'll work. I've been burned before."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"Walk me through that. What happened — and what do you think was missing?"</div>
+          <div class="annotation">Goes into it. The past failure tells you exactly what this person needs to feel safe moving forward.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- OBJECTION 3: MONEY -->
+  <section id="money">
+    <h2>Objection 03</h2>
+
+    <div class="obj-header money">
+      <div class="obj-title-block">
+        <div class="obj-eyebrow">What they say</div>
+        <div class="obj-said">"I can't afford it." / "It's too expensive." / "That's a lot of money."</div>
+        <div class="obj-means">Three different statements that each mean something different. "I can't afford it" might be a real financial constraint. "It's too expensive" almost always means the value didn't land — they don't believe the return justifies the cost. "That's a lot of money" is often just a reaction to price that needs one question to get through. Diagnose before you respond.</div>
+      </div>
+      <div class="obj-footer">
+        <div class="obj-footer-label">What it's almost never about</div>
+        <p>The actual money. People find money for things they're certain about. If the value is undeniable, price becomes a logistics problem — not a decision problem.</p>
+      </div>
+    </div>
+
+    <div class="var-group">
+      <div class="var-label">Diagnose first — find out which version of this you're dealing with</div>
+      <div class="var-diag">"When you say that — is it that the money isn't available right now, or that you're not sure the investment makes sense at this level?"
+        <div class="var-note">Separates a real financial constraint from a value objection. Completely different responses required.</div>
+      </div>
+      <div class="var-diag">"Help me understand that. Is it the number itself, or is it that you're not fully convinced the return is there?"
+        <div class="var-note">If they say the return isn't there — you haven't made the value case. Go back in. Don't try to justify the price.</div>
+      </div>
+    </div>
+
+    <div class="var-group">
+      <div class="var-label">When it's a value problem — they're not sold on the ROI</div>
+      <div class="var-gold">"Let me ask you something. You told me earlier the gap between where you are and where you want to be is about [X] a month. What does that gap cost you over the next 12 months if nothing changes?"
+        <div class="var-note">The cost of inaction almost always dwarfs the investment. Make them do the math. Don't do it for them.</div>
+      </div>
+      <div class="var-gold">"What would this need to produce for you in the first [90 days / 6 months] for this to feel like an obvious yes? Give me a number."
+        <div class="var-note">Makes them define their ROI expectation. Then you can show whether you can hit it. Far more powerful than defending your price.</div>
+      </div>
+    </div>
+
+    <div class="var-group">
+      <div class="var-label">When it's a real financial constraint</div>
+      <div class="var">"What does available look like right now — I want to understand what we're working with."
+        <div class="var-note">Get real numbers before you talk about payment options. You can't solve a problem you don't understand.</div>
+      </div>
+      <div class="var-green">"We have a few ways to structure this. Let me show you what's possible and we can figure out what works for your situation."
+        <div class="var-note">Only go here after you've confirmed it's genuinely a cash flow issue — not a value issue wearing a cash flow mask.</div>
+      </div>
+    </div>
+
+    <div class="var-group">
+      <div class="var-label">When it's just a reaction to price — not a real objection</div>
+      <div class="var">"It is. And compared to staying where you are for another year — how does it look?"
+        <div class="var-note">One line. Reframes it without being pushy. Let them do the math.</div>
+      </div>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-header">Live exchange — "too expensive" is actually a value gap</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"I think it's just too expensive for where I'm at right now."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"I hear that. When you say too expensive — is it that the money isn't there, or that you're not sure the return justifies it?"</div>
+          <div class="annotation">Diagnose before anything else.</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"More the second one. I don't know if I'd get it back fast enough."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"Fair. You told me you're currently at around $5K a month and the number that changes everything for you is $20K. What does that $15K gap cost you over the next 12 months if nothing moves?"</div>
+          <div class="annotation">The cost framework. Their numbers. Not your math.</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"...That's $180K. Yeah, when you put it that way."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"So the question isn't whether this is expensive. The question is whether staying where you are is more expensive. What's your read on that?"</div>
+          <div class="annotation">Clean reframe. One question. Stop talking.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- OBJECTION 4: TIMING -->
+  <section id="timing">
+    <h2>Objection 04</h2>
+
+    <div class="obj-header timing">
+      <div class="obj-title-block">
+        <div class="obj-eyebrow">What they say</div>
+        <div class="obj-said">"The timing just isn't right." / "Maybe in a couple months." / "Things are too busy right now."</div>
+        <div class="obj-means">One of the most reliably vague objections in sales. "Timing" almost never refers to a specific condition that will change by a specific date. It's usually a way of saying "I'm not certain enough to decide right now" without having to say why. The fix is forcing them to define what the right timing actually looks like — because when they try to, they usually realize it doesn't exist.</div>
+      </div>
+      <div class="obj-footer">
+        <div class="obj-footer-label">What it's almost never about</div>
+        <p>Actual timing. Ask "what specifically changes in two months?" and the answer is almost always "nothing, really."</p>
+      </div>
+    </div>
+
+    <div class="var-group">
+      <div class="var-label">The one question that dismantles most timing objections</div>
+      <div class="var-diag">"When you say timing — what specifically would need to be different for the timing to be right? What changes?"
+        <div class="var-note">Forces them to define the condition. If they can't define it, there is no condition. The timing isn't about timing.</div>
+      </div>
+    </div>
+
+    <div class="var-group">
+      <div class="var-label">When "a couple months" has no real basis</div>
+      <div class="var-gold">"In a couple of months — the situation you described, is that still going to be there? What's different?"
+        <div class="var-note">Makes them face that waiting doesn't solve anything. They have to say it themselves.</div>
+      </div>
+      <div class="var-gold">"What does another two months of [their specific pain] cost you? In real terms."
+        <div class="var-note">Uses their words. Attaches the cost to the delay. Not as pressure — as honest math.</div>
+      </div>
+    </div>
+
+    <div class="var-group">
+      <div class="var-label">When they're genuinely busy — validate but reframe</div>
+      <div class="var">"I get that. And I want to ask you honestly — has there ever been a time in the last year when things weren't busy? What does that period actually look like?"
+        <div class="var-note">Most people are always busy. If busy is the bar, the timing never comes.</div>
+      </div>
+      <div class="var-green">"What if the reason things are busy is the exact same thing we're here to solve? How long has this been the dynamic?"
+        <div class="var-note">Reframes busyness as a symptom of the problem — not a reason to delay solving it.</div>
+      </div>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-header">Live exchange — timing objection has no actual condition underneath it</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"I think I just need a bit more time. Maybe come back to this in a couple months."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"That's fair. What specifically changes in a couple of months — what does the timing look like then that it doesn't look like now?"</div>
+          <div class="annotation">Forces the condition to exist or not exist.</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"I mean... I guess things would hopefully settle down a bit."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"Has there been a point in the last year where things actually settled down — or is it pretty consistently this pace?"</div>
+          <div class="annotation">Honest question. Makes them face their own pattern.</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"...Pretty consistently this pace, if I'm being real."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"So the timing you're waiting for might not actually come. What do you want to do with that?"</div>
+          <div class="annotation">Plain. Honest. Leaves the decision with them.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- OBJECTION 5: RESEARCH -->
+  <section id="research">
+    <h2>Objection 05</h2>
+
+    <div class="obj-header research">
+      <div class="obj-title-block">
+        <div class="obj-eyebrow">What they say</div>
+        <div class="obj-said">"I need to do more research." / "I want to look at a few more options." / "I want to compare before I decide."</div>
+        <div class="obj-means">A trust or certainty gap, almost always. When someone says they need to do more research, what they usually mean is: they don't yet feel confident enough in you, your offer, or the fit — and looking at alternatives is a way to feel like they're being responsible. They're not actually going to find something better. They're looking for permission to feel okay about this decision.</div>
+      </div>
+      <div class="obj-footer">
+        <div class="obj-footer-label">What it's almost never about</div>
+        <p>Genuinely needing more information. If they're missing a specific piece of information, they'd be able to name it. "Research" without specifics is a certainty gap.</p>
+      </div>
+    </div>
+
+    <div class="var-group">
+      <div class="var-label">Diagnose — what specifically are they researching?</div>
+      <div class="var-diag">"What specifically do you feel like you're still missing? If you had that, would this feel like a clear decision?"
+        <div class="var-note">If they can name it, give it to them now. If they can't, the research isn't really research.</div>
+      </div>
+      <div class="var-diag">"What are you looking to compare — is it other options like this, or are you trying to validate something specific about what we offer?"
+        <div class="var-note">Separates competitive comparison from internal validation. Different conversations.</div>
+      </div>
+    </div>
+
+    <div class="var-group">
+      <div class="var-label">When it's a trust or certainty gap</div>
+      <div class="var">"What would make you feel completely certain about this — is there something about us, the offer, or the fit that isn't sitting right?"
+        <div class="var-note">Makes it safe to say what's actually in the way. The answer to this is almost always the real objection.</div>
+      </div>
+      <div class="var-gold">"You've been looking at this problem for [X months / years based on their discovery]. What has more research produced so far — has it moved you forward or mostly kept you in the same loop?"
+        <div class="var-note">Uses their own timeline against the idea that more research helps. Pattern urgency.</div>
+      </div>
+    </div>
+
+    <div class="var-group">
+      <div class="var-label">When they're genuinely comparing alternatives</div>
+      <div class="var-green">"That's smart. What are you comparing on specifically — what matters most to you in making this decision? I want to make sure you're comparing the right things."
+        <div class="var-note">Helps them evaluate correctly. You're helping them make a good decision — even if it's yours. That honesty builds trust.</div>
+      </div>
+      <div class="var-green">"Of everything you've heard today — what's the thing that stood out most as being different from what you've seen elsewhere?"
+        <div class="var-note">Reminds them of what made this conversation different before they go compare it to something generic.</div>
+      </div>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-header">Live exchange — "research" is actually a certainty gap</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"I want to take some time to look around and compare before I commit to something."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"Makes sense. What specifically are you looking to compare — what's the thing you feel like you're still missing?"</div>
+          <div class="annotation">Diagnose. Don't assume.</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"I just want to make sure there isn't something better out there. I don't want to rush into it."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"That's fair. How long have you been looking at solving this problem — like, total?"</div>
+          <div class="annotation">Surface the timeline. How long has the research loop been running?</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"Probably about a year, year and a half."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"And in that time — has more research moved you closer to solving it, or has it mostly kept you in the same place?"</div>
+          <div class="annotation">Not confrontational. Honest question that names the pattern they're in.</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"...Same place, mostly."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"So what would make this decision different from another lap of the same loop? What would make this the time you actually move?"</div>
+          <div class="annotation">Reframes from research to decision. Lets them define what it would take.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- OBJECTION 6: TRIED BEFORE -->
+  <section id="tried">
+    <h2>Objection 06</h2>
+
+    <div class="obj-header tried">
+      <div class="obj-title-block">
+        <div class="obj-eyebrow">What they say</div>
+        <div class="obj-said">"I've tried things like this before and they didn't work." / "I've invested in programs before and didn't get results."</div>
+        <div class="obj-means">This one is real. They have genuine evidence from their own life that investing in help didn't produce the outcome they wanted. The question is: what was missing last time? Because the answer almost always points to either the wrong fit, the wrong level of commitment, or the wrong methodology — not "help doesn't work for me." Find the real reason it failed and show how this is different.</div>
+      </div>
+      <div class="obj-footer">
+        <div class="obj-footer-label">What it's almost never about</div>
+        <p>This person being uncoachable or unable to get results. Something specific failed last time. Find out what it was.</p>
+      </div>
+    </div>
+
+    <div class="var-group">
+      <div class="var-label">Go into it — don't skirt it</div>
+      <div class="var-diag">"Walk me through what happened. What did you try — and where did it break down?"
+        <div class="var-note">Get specific. The details of the past failure tell you exactly what this person needs to feel safe moving forward.</div>
+      </div>
+      <div class="var-diag">"What do you think was missing — was it the program, the approach, the support, or something on your end?"
+        <div class="var-note">Honest question. Gives them room to own their part too without you accusing them of anything. Leads to a real conversation.</div>
+      </div>
+    </div>
+
+    <div class="var-group">
+      <div class="var-label">After you understand what failed — show the actual difference</div>
+      <div class="var-green">"What you just described — [specific failure point] — is exactly what this is built to fix. Here's how that plays out differently here..."
+        <div class="var-note">Specific to what they told you. Not a generic "we're different" pitch — a direct address of the exact thing that went wrong.</div>
+      </div>
+      <div class="var">"Based on what you just told me — do you think the problem was the investment itself, or that [the approach was wrong / the support wasn't there / the fit wasn't right]?"
+        <div class="var-note">Separates "investing doesn't work" from "that specific thing didn't work." Huge difference in how they hold the next decision.</div>
+      </div>
+    </div>
+
+    <div class="var-group">
+      <div class="var-label">The pattern question — when they've tried multiple things</div>
+      <div class="var-red">"You've tried [X, Y, Z]. What's been the same about each attempt — what's the pattern?"
+        <div class="var-note">Makes the pattern visible. Almost always: same approach, different tool. The tool wasn't the problem.</div>
+      </div>
+      <div class="var-red">"What would need to be different this time for this to be the last conversation like this you ever have to have?"
+        <div class="var-note">One of the most powerful questions on this objection. Makes them define what success actually requires.</div>
+      </div>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-header">Live exchange — past failure is real, but the diagnosis is the problem</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"I've done programs like this before. Spent real money. Didn't get what I was looking for."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"I hear that — and I'm not going to pretend that doesn't matter. Walk me through what happened. What did you try, and where did it fall apart?"</div>
+          <div class="annotation">Goes into it. Doesn't dodge it. Shows respect for the history.</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"I did a couple of courses. Watched the videos, took the notes. Just never actually put it together on calls."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"So the information wasn't the problem — the application was. What do you think was missing between knowing it and actually doing it on a live call?"</div>
+          <div class="annotation">Pinpoints the real gap. Doesn't assume — asks them to name it.</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"Honestly, probably accountability. And having someone who could watch my actual calls and tell me what I was doing wrong."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"That's exactly what we do — live call reviews, real-time coaching, actual reps sitting with you. Does that change the comparison you were making?"</div>
+          <div class="annotation">Specific response to the specific gap. Not a generic pitch. Because they told you exactly what they needed.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- OBJECTION 7: SEND INFO -->
+  <section id="info">
+    <h2>Objection 07</h2>
+
+    <div class="obj-header info">
+      <div class="obj-title-block">
+        <div class="obj-eyebrow">What they say</div>
+        <div class="obj-said">"Can you send me some information and I'll look it over?" / "Send me the details and I'll get back to you."</div>
+        <div class="obj-means">A slow no. The prospect is not asking for information — they're ending the conversation in the least confrontational way they know how. Information sent after a sales call almost never closes a deal. It gives the prospect something to "review" that they will skim once, lose interest in, and never respond to. This objection means the conversation didn't reach a real decision point.</div>
+      </div>
+      <div class="obj-footer">
+        <div class="obj-footer-label">What it's almost never about</div>
+        <p>Needing more information. If there was a specific question they needed answered, they would have asked it during the call.</p>
+      </div>
+    </div>
+
+    <div class="var-group">
+      <div class="var-label">Surface what's actually underneath it</div>
+      <div class="var-diag">"Of course. Before I do — what's the specific question you're hoping the information answers? I might be able to address it right now."
+        <div class="var-note">If they can name a specific question, answer it live. If they can't, the info request isn't real — find out what's actually in the way.</div>
+      </div>
+      <div class="var-diag">"I want to make sure I send you the right thing. What specifically are you still uncertain about — is it about the program, the investment, the fit?"
+        <div class="var-note">Forces them to give you something real to work with. Often they'll name the real objection instead.</div>
+      </div>
+    </div>
+
+    <div class="var-group">
+      <div class="var-label">When you can tell it's a soft exit</div>
+      <div class="var-red">"I'll absolutely send that over. Can I ask you something honest first — when you get the email, what's the version of this that has you actually replying? I want to know if there's a real path here."
+        <div class="var-note">Direct. Respectful. Doesn't waste their time or yours. If there's no path, it's better to know now.</div>
+      </div>
+      <div class="var-red">"Before we end the call — what would need to be in that email for you to respond with a yes? If you can tell me that, I can probably answer it right now and save us both the wait."
+        <div class="var-note">Calls it out respectfully. Makes them either name the real thing or acknowledge the call is over.</div>
+      </div>
+    </div>
+
+    <div class="var-group">
+      <div class="var-label">When you do send information — set up the follow-up properly</div>
+      <div class="var-green">"I'll send that over today. Before we hang up — let's set a specific time to talk through it together. Information on its own doesn't answer follow-up questions. What does your schedule look like Thursday or Friday?"
+        <div class="var-note">Never let "I'll review it" be the end of the call. Information without a follow-up call is a dead lead.</div>
+      </div>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-header">Live exchange — "send info" is a soft exit, surfaced and handled</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"This all sounds good. Can you send me some info and I'll take a look?"</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"Of course. Before I do — what's the specific question you're hoping it answers? There might be something I can address right now."</div>
+          <div class="annotation">One question. Makes it real or exposes that it isn't.</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"I guess just... more details on how it works. What the process looks like."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"I can walk you through that right now — it'll take 3 minutes. Is the process genuinely what's in the way, or is there something else that's making this feel like a 'not yet'?"</div>
+          <div class="annotation">Offers to answer it live. Also gently names that there might be something else.</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"Honestly — I think I just need to see if the budget works. I wasn't fully prepared for the number."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"That's fair — and I appreciate you being straight with me. Let's talk about that now, because I'd rather figure out if there's a way to make this work while we're both here than have you try to make a decision from an email."</div>
+          <div class="annotation">Thanks them for the honesty. Keeps the conversation live. Budget becomes the real conversation.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- OBJECTION 8: WON'T WORK FOR ME -->
+  <section id="doubt">
+    <h2>Objection 08</h2>
+
+    <div class="obj-header doubt">
+      <div class="obj-title-block">
+        <div class="obj-eyebrow">What they say</div>
+        <div class="obj-said">"I'm not sure this will work for me specifically." / "My situation is different." / "I don't know if I'm the right fit for this."</div>
+        <div class="obj-means">Self-doubt wearing the mask of a product objection. They're not questioning whether the offer works — they're questioning whether they are capable of producing results with it. This is an identity-level objection and it responds to identity-level questions, not more social proof or case studies. Go to the self-belief, not the success stories.</div>
+      </div>
+      <div class="obj-footer">
+        <div class="obj-footer-label">What it's almost never about</div>
+        <p>The actual offer. It's about whether they believe in themselves enough to invest in their own result.</p>
+      </div>
+    </div>
+
+    <div class="var-group">
+      <div class="var-label">Diagnose — product doubt or self-doubt?</div>
+      <div class="var-diag">"When you say it might not work for you — is that about whether the program is the right fit, or is it more about whether you'd actually put it into action?"
+        <div class="var-note">Names both options. The honest one is almost always the second. Giving them permission to say it changes the entire conversation.</div>
+      </div>
+    </div>
+
+    <div class="var-group">
+      <div class="var-label">When it's self-doubt — go to identity</div>
+      <div class="var">"What makes you think your situation is different from the people who have gotten results with this? Walk me through that."
+        <div class="var-note">Not aggressive. Genuinely curious. Makes them articulate the belief that's holding them back so you can both examine it.</div>
+      </div>
+      <div class="var">"What's the version of you that does put this into action and gets the result — what's different about how that person thinks or moves?"
+        <div class="var-note">Projection question. Gets them into the identity of the person who succeeds with this instead of the one who has doubts.</div>
+      </div>
+      <div class="var-red">"Do you actually believe you can't do this — or is that just fear talking?"
+        <div class="var-note">Direct. Only use when trust is high and you've built enough rapport. When it lands, it cuts through everything else.</div>
+      </div>
+    </div>
+
+    <div class="var-group">
+      <div class="var-label">When there's a legitimate fit concern — respect it</div>
+      <div class="var-green">"That's worth taking seriously. Tell me more about what feels like it doesn't fit — I'd rather find out now than have you invest and it not be the right thing."
+        <div class="var-note">Shows you're not just trying to close. Sometimes it's a real fit issue. Know the difference and respect it.</div>
+      </div>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-header">Live exchange — "won't work for me" is self-doubt, not a product objection</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"I like everything about this. I just don't know if I'm the type of person who actually follows through on stuff like this."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"That's honest. Where does that come from — is that a pattern you've noticed, or is it about this specifically?"</div>
+          <div class="annotation">Gets curious. Doesn't dismiss it. Treats it as real.</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"I've started things and not finished. I just don't want to invest in something and then not hold up my end."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"I actually respect that — most people don't say that. Let me ask you something. When you've finished things — what made those different from the things you didn't?"</div>
+          <div class="annotation">Finds their success pattern. They know what works for them — draw it out.</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who prospect">Prospect</div>
+          <div class="msg-text prospect-msg">"When I had someone checking in on me. When there was accountability and I couldn't just disappear."</div>
+        </div>
+        <div class="msg">
+          <div class="msg-who rep">Rep</div>
+          <div class="msg-text rep-msg">"That's literally built into how this works. Weekly calls, coaches who know where you are, a team that notices if you go quiet. Is the thing that's made you fall off before actually present here?"</div>
+          <div class="annotation">Maps their success condition directly to the offer. They named what they need. You showed it exists here.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- RULES THAT APPLY TO ALL -->
+  <section id="rules">
+    <h2>Rules That Apply to Every Objection</h2>
+
+    <div class="block">
+      <div class="block-label">01 — Acknowledge before you respond. Every time.</div>
+      <p>One word. "Of course." "I hear that." "That's fair." It doesn't mean you agree. It means you heard them. The prospect's defense mechanism drops when they feel received rather than countered. Do this before you say anything else, on every objection, without exception.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">02 — Diagnose before you handle.</div>
+      <p>The same objection said by two different people almost always means two different things. Never assume you know what it means. Ask one question first. Find out what you're actually dealing with. Then respond to that — not to the words on the surface.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">03 — Isolate before you invest.</div>
+      <p>"If we can work through this — is this the only thing standing between you and moving forward?" Ask this before you go deep on any objection. Handling one thing well only to have a second objection appear is how deals die at the finish line. Find out what else is there first.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">04 — Ask, don't tell.</div>
+      <p>At every step, your instinct will be to give them the answer. Resist it. The prospect's brain doesn't resist conclusions it generates itself. It resists conclusions pushed at it from the outside. Ask the question that makes them arrive at the conclusion. Then be quiet.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">05 — Let silence work.</div>
+      <p>After a strong NCI question, count to five. The prospect is processing something real. Filling the silence for them steals the weight from the question. The first person to speak after a real question loses. Let them carry it. That weight is the urgency you built.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">06 — Confirm resolution before you close.</div>
+      <p>"Does that address what you were sitting with?" Don't assume silence is satisfaction. Don't assume nodding is agreement. Ask directly. If it's resolved, move. If it isn't, there's more to uncover — and finding that out now is better than finding it out after you've pitched again.</p>
+    </div>
+
+    <div class="quote-block">
+      <p>"The person who needs the sale the most will always lose. Come from a place of wanting to help — or don't come at all."</p>
+      <div class="attribution">— JJ Hernandez</div>
+    </div>
+
+    <div class="highlight">
+      <p><strong>If you're getting the same objection on every call — it's not a handling problem. It's a discovery problem.</strong> The objection is pointing at something you're consistently missing in the first 30 minutes. Find the gap in your discovery. Fix it there. The best objection handle is the one you never have to run.</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('section, #overview');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        navLinks.forEach(function(l) {
+          l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+  sections.forEach(function(s) { observer.observe(s); });
+</script>
+
+</body>
+</html>
