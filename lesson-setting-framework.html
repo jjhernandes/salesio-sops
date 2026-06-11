@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Setting Framework — Sales.io</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.6; display: flex; min-height: 100vh; }
+
+    .sidebar { width: 230px; flex-shrink: 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; border-right: 1px solid #1a1a1a; padding: 40px 0; }
+    .sidebar-logo { font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: #555; padding: 0 24px 24px; border-bottom: 1px solid #1a1a1a; margin-bottom: 20px; }
+    .nav-section { padding: 6px 24px; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #2a2a2a; margin-top: 16px; margin-bottom: 4px; }
+    .nav-link { display: block; padding: 7px 24px; font-size: 13px; color: #555; text-decoration: none; transition: color .15s, border-color .15s; border-left: 2px solid transparent; }
+    .nav-link:hover { color: #ccc; }
+    .nav-link.active { color: #4ade80; border-left-color: #4ade80; }
+
+    .main { flex: 1; max-width: 800px; padding: 56px 48px 120px; }
+    .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 12px; }
+    h1 { font-size: 40px; font-weight: 900; line-height: 1.05; letter-spacing: -1px; margin-bottom: 16px; }
+    .subtitle { font-size: 15px; color: #666; margin-bottom: 60px; line-height: 1.6; max-width: 580px; }
+
+    section { margin-bottom: 72px; }
+    h2 { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 24px; padding-bottom: 10px; border-bottom: 1px solid #111; }
+
+    .block { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 22px 26px; margin-bottom: 14px; }
+    .block-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #444; margin-bottom: 10px; }
+    .block p { font-size: 14px; color: #999; line-height: 1.7; }
+    .block p + p { margin-top: 10px; }
+
+    .highlight { background: #050f08; border: 1px solid #0d2b1a; border-radius: 10px; padding: 22px 26px; margin-bottom: 14px; }
+    .highlight p { font-size: 14px; color: #ccc; line-height: 1.8; }
+    .highlight strong { color: #4ade80; }
+
+    .warning { background: #0f0800; border: 1px solid #2b1a00; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; }
+    .warning p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .warning strong { color: #f59e0b; }
+
+    .red-block { background: #0f0505; border: 1px solid #2b0d0d; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; }
+    .red-block p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .red-block strong { color: #f87171; }
+
+    .quote-block { border-left: 3px solid #222; padding: 16px 22px; background: #050505; border-radius: 0 8px 8px 0; margin: 16px 0; }
+    .quote-block p { font-size: 15px; color: #ddd; font-style: italic; line-height: 1.8; }
+    .quote-block .attribution { font-size: 12px; color: #444; font-style: normal; margin-top: 8px; font-weight: 600; }
+
+    /* Phase cards */
+    .phase-card { border-radius: 14px; overflow: hidden; margin-bottom: 16px; }
+    .phase-top { padding: 24px 28px 20px; }
+    .phase-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .phase-num { font-size: 11px; font-weight: 900; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.06em; }
+    .phase-time { font-size: 11px; font-weight: 600; color: #444; }
+    .phase-title { font-size: 20px; font-weight: 900; letter-spacing: -0.4px; margin-bottom: 8px; }
+    .phase-desc { font-size: 14px; line-height: 1.7; }
+    .phase-bottom { padding: 18px 28px; border-top: 1px solid #111; background: #050505; }
+    .phase-sub { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #444; margin-bottom: 12px; }
+    .phase-lines { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .phase-lines li { font-size: 13px; font-style: italic; line-height: 1.6; padding: 10px 14px; border-radius: 7px; }
+    .phase-note { font-size: 11px; font-style: normal; margin-top: 5px; opacity: 0.6; }
+
+    .phase-card.p1 { border: 1px solid #0a2040; }
+    .phase-card.p1 .phase-top { background: #020810; }
+    .phase-card.p1 .phase-num { background: #050a12; color: #60a5fa; border: 1px solid #0a2040; }
+    .phase-card.p1 .phase-title { color: #93c5fd; }
+    .phase-card.p1 .phase-desc { color: #5a7a9a; }
+    .phase-card.p1 .phase-lines li { background: #020810; color: #93c5fd; border: 1px solid #0a2040; }
+
+    .phase-card.p2 { border: 1px solid #1a1a2a; }
+    .phase-card.p2 .phase-top { background: #030308; }
+    .phase-card.p2 .phase-num { background: #07070f; color: #818cf8; border: 1px solid #1a1a2a; }
+    .phase-card.p2 .phase-title { color: #a5b4fc; }
+    .phase-card.p2 .phase-desc { color: #5a5a8a; }
+    .phase-card.p2 .phase-lines li { background: #030308; color: #a5b4fc; border: 1px solid #1a1a2a; }
+
+    .phase-card.p3 { border: 1px solid #2b0d0d; }
+    .phase-card.p3 .phase-top { background: #0a0202; }
+    .phase-card.p3 .phase-num { background: #0f0505; color: #f87171; border: 1px solid #2b0d0d; }
+    .phase-card.p3 .phase-title { color: #fca5a5; }
+    .phase-card.p3 .phase-desc { color: #8a4a4a; }
+    .phase-card.p3 .phase-lines li { background: #0a0202; color: #fca5a5; border: 1px solid #2b0d0d; }
+
+    .phase-card.p4 { border: 1px solid #2a1040; }
+    .phase-card.p4 .phase-top { background: #080208; }
+    .phase-card.p4 .phase-num { background: #0f0515; color: #a78bfa; border: 1px solid #2a1040; }
+    .phase-card.p4 .phase-title { color: #c4b5fd; }
+    .phase-card.p4 .phase-desc { color: #7a5a9a; }
+    .phase-card.p4 .phase-lines li { background: #080208; color: #c4b5fd; border: 1px solid #2a1040; }
+
+    .phase-card.p5 { border: 1px solid #0d2b1a; }
+    .phase-card.p5 .phase-top { background: #020a04; }
+    .phase-card.p5 .phase-num { background: #050f08; color: #4ade80; border: 1px solid #0d2b1a; }
+    .phase-card.p5 .phase-title { color: #a3e8bb; }
+    .phase-card.p5 .phase-desc { color: #4a7a5a; }
+    .phase-card.p5 .phase-lines li { background: #020a04; color: #a3e8bb; border: 1px solid #0d2b1a; }
+
+    /* Exchange */
+    .exchange { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
+    .exchange-header { padding: 13px 20px; border-bottom: 1px solid #111; font-size: 12px; font-weight: 700; color: #444; display: flex; align-items: center; gap: 10px; }
+    .exchange-tag { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 8px; border-radius: 10px; }
+    .tag-dm { background: #050a12; color: #60a5fa; border: 1px solid #0a2040; }
+    .tag-cold { background: #0a0202; color: #f87171; border: 1px solid #2b0d0d; }
+    .tag-warm { background: #020a04; color: #4ade80; border: 1px solid #0d2b1a; }
+    .exchange-body { padding: 18px 20px; display: flex; flex-direction: column; gap: 10px; }
+    .msg { display: flex; flex-direction: column; gap: 4px; }
+    .msg-who { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+    .msg-who.setter { color: #4ade80; }
+    .msg-who.lead { color: #60a5fa; }
+    .msg-text { font-size: 13.5px; color: #ccc; line-height: 1.65; padding: 10px 14px; border-radius: 8px; }
+    .msg-text.setter-msg { background: #050f08; border: 1px solid #0d2b1a; color: #a3e8bb; }
+    .msg-text.lead-msg { background: #050a12; border: 1px solid #0a2040; color: #93c5fd; }
+    .annotation { font-size: 11px; color: #f59e0b; padding: 3px 9px; background: #0f0800; border-radius: 5px; border: 1px solid #2b1a00; display: inline-block; margin-top: 3px; }
+
+    /* Comparison grid */
+    .compare-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .compare-card { border-radius: 10px; padding: 18px 20px; }
+    .compare-card.bad { background: #0a0202; border: 1px solid #2b0d0d; }
+    .compare-card.bad .compare-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #f87171; margin-bottom: 10px; }
+    .compare-card.good { background: #020a04; border: 1px solid #0d2b1a; }
+    .compare-card.good .compare-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #4ade80; margin-bottom: 10px; }
+    .compare-list { list-style: none; }
+    .compare-list li { font-size: 13px; color: #888; padding: 6px 0; border-bottom: 1px solid #0d0d0d; line-height: 1.55; display: flex; gap: 8px; }
+    .compare-list li:last-child { border-bottom: none; }
+    .compare-card.bad .compare-list li::before { content: "✕"; color: #f87171; flex-shrink: 0; font-size: 10px; font-weight: 900; margin-top: 3px; }
+    .compare-card.good .compare-list li::before { content: "✓"; color: #4ade80; flex-shrink: 0; font-size: 10px; font-weight: 900; margin-top: 3px; }
+
+    /* Handoff card */
+    .handoff { background: #080808; border: 1px solid #222; border-radius: 12px; overflow: hidden; margin-bottom: 14px; }
+    .handoff-header { padding: 16px 22px; border-bottom: 1px solid #111; background: #050505; }
+    .handoff-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #f59e0b; margin-bottom: 4px; }
+    .handoff-title { font-size: 16px; font-weight: 800; color: #ccc; }
+    .handoff-body { padding: 18px 22px; display: flex; flex-direction: column; gap: 10px; }
+    .handoff-row { display: flex; gap: 14px; align-items: flex-start; }
+    .handoff-key { font-size: 11px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: #555; flex-shrink: 0; width: 110px; margin-top: 1px; }
+    .handoff-val { font-size: 13.5px; color: #888; line-height: 1.6; }
+
+    /* Note list */
+    .note-list { list-style: none; }
+    .note-list li { font-size: 14px; color: #999; padding: 9px 0; border-bottom: 1px solid #0f0f0f; display: flex; gap: 12px; line-height: 1.6; }
+    .note-list li:last-child { border-bottom: none; }
+    .note-list li::before { content: "—"; color: #333; flex-shrink: 0; }
+
+    @media (max-width: 800px) {
+      .sidebar { display: none; }
+      .main { padding: 40px 20px 80px; max-width: 100%; }
+      h1 { font-size: 30px; }
+      .compare-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">Foundation</div>
+  <a href="#overview" class="nav-link active">Overview</a>
+  <a href="#what" class="nav-link">What Setting Actually Is</a>
+  <a href="#nci" class="nav-link">NCI in Setting</a>
+  <div class="nav-section">The Framework</div>
+  <a href="#p1" class="nav-link">Phase 1 — Pattern Interrupt</a>
+  <a href="#p2" class="nav-link">Phase 2 — Quick Qualify</a>
+  <a href="#p3" class="nav-link">Phase 3 — Pain Extraction</a>
+  <a href="#p4" class="nav-link">Phase 4 — Bridge to the Call</a>
+  <a href="#p5" class="nav-link">Phase 5 — Book & Lock</a>
+  <div class="nav-section">Execution</div>
+  <a href="#exchanges" class="nav-link">Live Exchanges</a>
+  <a href="#handoff" class="nav-link">The Handoff</a>
+  <a href="#mistakes" class="nav-link">Mistakes</a>
+</nav>
+
+<main class="main">
+
+  <div id="overview">
+    <div class="eyebrow">Sales.io — JJ Hernandez</div>
+    <h1>Setting Framework</h1>
+    <p class="subtitle">Setting is not appointment booking. It is the first sales conversation. The closer's environment is built or destroyed here — before they say a single word.</p>
+  </div>
+
+
+  <!-- WHAT SETTING IS -->
+  <section id="what">
+    <h2>What Setting Actually Is</h2>
+
+    <div class="block">
+      <div class="block-label">The real job</div>
+      <p>Most setters think their job is to get someone on a calendar. It isn't. The calendar is the last thing that happens. The actual job is to create enough self-awareness in the prospect that they genuinely want the conversation — not because you pushed them, but because they've started to feel the cost of where they are and they believe there might be something better on the other side of a call.</p>
+      <p>A booked call means nothing if the prospect shows up cold. A booked call with a prospect who has already articulated their pain, already felt the gap between where they are and where they want to be, and already believes this could be the thing — that call closes at a completely different rate. That is the setter's job.</p>
+    </div>
+
+    <div class="highlight">
+      <p><strong>You are not booking a call. You are pre-selling the conversation.</strong> By the time the closer gets on, the prospect should already know why they're there, what they're hoping to solve, and feel a level of genuine urgency about solving it. The closer's job is to close the gap. Your job is to make sure the gap exists and is felt before they ever show up.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">What the closer needs from you</div>
+      <ul class="note-list">
+        <li><strong style="color:#ccc;">A qualified prospect.</strong> Someone who has the problem you solve, has the means to act, and is actually open to doing something about it now — not collecting information.</li>
+        <li><strong style="color:#ccc;">A warm prospect.</strong> Someone who already knows something about their problem that they hadn't fully faced before the conversation with you. The closer shouldn't have to start from scratch.</li>
+        <li><strong style="color:#ccc;">A specific handoff.</strong> What they said, what they felt, what their situation is, what language they used. Not "they seem interested." Real intel the closer can open with.</li>
+        <li><strong style="color:#ccc;">An appointment they'll actually show up to.</strong> A show rate problem is almost always a setting problem. If they're ghosting the call, they were never warm enough to begin with.</li>
+      </ul>
+    </div>
+
+    <div class="compare-row">
+      <div class="compare-card bad">
+        <div class="compare-label">Average Setter</div>
+        <ul class="compare-list">
+          <li>Books the call as fast as possible</li>
+          <li>Talks about the offer before building pain</li>
+          <li>Treats it like an admin task — calendar filled</li>
+          <li>Doesn't qualify — sends anyone who says yes</li>
+          <li>Prospect shows up having no idea why they're there</li>
+          <li>Low show rate, low close rate</li>
+          <li>Gets the brush-off and tries to push through it</li>
+        </ul>
+      </div>
+      <div class="compare-card good">
+        <div class="compare-label">Elite Setter</div>
+        <ul class="compare-list">
+          <li>Builds pain first, books the call second</li>
+          <li>Never pitches — earns curiosity through questions</li>
+          <li>Treats it like the first sales call it is</li>
+          <li>Qualifies hard — protects the closer's time</li>
+          <li>Prospect shows up knowing exactly why they're there</li>
+          <li>High show rate, high close rate</li>
+          <li>Disqualifies confidently when it's not a fit</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- NCI IN SETTING -->
+  <section id="nci">
+    <h2>NCI in Setting</h2>
+
+    <div class="block">
+      <div class="block-label">Why it changes everything</div>
+      <p>NCI — Neuro-Cognitive Influence — is not about saying the right things. It's about asking the right questions so the prospect says the right things to themselves. In setting, this matters more than anywhere else, because you have the least amount of time and the lowest level of trust. A pitch at this stage is almost always rejected. A question that makes the prospect feel genuinely understood opens a door that no pitch can.</p>
+      <p>The prospect isn't going to get on a call because you told them the program is amazing. They're going to get on a call because a question you asked made them realize their situation is more expensive than they thought — and they want to know if there's a way out.</p>
+    </div>
+
+    <div class="highlight">
+      <p><strong>In setting, your job is to create one moment of genuine self-awareness.</strong> One question that makes the prospect think about something they hadn't consciously faced yet. That moment is what separates a booking that shows up from a booking that ghosts. The prospect who felt something on your first conversation will be there. The one who just agreed to a call won't.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">The three NCI principles for setting</div>
+      <ul class="note-list">
+        <li><strong style="color:#ccc;">Curiosity before qualification.</strong> Find out about them before you figure out if they qualify. The qualification comes from what they tell you — not from a checklist you run them through. People open up to genuine curiosity. They shut down to interrogation.</li>
+        <li><strong style="color:#ccc;">Surface the gap, don't explain the solution.</strong> Your job is to make the prospect feel the distance between where they are and where they want to be. Not to explain how the program closes that gap. The moment you start explaining, you're pitching — and pitching this early kills the call.</li>
+        <li><strong style="color:#ccc;">Let them talk more than you.</strong> In setting, if you're talking more than the prospect, you're doing it wrong. Every sentence you say is a sentence they're not spending getting more invested in their own problem. Ask. Listen. Ask again.</li>
+      </ul>
+    </div>
+  </section>
+
+
+  <!-- PHASE 1 -->
+  <section id="p1">
+    <h2>Phase 1</h2>
+
+    <div class="phase-card p1">
+      <div class="phase-top">
+        <div class="phase-meta">
+          <div class="phase-num">Phase 01</div>
+          <div class="phase-time">30 – 60 seconds</div>
+        </div>
+        <div class="phase-title">Pattern Interrupt</div>
+        <div class="phase-desc">The prospect has been pitched before. Their guard is up the moment they realize someone is selling. Your opening needs to break that pattern — not by being clever, but by being genuinely different from every other opener they've heard. Human first. Agenda second or never.</div>
+      </div>
+      <div class="phase-bottom">
+        <div class="phase-sub">What this sounds like</div>
+        <ul class="phase-lines">
+          <li>"Hey [name] — saw your post / saw you in the community / came across your profile. Real question — what's going on with [specific context from their content or situation]?"
+            <div class="phase-note">Specific to them. Not a template. Shows you actually looked.</div>
+          </li>
+          <li>"[Name] — not going to pitch you, I just had a quick question about something you mentioned. You got 60 seconds?"
+            <div class="phase-note">Disarms immediately. Permission-based. Rare enough that people actually respond.</div>
+          </li>
+          <li>"Saw you've been [doing X / struggling with Y / posting about Z] — is that still where you're at or has something shifted?"
+            <div class="phase-note">Shows you paid attention. Opens a real conversation. They're not talking to a bot.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="warning">
+      <p><strong>Never open with what you do.</strong> "Hey I'm with Sales.io, we help reps make more money" is the fastest way to get ignored. They don't care what you do yet. The only thing that gets someone's attention in the first 30 seconds is their own situation being reflected back at them accurately. Start there.</p>
+    </div>
+  </section>
+
+
+  <!-- PHASE 2 -->
+  <section id="p2">
+    <h2>Phase 2</h2>
+
+    <div class="phase-card p2">
+      <div class="phase-top">
+        <div class="phase-meta">
+          <div class="phase-num">Phase 02</div>
+          <div class="phase-time">1 – 2 minutes</div>
+        </div>
+        <div class="phase-title">Quick Qualify</div>
+        <div class="phase-desc">Two or three questions. Not a checklist — a conversation. You need to know if this person has a relevant problem and is actually in a position to do something about it. Do not skip this. Sending unqualified leads to the closer wastes everyone's time and tanks the close rate. Qualify confidently. Disqualify without apology.</div>
+      </div>
+      <div class="phase-bottom">
+        <div class="phase-sub">The three things you need to know</div>
+        <ul class="phase-lines">
+          <li>"What does your sales situation look like right now — are you actively closing, setting, or still figuring out the entry point?"
+            <div class="phase-note">Situation. Where are they actually at.</div>
+          </li>
+          <li>"And what's the gap right now — like where are you and where do you actually want to be?"
+            <div class="phase-note">The gap. Is there one worth solving.</div>
+          </li>
+          <li>"Is this something you're actively trying to fix right now or more like a longer-term thing on your radar?"
+            <div class="phase-note">Intent. Are they shopping or actually moving.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label">How to disqualify</div>
+      <p>If the gap isn't real, the intent isn't there, or they can't move — say it directly. "Honestly, based on what you've told me, I don't think this is the right fit for where you are right now. What you described sounds more like [X] — I don't want to waste your time on a call that won't be relevant." Clean disqualification builds your credibility more than booking a bad call ever would. And it gets remembered.</p>
+    </div>
+  </section>
+
+
+  <!-- PHASE 3 -->
+  <section id="p3">
+    <h2>Phase 3</h2>
+
+    <div class="phase-card p3">
+      <div class="phase-top">
+        <div class="phase-meta">
+          <div class="phase-num">Phase 03</div>
+          <div class="phase-time">3 – 5 minutes</div>
+        </div>
+        <div class="phase-title">Pain Extraction</div>
+        <div class="phase-desc">This is the most important phase. Not because you're going to close them here — you're not. Because this is where you create the self-awareness that makes them want the call. Go three levels deep. Surface information, then real frustration, then identity. The prospect who has articulated their own pain in their own words is the prospect who shows up.</div>
+      </div>
+      <div class="phase-bottom">
+        <div class="phase-sub">The NCI sequence — run in this order</div>
+        <ul class="phase-lines">
+          <li>"How long have you been in that gap — like has it always been this way or did something shift?"
+            <div class="phase-note">Level 1. Timeline. Establishes how long the problem has been real.</div>
+          </li>
+          <li>"And in that time — what have you actually tried to fix it? Walk me through that."
+            <div class="phase-note">Level 2. Pattern. Surfaces failed attempts and makes the loop visible.</div>
+          </li>
+          <li>"What do you think it's cost you — not just financially, like what else has this been taking from you?"
+            <div class="phase-note">Level 2. Real cost. Opens the non-financial layers.</div>
+          </li>
+          <li>"If you're being completely honest — how much longer is this acceptable to you?"
+            <div class="phase-note">Level 3. Identity and urgency. One of the most powerful questions in setting. Let them sit in it.</div>
+          </li>
+          <li>"What does the version of you that has this figured out actually look like — what's different about that person's situation?"
+            <div class="phase-note">Heaven. Pull them forward. Gets them emotionally invested in the solved state before the call even happens.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="highlight">
+      <p><strong>You are not trying to close them here. You are trying to get them to feel the weight of where they are.</strong> Don't explain how you solve it. Don't mention the program. Don't say "we can help with that." The moment you move to the solution before the pain is deep enough, you kill the curiosity. Let them sit in the problem. The call becomes the answer.</p>
+    </div>
+  </section>
+
+
+  <!-- PHASE 4 -->
+  <section id="p4">
+    <h2>Phase 4</h2>
+
+    <div class="phase-card p4">
+      <div class="phase-top">
+        <div class="phase-meta">
+          <div class="phase-num">Phase 04</div>
+          <div class="phase-time">1 – 2 minutes</div>
+        </div>
+        <div class="phase-title">Bridge to the Call</div>
+        <div class="phase-desc">The transition from the conversation to the calendar. This is not a pitch. It is a logical next step that you frame as being in their interest — because it is. You're not asking them to buy anything. You're offering a conversation with someone who can give them a real answer on the thing they just told you is costing them. The call is the value, not the ask.</div>
+      </div>
+      <div class="phase-bottom">
+        <div class="phase-sub">How to bridge without pitching</div>
+        <ul class="phase-lines">
+          <li>"Based on what you've described — this is exactly the kind of situation our calls are designed for. It's not a pitch call. It's a 30-minute conversation where you get real clarity on what's actually in the way and whether there's a specific path forward for your situation. Worth 30 minutes?"
+            <div class="phase-note">Frames the call as the value. Not the program.</div>
+          </li>
+          <li>"What you just described — the [their specific situation] — that's something that comes up a lot and there are very specific ways through it. The call is where we get into the details of what that actually looks like for you. Does that make sense to get on?"
+            <div class="phase-note">Bridges their specific pain to a specific answer on the call. No pitch.</div>
+          </li>
+          <li>"I don't want to try to give you a half-answer in a DM on something this specific. The right thing is to get you on a call where we can actually look at your situation properly. Is that something you're open to?"
+            <div class="phase-note">Honest framing. Respects the conversation they just had.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label">The one thing to never say here</div>
+      <p>"On the call, we'll walk you through the program." Don't. The moment you frame the call as a presentation of your offer, it becomes a sales call in their mind and their guard goes back up. Frame it as a call where they get clarity on their specific situation. The closer handles the offer. Your job is to get them there ready to receive it.</p>
+    </div>
+  </section>
+
+
+  <!-- PHASE 5 -->
+  <section id="p5">
+    <h2>Phase 5</h2>
+
+    <div class="phase-card p5">
+      <div class="phase-top">
+        <div class="phase-meta">
+          <div class="phase-num">Phase 05</div>
+          <div class="phase-time">1 minute</div>
+        </div>
+        <div class="phase-title">Book &amp; Lock</div>
+        <div class="phase-desc">Give two specific options. Confirm the booking. Send a follow-up. A call that isn't confirmed with a calendar invite and a follow-up message is a call that doesn't happen. Every step between the verbal yes and showing up on Zoom is a step where they can cool off, forget, or decide it wasn't worth it. Remove every obstacle between yes and the call.</div>
+      </div>
+      <div class="phase-bottom">
+        <div class="phase-sub">How to close the booking</div>
+        <ul class="phase-lines">
+          <li>"I've got [Thursday at 2pm] or [Friday at 11am] — which works better for you?"
+            <div class="phase-note">Always give two options. Open questions produce delays. Two options produce decisions.</div>
+          </li>
+          <li>"I'll send you the calendar invite right now — what email do you want it to?"
+            <div class="phase-note">Immediate confirmation. The invite goes out before the conversation ends.</div>
+          </li>
+          <li>"And I'll send you a quick message before the call so you know exactly what to expect. Just so you have the right context going in."
+            <div class="phase-note">Sets up the pre-call follow-up. Keeps the line open and warms them again before they show up.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label">The pre-call follow-up — send this 24 hours before</div>
+      <p style="font-style:italic; color:#ccc; line-height:1.8;">"Hey [name] — just wanted to shoot you a message before tomorrow. Based on what you shared with me about [their specific situation in their words], I think this call is going to be really valuable for you. [Closer's name] has worked with a lot of people in exactly this spot. See you at [time]."</p>
+      <p style="margin-top:10px;">Personalized. Short. Uses their own language. This one message increases show rate significantly because it reminds them why they agreed — not just that they agreed.</p>
+    </div>
+  </section>
+
+
+  <!-- LIVE EXCHANGES -->
+  <section id="exchanges">
+    <h2>Live Exchanges</h2>
+
+    <div class="exchange">
+      <div class="exchange-header">
+        <span class="exchange-tag tag-dm">DM / Instagram</span>
+        Full setting sequence — cold DM to booked call
+      </div>
+      <div class="exchange-body">
+
+        <div class="msg">
+          <div class="msg-who setter">Setter</div>
+          <div class="msg-text setter-msg">"Saw your post about being stuck at the same number for a few months — is that still where you're at or has something shifted?"</div>
+          <div class="annotation">Pattern interrupt. Specific. Not a pitch.</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who lead">Lead</div>
+          <div class="msg-text lead-msg">"Yeah still there man. It's frustrating."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who setter">Setter</div>
+          <div class="msg-text setter-msg">"How long has that been the pattern? Like a couple months or has it been going on longer than that?"</div>
+          <div class="annotation">Goes into it. Timeline question. Level 1 pain.</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who lead">Lead</div>
+          <div class="msg-text lead-msg">"Probably 6-7 months. I have good months and then I fall right back down."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who setter">Setter</div>
+          <div class="msg-text setter-msg">"What have you actually tried to fix it in that time? Like what have you gone after?"</div>
+          <div class="annotation">Surfaces the failed attempts. Makes the loop visible.</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who lead">Lead</div>
+          <div class="msg-text lead-msg">"Watched a ton of content, tried a new script, changed my offer twice. Nothing sticks."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who setter">Setter</div>
+          <div class="msg-text setter-msg">"And beyond just the money — what else is this taking from you? Like what's the real cost of being in this loop for 7 months?"</div>
+          <div class="annotation">Widens the pain. Opens the identity and emotional layers.</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who lead">Lead</div>
+          <div class="msg-text lead-msg">"Honestly it's killing my confidence. I know I'm capable of more but I can't figure out what's actually wrong. It's like I know I should be further along."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who setter">Setter</div>
+          <div class="msg-text setter-msg">"That's real. How much longer is that acceptable to you — genuinely?"</div>
+          <div class="annotation">Level 3. Identity urgency. Short. Let it land. Don't follow it up immediately.</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who lead">Lead</div>
+          <div class="msg-text lead-msg">"It's not. I need to figure this out."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who setter">Setter</div>
+          <div class="msg-text setter-msg">"What you described — the inconsistency, trying the tactics and falling back, the confidence piece — that's exactly what our calls are built for. It's not a pitch. It's 30 minutes with someone who can actually look at your specific situation and tell you what's in the way. Worth half an hour?"</div>
+          <div class="annotation">Bridge. Pain-specific. No pitch. Frames the call as the value.</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who lead">Lead</div>
+          <div class="msg-text lead-msg">"Yeah for sure. What does that look like?"</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who setter">Setter</div>
+          <div class="msg-text setter-msg">"I've got Thursday at 2 or Friday at 11 — which works better?"</div>
+          <div class="annotation">Two options. Clean close. No open questions.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-header">
+        <span class="exchange-tag tag-cold">Cold Call</span>
+        Pattern interrupt on a cold call — no prior context
+      </div>
+      <div class="exchange-body">
+
+        <div class="msg">
+          <div class="msg-who setter">Setter</div>
+          <div class="msg-text setter-msg">"Hey [name], I know this is a cold call — I'm going to be straight with you and take 30 seconds. I work with sales reps who are good at what they do but keep hitting a ceiling they can't break through. Is that something that's on your radar right now or completely off base?"</div>
+          <div class="annotation">Disarms with honesty. One qualifying question. Respects their time.</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who lead">Lead</div>
+          <div class="msg-text lead-msg">"I mean... yeah, that's kind of where I'm at. I'm doing okay but not where I want to be."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who setter">Setter</div>
+          <div class="msg-text setter-msg">"What does okay look like right now — like what's the actual number and where do you want it to be?"</div>
+          <div class="annotation">Qualify. Gap question. Gets specific fast.</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who lead">Lead</div>
+          <div class="msg-text lead-msg">"I'm at about $8K, want to be at $20K consistently."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who setter">Setter</div>
+          <div class="msg-text setter-msg">"How long have you been in that gap?"</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who lead">Lead</div>
+          <div class="msg-text lead-msg">"About a year. I keep getting close but I can't get consistent."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who setter">Setter</div>
+          <div class="msg-text setter-msg">"A year at a $12K gap is roughly $144K you've left on the table. Does that math feel right when you look at it like that?"</div>
+          <div class="annotation">Cost framework. Their numbers. Makes it concrete. Let them sit with it.</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who lead">Lead</div>
+          <div class="msg-text lead-msg">"That's kind of brutal to hear. But yeah."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who setter">Setter</div>
+          <div class="msg-text setter-msg">"That's what a year of inconsistency actually costs. I'm not going to try to solve that in a phone call. But I can get you 30 minutes with someone who has fixed this exact problem for a lot of people in exactly your situation. That worth your time?"</div>
+          <div class="annotation">Bridge. Honest. Not overselling. Frames it as genuinely useful, not a pitch.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-header">
+        <span class="exchange-tag tag-warm">Warm / Community</span>
+        Following up on a comment or reply — already some context
+      </div>
+      <div class="exchange-body">
+
+        <div class="msg">
+          <div class="msg-who setter">Setter</div>
+          <div class="msg-text setter-msg">"Hey [name] — you commented on JJ's post about [topic]. Genuine question — is that something you're actively dealing with right now or just resonated with the content?"</div>
+          <div class="annotation">Ties the opener to something real. Not "hey saw your comment, want to book a call."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who lead">Lead</div>
+          <div class="msg-text lead-msg">"Yeah that one hit. I've been struggling with closing consistently for a while."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who setter">Setter</div>
+          <div class="msg-text setter-msg">"What does struggling look like for you specifically — like what's actually happening on your calls?"</div>
+          <div class="annotation">Goes into their specific version. Not a generic pain question.</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who lead">Lead</div>
+          <div class="msg-text lead-msg">"I get to the end and they always want to think about it. Or the price comes up and it falls apart. I know I'm losing deals I should be winning."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who setter">Setter</div>
+          <div class="msg-text setter-msg">"When you say deals you should be winning — what does that cost you a month? Rough number."</div>
+          <div class="annotation">Cost question. Forces the math. Their number, not yours.</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who lead">Lead</div>
+          <div class="msg-text lead-msg">"Probably 2-3 deals a month. So like... $10-15K."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who setter">Setter</div>
+          <div class="msg-text setter-msg">"So you're leaving $10-15K a month on the table on deals that you're already getting in front of. Not a lead problem. A close problem. And you've been in that for how long?"</div>
+          <div class="annotation">Names the gap precisely. Diagnoses it for them. Creates clarity they didn't have before.</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who lead">Lead</div>
+          <div class="msg-text lead-msg">"Honestly probably most of this year."</div>
+        </div>
+
+        <div class="msg">
+          <div class="msg-who setter">Setter</div>
+          <div class="msg-text setter-msg">"That's exactly the kind of thing that gets fixed on a call like this. Not in a DM, but in a real conversation where we can actually look at your calls and tell you what's happening. I can get you on with JJ or one of the coaches this week. Tuesday or Thursday work for you?"</div>
+          <div class="annotation">Bridge that is specific to what they described. Books immediately.</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- THE HANDOFF -->
+  <section id="handoff">
+    <h2>The Handoff</h2>
+
+    <div class="block">
+      <div class="block-label">What you owe the closer before every call</div>
+      <p>The closer should never go into a call blind. If the setter did their job, there is real information available — what the prospect said, how they said it, what language they used, what their specific pain is, what they've tried, what they want. That intel is worth more to the closer than any pre-call prep they could do on their own. Get it to them.</p>
+    </div>
+
+    <div class="handoff">
+      <div class="handoff-header">
+        <div class="handoff-label">Setter Handoff Template</div>
+        <div class="handoff-title">Fill this for every booked call. Send to the closer before they get on.</div>
+      </div>
+      <div class="handoff-body">
+        <div class="handoff-row">
+          <div class="handoff-key">Name</div>
+          <div class="handoff-val">Full name and where they came from (DM, cold, community, referral).</div>
+        </div>
+        <div class="handoff-row">
+          <div class="handoff-key">Current situation</div>
+          <div class="handoff-val">Where they are right now — numbers, role, what they're doing day to day.</div>
+        </div>
+        <div class="handoff-row">
+          <div class="handoff-key">The gap</div>
+          <div class="handoff-val">Where they are vs. where they want to be. Specific numbers if you got them.</div>
+        </div>
+        <div class="handoff-row">
+          <div class="handoff-key">Pain in their words</div>
+          <div class="handoff-val">The exact language they used. Quote them if possible. The closer should open with this.</div>
+        </div>
+        <div class="handoff-row">
+          <div class="handoff-key">What they've tried</div>
+          <div class="handoff-val">Courses, coaches, approaches, programs. What failed and why (if they said).</div>
+        </div>
+        <div class="handoff-row">
+          <div class="handoff-key">Urgency level</div>
+          <div class="handoff-val">How urgent is this for them? Actively looking to move, or still researching?</div>
+        </div>
+        <div class="handoff-row">
+          <div class="handoff-key">Anything else</div>
+          <div class="handoff-val">Objections they raised, context about their life situation, anything the closer needs to know before getting on.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight">
+      <p><strong>The closer who opens with "so tell me about yourself" is working with a bad handoff.</strong> The closer who opens with "you mentioned you've been stuck at $8K for about a year and losing deals at the close — let's start there" is working with a great one. The setter creates that opening. It changes the entire tone of the call from minute one.</p>
+    </div>
+  </section>
+
+
+  <!-- MISTAKES -->
+  <section id="mistakes">
+    <h2>Mistakes That Kill Calls Before They Happen</h2>
+
+    <div class="red-block">
+      <p><strong>Pitching before building pain.</strong> The moment you explain what the program does before the prospect has articulated their own problem, you become a salesperson — and they become a prospect who needs to protect themselves. Build the pain. Let them feel the gap. Then bridge to the call. The program is the answer to a question they're already asking — make sure they're asking it first.</p>
+    </div>
+
+    <div class="red-block">
+      <p><strong>Booking calls that aren't qualified.</strong> A full calendar with low show rates and low close rates is not a win. It is a waste of the closer's time and yours. Qualify hard. If the gap isn't there, if the intent isn't there, or if they can't move — say so and move on. The setter who protects the closer's time is the one who earns trust and stays in the role.</p>
+    </div>
+
+    <div class="red-block">
+      <p><strong>Asking for the call before the pain is deep enough.</strong> "Want to jump on a call?" after two messages is almost always rejected. The prospect doesn't know why they would. You haven't given them a reason yet. Pain creates the reason. The call makes sense when the prospect is already sitting in a problem they want solved. Not before.</p>
+    </div>
+
+    <div class="red-block">
+      <p><strong>Talking more than the prospect.</strong> Every word you say in setting is a word they're not spending getting more invested in their own situation. Your job is to create space for them to talk, ask the question that goes deeper, and listen for the thing worth following. A setting conversation where you talk more than 30% of the time is a setting conversation that didn't do its job.</p>
+    </div>
+
+    <div class="red-block">
+      <p><strong>Not sending the pre-call follow-up.</strong> A booked call without a pre-call message is a call that shows up cold — or doesn't show up at all. The follow-up the night before is what reconnects them to why they said yes, reminds them that someone took the time to understand their situation, and keeps the warmth alive between the DM and the Zoom link. Don't skip it.</p>
+    </div>
+
+    <div class="red-block">
+      <p><strong>Giving a vague handoff.</strong> "They seemed interested" is not a handoff. It's useless. The closer needs specifics — what they said, the numbers, the pain in their words, what they've tried, how urgent it is. Every piece of information you didn't capture is a question the closer has to ask from scratch, which means they're rebuilding rapport the setter already built. Don't make them do it again.</p>
+    </div>
+
+    <div class="quote-block">
+      <p>"The closer wins or loses based on what the setter built. You are not booking appointments. You are building the environment the close happens in."</p>
+      <div class="attribution">— JJ Hernandez</div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('section, #overview');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        navLinks.forEach(function(l) {
+          l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+  sections.forEach(function(s) { observer.observe(s); });
+</script>
+
+</body>
+</html>
