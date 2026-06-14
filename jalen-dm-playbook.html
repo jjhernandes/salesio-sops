@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DM Setting Playbook — Jalen Hoxie</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.6; display: flex; min-height: 100vh; }
+
+    .sidebar { width: 230px; flex-shrink: 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; border-right: 1px solid #1a1a1a; padding: 40px 0; }
+    .sidebar-logo { font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: #555; padding: 0 24px 24px; border-bottom: 1px solid #1a1a1a; margin-bottom: 20px; }
+    .nav-section { padding: 6px 24px; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #2a2a2a; margin-top: 16px; margin-bottom: 4px; }
+    .nav-link { display: block; padding: 7px 24px; font-size: 13px; color: #555; text-decoration: none; transition: color .15s, border-color .15s; border-left: 2px solid transparent; }
+    .nav-link:hover { color: #ccc; }
+    .nav-link.active { color: #4ade80; border-left-color: #4ade80; }
+
+    .main { flex: 1; max-width: 800px; padding: 56px 48px 120px; }
+    .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 12px; }
+    h1 { font-size: 40px; font-weight: 900; line-height: 1.05; letter-spacing: -1px; margin-bottom: 16px; }
+    .subtitle { font-size: 15px; color: #666; margin-bottom: 60px; line-height: 1.6; max-width: 580px; }
+
+    section { margin-bottom: 72px; }
+    h2 { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 24px; padding-bottom: 10px; border-bottom: 1px solid #111; }
+
+    .block { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 22px 26px; margin-bottom: 14px; }
+    .block-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #444; margin-bottom: 10px; }
+    .block p { font-size: 14px; color: #999; line-height: 1.7; }
+    .block p + p { margin-top: 10px; }
+
+    .highlight { background: #050f08; border: 1px solid #0d2b1a; border-radius: 10px; padding: 22px 26px; margin-bottom: 14px; }
+    .highlight p { font-size: 14px; color: #ccc; line-height: 1.8; }
+    .highlight strong { color: #4ade80; }
+
+    .warning { background: #0f0800; border: 1px solid #2b1a00; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; }
+    .warning p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .warning strong { color: #f59e0b; }
+
+    .red-block { background: #0f0505; border: 1px solid #2b0d0d; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; }
+    .red-block p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .red-block strong { color: #f87171; }
+
+    .note-list { list-style: none; }
+    .note-list li { font-size: 14px; color: #999; padding: 9px 0; border-bottom: 1px solid #0f0f0f; display: flex; gap: 12px; line-height: 1.6; }
+    .note-list li:last-child { border-bottom: none; }
+    .note-list li::before { content: "—"; color: #333; flex-shrink: 0; }
+
+    .compare-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+    .compare-card { border-radius: 10px; padding: 18px 20px; }
+    .compare-card.bad { background: #0a0202; border: 1px solid #2b0d0d; }
+    .compare-card.bad .compare-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #f87171; margin-bottom: 10px; }
+    .compare-card.good { background: #020a04; border: 1px solid #0d2b1a; }
+    .compare-card.good .compare-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #4ade80; margin-bottom: 10px; }
+    .compare-list { list-style: none; }
+    .compare-list li { font-size: 13px; color: #888; padding: 6px 0; border-bottom: 1px solid #0d0d0d; line-height: 1.55; display: flex; gap: 8px; }
+    .compare-list li:last-child { border-bottom: none; }
+    .compare-card.bad .compare-list li::before { content: "✕"; color: #f87171; flex-shrink: 0; font-size: 10px; font-weight: 900; margin-top: 3px; }
+    .compare-card.good .compare-list li::before { content: "✓"; color: #4ade80; flex-shrink: 0; font-size: 10px; font-weight: 900; margin-top: 3px; }
+
+    /* Message cards */
+    .mc { border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
+    .mc-header { padding: 16px 22px; display: flex; align-items: center; gap: 14px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .mc-num { font-size: 11px; font-weight: 900; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.06em; flex-shrink: 0; }
+    .mc-title { font-size: 15px; font-weight: 800; }
+    .mc-phase { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-left: auto; }
+    .mc-body { padding: 20px 22px; }
+    .mc-template { font-size: 14px; font-style: italic; line-height: 1.8; padding: 14px 18px; border-radius: 8px; margin-bottom: 12px; }
+    .mc-why { font-size: 12.5px; color: #555; line-height: 1.7; }
+    .mc-why strong { color: #666; }
+
+    .mc.mc-i { border: 1px solid #0a2040; }
+    .mc.mc-i .mc-header { background: #020810; }
+    .mc.mc-i .mc-num { background: #050a12; color: #60a5fa; border: 1px solid #0a2040; }
+    .mc.mc-i .mc-title { color: #93c5fd; }
+    .mc.mc-i .mc-phase { color: #1e4d7a; }
+    .mc.mc-i .mc-body { background: #010508; }
+    .mc.mc-i .mc-template { background: #020810; border: 1px solid #0a2040; color: #93c5fd; }
+
+    .mc.mc-b { border: 1px solid #2b1a00; }
+    .mc.mc-b .mc-header { background: #0a0600; }
+    .mc.mc-b .mc-num { background: #0f0800; color: #f59e0b; border: 1px solid #2b1a00; }
+    .mc.mc-b .mc-title { color: #fcd34d; }
+    .mc.mc-b .mc-phase { color: #5a3a00; }
+    .mc.mc-b .mc-body { background: #060400; }
+    .mc.mc-b .mc-template { background: #0a0600; border: 1px solid #2b1a00; color: #fcd34d; }
+
+    .mc.mc-g { border: 1px solid #0d2b1a; }
+    .mc.mc-g .mc-header { background: #020a04; }
+    .mc.mc-g .mc-num { background: #050f08; color: #4ade80; border: 1px solid #0d2b1a; }
+    .mc.mc-g .mc-title { color: #a3e8bb; }
+    .mc.mc-g .mc-phase { color: #1a4a2a; }
+    .mc.mc-g .mc-body { background: #010603; }
+    .mc.mc-g .mc-template { background: #020a04; border: 1px solid #0d2b1a; color: #a3e8bb; }
+
+    /* BANT badges */
+    .bant-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+    .bant-card { border-radius: 10px; padding: 16px 14px; text-align: center; }
+    .bant-letter { font-size: 32px; font-weight: 900; margin-bottom: 4px; }
+    .bant-word { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+    .bant-note { font-size: 11px; color: #555; line-height: 1.5; }
+    .bant-card.b-budget { background: #080808; border: 1px solid #222; }
+    .bant-card.b-budget .bant-letter { color: #60a5fa; }
+    .bant-card.b-budget .bant-word { color: #60a5fa; }
+    .bant-card.b-authority { background: #080808; border: 1px solid #222; }
+    .bant-card.b-authority .bant-letter { color: #f59e0b; }
+    .bant-card.b-authority .bant-word { color: #f59e0b; }
+    .bant-card.b-need { background: #050f08; border: 1px solid #0d2b1a; }
+    .bant-card.b-need .bant-letter { color: #4ade80; }
+    .bant-card.b-need .bant-word { color: #4ade80; }
+    .bant-card.b-time { background: #080808; border: 1px solid #222; }
+    .bant-card.b-time .bant-letter { color: #f87171; }
+    .bant-card.b-time .bant-word { color: #f87171; }
+
+    /* DM opener examples */
+    .dm-example { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 12px; overflow: hidden; margin-bottom: 14px; }
+    .dm-header { padding: 12px 18px; border-bottom: 1px solid #111; font-size: 12px; font-weight: 700; color: #444; display: flex; align-items: center; gap: 10px; }
+    .dm-tag { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 8px; border-radius: 10px; }
+    .tag-follow { background: #050a12; color: #60a5fa; border: 1px solid #0a2040; }
+    .tag-comment { background: #0a0600; color: #f59e0b; border: 1px solid #2b1a00; }
+    .tag-like { background: #080208; color: #c084fc; border: 1px solid #2a0a40; }
+    .dm-body { padding: 16px 18px; }
+    .dm-msg { font-size: 14px; font-style: italic; color: #ccc; line-height: 1.8; padding: 14px 18px; border-radius: 8px; background: #050505; border: 1px solid #111; }
+
+    /* Objection handlers */
+    .obj { border-radius: 10px; overflow: hidden; margin-bottom: 12px; border: 1px solid #1a1a1a; }
+    .obj-trigger { padding: 13px 18px; background: #0a0a0a; font-size: 13px; font-weight: 700; color: #777; border-bottom: 1px solid #111; display: flex; align-items: center; gap: 10px; }
+    .obj-trigger span { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #f87171; background: #0f0505; border: 1px solid #2b0d0d; padding: 2px 8px; border-radius: 6px; }
+    .obj-response { padding: 16px 18px; background: #050505; font-size: 14px; font-style: italic; color: #ccc; line-height: 1.8; }
+    .obj-note { padding: 10px 18px; background: #030303; font-size: 12px; color: #444; line-height: 1.65; border-top: 1px solid #0d0d0d; }
+
+    .quote-block { border-left: 3px solid #222; padding: 16px 22px; background: #050505; border-radius: 0 8px 8px 0; margin: 24px 0 0; }
+    .quote-block p { font-size: 15px; color: #ddd; font-style: italic; line-height: 1.8; }
+    .quote-block .attribution { font-size: 12px; color: #444; font-style: normal; margin-top: 8px; font-weight: 600; }
+
+    @media (max-width: 800px) {
+      .sidebar { display: none; }
+      .main { padding: 40px 20px 80px; max-width: 100%; }
+      h1 { font-size: 30px; }
+      .bant-row { grid-template-columns: repeat(2, 1fr); }
+      .compare-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io — Jalen</div>
+  <div class="nav-section">Overview</div>
+  <a href="#overview" class="nav-link active">Intro</a>
+  <a href="#philosophy" class="nav-link">The Philosophy</a>
+  <div class="nav-section">Section 1</div>
+  <a href="#intent" class="nav-link">Intent Qualification</a>
+  <a href="#openers" class="nav-link">Opening Messages</a>
+  <a href="#filter" class="nav-link">The Filter</a>
+  <div class="nav-section">Section 2</div>
+  <a href="#bant" class="nav-link">BANT</a>
+  <a href="#discovery" class="nav-link">Discovery (Msgs 2–6)</a>
+  <div class="nav-section">Booking</div>
+  <a href="#booking" class="nav-link">Booking (Msgs 7–10)</a>
+  <a href="#objections" class="nav-link">Handling Objections</a>
+</nav>
+
+<main class="main">
+
+  <div id="overview">
+    <div class="eyebrow">Sales.io — Jalen Hoxie · Setting Playbook</div>
+    <h1>DM Setting Playbook</h1>
+    <p class="subtitle">Two phases. Ten messages. This is how we go from a cold follow, comment, or like to a booked call — without pitching anyone in a DM.</p>
+  </div>
+
+
+  <!-- PHILOSOPHY -->
+  <section id="philosophy">
+    <h2>The Philosophy</h2>
+
+    <div class="block">
+      <div class="block-label">Why this works</div>
+      <p>The content does the heavy lifting. By the time someone follows, comments, or starts liking posts — they've already been sitting in the ideas. The emotion is already there. Our job in the DM isn't to create urgency from scratch. It's to find the people where urgency already exists, surface it, and give it a logical next step.</p>
+      <p>We don't sell in DMs. We qualify in DMs. The closer handles everything else.</p>
+    </div>
+
+    <div class="highlight">
+      <p><strong>The odds of closing someone who has simmered in content are completely different from someone you're trying to convince from zero.</strong> Don't burn energy on people who aren't already problem-aware. Intent qualification up front saves time and protects the closer's pipeline from dead weight.</p>
+    </div>
+
+    <div class="compare-row">
+      <div class="compare-card bad">
+        <div class="compare-label">Wrong Approach</div>
+        <ul class="compare-list">
+          <li>Pitches in the DM before building pain</li>
+          <li>Books anyone who responds</li>
+          <li>Mentions the offer before they've said what's wrong</li>
+          <li>"Would you be open to a call?" within 2 messages</li>
+          <li>High booking count, low show rates</li>
+        </ul>
+      </div>
+      <div class="compare-card good">
+        <div class="compare-label">Right Approach</div>
+        <ul class="compare-list">
+          <li>Filters for intent first — stops early if it's not there</li>
+          <li>Qualifies before booking — sends only real leads</li>
+          <li>Expands the problem before mentioning a call</li>
+          <li>Only books when BANT is confirmed</li>
+          <li>High show rates, warm prospects, closer closes</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SECTION 1: INTENT -->
+  <section id="intent">
+    <h2>Section 1 — Intent Qualification</h2>
+
+    <div class="block">
+      <div class="block-label">The objective</div>
+      <p>The opening message has one job: qualify intent. We want to know if this person is in a problem-aware mindset. If they respond with something real — a frustration, a pattern they're stuck in, anything that signals a gap — we have a conversation worth having. If the response is weak, short, or shows no pain signal, we move on. The content will keep doing its work.</p>
+    </div>
+
+    <div class="warning">
+      <p><strong>Never open with what you do or what you're offering.</strong> The only thing that gets someone's attention in the first message is their own situation reflected back at them accurately. Start there. The agenda comes out through their answers — not through your opener.</p>
+    </div>
+  </section>
+
+
+  <!-- OPENERS -->
+  <section id="openers">
+    <h2>Opening Messages</h2>
+
+    <div class="block">
+      <div class="block-label">The formula</div>
+      <p>Acknowledge where you found them → reference what caught your attention → open the door for them to share what's going on. Specific beats generic every time. Show you actually looked at their profile or what they engaged with.</p>
+    </div>
+
+    <div class="dm-example">
+      <div class="dm-header">
+        <span class="dm-tag tag-follow">New Follower</span>
+        They followed — no prior interaction
+      </div>
+      <div class="dm-body">
+        <div class="dm-msg">"What's going on [NAME], just saw you shot me a follow. I speak a whole lot on [main content topic] — let me know if there's anything I can help ya with."</div>
+      </div>
+    </div>
+
+    <div class="dm-example">
+      <div class="dm-header">
+        <span class="dm-tag tag-comment">Comment</span>
+        They commented on a post about a specific topic
+      </div>
+      <div class="dm-body">
+        <div class="dm-msg">"What's going on [NAME], just saw you commented on one of my posts regarding [X]. Is this something you're currently going through?"</div>
+      </div>
+    </div>
+
+    <div class="dm-example">
+      <div class="dm-header">
+        <span class="dm-tag tag-like">Liked Content</span>
+        They've been liking content — repeated engagement
+      </div>
+      <div class="dm-body">
+        <div class="dm-msg">"What's going on [NAME], been seeing you like some of my content. Curious what's got you in that space right now — what are you working through?"</div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label">Why the liked opener changed</div>
+      <p>The original version ended with "let me know if there's anything keeping ya from getting gains" — which telegraphs the sales agenda. The second they feel it, the guard goes up. "What are you working through" is genuinely curious and opens the exact same door without tipping your hand.</p>
+    </div>
+  </section>
+
+
+  <!-- THE FILTER -->
+  <section id="filter">
+    <h2>The Filter</h2>
+
+    <div class="block">
+      <div class="block-label">What a good response looks like</div>
+      <p>Pain, frustration, a specific problem they're stuck in, or anything that clearly signals they want a different result. They don't have to write a paragraph. Even a short response that names a real issue is enough to keep going.</p>
+    </div>
+
+    <div class="compare-row">
+      <div class="compare-card good">
+        <div class="compare-label">Keep Going</div>
+        <ul class="compare-list">
+          <li>"yeah honestly I've been struggling with [X]"</li>
+          <li>"trying to figure out how to get past [specific wall]"</li>
+          <li>"I keep hitting a ceiling with [problem]"</li>
+          <li>"lol yeah [X] has been rough ngl"</li>
+          <li>Anything that names a real problem or gap</li>
+        </ul>
+      </div>
+      <div class="compare-card bad">
+        <div class="compare-label">Move On</div>
+        <ul class="compare-list">
+          <li>"great content 🔥"</li>
+          <li>"thanks man keep it up"</li>
+          <li>"just browsing"</li>
+          <li>"not really looking for anything"</li>
+          <li>No response</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="red-block">
+      <p><strong>Do not try to manufacture urgency from a weak response.</strong> If they didn't signal a problem, the conversation isn't ready. Let the content keep working. Following a weak response with "what are your goals?" or "would you be open to a call?" just kills your credibility. Move on.</p>
+    </div>
+  </section>
+
+
+  <!-- BANT -->
+  <section id="bant">
+    <h2>Section 2 — BANT</h2>
+
+    <div class="bant-row">
+      <div class="bant-card b-budget">
+        <div class="bant-letter">B</div>
+        <div class="bant-word">Budget</div>
+        <div class="bant-note">Qualified through what they've already invested in fixing the problem</div>
+      </div>
+      <div class="bant-card b-authority">
+        <div class="bant-letter">A</div>
+        <div class="bant-word">Authority</div>
+        <div class="bant-note">Can they make the call themselves? Flag if someone else's approval is needed</div>
+      </div>
+      <div class="bant-card b-need">
+        <div class="bant-letter">N</div>
+        <div class="bant-word">Need</div>
+        <div class="bant-note">Start here every time. The problem has to be real and felt before anything else matters</div>
+      </div>
+      <div class="bant-card b-time">
+        <div class="bant-letter">T</div>
+        <div class="bant-word">Time</div>
+        <div class="bant-note">Are they trying to solve this now — or just browsing for information</div>
+      </div>
+    </div>
+
+    <div class="highlight">
+      <p><strong>Always start with Need.</strong> It's a lot easier to get someone to want to fix a problem when they've fully felt the problem first. The sequence runs Need → Budget (embedded in the past investment question) → Time. Authority is relevant when they mention another person needs to be involved — flag it if it comes up.</p>
+    </div>
+  </section>
+
+
+  <!-- DISCOVERY SEQUENCE -->
+  <section id="discovery">
+    <h2>Discovery Sequence — Messages 2–6</h2>
+
+    <div class="mc mc-b">
+      <div class="mc-header">
+        <div class="mc-num">Msg 02</div>
+        <div class="mc-title">Expand the Problem</div>
+        <div class="mc-phase">Need</div>
+      </div>
+      <div class="mc-body">
+        <div class="mc-template">"Gotcha bro, and so with you saying [insert what their problem was] — where do you think that's stemming from / why do you think that isn't happening / what do you mean by that?"</div>
+        <div class="mc-why">All we're doing here is expanding the problem. Make it bigger. Get more of an understanding of what the issue actually is before moving on. Pick whichever expansion question fits what they said best. Don't ask all three — just one.</div>
+      </div>
+    </div>
+
+    <div class="mc mc-b">
+      <div class="mc-header">
+        <div class="mc-num">Msg 03</div>
+        <div class="mc-title">Time Under Tension</div>
+        <div class="mc-phase">Need</div>
+      </div>
+      <div class="mc-body">
+        <div class="mc-template">"Ya that makes sense man, and so with the issue being [X] — how long has this been going on for now?"</div>
+        <div class="mc-why">Get the timeline. A problem they've had for a year hits different than something that started two weeks ago. The longer it's been going on, the more weight it carries — and the more naturally you can use that time in the next message.</div>
+      </div>
+    </div>
+
+    <div class="mc mc-b">
+      <div class="mc-header">
+        <div class="mc-num">Msg 04</div>
+        <div class="mc-title">Past Investment (Budget Signal)</div>
+        <div class="mc-phase">Budget</div>
+      </div>
+      <div class="mc-body">
+        <div class="mc-template">"Damn, struggling with this for that long has to be annoying — what have you been trying over this last [X time] to help you with this?"</div>
+        <div class="mc-why"><strong>This is your budget qualification disguised as a history question.</strong> What they've done tells you how they see investing in their own growth. If they've paid for coaches, courses, or programs before — they justify cost. If they've done nothing, you'll handle that in triage. Don't ask for a dollar amount. The pattern tells you what you need to know.</div>
+      </div>
+    </div>
+
+    <div class="mc mc-b">
+      <div class="mc-header">
+        <div class="mc-num">Msg 05</div>
+        <div class="mc-title">Self-Diagnosis</div>
+        <div class="mc-phase">Need</div>
+      </div>
+      <div class="mc-body">
+        <div class="mc-template">"Okay gotcha — and in your own experience, what do you think the disconnect was that didn't allow [X] to work?"</div>
+        <div class="mc-why">NCI move. Get them to diagnose themselves. When they say what wasn't working, they're doing two things: confirming the problem is real, and ruling out solutions they've already tried. <strong>Don't drop social proof here</strong> ("my clients tried that too") — keep them fully in their own reflection. The moment you talk about yourself, you're pitching. Stay out of it.</div>
+      </div>
+    </div>
+
+    <div class="mc mc-b">
+      <div class="mc-header">
+        <div class="mc-num">Msg 06</div>
+        <div class="mc-title">Urgency Qualification</div>
+        <div class="mc-phase">Time</div>
+      </div>
+      <div class="mc-body">
+        <div class="mc-template">"Makes sense bro. So last thing — what's got this feeling like something to fix now vs. just letting it ride?"</div>
+        <div class="mc-why">Time qualification. Gets them to name the reason this is urgent — in their own words. "Vs. just letting it ride" gives them the alternative and lets them push against it. If they have a real answer here, they're ready to be booked. If they don't, urgency isn't there yet and the call will ghost.</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- BOOKING -->
+  <section id="booking">
+    <h2>Booking — Messages 7–10</h2>
+
+    <div class="block">
+      <div class="block-label">When to book</div>
+      <p>Prospect has given real answers across all five messages. Problem is real, timeline established, some investment history, urgency confirmed. Move. Don't wait for a perfect score — a strong read across these is enough.</p>
+    </div>
+
+    <div class="mc mc-g">
+      <div class="mc-header">
+        <div class="mc-num">Msg 07</div>
+        <div class="mc-title">The Bridge</div>
+        <div class="mc-phase">Booking</div>
+      </div>
+      <div class="mc-body">
+        <div class="mc-template">"Let's do this [NAME] — with you telling me your biggest challenge right now is [X PROBLEM], I want to get you connected to my guy [CLOSER NAME]. He's the person on our team who handles all initial transformations. You guys will go through more of where you're at now, where you want to go, and see how we can help get you there. What times are you free either later today, tomorrow, or latest day after?"</div>
+        <div class="mc-why">Mirror their problem back before you say anything about the call — shows you actually listened. "Initial transformations" is the right frame, not "sales call." Give three time options so they have to pick one, not decide whether to show up at all.</div>
+      </div>
+    </div>
+
+    <div class="mc mc-g">
+      <div class="mc-header">
+        <div class="mc-num">Msg 08</div>
+        <div class="mc-title">Lock the Time</div>
+        <div class="mc-phase">Booking</div>
+      </div>
+      <div class="mc-body">
+        <div class="mc-template">"Let's lock it in for [X time]. What's a good email and phone number?"</div>
+        <div class="mc-why">Short. Confirm, get contact info. No extra language needed.</div>
+      </div>
+    </div>
+
+    <div class="mc mc-g">
+      <div class="mc-header">
+        <div class="mc-num">Msg 09</div>
+        <div class="mc-title">Confirm the Invite</div>
+        <div class="mc-phase">Booking</div>
+      </div>
+      <div class="mc-body">
+        <div class="mc-template">"Just shot the invite link over to your email. Can you double check that when you get a chance and accept it so you've got it on the calendar?"</div>
+        <div class="mc-why">Gets them to physically confirm the invite. Accepting a calendar invite is an action, not just an intention — people show up to things they actually accepted. This one step moves show rate significantly.</div>
+      </div>
+    </div>
+
+    <div class="mc mc-g">
+      <div class="mc-header">
+        <div class="mc-num">Msg 10</div>
+        <div class="mc-title">Close the Loop</div>
+        <div class="mc-phase">Booking</div>
+      </div>
+      <div class="mc-body">
+        <div class="mc-template">"Awesome man, well I'll have [CLOSER] reach out to you sometime before the call and just run through everything. Excited to see your growth man!"</div>
+        <div class="mc-why">Warm close. Sets the expectation that the closer will reach out before the call — so when the closer contacts them, it doesn't feel cold. Creates continuity between the DM conversation and the Zoom.</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- OBJECTIONS -->
+  <section id="objections">
+    <h2>Handling Objections</h2>
+
+    <div class="obj">
+      <div class="obj-trigger"><span>IF</span> They want to know more about the call</div>
+      <div class="obj-response">"Ya dude — it's a call going over your current gap of [X PROBLEM] and where you ultimately want to get to. And then from there, breaking down how we could actually help get you there."</div>
+      <div class="obj-note">Mirrors their problem. Doesn't pitch the program. Keeps the call framed as diagnostic, not promotional.</div>
+    </div>
+
+    <div class="obj">
+      <div class="obj-trigger"><span>IF</span> They ask how much it costs</div>
+      <div class="obj-response">"Price is tailored to what you need and I don't want to bullshit you — it's not a cheap investment. But the exact number depends on your situation, which is exactly what the call is there to figure out."</div>
+      <div class="obj-note">Honest. Doesn't dodge. Doesn't give a number and doesn't signal that the price is negotiable before they've spoken to the closer. Let the closer own the pricing conversation.</div>
+    </div>
+
+    <div class="obj">
+      <div class="obj-trigger"><span>IF</span> They say they don't have enough / money is tight</div>
+      <div class="obj-response">"Walk me through it — the last thing I'd want is finances getting in the way of you actually getting to [X goal]. When it comes to [what they want], how much do you have set aside for something like this?"</div>
+      <div class="obj-note">Gets them to name a number. Doesn't immediately disqualify them. "I can't afford it" often means "I'm not sure it's worth it" — and the closer can work with that. If they genuinely have nothing, you'll know fast.</div>
+    </div>
+
+    <div class="quote-block">
+      <p>"We don't sell in DMs. We qualify. The content did the convincing — your job is to find the people it already convinced."</p>
+      <div class="attribution">— JJ Hernandez</div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('section, #overview');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        navLinks.forEach(function(l) {
+          l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(function(s) { observer.observe(s); });
+</script>
+
+</body>
+</html>
