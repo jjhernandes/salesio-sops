@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Content Bible — JJ + Jalen</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.6; }
+
+    /* Header */
+    .hdr { position: fixed; top: 0; left: 0; right: 0; height: 56px; background: #000; border-bottom: 1px solid #111; z-index: 200; display: flex; align-items: center; padding: 0 28px; gap: 24px; }
+    .hdr-logo { font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: #333; }
+    .hdr-tabs { display: flex; gap: 4px; }
+    .hdr-tab { padding: 6px 18px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; border: 1px solid transparent; transition: all .15s; background: none; color: #444; }
+    .hdr-tab:hover { color: #888; }
+    .hdr-tab.jj-active { background: #050f08; border-color: #0d2b1a; color: #4ade80; }
+    .hdr-tab.jalen-active { background: #020810; border-color: #0a2040; color: #60a5fa; }
+    .hdr-badge { margin-left: auto; font-size: 11px; font-weight: 700; color: #222; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* Layout */
+    .layout { display: flex; margin-top: 56px; }
+    .sidebar { width: 220px; flex-shrink: 0; position: fixed; top: 56px; bottom: 0; left: 0; border-right: 1px solid #111; overflow-y: auto; padding: 24px 0; }
+    .nav-section { padding: 4px 20px; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #222; margin-top: 14px; margin-bottom: 2px; }
+    .nav-link { display: block; padding: 6px 20px; font-size: 12px; color: #444; text-decoration: none; border-left: 2px solid transparent; transition: all .12s; }
+    .nav-link:hover { color: #999; }
+    .nav-link.jj-act { color: #4ade80; border-left-color: #4ade80; }
+    .nav-link.jalen-act { color: #60a5fa; border-left-color: #60a5fa; }
+    .main { margin-left: 220px; padding: 48px 52px 120px; max-width: 960px; }
+
+    /* Panels */
+    .panel { display: none; }
+    .panel.on { display: block; }
+
+    /* Section */
+    section { margin-bottom: 64px; }
+    .sec-head { font-size: 10px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #333; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #0f0f0f; }
+
+    /* Hero */
+    .hero-eye { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #333; margin-bottom: 10px; }
+    .hero-h1 { font-size: 36px; font-weight: 900; letter-spacing: -1px; line-height: 1.05; margin-bottom: 12px; }
+    .hero-sub { font-size: 14px; color: #555; margin-bottom: 52px; line-height: 1.65; max-width: 520px; }
+    .jj-color { color: #4ade80; }
+    .jalen-color { color: #60a5fa; }
+
+    /* Category label */
+    .cat-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin: 28px 0 12px; padding: 4px 10px; border-radius: 6px; display: inline-block; }
+    .cat-jj { background: #050f08; color: #4ade80; border: 1px solid #0d2b1a; }
+    .cat-jalen { background: #020810; color: #60a5fa; border: 1px solid #0a2040; }
+
+    /* Question grid */
+    .q-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 8px; }
+    .q-item { display: flex; gap: 10px; padding: 9px 12px; border-radius: 7px; align-items: flex-start; }
+    .q-item.jj-q { background: #050505; border: 1px solid #0f0f0f; }
+    .q-item.jalen-q { background: #030508; border: 1px solid #0a0f18; }
+    .q-num { font-size: 10px; font-weight: 800; flex-shrink: 0; width: 22px; margin-top: 1px; }
+    .jj-q .q-num { color: #1a4a2a; }
+    .jalen-q .q-num { color: #0a2040; }
+    .q-text { font-size: 13px; color: #888; line-height: 1.55; }
+
+    /* Video list */
+    .v-list { display: flex; flex-direction: column; gap: 5px; margin-bottom: 8px; }
+    .v-item { display: flex; gap: 12px; padding: 10px 14px; border-radius: 7px; align-items: flex-start; }
+    .v-item.jj-v { background: #050505; border: 1px solid #0f0f0f; }
+    .v-item.jalen-v { background: #030508; border: 1px solid #0a0f18; }
+    .v-num { font-size: 10px; font-weight: 800; flex-shrink: 0; width: 24px; margin-top: 2px; }
+    .jj-v .v-num { color: #1a4a2a; }
+    .jalen-v .v-num { color: #0a2040; }
+    .v-text { font-size: 13px; color: #999; line-height: 1.55; }
+    .v-text em { font-style: italic; color: #ccc; }
+
+    /* Hooks */
+    .hook-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
+    .hook-item { padding: 12px 16px; border-radius: 8px; font-size: 14px; font-style: italic; color: #ccc; line-height: 1.7; display: flex; gap: 12px; align-items: flex-start; }
+    .hook-item.jj-h { background: #050f08; border: 1px solid #0d2b1a; }
+    .hook-item.jalen-h { background: #020810; border: 1px solid #0a2040; }
+    .hook-n { font-size: 10px; font-weight: 800; flex-shrink: 0; font-style: normal; margin-top: 3px; }
+    .jj-h .hook-n { color: #4ade80; }
+    .jalen-h .hook-n { color: #60a5fa; }
+
+    /* On-screen hooks */
+    .os-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+    .os-chip { padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 700; line-height: 1.3; }
+    .os-chip.jj-os { background: #050f08; border: 1px solid #0d2b1a; color: #4ade80; }
+    .os-chip.jalen-os { background: #020810; border: 1px solid #0a2040; color: #60a5fa; }
+
+    .divider { height: 1px; background: #0a0a0a; margin: 32px 0; }
+    .info-block { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 18px 22px; margin-bottom: 20px; }
+    .info-block p { font-size: 13.5px; color: #666; line-height: 1.7; }
+
+    @media (max-width: 800px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 32px 20px 80px; }
+      .q-grid { grid-template-columns: 1fr; }
+      .hero-h1 { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-logo">Sales.io</div>
+  <div class="hdr-tabs">
+    <button class="hdr-tab jj-active" id="btn-jj" onclick="switchTab('jj')">JJ Hernandez</button>
+    <button class="hdr-tab" id="btn-jalen" onclick="switchTab('jalen')">Jalen Hoxie</button>
+  </div>
+  <div class="hdr-badge">200 videos — tonight</div>
+</header>
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <div id="nav-jj">
+      <div class="nav-section">JJ — Questions</div>
+      <a href="#jj-q1" class="nav-link jj-act">Sales Psychology</a>
+      <a href="#jj-q2" class="nav-link jj-act">Identity &amp; Mindset</a>
+      <a href="#jj-q3" class="nav-link jj-act">Hot Takes</a>
+      <a href="#jj-q4" class="nav-link jj-act">Tactical</a>
+      <a href="#jj-q5" class="nav-link jj-act">Career &amp; Money</a>
+      <a href="#jj-q6" class="nav-link jj-act">Brand &amp; Story</a>
+      <div class="nav-section">JJ — Video Ideas</div>
+      <a href="#jj-v1" class="nav-link jj-act">Psychology &amp; Concepts</a>
+      <a href="#jj-v2" class="nav-link jj-act">Call Breakdowns</a>
+      <a href="#jj-v3" class="nav-link jj-act">Hot Takes</a>
+      <a href="#jj-v4" class="nav-link jj-act">Career &amp; Earnings</a>
+      <a href="#jj-v5" class="nav-link jj-act">Students &amp; Proof</a>
+      <a href="#jj-v6" class="nav-link jj-act">Brand &amp; Culture</a>
+      <div class="nav-section">JJ — Hooks</div>
+      <a href="#jj-hooks" class="nav-link jj-act">Spoken Hooks</a>
+      <a href="#jj-os" class="nav-link jj-act">On-Screen Text</a>
+    </div>
+    <div id="nav-jalen" style="display:none">
+      <div class="nav-section">Jalen — Questions</div>
+      <a href="#jalen-q1" class="nav-link jalen-act">The Opener</a>
+      <a href="#jalen-q2" class="nav-link jalen-act">Intent Qualification</a>
+      <a href="#jalen-q3" class="nav-link jalen-act">BANT &amp; Discovery</a>
+      <a href="#jalen-q4" class="nav-link jalen-act">Booking &amp; Show Rate</a>
+      <a href="#jalen-q5" class="nav-link jalen-act">Objection Handling</a>
+      <a href="#jalen-q6" class="nav-link jalen-act">Mindset &amp; Career</a>
+      <div class="nav-section">Jalen — Video Ideas</div>
+      <a href="#jalen-v1" class="nav-link jalen-act">The Opener</a>
+      <a href="#jalen-v2" class="nav-link jalen-act">Intent Qualification</a>
+      <a href="#jalen-v3" class="nav-link jalen-act">BANT &amp; Discovery</a>
+      <a href="#jalen-v4" class="nav-link jalen-act">Booking &amp; Show Rate</a>
+      <a href="#jalen-v5" class="nav-link jalen-act">Objections</a>
+      <a href="#jalen-v6" class="nav-link jalen-act">Mindset &amp; Career</a>
+      <div class="nav-section">Jalen — Hooks</div>
+      <a href="#jalen-hooks" class="nav-link jalen-act">Spoken Hooks</a>
+      <a href="#jalen-os" class="nav-link jalen-act">On-Screen Text</a>
+    </div>
+  </nav>
+
+  <main class="main">
+
+    <!-- ======== JJ PANEL ======== -->
+    <div id="panel-jj" class="panel on">
+
+      <div class="hero-eye">Sales.io Content Bible</div>
+      <h1 class="hero-h1"><span class="jj-color">JJ Hernandez</span><br>100 Questions + 100 Videos</h1>
+      <p class="hero-sub">Concept-first. Execute with zero direction. Pick any one and go.</p>
+
+      <!-- QUESTIONS -->
+      <section>
+        <div class="sec-head">100 Questions to Film</div>
+        <div class="info-block"><p>Each question is a video. Read it to camera. Answer it. Done. These are organized by category — feel free to jump around.</p></div>
+
+        <span class="cat-label cat-jj" id="jj-q1">Sales Psychology — 1 to 25</span>
+        <div class="q-grid">
+          <div class="q-item jj-q"><span class="q-num">1</span><span class="q-text">Why do most salespeople lose deals they should win?</span></div>
+          <div class="q-item jj-q"><span class="q-num">2</span><span class="q-text">What is a sales call actually measuring?</span></div>
+          <div class="q-item jj-q"><span class="q-num">3</span><span class="q-text">Why do the best closers sound nothing like salespeople?</span></div>
+          <div class="q-item jj-q"><span class="q-num">4</span><span class="q-text">What makes someone trust a stranger in under 10 minutes?</span></div>
+          <div class="q-item jj-q"><span class="q-num">5</span><span class="q-text">Why do people buy emotionally and justify logically?</span></div>
+          <div class="q-item jj-q"><span class="q-num">6</span><span class="q-text">What is the real reason someone doesn't buy?</span></div>
+          <div class="q-item jj-q"><span class="q-num">7</span><span class="q-text">Why does price always come up when it's never really about price?</span></div>
+          <div class="q-item jj-q"><span class="q-num">8</span><span class="q-text">What does a prospect feel in the moment right before they say yes?</span></div>
+          <div class="q-item jj-q"><span class="q-num">9</span><span class="q-text">Why does being "too nice" on a call kill your numbers?</span></div>
+          <div class="q-item jj-q"><span class="q-num">10</span><span class="q-text">What is cognitive dissonance and how does it close deals?</span></div>
+          <div class="q-item jj-q"><span class="q-num">11</span><span class="q-text">How do your beliefs about money show up on a sales call?</span></div>
+          <div class="q-item jj-q"><span class="q-num">12</span><span class="q-text">Why does the person who needs the sale the most always lose it?</span></div>
+          <div class="q-item jj-q"><span class="q-num">13</span><span class="q-text">What is "the frame" in sales and why does losing it cost you thousands?</span></div>
+          <div class="q-item jj-q"><span class="q-num">14</span><span class="q-text">Why is curiosity more powerful than persuasion on a call?</span></div>
+          <div class="q-item jj-q"><span class="q-num">15</span><span class="q-text">How does identity drive buying decisions?</span></div>
+          <div class="q-item jj-q"><span class="q-num">16</span><span class="q-text">What is behavioral magnetics in sales?</span></div>
+          <div class="q-item jj-q"><span class="q-num">17</span><span class="q-text">Why do scripts make you worse at sales over time?</span></div>
+          <div class="q-item jj-q"><span class="q-num">18</span><span class="q-text">What does your anxiety tell the prospect about you?</span></div>
+          <div class="q-item jj-q"><span class="q-num">19</span><span class="q-text">Why does the desperate rep always lose?</span></div>
+          <div class="q-item jj-q"><span class="q-num">20</span><span class="q-text">What separates a $5K/month rep from a $30K/month rep?</span></div>
+          <div class="q-item jj-q"><span class="q-num">21</span><span class="q-text">What is the single most expensive belief in sales?</span></div>
+          <div class="q-item jj-q"><span class="q-num">22</span><span class="q-text">Why do people who know the most about sales sometimes close the least?</span></div>
+          <div class="q-item jj-q"><span class="q-num">23</span><span class="q-text">What does "connection" actually mean on a sales call?</span></div>
+          <div class="q-item jj-q"><span class="q-num">24</span><span class="q-text">Why is silence one of the most powerful closing tools?</span></div>
+          <div class="q-item jj-q"><span class="q-num">25</span><span class="q-text">What does your nervous system do on a high-pressure call — and how do you control it?</span></div>
+        </div>
+
+        <span class="cat-label cat-jj" id="jj-q2">Identity &amp; Mindset — 26 to 40</span>
+        <div class="q-grid">
+          <div class="q-item jj-q"><span class="q-num">26</span><span class="q-text">Why do you perform differently when someone is watching?</span></div>
+          <div class="q-item jj-q"><span class="q-num">27</span><span class="q-text">What is the version of you that closes everything without trying?</span></div>
+          <div class="q-item jj-q"><span class="q-num">28</span><span class="q-text">Why is your close rate a reflection of your self-worth?</span></div>
+          <div class="q-item jj-q"><span class="q-num">29</span><span class="q-text">How do you sell something you don't fully believe in?</span></div>
+          <div class="q-item jj-q"><span class="q-num">30</span><span class="q-text">What is "state" in sales and how do you control it?</span></div>
+          <div class="q-item jj-q"><span class="q-num">31</span><span class="q-text">Why do some closers shrink the moment they get to price?</span></div>
+          <div class="q-item jj-q"><span class="q-num">32</span><span class="q-text">What does the internal game of sales actually look like?</span></div>
+          <div class="q-item jj-q"><span class="q-num">33</span><span class="q-text">How do you become someone who closes without trying to close?</span></div>
+          <div class="q-item jj-q"><span class="q-num">34</span><span class="q-text">Why do the best closers share the same characteristics off the call?</span></div>
+          <div class="q-item jj-q"><span class="q-num">35</span><span class="q-text">What is the identity shift that happens when a rep goes from $8K to $25K months?</span></div>
+          <div class="q-item jj-q"><span class="q-num">36</span><span class="q-text">How do insecurities show up in a sales conversation?</span></div>
+          <div class="q-item jj-q"><span class="q-num">37</span><span class="q-text">What does healing personal wounds have to do with sales performance?</span></div>
+          <div class="q-item jj-q"><span class="q-num">38</span><span class="q-text">Why does "who you are off your calls" determine who you are on them?</span></div>
+          <div class="q-item jj-q"><span class="q-num">39</span><span class="q-text">What happens to a rep's numbers when their identity shifts?</span></div>
+          <div class="q-item jj-q"><span class="q-num">40</span><span class="q-text">How do you build an identity as someone who is simply good at this?</span></div>
+        </div>
+
+        <span class="cat-label cat-jj" id="jj-q3">Hot Takes — 41 to 55</span>
+        <div class="q-grid">
+          <div class="q-item jj-q"><span class="q-num">41</span><span class="q-text">Why are the best closers not the best talkers?</span></div>
+          <div class="q-item jj-q"><span class="q-num">42</span><span class="q-text">What does Jeremy Miner get wrong about NEPQ?</span></div>
+          <div class="q-item jj-q"><span class="q-num">43</span><span class="q-text">What do Cole Gordon and Andy Elliott get wrong?</span></div>
+          <div class="q-item jj-q"><span class="q-num">44</span><span class="q-text">Is sales manipulation — honest answer?</span></div>
+          <div class="q-item jj-q"><span class="q-num">45</span><span class="q-text">Why do most sales training programs actually make closers worse?</span></div>
+          <div class="q-item jj-q"><span class="q-num">46</span><span class="q-text">Why do most people who buy sales programs fail anyway?</span></div>
+          <div class="q-item jj-q"><span class="q-num">47</span><span class="q-text">Is remote high-ticket sales actually a good career in 2026?</span></div>
+          <div class="q-item jj-q"><span class="q-num">48</span><span class="q-text">Why does the most polished closer rarely have the highest close rate?</span></div>
+          <div class="q-item jj-q"><span class="q-num">49</span><span class="q-text">What is wrong with the objection-handling obsession in sales?</span></div>
+          <div class="q-item jj-q"><span class="q-num">50</span><span class="q-text">Why does "always be closing" destroy the relationship?</span></div>
+          <div class="q-item jj-q"><span class="q-num">51</span><span class="q-text">Why is social proof the laziest sales tool?</span></div>
+          <div class="q-item jj-q"><span class="q-num">52</span><span class="q-text">What is wrong with how most closers run discovery?</span></div>
+          <div class="q-item jj-q"><span class="q-num">53</span><span class="q-text">Why are most sales scripts written by people who don't actually close?</span></div>
+          <div class="q-item jj-q"><span class="q-num">54</span><span class="q-text">What is the most overrated sales technique right now?</span></div>
+          <div class="q-item jj-q"><span class="q-num">55</span><span class="q-text">Why did Sales.io shut down and rebuild from scratch?</span></div>
+        </div>
+
+        <span class="cat-label cat-jj" id="jj-q4">Tactical — 56 to 75</span>
+        <div class="q-grid">
+          <div class="q-item jj-q"><span class="q-num">56</span><span class="q-text">What do you say when a prospect says "it's too expensive"?</span></div>
+          <div class="q-item jj-q"><span class="q-num">57</span><span class="q-text">How do you handle "I need to think about it" without chasing?</span></div>
+          <div class="q-item jj-q"><span class="q-num">58</span><span class="q-text">What is the one question that changes every sales conversation?</span></div>
+          <div class="q-item jj-q"><span class="q-num">59</span><span class="q-text">How do you build trust in the first five minutes of a call?</span></div>
+          <div class="q-item jj-q"><span class="q-num">60</span><span class="q-text">What should you never say on a sales call?</span></div>
+          <div class="q-item jj-q"><span class="q-num">61</span><span class="q-text">How do you know when to push and when to back off?</span></div>
+          <div class="q-item jj-q"><span class="q-num">62</span><span class="q-text">What is the difference between a pitch and a conversation?</span></div>
+          <div class="q-item jj-q"><span class="q-num">63</span><span class="q-text">How do you talk about price without flinching?</span></div>
+          <div class="q-item jj-q"><span class="q-num">64</span><span class="q-text">How do you recover from a call that is going badly?</span></div>
+          <div class="q-item jj-q"><span class="q-num">65</span><span class="q-text">What does a great discovery call look like from start to finish?</span></div>
+          <div class="q-item jj-q"><span class="q-num">66</span><span class="q-text">How do you handle the authority objection using NCI?</span></div>
+          <div class="q-item jj-q"><span class="q-num">67</span><span class="q-text">What is the Heaven and Hell framework and how does it close deals?</span></div>
+          <div class="q-item jj-q"><span class="q-num">68</span><span class="q-text">What is the TikTok pitch and when do you use it?</span></div>
+          <div class="q-item jj-q"><span class="q-num">69</span><span class="q-text">How do you get to the real objection before you try to handle the surface one?</span></div>
+          <div class="q-item jj-q"><span class="q-num">70</span><span class="q-text">What should you do in the 30 minutes before a high-stakes call?</span></div>
+          <div class="q-item jj-q"><span class="q-num">71</span><span class="q-text">How do you use a prospect's own words to close them?</span></div>
+          <div class="q-item jj-q"><span class="q-num">72</span><span class="q-text">How do you handle "I've tried coaching before" using NCI?</span></div>
+          <div class="q-item jj-q"><span class="q-num">73</span><span class="q-text">How do you get someone to articulate their own pain without asking "what's your pain?"</span></div>
+          <div class="q-item jj-q"><span class="q-num">74</span><span class="q-text">What is the one thing you can change this week that will immediately improve your close rate?</span></div>
+          <div class="q-item jj-q"><span class="q-num">75</span><span class="q-text">How do you handle a prospect who loves the offer but won't pull the trigger?</span></div>
+        </div>
+
+        <span class="cat-label cat-jj" id="jj-q5">Career &amp; Money — 76 to 88</span>
+        <div class="q-grid">
+          <div class="q-item jj-q"><span class="q-num">76</span><span class="q-text">What is a realistic income for a remote high-ticket closer in year one?</span></div>
+          <div class="q-item jj-q"><span class="q-num">77</span><span class="q-text">How long does it actually take to get to $20K months?</span></div>
+          <div class="q-item jj-q"><span class="q-num">78</span><span class="q-text">What makes an offer worth closing for?</span></div>
+          <div class="q-item jj-q"><span class="q-num">79</span><span class="q-text">Should closers work multiple offers at once?</span></div>
+          <div class="q-item jj-q"><span class="q-num">80</span><span class="q-text">How do you negotiate a commission rate?</span></div>
+          <div class="q-item jj-q"><span class="q-num">81</span><span class="q-text">Is remote high-ticket sales saturated?</span></div>
+          <div class="q-item jj-q"><span class="q-num">82</span><span class="q-text">What is the actual ceiling for a world-class closer?</span></div>
+          <div class="q-item jj-q"><span class="q-num">83</span><span class="q-text">What is the fastest path from zero to $15K months in sales?</span></div>
+          <div class="q-item jj-q"><span class="q-num">84</span><span class="q-text">What is the difference between a 10% closer and a 30%+ closer?</span></div>
+          <div class="q-item jj-q"><span class="q-num">85</span><span class="q-text">How do you find a legitimate offer to close for?</span></div>
+          <div class="q-item jj-q"><span class="q-num">86</span><span class="q-text">What are the green flags of a high-quality sales offer?</span></div>
+          <div class="q-item jj-q"><span class="q-num">87</span><span class="q-text">What should a rep look for in a sales coach before investing?</span></div>
+          <div class="q-item jj-q"><span class="q-num">88</span><span class="q-text">What does year three in remote sales look like vs. year one?</span></div>
+        </div>
+
+        <span class="cat-label cat-jj" id="jj-q6">Brand &amp; Story — 89 to 100</span>
+        <div class="q-grid">
+          <div class="q-item jj-q"><span class="q-num">89</span><span class="q-text">What would JJ tell his 22-year-old self about sales?</span></div>
+          <div class="q-item jj-q"><span class="q-num">90</span><span class="q-text">What does coaching 2,100+ reps teach you about human behavior?</span></div>
+          <div class="q-item jj-q"><span class="q-num">91</span><span class="q-text">Why does Sales.io have a 100% success rate with one-on-one students?</span></div>
+          <div class="q-item jj-q"><span class="q-num">92</span><span class="q-text">Why do students get the Sales.io logo tattooed?</span></div>
+          <div class="q-item jj-q"><span class="q-num">93</span><span class="q-text">What did coaching for Iman Gadzhi's team teach you?</span></div>
+          <div class="q-item jj-q"><span class="q-num">94</span><span class="q-text">What did working inside the Hormozi ecosystem teach you?</span></div>
+          <div class="q-item jj-q"><span class="q-num">95</span><span class="q-text">Why does Sales.io keep community size to 100-200 max?</span></div>
+          <div class="q-item jj-q"><span class="q-num">96</span><span class="q-text">What is the single biggest thing JJ teaches that no one else does?</span></div>
+          <div class="q-item jj-q"><span class="q-num">97</span><span class="q-text">Why did JJ build Sales.io the way he did?</span></div>
+          <div class="q-item jj-q"><span class="q-num">98</span><span class="q-text">What is Sales.io's mission in one sentence?</span></div>
+          <div class="q-item jj-q"><span class="q-num">99</span><span class="q-text">What does "changing the world of sales" actually mean?</span></div>
+          <div class="q-item jj-q"><span class="q-num">100</span><span class="q-text">What makes the Sales.io community unlike anything else in this space?</span></div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- JJ VIDEO IDEAS -->
+      <section>
+        <div class="sec-head">100 Video Ideas</div>
+        <div class="info-block"><p>Specific concepts. Not questions — these are fully formed ideas. Each one is a video. Execute however feels natural.</p></div>
+
+        <span class="cat-label cat-jj" id="jj-v1">Psychology &amp; Concepts — 1 to 20</span>
+        <div class="v-list">
+          <div class="v-item jj-v"><span class="v-num">1</span><span class="v-text"><em>"The psychology of 'I need to think about it' — what they're actually saying"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">2</span><span class="v-text"><em>"Cognitive dissonance in sales — a visual explainer"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">3</span><span class="v-text"><em>"What behavioral magnetics are and how they work on a close"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">4</span><span class="v-text"><em>"The Four Wounds framework — how personal wounds kill close rates"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">5</span><span class="v-text"><em>"Who you are off your calls is who you are on them — fully explained"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">6</span><span class="v-text"><em>"Why connection closes more deals than technique — every time"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">7</span><span class="v-text"><em>"The identity shift — what changes when a rep goes from $8K to $25K months"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">8</span><span class="v-text"><em>"Silence as a close — the concept explained"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">9</span><span class="v-text"><em>"The person who needs the sale the most will always lose it — the full breakdown"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">10</span><span class="v-text"><em>"What your voice says about you before you say a single word"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">11</span><span class="v-text"><em>"The Heaven and Hell framework — explained in 60 seconds"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">12</span><span class="v-text"><em>"What happens in your brain when you get to price — and how to stop it"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">13</span><span class="v-text"><em>"Why the best closers feel like therapists"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">14</span><span class="v-text"><em>"The frame — what it is and why losing it costs you thousands"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">15</span><span class="v-text"><em>"What a sales call is actually measuring — it's not what you think"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">16</span><span class="v-text"><em>"Why curiosity is more powerful than persuasion"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">17</span><span class="v-text"><em>"The Four Levels of Communication in sales — visual explainer"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">18</span><span class="v-text"><em>"How identity drives buying decisions — the concept explained"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">19</span><span class="v-text"><em>"What your nervous system does on a high-pressure call"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">20</span><span class="v-text"><em>"Why most closers plateau — the psychology behind it"</em></span></div>
+        </div>
+
+        <span class="cat-label cat-jj" id="jj-v2">Call Breakdowns &amp; Roleplays — 21 to 40</span>
+        <div class="v-list">
+          <div class="v-item jj-v"><span class="v-num">21</span><span class="v-text">Roleplay: JJ handles the price objection without flinching</div></div>
+          <div class="v-item jj-v"><span class="v-num">22</span><span class="v-text">Live call breakdown — what went wrong and exactly why</div></div>
+          <div class="v-item jj-v"><span class="v-num">23</span><span class="v-text">Handling "I need to think about it" the NCI way — full exchange on camera</div></div>
+          <div class="v-item jj-v"><span class="v-num">24</span><span class="v-text">The authority objection: "let me talk to my partner" — NCI breakdown</div></div>
+          <div class="v-item jj-v"><span class="v-num">25</span><span class="v-text">"I've tried coaching before" — how to handle it without dismissing them</div></div>
+          <div class="v-item jj-v"><span class="v-num">26</span><span class="v-text">Watch JJ run discovery from start to finish — teaching format</div></div>
+          <div class="v-item jj-v"><span class="v-num">27</span><span class="v-text">"Send me more information" — what to do instead of sending info</div></div>
+          <div class="v-item jj-v"><span class="v-num">28</span><span class="v-text">The worst thing you can do when a call is going badly — and what to do instead</div></div>
+          <div class="v-item jj-v"><span class="v-num">29</span><span class="v-text">What the first 5 minutes of a JJ call look like vs. the average closer</div></div>
+          <div class="v-item jj-v"><span class="v-num">30</span><span class="v-text">How JJ handles a prospect who loves the offer but won't commit</div></div>
+          <div class="v-item jj-v"><span class="v-num">31</span><span class="v-text">The Heaven/Hell framework run live on a prospect</div></div>
+          <div class="v-item jj-v"><span class="v-num">32</span><span class="v-text">How to get to the real objection before trying to handle the surface one</div></div>
+          <div class="v-item jj-v"><span class="v-num">33</span><span class="v-text">Demonstration: the difference between a pitch and a conversation</div></div>
+          <div class="v-item jj-v"><span class="v-num">34</span><span class="v-text">"I don't have the money" — real NCI response (not a script)</div></div>
+          <div class="v-item jj-v"><span class="v-num">35</span><span class="v-text">What happens when you stop trying to close and just connect</div></div>
+          <div class="v-item jj-v"><span class="v-num">36</span><span class="v-text">Before/after: a student's call breakdown before coaching vs. after</div></div>
+          <div class="v-item jj-v"><span class="v-num">37</span><span class="v-text">How JJ runs the first coaching session with a new student</div></div>
+          <div class="v-item jj-v"><span class="v-num">38</span><span class="v-text">The TikTok pitch — explain the method then demonstrate it</div></div>
+          <div class="v-item jj-v"><span class="v-num">39</span><span class="v-text">The NCI approach to "I've researched a few programs" — full exchange</div></div>
+          <div class="v-item jj-v"><span class="v-num">40</span><span class="v-text">How to use silence in the last 60 seconds of a close</div></div>
+        </div>
+
+        <span class="cat-label cat-jj" id="jj-v3">Hot Takes &amp; Contrarian — 41 to 60</span>
+        <div class="v-list">
+          <div class="v-item jj-v"><span class="v-num">41</span><span class="v-text"><em>"Jeremy Miner's NEPQ doesn't work the way people think — here's why"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">42</span><span class="v-text"><em>"What Cole Gordon gets wrong"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">43</span><span class="v-text"><em>"What Andy Elliott gets wrong"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">44</span><span class="v-text"><em>"Is sales manipulation? Honest answer."</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">45</span><span class="v-text"><em>"Why most sales training programs make closers worse"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">46</span><span class="v-text"><em>"The problem with 'always be closing'"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">47</span><span class="v-text"><em>"Scripts are killing your conversion rate — here's the proof"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">48</span><span class="v-text"><em>"The most overrated sales technique in 2026"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">49</span><span class="v-text"><em>"Why the most polished closer rarely has the highest close rate"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">50</span><span class="v-text"><em>"Is remote high-ticket sales saturated? Honest take."</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">51</span><span class="v-text"><em>"Why most people who buy sales programs fail"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">52</span><span class="v-text"><em>"The objection handling obsession is ruining reps"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">53</span><span class="v-text"><em>"Social proof is the laziest sales tool"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">54</span><span class="v-text"><em>"Most sales scripts were written by people who don't close"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">55</span><span class="v-text"><em>"Sales is not a numbers game. Stop treating it like one."</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">56</span><span class="v-text"><em>"What the coaching industry won't tell you"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">57</span><span class="v-text"><em>"Why most sales gurus are dangerous for early-stage reps"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">58</span><span class="v-text"><em>"The problem with discovery questions you got from YouTube"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">59</span><span class="v-text"><em>"Why we shut down B2C and what we learned from it"</em></span></div>
+          <div class="v-item jj-v"><span class="v-num">60</span><span class="v-text"><em>"Why we rebuilt Sales.io from scratch"</em></span></div>
+        </div>
+
+        <span class="cat-label cat-jj" id="jj-v4">Career &amp; Earnings — 61 to 75</span>
+        <div class="v-list">
+          <div class="v-item jj-v"><span class="v-num">61</span><span class="v-text">What a $30K/month remote closer's day actually looks like</div></div>
+          <div class="v-item jj-v"><span class="v-num">62</span><span class="v-text">Real numbers — what to expect in your first year in remote sales</div></div>
+          <div class="v-item jj-v"><span class="v-num">63</span><span class="v-text">How long does it actually take to get to $20K months?</div></div>
+          <div class="v-item jj-v"><span class="v-num">64</span><span class="v-text">How to find a legitimate offer to close for</div></div>
+          <div class="v-item jj-v"><span class="v-num">65</span><span class="v-text">Green flag vs. red flag offers — the full breakdown</div></div>
+          <div class="v-item jj-v"><span class="v-num">66</span><span class="v-text">Should closers work multiple offers at once?</div></div>
+          <div class="v-item jj-v"><span class="v-num">67</span><span class="v-text">How to negotiate your commission rate</div></div>
+          <div class="v-item jj-v"><span class="v-num">68</span><span class="v-text">What to look for in a sales coach before you invest</div></div>
+          <div class="v-item jj-v"><span class="v-num">69</span><span class="v-text">The fastest path from zero to $15K months in sales</div></div>
+          <div class="v-item jj-v"><span class="v-num">70</span><span class="v-text">Why most reps plateau at $8K/month — and how to actually get out</div></div>
+          <div class="v-item jj-v"><span class="v-num">71</span><span class="v-text">What year three in remote sales looks like vs. year one</div></div>
+          <div class="v-item jj-v"><span class="v-num">72</span><span class="v-text">What a world-class setter should be making</div></div>
+          <div class="v-item jj-v"><span class="v-num">73</span><span class="v-text">The ceiling for a top closer — what is actually possible</div></div>
+          <div class="v-item jj-v"><span class="v-num">74</span><span class="v-text">What the top 5% of closers have in common</div></div>
+          <div class="v-item jj-v"><span class="v-num">75</span><span class="v-text">How to survive and thrive in your first 90 days of remote sales</div></div>
+        </div>
+
+        <span class="cat-label cat-jj" id="jj-v5">Students &amp; Social Proof — 76 to 88</span>
+        <div class="v-list">
+          <div class="v-item jj-v"><span class="v-num">76</span><span class="v-text">Student transformation — from $3K to $18K in 90 days (what actually changed)</div></div>
+          <div class="v-item jj-v"><span class="v-num">77</span><span class="v-text">"What my students have in common" — pattern breakdown</div></div>
+          <div class="v-item jj-v"><span class="v-num">78</span><span class="v-text">The moment a student's identity shifts — what happens to their numbers</div></div>
+          <div class="v-item jj-v"><span class="v-num">79</span><span class="v-text">"Why we have 549 payments and 1 refund" — the real story</div></div>
+          <div class="v-item jj-v"><span class="v-num">80</span><span class="v-text">Why students get the Sales.io logo tattooed — what it actually represents</div></div>
+          <div class="v-item jj-v"><span class="v-num">81</span><span class="v-text">100% success rate on 1-on-1 students — what we actually do differently</div></div>
+          <div class="v-item jj-v"><span class="v-num">82</span><span class="v-text">What the first coaching call with a new student reveals every time</div></div>
+          <div class="v-item jj-v"><span class="v-num">83</span><span class="v-text">Why everyone who has joined Sales.io has landed a role within their first month</div></div>
+          <div class="v-item jj-v"><span class="v-num">84</span><span class="v-text">What a Sales.io student looks like 6 months in</div></div>
+          <div class="v-item jj-v"><span class="v-num">85</span><span class="v-text">What makes someone coachable vs. someone who won't move no matter what</div></div>
+          <div class="v-item jj-v"><span class="v-num">86</span><span class="v-text">The thing students say on their first call that tells JJ everything</div></div>
+          <div class="v-item jj-v"><span class="v-num">87</span><span class="v-text">What "guaranteed placement" actually means at Sales.io</div></div>
+          <div class="v-item jj-v"><span class="v-num">88</span><span class="v-text">Why Sales.io people refer everyone they know</div></div>
+        </div>
+
+        <span class="cat-label cat-jj" id="jj-v6">Brand &amp; Culture — 89 to 100</span>
+        <div class="v-list">
+          <div class="v-item jj-v"><span class="v-num">89</span><span class="v-text">What JJ learned coaching for Iman Gadzhi's team</div></div>
+          <div class="v-item jj-v"><span class="v-num">90</span><span class="v-text">What working inside the Hormozi ecosystem taught JJ</div></div>
+          <div class="v-item jj-v"><span class="v-num">91</span><span class="v-text">Why Sales.io keeps community to 100-200 max</div></div>
+          <div class="v-item jj-v"><span class="v-num">92</span><span class="v-text">What makes Sales.io different — the honest answer</div></div>
+          <div class="v-item jj-v"><span class="v-num">93</span><span class="v-text">Why JJ never uses scripts — and never will</div></div>
+          <div class="v-item jj-v"><span class="v-num">94</span><span class="v-text">What JJ would tell his 22-year-old self about sales</div></div>
+          <div class="v-item jj-v"><span class="v-num">95</span><span class="v-text">The Sales.io money-back guarantee — why it exists and why it's never been claimed out of dissatisfaction</div></div>
+          <div class="v-item jj-v"><span class="v-num">96</span><span class="v-text">Day in the life of JJ Hernandez — founder edition</div></div>
+          <div class="v-item jj-v"><span class="v-num">97</span><span class="v-text">Why JJ built Sales.io the way he did</div></div>
+          <div class="v-item jj-v"><span class="v-num">98</span><span class="v-text">What 2,100 coached reps teaches you about people</div></div>
+          <div class="v-item jj-v"><span class="v-num">99</span><span class="v-text">What we're building at Sales.io in 2026</div></div>
+          <div class="v-item jj-v"><span class="v-num">100</span><span class="v-text">What I believe about sales that most coaches don't — the full manifesto</div></div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- JJ HOOKS -->
+      <section id="jj-hooks">
+        <div class="sec-head">Spoken Hooks — First words out of your mouth</div>
+        <div class="hook-list">
+          <div class="hook-item jj-h"><span class="hook-n">01</span>"The reason you lost that deal has nothing to do with your pitch."</div>
+          <div class="hook-item jj-h"><span class="hook-n">02</span>"Most sales coaches won't tell you this because it makes them irrelevant."</div>
+          <div class="hook-item jj-h"><span class="hook-n">03</span>"I've coached over 2,100 reps. This is the only thing the top ones have in common."</div>
+          <div class="hook-item jj-h"><span class="hook-n">04</span>"You're not losing deals to price. You're losing deals to doubt."</div>
+          <div class="hook-item jj-h"><span class="hook-n">05</span>"The person who needs the sale the most will always lose it. Let me explain why."</div>
+          <div class="hook-item jj-h"><span class="hook-n">06</span>"Stop trying to sound like a salesperson."</div>
+          <div class="hook-item jj-h"><span class="hook-n">07</span>"I'd rather lose the sale than lose the frame. Here's what that means."</div>
+          <div class="hook-item jj-h"><span class="hook-n">08</span>"Everyone else teaches you what to say. We teach you how to think."</div>
+          <div class="hook-item jj-h"><span class="hook-n">09</span>"The anxiety you feel on a call is costing you more money than you know."</div>
+          <div class="hook-item jj-h"><span class="hook-n">10</span>"The best closers don't sound like closers. Here's what they actually sound like."</div>
+          <div class="hook-item jj-h"><span class="hook-n">11</span>"Scripts are the reason you're stuck. And I can prove it."</div>
+          <div class="hook-item jj-h"><span class="hook-n">12</span>"This is what separates a $5K month from a $30K month."</div>
+          <div class="hook-item jj-h"><span class="hook-n">13</span>"Sales is not about what you say. It's about who you are."</div>
+          <div class="hook-item jj-h"><span class="hook-n">14</span>"Connection closes more deals than technique. Every single time."</div>
+          <div class="hook-item jj-h"><span class="hook-n">15</span>"If you're stuck at $8K/month and can't break it — this is why."</div>
+          <div class="hook-item jj-h"><span class="hook-n">16</span>"I had 549 students. One refund. Here's what we actually do."</div>
+          <div class="hook-item jj-h"><span class="hook-n">17</span>"The moment I stopped using scripts my income tripled."</div>
+          <div class="hook-item jj-h"><span class="hook-n">18</span>"Most people fail at remote sales for one reason. It's not what you think."</div>
+          <div class="hook-item jj-h"><span class="hook-n">19</span>"What I learned coaching for Iman Gadzhi's team changed how I see everything."</div>
+          <div class="hook-item jj-h"><span class="hook-n">20</span>"The average closer is leaving $10,000 a month on the table. Here's where."</div>
+        </div>
+      </section>
+
+      <section id="jj-os">
+        <div class="sec-head">On-Screen Text Hooks — Text overlays for reels</div>
+        <div class="os-grid">
+          <div class="os-chip jj-os">Why you keep losing deals</div>
+          <div class="os-chip jj-os">Scripts are killing your close rate</div>
+          <div class="os-chip jj-os">The real reason closers plateau</div>
+          <div class="os-chip jj-os">What your anxiety tells prospects</div>
+          <div class="os-chip jj-os">$5K → $30K: what actually changes</div>
+          <div class="os-chip jj-os">Stop sounding like a salesperson</div>
+          <div class="os-chip jj-os">You're not losing to price</div>
+          <div class="os-chip jj-os">The desperate closer always loses</div>
+          <div class="os-chip jj-os">The one question that changes everything</div>
+          <div class="os-chip jj-os">What 2,100 reps taught me</div>
+          <div class="os-chip jj-os">The frame matters more than the pitch</div>
+          <div class="os-chip jj-os">Why NEPQ doesn't work the way you think</div>
+          <div class="os-chip jj-os">The closer who talks most closes least</div>
+          <div class="os-chip jj-os">Connection &gt; Technique</div>
+          <div class="os-chip jj-os">Identity work changes your numbers</div>
+          <div class="os-chip jj-os">I'd rather lose the sale than lose the frame</div>
+          <div class="os-chip jj-os">Sales is human.</div>
+          <div class="os-chip jj-os">The most expensive belief in sales</div>
+          <div class="os-chip jj-os">Why I never use scripts</div>
+          <div class="os-chip jj-os">What most sales coaches get wrong</div>
+        </div>
+      </section>
+
+    </div><!-- end JJ panel -->
+
+
+    <!-- ======== JALEN PANEL ======== -->
+    <div id="panel-jalen" class="panel">
+
+      <div class="hero-eye">Sales.io Content Bible</div>
+      <h1 class="hero-h1"><span class="jalen-color">Jalen Hoxie</span><br>100 Questions + 100 Videos</h1>
+      <p class="hero-sub">Setting-focused. DM-native. Talk about what you actually do every day.</p>
+
+      <!-- JALEN QUESTIONS -->
+      <section>
+        <div class="sec-head">100 Questions to Film</div>
+        <div class="info-block"><p>Each question is a video. Read it to camera. Answer it honestly. You live this every day — that's the content.</p></div>
+
+        <span class="cat-label cat-jalen" id="jalen-q1">The Opener — 1 to 15</span>
+        <div class="q-grid">
+          <div class="q-item jalen-q"><span class="q-num">1</span><span class="q-text">Why does your first DM determine if they ever respond?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">2</span><span class="q-text">What makes someone actually open a cold DM?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">3</span><span class="q-text">What should you never say in an opening message?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">4</span><span class="q-text">How do you make a cold DM feel like a real message?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">5</span><span class="q-text">What is the difference between personalization and flattery?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">6</span><span class="q-text">Why does a comment-based opener convert higher than a cold one?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">7</span><span class="q-text">What is the formula for an opener that actually gets a response?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">8</span><span class="q-text">How do you reference someone's content without sounding like a bot?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">9</span><span class="q-text">What is the pattern interrupt in a DM and why does it work?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">10</span><span class="q-text">Why does "let me know if I can help" kill the conversation before it starts?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">11</span><span class="q-text">What do you say to someone who just followed the account?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">12</span><span class="q-text">How do you open a conversation with someone who liked a specific post?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">13</span><span class="q-text">What is the difference between an opener that asks a question vs. one that makes a statement?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">14</span><span class="q-text">How specific does your opener actually need to be?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">15</span><span class="q-text">What makes someone reply to a message they weren't expecting?</span></div>
+        </div>
+
+        <span class="cat-label cat-jalen" id="jalen-q2">Intent Qualification — 16 to 30</span>
+        <div class="q-grid">
+          <div class="q-item jalen-q"><span class="q-num">16</span><span class="q-text">What is intent qualification and why does it matter more than volume?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">17</span><span class="q-text">How do you know if a prospect is problem-aware?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">18</span><span class="q-text">What does a good response to an opener actually look like?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">19</span><span class="q-text">When do you keep going vs. move on from a lead?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">20</span><span class="q-text">Why do setters waste time on people who will never buy?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">21</span><span class="q-text">What is the minimum viable response that tells you to keep going?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">22</span><span class="q-text">How do you avoid wasting the closer's time?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">23</span><span class="q-text">Why do some people engage with content but have zero buying intent?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">24</span><span class="q-text">What tells you someone is ready for a conversation vs. just browsing?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">25</span><span class="q-text">How do you filter 100 leads down to the 20 worth pursuing?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">26</span><span class="q-text">What is the relationship between problem awareness and show rate?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">27</span><span class="q-text">How do you respond when someone gives a weak or vague first reply?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">28</span><span class="q-text">What is the biggest signal that someone will ghost the booked call?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">29</span><span class="q-text">Why does the content that brought them in predict how warm they actually are?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">30</span><span class="q-text">What does it mean to qualify intent before you qualify budget?</span></div>
+        </div>
+
+        <span class="cat-label cat-jalen" id="jalen-q3">BANT &amp; Discovery — 31 to 50</span>
+        <div class="q-grid">
+          <div class="q-item jalen-q"><span class="q-num">31</span><span class="q-text">What is BANT and how does it apply to DM setting?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">32</span><span class="q-text">Why do you always start with Need instead of Budget?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">33</span><span class="q-text">How do you qualify budget without asking "can you afford it"?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">34</span><span class="q-text">What does past investment history tell you about a prospect's mindset?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">35</span><span class="q-text">What is an expansion question and when do you use it?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">36</span><span class="q-text">What does "time under tension" reveal about a prospect?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">37</span><span class="q-text">Why does asking what they've tried before tell you more than asking about budget?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">38</span><span class="q-text">How do you get someone to self-diagnose their problem in a DM?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">39</span><span class="q-text">What is the difference between a qualifying question and an interrogation?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">40</span><span class="q-text">Why does the "why now" question matter more than the "what's wrong" question?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">41</span><span class="q-text">How many messages does it actually take to properly qualify a prospect?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">42</span><span class="q-text">What happens when you book before you've fully qualified?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">43</span><span class="q-text">How do you handle someone who answers your questions but has no urgency?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">44</span><span class="q-text">What does BANT look like in a natural conversation vs. a checklist?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">45</span><span class="q-text">How do you keep the conversation going without it feeling like an interrogation?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">46</span><span class="q-text">What is the single most important piece of information to capture before booking?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">47</span><span class="q-text">Why does self-diagnosis change a prospect's buying readiness?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">48</span><span class="q-text">How do you know when you have enough information to bridge to the call?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">49</span><span class="q-text">What does budget qualification through past behavior actually look like?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">50</span><span class="q-text">Why do some prospects reveal everything in message two and others take twelve messages?</span></div>
+        </div>
+
+        <span class="cat-label cat-jalen" id="jalen-q4">Booking &amp; Show Rate — 51 to 65</span>
+        <div class="q-grid">
+          <div class="q-item jalen-q"><span class="q-num">51</span><span class="q-text">How do you bridge from the conversation to the calendar without pitching?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">52</span><span class="q-text">Why does giving three time options increase conversion over asking "when are you free"?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">53</span><span class="q-text">What is the pre-call follow-up and why does it matter so much?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">54</span><span class="q-text">How do you get someone to accept the calendar invite before you end the conversation?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">55</span><span class="q-text">Why do ghost calls happen and how do you prevent them?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">56</span><span class="q-text">What makes someone feel accountable to show up on a call they booked with a stranger?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">57</span><span class="q-text">What do you say in the pre-call message to maximize show rate?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">58</span><span class="q-text">How do you frame the call so the prospect actually wants to show up?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">59</span><span class="q-text">What is the difference between a show and a no-show in how they were booked?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">60</span><span class="q-text">What does the perfect handoff note to the closer look like?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">61</span><span class="q-text">How do you re-engage someone who agreed to a call and then went cold?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">62</span><span class="q-text">What is the right number of follow-ups before you move on from a lead?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">63</span><span class="q-text">How do you handle a prospect who wants to know the price before the call?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">64</span><span class="q-text">What do you say when they say they need to run it by someone first?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">65</span><span class="q-text">How do you build a setting pipeline of 50+ active conversations at the same time?</span></div>
+        </div>
+
+        <span class="cat-label cat-jalen" id="jalen-q5">Objection Handling — 66 to 80</span>
+        <div class="q-grid">
+          <div class="q-item jalen-q"><span class="q-num">66</span><span class="q-text">How do you handle "are you trying to sell me something"?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">67</span><span class="q-text">What do you say when they ask how much the program costs in a DM?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">68</span><span class="q-text">How do you respond to "I've already tried coaching"?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">69</span><span class="q-text">What do you do when someone reads your DM and doesn't reply?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">70</span><span class="q-text">How do you handle "send me more information"?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">71</span><span class="q-text">What is the right response to "I'm not interested"?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">72</span><span class="q-text">How do you restart a conversation that has been cold for two weeks?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">73</span><span class="q-text">What do you say to someone who says "reach out to me in a few months"?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">74</span><span class="q-text">How do you handle "I don't have time right now"?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">75</span><span class="q-text">What do you do when a qualified prospect suddenly goes cold after agreeing to a call?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">76</span><span class="q-text">How do you handle someone who wants to negotiate price before the call even happens?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">77</span><span class="q-text">What is the difference between an objection and a genuine disqualifier?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">78</span><span class="q-text">How do you know when to let a lead go vs. when to keep pursuing?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">79</span><span class="q-text">What is the recovery message — what do you say when you said the wrong thing in a DM?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">80</span><span class="q-text">How do you handle "I need to think about it" before a call is even booked?</span></div>
+        </div>
+
+        <span class="cat-label cat-jalen" id="jalen-q6">Mindset &amp; Career — 81 to 100</span>
+        <div class="q-grid">
+          <div class="q-item jalen-q"><span class="q-num">81</span><span class="q-text">What is the setter's actual job — and what is it not?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">82</span><span class="q-text">Why is the setter role the most underestimated in sales?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">83</span><span class="q-text">How does the setter's performance directly determine the closer's success?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">84</span><span class="q-text">Why do some setters never graduate to closing?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">85</span><span class="q-text">What separates a setter making $5K from one making $15K a month?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">86</span><span class="q-text">Why do so many setters burn out?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">87</span><span class="q-text">What is the mindset going into 100 DMs a day?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">88</span><span class="q-text">How do you deal with rejection when you're setting at high volume?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">89</span><span class="q-text">What does an elite setter track every single day?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">90</span><span class="q-text">What is the career path from setter to closer?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">91</span><span class="q-text">How do you get hired as a setter for a legitimate high-ticket offer?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">92</span><span class="q-text">What should a setter's daily schedule actually look like?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">93</span><span class="q-text">How much should a setter be making at full capacity?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">94</span><span class="q-text">Is setting a long-term career or a stepping stone to closing?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">95</span><span class="q-text">What would Jalen tell a brand-new setter on day one?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">96</span><span class="q-text">What is the single skill that separates elite setters from average ones?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">97</span><span class="q-text">Why does the best setting feel like a natural conversation and not a process?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">98</span><span class="q-text">What does a setting pipeline of 50+ active conversations look like to manage?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">99</span><span class="q-text">Why does setting for JJ specifically require a different mindset than other roles?</span></div>
+          <div class="q-item jalen-q"><span class="q-num">100</span><span class="q-text">What does the future of DM setting look like as platforms evolve?</span></div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- JALEN VIDEO IDEAS -->
+      <section>
+        <div class="sec-head">100 Video Ideas</div>
+        <div class="info-block"><p>You live this. Show it. No overthinking required.</p></div>
+
+        <span class="cat-label cat-jalen" id="jalen-v1">The Opener — 1 to 15</span>
+        <div class="v-list">
+          <div class="v-item jalen-v"><span class="v-num">1</span><span class="v-text">Show a DM opener that gets responses vs. one that gets ignored — side by side on camera</span></div>
+          <div class="v-item jalen-v"><span class="v-num">2</span><span class="v-text"><em>"The formula for an opener that actually gets a reply"</em></span></div>
+          <div class="v-item jalen-v"><span class="v-num">3</span><span class="v-text"><em>"Why your first DM is why they're not responding"</em></span></div>
+          <div class="v-item jalen-v"><span class="v-num">4</span><span class="v-text">How to personalize a DM at scale without sounding like a bot</span></div>
+          <div class="v-item jalen-v"><span class="v-num">5</span><span class="v-text">Comment-based opener vs. cold follower opener — which converts more?</span></div>
+          <div class="v-item jalen-v"><span class="v-num">6</span><span class="v-text">Jalen writes 5 openers live for 5 different account types</span></div>
+          <div class="v-item jalen-v"><span class="v-num">7</span><span class="v-text"><em>"What NOT to say in your first DM"</em> — cringe examples + fixes</span></div>
+          <div class="v-item jalen-v"><span class="v-num">8</span><span class="v-text">The pattern interrupt opener — explained and demonstrated</span></div>
+          <div class="v-item jalen-v"><span class="v-num">9</span><span class="v-text"><em>"Why 'let me know if I can help' kills the conversation"</em></span></div>
+          <div class="v-item jalen-v"><span class="v-num">10</span><span class="v-text">How to write an opener using someone's own content against them (in a good way)</span></div>
+          <div class="v-item jalen-v"><span class="v-num">11</span><span class="v-text">My opener process — how I go from their post to my first message in 60 seconds</span></div>
+          <div class="v-item jalen-v"><span class="v-num">12</span><span class="v-text">Before/after: generic opener vs. personalized opener to the same prospect type</span></div>
+          <div class="v-item jalen-v"><span class="v-num">13</span><span class="v-text">The follow-up opener — what to say when they didn't respond to the first message</span></div>
+          <div class="v-item jalen-v"><span class="v-num">14</span><span class="v-text"><em>"3 openers I use every week — and why they consistently work"</em></span></div>
+          <div class="v-item jalen-v"><span class="v-num">15</span><span class="v-text">What makes someone reply to a message they didn't expect — the psychology</span></div>
+        </div>
+
+        <span class="cat-label cat-jalen" id="jalen-v2">Intent Qualification — 16 to 30</span>
+        <div class="v-list">
+          <div class="v-item jalen-v"><span class="v-num">16</span><span class="v-text"><em>"The intent filter — how I decide who is actually worth pursuing"</em></span></div>
+          <div class="v-item jalen-v"><span class="v-num">17</span><span class="v-text">What a strong response to an opener looks like vs. a weak one — real examples</span></div>
+          <div class="v-item jalen-v"><span class="v-num">18</span><span class="v-text">Green flags and red flags in a DM reply</span></div>
+          <div class="v-item jalen-v"><span class="v-num">19</span><span class="v-text"><em>"Why I move on from 70% of the people who respond"</em></span></div>
+          <div class="v-item jalen-v"><span class="v-num">20</span><span class="v-text">How to tell if someone is problem-aware vs. just browsing</span></div>
+          <div class="v-item jalen-v"><span class="v-num">21</span><span class="v-text">The single question that tells me if they're worth pursuing</span></div>
+          <div class="v-item jalen-v"><span class="v-num">22</span><span class="v-text">Intent qualification in under 60 seconds — explained on camera</span></div>
+          <div class="v-item jalen-v"><span class="v-num">23</span><span class="v-text">Why content engagement predicts buying intent</span></div>
+          <div class="v-item jalen-v"><span class="v-num">24</span><span class="v-text">What I look for in someone's profile before I send a single message</span></div>
+          <div class="v-item jalen-v"><span class="v-num">25</span><span class="v-text"><em>"Why sending everyone to the closer is the fastest way to get let go"</em></span></div>
+          <div class="v-item jalen-v"><span class="v-num">26</span><span class="v-text">The relationship between intent and show rate — explained simply</span></div>
+          <div class="v-item jalen-v"><span class="v-num">27</span><span class="v-text"><em>"I never push a conversation when the response is weak. Here's why."</em></span></div>
+          <div class="v-item jalen-v"><span class="v-num">28</span><span class="v-text">How warm vs. cold leads actually convert — the real numbers</span></div>
+          <div class="v-item jalen-v"><span class="v-num">29</span><span class="v-text">What the content they engaged with tells me before I say anything</span></div>
+          <div class="v-item jalen-v"><span class="v-num">30</span><span class="v-text">How to filter 100 leads down to the 20 actually worth pursuing</span></div>
+        </div>
+
+        <span class="cat-label cat-jalen" id="jalen-v3">BANT &amp; Discovery — 31 to 50</span>
+        <div class="v-list">
+          <div class="v-item jalen-v"><span class="v-num">31</span><span class="v-text">BANT explained for setters — what it is and how to use it naturally</span></div>
+          <div class="v-item jalen-v"><span class="v-num">32</span><span class="v-text"><em>"Why you always start with Need — never Budget"</em></span></div>
+          <div class="v-item jalen-v"><span class="v-num">33</span><span class="v-text">How I qualify budget without asking "can you afford it"</span></div>
+          <div class="v-item jalen-v"><span class="v-num">34</span><span class="v-text">What their past investment history tells me about them — explained</span></div>
+          <div class="v-item jalen-v"><span class="v-num">35</span><span class="v-text">The expansion question — what it is and when to use it</span></div>
+          <div class="v-item jalen-v"><span class="v-num">36</span><span class="v-text">Time under tension: the question that tells you how serious they are</span></div>
+          <div class="v-item jalen-v"><span class="v-num">37</span><span class="v-text">How I get someone to self-diagnose their problem in a DM conversation</span></div>
+          <div class="v-item jalen-v"><span class="v-num">38</span><span class="v-text">The difference between a qualifying question and an interrogation — with examples</span></div>
+          <div class="v-item jalen-v"><span class="v-num">39</span><span class="v-text">My full BANT discovery conversation — shown in real time</span></div>
+          <div class="v-item jalen-v"><span class="v-num">40</span><span class="v-text"><em>"Why asking 'why now' matters more than 'what's wrong'"</em></span></div>
+          <div class="v-item jalen-v"><span class="v-num">41</span><span class="v-text">The discovery sequence — messages 2 through 6 explained with context</span></div>
+          <div class="v-item jalen-v"><span class="v-num">42</span><span class="v-text">What happens when you book before you've qualified — real example of what goes wrong</span></div>
+          <div class="v-item jalen-v"><span class="v-num">43</span><span class="v-text">The moment in a DM conversation when I know they're ready to be booked</span></div>
+          <div class="v-item jalen-v"><span class="v-num">44</span><span class="v-text">What I do when someone answers all the questions but has zero urgency</span></div>
+          <div class="v-item jalen-v"><span class="v-num">45</span><span class="v-text">The one piece of information I always get before I bridge to the call</span></div>
+          <div class="v-item jalen-v"><span class="v-num">46</span><span class="v-text">How to keep the conversation going without it feeling like an interview</span></div>
+          <div class="v-item jalen-v"><span class="v-num">47</span><span class="v-text">Budget qualification through past behavior — the psychology behind it</span></div>
+          <div class="v-item jalen-v"><span class="v-num">48</span><span class="v-text">What self-diagnosis does to someone's buying readiness</span></div>
+          <div class="v-item jalen-v"><span class="v-num">49</span><span class="v-text">How many messages it actually takes to properly qualify — the real answer</span></div>
+          <div class="v-item jalen-v"><span class="v-num">50</span><span class="v-text">What NCI principles from JJ I apply directly to DM conversations</span></div>
+        </div>
+
+        <span class="cat-label cat-jalen" id="jalen-v4">Booking &amp; Show Rate — 51 to 65</span>
+        <div class="v-list">
+          <div class="v-item jalen-v"><span class="v-num">51</span><span class="v-text">How I bridge from the conversation to the calendar without pitching</span></div>
+          <div class="v-item jalen-v"><span class="v-num">52</span><span class="v-text">The bridge message — what I say and why it works</span></div>
+          <div class="v-item jalen-v"><span class="v-num">53</span><span class="v-text">Why I give three time options and never just ask "when are you free"</span></div>
+          <div class="v-item jalen-v"><span class="v-num">54</span><span class="v-text">The pre-call follow-up message — word for word, and why it matters</span></div>
+          <div class="v-item jalen-v"><span class="v-num">55</span><span class="v-text">How I get them to accept the calendar invite before the conversation ends</span></div>
+          <div class="v-item jalen-v"><span class="v-num">56</span><span class="v-text"><em>"Ghost calls are almost always a setter problem. Here's why."</em></span></div>
+          <div class="v-item jalen-v"><span class="v-num">57</span><span class="v-text">My show rate went up when I started doing this one thing before every booking</span></div>
+          <div class="v-item jalen-v"><span class="v-num">58</span><span class="v-text">How to re-engage someone who agreed to a call and then went cold</span></div>
+          <div class="v-item jalen-v"><span class="v-num">59</span><span class="v-text">What the perfect handoff note to the closer looks like</span></div>
+          <div class="v-item jalen-v"><span class="v-num">60</span><span class="v-text">The 10-message sequence from first DM to confirmed booking — shown</span></div>
+          <div class="v-item jalen-v"><span class="v-num">61</span><span class="v-text">How I frame the call so the prospect actually wants to show up</span></div>
+          <div class="v-item jalen-v"><span class="v-num">62</span><span class="v-text">What makes someone feel accountable to a call they booked with a stranger</span></div>
+          <div class="v-item jalen-v"><span class="v-num">63</span><span class="v-text">What I say in the pre-call message the night before to maximize show rate</span></div>
+          <div class="v-item jalen-v"><span class="v-num">64</span><span class="v-text">The follow-up message timeline — when and what</span></div>
+          <div class="v-item jalen-v"><span class="v-num">65</span><span class="v-text">What closers actually need from setters before every call</span></div>
+        </div>
+
+        <span class="cat-label cat-jalen" id="jalen-v5">Objection Handling — 66 to 80</span>
+        <div class="v-list">
+          <div class="v-item jalen-v"><span class="v-num">66</span><span class="v-text">"Are you trying to sell me something?" — how Jalen handles it on camera</span></div>
+          <div class="v-item jalen-v"><span class="v-num">67</span><span class="v-text">What I say when they ask how much the program costs before the call</span></div>
+          <div class="v-item jalen-v"><span class="v-num">68</span><span class="v-text">"I've already tried coaching" — the full DM response</span></div>
+          <div class="v-item jalen-v"><span class="v-num">69</span><span class="v-text">What to do when they read your message and don't reply</span></div>
+          <div class="v-item jalen-v"><span class="v-num">70</span><span class="v-text">"Send me more information" — what to do instead of sending anything</span></div>
+          <div class="v-item jalen-v"><span class="v-num">71</span><span class="v-text">"I'm not interested" — when to push back and when to move on</span></div>
+          <div class="v-item jalen-v"><span class="v-num">72</span><span class="v-text">How I restart a conversation that has been cold for two weeks</span></div>
+          <div class="v-item jalen-v"><span class="v-num">73</span><span class="v-text">"I'll reach out when I'm ready" — the response that works</span></div>
+          <div class="v-item jalen-v"><span class="v-num">74</span><span class="v-text">"I don't have time right now" — the right response vs. the wrong one</span></div>
+          <div class="v-item jalen-v"><span class="v-num">75</span><span class="v-text">What I do when a qualified prospect suddenly goes cold</span></div>
+          <div class="v-item jalen-v"><span class="v-num">76</span><span class="v-text">How to handle skepticism from someone who has been burned by coaches before</span></div>
+          <div class="v-item jalen-v"><span class="v-num">77</span><span class="v-text">The line between an objection and a real disqualifier — explained</span></div>
+          <div class="v-item jalen-v"><span class="v-num">78</span><span class="v-text">When I let a lead go — and when I keep pursuing</span></div>
+          <div class="v-item jalen-v"><span class="v-num">79</span><span class="v-text">The recovery message — what to say when you said the wrong thing in a DM</span></div>
+          <div class="v-item jalen-v"><span class="v-num">80</span><span class="v-text">"I need to think about it" before the call is even booked — the NCI response</span></div>
+        </div>
+
+        <span class="cat-label cat-jalen" id="jalen-v6">Mindset &amp; Career — 81 to 100</span>
+        <div class="v-list">
+          <div class="v-item jalen-v"><span class="v-num">81</span><span class="v-text">A day in my life as a full-time setter — what it actually looks like</span></div>
+          <div class="v-item jalen-v"><span class="v-num">82</span><span class="v-text">What my metrics look like on a strong week</span></div>
+          <div class="v-item jalen-v"><span class="v-num">83</span><span class="v-text"><em>"Why setting is the most underrated role in sales"</em></span></div>
+          <div class="v-item jalen-v"><span class="v-num">84</span><span class="v-text">What I track every single day and why it matters</span></div>
+          <div class="v-item jalen-v"><span class="v-num">85</span><span class="v-text">The mindset going into 100 DMs — how I actually think about it</span></div>
+          <div class="v-item jalen-v"><span class="v-num">86</span><span class="v-text">How I deal with rejection at volume without burning out</span></div>
+          <div class="v-item jalen-v"><span class="v-num">87</span><span class="v-text"><em>"Why the best setting feels like a real conversation and not a process"</em></span></div>
+          <div class="v-item jalen-v"><span class="v-num">88</span><span class="v-text">What I learned from JJ's NCI framework and apply directly to DMs</span></div>
+          <div class="v-item jalen-v"><span class="v-num">89</span><span class="v-text">The career path — setter to closer — what it actually takes</span></div>
+          <div class="v-item jalen-v"><span class="v-num">90</span><span class="v-text">What makes a setter worth keeping vs. one who gets let go</span></div>
+          <div class="v-item jalen-v"><span class="v-num">91</span><span class="v-text">How to get hired as a setter for a legitimate offer — the honest breakdown</span></div>
+          <div class="v-item jalen-v"><span class="v-num">92</span><span class="v-text">What I would tell someone on their first day as a setter</span></div>
+          <div class="v-item jalen-v"><span class="v-num">93</span><span class="v-text">Why volume matters less than quality — what changed for me when I figured this out</span></div>
+          <div class="v-item jalen-v"><span class="v-num">94</span><span class="v-text">The biggest mistake I made in my first 3 months of setting</span></div>
+          <div class="v-item jalen-v"><span class="v-num">95</span><span class="v-text">What running 50+ active conversations at once actually looks like</span></div>
+          <div class="v-item jalen-v"><span class="v-num">96</span><span class="v-text">How setting for JJ is different from setting for anyone else</span></div>
+          <div class="v-item jalen-v"><span class="v-num">97</span><span class="v-text"><em>"Why I believe every great closer started as a great setter"</em></span></div>
+          <div class="v-item jalen-v"><span class="v-num">98</span><span class="v-text">What my pre-DM process looks like — what I check before I message anyone</span></div>
+          <div class="v-item jalen-v"><span class="v-num">99</span><span class="v-text">What $15K/month as a setter actually looks like — the real numbers</span></div>
+          <div class="v-item jalen-v"><span class="v-num">100</span><span class="v-text">What the future of DM setting looks like as platforms evolve</span></div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- JALEN HOOKS -->
+      <section id="jalen-hooks">
+        <div class="sec-head">Spoken Hooks — First words out of your mouth</div>
+        <div class="hook-list">
+          <div class="hook-item jalen-h"><span class="hook-n">01</span>"If your DMs aren't converting, it's not a volume problem."</div>
+          <div class="hook-item jalen-h"><span class="hook-n">02</span>"Your first message is why they're not responding."</div>
+          <div class="hook-item jalen-h"><span class="hook-n">03</span>"I set for one of the top sales coaches in the space. Here's how I open every conversation."</div>
+          <div class="hook-item jalen-h"><span class="hook-n">04</span>"The fastest way to kill a warm lead is to pitch in the first DM."</div>
+          <div class="hook-item jalen-h"><span class="hook-n">05</span>"Most setters book calls. Elite setters book calls that actually show up."</div>
+          <div class="hook-item jalen-h"><span class="hook-n">06</span>"I sent 100 DMs yesterday. Here's what I learned."</div>
+          <div class="hook-item jalen-h"><span class="hook-n">07</span>"Stop asking for the call. Do this instead."</div>
+          <div class="hook-item jalen-h"><span class="hook-n">08</span>"Ghost calls are almost always a setter problem. Not a prospect problem."</div>
+          <div class="hook-item jalen-h"><span class="hook-n">09</span>"The difference between a setter and a spammer is three questions."</div>
+          <div class="hook-item jalen-h"><span class="hook-n">10</span>"If they're not showing up to the call, you didn't qualify right."</div>
+          <div class="hook-item jalen-h"><span class="hook-n">11</span>"This is what the first 10 messages look like from cold DM to confirmed booking."</div>
+          <div class="hook-item jalen-h"><span class="hook-n">12</span>"Most setters never learn this. The ones who do double their booking rate."</div>
+          <div class="hook-item jalen-h"><span class="hook-n">13</span>"The one thing that kills show rate and nobody's talking about."</div>
+          <div class="hook-item jalen-h"><span class="hook-n">14</span>"Intent qualification in 30 seconds — this is what changes everything."</div>
+          <div class="hook-item jalen-h"><span class="hook-n">15</span>"What do I check before I send a single DM? Let me show you."</div>
+          <div class="hook-item jalen-h"><span class="hook-n">16</span>"Your opener is a first impression you can never take back."</div>
+          <div class="hook-item jalen-h"><span class="hook-n">17</span>"I run 50+ conversations at the same time. Here's how I manage it."</div>
+          <div class="hook-item jalen-h"><span class="hook-n">18</span>"The pre-call message that eliminates ghost calls. Use this."</div>
+          <div class="hook-item jalen-h"><span class="hook-n">19</span>"What makes someone actually show up to a call they booked with a stranger."</div>
+          <div class="hook-item jalen-h"><span class="hook-n">20</span>"Stop treating setting like a numbers game. Here's what it actually is."</div>
+        </div>
+      </section>
+
+      <section id="jalen-os">
+        <div class="sec-head">On-Screen Text Hooks — Text overlays for reels</div>
+        <div class="os-grid">
+          <div class="os-chip jalen-os">Why they're not responding to your DMs</div>
+          <div class="os-chip jalen-os">Your opener is the problem</div>
+          <div class="os-chip jalen-os">Stop pitching in the first message</div>
+          <div class="os-chip jalen-os">Ghost calls = setter problem</div>
+          <div class="os-chip jalen-os">The first DM determines everything</div>
+          <div class="os-chip jalen-os">What elite setters do differently</div>
+          <div class="os-chip jalen-os">100 DMs → what I actually learned</div>
+          <div class="os-chip jalen-os">This one thing kills your booking rate</div>
+          <div class="os-chip jalen-os">Intent qualification explained</div>
+          <div class="os-chip jalen-os">What makes them book with a stranger</div>
+          <div class="os-chip jalen-os">Cold DM → confirmed booking: the sequence</div>
+          <div class="os-chip jalen-os">Stop asking for the call</div>
+          <div class="os-chip jalen-os">Warm leads close at 3x the rate</div>
+          <div class="os-chip jalen-os">What to say when they ghost</div>
+          <div class="os-chip jalen-os">The filter most setters skip</div>
+          <div class="os-chip jalen-os">Setter → Closer: the real path</div>
+          <div class="os-chip jalen-os">What closers actually need from you</div>
+          <div class="os-chip jalen-os">BANT for setters: explained</div>
+          <div class="os-chip jalen-os">The one question that changes DMs</div>
+          <div class="os-chip jalen-os">Volume vs. quality: what actually matters</div>
+        </div>
+      </section>
+
+    </div><!-- end Jalen panel -->
+
+  </main>
+</div>
+
+<script>
+  function switchTab(name) {
+    document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('on'); });
+    document.getElementById('panel-' + name).classList.add('on');
+    document.getElementById('btn-jj').className = 'hdr-tab' + (name === 'jj' ? ' jj-active' : '');
+    document.getElementById('btn-jalen').className = 'hdr-tab' + (name === 'jalen' ? ' jalen-active' : '');
+    document.getElementById('nav-jj').style.display = name === 'jj' ? 'block' : 'none';
+    document.getElementById('nav-jalen').style.display = name === 'jalen' ? 'block' : 'none';
+    window.scrollTo(0, 0);
+  }
+
+  const obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        var id = e.target.id;
+        document.querySelectorAll('.nav-link').forEach(function(l) {
+          if (l.getAttribute('href') === '#' + id) {
+            l.style.opacity = '1';
+            l.style.color = l.classList.contains('jj-act') ? '#4ade80' : '#60a5fa';
+          }
+        });
+      }
+    });
+  }, { rootMargin: '-15% 0px -75% 0px' });
+
+  document.querySelectorAll('[id]').forEach(function(el) { obs.observe(el); });
+</script>
+
+</body>
+</html>
