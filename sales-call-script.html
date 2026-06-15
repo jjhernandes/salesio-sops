@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sales Call Script — Sales.io</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.6; }
+
+    .hdr { position: fixed; top: 0; left: 0; right: 0; height: 56px; background: #000; border-bottom: 1px solid #111; z-index: 200; display: flex; align-items: center; padding: 0 28px; gap: 16px; }
+    .hdr-logo { font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: #333; }
+    .hdr-sep { width: 1px; height: 18px; background: #111; }
+    .hdr-title { font-size: 13px; font-weight: 600; color: #555; }
+    .hdr-badge { margin-left: auto; font-size: 10px; font-weight: 700; color: #1a4a2a; background: #050f08; border: 1px solid #0d2b1a; padding: 4px 10px; border-radius: 6px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    .layout { display: flex; margin-top: 56px; }
+    .sidebar { width: 230px; flex-shrink: 0; position: fixed; top: 56px; bottom: 0; left: 0; border-right: 1px solid #111; overflow-y: auto; padding: 20px 0 48px; }
+    .nav-label { padding: 4px 20px; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #1e1e1e; margin-top: 16px; margin-bottom: 4px; }
+    .nav-link { display: block; padding: 5px 20px; font-size: 12px; color: #3a3a3a; text-decoration: none; border-left: 2px solid transparent; transition: all .12s; line-height: 1.5; }
+    .nav-link:hover { color: #777; border-left-color: #222; }
+    .nav-link.active { color: #4ade80; border-left-color: #4ade80; }
+    .nav-step { font-size: 10px; color: #222; display: block; margin-bottom: 1px; }
+    .main { margin-left: 230px; padding: 56px 60px 120px; max-width: 920px; }
+
+    /* Hero */
+    .hero { margin-bottom: 64px; }
+    .hero-eye { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #4ade80; margin-bottom: 12px; }
+    .hero-h1 { font-size: 42px; font-weight: 900; letter-spacing: -1.5px; line-height: 1.04; margin-bottom: 16px; }
+    .hero-h1 span { color: #4ade80; }
+    .hero-sub { font-size: 14.5px; color: #555; max-width: 580px; line-height: 1.75; margin-bottom: 24px; }
+    .flow { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .flow-item { padding: 5px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; background: #050f08; border: 1px solid #0d2b1a; color: #2d6a2d; }
+    .flow-arrow { font-size: 11px; color: #1a1a1a; align-self: center; }
+
+    /* Section */
+    .sec { margin-bottom: 64px; }
+    .sec-label { font-size: 10px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #1e1e1e; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #0a0a0a; }
+
+    /* Stage card */
+    .stage { background: #050505; border: 1px solid #0f0f0f; border-radius: 12px; margin-bottom: 14px; overflow: hidden; }
+    .stage-head { display: flex; align-items: flex-start; gap: 14px; padding: 18px 22px 16px; border-bottom: 1px solid #0a0a0a; }
+    .stage-num { font-size: 10px; font-weight: 800; color: #1a4a2a; background: #050f08; border: 1px solid #0d2b1a; border-radius: 5px; padding: 3px 8px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+    .stage-meta { flex: 1; }
+    .stage-title { font-size: 15px; font-weight: 800; color: #e0e0e0; margin-bottom: 3px; letter-spacing: -0.2px; }
+    .stage-purpose { font-size: 12px; color: #3a3a3a; font-weight: 500; }
+    .stage-purpose strong { color: #4ade80; font-weight: 700; }
+    .stage-body { padding: 18px 22px; }
+
+    /* Sub-label */
+    .sub-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #2a2a2a; margin-bottom: 8px; margin-top: 16px; }
+    .sub-label:first-child { margin-top: 0; }
+
+    /* Say lines — actual script language */
+    .say { background: #020802; border: 1px solid #0a1a0a; border-radius: 8px; padding: 11px 14px; margin-bottom: 6px; }
+    .say p { font-size: 13.5px; color: #7aba7a; line-height: 1.65; font-style: italic; }
+    .say p strong { color: #a8e6a8; font-style: normal; font-weight: 700; }
+    .say-tag { font-size: 9px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #1a4a1a; margin-bottom: 5px; }
+
+    /* Q items */
+    .q-list { display: flex; flex-direction: column; gap: 5px; }
+    .q-item { display: flex; gap: 10px; padding: 9px 12px; background: #000; border: 1px solid #0a0a0a; border-radius: 7px; align-items: flex-start; }
+    .q-dot { width: 4px; height: 4px; background: #1a4a2a; border-radius: 50%; flex-shrink: 0; margin-top: 9px; }
+    .q-text { font-size: 13px; color: #666; line-height: 1.6; }
+    .q-text em { font-style: italic; color: #4a4a4a; }
+
+    /* Branch boxes */
+    .branch { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
+    .branch-box { border-radius: 8px; padding: 12px 14px; }
+    .branch-box.yes { background: #020a03; border: 1px solid #0d2010; }
+    .branch-box.no { background: #080302; border: 1px solid #1a0800; }
+    .branch-tag { font-size: 9px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .yes .branch-tag { color: #22863a; }
+    .no .branch-tag { color: #8b3a0a; }
+    .branch-box .q-list { gap: 4px; }
+    .branch-box .q-item { background: transparent; border-color: #0f0f0f; padding: 6px 10px; }
+
+    /* Notes */
+    .note { margin-top: 14px; padding: 10px 14px; background: #030903; border: 1px solid #0a1a0a; border-radius: 7px; font-size: 12px; color: #2d5a2d; line-height: 1.65; }
+    .note strong { color: #4ade80; }
+
+    /* Probe tip */
+    .probe { display: flex; gap: 8px; align-items: flex-start; padding: 7px 12px; background: #030307; border: 1px solid #0a0a18; border-radius: 6px; margin-top: 5px; }
+    .probe-tag { font-size: 9px; font-weight: 800; color: #3b82f6; letter-spacing: 0.1em; text-transform: uppercase; flex-shrink: 0; margin-top: 2px; white-space: nowrap; }
+    .probe-text { font-size: 12px; color: #444; line-height: 1.6; font-style: italic; }
+
+    /* Transition block */
+    .transition { background: #020a06; border: 1px solid #0a2010; border-radius: 10px; padding: 18px 20px; margin-top: 10px; }
+    .transition-label { font-size: 9px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #1a4a2a; margin-bottom: 10px; }
+    .transition p { font-size: 13.5px; color: #6aaa6a; line-height: 1.75; font-style: italic; }
+    .transition p strong { font-style: normal; color: #9fe09f; }
+
+    /* Pillar */
+    .pillars { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+    .pillar { display: flex; gap: 12px; padding: 12px 14px; background: #000; border: 1px solid #0d0d0d; border-radius: 8px; align-items: flex-start; }
+    .pillar-num { font-size: 11px; font-weight: 800; color: #4ade80; flex-shrink: 0; background: #050f08; border: 1px solid #0d2b1a; padding: 2px 7px; border-radius: 5px; }
+    .pillar-text { font-size: 13px; color: #666; line-height: 1.6; }
+    .pillar-text strong { color: #ccc; font-weight: 600; }
+
+    /* Quote */
+    .quote { background: #050f08; border-left: 3px solid #4ade80; border-radius: 0 10px 10px 0; padding: 14px 18px; margin: 20px 0; }
+    .quote p { font-size: 14px; color: #7aaa7a; font-style: italic; line-height: 1.75; font-weight: 500; }
+
+    /* Objection card */
+    .obj { background: #080402; border: 1px solid #1a0c00; border-radius: 10px; padding: 16px 20px; margin-bottom: 10px; }
+    .obj-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #6a3010; margin-bottom: 8px; }
+    .obj-trigger { font-size: 13px; color: #8b4010; font-style: italic; margin-bottom: 10px; line-height: 1.6; }
+    .obj-response { display: flex; flex-direction: column; gap: 5px; }
+
+    .divider { height: 1px; background: #080808; margin: 48px 0; }
+
+    /* Referral section */
+    .ref-flow { background: #020a06; border: 1px solid #0a2010; border-radius: 10px; padding: 18px 22px; margin-bottom: 14px; }
+    .ref-flow-label { font-size: 9px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #1a4a1a; margin-bottom: 12px; }
+
+    @media (max-width: 820px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 28px 18px 80px; }
+      .hero-h1 { font-size: 28px; }
+      .branch { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-logo">Sales.io</div>
+  <div class="hdr-sep"></div>
+  <div class="hdr-title">Sales Call Script</div>
+  <div class="hdr-badge">Internal — Closer Use Only</div>
+</header>
+
+<div class="layout">
+
+  <nav class="sidebar">
+    <div class="nav-label">Call Structure</div>
+    <a href="#opener" class="nav-link active"><span class="nav-step">Stage 1</span>The 30-Second Hook</a>
+    <a href="#connect" class="nav-link active"><span class="nav-step">Stage 2</span>Control the Frame</a>
+
+    <div class="nav-label">The Engagement (85%)</div>
+    <a href="#reality" class="nav-link active"><span class="nav-step">Stage 3</span>Map Their Reality</a>
+    <a href="#dig" class="nav-link active"><span class="nav-step">Stage 4</span>The Dig</a>
+    <a href="#pivot" class="nav-link active"><span class="nav-step">Stage 5</span>The Pivot</a>
+    <a href="#specifics" class="nav-link active"><span class="nav-step">Stage 6</span>Get Specific</a>
+    <a href="#history" class="nav-link active"><span class="nav-step">Stage 7</span>Pattern History</a>
+    <a href="#heaven" class="nav-link active"><span class="nav-step">Stage 8</span>Heaven Lock</a>
+    <a href="#hell" class="nav-link active"><span class="nav-step">Stage 9</span>The Cost</a>
+    <a href="#conviction" class="nav-link active"><span class="nav-step">Stage 10</span>Conviction Check</a>
+
+    <div class="nav-label">The Close</div>
+    <a href="#bridge" class="nav-link active"><span class="nav-step">Stage 11</span>The Bridge</a>
+    <a href="#present" class="nav-link active"><span class="nav-step">Stage 12</span>The Reveal</a>
+    <a href="#close" class="nav-link active"><span class="nav-step">Stage 13</span>The Decision</a>
+    <a href="#resistance" class="nav-link active"><span class="nav-step">Stage 14</span>Resistance Handling</a>
+    <a href="#referrals" class="nav-link active"><span class="nav-step">Stage 15</span>Warm Extension</a>
+  </nav>
+
+  <main class="main">
+
+    <!-- HERO -->
+    <div class="hero" id="top">
+      <div class="hero-eye">Sales.io — Closer Script</div>
+      <h1 class="hero-h1">The call that<br><span>actually closes.</span></h1>
+      <p class="hero-sub">This is not a script to read. It is a structure to internalize. Every line here exists for a reason. The more natural it sounds coming out of your mouth, the more it has become part of how you think — which is the goal.</p>
+      <div class="flow">
+        <div class="flow-item">Hook</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-item">Frame</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-item">Reality</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-item">Pain</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-item">Heaven</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-item">Hell</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-item">Bridge</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-item">Close</div>
+      </div>
+    </div>
+
+    <!-- STAGE 1 -->
+    <section class="sec" id="opener">
+      <div class="sec-label">Stage 1 — The 30-Second Hook</div>
+      <div class="stage">
+        <div class="stage-head">
+          <div class="stage-num">Stage 1</div>
+          <div class="stage-meta">
+            <div class="stage-title">The 30-Second Hook</div>
+            <div class="stage-purpose">Purpose: <strong>Make them feel like you already understand their problem before they say a word.</strong> This is not small talk. It is a pattern interrupt that signals you are different from the last rep they talked to.</div>
+          </div>
+        </div>
+        <div class="stage-body">
+          <div class="sub-label">Say This First</div>
+          <div class="say">
+            <div class="say-tag">30-Second Hook</div>
+            <p>"You know how a lot of <strong>[their type — e.g. business owners / sales reps]</strong> reach a point where they're putting in the work but feel like the results should be better than they are — they're frustrated because the effort is there but the number isn't moving, and they start wondering if there's something they're missing that everyone else seems to know. What I do is help people like that figure out exactly what that thing is and actually fix it — not with another framework, but by changing the way they operate at the fundamental level."</p>
+          </div>
+
+          <div class="sub-label">Situation Bridge — Choose One</div>
+          <div class="say">
+            <div class="say-tag">Option A — Ask about their current approach</div>
+            <p>"Can I ask — what does your <strong>[sales process / training / approach]</strong> actually look like right now?"</p>
+          </div>
+          <div class="say">
+            <div class="say-tag">Option B — Check if it resonates</div>
+            <p>"Does any of that feel familiar — or is that not quite where you're at?"</p>
+          </div>
+
+          <div class="note"><strong>Rule:</strong> Customize the hook to match the exact frustration your avatar walks in with. The more specific you are, the more they feel like you are already inside their head. Generic hooks produce generic responses.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAGE 2 -->
+    <section class="sec" id="connect">
+      <div class="sec-label">Stage 2 — Control the Frame</div>
+      <div class="stage">
+        <div class="stage-head">
+          <div class="stage-num">Stage 2</div>
+          <div class="stage-meta">
+            <div class="stage-title">Control the Frame</div>
+            <div class="stage-purpose">Purpose: <strong>Set the tone, establish why they're here, and put the focus entirely on them.</strong> You are not pitching yet. You are creating a space where they feel safe enough to tell you the truth.</div>
+          </div>
+        </div>
+        <div class="stage-body">
+          <div class="sub-label">Opening Line</div>
+          <div class="say">
+            <div class="say-tag">Confirm the call</div>
+            <p>"Hey <strong>[Name]</strong> — this is <strong>[your name]</strong> from Sales.io. You booked a call with us <strong>[day they booked]</strong> — looks like you were looking into getting some help with <strong>[what they opted in around]</strong>. Is now still a good time to talk?"</p>
+          </div>
+
+          <div class="sub-label">Frame-Control Questions — Use 1 or 2 Max</div>
+          <div class="q-list">
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"Before I get into anything — have you already figured out what you're looking for, or are you still in the 'exploring options' stage?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"Do you have a clear picture of what solving this would look like for you, or is that part still fuzzy?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"When you went through <strong>[the content / ad / post]</strong> that brought you here — what specifically made you stop and book?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"What were you hoping would come out of this conversation?"</div></div>
+          </div>
+
+          <div class="note"><strong>Rule:</strong> The question "what were you hoping would come out of this call" is one of the most powerful openers in sales. Their answer tells you their goal, their awareness level, and how bought-in they already are. Never skip it.</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+    <p style="font-size:11px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; color:#1a4a1a; margin-bottom:28px; margin-top:-20px;">The Engagement Stage — 85% of the close happens here</p>
+
+    <!-- STAGE 3 -->
+    <section class="sec" id="reality">
+      <div class="sec-label">Stage 3 — Map Their Reality</div>
+      <div class="stage">
+        <div class="stage-head">
+          <div class="stage-num">Stage 3</div>
+          <div class="stage-meta">
+            <div class="stage-title">Map Their Reality</div>
+            <div class="stage-purpose">Purpose: <strong>Understand exactly what they are currently doing before you suggest they do anything different.</strong> This is not small talk. Every answer here feeds a later stage.</div>
+          </div>
+        </div>
+        <div class="stage-body">
+          <div class="sub-label">Situation Questions</div>
+          <div class="q-list">
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"Walk me through what your <strong>[sales / training / growth approach]</strong> looks like right now — what are you actually doing?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"How long have you been running it that way?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"What made you set it up that way to begin with — what was the thinking?"</div></div>
+          </div>
+
+          <div class="probe">
+            <div class="probe-tag">Probe</div>
+            <div class="probe-text">After each answer: stay curious. "What do you mean by that?" and "How so?" keep them talking without you having to ask a new question. Use them constantly.</div>
+          </div>
+
+          <div class="note"><strong>Rule:</strong> Do not evaluate what they tell you. Do not say "that makes sense" or "interesting." Stay neutral and curious. The moment you react, they start editing their answers to manage your response instead of just telling you the truth.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAGE 4 -->
+    <section class="sec" id="dig">
+      <div class="sec-label">Stage 4 — The Dig</div>
+      <div class="stage">
+        <div class="stage-head">
+          <div class="stage-num">Stage 4</div>
+          <div class="stage-meta">
+            <div class="stage-title">The Dig</div>
+            <div class="stage-purpose">Purpose: <strong>Find out what they actually do not like about their current situation.</strong> Most people will not volunteer this. You have to make it safe to say it — and then ask follow-up questions until you get to the real thing.</div>
+          </div>
+        </div>
+        <div class="stage-body">
+          <div class="sub-label">Open the Door</div>
+          <div class="q-list">
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"Honestly, how do you feel about how things are set up right now — is it working the way you'd want it to?"</div></div>
+          </div>
+
+          <div class="sub-label">Branch — Based on Their Response</div>
+          <div class="branch">
+            <div class="branch-box yes">
+              <div class="branch-tag">If they say things are fine</div>
+              <div class="q-list">
+                <div class="q-item"><div class="q-dot"></div><div class="q-text">"What specifically is working well?"</div></div>
+                <div class="q-item"><div class="q-dot"></div><div class="q-text">"Is there anything else that's been good?"</div></div>
+                <div class="q-item"><div class="q-dot"></div><div class="q-text"><em>Then pivot:</em> "It sounds like you've built something solid. If there was one thing you could change or improve right now — what would it be?"</div></div>
+              </div>
+            </div>
+            <div class="branch-box no">
+              <div class="branch-tag">If they have a problem</div>
+              <div class="q-list">
+                <div class="q-item"><div class="q-dot"></div><div class="q-text">"What specifically isn't working?"</div></div>
+                <div class="q-item"><div class="q-dot"></div><div class="q-text">"What do you mean by that exactly?"</div></div>
+                <div class="q-item"><div class="q-dot"></div><div class="q-text">"How long has that been going on?"</div></div>
+                <div class="q-item"><div class="q-dot"></div><div class="q-text">"Has it had a real impact — in what way?"</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-label" style="margin-top:16px;">Deepen the Pain</div>
+          <div class="q-list">
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"Just so I understand what's actually driving this — beyond wanting to fix <strong>[what they said]</strong>, what is the real reason you're actually looking to change things rather than just staying the course?"</div></div>
+          </div>
+
+          <div class="note"><strong>Rule:</strong> Nobody loves 100% of their current situation. Even if they open with "things are going well," there is always something they would change. The pivot question — "if you could change one thing" — unlocks it without making them feel like they failed.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAGE 5 -->
+    <section class="sec" id="pivot">
+      <div class="sec-label">Stage 5 — The Pivot</div>
+      <div class="stage">
+        <div class="stage-head">
+          <div class="stage-num">Stage 5</div>
+          <div class="stage-meta">
+            <div class="stage-title">The Pivot</div>
+            <div class="stage-purpose">Purpose: <strong>Even if they opened positive, find the thing they would change.</strong> Nobody stays in a conversation about improving something unless something needs improving. Surface it.</div>
+          </div>
+        </div>
+        <div class="stage-body">
+          <div class="sub-label">Pivot Line</div>
+          <div class="say">
+            <div class="say-tag">The Pivot</div>
+            <p>"It sounds like overall things are moving — but if you could wave a wand and change one thing about where you're at right now, what would it be? There's always something."</p>
+          </div>
+
+          <div class="sub-label">If They Give You Something Vague</div>
+          <div class="q-list">
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"What do you mean by that? Can you give me a specific example?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"How has that shown up recently — like in the last 30 days?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"When you say <strong>[their vague word]</strong>, what does that actually look like day to day?"</div></div>
+          </div>
+
+          <div class="note"><strong>Rule:</strong> Vague answers mean they do not fully trust you yet or have not thought it through. Ask them to make it specific. The more concrete the problem becomes in their own mind, the more real the pain is — and the more urgent the solution feels.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAGE 6 -->
+    <section class="sec" id="specifics">
+      <div class="sec-label">Stage 6 — Get Specific</div>
+      <div class="stage">
+        <div class="stage-head">
+          <div class="stage-num">Stage 6</div>
+          <div class="stage-meta">
+            <div class="stage-title">Get Specific</div>
+            <div class="stage-purpose">Purpose: <strong>Attach numbers and reality to the problem.</strong> Abstract pain is easy to ignore. Specific pain — hours, dollars, time lost — is not.</div>
+          </div>
+        </div>
+        <div class="stage-body">
+          <div class="sub-label">Specificity Questions — Customize the metrics to your offer</div>
+          <div class="q-list">
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"How many hours a week are you actually putting into <strong>[the problem area]</strong> right now?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"And if you could get that down — how many hours would feel right?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"If you had to put a number on what this is costing you — time, money, missed opportunities — what would you say?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"What does a week look like when <strong>[the problem]</strong> is really bad?"</div></div>
+          </div>
+
+          <div class="probe">
+            <div class="probe-tag">Probe</div>
+            <div class="probe-text">Numbers make pain real. If they give a vague answer, push: "What would you say if you had to put an actual number on it?" Then be quiet and let them do the math out loud.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAGE 7 -->
+    <section class="sec" id="history">
+      <div class="sec-label">Stage 7 — Pattern History</div>
+      <div class="stage">
+        <div class="stage-head">
+          <div class="stage-num">Stage 7</div>
+          <div class="stage-meta">
+            <div class="stage-title">Pattern History</div>
+            <div class="stage-purpose">Purpose: <strong>Find out what they have already tried and why it did not work.</strong> This tells you their skepticism level, their investment history, and what you are actually up against.</div>
+          </div>
+        </div>
+        <div class="stage-body">
+          <div class="sub-label">History Questions</div>
+          <div class="q-list">
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"Before today, had you been actively looking for a way to fix this — or is this the first time you've explored it?"</div></div>
+          </div>
+
+          <div class="branch">
+            <div class="branch-box no">
+              <div class="branch-tag">If they haven't looked before</div>
+              <div class="q-list">
+                <div class="q-item"><div class="q-dot"></div><div class="q-text">"What kept you from addressing this earlier?"</div></div>
+                <div class="q-item"><div class="q-dot"></div><div class="q-text">"What changed that made now the time?"</div></div>
+              </div>
+            </div>
+            <div class="branch-box yes">
+              <div class="branch-tag">If they've tried something before</div>
+              <div class="q-list">
+                <div class="q-item"><div class="q-dot"></div><div class="q-text">"How did that work out?"</div></div>
+                <div class="q-item"><div class="q-dot"></div><div class="q-text">"What actually happened — and why do you think it didn't stick?"</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-label" style="margin-top:16px;">If They Tried But Did Not Commit</div>
+          <div class="q-list">
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"What stopped you from pulling the trigger with that company?"</div></div>
+          </div>
+
+          <div class="sub-label">Criteria Question — Always Ask This</div>
+          <div class="q-list">
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"Just so I make sure what we do actually fits what you need — outside of fixing <strong>[their main problem]</strong>, what would your ideal outcome look like? What are you actually looking for in something like this?"</div></div>
+          </div>
+
+          <div class="probe">
+            <div class="probe-tag">Probe</div>
+            <div class="probe-text">"Why is that important to you right now?" and "Is there anything else?" after they answer the criteria question. Get the full list before you move on.</div>
+          </div>
+
+          <div class="note"><strong>Rule:</strong> Past failed investments are not red flags — they are proof the problem is real enough that they already spent money on it. Use that. Someone who has tried and failed is often more ready to buy than someone who has never tried at all.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAGE 8 -->
+    <section class="sec" id="heaven">
+      <div class="sec-label">Stage 8 — Heaven Lock</div>
+      <div class="stage">
+        <div class="stage-head">
+          <div class="stage-num">Stage 8</div>
+          <div class="stage-meta">
+            <div class="stage-title">Heaven Lock</div>
+            <div class="stage-purpose">Purpose: <strong>Get them emotionally invested in a specific, vivid future state — in their own words.</strong> This is the Heaven side of the Heaven/Hell framework. The more real the future becomes, the more painful the present feels by comparison.</div>
+          </div>
+        </div>
+        <div class="stage-body">
+          <div class="sub-label">Income / Goal Anchor</div>
+          <div class="q-list">
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"You mentioned wanting to make more — what's the actual number you'd want to be at? Annually, what would feel like winning?"</div></div>
+          </div>
+
+          <div class="branch">
+            <div class="branch-box no">
+              <div class="branch-tag">If they say a low number</div>
+              <div class="q-list">
+                <div class="q-item"><div class="q-dot"></div><div class="q-text">"Is that really what you're aiming for, or is that just what feels realistic right now?"</div></div>
+                <div class="q-item"><div class="q-dot"></div><div class="q-text">"What would you actually want if you could have it?"</div></div>
+              </div>
+            </div>
+            <div class="branch-box yes">
+              <div class="branch-tag">If they say a real number</div>
+              <div class="q-list">
+                <div class="q-item"><div class="q-dot"></div><div class="q-text">"With what you're doing right now — how close are you to <strong>[their number]</strong> a year? Be honest with me."</div></div>
+                <div class="q-item"><div class="q-dot"></div><div class="q-text">"If you keep doing exactly what you're doing — how many years before you're there?"</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-label" style="margin-top:16px;">Vision Lock Questions</div>
+          <div class="q-list">
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"Let's say we actually got you to <strong>[their number]</strong> in the next 12 months. What does that let you do that you can't do now?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"What would that actually do for you — personally, not just financially?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"How would your life look different at that number vs. where you are today?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"How would that feel — really?"</div></div>
+          </div>
+
+          <div class="probe">
+            <div class="probe-tag">Probe</div>
+            <div class="probe-text">When they say "less stress" or "more freedom" — dig deeper: "What do you mean by that? What would be different specifically?" You want their emotional truth, not a headline.</div>
+          </div>
+
+          <div class="quote"><p>"The vision has to be theirs. If you paint it, they're just listening to you talk. If they paint it — they own it. Your job is to ask the right questions and stay quiet long enough for them to see it."</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAGE 9 -->
+    <section class="sec" id="hell">
+      <div class="sec-label">Stage 9 — The Cost</div>
+      <div class="stage">
+        <div class="stage-head">
+          <div class="stage-num">Stage 9</div>
+          <div class="stage-meta">
+            <div class="stage-title">The Cost</div>
+            <div class="stage-purpose">Purpose: <strong>Make the cost of inaction more real than the cost of investment.</strong> This is the Hell side of the framework. People do not change because they see the upside. They change because staying still finally hurts more than moving.</div>
+          </div>
+        </div>
+        <div class="stage-body">
+          <div class="sub-label">Consequence Questions</div>
+          <div class="q-list">
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"What happens if nothing changes — if you keep doing exactly what you've been doing for the next 3, 6, 12 months?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"Why is this actually important to you right now? Why not just address it in a year?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"If it keeps going this way — what does that do to <strong>[the thing they said matters to them]</strong>?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"Is staying in this situation something you're willing to settle for?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"And who decides whether you settle or not?"</div></div>
+          </div>
+
+          <div class="sub-label">If They Minimize the Consequence</div>
+          <div class="q-list">
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"Have you thought about what it actually looks like if this compounds — not just stays the same, but gets harder to fix the longer you wait?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"What's the realistic impact on <strong>[their income / team / goals]</strong> if this is still unresolved this time next year?"</div></div>
+          </div>
+
+          <div class="note"><strong>Rule:</strong> Do not answer these questions for them. Ask, then stay quiet. The discomfort of hearing themselves describe the cost of inaction is what creates urgency. The moment you fill the silence, you take the pressure off.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAGE 10 -->
+    <section class="sec" id="conviction">
+      <div class="sec-label">Stage 10 — Conviction Check</div>
+      <div class="stage">
+        <div class="stage-head">
+          <div class="stage-num">Stage 10</div>
+          <div class="stage-meta">
+            <div class="stage-title">Conviction Check</div>
+            <div class="stage-purpose">Purpose: <strong>Confirm they are ready to move, not just interested.</strong> Interest does not close. Conviction does. If this is missing, presenting is a waste of time for both of you.</div>
+          </div>
+        </div>
+        <div class="stage-body">
+          <div class="sub-label">Check the Readiness</div>
+          <div class="q-list">
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"So how important is it for you to actually change this — right now, not eventually?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"On a 1 to 10 — how serious are you about solving this today?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"If you found something today that you genuinely believed would get you there — is there anything that would realistically stop you from moving on it?"</div></div>
+          </div>
+
+          <div class="say" style="margin-top:12px;">
+            <div class="say-tag">Bridge to Presentation</div>
+            <p>"Sounds like it's time to actually do something about this then."</p>
+          </div>
+
+          <div class="note"><strong>Rule:</strong> If they say 7 or below on the urgency question, they are not ready. Ask what would make it a 10 before you present anything. Presenting to a 6 is how you end up chasing people who are "still thinking about it."</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+    <p style="font-size:11px; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; color:#1a4a1a; margin-bottom:28px; margin-top:-20px;">The Close</p>
+
+    <!-- STAGE 11 -->
+    <section class="sec" id="bridge">
+      <div class="sec-label">Stage 11 — The Bridge</div>
+      <div class="stage">
+        <div class="stage-head">
+          <div class="stage-num">Stage 11</div>
+          <div class="stage-meta">
+            <div class="stage-title">The Bridge</div>
+            <div class="stage-purpose">Purpose: <strong>Transition from their problem directly to your solution using their exact words.</strong> The bridge is not a pitch. It is a mirror — they hear their own pain reflected back, and then you position the solution as the natural answer to what they just described.</div>
+          </div>
+        </div>
+        <div class="stage-body">
+          <div class="transition">
+            <div class="transition-label">Bridge Formula</div>
+            <p>"Based on everything you've told me — what we do might be exactly what you're looking for.<br><br>Because you mentioned <strong>[repeat their logical problem back to them]</strong> — and that it's been <strong>[how long it has been going on]</strong>.<br><br>And on top of that, it's causing you to feel <strong>[repeat their emotional response back to them]</strong>.<br><br>Here's what I do, and here is specifically how it would work for you..."</p>
+          </div>
+
+          <div class="note"><strong>Rule:</strong> Use their exact words. Not a paraphrase — their words. When people hear their own language come back to them, they feel understood at a level that no amount of rapport-building achieves. This is what makes the transition feel inevitable instead of pushy.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAGE 12 -->
+    <section class="sec" id="present">
+      <div class="sec-label">Stage 12 — The Reveal</div>
+      <div class="stage">
+        <div class="stage-head">
+          <div class="stage-num">Stage 12</div>
+          <div class="stage-meta">
+            <div class="stage-title">The Reveal</div>
+            <div class="stage-purpose">Purpose: <strong>Present the solution as the direct answer to the specific problems they described.</strong> Not a feature list. Not a demo for its own sake. Every pillar you present should be tied back to something they said.</div>
+          </div>
+        </div>
+        <div class="stage-body">
+          <div class="sub-label">Anchor Before You Present</div>
+          <div class="say">
+            <div class="say-tag">Call Back Their Pain</div>
+            <p>"You mentioned you're <strong>[spending too many hours / not seeing the results / stuck at X number]</strong> — with your permission I want to walk you through a few things we do that directly address that."</p>
+          </div>
+
+          <div class="sub-label">Present in 3 Pillars — Tie Each One to What They Said</div>
+          <div class="pillars">
+            <div class="pillar"><div class="pillar-num">P1</div><div class="pillar-text"><strong>[Ease / Getting Started]</strong> — "We don't just hand you something and leave. We build this with you so from day one you're not starting from scratch."</div></div>
+            <div class="pillar"><div class="pillar-num">P2</div><div class="pillar-text"><strong>[Built for Them]</strong> — "This isn't a generic program. We look at exactly where you are and build around your specific situation."</div></div>
+            <div class="pillar"><div class="pillar-num">P3</div><div class="pillar-text"><strong>[The Result]</strong> — "We're not done until it's working. Not set-and-forget — we stay in it until you're actually seeing the outcome you described."</div></div>
+          </div>
+
+          <div class="sub-label" style="margin-top:16px;">Check for Agreement Throughout</div>
+          <div class="q-list">
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"Does that make sense so far?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"Are we tracking on the same thing?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"What are your thoughts on that?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"How does that feel compared to what you've tried before?"</div></div>
+          </div>
+
+          <div class="note"><strong>Rule:</strong> Present your solution AFTER you understand the problem — never before. The presentation that happens before the pain work is dead on arrival. By Stage 12, they should already feel like the solution is inevitable. You are just giving them the specifics.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAGE 13 -->
+    <section class="sec" id="close">
+      <div class="sec-label">Stage 13 — The Decision</div>
+      <div class="stage">
+        <div class="stage-head">
+          <div class="stage-num">Stage 13</div>
+          <div class="stage-meta">
+            <div class="stage-title">The Decision</div>
+            <div class="stage-purpose">Purpose: <strong>Pull a real decision — not a polite response.</strong> Neutral, confident close language. You are not begging. You are making it easy for them to say yes to something they already want.</div>
+          </div>
+        </div>
+        <div class="stage-body">
+          <div class="sub-label">Committing Questions — Use One, Then Silence</div>
+          <div class="q-list">
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"Do you feel like this is actually the answer to what you described earlier?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"Why do you feel that way — what specifically is clicking for you?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"Do you feel like this gets you where you said you want to go?"</div></div>
+          </div>
+
+          <div class="sub-label" style="margin-top:14px;">If Yes — Move to Next Steps Immediately</div>
+          <div class="say">
+            <div class="say-tag">Next Steps Line</div>
+            <p>"Perfect. Based on everything you've shared — the next step is straightforward. We'd get you into <strong>[program / onboarding / call]</strong>, you would work with <strong>[coach / team]</strong>, and we start immediately. From there it's just about getting to work. Does that sound right?"</p>
+          </div>
+
+          <div class="sub-label">If Objections Come Up</div>
+          <div class="say">
+            <div class="say-tag">Loop Back</div>
+            <p>"Tell me more about that — what specifically is the concern?" <em>(Then address it and return to the close.)</em></p>
+          </div>
+
+          <div class="note"><strong>Rule:</strong> One close line. Then silence. The rep who talks after asking the closing question is the one who loses. If they pause, let them. That pause is them buying — not them about to say no.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAGE 14 -->
+    <section class="sec" id="resistance">
+      <div class="sec-label">Stage 14 — Resistance Handling</div>
+      <div class="stage">
+        <div class="stage-head">
+          <div class="stage-num">Stage 14</div>
+          <div class="stage-meta">
+            <div class="stage-title">Resistance Handling</div>
+            <div class="stage-purpose">Purpose: <strong>Address the real concern underneath the surface objection.</strong> Most objections at this stage are not about the thing they say they are about. Find the real one.</div>
+          </div>
+        </div>
+        <div class="stage-body">
+
+          <div class="obj">
+            <div class="obj-label">Resistance — Third-Party Approval</div>
+            <div class="obj-trigger">"I need to talk to my [partner / spouse / business partner] first."</div>
+            <div class="obj-response">
+              <div class="q-list">
+                <div class="q-item"><div class="q-dot"></div><div class="q-text">"How does your <strong>[partner]</strong> feel about you investing in <strong>[the outcome they want]</strong> — are they supportive of that?"</div></div>
+                <div class="q-item"><div class="q-dot"></div><div class="q-text">"What would you do if they were not on board — would that stop you from doing something you believe is right for your future?"</div></div>
+                <div class="q-item"><div class="q-dot"></div><div class="q-text">"How are you going to get to <strong>[their stated goal]</strong> without solving this?"</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="obj">
+            <div class="obj-label">Resistance — Money</div>
+            <div class="obj-trigger">"I don't have the money right now."</div>
+            <div class="obj-response">
+              <div class="q-list">
+                <div class="q-item"><div class="q-dot"></div><div class="q-text">"If the money was not a factor — would this be the right move for you?"</div></div>
+                <div class="q-item"><div class="q-dot"></div><div class="q-text"><em>If yes:</em> "So the only thing standing between you and solving this is the funding — how do you think you could make that work?"</div></div>
+                <div class="q-item"><div class="q-dot"></div><div class="q-text">"What other ways could you access the funds to actually solve this — what options do you have?"</div></div>
+                <div class="q-item"><div class="q-dot"></div><div class="q-text">"Have you thought about financing — using what you make once this is working to cover the cost of getting there?"</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="note"><strong>Rule:</strong> When they say money is the issue, do not lower the price. Ask if money was not the issue, would they move. If yes — the real work is helping them find the path to the funds, not convincing them the price is fair. The value conversation was already won in Stages 8 and 9.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAGE 15 -->
+    <section class="sec" id="referrals">
+      <div class="sec-label">Stage 15 — Warm Extension</div>
+      <div class="stage">
+        <div class="stage-head">
+          <div class="stage-num">Stage 15</div>
+          <div class="stage-meta">
+            <div class="stage-title">Warm Extension</div>
+            <div class="stage-purpose">Purpose: <strong>Every closed deal has a network attached to it.</strong> Get referrals while the relationship is at its highest point — right after they have made a decision they feel good about.</div>
+          </div>
+        </div>
+        <div class="stage-body">
+
+          <div class="sub-label">Open the Referral Conversation</div>
+          <div class="q-list">
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"I appreciate the conversation today — can I ask, what do you feel was most valuable about what we talked through?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"With that in mind — who do you know that is dealing with the same kind of thing you came in with today? Probably someone in <strong>[their world — industry / network / circle]</strong>."</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"Tell me a little about them — why do you think I could help?"</div></div>
+          </div>
+
+          <div class="sub-label" style="margin-top:14px;">Facilitate the Introduction</div>
+          <div class="q-list">
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"What's the best way to reach them — and do you think it would make more sense for you to mention it to them first, or are you comfortable with me reaching out directly?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"What do you think you'd say to them if you were to bring it up?"</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"What if you just shared the problem you came in with today — and let them tell you if they're dealing with the same thing? If they are, then I can take it from there."</div></div>
+            <div class="q-item"><div class="q-dot"></div><div class="q-text">"Anyone else you can think of that might be in a similar spot?"</div></div>
+          </div>
+
+          <div class="ref-flow">
+            <div class="ref-flow-label">When Calling a Referral</div>
+            <div class="say" style="margin-bottom:0; background: transparent; border-color: #0a2010;">
+              <p>"Hey <strong>[Name]</strong> — my name is <strong>[your name]</strong> from Sales.io. I was just working with <strong>[referrer's name]</strong> and they mentioned you might be dealing with something similar to what they came to us with. They said it would be worth a quick conversation. Is now an okay time?"</p>
+            </div>
+          </div>
+
+          <div class="note"><strong>Rule:</strong> Referrals asked for at the right moment — right after a yes — convert at 3 to 5x the rate of cold outreach. Do not skip this stage. One deal consistently opens two more if you ask the right question at the right time.</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  const allLinks = document.querySelectorAll('.nav-link');
+  const allSections = document.querySelectorAll('[id]');
+  const obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        allLinks.forEach(function(l) {
+          if (l.getAttribute('href') === '#' + id) {
+            l.classList.add('active');
+          }
+        });
+      }
+    });
+  }, { rootMargin: '-8% 0px -82% 0px' });
+  allSections.forEach(function(s) { obs.observe(s); });
+</script>
+
+</body>
+</html>
