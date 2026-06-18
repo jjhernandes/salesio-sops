@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coaching Recap — Ryley Richards — Week 1</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.6; padding: 52px 64px 100px; max-width: 860px; margin: 0 auto; }
+
+    .eye { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #333; margin-bottom: 12px; }
+    h1 { font-size: 38px; font-weight: 900; letter-spacing: -1px; line-height: 1.05; margin-bottom: 10px; }
+    .sub { font-size: 14px; color: #444; margin-bottom: 52px; }
+
+    .divider { height: 1px; background: #0a0a0a; margin: 40px 0; }
+
+    .section-label { font-size: 10px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #333; margin-bottom: 16px; }
+
+    /* Overview card */
+    .overview { background: #050505; border: 1px solid #111; border-radius: 12px; padding: 24px 28px; margin-bottom: 48px; }
+    .overview-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+    .ov-item { background: #000; border: 1px solid #0d0d0d; border-radius: 8px; padding: 12px 14px; }
+    .ov-key { font-size: 10px; font-weight: 700; color: #333; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+    .ov-val { font-size: 13px; font-weight: 600; color: #aaa; }
+
+    /* Insight blocks */
+    .concept-block { margin-bottom: 40px; }
+    .concept-title { font-size: 17px; font-weight: 800; color: #eee; letter-spacing: -0.3px; margin-bottom: 6px; }
+    .concept-body { font-size: 14px; color: #555; line-height: 1.8; margin-bottom: 14px; }
+    .concept-body strong { color: #888; font-weight: 600; }
+
+    .callout { background: #050505; border-left: 3px solid #1a4a2a; border-radius: 0 8px 8px 0; padding: 14px 18px; margin-top: 10px; font-size: 13.5px; color: #4ade80; line-height: 1.75; }
+    .callout-amber { border-left-color: #3a2800; color: #f59e0b; }
+    .callout-white { border-left-color: #1a1a1a; color: #888; font-style: italic; }
+
+    /* Ryley profile */
+    .profile { background: #020806; border: 1px solid #0d1a0d; border-radius: 12px; padding: 24px 28px; margin-bottom: 48px; }
+    .profile-row { display: flex; flex-direction: column; gap: 10px; }
+    .profile-item { display: flex; gap: 16px; padding: 10px 14px; background: #000; border: 1px solid #0a0a0a; border-radius: 8px; align-items: flex-start; }
+    .profile-dot { width: 6px; height: 6px; border-radius: 50%; background: #1a4a2a; margin-top: 6px; flex-shrink: 0; }
+    .profile-text { font-size: 13.5px; color: #666; line-height: 1.65; }
+    .profile-text strong { color: #999; font-weight: 600; }
+
+    /* Scale reference */
+    .scale { background: #050505; border: 1px solid #111; border-radius: 12px; padding: 22px 26px; margin-bottom: 48px; }
+    .scale-row { display: flex; flex-direction: column; gap: 6px; }
+    .scale-item { display: flex; gap: 14px; align-items: center; padding: 8px 12px; border-radius: 7px; }
+    .scale-item.active { background: #020f08; border: 1px solid #0d2b1a; }
+    .scale-level { font-size: 12px; font-weight: 800; width: 100px; flex-shrink: 0; }
+    .scale-level.high { color: #4ade80; }
+    .scale-level.mid { color: #888; }
+    .scale-level.low { color: #444; }
+    .scale-desc { font-size: 12.5px; color: #444; line-height: 1.5; }
+    .scale-desc.active-desc { color: #666; }
+    .you-tag { font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #4ade80; background: #050f08; border: 1px solid #0d2b1a; padding: 2px 8px; border-radius: 5px; margin-left: auto; }
+
+    /* Action items */
+    .actions { background: #050505; border: 1px solid #0f0f0f; border-radius: 12px; padding: 24px 28px; margin-bottom: 48px; }
+    .action-list { display: flex; flex-direction: column; gap: 8px; }
+    .action-item { display: flex; gap: 14px; background: #000; border: 1px solid #0d0d0d; border-radius: 8px; padding: 14px 16px; align-items: flex-start; }
+    .a-num { font-size: 11px; font-weight: 800; color: #1a4a2a; flex-shrink: 0; width: 20px; margin-top: 2px; }
+    .a-content { flex: 1; }
+    .a-title { font-size: 14px; font-weight: 700; color: #ddd; margin-bottom: 3px; }
+    .a-desc { font-size: 13px; color: #555; line-height: 1.6; }
+
+    /* Logistics */
+    .logistics { background: #050505; border: 1px solid #111; border-radius: 12px; padding: 22px 26px; margin-bottom: 48px; }
+    .logistics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .log-item { background: #000; border: 1px solid #0a0a0a; border-radius: 8px; padding: 12px 14px; }
+    .log-key { font-size: 10px; font-weight: 700; color: #333; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; }
+    .log-val { font-size: 13px; color: #666; line-height: 1.6; }
+
+    /* JJ note */
+    .jj-note { background: #080600; border: 1px solid #1a1200; border-radius: 12px; padding: 22px 26px; margin-bottom: 48px; }
+    .jj-say { font-size: 13.5px; color: #8a7a50; line-height: 1.8; font-style: italic; }
+    .jj-say-attr { font-size: 11px; font-weight: 700; color: #3a2a00; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 10px; }
+
+    @media (max-width: 640px) {
+      body { padding: 32px 20px 80px; }
+      h1 { font-size: 26px; }
+      .overview-grid { grid-template-columns: 1fr; }
+      .logistics-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="eye">Sales.io — Coaching Recap</div>
+  <h1>Ryley Richards<br>Week 1 Session</h1>
+  <div class="sub">June 17, 2026 &nbsp;·&nbsp; JJ Hernandez &nbsp;·&nbsp; Foundations + Baseline</div>
+
+  <div class="overview">
+    <div class="section-label">Session Overview</div>
+    <div class="overview-grid">
+      <div class="ov-item">
+        <div class="ov-key">Week</div>
+        <div class="ov-val">Week 1</div>
+      </div>
+      <div class="ov-item">
+        <div class="ov-key">Coach</div>
+        <div class="ov-val">JJ Hernandez</div>
+      </div>
+      <div class="ov-item">
+        <div class="ov-key">Focus</div>
+        <div class="ov-val">Baseline, Environment, Motivation</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 1: Scale -->
+  <div class="section-label">Concept 1 — The Scale of Consciousness</div>
+  <div class="concept-block">
+    <div class="concept-body">
+      From the book <strong>Power vs. Force</strong> (and expanded in <strong>Letting Go</strong>), every person operates from a default emotional baseline — a level they naturally return to when nothing external is pushing them up or pulling them down. This is not mindset or meditation. This is just how you operate, and it shapes everything: how you show up on calls, how you respond to rejection, how you connect with people.<br><br>
+      The levels from highest to lowest:
+    </div>
+    <div class="scale">
+      <div class="scale-row">
+        <div class="scale-item">
+          <div class="scale-level high">Love / Joy</div>
+          <div class="scale-desc active-desc">Everybody gravitates to this person. Easy to talk to. Sees the good in everyone.</div>
+        </div>
+        <div class="scale-item">
+          <div class="scale-level mid">Reason / Acceptance</div>
+          <div class="scale-desc">Very practical. Focused on understanding why things happen. Logical, grounded.</div>
+        </div>
+        <div class="scale-item active">
+          <div class="scale-level high">Neutrality / Willingness</div>
+          <div class="scale-desc active-desc">Neutral about outcomes. Willing to take steps. Doesn't over-attach or over-react.</div>
+          <div class="you-tag">Your Baseline</div>
+        </div>
+        <div class="scale-item">
+          <div class="scale-level mid">Courage</div>
+          <div class="scale-desc">Willing to take action even when uncertain. A step above neutral.</div>
+        </div>
+        <div class="scale-item">
+          <div class="scale-level low">Pride / Anger / Desire / Fear</div>
+          <div class="scale-desc">Most sales reps land here. Afraid of losing their job, angry at their results, desiring money, prideful about being right.</div>
+        </div>
+        <div class="scale-item">
+          <div class="scale-level low">Grief / Apathy / Guilt / Shame</div>
+          <div class="scale-desc">Usually temporary. After a breakup, a bad week, an embarrassing moment. Nobody stays here long — and you should not stay here.</div>
+        </div>
+      </div>
+    </div>
+    <div class="callout">
+      Your baseline is Neutrality and Willingness — that is a strong place to start. You don't hold onto things. You bounce back fast. And you're already moving toward something instead of away from something.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 2: What moves you -->
+  <div class="section-label">Concept 2 — What Moves You Up and Down</div>
+  <div class="concept-block">
+    <div class="concept-body">
+      Knowing your baseline is step one. Knowing what elevates you and what drops you is how you start managing your state deliberately — so you are not at the mercy of circumstance on a sales call.
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px;">
+      <div style="background: #020f08; border: 1px solid #0d2b1a; border-radius: 10px; padding: 16px 18px;">
+        <div style="font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #1a4a2a; margin-bottom: 10px;">What Brings You Up</div>
+        <div style="font-size: 13.5px; color: #555; line-height: 1.75;">
+          <strong style="color: #4ade80;">Seeing growth.</strong><br>
+          Not money specifically — growth. Momentum. Feeling like things are moving. When you see progress happening, you operate at your best.
+        </div>
+      </div>
+      <div style="background: #080600; border: 1px solid #1a1200; border-radius: 10px; padding: 16px 18px;">
+        <div style="font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #3a2a00; margin-bottom: 10px;">What Can Bring You Down</div>
+        <div style="font-size: 13.5px; color: #555; line-height: 1.75;">
+          <strong style="color: #f59e0b;">Things out of your control.</strong><br>
+          You acknowledged this yourself (truck example). The key — you already bounce back fast. That is the skill. Keep building that.
+        </div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top: 14px;">
+      As we work together, we will discover more of what moves you up and down in a sales context specifically — interviews that go sideways, calls where you feel lost, weeks where you're on fire. We will track all of it.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 3: Push vs Pull -->
+  <div class="section-label">Concept 3 — Push vs. Pull Motivation</div>
+  <div class="concept-block">
+    <div class="concept-body">
+      Two types of motivation exist. Most people operate from <strong>push</strong> — they're running from something. Proving people wrong, escaping a situation, trying to show they are worth something. That fuel burns out.<br><br>
+      <strong>Pull motivation</strong> is different. You are so moved by a future you actually want that it pulls you toward it regardless of circumstance. It doesn't need a reason. It doesn't need external pressure.
+    </div>
+    <div class="callout">
+      Your pull is retiring your mom. That is not a goal — that is an identity. Everything you are doing is rooted in that. That kind of pull is rare and it will carry you further than money ever will.
+    </div>
+    <div class="callout callout-amber" style="margin-top: 8px;">
+      You have some push too — the environment you grew up in, what you have seen, what you don't want to become. That is fine. Push can serve you. Just make sure it's the pull that leads.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 4: Environment -->
+  <div class="section-label">Concept 4 — Your Environment</div>
+  <div class="concept-block">
+    <div class="concept-body">
+      Your environment is the makeup of your reality. It does not matter if your roommates are bad people — if they are not operating at the level you want to operate at, being around them all day has an effect on you whether you notice it or not.<br><br>
+      This is not about cutting people off. It is about being intentional with the space you are in when you are working.
+    </div>
+    <div class="callout">
+      Create a space you control. Where you work, what surrounds you when you are on calls, what you consume. Sales is the only industry where the more you work on it, the more it works on you. That means your environment matters more here than almost anywhere else.
+    </div>
+    <div class="callout callout-white" style="margin-top: 8px;">
+      "Reality doesn't matter. Your perception of reality does."
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 5: Time, attention, energy -->
+  <div class="section-label">Concept 5 — Time, Attention, and Energy</div>
+  <div class="concept-block">
+    <div class="concept-body">
+      Where your time and attention go is where your energy goes. And where your energy goes determines what you actually have capacity to do in the world.<br><br>
+      This is not about hustle. It's about being honest with yourself. Are you thinking about debt all day? Your job? Freedom? A person? Whatever occupies the most mental real estate is what your energy is already funding — whether you wanted it to or not.
+    </div>
+    <div class="callout">
+      You said your time and attention mostly goes to work — and that even though you dislike your job, you still want to perform well in it. That says a lot about your character. It also means the thought of something better is already feeding you, not draining you. That is a strong signal.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Ryley profile -->
+  <div class="profile">
+    <div class="section-label">What JJ Knows About You — Week 1</div>
+    <div class="profile-row">
+      <div class="profile-item">
+        <div class="profile-dot"></div>
+        <div class="profile-text"><strong>Baseline:</strong> Neutrality and Willingness. You don't over-attach, you bounce back fast, and you're already oriented toward growth.</div>
+      </div>
+      <div class="profile-item">
+        <div class="profile-dot"></div>
+        <div class="profile-text"><strong>Core driver:</strong> Retiring your mom. That is a pull motivation. It is genuine and it is yours — not a tactic, not a goal you set because someone told you to.</div>
+      </div>
+      <div class="profile-item">
+        <div class="profile-dot"></div>
+        <div class="profile-text"><strong>Background:</strong> Grew up with just your mom. Dad was absent — addiction, jail, streets. You are not repeating that story. You are flipping it.</div>
+      </div>
+      <div class="profile-item">
+        <div class="profile-dot"></div>
+        <div class="profile-text"><strong>Current situation:</strong> Working a job you don't love but still performing. Your boss noticed you're not happy. The job is feeding your hunger to leave, not draining it — that's the right relationship to have with it for now.</div>
+      </div>
+      <div class="profile-item">
+        <div class="profile-dot"></div>
+        <div class="profile-text"><strong>Environment:</strong> Lower level. Roommates don't have the same drive. We will work with this — no need to blow anything up, just stay intentional with where you are when you work.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- JJ quote -->
+  <div class="jj-note">
+    <div class="section-label">On the Job Question</div>
+    <div class="jj-say">"I'm not saying you need to quit your job. I would never make you jeopardize your livelihood. But there will come a point where we need a timeline. You cannot serve two masters forever. What I want to see is you performing from clarity, not confusion. Once you're making 5K in a week consistently, that's when we start having the real conversation about what's next."</div>
+    <div class="jj-say-attr">— JJ Hernandez</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Action items -->
+  <div class="actions">
+    <div class="section-label">Your Action Items — Before Week 2</div>
+    <div class="action-list">
+      <div class="action-item">
+        <div class="a-num">01</div>
+        <div class="a-content">
+          <div class="a-title">Reflect on your baseline</div>
+          <div class="a-desc">Write down or think through: what are the 2-3 specific things that consistently move you up to love and joy? What are the things that pull you down below neutrality? Be honest — we'll use this going forward.</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="a-num">02</div>
+        <div class="a-content">
+          <div class="a-title">Look at your environment</div>
+          <div class="a-desc">Where are you when you are working or studying? Is that space pulling you up or down? Even small changes — a clean desk, separate space, no distractions — start there.</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="a-num">03</div>
+        <div class="a-content">
+          <div class="a-title">Work through the Week 1 curriculum</div>
+          <div class="a-desc">Do not rush. Week 2 opens after this call. Slow down, absorb it, and come to next week's session with questions. The first 2-3 weeks are about building the foundation — not rushing to apply.</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="a-num">04</div>
+        <div class="a-content">
+          <div class="a-title">Put JJ and your dad in a group chat</div>
+          <div class="a-desc">Your dad is interested in sales and is currently between opportunities. JJ offered to help him — add JJ directly and he will take it from there.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logistics -->
+  <div class="logistics">
+    <div class="section-label">How This Works</div>
+    <div class="logistics-grid">
+      <div class="log-item">
+        <div class="log-key">Fastest Way to Reach JJ</div>
+        <div class="log-val">Circle community — he will respond there first.</div>
+      </div>
+      <div class="log-item">
+        <div class="log-key">Urgent? Call Directly</div>
+        <div class="log-val">Interview coming up and don't know what to do — just call. JJ will always answer.</div>
+      </div>
+      <div class="log-item">
+        <div class="log-key">Curriculum Cadence</div>
+        <div class="log-val">Weekly drip. Week 2 opens after this call. Don't rush — pace yourself the first 2-3 weeks.</div>
+      </div>
+      <div class="log-item">
+        <div class="log-key">When We Start Applying</div>
+        <div class="log-val">Week 3. You will have the foundation you need by then. No need to rush it before.</div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
