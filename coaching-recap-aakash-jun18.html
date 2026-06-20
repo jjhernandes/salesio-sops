@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coaching Recap — Aakash Sudhar — Week 1</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.6; padding: 52px 64px 100px; max-width: 860px; margin: 0 auto; }
+
+    .eye { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #333; margin-bottom: 12px; }
+    h1 { font-size: 38px; font-weight: 900; letter-spacing: -1px; line-height: 1.05; margin-bottom: 10px; }
+    .sub { font-size: 14px; color: #444; margin-bottom: 52px; }
+
+    .divider { height: 1px; background: #0a0a0a; margin: 40px 0; }
+    .section-label { font-size: 10px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #333; margin-bottom: 16px; }
+
+    /* Concept blocks */
+    .concept { margin-bottom: 40px; }
+    .concept-title { font-size: 17px; font-weight: 800; color: #eee; letter-spacing: -0.3px; margin-bottom: 8px; }
+    .concept-body { font-size: 13.5px; color: #555; line-height: 1.85; }
+    .concept-body strong { color: #888; font-weight: 600; }
+
+    .callout { background: #050505; border-left: 3px solid #1a4a2a; border-radius: 0 8px 8px 0; padding: 14px 18px; margin-top: 12px; font-size: 13.5px; color: #4ade80; line-height: 1.75; }
+    .callout-amber { border-left-color: #3a2800; color: #f59e0b; }
+    .callout-white { border-left-color: #111; color: #555; font-style: italic; }
+    .callout-blue { border-left-color: #1a2a4a; color: #7ab3ff; }
+
+    /* Archetype grid */
+    .archetype-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+    .arch-card { background: #050505; border: 1px solid #0f0f0f; border-radius: 10px; padding: 16px 18px; }
+    .arch-name { font-size: 13px; font-weight: 800; color: #888; margin-bottom: 4px; }
+    .arch-desc { font-size: 12.5px; color: #444; line-height: 1.6; }
+    .arch-card.hero { border-color: #0d2b1a; }
+    .arch-card.hero .arch-name { color: #4ade80; }
+    .arch-card.you-tag-card { border-color: #1a2a4a; }
+    .arch-card.you-tag-card .arch-name { color: #7ab3ff; }
+
+    /* Scale */
+    .scale { background: #050505; border: 1px solid #111; border-radius: 12px; padding: 22px 26px; margin-top: 14px; }
+    .scale-row { display: flex; flex-direction: column; gap: 6px; }
+    .scale-item { display: flex; gap: 14px; align-items: center; padding: 8px 12px; border-radius: 7px; }
+    .scale-item.active { background: #020f08; border: 1px solid #0d2b1a; }
+    .scale-item.warning { background: #080500; border: 1px solid #1a1000; }
+    .scale-level { font-size: 12px; font-weight: 800; width: 110px; flex-shrink: 0; }
+    .scale-level.high { color: #4ade80; }
+    .scale-level.mid { color: #777; }
+    .scale-level.mid2 { color: #555; }
+    .scale-level.low { color: #333; }
+    .scale-desc { font-size: 12.5px; color: #444; line-height: 1.5; flex: 1; }
+    .scale-desc.active-desc { color: #666; }
+    .scale-tag { font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 5px; margin-left: auto; flex-shrink: 0; white-space: nowrap; }
+    .tag-green { color: #4ade80; background: #050f08; border: 1px solid #0d2b1a; }
+    .tag-amber { color: #f59e0b; background: #0a0500; border: 1px solid #2a1800; }
+
+    /* Split grid */
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+    .split-card { border-radius: 10px; padding: 16px 18px; }
+    .split-card.up { background: #020f08; border: 1px solid #0d2b1a; }
+    .split-card.down { background: #080500; border: 1px solid #1a1200; }
+    .split-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .split-label.green { color: #1a4a2a; }
+    .split-label.amber { color: #3a2a00; }
+    .split-body { font-size: 13px; color: #555; line-height: 1.7; }
+    .split-body strong { font-weight: 600; }
+    .split-body.green strong { color: #4ade80; }
+    .split-body.amber strong { color: #f59e0b; }
+
+    /* Profile */
+    .profile { background: #020806; border: 1px solid #0d1a0d; border-radius: 12px; padding: 24px 28px; margin-bottom: 48px; }
+    .profile-row { display: flex; flex-direction: column; gap: 8px; }
+    .profile-item { display: flex; gap: 14px; padding: 10px 14px; background: #000; border: 1px solid #0a0a0a; border-radius: 8px; align-items: flex-start; }
+    .p-dot { width: 6px; height: 6px; border-radius: 50%; background: #1a4a2a; margin-top: 6px; flex-shrink: 0; }
+    .p-text { font-size: 13.5px; color: #666; line-height: 1.65; }
+    .p-text strong { color: #999; font-weight: 600; }
+
+    /* JJ note */
+    .jj-note { background: #080600; border: 1px solid #1a1200; border-radius: 12px; padding: 22px 26px; margin-bottom: 48px; }
+    .jj-say { font-size: 13.5px; color: #8a7a50; line-height: 1.8; font-style: italic; }
+    .jj-say-attr { font-size: 11px; font-weight: 700; color: #3a2a00; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 10px; }
+
+    /* Actions */
+    .actions { background: #050505; border: 1px solid #0f0f0f; border-radius: 12px; padding: 24px 28px; margin-bottom: 48px; }
+    .action-list { display: flex; flex-direction: column; gap: 8px; }
+    .action-item { display: flex; gap: 14px; background: #000; border: 1px solid #0d0d0d; border-radius: 8px; padding: 14px 16px; align-items: flex-start; }
+    .a-num { font-size: 11px; font-weight: 800; color: #1a4a2a; flex-shrink: 0; width: 20px; margin-top: 2px; }
+    .a-title { font-size: 14px; font-weight: 700; color: #ddd; margin-bottom: 3px; }
+    .a-desc { font-size: 13px; color: #555; line-height: 1.6; }
+
+    /* Logistics */
+    .logistics { background: #050505; border: 1px solid #111; border-radius: 12px; padding: 22px 26px; margin-bottom: 48px; }
+    .log-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .log-item { background: #000; border: 1px solid #0a0a0a; border-radius: 8px; padding: 12px 14px; }
+    .log-key { font-size: 10px; font-weight: 700; color: #333; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; }
+    .log-val { font-size: 13px; color: #666; line-height: 1.6; }
+
+    @media (max-width: 640px) {
+      body { padding: 32px 20px 80px; }
+      h1 { font-size: 26px; }
+      .archetype-grid { grid-template-columns: 1fr; }
+      .split { grid-template-columns: 1fr; }
+      .log-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="eye">Sales.io — Coaching Recap</div>
+  <h1>Aakash Sudhar<br>Week 1 Session</h1>
+  <div class="sub">June 18, 2026 &nbsp;·&nbsp; JJ Hernandez &nbsp;·&nbsp; Narratives, Baseline + Environment</div>
+
+  <div class="divider"></div>
+
+  <!-- Concept 1: Woo vs Do -->
+  <div class="concept">
+    <div class="section-label">On the Program — Why It's Built This Way</div>
+    <div class="concept-title">The Balance Between Conceptual and Tactical</div>
+    <div class="concept-body">
+      You came in expecting it to be more tactical — frameworks, scripts, process. And it will get there. But there's a reason it starts here.<br><br>
+      If we're <strong>too deep in the conceptual</strong>, you're floating on a mountain meditating and none of it connects to a sale. If we're <strong>too deep in the tactical</strong>, you start ignoring emotions and psychology — yours and theirs — and you become mechanical. Mechanical closers hit ceilings fast.<br><br>
+      The blend is what makes it stick. There will be sessions where we go straight into call reviews and deep tactical work. There will be sessions where we need to understand what's happening with you internally, because the gap isn't knowledge — it's something else. You'll know the difference as we go.
+    </div>
+    <div class="callout callout-white" style="margin-top: 12px;">
+      "If it's too much woo, you're meditating on a mountain. Too much do, and you neglect the feelings that make sales actually work."
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Concept 2: Narratives -->
+  <div class="concept">
+    <div class="section-label">Concept 1 — The Story You're Living Into</div>
+    <div class="concept-title">Narrative Archetypes</div>
+    <div class="concept-body">
+      We think in stories. You are the main character of your life — that much is true. But the more important question is: <strong>what is the narrative you are living into?</strong><br><br>
+      Every person operates from an underlying story. It shapes what drives you, what bothers you, what you're chasing, and how you show up. Most people have never named it. When you can name it, you can work with it.
+    </div>
+    <div class="archetype-grid">
+      <div class="arch-card hero">
+        <div class="arch-name">The Hero</div>
+        <div class="arch-desc">Working on themselves to grow, build, create impact. Motivated by becoming something — for family, for legacy, for the people around them. About 70% of entrepreneurs. JJ's archetype.</div>
+      </div>
+      <div class="arch-card">
+        <div class="arch-name">The Rebel</div>
+        <div class="arch-desc">Breaking the matrix, my way or the highway. Everybody else is asleep. Intense, prideful, anti-mainstream. Sales guys who hate "mindset talk" and just want to execute.</div>
+      </div>
+      <div class="arch-card">
+        <div class="arch-name">The Explorer</div>
+        <div class="arch-desc">Rooted in novelty. Always somewhere new, always trying something different. Looking for the thing that finally feels like home — but the search never ends.</div>
+      </div>
+      <div class="arch-card">
+        <div class="arch-name">The Underdog / Sage</div>
+        <div class="arch-desc">Either proving something to people who doubted them, or using past pain as a why — trying to make sure nobody else goes through what they did.</div>
+      </div>
+    </div>
+    <div class="callout" style="margin-top: 14px;">
+      You don't have to have one for life. These shift. But you need to know what story is running right now — because if you don't, it runs you.
+    </div>
+    <div class="callout callout-amber" style="margin-top: 8px;">
+      Watch for the Hero vs. Rebel split on your calls. Rebel prospects push back hard. Hero prospects are looking to become something. The same pitch hits them differently.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Concept 3: Baseline -->
+  <div class="concept">
+    <div class="section-label">Concept 2 — Map of Consciousness</div>
+    <div class="concept-title">Your Baseline and What Moves You</div>
+    <div class="concept-body">
+      You said you fluctuate between Willingness and Pride. That's an honest read. Here's where things stand on the scale, and where JJ wants you operating.
+    </div>
+    <div class="scale">
+      <div class="scale-row">
+        <div class="scale-item">
+          <div class="scale-level high">Love / Joy</div>
+          <div class="scale-desc">Everybody gravitates to this person. Operates from abundance and genuine care.</div>
+        </div>
+        <div class="scale-item">
+          <div class="scale-level high">Reason</div>
+          <div class="scale-desc active-desc">There's a reason for everything. Sees pain and behavior as cause-and-effect. JJ's stated floor — he doesn't go below this.</div>
+          <div class="scale-tag tag-green">Target Floor</div>
+        </div>
+        <div class="scale-item">
+          <div class="scale-level mid">Acceptance</div>
+          <div class="scale-desc">Can see things as they are. Forgiveness comes easier here.</div>
+        </div>
+        <div class="scale-item active">
+          <div class="scale-level mid">Neutrality / Courage</div>
+          <div class="scale-desc active-desc">Willing to take steps without over-attaching to outcomes. JJ's target range for you.</div>
+          <div class="scale-tag tag-green">Your Range</div>
+        </div>
+        <div class="scale-item warning">
+          <div class="scale-level mid2">Pride</div>
+          <div class="scale-desc">I'm right, you're wrong. Something to prove. Can still perform here, but it's fragile — one bad week can spiral.</div>
+          <div class="scale-tag tag-amber">Watch This</div>
+        </div>
+        <div class="scale-item">
+          <div class="scale-level low">Anger / Fear / Desire</div>
+          <div class="scale-desc">Most reps land here. Reactive, chasing, afraid to lose.</div>
+        </div>
+        <div class="scale-item">
+          <div class="scale-level low">Grief / Shame / Apathy</div>
+          <div class="scale-desc">Temporary. Nobody stays here long — but it's where the damage happens when fluctuation gets extreme.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- What moves you -->
+  <div class="concept">
+    <div class="section-label">What Moves You Up and Down</div>
+    <div class="concept-title">Your Specific Triggers</div>
+    <div class="split">
+      <div class="split-card up">
+        <div class="split-label green">What Brings You Up</div>
+        <div class="split-body green">
+          <strong>Fresh starts. Anticipation. Novelty.</strong><br>
+          The feeling of a new chapter — new school, new course, new skill. Looking forward to something. The feeling that things are moving and you are choosing the direction.
+        </div>
+      </div>
+      <div class="split-card down">
+        <div class="split-label amber">What Drops You to Pride</div>
+        <div class="split-body amber">
+          <strong>Feeling underestimated.</strong><br>
+          When grades were bad. When parents' expectations fell. When people doubted you. That "I'll show them" energy kicks in — it's not always bad, but it's push motivation, not pull. Watch when this is the main driver.
+        </div>
+      </div>
+    </div>
+    <div class="callout" style="margin-top: 12px;">
+      The dangerous place is not Pride itself — it's fluctuation. When you bounce between Pride and Willingness week to week, your calls feel unstable, your decisions feel unstable, and you feel unstable. The goal is a stable floor, not a perfect score.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Reason as a floor -->
+  <div class="concept">
+    <div class="section-label">Concept 3 — How to Use Reason as Your Floor</div>
+    <div class="concept-title">There's Always a Reason</div>
+    <div class="concept-body">
+      JJ said he never goes below Reason — not on calls, not in arguments, not in difficult moments. Here's how the shift actually happens in practice:<br><br>
+      <strong>On a sales call:</strong> A prospect comes in hot — "what is this call even about?" Instead of reacting, the question is: what's the reason they're saying that? Bad past experience. Skepticism. Fear of being pitched again. Once you see the reason, the emotion stops being directed at you and starts being information you can work with.<br><br>
+      <strong>On yourself:</strong> If something bothers you — a peer's success, a comment someone makes, a result you didn't expect — ask what's the reason. The answer usually tells you more about where you need to grow than the thing itself does.<br><br>
+      You said you already do this sometimes, intuitively. It's just not your default first move yet. That's what we're building toward.
+    </div>
+    <div class="callout callout-blue" style="margin-top: 12px;">
+      When you see people's pain first, their behavior makes sense. An aggressive question on a call isn't about you — it's about every bad experience they had before you. Lead with that lens.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Profile -->
+  <div class="profile">
+    <div class="section-label">What JJ Knows About You — Week 1</div>
+    <div class="profile-row">
+      <div class="profile-item">
+        <div class="p-dot"></div>
+        <div class="p-text"><strong>Current chapter:</strong> Coming out of a difficult two-year stretch — national service, retaking an exam, feeling stuck. That period operating in survival range. Now you're entering a fresh start, which is genuinely where your energy lives.</div>
+      </div>
+      <div class="profile-item">
+        <div class="p-dot"></div>
+        <div class="p-text"><strong>Baseline range:</strong> Willingness to Pride. The target is to stabilize at courage/neutrality and build Reason as a consistent floor — not just something you visit.</div>
+      </div>
+      <div class="profile-item">
+        <div class="p-dot"></div>
+        <div class="p-text"><strong>Pride trigger:</strong> Feeling underestimated or doubted — by parents, teachers, peers. The desire to prove it is real. The work is moving that from push motivation to pull, so it doesn't require someone to doubt you first.</div>
+      </div>
+      <div class="profile-item">
+        <div class="p-dot"></div>
+        <div class="p-text"><strong>Environment:</strong> Dad and brother are supportive. Mom is traditional — pushes conventional paths. You've already learned the reason for her perspective (it's all she knows), and you've stopped letting it pull you down. That's a mature read.</div>
+      </div>
+      <div class="profile-item">
+        <div class="p-dot"></div>
+        <div class="p-text"><strong>Procrastination:</strong> Not severe. Getting better. Social media is the main distraction. JJ flagged it but didn't flag it as a serious concern — just something to stay honest about.</div>
+      </div>
+      <div class="profile-item">
+        <div class="p-dot"></div>
+        <div class="p-text"><strong>Intention and Clarity:</strong> You named this yourself as an area you weren't sure on. That's the next thing we're building. The exercises JJ sent you will help.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- JJ note -->
+  <div class="jj-note">
+    <div class="section-label">JJ on Why the Program Teaches This First</div>
+    <div class="jj-say">"Some sales leaders just give you subjective advice — this worked for me once, therefore it should work for everyone. I don't do that. I give you perspectives. You decide which one fits. Because the thing is, we all think in narratives, and your narrative is yours. I'm going to help you figure out what story you're living into, and then we build from there."</div>
+    <div class="jj-say-attr">— JJ Hernandez</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Actions -->
+  <div class="actions">
+    <div class="section-label">Action Items — Before Week 2</div>
+    <div class="action-list">
+      <div class="action-item">
+        <div class="a-num">01</div>
+        <div>
+          <div class="a-title">Complete the Intention and Clarity exercise JJ sent in chat</div>
+          <div class="a-desc">Run through it, fill it out, and send JJ a copy. This is what gives clarity on what you're actually working toward. Don't skip this — it feeds directly into the next session.</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="a-num">02</div>
+        <div>
+          <div class="a-title">Observe what moves you up and down this week — write it down</div>
+          <div class="a-desc">Don't just notice it in the moment — capture it. What specifically elevated you? What dropped you? What was the reason behind it? Bring that to the next session.</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="a-num">03</div>
+        <div>
+          <div class="a-title">Practice the Reason framework in daily life</div>
+          <div class="a-desc">When something bothers you or someone says something that lands wrong — ask: what's the reason? Do this for other people's behavior AND your own reactions. You already do this sometimes. Make it your first move.</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="a-num">04</div>
+        <div>
+          <div class="a-title">Go through the group coaching recordings at your own pace</div>
+          <div class="a-desc">Live calls are ideal but recordings are just as effective. Watch them when you have the right headspace — not as background noise. JJ confirmed this directly.</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="a-num">05</div>
+        <div>
+          <div class="a-title">Hold off on mock calls for now</div>
+          <div class="a-desc">JJ said not yet. Focus on the execution steps from this session and Week 1 modules first. Mock calls come once the foundation is in place — rushing them before that doesn't help.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logistics -->
+  <div class="logistics">
+    <div class="section-label">How to Stay Connected</div>
+    <div class="log-grid">
+      <div class="log-item">
+        <div class="log-key">Fastest Way to Reach JJ</div>
+        <div class="log-val">Circle — he checks it throughout the day and will respond there first.</div>
+      </div>
+      <div class="log-item">
+        <div class="log-key">Group Coaching Calls</div>
+        <div class="log-val">Check the calendar. If the time doesn't work due to timezone, recordings are just as effective — confirmed by JJ.</div>
+      </div>
+      <div class="log-item">
+        <div class="log-key">What to Send JJ</div>
+        <div class="log-val">Your completed Intention and Clarity exercise. Send it when done — JJ will review and help you go deeper on anything that's unclear.</div>
+      </div>
+      <div class="log-item">
+        <div class="log-key">What's Next</div>
+        <div class="log-val">Week 2 opens on schedule. Focus on observation and the intention exercise before then.</div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
