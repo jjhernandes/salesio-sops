@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coaching Recap — Josh Maass — Call Review Session</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.6; padding: 52px 64px 100px; max-width: 860px; margin: 0 auto; }
+
+    .eye { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #333; margin-bottom: 12px; }
+    h1 { font-size: 38px; font-weight: 900; letter-spacing: -1px; line-height: 1.05; margin-bottom: 10px; }
+    .sub { font-size: 14px; color: #444; margin-bottom: 52px; }
+
+    .divider { height: 1px; background: #0a0a0a; margin: 40px 0; }
+    .section-label { font-size: 10px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #333; margin-bottom: 16px; }
+
+    /* Data cards */
+    .data-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 48px; }
+    .data-card { background: #050505; border: 1px solid #111; border-radius: 10px; padding: 16px 18px; }
+    .data-label { font-size: 10px; font-weight: 700; color: #333; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .data-val { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; }
+    .data-val.green { color: #4ade80; }
+    .data-val.amber { color: #f59e0b; }
+    .data-val.muted { color: #555; }
+    .data-note { font-size: 11px; color: #333; margin-top: 4px; }
+
+    /* Context callout */
+    .context-box { background: #050505; border: 1px solid #111; border-radius: 12px; padding: 22px 26px; margin-bottom: 48px; }
+    .context-body { font-size: 13.5px; color: #555; line-height: 1.8; }
+    .context-body strong { color: #888; font-weight: 600; }
+
+    /* Coaching moments */
+    .moment { background: #050505; border: 1px solid #0f0f0f; border-radius: 12px; padding: 24px 28px; margin-bottom: 16px; }
+    .moment-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 16px; }
+    .moment-num { font-size: 28px; font-weight: 900; color: #111; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+    .moment-title { font-size: 17px; font-weight: 800; color: #ddd; letter-spacing: -0.3px; line-height: 1.25; }
+    .moment-sub { font-size: 12px; color: #333; margin-top: 3px; }
+    .moment-body { font-size: 13.5px; color: #555; line-height: 1.8; margin-bottom: 14px; }
+    .moment-body strong { color: #888; font-weight: 600; }
+
+    .rule-block { background: #000; border-left: 3px solid #1a4a2a; border-radius: 0 8px 8px 0; padding: 14px 18px; margin-top: 10px; }
+    .rule-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: #1a4a2a; margin-bottom: 6px; }
+    .rule-text { font-size: 13.5px; color: #4ade80; line-height: 1.7; }
+
+    .question-block { background: #000; border-left: 3px solid #2a1800; border-radius: 0 8px 8px 0; padding: 14px 18px; margin-top: 10px; }
+    .question-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: #3a2a00; margin-bottom: 6px; }
+    .question-text { font-size: 13.5px; color: #f59e0b; line-height: 1.75; font-style: italic; }
+
+    .insight-block { background: #000; border-left: 3px solid #1a1a40; border-radius: 0 8px 8px 0; padding: 14px 18px; margin-top: 10px; }
+    .insight-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: #2a2a50; margin-bottom: 6px; }
+    .insight-text { font-size: 13.5px; color: #888; line-height: 1.75; }
+
+    /* The framework summary */
+    .framework { background: #020806; border: 1px solid #0d1a0d; border-radius: 12px; padding: 24px 28px; margin-bottom: 48px; }
+    .framework-title { font-size: 16px; font-weight: 800; color: #ccc; margin-bottom: 4px; }
+    .framework-sub { font-size: 12px; color: #333; margin-bottom: 18px; }
+    .fw-steps { display: flex; flex-direction: column; gap: 8px; }
+    .fw-step { display: flex; gap: 16px; padding: 12px 16px; background: #000; border: 1px solid #0a0a0a; border-radius: 8px; align-items: flex-start; }
+    .fw-num { font-size: 11px; font-weight: 800; color: #1a4a2a; flex-shrink: 0; width: 18px; margin-top: 2px; }
+    .fw-name { font-size: 13px; font-weight: 700; color: #888; margin-bottom: 2px; }
+    .fw-desc { font-size: 12.5px; color: #444; line-height: 1.6; }
+
+    /* Actions */
+    .actions { background: #050505; border: 1px solid #0f0f0f; border-radius: 12px; padding: 24px 28px; margin-bottom: 48px; }
+    .action-list { display: flex; flex-direction: column; gap: 8px; }
+    .action-item { display: flex; gap: 14px; background: #000; border: 1px solid #0d0d0d; border-radius: 8px; padding: 14px 16px; align-items: flex-start; }
+    .a-num { font-size: 11px; font-weight: 800; color: #1a4a2a; flex-shrink: 0; width: 20px; margin-top: 2px; }
+    .a-title { font-size: 14px; font-weight: 700; color: #ddd; margin-bottom: 3px; }
+    .a-desc { font-size: 13px; color: #555; line-height: 1.6; }
+
+    /* JJ note */
+    .jj-note { background: #080600; border: 1px solid #1a1200; border-radius: 12px; padding: 22px 26px; margin-bottom: 48px; }
+    .jj-say { font-size: 13.5px; color: #8a7a50; line-height: 1.8; font-style: italic; }
+    .jj-say-attr { font-size: 11px; font-weight: 700; color: #3a2a00; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 10px; }
+
+    @media (max-width: 640px) {
+      body { padding: 32px 20px 80px; }
+      h1 { font-size: 26px; }
+      .data-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="eye">Sales.io — Coaching Recap</div>
+  <h1>Josh Maass<br>Call Review Session</h1>
+  <div class="sub">June 17, 2026 &nbsp;·&nbsp; JJ Hernandez &nbsp;·&nbsp; Pierre Call Review + Process Framework</div>
+
+  <!-- Numbers -->
+  <div class="section-label">Where You Stand This Month</div>
+  <div class="data-grid">
+    <div class="data-card">
+      <div class="data-label">Cash Collected</div>
+      <div class="data-val green">$35.2K</div>
+      <div class="data-note">Tracker may undercount actual</div>
+    </div>
+    <div class="data-card">
+      <div class="data-label">Pitch Rate</div>
+      <div class="data-val amber">45%</div>
+      <div class="data-note">55% of shows not pitch-worthy</div>
+    </div>
+    <div class="data-card">
+      <div class="data-label">Offer-to-Close</div>
+      <div class="data-val green">50%</div>
+      <div class="data-note">Of those you actually pitch</div>
+    </div>
+    <div class="data-card">
+      <div class="data-label">Team Revenue</div>
+      <div class="data-val muted">~$500K</div>
+      <div class="data-note">Down across the whole team</div>
+    </div>
+  </div>
+
+  <div class="context-box">
+    <div class="section-label">Context on the Numbers</div>
+    <div class="context-body">
+      The lead quality issue is real — it's not just you. Two other closers on your team reported the same thing, and their cash collected is also down. The team as a whole is well below where it should be this month. <strong>This is a systemic lead quality problem, not a you problem.</strong><br><br>
+      Here is the key thing the data actually tells us: when you pitch someone who is genuinely qualified, you close 50% of them. That close rate is strong. The issue is that you are only pitching 45% of the people who show. That is where the real leverage is — not getting better at closing, but getting better at <strong>knowing who is worth pitching sooner in the conversation</strong>, and squeezing more signal out of the people who do show.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Call Review -->
+  <div class="section-label">The Pierre Call — What We Covered</div>
+
+  <div class="moment">
+    <div class="moment-header">
+      <div class="moment-num">01</div>
+      <div>
+        <div class="moment-title">When the Prospect Is Already Problem-Aware — Don't Over-Dig</div>
+        <div class="moment-sub">Where it happened in the call</div>
+      </div>
+    </div>
+    <div class="moment-body">
+      Pierre told you upfront: he invested money in a program that did nothing, made barely $200/month after everything, and is ready to dump them. He is not unaware of his problem — he has been living it.<br><br>
+      A lot of reps burn time digging into pain that has already been fully surfaced. When the prospect does your job for you like this, <strong>the work shifts immediately to solution awareness</strong> — why this, why now, why us, and what makes it different this time.
+    </div>
+    <div class="rule-block">
+      <div class="rule-label">The Rule</div>
+      <div class="rule-text">If they can articulate their own problem clearly and with emotion, stop digging. Move to: why are they still looking? What would make them confident this is different?</div>
+    </div>
+  </div>
+
+  <div class="moment">
+    <div class="moment-header">
+      <div class="moment-num">02</div>
+      <div>
+        <div class="moment-title">You Never Kill the Resistance — So It Came Back Later</div>
+        <div class="moment-sub">The skepticism moment</div>
+      </div>
+    </div>
+    <div class="moment-body">
+      Pierre said it directly: <em>"Now I'm very suspicious of a lot of companies."</em> You acknowledged it — "as you should be" — and kept moving. That is a natural instinct and not wrong. But it left the resistance alive.<br><br>
+      Unaddressed resistance does not disappear. It sits there. It quietly builds. And it shows back up at the end of the call as the reason they don't move forward. When you hear skepticism this specific, you need to stop and cut it before moving into solution.
+    </div>
+    <div class="rule-block">
+      <div class="rule-label">The Rule</div>
+      <div class="rule-text">Two conditions required before moving to solution: (1) the problem is clear, and (2) there is no resistance. If both aren't true, you don't move forward yet.</div>
+    </div>
+    <div class="question-block" style="margin-top: 8px;">
+      <div class="question-label">The Question That Cuts It</div>
+      <div class="question-text">"Hey, that makes total sense — I'd be the same way. When you're making this decision to work with us or another company, what are you looking for that would make that suspicion go away? Like, how are you actually gauging this decision?"</div>
+    </div>
+  </div>
+
+  <div class="moment">
+    <div class="moment-header">
+      <div class="moment-num">03</div>
+      <div>
+        <div class="moment-title">How Are You Gauging This Decision — The Most Powerful Question in the Conversation</div>
+        <div class="moment-sub">What nobody else asks</div>
+      </div>
+    </div>
+    <div class="moment-body">
+      This is not just for resistance. Any time you're in a conversation where the prospect is comparing options, sitting on the fence, or coming from a bad past experience — this is the question.<br><br>
+      Most people do not know how they make decisions. When you ask them to articulate it, you challenge their own perception of their process — and you get a roadmap. If they have four questions, you know the four questions. If it's a vibe check, you know it's about certainty and presence. Either way, you are no longer guessing what the sale requires.
+    </div>
+    <div class="question-block">
+      <div class="question-label">The Question</div>
+      <div class="question-text">"How are you gauging this decision? Like, what gives you the certainty that you're choosing the right company this time around — is it specific answers you're looking for, or more of a feeling?"</div>
+    </div>
+    <div class="insight-block" style="margin-top: 8px;">
+      <div class="insight-label">The Real Truth Behind This</div>
+      <div class="insight-text">Nobody is buying the product. They are buying certainty. They want the "secret sauce" — something that makes them feel like this time is fundamentally different. The secret sauce is a new perspective: a way of looking at their situation they had never seen before. That is all you are giving them.</div>
+    </div>
+  </div>
+
+  <div class="moment">
+    <div class="moment-header">
+      <div class="moment-num">04</div>
+      <div>
+        <div class="moment-title">Go Deeper, Not Lateral — Stay in the Pocket</div>
+        <div class="moment-sub">The most common mistake in your calls right now</div>
+      </div>
+    </div>
+    <div class="moment-body">
+      When Pierre answered a question, you acknowledged it and moved to the next topic. That is a lateral move — you scratched the surface and kept going. The real information is always one layer deeper than what they first say.<br><br>
+      "I don't quit" is not an answer. It's a sentence. The answer is: what does not quitting mean for him specifically? What would he look back on in 6 months and feel proud of? Going deeper on that one thread gives you more to work with than asking five separate questions ever will.
+    </div>
+    <div class="rule-block">
+      <div class="rule-label">The Rule</div>
+      <div class="rule-text">Work in batches of clarity. This makes sense. This doesn't make sense. This makes sense. This doesn't. Every time something doesn't make sense — go deeper. Do not move laterally until you have full clarity on what you are already working with.</div>
+    </div>
+    <div class="question-block" style="margin-top: 8px;">
+      <div class="question-label">The Question That Should Have Been Asked</div>
+      <div class="question-text">"I get that — you've been through it and you're still here. So given that bad experience, what is it about us specifically that made you feel like this one was worth a conversation?"</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Framework summary -->
+  <div class="framework">
+    <div class="section-label">The Process Framework — Where These Moments Fit</div>
+    <div class="framework-title">Problem Awareness → Resistance Check → Solution Awareness → Pitch</div>
+    <div class="framework-sub">You'll see this fully in Week 3. Here's how today's call maps to it.</div>
+    <div class="fw-steps">
+      <div class="fw-step">
+        <div class="fw-num">1</div>
+        <div>
+          <div class="fw-name">Problem Awareness</div>
+          <div class="fw-desc">How well does the prospect understand their own problem? Pierre: fully aware. Save the time you would have spent digging and redirect it to solution.</div>
+        </div>
+      </div>
+      <div class="fw-step">
+        <div class="fw-num">2</div>
+        <div>
+          <div class="fw-name">Resistance Check</div>
+          <div class="fw-desc">Is there any skepticism, past damage, or unresolved tension? If yes — stop and address it. Don't move forward with resistance alive in the room.</div>
+        </div>
+      </div>
+      <div class="fw-step">
+        <div class="fw-num">3</div>
+        <div>
+          <div class="fw-name">Solution Awareness</div>
+          <div class="fw-desc">Does the prospect believe a solution actually exists — and that you might be it? Build this through their own words, not your pitch. Ask what would make this feel different.</div>
+        </div>
+      </div>
+      <div class="fw-step">
+        <div class="fw-num">4</div>
+        <div>
+          <div class="fw-name">Pitch</div>
+          <div class="fw-desc">You only get here when the first three are fully locked in. If you're here and you feel uncertainty — go back. The problem is upstream, not in the close.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JJ quote -->
+  <div class="jj-note">
+    <div class="section-label">JJ's Honest Take</div>
+    <div class="jj-say">"Bro, I can see the progression in your calls. The issue isn't that you can't close — you're at 50% on the ones you actually pitch. The issue is staying in the pocket longer. You're scratching the surface and going lateral when you need to go one layer deeper. Finish Week 3. I think it's gonna click for you. Text me when you're done and we'll build the next call around the process."</div>
+    <div class="jj-say-attr">— JJ Hernandez</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Actions -->
+  <div class="actions">
+    <div class="section-label">Action Items</div>
+    <div class="action-list">
+      <div class="action-item">
+        <div class="a-num">01</div>
+        <div>
+          <div class="a-title">Finish Week 3 curriculum — today or tomorrow</div>
+          <div class="a-desc">Call Foundations, call structure basics, Frame Control. JJ says this is "the week that clicks." Don't wait on it. Text him when you're done.</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="a-num">02</div>
+        <div>
+          <div class="a-title">Add the "how are you gauging this decision" question to every call where resistance is present</div>
+          <div class="a-desc">This is not a memorized line — it's a genuine need for information. When someone is skeptical or comparing options, you need to know their decision criteria before you can close them. Ask it.</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="a-num">03</div>
+        <div>
+          <div class="a-title">On your next call — identify resistance before moving to solution</div>
+          <div class="a-desc">Listen for anything that signals past damage, skepticism, or uncertainty. Do not move to pitch until it's addressed. Practice the resistance check as a checkpoint, not a reactive moment.</div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="a-num">04</div>
+        <div>
+          <div class="a-title">Send JJ the call you just came off of</div>
+          <div class="a-desc">You mentioned you had one right before this session that you thought would be worth reviewing. Send it over. JJ is watching for the process progression on your calls.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
