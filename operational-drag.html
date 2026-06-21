@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Operational Drag — Sales.io</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.6; padding: 52px 64px 100px; max-width: 860px; margin: 0 auto; }
+
+    .eye { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #333; margin-bottom: 12px; }
+    h1 { font-size: 42px; font-weight: 900; letter-spacing: -1.5px; line-height: 1.05; margin-bottom: 10px; }
+    .sub { font-size: 14px; color: #444; margin-bottom: 52px; }
+
+    .divider { height: 1px; background: #0a0a0a; margin: 44px 0; }
+    .section-label { font-size: 10px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #333; margin-bottom: 16px; }
+
+    /* Definition */
+    .definition { font-size: 18px; font-weight: 300; color: #555; line-height: 1.8; margin-bottom: 48px; }
+    .definition strong { color: #eee; font-weight: 700; }
+
+    /* Formula steps */
+    .formula-stack { display: flex; flex-direction: column; gap: 10px; margin-bottom: 48px; }
+    .formula-step { display: flex; align-items: flex-start; gap: 16px; background: #050505; border: 1px solid #0f0f0f; border-radius: 10px; padding: 18px 22px; }
+    .step-num { font-size: 11px; font-weight: 900; color: #1a4a2a; background: #010d04; border-radius: 4px; padding: 3px 7px; flex-shrink: 0; margin-top: 2px; letter-spacing: 0.06em; }
+    .step-body { flex: 1; }
+    .step-title { font-size: 13px; font-weight: 700; color: #888; margin-bottom: 6px; }
+    .step-formula { font-size: 18px; font-weight: 800; color: #4ade80; letter-spacing: -0.3px; margin-bottom: 6px; font-family: 'Inter', monospace; }
+    .step-note { font-size: 12.5px; color: #333; line-height: 1.6; }
+
+    /* Example table */
+    .example-wrap { margin-bottom: 48px; }
+    .example-table { width: 100%; border-collapse: collapse; }
+    .example-table thead tr { border-bottom: 1px solid #0f0f0f; }
+    .example-table th { font-size: 10px; font-weight: 800; color: #333; text-transform: uppercase; letter-spacing: 0.1em; padding: 0 16px 12px; text-align: left; }
+    .example-table th:last-child { text-align: right; }
+    .example-table td { padding: 12px 16px; font-size: 13.5px; border-bottom: 1px solid #050505; vertical-align: top; }
+    .example-table td:last-child { text-align: right; font-weight: 700; }
+    .example-table tr:last-child td { border-bottom: none; }
+    .closer-name { font-weight: 700; color: #eee; display: block; margin-bottom: 2px; }
+    .closer-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+    .tag-top { color: #4ade80; }
+    .tag-mid { color: #888; }
+    .tag-low { color: #f59e0b; }
+    .drag-pos { color: #4ade80; }
+    .drag-neg { color: #f59e0b; }
+    .drag-bench { color: #555; font-style: italic; font-size: 12px; font-weight: 400; }
+
+    /* Benchmark callout */
+    .bench-box { background: #020806; border: 1px solid #0d1a0d; border-radius: 10px; padding: 18px 22px; margin-bottom: 16px; display: flex; align-items: center; gap: 16px; }
+    .bench-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #1a4a2a; }
+    .bench-val { font-size: 28px; font-weight: 900; color: #4ade80; letter-spacing: -1px; }
+    .bench-note { font-size: 12px; color: #333; margin-top: 2px; }
+    .bench-divider { width: 1px; height: 40px; background: #0a1a0a; }
+
+    /* Calendar caveat */
+    .caveat { background: #06060a; border: 1px solid #0d0d1a; border-radius: 12px; padding: 22px 26px; margin-bottom: 48px; }
+    .caveat-label { font-size: 10px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #1a1a3a; margin-bottom: 14px; }
+    .caveat-body { font-size: 13.5px; color: #555; line-height: 1.85; }
+    .caveat-body strong { color: #7ab3ff; font-weight: 600; }
+
+    /* MPG analogy */
+    .analogy { background: #050505; border: 1px solid #0f0f0f; border-radius: 12px; padding: 26px 30px; margin-bottom: 48px; }
+    .analogy-label { font-size: 10px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #333; margin-bottom: 20px; }
+    .analogy-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+    .analogy-card { background: #000; border: 1px solid #0a0a0a; border-radius: 8px; padding: 14px 16px; }
+    .analogy-icon { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; color: #333; }
+    .analogy-sales { font-size: 13px; font-weight: 700; color: #eee; margin-bottom: 4px; }
+    .analogy-ref { font-size: 12px; color: #4ade80; }
+
+    /* What to do with it */
+    .actions-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 48px; }
+    .action-row { display: flex; gap: 14px; background: #050505; border: 1px solid #0f0f0f; border-radius: 8px; padding: 14px 18px; }
+    .a-dot { width: 6px; height: 6px; border-radius: 50%; background: #1a4a2a; margin-top: 8px; flex-shrink: 0; }
+    .a-text { font-size: 13.5px; color: #555; line-height: 1.7; }
+    .a-text strong { color: #888; font-weight: 600; }
+
+    /* Quote */
+    .quote { border-left: 3px solid #1a4a2a; padding: 14px 20px; margin-bottom: 48px; }
+    .quote-text { font-size: 15px; color: #4ade80; font-style: italic; line-height: 1.8; }
+    .quote-attr { font-size: 11px; color: #1a4a2a; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 8px; }
+
+    @media (max-width: 640px) {
+      body { padding: 32px 20px 80px; }
+      h1 { font-size: 28px; }
+      .analogy-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="eye">Sales.io — Internal Reference</div>
+  <h1>Operational<br>Drag</h1>
+  <div class="sub">Performance gap metric — cash per call · closer benchmarking · scaling decisions</div>
+
+  <div class="definition">
+    Operational Drag tells you exactly how much money you are <strong>gaining or losing</strong> on every single booked call by having a specific closer handle it — compared to your best closers.
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Formula -->
+  <div class="section-label">The Formula — Three Steps</div>
+  <div class="formula-stack">
+    <div class="formula-step">
+      <div class="step-num">01</div>
+      <div class="step-body">
+        <div class="step-title">Cash Per Booked Call (for each closer)</div>
+        <div class="step-formula">Cash Collected ÷ Booked Appointments</div>
+        <div class="step-note">Run this for every closer individually. This is the core unit — how much revenue one call in their hands actually produces.</div>
+      </div>
+    </div>
+    <div class="formula-step">
+      <div class="step-num">02</div>
+      <div class="step-body">
+        <div class="step-title">Set the Benchmark</div>
+        <div class="step-formula">(Top 3 Cash/Call) ÷ 3 = Benchmark</div>
+        <div class="step-note">Average the cash-per-call of your top three closers. This is the standard every other closer gets measured against — not a theoretical ceiling, a real internal number.</div>
+      </div>
+    </div>
+    <div class="formula-step">
+      <div class="step-num">03</div>
+      <div class="step-body">
+        <div class="step-title">Calculate Operational Drag</div>
+        <div class="step-formula">Closer's Cash/Call − Benchmark = Drag</div>
+        <div class="step-note">Positive = they're above the benchmark (pulling the team up). Negative = every call routed to them loses that dollar amount vs. what your top closers would have produced.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Example -->
+  <div class="section-label">Example — What This Looks Like in Practice</div>
+  <div class="example-wrap">
+    <div class="bench-box">
+      <div>
+        <div class="bench-label">Top 3 Benchmark</div>
+        <div class="bench-val">$1,240</div>
+        <div class="bench-note">Average cash per booked call across top 3 closers</div>
+      </div>
+      <div class="bench-divider"></div>
+      <div style="font-size: 12.5px; color: #333; line-height: 1.7;">Every call routed to a closer below this number<br>costs you the difference. Every call.</div>
+    </div>
+    <table class="example-table">
+      <thead>
+        <tr>
+          <th>Closer</th>
+          <th>Cash / Call</th>
+          <th>Calls This Month</th>
+          <th>Drag vs. Benchmark</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="closer-name">Greg</span><span class="closer-tag tag-top">Top 3</span></td>
+          <td>$1,380</td>
+          <td>48</td>
+          <td class="drag-pos">+$140</td>
+        </tr>
+        <tr>
+          <td><span class="closer-name">Peter</span><span class="closer-tag tag-top">Top 3</span></td>
+          <td>$1,310</td>
+          <td>52</td>
+          <td class="drag-pos">+$70</td>
+        </tr>
+        <tr>
+          <td><span class="closer-name">Adam W</span><span class="closer-tag tag-mid">Mid</span></td>
+          <td>$1,106</td>
+          <td>40</td>
+          <td class="drag-neg">−$134</td>
+        </tr>
+        <tr>
+          <td><span class="closer-name">Adam J</span><span class="closer-tag tag-low">Below</span></td>
+          <td>$413</td>
+          <td>35</td>
+          <td class="drag-neg">−$827</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="quote">
+    <div class="quote-text">Adam J's 35 calls this month cost the business $28,945 in lost revenue — that's what those calls would have produced if routed to a top-3 closer instead. That's the real cost of operational drag.</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Calendar caveat -->
+  <div class="caveat">
+    <div class="caveat-label">Important — Segment by Calendar Type</div>
+    <div class="caveat-body">
+      Not all booked calls are equal. Most teams run a <strong>main calendar</strong> (primary leads, higher intent, better show rates) and a <strong>backup calendar</strong> (overflow, lower intent, follow-up leads). A closer who only works the backup calendar will have a structurally lower cash-per-call — that's the lead quality, not their skill.<br><br>
+      <strong>Before calculating drag, always segment closers by which calendar they work.</strong> Compare main-calendar closers against other main-calendar closers. Compare backup-calendar closers against each other. Never mix them — the number becomes meaningless and unfair.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- MPG Analogy -->
+  <div class="analogy">
+    <div class="analogy-label">How to Think About It — The MPG Analogy</div>
+    <div class="analogy-grid">
+      <div class="analogy-card">
+        <div class="analogy-icon">In Sales</div>
+        <div class="analogy-sales">Each booked call</div>
+        <div class="analogy-ref">= 1 gallon of fuel</div>
+      </div>
+      <div class="analogy-card">
+        <div class="analogy-icon">In Sales</div>
+        <div class="analogy-sales">Cash per booked call</div>
+        <div class="analogy-ref">= miles per gallon</div>
+      </div>
+      <div class="analogy-card">
+        <div class="analogy-icon">In Sales</div>
+        <div class="analogy-sales">Operational drag</div>
+        <div class="analogy-ref">= MPG below your 3 most efficient cars</div>
+      </div>
+    </div>
+    <div style="margin-top: 16px; font-size: 13px; color: #333; line-height: 1.7;">
+      You pay the same price for every gallon of fuel regardless of which car you put it in. The question is how far each car takes you. A closer with high drag isn't just underperforming — they're actively burning expensive fuel at a worse rate than your best cars.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- What to do with it -->
+  <div class="section-label">What You Do With This Number</div>
+  <div class="actions-list">
+    <div class="action-row">
+      <div class="a-dot"></div>
+      <div class="a-text"><strong>Route calls intentionally.</strong> If a closer has severe drag, reduce their call volume until the root cause is addressed. Every call is a finite resource — stop burning it at a discount.</div>
+    </div>
+    <div class="action-row">
+      <div class="a-dot"></div>
+      <div class="a-text"><strong>Set a minimum standard for new hires.</strong> Define the drag threshold a new closer must hit within their first 30 days. If they can't reach it, you know early.</div>
+    </div>
+    <div class="action-row">
+      <div class="a-dot"></div>
+      <div class="a-text"><strong>Make coaching decisions data-driven.</strong> Drag tells you who needs attention. Pair with call review to find why — is it offer rate, objection handling, frame control, or conviction?</div>
+    </div>
+    <div class="action-row">
+      <div class="a-dot"></div>
+      <div class="a-text"><strong>Make scaling decisions clean.</strong> Before hiring a new closer, know your benchmark. A new hire at or above benchmark adds capacity. Below benchmark adds drag. Know which one you're buying.</div>
+    </div>
+    <div class="action-row">
+      <div class="a-dot"></div>
+      <div class="a-text"><strong>Track monthly, not weekly.</strong> Single-week variance is noise. Monthly drag is signal. Small sample sizes punish closers who hit a bad stretch — give the number time to stabilize before acting on it.</div>
+    </div>
+  </div>
+
+</body>
+</html>
