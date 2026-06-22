@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pitch Improvement Doc — ATX Global x JJ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #000;
+      --white: #fff;
+      --gray-400: #999;
+      --gray-600: #555;
+      --gray-800: #1a1a1a;
+      --gray-900: #111;
+      --gold: #f5c518;
+      --gold-dim: #a88400;
+      --green: #38a169;
+      --red: #e53e3e;
+      --blue: #4299e1;
+      --sidebar-width: 260px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      display: flex;
+      min-height: 100vh;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: var(--sidebar-width);
+      min-height: 100vh;
+      background: var(--gray-900);
+      border-right: 1px solid #222;
+      position: fixed;
+      top: 0; left: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+    }
+
+    .sidebar-logo {
+      padding: 24px;
+      border-bottom: 1px solid #222;
+    }
+
+    .logo-text { font-size: 15px; font-weight: 700; }
+    .logo-sub  { font-size: 11px; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.4px; margin-top: 2px; }
+
+    .sidebar-nav { padding: 16px 0; flex: 1; overflow-y: auto; }
+
+    .nav-group-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--gray-600);
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      padding: 12px 24px 6px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 24px;
+      color: var(--gray-400);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.15s;
+      border-left: 2px solid transparent;
+      cursor: pointer;
+    }
+
+    .nav-item:hover { color: var(--white); background: #1a1a1a; }
+    .nav-item.active { color: var(--white); border-left-color: var(--white); background: #1a1a1a; }
+
+    .nav-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #444;
+      flex-shrink: 0;
+    }
+
+    .nav-item.active .nav-dot { background: var(--white); }
+
+    .sidebar-footer {
+      padding: 16px 24px;
+      border-top: 1px solid #222;
+      font-size: 11px;
+      color: var(--gray-600);
+    }
+
+    /* MAIN */
+    .main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 56px 64px;
+      max-width: 920px;
+    }
+
+    /* HEADER */
+    .page-header { margin-bottom: 56px; }
+
+    .page-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin-bottom: 14px;
+    }
+
+    .page-title {
+      font-size: 38px;
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+
+    .page-desc {
+      font-size: 15px;
+      color: var(--gray-400);
+      max-width: 540px;
+      line-height: 1.7;
+    }
+
+    .page-meta {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid #1e1e1e;
+    }
+
+    .meta-item { display: flex; flex-direction: column; gap: 3px; }
+    .meta-label { font-size: 10px; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; }
+    .meta-value { font-size: 13px; color: var(--white); font-weight: 600; }
+
+    /* SECTION */
+    .section {
+      margin-bottom: 72px;
+      scroll-margin-top: 40px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 6px;
+    }
+
+    .section-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: #1a1a1a;
+      color: var(--gray-400);
+      border: 1px solid #2a2a2a;
+    }
+
+    .section-tag.blue  { background: #0a1a2a; color: var(--blue);  border-color: #1a3a5a; }
+    .section-tag.red   { background: #1a0a0a; color: #fc8181;      border-color: #3a1a1a; }
+    .section-tag.green { background: #0a1a0f; color: #68d391;      border-color: #1a3a20; }
+    .section-tag.gold  { background: #1a1200; color: var(--gold);  border-color: #3a2a00; }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 24px;
+    }
+
+    .section-desc {
+      font-size: 14px;
+      color: var(--gray-400);
+      margin-bottom: 28px;
+      line-height: 1.7;
+    }
+
+    /* CARDS */
+    .card {
+      background: var(--gray-900);
+      border: 1px solid #1e1e1e;
+      border-radius: 10px;
+      padding: 24px 28px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--gray-400);
+      margin-bottom: 10px;
+    }
+
+    .card p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .card p + p { margin-top: 10px; }
+
+    /* STEP LIST */
+    .step-list { display: flex; flex-direction: column; gap: 0; }
+
+    .step {
+      display: flex;
+      gap: 20px;
+      position: relative;
+    }
+
+    .step:not(:last-child) .step-line {
+      position: absolute;
+      left: 15px;
+      top: 36px;
+      bottom: 0;
+      width: 2px;
+      background: #222;
+    }
+
+    .step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gray-400);
+      flex-shrink: 0;
+      margin-top: 2px;
+      background: var(--black);
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-num.gold { border-color: var(--gold-dim); color: var(--gold); }
+    .step-num.green { border-color: #276749; color: #68d391; }
+    .step-num.blue { border-color: #2a5f8a; color: var(--blue); }
+
+    .step-body { padding-bottom: 32px; flex: 1; }
+    .step-label { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .step-sub { font-size: 13px; color: var(--gray-400); line-height: 1.6; }
+    .step-sub strong { color: #ccc; }
+
+    /* RULE BLOCKS */
+    .rule-block {
+      border-left: 3px solid #333;
+      padding: 14px 20px;
+      margin-bottom: 14px;
+      background: #0a0a0a;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .rule-block.green { border-color: var(--green); }
+    .rule-block.red   { border-color: var(--red); }
+    .rule-block.gold  { border-color: var(--gold); }
+    .rule-block.blue  { border-color: var(--blue); }
+
+    .rule-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .rule-label.green { color: #68d391; }
+    .rule-label.red   { color: #fc8181; }
+    .rule-label.gold  { color: var(--gold); }
+    .rule-label.blue  { color: var(--blue); }
+
+    .rule-block p { font-size: 14px; color: #ccc; line-height: 1.6; }
+
+    /* TIMELINE */
+    .timeline {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .timeline-col {
+      background: #0a0a0a;
+      border: 1px solid #1e1e1e;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .timeline-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gray-600);
+      margin-bottom: 4px;
+    }
+
+    .timeline-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #1e1e1e;
+    }
+
+    .timeline-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .timeline-col li { font-size: 13px; color: #bbb; padding-left: 14px; position: relative; line-height: 1.5; }
+    .timeline-col li::before { content: ''; position: absolute; left: 0; top: 8px; width: 5px; height: 5px; border-radius: 50%; background: #444; }
+
+    /* OBJECTION CARDS */
+    .objection-grid { display: grid; gap: 14px; }
+
+    .obj-card {
+      background: #0a0a0a;
+      border: 1px solid #1e1e1e;
+      border-radius: 10px;
+      padding: 20px 24px;
+    }
+
+    .obj-q {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fc8181;
+      margin-bottom: 10px;
+    }
+
+    .obj-a {
+      font-size: 14px;
+      color: #ccc;
+      line-height: 1.6;
+    }
+
+    .obj-visual {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--gold);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* KEY PRINCIPLE */
+    .key-principle {
+      background: #0d0d0d;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .key-principle::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--gold);
+    }
+
+    .key-principle-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .key-principle-text {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.5;
+      letter-spacing: -0.3px;
+    }
+
+    .key-principle-sub {
+      font-size: 13px;
+      color: var(--gray-400);
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+
+    /* PITCH STRUCTURE TABLE */
+    .pitch-table { width: 100%; border-collapse: collapse; }
+    .pitch-table th {
+      text-align: left;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gray-600);
+      padding: 10px 16px;
+      border-bottom: 1px solid #1e1e1e;
+    }
+    .pitch-table td {
+      padding: 14px 16px;
+      font-size: 13px;
+      border-bottom: 1px solid #111;
+      vertical-align: top;
+      line-height: 1.5;
+    }
+    .pitch-table tr:last-child td { border-bottom: none; }
+    .pitch-table td:first-child { color: var(--gray-400); font-weight: 600; width: 90px; }
+    .pitch-table td:nth-child(2) { color: var(--white); font-weight: 600; }
+    .pitch-table td:nth-child(3) { color: #999; }
+    .pitch-table td:nth-child(4) { color: #666; font-style: italic; font-size: 12px; }
+
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: #1a1200;
+      color: var(--gold);
+      border: 1px solid #3a2a00;
+    }
+
+    .badge.green { background: #0a1a0f; color: #68d391; border-color: #1a3a20; }
+    .badge.red { background: #1a0a0a; color: #fc8181; border-color: #3a1a1a; }
+    .badge.blue { background: #0a1a2a; color: var(--blue); border-color: #1a3a5a; }
+
+    hr { border: none; border-top: 1px solid #1a1a1a; margin: 40px 0; }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text">ATX Global</div>
+    <div class="logo-sub">Pitch Improvement — June 2026</div>
+  </div>
+
+  <div class="sidebar-nav">
+    <div class="nav-group-label">Overview</div>
+    <a class="nav-item active" href="#principle">
+      <span class="nav-dot"></span>Core Principle
+    </a>
+    <a class="nav-item" href="#sequence">
+      <span class="nav-dot"></span>Pre-Call Sequence
+    </a>
+
+    <div class="nav-group-label">The Pitch</div>
+    <a class="nav-item" href="#structure">
+      <span class="nav-dot"></span>Revised Structure
+    </a>
+    <a class="nav-item" href="#screen">
+      <span class="nav-dot"></span>Screen Sharing Rules
+    </a>
+    <a class="nav-item" href="#objections">
+      <span class="nav-dot"></span>Objection Handling
+    </a>
+
+    <div class="nav-group-label">Discovery</div>
+    <a class="nav-item" href="#discovery">
+      <span class="nav-dot"></span>Discovery First
+    </a>
+  </div>
+
+  <div class="sidebar-footer">
+    Built from JJ x Arun call — June 19, 2026
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="page-tag">ATX Global — Sales Coaching</div>
+    <h1 class="page-title">Pitch Improvement</h1>
+    <p class="page-desc">Concrete changes to the supported living investment pitch based on live call review with JJ. Goal: under 15 minutes, high clarity, deal-first.</p>
+    <div class="page-meta">
+      <div class="meta-item">
+        <span class="meta-label">Reviewed</span>
+        <span class="meta-value">June 19, 2026</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Current Pitch Length</span>
+        <span class="meta-value">~20 min</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Target Length</span>
+        <span class="meta-value">Under 15 min</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Next Step</span>
+        <span class="meta-value">Run through revised version</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CORE PRINCIPLE -->
+  <section class="section" id="principle">
+    <div class="section-header">
+      <span class="section-tag gold">Foundation</span>
+    </div>
+    <h2 class="section-title">The Core Principle</h2>
+
+    <div class="key-principle">
+      <div class="key-principle-label">Rule #1</div>
+      <div class="key-principle-text">Discovery is more important than the pitch. You curate the pitch around the discovery.</div>
+      <div class="key-principle-sub">If you don't know exactly what they need, want, and understand — your pitch will always fall flat. Not because you didn't listen, but because you didn't ask the questions that yield the answers you need.</div>
+    </div>
+
+    <div class="key-principle" style="--gold: #4299e1; padding-left: 36px;">
+      <div class="key-principle-label" style="color: var(--blue);">Rule #2</div>
+      <div class="key-principle-text">"How much money am I going to make?" is what they actually care about.</div>
+      <div class="key-principle-sub">Lead with the result. The education, the legal framework, the provider story — that's all to build reassurance and confidence around the result. Don't bury the number.</div>
+    </div>
+
+    <div class="key-principle" style="padding-left: 36px;" id="rule3">
+      <div class="key-principle-label" style="color: #68d391;">Rule #3</div>
+      <div class="key-principle-text">Skip what's already been covered. Don't repeat what they already know.</div>
+      <div class="key-principle-sub">If something was established in discovery, skip it in the pitch. Jump to the next thing. The pitch structure is a guide — not a script to read top to bottom every time.</div>
+    </div>
+  </section>
+
+  <!-- PRE-CALL SEQUENCE -->
+  <section class="section" id="sequence">
+    <div class="section-header">
+      <span class="section-tag blue">Before The Call</span>
+    </div>
+    <h2 class="section-title">Pre-Call Nurture Sequence</h2>
+    <p class="section-desc">After discovery and before the presentation call — send this. The goal is to get them to the pitch already warm, already curious, already sold on the concept. So you're closing, not educating from scratch.</p>
+
+    <div class="timeline">
+      <div class="timeline-col">
+        <div class="timeline-label">Step 1</div>
+        <div class="timeline-title">Right After Discovery</div>
+        <ul>
+          <li>Thank them for their time</li>
+          <li>Confirm next call date/time</li>
+          <li>Tell them you're sending something to watch before the call</li>
+        </ul>
+      </div>
+      <div class="timeline-col">
+        <div class="timeline-label">Step 2</div>
+        <div class="timeline-title">Send the Video</div>
+        <ul>
+          <li>6–8 minute video max</li>
+          <li>Covers the supported living model simply</li>
+          <li>Includes 1–3 example deals (not 5, not 10)</li>
+          <li>Shows the money flow visual</li>
+          <li>Ends with social proof / results</li>
+        </ul>
+      </div>
+      <div class="timeline-col">
+        <div class="timeline-label">Step 3</div>
+        <div class="timeline-title">Frame The Next Call</div>
+        <ul>
+          <li>"Watch this before we jump on"</li>
+          <li>"Anything I don't answer in the video, we'll cover live"</li>
+          <li>"We'll also walk through a live deal together"</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="rule-block gold">
+      <div class="rule-label gold">Why This Works</div>
+      <p>They're showing up to the pitch call already knowing the model. You're not educating from zero. The call becomes a conversation about their specific situation and a specific deal — not a seminar. They're primed to say yes, not catching up.</p>
+    </div>
+
+    <div class="rule-block red">
+      <div class="rule-label red">Don't Do This</div>
+      <p>Don't send 5+ deals. It's like a restaurant menu with 80 items — overwhelming, not impressive. Send 1–3 examples that show range. Let the live deal on the call do the heavy lifting.</p>
+    </div>
+  </section>
+
+  <!-- REVISED PITCH STRUCTURE -->
+  <section class="section" id="structure">
+    <div class="section-header">
+      <span class="section-tag green">The Pitch</span>
+    </div>
+    <h2 class="section-title">Revised Pitch Structure — Under 15 Min</h2>
+    <p class="section-desc">This is the sequence when they already watched the pre-call video. Skip sections they already understand. Hit what matters to them based on what came out of discovery.</p>
+
+    <div class="card" style="margin-bottom: 28px;">
+      <table class="pitch-table">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Section</th>
+            <th>What to Cover</th>
+            <th>When to Skip</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>0–2 min</td>
+            <td>Quick Reset</td>
+            <td>Recap what you learned in discovery. "Based on what you told me, you're looking for X. So I want to walk you through something that specifically addresses that." Then set the structure: "Here's what we're going to cover today — three things."</td>
+            <td>Never skip this. It anchors everything.</td>
+          </tr>
+          <tr>
+            <td>2–5 min</td>
+            <td>The Deal — Result First</td>
+            <td>Open with the specific deal you're showing them. Property address, price, yield, monthly income. Show the numbers immediately. "This is what it looks like." Pull up the deal sheet only — clean, one view.</td>
+            <td>Don't skip. This is what they care about.</td>
+          </tr>
+          <tr>
+            <td>5–9 min</td>
+            <td>How It Works</td>
+            <td>Now explain the model only enough to support the deal. The government money flow visual here. Keep it to 2–3 points max. If they watched the video, this is a 60-second confirmation, not a lesson.</td>
+            <td>Shorten if they already understand the model from the video.</td>
+          </tr>
+          <tr>
+            <td>9–12 min</td>
+            <td>Risk + Protection Story</td>
+            <td>Proactively address the provider risk — don't wait for the objection. Walk through: provider fails → government problem → legal framework activates → specialist steps in → you still get paid. Reference real cases (1CIC 2024, 2012, 2007). Then the big players: BlackRock, Aviva, USS.</td>
+            <td>Cut to 2 min if they seem confident. If they're skeptical, give it full time.</td>
+          </tr>
+          <tr>
+            <td>12–14 min</td>
+            <td>Long-Term Picture</td>
+            <td>Refinance strategy (50% LTV pull), exit options, capital growth (Savills projection). Show the 10-year cash flow increase. Keep it brief — most don't need all of this. Let them ask.</td>
+            <td>Skip if they're clearly ready to move. Save for questions.</td>
+          </tr>
+          <tr>
+            <td>14–15 min</td>
+            <td>Next Steps</td>
+            <td>"Simple next step: £5k reservation, signed reservation form. 28 days to exchange. You own the asset, you start getting paid." Shut up after that.</td>
+            <td>Never skip this.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="rule-block green">
+      <div class="rule-label green">Key Insight</div>
+      <p>You don't need to run every section every time. The table above is a mental map, not a checklist. What came up in discovery tells you which sections matter most to this person. Use the structure to stay organized — not to deliver a presentation.</p>
+    </div>
+  </section>
+
+  <!-- SCREEN SHARING RULES -->
+  <section class="section" id="screen">
+    <div class="section-header">
+      <span class="section-tag red">Screen Sharing</span>
+    </div>
+    <h2 class="section-title">Screen Sharing Rules</h2>
+    <p class="section-desc">The visual assets are strong. The problem is sharing the screen too much, too early, and moving around too fast. Here's when to share and when to stay off.</p>
+
+    <div class="step-list">
+      <div class="step">
+        <div class="step-line"></div>
+        <div class="step-num green">1</div>
+        <div class="step-body">
+          <div class="step-label">Only share when it adds clarity a verbal explanation can't</div>
+          <div class="step-sub">The money flow diagram (government → business → investor) is the clearest visual in your arsenal. That earns screen share time. Bullet point slides and document navigation do not.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-line"></div>
+        <div class="step-num green">2</div>
+        <div class="step-body">
+          <div class="step-label">One view at a time — never scroll while talking</div>
+          <div class="step-sub">When you share and move around the screen, their brain is trying to track two things at once: what you're saying and what you're showing. You lose them. <strong>Show one thing. Explain it. Stop sharing. Continue talking.</strong></div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-line"></div>
+        <div class="step-num green">3</div>
+        <div class="step-body">
+          <div class="step-label">The deal sheet gets its own moment</div>
+          <div class="step-sub">When you pull up the deal — that's a dedicated screen share. Show the property. Show the numbers. Let them sit with it. Don't immediately switch to something else. <strong>Silence while they look at the deal is fine.</strong></div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-line"></div>
+        <div class="step-num green">4</div>
+        <div class="step-body">
+          <div class="step-label">Objections: pull up the specific slide, nothing else</div>
+          <div class="step-sub">If they ask "what happens if the provider goes bust?" — pull up the provider failure flow and walk through it step by step. Don't share the whole deck. One slide. One objection. Done.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num green">5</div>
+        <div class="step-body">
+          <div class="step-label">Default position: camera on, screen off</div>
+          <div class="step-sub">Most of the pitch should be face to face, not slides. The more they look at your screen, the less they're feeling the relationship. <strong>Connection is what people actually buy.</strong></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OBJECTION HANDLING -->
+  <section class="section" id="objections">
+    <div class="section-header">
+      <span class="section-tag red">Objections</span>
+    </div>
+    <h2 class="section-title">Objection Handling</h2>
+    <p class="section-desc">These are the most common objections in this pitch. Don't wait for them — address them proactively at the right moment in the flow.</p>
+
+    <div class="objection-grid">
+
+      <div class="obj-card">
+        <div class="obj-q">"What happens if the provider goes bust?"</div>
+        <div class="obj-a">
+          Walk through the failure sequence: Provider fails → government faces two problems (residents at risk + emergency housing cost at £250M-500M/yr) → Housing and Planning Act activates → MySham steps in → investors continue to get paid. Reference: 1CIC 2024, same structure in 2012 and 2007. Then anchor with the big players: BlackRock, Canada Life, Aviva, USS.
+        </div>
+        <div class="obj-visual">Pull up: Provider Failure Flow visual</div>
+      </div>
+
+      <div class="obj-card">
+        <div class="obj-q">"The return isn't guaranteed right?"</div>
+        <div class="obj-a">
+          Be upfront about it — don't hedge. "The rent isn't guaranteed in the way a bank account is guaranteed. What you have is government-funded income backed by legislation, long-term contract, and the covenant strength of businesses with tens of millions under management. That's a very different risk profile than buy-to-let." Then compare: BTL at 6% yield vs this at 13% net.
+        </div>
+        <div class="obj-visual">No visual needed — verbal framing is stronger here</div>
+      </div>
+
+      <div class="obj-card">
+        <div class="obj-q">"I can only pull 50% equity on refinance"</div>
+        <div class="obj-a">
+          Acknowledge it. "That's correct — and it's worth knowing upfront. 50% LTV. But here's what that actually looks like: you pull out half your capital three months in, and you're still sitting at 18.7% cash-on-cash return. Most buy-to-let investors would love that number." Show the cash-on-cash return calculation.
+        </div>
+        <div class="obj-visual">Pull up: Cash-on-cash return comparison table</div>
+      </div>
+
+      <div class="obj-card">
+        <div class="obj-q">"Is Hull actually a good location?"</div>
+        <div class="obj-a">
+          Pull up the Savills capital growth projection. "Hull's going through a massive regeneration. Savills — one of the biggest property research firms in the UK — projects just under 30% capital growth over 5 years. That's not us saying it." Then show the property and floor plan briefly.
+        </div>
+        <div class="obj-visual">Pull up: Savills projection + property location</div>
+      </div>
+
+      <div class="obj-card">
+        <div class="obj-q">"I need to think about it" / "Send me more information"</div>
+        <div class="obj-a">
+          Don't send a pack of documents. Ask: "Of course — what specifically do you want to think through? Is it the return, the risk side, or just the timing?" Get to the real objection. Most "I need to think" responses are "I'm not convinced on one thing yet."
+        </div>
+        <div class="obj-visual">No visual — this is a conversation</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DISCOVERY FIRST -->
+  <section class="section" id="discovery">
+    <div class="section-header">
+      <span class="section-tag gold">Discovery</span>
+    </div>
+    <h2 class="section-title">Discovery — What You're Listening For</h2>
+    <p class="section-desc">Your pitch should be shaped entirely by what you pull out in discovery. These are the answers you need before you ever open a presentation.</p>
+
+    <div class="card">
+      <div class="card-title">What to Find Out</div>
+      <p><strong>Their current portfolio situation</strong> — Do they have buy-to-let already? How fed up are they with it? Have they experienced Section 21 issues?</p>
+      <p><strong>Their primary goal</strong> — Cash flow, capital growth, passive income, or exit? Not everyone wants the same thing from the same deal.</p>
+      <p><strong>Their knowledge level</strong> — Have they heard of supported living? How much do they know about the model? This tells you how much education you need in the pitch vs. how much you can skip.</p>
+      <p><strong>Their capital position</strong> — Can they move at £150k+? Are they buying cash or do they need finance? This changes which sections of the pitch matter most.</p>
+      <p><strong>Their biggest fear</strong> — What would stop them? If they say "I'm worried about the tenant going bust" — you know to spend more time on the protection story.</p>
+      <p><strong>Their timeline</strong> — Are they looking to invest this quarter or "eventually"? If eventually, they're not ready for the close. Find out why and address it.</p>
+    </div>
+
+    <div class="rule-block gold">
+      <div class="rule-label gold">The Fitness Coach Analogy (JJ)</div>
+      <p>"She was by far one of the best coaches I'd ever seen — but she just pitched everything she could do. She'd have charged whatever she wanted if she had found out what that specific person needed. Information shared without context doesn't land. The same pitch repeated to different people with different needs will always underperform."</p>
+    </div>
+
+    <div class="rule-block blue">
+      <div class="rule-label blue">The Frame Shift</div>
+      <p>After discovery, get them to articulate why they want to work with you — not the other way around. "Based on what you've told me, I don't think every product we have is right for you — but this one might be." Let them tell you why it fits. That's the close doing itself.</p>
+    </div>
+  </section>
+
+  <hr/>
+
+  <div class="card">
+    <div class="card-title">Summary — What Changes Tomorrow</div>
+    <p><strong>1. Pre-call video goes out after every discovery call.</strong> 6–8 min, covers the model, shows 1–3 example deals.</p>
+    <p><strong>2. Open every pitch call with the deal — numbers first.</strong> Don't build to it. Lead with it.</p>
+    <p><strong>3. Screen share is surgical.</strong> Money flow visual. Deal sheet. Specific objection slides. Nothing else.</p>
+    <p><strong>4. Skip what discovery already covered.</strong> Don't repeat the problem if they know the problem. Jump to the asset.</p>
+    <p><strong>5. Run through it live again with JJ</strong> — this time with the revised structure. Aim for under 15 minutes clean.</p>
+  </div>
+
+</main>
+
+<script>
+  // Active nav on scroll
+  const sections = document.querySelectorAll('.section');
+  const navItems = document.querySelectorAll('.nav-item');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navItems.forEach(item => item.classList.remove('active'));
+        const id = entry.target.getAttribute('id');
+        const active = document.querySelector(`.nav-item[href="#${id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
