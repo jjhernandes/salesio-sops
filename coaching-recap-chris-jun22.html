@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coaching Recap — Chris Byrd — Week 1</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.6; padding: 52px 64px 100px; max-width: 860px; margin: 0 auto; }
+
+    .eye { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #333; margin-bottom: 12px; }
+    h1 { font-size: 38px; font-weight: 900; letter-spacing: -1px; line-height: 1.05; margin-bottom: 10px; }
+    .sub { font-size: 14px; color: #444; margin-bottom: 52px; }
+
+    .divider { height: 1px; background: #0a0a0a; margin: 40px 0; }
+    .section-label { font-size: 10px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #333; margin-bottom: 16px; }
+
+    .concept { margin-bottom: 40px; }
+    .concept-title { font-size: 17px; font-weight: 800; color: #eee; letter-spacing: -0.3px; margin-bottom: 8px; }
+    .concept-body { font-size: 13.5px; color: #555; line-height: 1.85; }
+    .concept-body strong { color: #888; font-weight: 600; }
+
+    .callout { background: #050505; border-left: 3px solid #1a4a2a; border-radius: 0 8px 8px 0; padding: 14px 18px; margin-top: 12px; font-size: 13.5px; color: #4ade80; line-height: 1.75; }
+    .callout-amber { border-left-color: #3a2800; color: #f59e0b; }
+    .callout-white { border-left-color: #111; color: #555; font-style: italic; }
+    .callout-blue { border-left-color: #1a2a4a; color: #7ab3ff; }
+
+    .scale { background: #050505; border: 1px solid #111; border-radius: 12px; padding: 22px 26px; margin-top: 14px; }
+    .scale-row { display: flex; flex-direction: column; gap: 6px; }
+    .scale-item { display: flex; gap: 14px; align-items: center; padding: 8px 12px; border-radius: 7px; }
+    .scale-item.active { background: #020f08; border: 1px solid #0d2b1a; }
+    .scale-item.active2 { background: #020810; border: 1px solid #0d1a3a; }
+    .scale-item.warning { background: #080500; border: 1px solid #1a1000; }
+    .scale-level { font-size: 12px; font-weight: 800; width: 110px; flex-shrink: 0; }
+    .scale-level.high { color: #4ade80; }
+    .scale-level.mid { color: #7ab3ff; }
+    .scale-level.mid2 { color: #555; }
+    .scale-level.low { color: #333; }
+    .scale-desc { font-size: 12.5px; color: #444; line-height: 1.5; flex: 1; }
+    .scale-desc.active-desc { color: #666; }
+    .scale-tag { font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 5px; margin-left: auto; flex-shrink: 0; white-space: nowrap; }
+    .tag-green { color: #4ade80; background: #050f08; border: 1px solid #0d2b1a; }
+    .tag-blue { color: #7ab3ff; background: #050810; border: 1px solid #0d1a3a; }
+    .tag-amber { color: #f59e0b; background: #0a0500; border: 1px solid #2a1800; }
+
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+    .split-card { border-radius: 10px; padding: 16px 18px; }
+    .split-card.up { background: #020f08; border: 1px solid #0d2b1a; }
+    .split-card.down { background: #080500; border: 1px solid #1a1200; }
+    .split-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .split-label.green { color: #1a4a2a; }
+    .split-label.amber { color: #3a2a00; }
+    .split-body { font-size: 13px; color: #555; line-height: 1.7; }
+    .split-body strong { font-weight: 600; }
+    .split-body.green strong { color: #4ade80; }
+    .split-body.amber strong { color: #f59e0b; }
+
+    .profile { background: #020806; border: 1px solid #0d1a0d; border-radius: 12px; padding: 24px 28px; margin-bottom: 48px; }
+    .profile-row { display: flex; flex-direction: column; gap: 8px; }
+    .profile-item { display: flex; gap: 14px; padding: 10px 14px; background: #000; border: 1px solid #0a0a0a; border-radius: 8px; align-items: flex-start; }
+    .p-dot { width: 6px; height: 6px; border-radius: 50%; background: #1a4a2a; margin-top: 6px; flex-shrink: 0; }
+    .p-text { font-size: 13.5px; color: #666; line-height: 1.65; }
+    .p-text strong { color: #999; font-weight: 600; }
+
+    .jj-note { background: #080600; border: 1px solid #1a1200; border-radius: 12px; padding: 22px 26px; margin-bottom: 48px; }
+    .jj-say { font-size: 13.5px; color: #8a7a50; line-height: 1.8; font-style: italic; }
+    .jj-say-attr { font-size: 11px; font-weight: 700; color: #3a2a00; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 10px; }
+
+    .actions { background: #050505; border: 1px solid #0f0f0f; border-radius: 12px; padding: 24px 28px; margin-bottom: 48px; }
+    .action-list { display: flex; flex-direction: column; gap: 8px; }
+    .action-item { display: flex; gap: 14px; background: #000; border: 1px solid #0d0d0d; border-radius: 8px; padding: 14px 16px; align-items: flex-start; }
+    .a-num { font-size: 11px; font-weight: 800; color: #1a4a2a; flex-shrink: 0; width: 20px; margin-top: 2px; }
+    .a-title { font-size: 14px; font-weight: 700; color: #ddd; margin-bottom: 3px; }
+    .a-desc { font-size: 13px; color: #555; line-height: 1.6; }
+
+    .logistics { background: #050505; border: 1px solid #111; border-radius: 12px; padding: 22px 26px; margin-bottom: 48px; }
+    .log-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .log-item { background: #000; border: 1px solid #0a0a0a; border-radius: 8px; padding: 12px 14px; }
+    .log-key { font-size: 10px; font-weight: 700; color: #333; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; }
+    .log-val { font-size: 13px; color: #666; line-height: 1.6; }
+
+    .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 12px; }
+    .pillar-card { background: #050505; border: 1px solid #111; border-radius: 10px; padding: 16px 18px; }
+    .pillar-name { font-size: 13px; font-weight: 800; color: #888; margin-bottom: 6px; }
+    .pillar-desc { font-size: 12.5px; color: #444; line-height: 1.6; }
+
+    @media (max-width: 640px) {
+      body { padding: 32px 20px 80px; }
+      h1 { font-size: 26px; }
+      .split { grid-template-columns: 1fr; }
+      .log-grid { grid-template-columns: 1fr; }
+      .three-col { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="eye">Sales.io — Coaching Recap</div>
+  <h1>Chris Byrd<br>Week 1 Session</h1>
+  <div class="sub">June 22, 2026 &nbsp;·&nbsp; JJ Hernandez &nbsp;·&nbsp; Consciousness, Optimal State + Environment</div>
+
+  <div class="divider"></div>
+
+  <!-- Lesson: No Neutral Influence -->
+  <div class="concept">
+    <div class="section-label">Opening Lesson</div>
+    <div class="concept-title">There Is No Neutral Influence</div>
+    <div class="concept-body">
+      In every single conversation you have, the other person will leave <strong>better or worse</strong> after speaking to you. There is no in-between. No neutral. This is true on sales calls, in your personal life, with your roommates, with your girlfriend — every interaction either moves people up or moves them down.<br><br>
+      When you understand this, your intention shifts. You stop just going through the motions and start consciously deciding: what state do I want to leave this person in?
+    </div>
+    <div class="callout">
+      "It's my job to make sure that you feel as clear as possible on your intentions, your goals, where you're going, what you're doing. There should be very, very clear expectations and very clear feelings."
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- David's Call + Close Framework -->
+  <div class="concept">
+    <div class="section-label">Call Review — David's Pitch</div>
+    <div class="concept-title">Logic Signs Off on the Emotional Contract</div>
+    <div class="concept-body">
+      David's call came up — his pitch felt very logical and reason-based. The issue wasn't that he was wrong, it's that he was pitching before the emotional contract was signed.<br><br>
+      <strong>The framework:</strong> People make decisions emotionally and justify them logically. Logic doesn't close — it confirms. By the time you pitch the price, they should already have said yes internally. Logic is the final signature on a contract that emotion already drafted.<br><br>
+      David gets uncomfortable on the close — not because he's operating at a lower consciousness, but because <strong>the close feels unfamiliar</strong>. Things aren't hard, they're unfamiliar.
+    </div>
+    <div class="callout callout-amber">
+      "You're never gonna propose to a woman you don't know is gonna say yes. Why would you pitch if you don't know they're gonna say yes?"
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Levels of Consciousness -->
+  <div class="concept">
+    <div class="section-label">Lesson 2 — Levels of Consciousness</div>
+    <div class="concept-title">Chris's Baseline Assessment</div>
+    <div class="concept-body">
+      Went through the levels of consciousness and where Chris currently operates. Self-awareness is strong — he catches himself when sliding and pulls himself back up.
+    </div>
+
+    <div class="scale">
+      <div class="scale-row">
+        <div class="scale-item">
+          <div class="scale-level high">Love / Joy / Peace</div>
+          <div class="scale-desc active-desc">Where JJ mostly operates. Born state. Most natural. Where Chris is clearly capable of operating.</div>
+        </div>
+        <div class="scale-item active">
+          <div class="scale-level high">Willingness</div>
+          <div class="scale-desc active-desc">Chris's <strong>current operating level</strong> — active and intentional. New situation, new behavior, new identity. He's choosing this consciously.</div>
+          <div class="scale-tag tag-green">Active</div>
+        </div>
+        <div class="scale-item active2">
+          <div class="scale-level mid">Reason</div>
+          <div class="scale-desc active-desc">His <strong>baseline floor</strong> — where he falls to at worst. Not reactive or emotional. Analytical. Keeps him from lower states.</div>
+          <div class="scale-tag tag-blue">Baseline</div>
+        </div>
+        <div class="scale-item active2">
+          <div class="scale-level mid">Courage</div>
+          <div class="scale-desc active-desc">His historical starting point. Range begins here.</div>
+          <div class="scale-tag tag-blue">Range start</div>
+        </div>
+        <div class="scale-item">
+          <div class="scale-level mid2">Pride</div>
+          <div class="scale-desc">Has moments here — uses it to push himself — but catches it and steps back. ("Who cares? Go take the shower.") Doesn't want to live here.</div>
+        </div>
+        <div class="scale-item">
+          <div class="scale-level low">Shame / Guilt</div>
+          <div class="scale-desc">Essentially off the table. Faith anchor (no condemnation in Christ) makes this one he doesn't go to. JJ: "I've been there once in 20 years — and only for 15 minutes."</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top: 14px;">
+      Strong self-awareness signal: Chris is already looking at other people through the lens of consciousness — watching his girlfriend, his roommates — and noticing their state. That's a sign of someone operating above most.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- What Brings You Up / Down -->
+  <div class="concept">
+    <div class="section-label">State Management — What Moves Chris</div>
+    <div class="concept-title">The Good Day / Bad Day Pattern</div>
+    <div class="concept-body">
+      Chris's girlfriend pointed it out: <strong>he can't have a good day if he feels like he didn't have a good workday.</strong> Not tied to money — tied to performance and hitting inputs.<br><br>
+      Root of it: he's gauging the quality of his day by whether he hit a set number of reach-outs and inputs. When external circumstances block those inputs, it affects his whole state — even when it wasn't his fault.
+    </div>
+
+    <div class="split">
+      <div class="split-card up">
+        <div class="split-label green">Moves Him Up</div>
+        <div class="split-body green">
+          <strong>Hitting his input targets</strong><br>
+          Feeling like he emptied the bucket. Waking up and starting strong. Being in a space he controls. Faith — removing shame from the equation. Girlfriend's presence.
+        </div>
+      </div>
+      <div class="split-card down">
+        <div class="split-label amber">Moves Him Down</div>
+        <div class="split-body amber">
+          <strong>Missing daily input goals</strong><br>
+          External circumstances disrupting a planned day. Unrealistic standards he sets for himself. Low-energy roommate situation creating psychological drag in his own home.
+        </div>
+      </div>
+    </div>
+
+    <div class="callout callout-amber" style="margin-top: 14px;">
+      "What you're going through is essentially that you're looking for a feeling of fulfillment. But you can create and optimize for that feeling if you know what it is that makes you feel that way."
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Clarity Systems -->
+  <div class="concept">
+    <div class="section-label">Framework — Clarity Systems</div>
+    <div class="concept-title">Engineer the Feeling Instead of Chasing It</div>
+    <div class="concept-body">
+      The problem isn't Chris's drive — it's that he hasn't named specifically what creates his optimal state. He's going off a general feeling of "fulfilled day" without knowing exactly what produces it.<br><br>
+      <strong>JJ's anchor points for reference:</strong> Waking up early. Working out early. Going to bed slightly hungry. Knowing the bank account is trending up. Running. Clarity that he's progressing — physically, financially, directionally.<br><br>
+      The goal: identify Chris's specific anchor points so he can engineer them into his days intentionally — not just hope they happen.
+    </div>
+    <div class="callout callout-blue">
+      "People always know what their perfect day looks like. And when I ask them why they're not doing most of it — they go quiet. You can control this."
+    </div>
+
+    <div class="callout callout-white" style="margin-top: 10px;">
+      Integrity angle from church: Entrepreneurs over-commit and use external factors as excuses for why they didn't follow through. Living with integrity means only committing to what you'll actually do — and doing it.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- The "Proving Something" Story -->
+  <div class="concept">
+    <div class="section-label">Story — The $50K/Month Student</div>
+    <div class="concept-title">If You Can't Name It, You'll Chase It Forever</div>
+    <div class="concept-body">
+      JJ told the story of a student making $50K/month who kept saying he needed to "prove them wrong." When JJ pushed to name who exactly — the student couldn't answer. He was romanticizing the idea of proving something to someone that didn't exist.<br><br>
+      The lesson for Chris: <strong>if you can't describe the feeling you're chasing, you'll be chasing it until you're 80.</strong> Money won't give you fulfillment. JJ made $196K in a single day — still felt the same. The fulfillment comes from knowing what creates it, then doing those things consistently.
+    </div>
+    <div class="callout callout-amber">
+      "If you can't describe that feeling, we don't know where we're going. We don't know what we're looking for. You'll be chasing that forever."
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Environment -->
+  <div class="concept">
+    <div class="section-label">5 Factors — Environment</div>
+    <div class="concept-title">Current Environment Assessment</div>
+    <div class="concept-body">
+      Previous environment: lived with dad and brother — limiting beliefs, misaligned perspectives on what to pursue in life. That's behind him.<br><br>
+      Current: girlfriend + roommate situation. One roommate going through mental health challenges — standoffish, low energy, hasn't spoken to Chris in a week. Not conflict — just drain.<br><br>
+      <strong>No neutral influence applies here too.</strong> They're operating at a lower consciousness level and Chris can feel it, even without direct interaction. It's pulling at his state in his own home.
+    </div>
+    <div class="callout callout-white" style="margin-top: 12px;">
+      Moving out in August with girlfriend. Own space. No external energy pulling on them.
+    </div>
+    <div class="callout callout-amber" style="margin-top: 10px;">
+      Don't compare the current situation to the worst one and call it progress. Compare it to what you want — and work toward that. "Better than before" is a low bar to live by.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Coaching Moment: Less Context -->
+  <div class="concept">
+    <div class="section-label">Direct Coaching Feedback</div>
+    <div class="concept-title">Give Less Context — Your Point Lands Faster Than You Think</div>
+    <div class="concept-body">
+      JJ noticed and named it directly: Chris articulates what he wants to say very well and speaks clearly — but he adds more context than needed to be understood. JJ said he understood the point roughly 10 seconds before Chris finished explaining it.<br><br>
+      This is something Chris does to build connection — but it has the opposite effect over time. When you say less, people value what you say more. On sales calls specifically, this will make his delivery significantly stronger.
+    </div>
+    <div class="callout">
+      "You articulate what you want to say very well. Cut back some of what you say — and on calls, you'll be so much stronger in your delivery. In real life, people will value your word more."
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Three Pillars -->
+  <div class="concept">
+    <div class="section-label">Lesson 1 Takeaway</div>
+    <div class="concept-title">The Three Pillars of Success in Sales — and Life</div>
+    <div class="concept-body">
+      Chris correctly identified the three pillars from Lesson 1: self-mastery, communication, observation. JJ confirmed — these are the root of all success regardless of industry.
+    </div>
+    <div class="three-col">
+      <div class="pillar-card">
+        <div class="pillar-name">Self-Mastery</div>
+        <div class="pillar-desc">You know what you need to do and you do it. You keep your word to yourself. You're a master of your own state and behavior.</div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-name">Communication</div>
+        <div class="pillar-desc">You say what needs to be said, clearly, at the right time. Observing you're gonna be late and not communicating it breaks trust immediately.</div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-name">Observation</div>
+        <div class="pillar-desc">You're reading the room, reading the person, reading the situation. You see what others miss. This is what separates good from elite.</div>
+      </div>
+    </div>
+    <div class="callout callout-white" style="margin-top: 14px;">
+      Moving company example: arrived 18 minutes late, didn't call Chris — but called his assistant to check. That's low self-mastery, low communication, low observation. All three failed at once.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Identity Types -->
+  <div class="concept">
+    <div class="section-label">Lesson 3 — Identity Types</div>
+    <div class="concept-title">The Three Selling Identities — Which Is Most Common</div>
+    <div class="concept-body">
+      Chris flagged that community identity will be the hardest for him to sell to. JJ's response: community identity is actually the least common. Don't stress about it.
+    </div>
+    <div class="split" style="margin-top: 12px;">
+      <div class="split-card up">
+        <div class="split-label green">Most Common</div>
+        <div class="split-body green">
+          <strong>Historical identity</strong> — everyone has a version of "back in my day." Past self, past glory, past relationship, old physical peak. It lingers in almost every person you'll talk to.
+        </div>
+      </div>
+      <div class="split-card down">
+        <div class="split-label amber">Also Common</div>
+        <div class="split-body amber">
+          <strong>Role/position identity</strong> — CEOs who think they're king, founders who need to feel respected. Very common in business-to-business conversations.
+        </div>
+      </div>
+    </div>
+    <div class="callout callout-white" style="margin-top: 12px;">
+      Community identity (PTA, group affiliations, tribes) is rare in the sales reps and offer owners Chris will be speaking to. Don't spend mental energy there.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Actions -->
+  <div class="section-label">Next Steps</div>
+  <div class="actions">
+    <div class="action-list">
+
+      <div class="action-item">
+        <div class="a-num">01</div>
+        <div>
+          <div class="a-title">Complete the Clarity Systems doc JJ sent</div>
+          <div class="a-desc">Go through it fully. Don't skim. This will help you identify your specific anchor points — what actually makes a day feel good vs. not. This is the foundation for managing your state on purpose.</div>
+        </div>
+      </div>
+
+      <div class="action-item">
+        <div class="a-num">02</div>
+        <div>
+          <div class="a-title">Write out your anchor points</div>
+          <div class="a-desc">Specific things — not vague goals. What time do you need to wake up? What inputs actually move the needle vs. inputs that just feel productive? What would your perfect workday look like, specifically? Write it out.</div>
+        </div>
+      </div>
+
+      <div class="action-item">
+        <div class="a-num">03</div>
+        <div>
+          <div class="a-title">Audit your daily input standards</div>
+          <div class="a-desc">Are they realistic given your current life setup (roommate situation, current skill level)? Unrealistic standards that you consistently miss will tank your state. Set standards you can actually win against — then raise them.</div>
+        </div>
+      </div>
+
+      <div class="action-item">
+        <div class="a-num">04</div>
+        <div>
+          <div class="a-title">Show up for all group coaching calls</div>
+          <div class="a-desc">Mock Call Monday, Setting Mastery, Coffee Chat, Sales Psychology, Call Review. 80-90 people show up to the same calls week after week for a reason. Be there.</div>
+        </div>
+      </div>
+
+      <div class="action-item">
+        <div class="a-num">05</div>
+        <div>
+          <div class="a-title">Check the job board + start browsing</div>
+          <div class="a-desc">Not to apply yet — just to see what's out there, what offers are paying, and what the market looks like. Start building your mental picture of where you're headed.</div>
+        </div>
+      </div>
+
+      <div class="action-item">
+        <div class="a-num">06</div>
+        <div>
+          <div class="a-title">Practice Looms — curriculum dropping this week</div>
+          <div class="a-desc">JJ is sending out curriculum on how to make a strong Loom. Get ready to record. This is a core outreach skill and you'll want reps on it early.</div>
+        </div>
+      </div>
+
+      <div class="action-item">
+        <div class="a-num">07</div>
+        <div>
+          <div class="a-title">Practice saying less</div>
+          <div class="a-desc">In every conversation this week — notice when you're adding context that wasn't asked for. Catch it. Cut it. One sentence instead of three. This will compound fast on calls.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-label">Session Info</div>
+  <div class="logistics">
+    <div class="log-grid">
+      <div class="log-item">
+        <div class="log-key">Date</div>
+        <div class="log-val">June 22, 2026</div>
+      </div>
+      <div class="log-item">
+        <div class="log-key">Coach</div>
+        <div class="log-val">JJ Hernandez</div>
+      </div>
+      <div class="log-item">
+        <div class="log-key">Session</div>
+        <div class="log-val">Week 1 — 1-on-1</div>
+      </div>
+      <div class="log-item">
+        <div class="log-key">Next Session</div>
+        <div class="log-val">Next week — confirm on Circle</div>
+      </div>
+      <div class="log-item">
+        <div class="log-key">Lessons Covered</div>
+        <div class="log-val">Lesson 1 (Pillars), Lesson 2 (Consciousness), Lesson 3 (Identity Types)</div>
+      </div>
+      <div class="log-item">
+        <div class="log-key">Moving Out</div>
+        <div class="log-val">August — own place with girlfriend. Better environment incoming.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="jj-note">
+    <div class="jj-say">"I've done this a long time, Chris — you're gonna do very, very well in sales. Not just because of the energy you bring — but because of the underlying beliefs and how you perceive this. Reality doesn't matter. It's your perception of reality that matters. And yours is already operating at a high level."</div>
+    <div class="jj-say-attr">— JJ, end of session</div>
+  </div>
+
+</body>
+</html>
