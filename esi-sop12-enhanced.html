@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SOP 12 · CLO-03 Enhanced — El Sistema Inmigrante</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #000;
+      --white: #fff;
+      --gray-400: #999;
+      --gray-600: #555;
+      --gray-800: #1a1a1a;
+      --gray-900: #111;
+      --gold: #f5c518;
+      --green: #4ade80;
+      --red: #fc8181;
+      --blue: #7ab3ff;
+      --sidebar-width: 260px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--white);
+      display: flex;
+      min-height: 100vh;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: var(--sidebar-width);
+      min-height: 100vh;
+      background: var(--gray-900);
+      border-right: 1px solid #1a1a1a;
+      position: fixed;
+      top: 0; left: 0;
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      overflow-y: auto;
+    }
+
+    .sidebar-logo { padding: 24px; border-bottom: 1px solid #1a1a1a; }
+    .logo-text { font-size: 14px; font-weight: 700; }
+    .logo-sub { font-size: 10px; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 3px; }
+
+    .sidebar-nav { padding: 12px 0; flex: 1; }
+    .nav-group-label { font-size: 9px; font-weight: 700; color: #333; letter-spacing: 1.5px; text-transform: uppercase; padding: 14px 22px 5px; }
+
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 7px 22px;
+      color: var(--gray-600);
+      text-decoration: none;
+      font-size: 12px; font-weight: 500;
+      transition: all 0.12s;
+      border-left: 2px solid transparent;
+    }
+    .nav-item:hover { color: var(--white); background: #141414; }
+    .nav-item.active { color: var(--white); border-left-color: var(--gold); background: #141414; }
+    .nav-dot { width: 5px; height: 5px; border-radius: 50%; background: #2a2a2a; flex-shrink: 0; }
+    .nav-item.active .nav-dot { background: var(--gold); }
+
+    .sidebar-footer { padding: 16px 22px; border-top: 1px solid #1a1a1a; font-size: 10px; color: #333; }
+
+    /* MAIN */
+    .main { margin-left: var(--sidebar-width); flex: 1; padding: 52px 64px 100px; max-width: 900px; }
+
+    /* HEADER */
+    .page-header { margin-bottom: 52px; }
+    .page-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #333; margin-bottom: 14px; }
+    .page-title { font-size: 36px; font-weight: 900; letter-spacing: -1px; line-height: 1.05; margin-bottom: 12px; }
+    .page-desc { font-size: 14px; color: var(--gray-600); line-height: 1.75; max-width: 600px; }
+    .page-meta { display: flex; gap: 24px; margin-top: 24px; padding-top: 24px; border-top: 1px solid #111; flex-wrap: wrap; }
+    .meta-item { display: flex; flex-direction: column; gap: 3px; }
+    .meta-label { font-size: 9px; color: #333; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+    .meta-value { font-size: 13px; color: #999; font-weight: 600; }
+
+    /* ENHANCEMENT BADGE */
+    .enhancement-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 9px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 20px;
+      background: #0d1200; color: var(--gold); border: 1px solid #2a2500;
+    }
+
+    /* SECTION */
+    .section { margin-bottom: 72px; scroll-margin-top: 40px; }
+    .section-tag {
+      font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 20px; display: inline-block; margin-bottom: 14px;
+      background: #111; color: var(--gray-600); border: 1px solid #1a1a1a;
+    }
+    .section-tag.gold { background: #0d1200; color: var(--gold); border-color: #2a2500; }
+    .section-tag.green { background: #031208; color: var(--green); border-color: #0d3018; }
+    .section-tag.red { background: #120303; color: var(--red); border-color: #300d0d; }
+    .section-tag.blue { background: #03080d; color: var(--blue); border-color: #0d1e30; }
+
+    .section-title { font-size: 22px; font-weight: 800; letter-spacing: -0.4px; margin-bottom: 20px; }
+
+    /* RULE BLOCK */
+    .rule-block {
+      border-left: 3px solid #222;
+      padding: 14px 20px;
+      margin-bottom: 14px;
+      background: #060606;
+      border-radius: 0 8px 8px 0;
+    }
+    .rule-block.gold { border-color: var(--gold); }
+    .rule-block.green { border-color: #1a5c2a; }
+    .rule-block.red { border-color: #5c1a1a; }
+    .rule-block.blue { border-color: #1a3a5c; }
+    .rule-block.white { border-color: #222; }
+
+    .rule-label {
+      font-size: 9px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 7px;
+    }
+    .rule-label.gold { color: var(--gold); }
+    .rule-label.green { color: var(--green); }
+    .rule-label.red { color: var(--red); }
+    .rule-label.blue { color: var(--blue); }
+    .rule-label.white { color: #444; }
+
+    .rule-block p, .rule-block li { font-size: 13.5px; color: #888; line-height: 1.75; }
+    .rule-block strong { color: #ccc; }
+    .rule-block ul { padding-left: 18px; margin-top: 8px; display: flex; flex-direction: column; gap: 5px; }
+
+    /* CARD */
+    .card {
+      background: #080808;
+      border: 1px solid #141414;
+      border-radius: 10px;
+      padding: 22px 26px;
+      margin-bottom: 16px;
+    }
+    .card-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #444; margin-bottom: 12px; }
+    .card p { font-size: 13.5px; color: #777; line-height: 1.75; }
+    .card p + p { margin-top: 10px; }
+    .card strong { color: #aaa; }
+
+    /* ENHANCEMENT BLOCK */
+    .enhancement {
+      background: #0a0d00;
+      border: 1px solid #1e2500;
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin: 18px 0;
+    }
+    .enhancement-header {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+    }
+    .enhancement-title { font-size: 13px; font-weight: 800; color: var(--gold); }
+    .enhancement p, .enhancement li { font-size: 13.5px; color: #888; line-height: 1.75; }
+    .enhancement strong { color: #ccc; }
+    .enhancement ul { padding-left: 18px; display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+
+    /* PHASE BLOCK */
+    .phase {
+      background: #060606;
+      border: 1px solid #111;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .phase-header {
+      display: flex; align-items: center; gap: 16px;
+      padding: 16px 22px;
+      border-bottom: 1px solid #111;
+      background: #080808;
+    }
+    .phase-num {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 1px solid #222; display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 800; color: #444; flex-shrink: 0;
+    }
+    .phase-num.gold { border-color: var(--gold); color: var(--gold); }
+    .phase-title { font-size: 14px; font-weight: 700; }
+    .phase-time { font-size: 11px; color: #444; margin-left: auto; }
+    .phase-body { padding: 20px 22px; }
+    .phase-body p { font-size: 13.5px; color: #666; line-height: 1.75; margin-bottom: 10px; }
+    .phase-body strong { color: #999; }
+    .phase-body .script { font-size: 13px; color: #999; font-style: italic; background: #030303; border-left: 2px solid #1a1a1a; padding: 12px 16px; border-radius: 0 6px 6px 0; margin: 12px 0; line-height: 1.7; }
+
+    /* PACE GRID */
+    .pace-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+    .pace-card { background: #060606; border: 1px solid #111; border-radius: 10px; padding: 18px 20px; }
+    .pace-letter { font-size: 28px; font-weight: 900; margin-bottom: 6px; letter-spacing: -1px; }
+    .pace-name { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #555; margin-bottom: 10px; }
+    .pace-signals { font-size: 12.5px; color: #555; line-height: 1.6; margin-bottom: 10px; }
+    .pace-adjust { font-size: 12.5px; color: #888; line-height: 1.6; }
+    .pace-adjust strong { color: #aaa; }
+
+    /* TABLE */
+    .data-table { width: 100%; border-collapse: collapse; margin-top: 14px; }
+    .data-table th { text-align: left; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #333; padding: 10px 14px; border-bottom: 1px solid #111; }
+    .data-table td { padding: 12px 14px; font-size: 13px; border-bottom: 1px solid #0a0a0a; color: #666; vertical-align: top; line-height: 1.5; }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table td:first-child { color: #999; font-weight: 600; }
+
+    /* OBJECTION */
+    .obj-card { background: #060606; border: 1px solid #111; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; }
+    .obj-q { font-size: 14px; font-weight: 700; color: var(--red); margin-bottom: 6px; }
+    .obj-real { font-size: 11px; color: #444; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+    .obj-body { font-size: 13.5px; color: #666; line-height: 1.75; }
+    .obj-body strong { color: #999; }
+
+    /* LEVELS */
+    .levels-row { display: flex; flex-direction: column; gap: 4px; }
+    .level-item { display: flex; align-items: center; gap: 14px; padding: 9px 14px; border-radius: 7px; background: #060606; border: 1px solid #0a0a0a; }
+    .level-item.active { background: #0a0d00; border-color: #1e2500; }
+    .level-name { font-size: 12px; font-weight: 700; width: 100px; flex-shrink: 0; color: #333; }
+    .level-name.gold { color: var(--gold); }
+    .level-name.green { color: var(--green); }
+    .level-name.blue { color: var(--blue); }
+    .level-desc { font-size: 12.5px; color: #444; flex: 1; line-height: 1.5; }
+    .level-tag { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 2px 8px; border-radius: 4px; flex-shrink: 0; }
+    .tag-gold { background: #0d1200; color: var(--gold); border: 1px solid #2a2500; }
+    .tag-green { background: #031208; color: var(--green); border: 1px solid #0d3018; }
+
+    /* DIVIDER */
+    hr { border: none; border-top: 1px solid #0d0d0d; margin: 52px 0; }
+
+    .quote-block {
+      background: #060600;
+      border: 1px solid #1a1800;
+      border-radius: 10px;
+      padding: 24px 28px;
+      margin: 24px 0;
+    }
+    .quote-text { font-size: 17px; font-weight: 700; color: #888; line-height: 1.6; font-style: italic; letter-spacing: -0.2px; }
+    .quote-attr { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #333; margin-top: 10px; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+    .col-card { background: #060606; border: 1px solid #111; border-radius: 10px; padding: 18px 20px; }
+    .col-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+    .col-label.red { color: #5c1a1a; }
+    .col-label.green { color: #1a5c2a; }
+    .col-body { font-size: 13px; color: #555; line-height: 1.7; }
+    .col-body li { margin-bottom: 6px; padding-left: 14px; position: relative; }
+    .col-body li::before { content: ''; position: absolute; left: 0; top: 8px; width: 4px; height: 4px; border-radius: 50%; background: #333; }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text">SOP 12 · CLO-03</div>
+    <div class="logo-sub">Enhanced — Sales.io Frameworks</div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-group-label">Foundation</div>
+    <a class="nav-item active" href="#invisible"><span class="nav-dot"></span>The Invisible Layer</a>
+    <a class="nav-item" href="#state"><span class="nav-dot"></span>Closer State Management</a>
+    <a class="nav-item" href="#pace"><span class="nav-dot"></span>PACE Personality Typing</a>
+
+    <div class="nav-group-label">The 10 Phases</div>
+    <a class="nav-item" href="#phase1"><span class="nav-dot"></span>1. Pre-Call Prep</a>
+    <a class="nav-item" href="#phase2"><span class="nav-dot"></span>2. Opening + Frame</a>
+    <a class="nav-item" href="#phase3"><span class="nav-dot"></span>3. Qualification</a>
+    <a class="nav-item" href="#phase4"><span class="nav-dot"></span>4. Discovery + Pain</a>
+    <a class="nav-item" href="#phase5"><span class="nav-dot"></span>5. Mirror Recap</a>
+    <a class="nav-item" href="#phase6"><span class="nav-dot"></span>6. The Pitch</a>
+    <a class="nav-item" href="#phase7"><span class="nav-dot"></span>7. Social Proof</a>
+    <a class="nav-item" href="#phase8"><span class="nav-dot"></span>8. Future Pace + Price</a>
+    <a class="nav-item" href="#phase9"><span class="nav-dot"></span>9. Close + Payment</a>
+    <a class="nav-item" href="#phase10"><span class="nav-dot"></span>10. Post-Close</a>
+
+    <div class="nav-group-label">Playbooks</div>
+    <a class="nav-item" href="#objections"><span class="nav-dot"></span>Objection Playbook</a>
+    <a class="nav-item" href="#identity"><span class="nav-dot"></span>Identity Framework</a>
+    <a class="nav-item" href="#detachment"><span class="nav-dot"></span>Detachment + Frame</a>
+  </div>
+  <div class="sidebar-footer">El Sistema Inmigrante · Sales.io Enhanced</div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-eyebrow">El Sistema Inmigrante · SOP 12 · CLO-03</div>
+    <h1 class="page-title">The Definitive Sales Call Script<br><span style="color:#333">Enhanced</span></h1>
+    <p class="page-desc">The original 10-phase operating system, strengthened with Sales.io frameworks: the Four Levels of Communication, PACE personality typing, cognitive dissonance in sales, the Heaven and Hell framework, identity-based objection handling, and the emotional contract principle. Every enhancement is marked clearly.</p>
+    <div class="page-meta">
+      <div class="meta-item"><span class="meta-label">Base SOP</span><span class="meta-value">CLO-03 Original</span></div>
+      <div class="meta-item"><span class="meta-label">Frameworks Added</span><span class="meta-value">Sales.io / JJ Hernandez</span></div>
+      <div class="meta-item"><span class="meta-label">Target Duration</span><span class="meta-value">45–60 min</span></div>
+      <div class="meta-item"><span class="meta-label">Prospect Talk Time</span><span class="meta-value">60%+</span></div>
+    </div>
+  </div>
+
+  <hr/>
+
+  <!-- THE INVISIBLE LAYER -->
+  <section class="section" id="invisible">
+    <span class="section-tag gold">New Section</span>
+    <h2 class="section-title">The Invisible Layer — What the Script Can't Give You</h2>
+
+    <p style="font-size:14px;color:#666;line-height:1.8;margin-bottom:24px;">The existing SOP covers what to say. This section covers the deeper layer that determines whether what you say actually lands. Every closer who reads this document word for word and still doesn't close is missing this.</p>
+
+    <div class="rule-block gold">
+      <div class="rule-label gold">The Four Levels of Communication</div>
+      <p>What you say accounts for <strong>7%</strong> of whether you close. How you say it — your tonality, pacing, energy — accounts for <strong>38%</strong>. Your intention accounts for more. But the variable that drives everything else is <strong>how you feel about yourself</strong> in that moment. A closer who genuinely believes they are handing someone a life-changing opportunity will outperform a closer reading a perfect script from a state of desperation every time.</p>
+    </div>
+
+    <div class="rule-block blue">
+      <div class="rule-label blue">No Neutral Influence</div>
+      <p>From the moment they say hello, you are either moving this person up or pulling them down. There is no neutral. This is not about sales technique — it is physics. Your state transfers. If you are anxious about making the quota, they feel it without knowing what it is. If you are genuinely curious about their life and detached from the outcome, they feel that too. <strong>The prospect's state at the close is largely a reflection of your state throughout the call.</strong></p>
+    </div>
+
+    <div class="rule-block green">
+      <div class="rule-label green">Connection Is What People Actually Buy</div>
+      <p>The program, the pillars, the results, the WhatsApp group — these are all proof points. But the decision to buy is almost always a decision about the person on the other side of the call. They are asking: does this person actually understand my life? Do I trust them? Do I feel seen? <strong>If the answer to those three questions is yes, every objection becomes manageable. If the answer is no, no price point or financing option will close them.</strong></p>
+    </div>
+  </section>
+
+  <!-- CLOSER STATE -->
+  <section class="section" id="state">
+    <span class="section-tag gold">New Section</span>
+    <h2 class="section-title">Closer State Management</h2>
+    <p style="font-size:14px;color:#666;line-height:1.8;margin-bottom:20px;">The SOP says "camera on, quiet room, energy up." That's the physical setup. This is the internal setup — the most important variable on every call.</p>
+
+    <div class="card">
+      <div class="card-title">Levels of Consciousness — Know Where You're Operating</div>
+      <p>Every closer operates at different levels throughout the day. The level you're at when you pick up the phone is what the prospect receives.</p>
+      <div class="levels-row" style="margin-top:16px;">
+        <div class="level-item active">
+          <div class="level-name gold">Love / Service</div>
+          <div class="level-desc">You genuinely want to change this person's life. The sale is a consequence, not the goal. This is the highest-closing state. Operating here is not naïve — it is strategic.</div>
+          <div class="level-tag tag-gold">Close here</div>
+        </div>
+        <div class="level-item active">
+          <div class="level-name green">Willingness</div>
+          <div class="level-desc">You're ready, curious, and present. You might not feel "on fire" but you're fully in the conversation. This closes well.</div>
+          <div class="level-tag tag-green">Works</div>
+        </div>
+        <div class="level-item">
+          <div class="level-name blue">Reason</div>
+          <div class="level-desc">You're thinking logically, running the script mechanically. Competent but disconnected. Prospects feel the gap.</div>
+          <div class="level-desc" style="color:#333;margin-left:6px;">Risky</div>
+        </div>
+        <div class="level-item">
+          <div class="level-name" style="color:#444;">Pride / Need</div>
+          <div class="level-desc">You need this sale. You're performing enthusiasm. The prospect can sense the desperation even when the words are right. <strong style="color:#5c1a1a;">This is where frames break.</strong></div>
+        </div>
+        <div class="level-item">
+          <div class="level-name" style="color:#333;">Fear / Apathy</div>
+          <div class="level-desc">Do not pick up the phone from here. You will damage your conversion rate and potentially your brand. Fix the state first.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="enhancement">
+      <div class="enhancement-header">
+        <div class="enhancement-badge">Sales.io Protocol</div>
+        <div class="enhancement-title">Pre-Call State Check (2 minutes)</div>
+      </div>
+      <p>Before every call, answer these three questions out loud:</p>
+      <ul>
+        <li>Do I genuinely believe this program can change this person's life? <strong>(If no — review the wins channel first.)</strong></li>
+        <li>Am I curious about this specific person, or am I running a script? <strong>(If script — read their questionnaire again like you're reading a novel.)</strong></li>
+        <li>Does this sale change anything for me emotionally? <strong>(If yes — reframe: "It changes nothing for me whether they do this or not. But it changes everything for them.")</strong></li>
+      </ul>
+      <p style="margin-top:12px;">If you can't answer those three cleanly, take 5 minutes. The call can wait 5 minutes. Jumping on a call in the wrong state costs you the close and the lead.</p>
+    </div>
+  </section>
+
+  <!-- PACE TYPING -->
+  <section class="section" id="pace">
+    <span class="section-tag gold">New Section</span>
+    <h2 class="section-title">PACE Personality Typing</h2>
+    <p style="font-size:14px;color:#666;line-height:1.8;margin-bottom:6px;">The existing ICP (A/B/C) tells you about their situation. PACE tells you about their personality — which determines how they process the pitch, what moves them emotionally, and how to handle their specific objections. Type them in the first 5 minutes by listening to how they speak, not just what they say.</p>
+    <p style="font-size:13px;color:#444;line-height:1.75;margin-bottom:20px;">Most prospects are a combination. Pick the dominant trait and let the secondary trait inform your close.</p>
+
+    <div class="pace-grid">
+      <div class="pace-card">
+        <div class="pace-letter" style="color:var(--blue);">P</div>
+        <div class="pace-name">Practical</div>
+        <div class="pace-signals"><strong style="color:#555;">How they sound:</strong> "How does this work exactly?" "What's the step by step?" "Show me the numbers." Asks for specifics before committing emotionally. Skeptical of vague claims.</div>
+        <div class="pace-adjust"><strong>Adjust:</strong> Lead with the math ($10K/month = $333/day = 3 perfumes). Show the modules, the exact sequence. Give them the step-by-step of the credit system. Don't rush the proof — they need to see the mechanism before they'll feel anything.</div>
+      </div>
+      <div class="pace-card">
+        <div class="pace-letter" style="color:var(--red);">A</div>
+        <div class="pace-name">Action</div>
+        <div class="pace-signals"><strong style="color:#555;">How they sound:</strong> "I'm ready to move." "I've been thinking about this." "What do I do?" Fast talker, impatient with long explanations, competitive streak.</div>
+        <div class="pace-adjust"><strong>Adjust:</strong> Short discovery, go fast. Show them who's already winning (Güero, Jimmy, Paul). Use the urgency of time — they hate being left behind. Skip the mindset pillar, double down on the business and the social proof. Close early and direct.</div>
+      </div>
+      <div class="pace-card">
+        <div class="pace-letter" style="color:var(--green);">S</div>
+        <div class="pace-name">Social</div>
+        <div class="pace-signals"><strong style="color:#555;">How they sound:</strong> Talks about family constantly. "My wife says…" "My kids…" "People I know said…" Asks about the community. Needs to feel part of something.</div>
+        <div class="pace-adjust"><strong>Adjust:</strong> Emphasize the 400-student community, the Wins channel, the private group. Show them a private 1-on-1 chat on screen. Make the family angle the close: "Imagine telling your kids you did this." The mental vaccine is especially important — their family will try to talk them out of it.</div>
+      </div>
+      <div class="pace-card">
+        <div class="pace-letter" style="color:var(--gold);">E</div>
+        <div class="pace-name">Emotional</div>
+        <div class="pace-signals"><strong style="color:#555;">How they sound:</strong> Tells their full story unprompted. Goes deep on pain — depression, loneliness, shame, exhaustion. Cries or chokes up. Says things like "I just want a different life."</div>
+        <div class="pace-adjust"><strong>Adjust:</strong> Slow down. Don't pitch over their pain — go INTO it. Use their exact words in the mirror recap. The TikTok pitch (2-3 things they said they valued most) is most powerful here. The mental vaccine is the most important part of the close for this type — their emotions will swing hard post-close.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- PHASE 1 -->
+  <section class="section" id="phase1">
+    <span class="section-tag">Phase 01</span>
+    <h2 class="section-title">Pre-Call Prep</h2>
+
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num gold">1</div>
+        <div class="phase-title">Before the Call</div>
+        <div class="phase-time">5 min before</div>
+      </div>
+      <div class="phase-body">
+        <p>Read the questionnaire. Classify ICP (A/B/C). Read Airtable setter + confirmer context. Pick 2 success stories that match their profile. Have links open. Camera on, quiet room, energy up.</p>
+        <p><strong>Morning confirmation:</strong> Send to all same-day leads without exception. Confirms attendance and plants the authority frame before the call.</p>
+      </div>
+    </div>
+
+    <div class="enhancement">
+      <div class="enhancement-header">
+        <div class="enhancement-badge">Sales.io Add</div>
+        <div class="enhancement-title">Add PACE Pre-Classification</div>
+      </div>
+      <p>Before the call, read the questionnaire and setter notes looking for personality signals — not just situation signals. <strong>How they wrote their answers tells you their PACE type.</strong> Short, direct answers = A or P. Long emotional paragraphs = E. References to family throughout = S.</p>
+      <p style="margin-top:10px;">This gives you a hypothesis before the call even starts. You test it in the first 3 minutes and adjust. Going in with a personality read is the difference between a generic open and an open that feels like you already know them.</p>
+    </div>
+
+    <div class="enhancement">
+      <div class="enhancement-header">
+        <div class="enhancement-badge">Sales.io Add</div>
+        <div class="enhancement-title">Pick a Success Case That Matches Their Identity — Not Just Their Situation</div>
+      </div>
+      <p>The existing SOP says pick a case that matches their job (rancher → Jimmy, construction → Güero). Go one layer deeper: match their <strong>identity type</strong>.</p>
+      <ul>
+        <li>Person who defines themselves by past failure or past glory → <strong>historical identity</strong> — use a case of someone who had failed before and broke through</li>
+        <li>Person who leads with their job title or credentials → <strong>role identity</strong> — use a case of someone who had similar "expertise" and still leveled up</li>
+        <li>Person who mentions community, family, or group affiliation → <strong>social identity</strong> — use a case of someone who brought their family along or became a leader in the group</li>
+      </ul>
+      <p style="margin-top:10px;">The proof that mirrors both their situation AND their identity is the proof that closes.</p>
+    </div>
+  </section>
+
+  <!-- PHASE 2 -->
+  <section class="section" id="phase2">
+    <span class="section-tag">Phase 02</span>
+    <h2 class="section-title">Opening + Frame</h2>
+
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num gold">2</div>
+        <div class="phase-title">0–3 min</div>
+        <div class="phase-time">Rapport → Frame → Commitment</div>
+      </div>
+      <div class="phase-body">
+        <p><strong>Step 1 — Rapport (60–90 sec):</strong> Find one real connection point. "Living the dream or not yet?" plants the pain seed in second 30.</p>
+        <div class="script">"Look, [NAME]. This call is not a sales call. It's an audit of your life here in the United States... The only thing I ask: at the end, you give me a yes or a no. Can I count on that?"</div>
+        <p><strong>Wait for the verbal yes.</strong> Do not move forward without it.</p>
+      </div>
+    </div>
+
+    <div class="enhancement">
+      <div class="enhancement-header">
+        <div class="enhancement-badge">Sales.io Add</div>
+        <div class="enhancement-title">The First 90 Seconds Are the Call</div>
+      </div>
+      <p>The rapport phase is not small talk. It is where the tone, energy, and trust level for the entire call is set. The closer who shows genuine curiosity — not "how are you?" as a formality but actual interest in the answer — creates a different call than the one running through a checklist.</p>
+      <p style="margin-top:10px;"><strong>Listen for the PACE signal.</strong> In their first 30–60 words, they will almost always reveal their personality. The person who says "I've been trying to do something for years but life keeps getting in the way" is Emotional or Social. The person who says "I want to understand exactly how this works before we get into it" is Practical. Act accordingly from the jump.</p>
+      <p style="margin-top:10px;"><strong>Tonality in the frame matters more than the words.</strong> The frame ("audit, not a sale") only lands if your voice sounds like someone who doesn't need them to say yes. If you rush through it or your pitch rises at the end of sentences, you've already undercut it.</p>
+    </div>
+  </section>
+
+  <!-- PHASE 3 -->
+  <section class="section" id="phase3">
+    <span class="section-tag">Phase 03</span>
+    <h2 class="section-title">Early Qualification</h2>
+
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num gold">3</div>
+        <div class="phase-title">3–8 min</div>
+        <div class="phase-time">Status · Credit · Capital · Willingness to Act</div>
+      </div>
+      <div class="phase-body">
+        <p>Confirm questionnaire, credit situation, banking, family structure, and available capital. Get the money question done early — if you don't know how much they have by minute 10, you are behind.</p>
+        <div class="script">"When you booked, you said if we show you a system to build $25K+ in credit and an e-commerce business at $10K/month, you'd have [$X] to invest. That money — is it in your bank account, in cash, on a card?"</div>
+      </div>
+    </div>
+
+    <div class="enhancement">
+      <div class="enhancement-header">
+        <div class="enhancement-badge">Sales.io Add</div>
+        <div class="enhancement-title">Qualify the Identity, Not Just the Finances</div>
+      </div>
+      <p>While you're qualifying their finances, you're also qualifying their identity. These two questions, dropped naturally into the qualification phase, give you everything:</p>
+      <ul>
+        <li><strong>"What's your story — how did you end up in [JOB]?"</strong> — This reveals whether they define themselves by their work (role identity), their past (historical identity), or their family/community (social identity).</li>
+        <li><strong>"Have you tried building something before?"</strong> — If yes, listen for whether they frame it as failure (historical identity stuck in the loss) or as a lesson (closer to willingness). This changes how you handle every objection they'll give you later.</li>
+      </ul>
+      <p style="margin-top:10px;">You're not asking these to be nice. You're building the dossier you'll use to customize every line of the pitch and close.</p>
+    </div>
+  </section>
+
+  <!-- PHASE 4 -->
+  <section class="section" id="phase4">
+    <span class="section-tag">Phase 04</span>
+    <h2 class="section-title">Discovery + Pain</h2>
+
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num gold">4</div>
+        <div class="phase-title">8–20 min</div>
+        <div class="phase-time">The heart of the call</div>
+      </div>
+      <div class="phase-body">
+        <p>This phase is where the sale happens. Seven questions in order: Situation → Dream → Trigger → Brake → Attempts → Consequence → Motive. Do not move to the pitch until they have said out loud (1) what hurts, (2) what it's costing them, and (3) why today.</p>
+      </div>
+    </div>
+
+    <div class="enhancement">
+      <div class="enhancement-header">
+        <div class="enhancement-badge">Sales.io Framework</div>
+        <div class="enhancement-title">Cognitive Dissonance — The Identity-Reality Gap</div>
+      </div>
+      <p>The Pain Ladder finds pain. Cognitive dissonance turns that pain into a buying decision. Here's the distinction:</p>
+      <p style="margin-top:10px;">Every prospect has a self-image — who they believe themselves to be. "I'm a hard worker." "I'm a good father." "I'm someone who figured it out when I came here." Then there is their reality: 60 hours a week, no assets, trading time for money, the same spot they were in 3 years ago.</p>
+      <p style="margin-top:10px;"><strong>The gap between the self-image and the reality is where the decision lives.</strong> Your job in discovery is not just to surface the pain — it is to widen that gap until staying the same feels more uncomfortable than changing.</p>
+
+      <p style="margin-top:14px;"><strong>How to use it in Phase 4:</strong></p>
+      <ul>
+        <li>First, affirm the self-image: <em>"You're clearly someone who works hard — you've been doing this for [X] years."</em></li>
+        <li>Then contrast it with the reality: <em>"And yet... you're still in the same spot. How does that sit with you — someone who works as hard as you do, and the result doesn't match the effort?"</em></li>
+        <li>Let them sit in that gap. Don't rush to the program. The discomfort of that gap is what creates the urgency to move.</li>
+        <li>The "wasted advantage confrontation" in the original SOP is already doing this — it's cognitive dissonance applied to citizens. Apply the same logic to every prospect type.</li>
+      </ul>
+    </div>
+
+    <div class="enhancement">
+      <div class="enhancement-header">
+        <div class="enhancement-badge">Sales.io Add</div>
+        <div class="enhancement-title">The TikTok Discovery — Find the 3–4 Things That Matter Most</div>
+      </div>
+      <p>As you run the pain ladder, you're listening for 3–4 specific things this person values above everything else. For one person it's the family back home. For another it's proving something to themselves. For another it's getting off the job site.</p>
+      <p style="margin-top:10px;"><strong>Write these down as they say them.</strong> These 3–4 things are the only things that matter in your pitch. Every pillar you present in Phase 6 needs to connect back to at least one of these. If a prospect's top two motivators are "provide for my kids" and "get out of construction," your pitch should sound completely different than one for someone whose top motivators are "build credit" and "prove I'm more than my job."</p>
+      <p style="margin-top:10px;">Generic pitch = generic result. Personalized pitch built on their specific 3–4 things = the prospect feels understood, not sold to.</p>
+    </div>
+
+    <div class="enhancement">
+      <div class="enhancement-header">
+        <div class="enhancement-badge">Sales.io Add</div>
+        <div class="enhancement-title">Active Listening — Repeat Their Life Better Than They Told It</div>
+      </div>
+      <p>The most powerful move in discovery isn't a question. It's a reflection. When you repeat what someone said better than they said it — when you give their life back to them with more clarity than they had when they were living it — you become the most trusted person they've spoken to in years.</p>
+      <div class="script">"So what I'm hearing is — you didn't fail, you got hit by something external and you didn't have a system to absorb it. And that taught you that depending on one income, one job, one person saying yes to you every week is the most dangerous thing you can do. Is that right?"</div>
+      <p>When they say "exactly" — you have the authority to prescribe the solution. Not before.</p>
+    </div>
+  </section>
+
+  <!-- PHASE 5 -->
+  <section class="section" id="phase5">
+    <span class="section-tag">Phase 05</span>
+    <h2 class="section-title">Mirror Recap + "You Qualify"</h2>
+
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num gold">5</div>
+        <div class="phase-title">20–23 min</div>
+        <div class="phase-time">Reflect → Confirm → Accept</div>
+      </div>
+      <div class="phase-body">
+        <p>Repeat their life back in their exact words. Get a "yes, that's right." Then: "You qualify." This flips the frame — they were accepted, not sold to. Use their exact words — if they said "estancado," say "estancado."</p>
+      </div>
+    </div>
+
+    <div class="enhancement">
+      <div class="enhancement-header">
+        <div class="enhancement-badge">Sales.io Add</div>
+        <div class="enhancement-title">Close the Identity Gap in the Recap</div>
+      </div>
+      <p>After you reflect their reality back, add one line that bridges the gap between who they are and who they could be. Not with hype — with identity language.</p>
+      <div class="script">"You've worked harder than most people I talk to. The only thing that's been missing is the system. Everything else — the work ethic, the willingness, the reason you're on this call — that's already there. That's why you qualify."</div>
+      <p>This is not flattery. It is cognitively dissonant: you're telling them the gap between their self-image (hard worker, determined) and their reality (stuck) is not a character flaw — it's a missing system. That reframe makes the program the logical next step instead of an indulgence.</p>
+    </div>
+  </section>
+
+  <!-- PHASE 6 -->
+  <section class="section" id="phase6">
+    <span class="section-tag">Phase 06</span>
+    <h2 class="section-title">The Pitch — 4 Pillars</h2>
+
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num gold">6</div>
+        <div class="phase-title">23–33 min</div>
+        <div class="phase-time">Mindset · Legal · Credit · Business</div>
+      </div>
+      <div class="phase-body">
+        <p>Four pillars, each tied to what THEY said in discovery. The program is not a course — it is the school nobody built for the immigrant. Sell the transformation: from trading hours for a paycheck → operating the U.S. system like an owner.</p>
+      </div>
+    </div>
+
+    <div class="enhancement">
+      <div class="enhancement-header">
+        <div class="enhancement-badge">Sales.io Framework</div>
+        <div class="enhancement-title">Heaven and Hell — The Pitch Structure That Closes</div>
+      </div>
+      <p>Before presenting any pillar, run the prospect mentally through this sequence. It doesn't have to be explicit — it should be the invisible architecture of every pillar you present.</p>
+      <div class="card" style="margin-top:14px;">
+        <table class="data-table">
+          <thead><tr><th>Step</th><th>What You're Doing</th><th>Example Line</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Hell (Current State)</td>
+              <td>Anchor their specific pain — from Phase 4</td>
+              <td>"You told me you've been doing this 7 years and you're still in the same spot."</td>
+            </tr>
+            <tr>
+              <td>Heaven (Future State)</td>
+              <td>Paint the specific future they described</td>
+              <td>"The life you told me you want — off the job site, a business that pays you while you sleep — that's not a fantasy. It's what Güero built."</td>
+            </tr>
+            <tr>
+              <td>Gap</td>
+              <td>Name what's between them and that life</td>
+              <td>"The only thing between where you are and where Güero is — is the system he had and you didn't."</td>
+            </tr>
+            <tr>
+              <td>Program as Bridge</td>
+              <td>Present the pillar as the bridge, not the product</td>
+              <td>"That's what Pillar 3 — the credit system — does. It's the engine Güero used to go from no credit to $80K of available capital."</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:14px;">Run this structure for each of the 4 pillars, using a different piece of their discovered pain for each one. By the time you reach the price, they have been through the Heaven and Hell framework 4 times. The program has become the answer to every problem they named.</p>
+    </div>
+
+    <div class="enhancement">
+      <div class="enhancement-header">
+        <div class="enhancement-badge">Sales.io Add</div>
+        <div class="enhancement-title">The TikTok Pitch — Only Hit What Matters to Them</div>
+      </div>
+      <p>You found their 3–4 things in Phase 4. The pitch is where you use them. <strong>You do not need to explain every pillar equally.</strong> If their top motivators are "get off the job site" and "give my family more," spend 70% of the pitch on the business pillar and the mindset pillar — because those connect to what they care about. Credit and legal structure are supporting evidence, not the main event.</p>
+      <p style="margin-top:10px;">The closer who pitches everything equally is trying to cover all bases. The closer who pitches only what matters to this specific person sounds like they read the prospect's mind. One of those closes more.</p>
+    </div>
+  </section>
+
+  <!-- PHASE 7 -->
+  <section class="section" id="phase7">
+    <span class="section-tag">Phase 07</span>
+    <h2 class="section-title">Live Social Proof</h2>
+
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num gold">7</div>
+        <div class="phase-title">33–38 min</div>
+        <div class="phase-time">Show the case that mirrors them</div>
+      </div>
+      <div class="phase-body">
+        <p>Match the case to their profile — ranch/farm → Jimmy, construction → Güero, family man → warehouse student. Share screen on the Wins channel. Read 2–3 wins from today out loud with names and amounts. Recency beats size.</p>
+      </div>
+    </div>
+
+    <div class="enhancement">
+      <div class="enhancement-header">
+        <div class="enhancement-badge">Sales.io Add</div>
+        <div class="enhancement-title">Match the Case to Their Identity Type, Not Just Their Job</div>
+      </div>
+      <p>Two construction workers can have completely different identity types. One defines himself by his struggle (historical identity — "I've always had it hard"). The other defines himself by his current expertise (role identity — "I'm skilled at what I do, I just need more money").</p>
+      <ul>
+        <li><strong>Historical identity:</strong> Use the case of someone who had failed or struggled — and broke through. The narrative arc of failure → system → success is what resonates. "Güero wasn't always where he is — here's where he started."</li>
+        <li><strong>Role identity:</strong> Use the case of someone who had skills and leveraged them — Johnny selling $5K/month alone, then $100K with the system. "You already know how to work. This is about working with the right engine."</li>
+        <li><strong>Social identity:</strong> Use the case that mentions community, family results, or being part of something. "One of our students brought his brother in month two. Now they're both in the Wins channel."</li>
+        <li><strong>Emotional identity:</strong> Use the most human story available — the one with the most raw before-and-after. Carmen. The father who cried on the call. The person who left a bad situation and built something. The story that feels like a movie.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PHASE 8 -->
+  <section class="section" id="phase8">
+    <span class="section-tag">Phase 08</span>
+    <h2 class="section-title">Future Pace + Price</h2>
+
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num gold">8</div>
+        <div class="phase-title">38–42 min</div>
+        <div class="phase-time">Future Pace → Price Once → Shut Up</div>
+      </div>
+      <div class="phase-body">
+        <p>Put them in the future. Make them say out loud what changes. Then say the price once, calmly, with no drama. Shut up immediately. The first one who talks loses.</p>
+        <div class="script">"The mentorship has a value of $4,000 for the 6 complete months. And if you do it in a single payment, it stays at $3,500 — simply for taking action. So tell me, [NAME]: are we doing this, or do you prefer to stay where you are?"</div>
+      </div>
+    </div>
+
+    <div class="enhancement">
+      <div class="enhancement-header">
+        <div class="enhancement-badge">Sales.io Framework</div>
+        <div class="enhancement-title">The Emotional Contract — Know If It's Signed Before You Say the Price</div>
+      </div>
+      <p>The most important diagnostic in this entire SOP: <strong>logic signs off on the emotional contract that was already signed.</strong> If you get logical objections at the price — "let me think about it," "it's expensive," "I need to check my finances" — it does not mean the prospect is cheap. It means the emotional contract was never signed in Phase 4.</p>
+      <p style="margin-top:10px;">When the emotional contract IS signed — when they've verbalized their pain clearly, felt genuinely understood, and connected emotionally with the proof — the price objection becomes minor. They're just looking for permission to say yes. That's a logistics problem, not a sales problem.</p>
+      <p style="margin-top:10px;"><strong>Before you say the price, run this internal check:</strong></p>
+      <ul>
+        <li>Did they verbalize their pain in their own words? (Not just "yes" to your summary — did they go deeper?)</li>
+        <li>Did they say out loud what their life looks like in 6 months if nothing changes?</li>
+        <li>Did they say "why now" with genuine feeling, not just a polite answer?</li>
+      </ul>
+      <p style="margin-top:10px;">If you can't answer yes to all three — go back to Phase 4 with a question, not forward to the price. <em>"Before I get into how this works — you mentioned X earlier. Tell me more about that."</em> The extra 5 minutes in discovery is worth more than any financing structure at the close.</p>
+      <p style="margin-top:10px;"><strong>You never propose to someone you don't know is going to say yes.</strong></p>
+    </div>
+
+    <div class="enhancement">
+      <div class="enhancement-header">
+        <div class="enhancement-badge">Sales.io Add</div>
+        <div class="enhancement-title">The Future Pace Should Use Their Exact Words</div>
+      </div>
+      <p>The generic future pace ("picture yourself in 6 months…") is good. But if you use their exact words from Phase 4, it becomes personal — and personal closes.</p>
+      <div class="script">"You told me earlier that the thing you want most is to stop waking up at 4am knowing you're going back to the same job. Six months from now — with your LLC, your business running, your credit at $25K — what does that 4am look like? Are you still setting that alarm, or has something changed?"</div>
+      <p style="margin-top:10px;">When they answer — when they say out loud what that change looks like — they've already closed themselves. The price you say after that is almost irrelevant.</p>
+    </div>
+  </section>
+
+  <!-- PHASE 9 -->
+  <section class="section" id="phase9">
+    <span class="section-tag">Phase 09</span>
+    <h2 class="section-title">Close + Payment Captured Live</h2>
+
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num gold">9</div>
+        <div class="phase-title">42–55 min</div>
+        <div class="phase-time">ClarityPay · Card · Payment Ladder</div>
+      </div>
+      <div class="phase-body">
+        <p>Route A (SSN): ClarityPay financing — 12 months 0%. Walk them through the screen. Route B: card, Splitit, Zelle. Route C: payment ladder ($3,500 → two payments → three payments → minimum entry). Nobody leaves with a verbal yes. Some payment captured on the call — always.</p>
+      </div>
+    </div>
+
+    <div class="enhancement">
+      <div class="enhancement-header">
+        <div class="enhancement-badge">Sales.io Framework</div>
+        <div class="enhancement-title">Detachment Closes. Need Kills.</div>
+      </div>
+      <p>The closer who needs this sale will lose more closes than the script will save. The prospect can feel it — not in the words, but in the energy. Every flinch at an objection, every slight drop in tonality after a "let me think about it," every time you offer the next payment option too fast — those are tells. And they signal the same thing: you need them to say yes more than they need to say yes.</p>
+      <p style="margin-top:10px;"><strong>The line that resets the frame when it starts to slip:</strong></p>
+      <div class="script">"I want to be completely honest with you: it changes absolutely nothing for me whether you do this today or not. I'll be on calls tomorrow and the day after. What changes is your situation — not mine. So I'm only asking because I genuinely believe this is what you need. If you're not ready, tell me straight and I respect it. What I won't do is pressure you — that's not how we work here."</div>
+      <p style="margin-top:10px;">Said from a genuine place — not as a tactic — this resets the energy completely. The prospect stops defending and starts reconsidering. <strong>I'd rather lose the sale than lose the frame.</strong> Because if you lose the frame, you lose both.</p>
+    </div>
+
+    <div class="enhancement">
+      <div class="enhancement-header">
+        <div class="enhancement-badge">Sales.io Add</div>
+        <div class="enhancement-title">Three Behavioral Yeses Before the Payment — Not After</div>
+      </div>
+      <p>The Agustín behavioral commitment move ("Are you going to be on the live calls? Are you going to apply what we give you?") is powerful — but it should come before the payment method, not after a yes-to-the-price. Here's why:</p>
+      <p style="margin-top:10px;">When someone says yes to "will you show up to the calls, apply the material, ask for help when you're stuck" — they have already committed to being a student. The payment is then the administrative step of confirming that commitment, not a new decision. The three behavioral yeses transfer responsibility from the program to the student. <strong>Once they own that responsibility, they're paying for their own commitment — not for your product.</strong></p>
+    </div>
+  </section>
+
+  <!-- PHASE 10 -->
+  <section class="section" id="phase10">
+    <span class="section-tag">Phase 10</span>
+    <h2 class="section-title">Post-Close + Mental Vaccine</h2>
+
+    <div class="phase">
+      <div class="phase-header">
+        <div class="phase-num gold">10</div>
+        <div class="phase-title">55–60 min</div>
+        <div class="phase-time">Group · Onboarding · Vaccine · Celebrate</div>
+      </div>
+      <div class="phase-body">
+        <p>Congratulate with meaning. Build the WhatsApp group live on the call. Tag Valentina/Omar. First 3 messages. Assign first tasks. Schedule onboarding. Apply the mental vaccine. Do not hang up until they confirm "I can see the group on my phone."</p>
+      </div>
+    </div>
+
+    <div class="enhancement">
+      <div class="enhancement-header">
+        <div class="enhancement-badge">Sales.io Framework</div>
+        <div class="enhancement-title">The Mental Vaccine — Protect the Identity Decision</div>
+      </div>
+      <p>The existing mental vaccine script is strong. Add one layer: frame the close as an <strong>identity decision</strong>, not a purchase decision. This matters because the "buyer's remorse" that the vaccine addresses is not really about money — it is about the gap between who they've been and who they just decided to become.</p>
+      <div class="script">"One last thing. When you hang up, your old self is going to show up. The version of you that kept you working those 60 hours a week — they're going to have questions. 'Did I do the right thing? What if it doesn't work? What if I ask for my money back?' That is not wisdom — that is the version of you that got you to today. And you didn't get on this call because you wanted more of the same. You made a decision today that the person who crossed a border and worked this hard deserves more than just surviving. Remember that when the old voice shows up. And when it does — open the group, read the wins, and remember: you didn't make a purchase today. You made a choice about who you are."</div>
+      <p style="margin-top:10px;">This is not manipulation. It is preemptive identity reinforcement — and it dramatically reduces refund requests and ghosting in the first 48 hours.</p>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- OBJECTION PLAYBOOK -->
+  <section class="section" id="objections">
+    <span class="section-tag red">Enhanced</span>
+    <h2 class="section-title">Objection Playbook — The Meta-Rule</h2>
+
+    <div class="rule-block gold">
+      <div class="rule-label gold">The Most Important Rule in This Section</div>
+      <p>If you are getting logical objections at the close — "let me think about it," "it's expensive," "let me talk to my wife" — <strong>the emotional contract was not signed in Phase 4.</strong> Don't fight the objection. Go back.</p>
+      <p style="margin-top:10px;"><em>"Before I answer that — I want to make sure I understand where you're at. When you think about where you are right now versus where you said you wanted to be... how does that sit with you?"</em></p>
+      <p style="margin-top:10px;">This is more powerful than any objection reframe. It returns them to the pain that drove them to book the call in the first place. Objections evaporate when the emotional contract is signed. They multiply when it isn't.</p>
+    </div>
+
+    <div class="enhancement" style="margin-bottom:24px;">
+      <div class="enhancement-header">
+        <div class="enhancement-badge">Sales.io Add</div>
+        <div class="enhancement-title">Identity-Based Objection Classification</div>
+      </div>
+      <p>Before running any reframe, identify which identity type is generating the objection. The same "let me think about it" from a Practical type vs. an Emotional type requires a completely different response.</p>
+      <div class="card" style="margin-top:14px;">
+        <table class="data-table">
+          <thead><tr><th>Objection</th><th>Identity Behind It</th><th>Response Direction</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>"I already know about credit / I can do this alone"</td>
+              <td>Role identity — protecting expertise</td>
+              <td>Validate the expertise first. Then: "What good is the knowledge if it's not building something for you?" The restaurant analogy.</td>
+            </tr>
+            <tr>
+              <td>"I tried something like this before and it didn't work"</td>
+              <td>Historical identity — protecting against repeating failure</td>
+              <td>Honor the experience. Then contrast the system vs. the isolation. "How many of those times did you have 3 live calls a week and 400 people doing the same thing?"</td>
+            </tr>
+            <tr>
+              <td>"I need to talk to my wife/husband"</td>
+              <td>Social identity — decisions made in community</td>
+              <td>Reframe the conversation they'll have. "The best way to talk to her is not with an idea — it's with a decision already made."</td>
+            </tr>
+            <tr>
+              <td>"Let me think about it"</td>
+              <td>Emotional identity — fear of repeating past pattern</td>
+              <td>Name the pattern with compassion. "This isn't about Wednesday. It's about the way you've been making decisions. What will 3 more days give you?"</td>
+            </tr>
+            <tr>
+              <td>"I don't have the money"</td>
+              <td>Practical / fear — money as proxy for an unspoken doubt</td>
+              <td>"How much DO you have today?" Then solve the structure. But first: "Money aside — if this were free, would you do it? Why?" Let them sell themselves.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="obj-card">
+      <div class="obj-q">"I need to talk to my wife/husband"</div>
+      <div class="obj-real">Real: seeking permission / social identity</div>
+      <div class="obj-body">
+        <strong>Original script applies.</strong> Add the identity layer: "Think about this — when your car breaks down and you need $2,000, you don't ask permission. You solve it. Because it's a necessity. Is giving your family a different life a necessity or optional?"<br><br>
+        <strong>Sales.io add — the pre-conversation frame:</strong> "The version of you that has this conversation before deciding is the same version that got you here. The version of you that decides and then shows your wife the plan — that's a different man. Which conversation do you think she respects more?"
+      </div>
+    </div>
+
+    <div class="obj-card">
+      <div class="obj-q">"Let me think about it"</div>
+      <div class="obj-real">Real: unspoken doubt / emotional contract not signed</div>
+      <div class="obj-body">
+        <strong>First move:</strong> Find the real objection. "Of course. What specifically do you want to think about — the program, the money, or something else?"<br><br>
+        <strong>If they still defer:</strong> Use the decision-pattern reframe from the original SOP (Axel/Carmen). Then add: <em>"You got on this call because part of you already made a decision. The question isn't whether to do this — it's whether you're going to let the same thinking that got you here make this one too."</em><br><br>
+        <strong>The anchor:</strong> "At the start you told me you'd give me a yes or a no. With everything you've seen — what does your gut say?" If the gut says yes but they're scared, that's not an objection. That's a person who needs permission to act on what they already know.
+      </div>
+    </div>
+
+    <div class="obj-card">
+      <div class="obj-q">"It's expensive" / "Is it worth $4,000?"</div>
+      <div class="obj-real">Real: haven't weighed cost vs. cost of inaction</div>
+      <div class="obj-body">
+        <strong>Original three-door framework applies.</strong> Sales.io add: reframe with the comparison they're actually making.<br><br>
+        <em>"You're not comparing $4,000 to zero. You're comparing $4,000 to another year of the same — 60 hours a week, same paycheck, same ceiling. What does that year cost you? Not in money — in time, in health, in what you tell your kids you're doing with your life?"</em><br><br>
+        Then the door framework: Door 1 (worst case — LLC, credit, knowledge). Door 2 (most likely — $5K–$10K/month). Door 3 (do nothing — December same as today). <strong>Which door is actually expensive?</strong>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- IDENTITY FRAMEWORK -->
+  <section class="section" id="identity">
+    <span class="section-tag gold">New Section</span>
+    <h2 class="section-title">The Three Identity Types — Quick Reference</h2>
+    <p style="font-size:14px;color:#666;line-height:1.8;margin-bottom:20px;">Every prospect operates from one dominant identity. Knowing which one shapes every line of discovery, pitch, and objection handling. Learn to spot these in the first 5 minutes.</p>
+
+    <div class="card">
+      <div class="card-title">Historical Identity — "Back in my day…" / "I used to…" / "I've always been someone who…"</div>
+      <p><strong>Signal:</strong> They define themselves by past experiences — a past success, a past failure, a past version of themselves. "I had a business before and it went under." "I used to make good money." "I've been trying to get out of this situation for years."</p>
+      <p><strong>How to use it:</strong> The sale is about releasing them from a narrative they've been carrying. You're not selling a program — you're selling the story of the person they were before that past experience dimmed them. <em>"That situation taught you that doing it alone doesn't work. You already know the hard way. The question is whether you're going to let that lesson be the end of the story or the beginning."</em></p>
+      <p><strong>Most common type</strong> — everyone has some version of historical identity. Listen for it in every call.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Role Identity — "I'm a [JOB TITLE]" / "I know how business works" / "I've been doing this X years"</div>
+      <p><strong>Signal:</strong> They lead with their expertise, their job, their credentials. "I've been in construction 15 years." "I already know about credit." "I've been selling on my own." They use their role to establish authority — and to protect against feeling like they're being sold to by someone younger or less experienced.</p>
+      <p><strong>How to use it:</strong> Validate the expertise first — never challenge it directly. Then create the gap between having the skill and using it for themselves. <em>"You know more than most people I talk to. Seriously. The question I want you to answer for yourself is: what is all that knowledge building for you right now?"</em> The goal is to move them from "I know things" to "my knowledge isn't currently working for me."</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Social/Community Identity — "My family…" / "People I know…" / "I want to be part of something"</div>
+      <p><strong>Signal:</strong> They mention their family, their community, people they respect. They ask about who else is in the program. They make decisions collectively. "I need to talk to my wife." "I want to make sure this is real." "I've seen people on your Instagram…"</p>
+      <p><strong>How to use it:</strong> Sell them into the community, not just the program. Show the private groups on screen. Make the WhatsApp group feel like a family joining a family. The close is often about who they'll become in the eyes of the people who matter to them — spouse, kids, parents back home. <em>"Imagine the call you make to your family when you close your first sale. That call — what does it feel like?"</em></p>
+    </div>
+  </section>
+
+  <!-- DETACHMENT -->
+  <section class="section" id="detachment">
+    <span class="section-tag gold">Enhanced</span>
+    <h2 class="section-title">Detachment + Frame — The Closer's Philosophy</h2>
+
+    <div class="quote-block">
+      <div class="quote-text">"The person who needs the sale the most will always lose."</div>
+      <div class="quote-attr">— Sales.io Core Principle</div>
+    </div>
+
+    <div class="rule-block green">
+      <div class="rule-label green">What Detachment Actually Means</div>
+      <p>Detachment is not not caring. It is caring about the prospect's outcome more than your own commission. When you genuinely want what's best for them — and you're prepared to tell them this isn't for them if it isn't — you become the only sales person they've ever spoken to who wasn't trying to sell them something. That is the most powerful position on the call.</p>
+    </div>
+
+    <div class="rule-block blue">
+      <div class="rule-label blue">I'd Rather Lose the Sale Than Lose the Frame</div>
+      <p>The frame is the belief that you are the authority — the diagnostician, not the salesperson. The moment you drop the price without being asked, accept "let me think about it" without a question, or apologize for the cost — you've lost the frame. And once the frame is gone, you cannot close from authority. You can only beg. <strong>Never beg. Never discount unprompted. Never panic when an objection lands.</strong></p>
+      <p style="margin-top:10px;">The caller who stays in the frame — even when the prospect pushes back — is the one they'll respect enough to buy from. The one who flinches is the one they'll ghost.</p>
+    </div>
+
+    <div class="rule-block white">
+      <div class="rule-label white">Detachment Is Not Indifference — It Is Conviction</div>
+      <p>Say this and believe it: <em>"This program changes lives. Not my life — theirs. If they don't do it, I go to the next call. If they don't do it, they go back to the same job, the same hours, the same ceiling. I'm not calling with my hand out. I'm calling because I have something that works, and they came to me looking for it. My job is to make sure the fear doesn't win."</em></p>
+      <p style="margin-top:10px;">That belief — genuinely held — is what no script can fake. It is the thing that makes every line in this document work. Without it, you're reciting. With it, you're closing.</p>
+    </div>
+
+    <div class="two-col" style="margin-top:24px;">
+      <div class="col-card">
+        <div class="col-label red">Never</div>
+        <div class="col-body">
+          <ul>
+            <li>Pitch before the pain is verbalized</li>
+            <li>Lower the price unprompted</li>
+            <li>Accept "let me think about it" without finding the real objection</li>
+            <li>Promise specific income or timelines</li>
+            <li>Show panic when a card declines</li>
+            <li>Let them hang up without a captured payment</li>
+            <li>Talk more than 40% of the call</li>
+            <li>Say the price before the emotional contract is signed</li>
+            <li>Mock fear, religion, or past failures</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-card">
+        <div class="col-label green">Always</div>
+        <div class="col-body">
+          <ul>
+            <li>Get the yes/no commitment in minute 2</li>
+            <li>Know their available money before minute 10</li>
+            <li>Use their exact words in the recap and close</li>
+            <li>Check the emotional contract is signed before saying the price</li>
+            <li>Type their PACE personality in the first 5 minutes</li>
+            <li>Match your proof case to their identity, not just their job</li>
+            <li>Apply the mental vaccine with identity language</li>
+            <li>Maintain the frame — even when they push back</li>
+            <li>Capture some payment on the call — always</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="quote-block" style="margin-top:32px;">
+      <div class="quote-text">"This call is not a sale. It is the moment someone who left everything behind decides to stop surviving and start owning the system. Treat it with that level of respect — and close like their future depends on it. Because it does."</div>
+      <div class="quote-attr">— El Sistema Inmigrante</div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('.section');
+  const navItems = document.querySelectorAll('.nav-item');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navItems.forEach(i => i.classList.remove('active'));
+        const id = entry.target.getAttribute('id');
+        const a = document.querySelector(`.nav-item[href="#${id}"]`);
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { threshold: 0.25 });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
