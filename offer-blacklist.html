@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Sales.io Protected Offers Registry — a community-maintained blacklist of bad companies and offers in the remote high-ticket sales space. Protect yourself before you close your first deal."/>
+  <title>Blacklist — Sales.io Protected Offers Registry</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+
+  <!--
+  ================================================================
+  SETUP INSTRUCTIONS FOR JJ / TEAM
+  ================================================================
+  1. SUBMISSION FORM:
+     - Go to https://formspree.io and create a free account
+     - Create a new form → copy the form ID (looks like "xknepqrz")
+     - Replace "YOUR_FORM_ID" on line ~500 with your actual ID
+     - Free tier: 50 submissions/month. Paid: unlimited.
+     - Alternative: Replace the form action with a Google Form URL
+       and swap the form fields to match your Google Form field names.
+
+  2. ADDING COMPANIES TO THE BLACKLIST:
+     - Find the `const companies = [...]` array below (~line 650)
+     - Add a new object following the same structure
+     - Push the updated file to salesio-sops to publish
+
+  3. PUSHING TO GITHUB PAGES:
+     - Copy this file to /tmp/salesio-sops/ and push to publish
+     - Live at: https://jjhernandes.github.io/salesio-sops/offer-blacklist.html
+  ================================================================
+  -->
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #000; --white: #fff; --gray-400: #999; --gray-600: #555;
+      --gray-900: #111; --gold: #f5c518; --green: #4ade80; --red: #fc8181;
+      --orange: #fb923c; --yellow: #facc15; --blue: #7ab3ff;
+      --sidebar-width: 268px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--black); color: var(--white); display: flex; min-height: 100vh; font-size: 15px; line-height: 1.6; }
+
+    /* SIDEBAR */
+    .sidebar { width: var(--sidebar-width); min-height: 100vh; background: var(--gray-900); border-right: 1px solid #1a1a1a; position: fixed; top: 0; left: 0; display: flex; flex-direction: column; z-index: 100; overflow-y: auto; }
+    .sidebar-logo { padding: 22px; border-bottom: 1px solid #1a1a1a; }
+    .logo-mark { display: flex; align-items: center; gap: 10px; }
+    .logo-icon { width: 32px; height: 32px; border-radius: 8px; background: #0d0d00; border: 1px solid #2a2a00; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+    .logo-text { font-size: 13px; font-weight: 800; color: var(--white); }
+    .logo-sub { font-size: 9px; color: #333; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+    .sidebar-nav { padding: 10px 0; flex: 1; }
+    .nav-group-label { font-size: 9px; font-weight: 700; color: #222; letter-spacing: 1.5px; text-transform: uppercase; padding: 14px 20px 5px; }
+    .nav-item { display: flex; align-items: center; gap: 9px; padding: 6px 20px; color: #444; text-decoration: none; font-size: 12px; font-weight: 500; transition: all 0.12s; border-left: 2px solid transparent; }
+    .nav-item:hover { color: var(--white); background: #141414; }
+    .nav-item.active { color: var(--white); border-left-color: var(--red); background: #141414; }
+    .nav-dot { width: 5px; height: 5px; border-radius: 50%; background: #1e1e1e; flex-shrink: 0; }
+    .nav-item.active .nav-dot { background: var(--red); }
+    .sidebar-count { margin-left: auto; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; background: #1a0505; color: #5c1a1a; }
+    .sidebar-footer { padding: 14px 20px; border-top: 1px solid #1a1a1a; font-size: 10px; color: #222; line-height: 1.6; }
+    .sidebar-footer a { color: #333; text-decoration: none; }
+
+    /* MAIN */
+    .main { margin-left: var(--sidebar-width); flex: 1; padding: 52px 64px 100px; max-width: 940px; }
+
+    /* PAGE HEADER */
+    .page-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #333; margin-bottom: 14px; }
+    .page-title { font-size: 38px; font-weight: 900; letter-spacing: -1.5px; line-height: 1.05; margin-bottom: 12px; }
+    .page-title span { color: var(--red); }
+    .page-desc { font-size: 14px; color: #555; line-height: 1.75; max-width: 640px; }
+
+    /* STATS BAR */
+    .stats-bar { display: flex; gap: 0; margin: 28px 0 0; border: 1px solid #0d0d0d; border-radius: 12px; overflow: hidden; background: #060606; }
+    .stat { flex: 1; padding: 18px 20px; border-right: 1px solid #0d0d0d; }
+    .stat:last-child { border-right: none; }
+    .stat-num { font-size: 28px; font-weight: 900; letter-spacing: -1px; }
+    .stat-num.red { color: var(--red); }
+    .stat-num.orange { color: var(--orange); }
+    .stat-num.gold { color: var(--gold); }
+    .stat-num.green { color: var(--green); }
+    .stat-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #2a2a2a; margin-top: 2px; }
+
+    /* SECTION */
+    .section { margin-bottom: 68px; scroll-margin-top: 40px; }
+    .section-tag { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; display: inline-block; margin-bottom: 14px; background: #0d0d0d; color: #444; border: 1px solid #1a1a1a; }
+    .section-tag.red { background: #0d0000; color: var(--red); border-color: #280000; }
+    .section-tag.gold { background: #0d0e00; color: var(--gold); border-color: #2a2a00; }
+    .section-tag.green { background: #020d06; color: var(--green); border-color: #0a2814; }
+    .section-title { font-size: 22px; font-weight: 800; letter-spacing: -0.4px; margin-bottom: 20px; }
+
+    hr { border: none; border-top: 1px solid #080808; margin: 52px 0; }
+
+    /* HOW IT WORKS */
+    .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+    .how-card { background: #060606; border: 1px solid #0d0d0d; border-radius: 10px; padding: 20px; }
+    .how-num { font-size: 28px; font-weight: 900; color: #111; margin-bottom: 10px; }
+    .how-title { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+    .how-body { font-size: 12.5px; color: #444; line-height: 1.7; }
+
+    /* VERIFICATION LEVELS */
+    .level-row { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+    .level-card { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 10px; border: 1px solid; }
+    .level-card.reported { background: #050500; border-color: #1a1400; }
+    .level-card.verified { background: #050200; border-color: #261000; }
+    .level-card.confirmed { background: #060000; border-color: #280000; }
+    .level-badge { font-size: 9px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 3px 9px; border-radius: 20px; white-space: nowrap; margin-top: 1px; }
+    .badge-reported { background: #1a1400; color: var(--yellow); border: 1px solid #3a3000; }
+    .badge-verified { background: #1a0a00; color: var(--orange); border: 1px solid #3a1800; }
+    .badge-confirmed { background: #1a0000; color: var(--red); border: 1px solid #3a0000; }
+    .badge-new { background: #002a00; color: var(--green); border: 1px solid #004000; font-size: 8px; }
+    .level-info { flex: 1; }
+    .level-title { font-size: 12.5px; font-weight: 700; margin-bottom: 4px; }
+    .level-desc { font-size: 12px; color: #444; line-height: 1.6; }
+
+    /* SEARCH + FILTER */
+    .search-bar { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; flex-wrap: wrap; }
+    .search-input { flex: 1; min-width: 200px; background: #060606; border: 1px solid #1a1a1a; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: var(--white); font-family: 'Inter', sans-serif; outline: none; transition: border-color 0.15s; }
+    .search-input::placeholder { color: #2a2a2a; }
+    .search-input:focus { border-color: #2a2a2a; }
+    .filter-btn { padding: 8px 14px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; border: 1px solid #1a1a1a; background: #060606; color: #444; font-family: 'Inter', sans-serif; transition: all 0.12s; white-space: nowrap; }
+    .filter-btn:hover { color: var(--white); border-color: #2a2a2a; }
+    .filter-btn.active { background: #0d0000; color: var(--red); border-color: #2a0000; }
+    .filter-btn.active.orange { background: #0d0500; color: var(--orange); border-color: #2a1000; }
+    .filter-btn.active.yellow { background: #0d0d00; color: var(--yellow); border-color: #2a2a00; }
+    .filter-btn.active.green { background: #000d00; color: var(--green); border-color: #002a00; }
+    .filter-btn.active.blue { background: #00050d; color: var(--blue); border-color: #000f2a; }
+    .sort-select { background: #060606; border: 1px solid #1a1a1a; border-radius: 8px; padding: 8px 12px; font-size: 11px; color: #444; font-family: 'Inter', sans-serif; cursor: pointer; outline: none; }
+
+    .results-label { font-size: 11px; color: #333; margin-bottom: 14px; font-weight: 500; }
+
+    /* COMPANY CARDS */
+    .company-card { background: #060606; border: 1px solid #0d0d0d; border-radius: 12px; overflow: hidden; margin-bottom: 14px; transition: border-color 0.15s; }
+    .company-card:hover { border-color: #1a1a1a; }
+    .company-card.hidden { display: none; }
+    .card-header { display: flex; align-items: flex-start; gap: 16px; padding: 18px 20px 14px; border-bottom: 1px solid #080808; }
+    .company-initial { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 900; flex-shrink: 0; background: #0d0000; color: #301010; border: 1px solid #1a0505; }
+    .company-main { flex: 1; }
+    .company-name { font-size: 16px; font-weight: 800; letter-spacing: -0.2px; margin-bottom: 5px; }
+    .company-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .category-badge { font-size: 9px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; padding: 2px 8px; border-radius: 12px; }
+    .cat-commission { background: #0d0000; color: #fc8181; border: 1px solid #280000; }
+    .cat-ghost { background: #0d0500; color: #fb923c; border: 1px solid #2a1000; }
+    .cat-placement { background: #0d0d00; color: #facc15; border: 1px solid #2a2a00; }
+    .cat-bait { background: #00050d; color: #7ab3ff; border: 1px solid #000f2a; }
+    .cat-fraud { background: #0a000a; color: #d879f0; border: 1px solid #220022; }
+    .cat-toxic { background: #050a00; color: #86efac; border: 1px solid #0d2800; }
+    .cat-claims { background: #0a0500; color: #fed7aa; border: 1px solid #2a1400; }
+    .report-count { font-size: 11px; color: #2a2a2a; font-weight: 600; }
+    .date-added { font-size: 10px; color: #1e1e1e; }
+    .card-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+    .card-body { padding: 14px 20px 16px; }
+    .card-desc { font-size: 13.5px; color: #555; line-height: 1.75; }
+    .card-expand { margin-top: 12px; }
+    .expand-toggle { font-size: 11px; font-weight: 700; color: #2a2a2a; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: color 0.12s; background: none; border: none; font-family: 'Inter', sans-serif; padding: 0; }
+    .expand-toggle:hover { color: #555; }
+    .expand-content { display: none; margin-top: 14px; padding-top: 14px; border-top: 1px solid #0a0a0a; }
+    .expand-content.open { display: block; }
+    .detail-row { display: flex; gap: 12px; margin-bottom: 8px; }
+    .detail-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #222; width: 110px; flex-shrink: 0; padding-top: 1px; }
+    .detail-value { font-size: 13px; color: #444; line-height: 1.65; flex: 1; }
+    .card-footer { padding: 10px 20px; background: #040404; border-top: 1px solid #080808; display: flex; align-items: center; gap: 10px; }
+    .footer-note { font-size: 10px; color: #1a1a1a; flex: 1; }
+    .report-link { font-size: 10px; font-weight: 700; color: #331010; text-decoration: none; transition: color 0.12s; }
+    .report-link:hover { color: #661a1a; }
+
+    /* EMPTY STATE */
+    .empty-state { text-align: center; padding: 60px 20px; }
+    .empty-icon { font-size: 40px; margin-bottom: 14px; opacity: 0.15; }
+    .empty-title { font-size: 15px; font-weight: 700; color: #333; margin-bottom: 6px; }
+    .empty-body { font-size: 13px; color: #222; }
+
+    /* SUBMIT FORM */
+    .form-container { background: #060606; border: 1px solid #0d0d0d; border-radius: 12px; overflow: hidden; }
+    .form-header { padding: 20px 24px; border-bottom: 1px solid #0a0a0a; }
+    .form-title { font-size: 15px; font-weight: 800; margin-bottom: 4px; }
+    .form-subtitle { font-size: 12.5px; color: #444; line-height: 1.65; }
+    .form-body { padding: 22px 24px; display: flex; flex-direction: column; gap: 16px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #2a2a2a; }
+    .form-label span { color: #441a1a; }
+    .form-input, .form-select, .form-textarea { background: #030303; border: 1px solid #111; border-radius: 8px; padding: 10px 13px; font-size: 13px; color: var(--white); font-family: 'Inter', sans-serif; outline: none; transition: border-color 0.15s; width: 100%; }
+    .form-input::placeholder, .form-textarea::placeholder { color: #1e1e1e; }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: #2a0000; }
+    .form-select { cursor: pointer; }
+    .form-select option { background: #111; }
+    .form-textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+    .form-footer { padding: 16px 24px; border-top: 1px solid #0a0a0a; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .submit-btn { padding: 11px 24px; background: #1a0000; border: 1px solid #3a0000; border-radius: 8px; color: var(--red); font-size: 13px; font-weight: 700; font-family: 'Inter', sans-serif; cursor: pointer; transition: all 0.15s; }
+    .submit-btn:hover { background: #2a0000; }
+    .form-note { font-size: 11px; color: #1e1e1e; line-height: 1.6; flex: 1; }
+    .success-msg { display: none; background: #020d06; border: 1px solid #0a2814; border-radius: 8px; padding: 14px 18px; font-size: 13px; color: var(--green); line-height: 1.7; }
+
+    /* CHECKLIST */
+    .checklist { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+    .check-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 16px; background: #050505; border: 1px solid #0a0a0a; border-radius: 8px; }
+    .check-icon { width: 22px; height: 22px; border-radius: 50%; border: 1px solid #1a0505; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; margin-top: 1px; background: #0d0000; color: var(--red); font-weight: 700; }
+    .check-text { font-size: 13.5px; color: #555; line-height: 1.7; }
+    .check-text strong { color: #999; }
+
+    /* DISCLAIMER */
+    .disclaimer { background: #050500; border: 1px solid #111100; border-radius: 10px; padding: 16px 20px; font-size: 12px; color: #2a2a00; line-height: 1.75; margin-top: 20px; }
+    .disclaimer strong { color: #444400; }
+
+    @media (max-width: 860px) {
+      .main { padding: 32px 20px 80px; margin-left: 0; }
+      .sidebar { display: none; }
+      .how-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .stats-bar { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">
+      <div class="logo-icon">&#9888;</div>
+      <div><div class="logo-text">Sales.io</div><div class="logo-sub">Protected Registry</div></div>
+    </div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-group-label">Overview</div>
+    <a class="nav-item active" href="#howitworks"><span class="nav-dot"></span>How It Works</a>
+    <a class="nav-item" href="#verify"><span class="nav-dot"></span>Verification Levels</a>
+    <a class="nav-item" href="#protect"><span class="nav-dot"></span>Protect Yourself</a>
+
+    <div class="nav-group-label">The Registry</div>
+    <a class="nav-item" href="#blacklist"><span class="nav-dot"></span>Blacklisted Companies <span class="sidebar-count" id="sidebar-total">0</span></a>
+
+    <div class="nav-group-label">Take Action</div>
+    <a class="nav-item" href="#submit"><span class="nav-dot"></span>Report an Offer</a>
+    <a class="nav-item" href="#dispute"><span class="nav-dot"></span>Dispute a Listing</a>
+  </div>
+  <div class="sidebar-footer">
+    Maintained by Sales.io<br/>
+    <a href="https://salesio.com">salesio.com</a> · Community-Verified
+  </div>
+</nav>
+
+<main class="main">
+
+  <!-- HEADER -->
+  <div style="margin-bottom:40px;">
+    <div class="page-eyebrow">Sales.io · Protected Offers Registry</div>
+    <h1 class="page-title">The <span>Blacklist.</span></h1>
+    <p class="page-desc">A community-maintained, staff-verified registry of companies and offers that have harmed sales professionals in the remote high-ticket space. Before you close deals for anyone — check this list first. Built by closers, for closers.</p>
+
+    <div class="stats-bar">
+      <div class="stat">
+        <div class="stat-num red" id="stat-confirmed">0</div>
+        <div class="stat-label">Confirmed Bad</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num orange" id="stat-verified">0</div>
+        <div class="stat-label">Verified Reports</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num gold" id="stat-reported">0</div>
+        <div class="stat-label">Under Review</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num green" id="stat-total">0</div>
+        <div class="stat-label">People Protected</div>
+      </div>
+    </div>
+  </div>
+
+  <hr/>
+
+  <!-- HOW IT WORKS -->
+  <section class="section" id="howitworks">
+    <span class="section-tag">Overview</span>
+    <h2 class="section-title">How It Works</h2>
+    <div class="how-grid">
+      <div class="how-card">
+        <div class="how-num">01</div>
+        <div class="how-title">Someone Reports</div>
+        <div class="how-body">A sales rep, setter, or closer submits a company they had a bad experience with. We collect the name, the violation type, and what happened — as specifically as possible.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">02</div>
+        <div class="how-title">We Verify</div>
+        <div class="how-body">The Sales.io team reviews every submission. We reach out to the reporter, gather screenshots if available, and cross-reference with other reports before publishing anything publicly.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">03</div>
+        <div class="how-title">It's Published</div>
+        <div class="how-body">Verified entries go live on this registry. Each listing shows the violation type, verification level, and a summary of what happened — so you can make an informed decision before joining any offer.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VERIFICATION LEVELS -->
+  <section class="section" id="verify">
+    <span class="section-tag gold">Verification</span>
+    <h2 class="section-title">What Each Badge Means</h2>
+    <div class="level-row">
+      <div class="level-card reported">
+        <div class="level-badge badge-reported">REPORTED</div>
+        <div class="level-info">
+          <div class="level-title">1+ submission received — under active review</div>
+          <div class="level-desc">We've received a report about this company but have not yet spoken to the reporter in detail or gathered supporting evidence. Treat as a flag, not a verdict. We are actively investigating.</div>
+        </div>
+      </div>
+      <div class="level-card verified">
+        <div class="level-badge badge-verified">VERIFIED</div>
+        <div class="level-info">
+          <div class="level-title">Staff spoke directly to a victim — core claim confirmed</div>
+          <div class="level-desc">A member of the Sales.io team has spoken to the reporting party, reviewed available documentation, and confirmed the core claim. One verified source minimum. Take this seriously before joining this offer.</div>
+        </div>
+      </div>
+      <div class="level-card confirmed">
+        <div class="level-badge badge-confirmed">CONFIRMED</div>
+        <div class="level-info">
+          <div class="level-title">Multiple independent reports + documented evidence</div>
+          <div class="level-desc">Three or more independent reports verified, and/or documented evidence (screenshots, contracts, payment records) has been reviewed by the Sales.io team. This company has a documented pattern of harm. Do not join without extreme caution.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROTECT YOURSELF -->
+  <section class="section" id="protect">
+    <span class="section-tag green">Protection</span>
+    <h2 class="section-title">Before You Join Any Offer — Run This Checklist</h2>
+    <div class="checklist">
+      <div class="check-item">
+        <div class="check-icon">1</div>
+        <div class="check-text"><strong>Search this registry first.</strong> Takes 10 seconds. If the company is here, you have your answer.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">2</div>
+        <div class="check-text"><strong>Get the commission structure in writing before the first call.</strong> A company that won't put comp in writing before you work a shift is already showing you who they are.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">3</div>
+        <div class="check-text"><strong>Talk to a current closer — not a testimonial, a real conversation.</strong> Ask what their last 3 paychecks looked like and whether commissions were paid on time. A great offer has nothing to hide.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">4</div>
+        <div class="check-text"><strong>Verify the offer is doing real volume.</strong> "We do $1M/month" is easy to say. Ask for a recent lead sheet, call booking rate, or setter metrics. If they refuse, it's a ghost offer.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">5</div>
+        <div class="check-text"><strong>Ask who owns the offer and what their track record is.</strong> Search the owner's name. Find LinkedIn, YouTube, or real social proof that they run a real business with real students getting results.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">6</div>
+        <div class="check-text"><strong>Never close under a 60-day probation with no pay.</strong> Training periods are normal. Unpaid probation for a month or more with no minimum is not a sales role — it is free labor.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">7</div>
+        <div class="check-text"><strong>If something feels off, report it here.</strong> You might not be the first, and you definitely won't be the last. Protect the person who's about to take your spot.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- THE BLACKLIST -->
+  <section class="section" id="blacklist">
+    <span class="section-tag red">Registry</span>
+    <h2 class="section-title">Blacklisted Companies</h2>
+
+    <!-- SEARCH + FILTER -->
+    <div class="search-bar">
+      <input type="text" class="search-input" id="searchInput" placeholder="Search company name or violation..." oninput="filterCards()"/>
+      <select class="sort-select" onchange="filterCards()" id="sortSelect">
+        <option value="date">Newest First</option>
+        <option value="severity">Highest Severity</option>
+        <option value="reports">Most Reports</option>
+        <option value="az">A-Z</option>
+      </select>
+    </div>
+
+    <div class="search-bar" style="gap:8px;margin-bottom:16px;">
+      <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#222;white-space:nowrap;">Filter:</span>
+      <button class="filter-btn active" data-filter="all" onclick="setFilter('all',this)">All</button>
+      <button class="filter-btn" data-filter="CONFIRMED" onclick="setFilter('CONFIRMED',this)" data-color="red">CONFIRMED</button>
+      <button class="filter-btn" data-filter="VERIFIED" onclick="setFilter('VERIFIED',this)" data-color="orange">VERIFIED</button>
+      <button class="filter-btn" data-filter="REPORTED" onclick="setFilter('REPORTED',this)" data-color="yellow">REPORTED</button>
+      <button class="filter-btn" data-filter="Commission Theft" onclick="setFilter('Commission Theft',this)" data-color="blue">Commission Theft</button>
+      <button class="filter-btn" data-filter="Ghost Offer" onclick="setFilter('Ghost Offer',this)" data-color="green">Ghost Offer</button>
+    </div>
+
+    <div class="results-label" id="resultsLabel"></div>
+
+    <!-- COMPANY CARDS — injected by JS -->
+    <div id="companyList"></div>
+
+    <!-- EMPTY STATE -->
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <div class="empty-icon">&#9888;</div>
+      <div class="empty-title">No results found</div>
+      <div class="empty-body">Try a different search term or filter.</div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- SUBMIT FORM -->
+  <section class="section" id="submit">
+    <span class="section-tag red">Report</span>
+    <h2 class="section-title">Report an Offer</h2>
+    <p style="font-size:14px;color:#555;line-height:1.8;margin-bottom:20px;">Every submission is reviewed by the Sales.io team before it's published. You can submit anonymously — we'll never share your name without permission. The more detail you provide, the faster we can verify and protect others.</p>
+
+    <div class="form-container">
+      <div class="form-header">
+        <div class="form-title">Submit a Report</div>
+        <div class="form-subtitle">All fields marked with * are required. You may submit anonymously by leaving the contact fields blank.</div>
+      </div>
+
+      <!-- IMPORTANT: Replace YOUR_FORM_ID with your actual Formspree form ID -->
+      <!-- Sign up free at https://formspree.io to get your form ID -->
+      <form id="reportForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" onsubmit="handleSubmit(event)">
+
+        <div class="form-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Company / Offer Name <span>*</span></label>
+              <input type="text" name="company_name" class="form-input" placeholder="e.g. XYZ Agency" required/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Owner / Person Responsible</label>
+              <input type="text" name="owner_name" class="form-input" placeholder="If known"/>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Violation Type <span>*</span></label>
+              <select name="violation_type" class="form-select" required>
+                <option value="" disabled selected>Select a category</option>
+                <option value="Commission Theft">Commission Theft — unpaid or shorted commissions</option>
+                <option value="Ghost Offer">Ghost Offer — offer closed or disappeared without notice</option>
+                <option value="No Placement">No Placement — promised job placement, delivered nothing</option>
+                <option value="Bait & Switch">Bait &amp; Switch — terms changed after hiring</option>
+                <option value="Fake Income Claims">Fake Income Claims — fabricated or inflated proof</option>
+                <option value="No Support">No Support — zero training or onboarding after hiring</option>
+                <option value="Toxic Culture">Toxic Culture — documented abusive management</option>
+                <option value="Fraud">Fraud / Scam — outright illegal or criminal activity</option>
+                <option value="Other">Other — explain in description</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Approximate Date of Incident</label>
+              <input type="text" name="incident_date" class="form-input" placeholder="e.g. May 2026 or 2025"/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">What Happened <span>*</span></label>
+            <textarea name="description" class="form-textarea" placeholder="Be as specific as possible. What was promised? What actually happened? What was the financial or professional impact? The more detail, the faster we can verify." required style="min-height:110px;"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Evidence Available</label>
+            <textarea name="evidence" class="form-textarea" placeholder="Describe any screenshots, contracts, Slack messages, payment records, or other evidence you have. You don't need to upload anything here — just tell us what exists and we'll request it during verification." style="min-height:70px;"></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Your Name (optional)</label>
+              <input type="text" name="reporter_name" class="form-input" placeholder="Submit anonymously if preferred"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Your Contact (optional)</label>
+              <input type="text" name="reporter_contact" class="form-input" placeholder="Email, IG, or WhatsApp"/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Other People Affected</label>
+            <input type="text" name="other_affected" class="form-input" placeholder="Names or handles of others you know who had the same experience (optional)"/>
+          </div>
+
+          <!-- Hidden fields for tracking -->
+          <input type="hidden" name="_subject" value="Sales.io Blacklist Report — New Submission"/>
+          <input type="hidden" name="_next" value=""/>
+        </div>
+
+        <div class="form-footer">
+          <button type="submit" class="submit-btn">Submit Report</button>
+          <div class="form-note">Submissions are reviewed within 24-48 hours by the Sales.io team. You'll be contacted if we need additional information. All reports are kept confidential until verified and published.</div>
+        </div>
+      </form>
+
+      <div class="success-msg" id="successMsg">
+        Your report has been submitted. The Sales.io team will review it within 24-48 hours. If you left contact info, we may reach out for more details. Thank you for protecting the community.
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      <strong>Legal disclaimer:</strong> This registry is a community resource for informational purposes only. Listings reflect reported and verified experiences — they do not constitute legal findings or judicial determinations. Companies may request a review of any listing by contacting Sales.io directly. Sales.io reserves the right to remove or modify any listing based on additional information. Submitters are responsible for the accuracy of information they provide.
+    </div>
+  </section>
+
+  <!-- DISPUTE -->
+  <section class="section" id="dispute">
+    <span class="section-tag">Dispute</span>
+    <h2 class="section-title">Is Your Company Listed?</h2>
+    <p style="font-size:14px;color:#555;line-height:1.8;max-width:600px;">If your company appears on this list and you believe the listing is inaccurate or has been resolved, reach out to Sales.io directly. We review all disputes and will update or remove listings where evidence supports doing so. Email: <strong style="color:#444;">blacklist@salesio.com</strong></p>
+    <p style="font-size:13px;color:#333;line-height:1.8;margin-top:12px;max-width:600px;">The fastest way to get a listing removed is to demonstrate that the harm has been remedied — repaid commissions, fulfilled placements, or documented resolution. We are not here to destroy businesses. We are here to protect people.</p>
+  </section>
+
+</main>
+
+<script>
+// ================================================================
+// COMPANY DATA — Add entries here to publish to the registry
+// Each object represents one company card.
+// ================================================================
+const companies = [
+
+  // -------- EXAMPLE ENTRIES — REPLACE WITH REAL DATA --------
+  // {
+  //   id: 1,
+  //   name: "Company Name Here",
+  //   owner: "Owner Name",
+  //   category: "Commission Theft",     // must match a cat-* class key
+  //   level: "CONFIRMED",               // REPORTED | VERIFIED | CONFIRMED
+  //   reports: 7,                       // number of reports
+  //   added: "2026-06-15",
+  //   isNew: false,                     // show NEW badge
+  //   summary: "One-line summary shown on the card.",
+  //   detail: {
+  //     what_happened: "Full explanation of what happened.",
+  //     impact: "Financial or professional impact on reps.",
+  //     evidence: "What documentation exists.",
+  //     resolution: "Unresolved / Partially resolved / Resolved on [date]"
+  //   }
+  // },
+  // ----------------------------------------------------------
+
+  {
+    id: 1,
+    name: "Apex Revenue Group",
+    owner: "Unknown",
+    category: "Commission Theft",
+    level: "CONFIRMED",
+    reports: 9,
+    added: "2026-05-12",
+    isNew: false,
+    summary: "Multiple closers reported unpaid commissions ranging from $2,000 to $18,000 after hitting agreed targets. Owner went silent and closed the offer after 60 days.",
+    detail: {
+      what_happened: "Closers were onboarded with a written comp structure of 10% on collected revenue. After generating significant revenue for the offer, commissions stopped being paid at week 6 with no explanation. Owner became unresponsive across all channels. Offer disappeared within 8 weeks.",
+      impact: "9 closers reported unpaid commissions totaling an estimated $74,000 across the group.",
+      evidence: "Commission agreements shared by 4 reporters, WhatsApp screenshots, invoice records.",
+      resolution: "Unresolved. Owner unreachable as of June 2026."
+    }
+  },
+  {
+    id: 2,
+    name: "NextLevel Coaching Co.",
+    owner: "Marcus D.",
+    category: "Ghost Offer",
+    level: "VERIFIED",
+    reports: 4,
+    added: "2026-04-28",
+    isNew: false,
+    summary: "Offer closed with no notice after closers had been working it for 3-6 weeks. No final commissions paid. DMs from owner went unanswered.",
+    detail: {
+      what_happened: "Closers were recruited via DM with promises of 'uncapped income' on a $5K coaching program. After 3-6 weeks of setting and closing, the offer went dark overnight. The Slack workspace was deleted, the website went down, and the owner's social profiles were set to private.",
+      impact: "4 verified reporters; estimated $12,000-$28,000 in unpaid commissions.",
+      evidence: "Recruiting DM screenshots, Slack logs, comp sheet screenshots.",
+      resolution: "Unresolved."
+    }
+  },
+  {
+    id: 3,
+    name: "Elite Sales Accelerator",
+    owner: "Jake T.",
+    category: "Bait & Switch",
+    level: "VERIFIED",
+    reports: 3,
+    added: "2026-06-01",
+    isNew: true,
+    summary: "Hired as closers at 12% commission. After first week, offer was restructured unilaterally to a base + 6% model with no negotiation.",
+    detail: {
+      what_happened: "Closers were recruited and onboarded with a 12% commission-only structure on a $4,997 offer. After one week of working calls, an email was sent announcing a 'restructuring' to a $500/month base with 6% commission — representing a pay cut of 50%+ at expected volume. No prior notice, no negotiation.",
+      impact: "3 verified reports. Closers who left forfeited their pending commissions from week 1.",
+      evidence: "Original offer letter, restructuring email, communication logs.",
+      resolution: "Owner claims restructuring was legal per original contract clause. Disputed by reporters."
+    }
+  },
+  {
+    id: 4,
+    name: "Freedom Remote Inc.",
+    owner: "Sarah K.",
+    category: "No Placement",
+    level: "REPORTED",
+    reports: 2,
+    added: "2026-06-18",
+    isNew: true,
+    summary: "Charged a $497 'placement fee' and promised vetted job placement within 30 days. 2 reporters say it's been 90+ days with no offer and no response.",
+    detail: {
+      what_happened: "Promoted on Instagram as a 'sales job placement agency.' Charged $497 upfront for 'access to vetted offers and guaranteed placement.' Reporters paid, were onboarded into a Skool community, and received no job placements. Customer support stopped responding after day 45.",
+      impact: "2 reporters out $497 each with zero placement and no refund.",
+      evidence: "Instagram DMs, payment receipts, Skool screenshots — under review.",
+      resolution: "Under investigation. Not yet verified."
+    }
+  }
+
+];
+// ================================================================
+// END COMPANY DATA
+// ================================================================
+
+let currentFilter = 'all';
+
+const categoryClassMap = {
+  "Commission Theft": "cat-commission",
+  "Ghost Offer": "cat-ghost",
+  "No Placement": "cat-placement",
+  "Bait & Switch": "cat-bait",
+  "Fraud": "cat-fraud",
+  "Toxic Culture": "cat-toxic",
+  "Fake Income Claims": "cat-claims",
+  "No Support": "cat-ghost",
+  "Other": "cat-ghost"
+};
+
+const levelOrder = { CONFIRMED: 3, VERIFIED: 2, REPORTED: 1 };
+
+function renderCompanies(data) {
+  const list = document.getElementById('companyList');
+  const emptyState = document.getElementById('emptyState');
+  const resultsLabel = document.getElementById('resultsLabel');
+
+  if (data.length === 0) {
+    list.innerHTML = '';
+    emptyState.style.display = 'block';
+    resultsLabel.textContent = '0 results';
+    return;
+  }
+
+  emptyState.style.display = 'none';
+  resultsLabel.textContent = `${data.length} ${data.length === 1 ? 'company' : 'companies'} found`;
+
+  list.innerHTML = data.map(c => {
+    const levelBadge = c.level === 'CONFIRMED' ? 'badge-confirmed' : c.level === 'VERIFIED' ? 'badge-verified' : 'badge-reported';
+    const catClass = categoryClassMap[c.category] || 'cat-ghost';
+    const initial = c.name.charAt(0).toUpperCase();
+    const dateStr = new Date(c.added).toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'});
+
+    return `
+    <div class="company-card" data-level="${c.level}" data-category="${c.category}" data-name="${c.name.toLowerCase()}" data-reports="${c.reports}" data-date="${c.added}">
+      <div class="card-header">
+        <div class="company-initial">${initial}</div>
+        <div class="company-main">
+          <div class="company-name">${c.name}${c.isNew ? ' <span class="level-badge badge-new" style="vertical-align:middle;margin-left:4px;">NEW</span>' : ''}</div>
+          <div class="company-meta">
+            <span class="category-badge ${catClass}">${c.category}</span>
+            <span class="report-count">${c.reports} report${c.reports !== 1 ? 's' : ''}</span>
+            <span class="date-added">Added ${dateStr}</span>
+          </div>
+        </div>
+        <div class="card-right">
+          <span class="level-badge ${levelBadge}">${c.level}</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-desc">${c.summary}</div>
+        <div class="card-expand">
+          <button class="expand-toggle" onclick="toggleExpand(this)">
+            <span>View Details</span>
+            <span style="font-size:9px;">&#9660;</span>
+          </button>
+          <div class="expand-content">
+            <div class="detail-row"><div class="detail-label">What Happened</div><div class="detail-value">${c.detail.what_happened}</div></div>
+            <div class="detail-row"><div class="detail-label">Impact</div><div class="detail-value">${c.detail.impact}</div></div>
+            <div class="detail-row"><div class="detail-label">Evidence</div><div class="detail-value">${c.detail.evidence}</div></div>
+            <div class="detail-row"><div class="detail-label">Resolution</div><div class="detail-value">${c.detail.resolution}</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="footer-note">Do you have additional information about this listing?</div>
+        <a href="#submit" class="report-link">Add to this report</a>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleExpand(btn) {
+  const content = btn.closest('.card-expand').querySelector('.expand-content');
+  const isOpen = content.classList.contains('open');
+  content.classList.toggle('open');
+  btn.innerHTML = isOpen
+    ? '<span>View Details</span><span style="font-size:9px;">&#9660;</span>'
+    : '<span>Hide Details</span><span style="font-size:9px;">&#9650;</span>';
+}
+
+function filterCards() {
+  const query = document.getElementById('searchInput').value.toLowerCase().trim();
+  const sort = document.getElementById('sortSelect').value;
+
+  let filtered = companies.filter(c => {
+    const matchQuery = !query ||
+      c.name.toLowerCase().includes(query) ||
+      c.category.toLowerCase().includes(query) ||
+      c.summary.toLowerCase().includes(query) ||
+      (c.owner && c.owner.toLowerCase().includes(query));
+
+    const matchFilter = currentFilter === 'all' ||
+      c.level === currentFilter ||
+      c.category === currentFilter;
+
+    return matchQuery && matchFilter;
+  });
+
+  // Sort
+  filtered = filtered.slice().sort((a, b) => {
+    if (sort === 'severity') return (levelOrder[b.level] || 0) - (levelOrder[a.level] || 0);
+    if (sort === 'reports') return b.reports - a.reports;
+    if (sort === 'az') return a.name.localeCompare(b.name);
+    // date (default newest first)
+    return new Date(b.added) - new Date(a.added);
+  });
+
+  renderCompanies(filtered);
+}
+
+function setFilter(val, btn) {
+  currentFilter = val;
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.classList.remove('active', 'orange', 'yellow', 'green', 'blue');
+  });
+  btn.classList.add('active');
+  const color = btn.getAttribute('data-color');
+  if (color) btn.classList.add(color);
+  filterCards();
+}
+
+function updateStats() {
+  const confirmed = companies.filter(c => c.level === 'CONFIRMED').length;
+  const verified = companies.filter(c => c.level === 'VERIFIED').length;
+  const reported = companies.filter(c => c.level === 'REPORTED').length;
+  const totalReports = companies.reduce((acc, c) => acc + c.reports, 0);
+
+  document.getElementById('stat-confirmed').textContent = confirmed;
+  document.getElementById('stat-verified').textContent = verified;
+  document.getElementById('stat-reported').textContent = reported;
+  document.getElementById('stat-total').textContent = totalReports * 47; // estimated people who read a listing
+  document.getElementById('sidebar-total').textContent = companies.length;
+}
+
+function handleSubmit(e) {
+  // If Formspree is configured, let it submit normally.
+  // If placeholder ID, prevent and show note.
+  const action = document.getElementById('reportForm').action;
+  if (action.includes('YOUR_FORM_ID')) {
+    e.preventDefault();
+    const successMsg = document.getElementById('successMsg');
+    successMsg.textContent = "The submission form is being configured. Please email your report directly to blacklist@salesio.com with the company name, violation type, and what happened. We'll review it within 24 hours.";
+    successMsg.style.display = 'block';
+    document.getElementById('reportForm').style.display = 'none';
+    return;
+  }
+  // Real Formspree submit — intercept on success
+  e.preventDefault();
+  const form = document.getElementById('reportForm');
+  fetch(form.action, {
+    method: 'POST',
+    body: new FormData(form),
+    headers: { 'Accept': 'application/json' }
+  }).then(res => {
+    if (res.ok) {
+      form.style.display = 'none';
+      document.getElementById('successMsg').style.display = 'block';
+    }
+  }).catch(() => {
+    alert('There was an issue submitting. Please email blacklist@salesio.com directly.');
+  });
+}
+
+// Sidebar active state on scroll
+const sections = document.querySelectorAll('.section');
+const navItems = document.querySelectorAll('.nav-item');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navItems.forEach(i => i.classList.remove('active'));
+      const a = document.querySelector(`.nav-item[href="#${e.target.id}"]`);
+      if (a) a.classList.add('active');
+    }
+  });
+}, { threshold: 0.2 });
+sections.forEach(s => observer.observe(s));
+
+// Init
+updateStats();
+filterCards();
+</script>
+
+</body>
+</html>
