@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Evan — Coaching Role & Comp Plan · Sales.io</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #000; --white: #fff; --gray-900: #111;
+      --gold: #f5c518; --green: #4ade80; --red: #fc8181;
+      --orange: #fb923c; --blue: #7ab3ff; --sidebar-width: 268px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--black); color: var(--white); display: flex; min-height: 100vh; font-size: 15px; line-height: 1.6; }
+
+    /* SIDEBAR */
+    .sidebar { width: var(--sidebar-width); min-height: 100vh; background: var(--gray-900); border-right: 1px solid #1a1a1a; position: fixed; top: 0; left: 0; display: flex; flex-direction: column; z-index: 100; overflow-y: auto; }
+    .sidebar-logo { padding: 22px; border-bottom: 1px solid #1a1a1a; }
+    .logo-text { font-size: 13px; font-weight: 800; }
+    .logo-sub { font-size: 9px; color: #333; text-transform: uppercase; letter-spacing: 1px; margin-top: 3px; }
+    .sidebar-nav { padding: 10px 0; flex: 1; }
+    .nav-group-label { font-size: 9px; font-weight: 700; color: #222; letter-spacing: 1.5px; text-transform: uppercase; padding: 14px 20px 5px; }
+    .nav-item { display: flex; align-items: center; gap: 9px; padding: 6px 20px; color: #444; text-decoration: none; font-size: 12px; font-weight: 500; transition: all 0.12s; border-left: 2px solid transparent; }
+    .nav-item:hover { color: var(--white); background: #141414; }
+    .nav-item.active { color: var(--white); border-left-color: var(--gold); background: #141414; }
+    .nav-dot { width: 5px; height: 5px; border-radius: 50%; background: #1e1e1e; flex-shrink: 0; }
+    .nav-item.active .nav-dot { background: var(--gold); }
+    .sidebar-footer { padding: 14px 20px; border-top: 1px solid #1a1a1a; font-size: 10px; color: #222; }
+
+    /* MAIN */
+    .main { margin-left: var(--sidebar-width); flex: 1; padding: 52px 64px 100px; max-width: 920px; }
+
+    /* HEADER */
+    .page-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #333; margin-bottom: 14px; }
+    .page-title { font-size: 36px; font-weight: 900; letter-spacing: -1px; line-height: 1.05; margin-bottom: 12px; }
+    .page-desc { font-size: 14px; color: #555; line-height: 1.75; max-width: 620px; }
+    .page-meta { display: flex; gap: 24px; margin-top: 24px; padding-top: 24px; border-top: 1px solid #0d0d0d; flex-wrap: wrap; }
+    .meta-item { display: flex; flex-direction: column; gap: 3px; }
+    .meta-label { font-size: 9px; color: #2a2a2a; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+    .meta-value { font-size: 13px; color: #666; font-weight: 600; }
+
+    /* SECTION */
+    .section { margin-bottom: 64px; scroll-margin-top: 40px; }
+    .section-tag { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; display: inline-block; margin-bottom: 14px; background: #0d0d0d; color: #444; border: 1px solid #1a1a1a; }
+    .section-tag.gold { background: #0d0e00; color: var(--gold); border-color: #2a2a00; }
+    .section-tag.green { background: #020d06; color: var(--green); border-color: #0a2814; }
+    .section-tag.blue { background: #02060d; color: var(--blue); border-color: #0a1428; }
+    .section-tag.orange { background: #0d0600; color: var(--orange); border-color: #2a1400; }
+    .section-title { font-size: 22px; font-weight: 800; letter-spacing: -0.4px; margin-bottom: 20px; }
+
+    hr { border: none; border-top: 1px solid #080808; margin: 52px 0; }
+
+    /* ROLE CARD */
+    .role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+    .role-card { background: #060606; border: 1px solid #0d0d0d; border-radius: 10px; padding: 20px 22px; }
+    .role-card-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #222; margin-bottom: 10px; }
+    .role-card-title { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
+    .role-card-body { font-size: 13px; color: #444; line-height: 1.7; }
+    .role-card-body strong { color: #777; }
+
+    /* DELIVERABLE TABLE */
+    .deliverable-table { width: 100%; border-collapse: collapse; background: #060606; border: 1px solid #0d0d0d; border-radius: 10px; overflow: hidden; margin-bottom: 14px; }
+    .deliverable-table th { text-align: left; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #222; padding: 12px 16px; border-bottom: 1px solid #0d0d0d; background: #040404; }
+    .deliverable-table td { padding: 13px 16px; font-size: 13px; border-bottom: 1px solid #060606; color: #555; vertical-align: top; line-height: 1.55; }
+    .deliverable-table tr:last-child td { border-bottom: none; }
+    .deliverable-table td:first-child { font-weight: 700; color: #888; white-space: nowrap; }
+    .deliverable-table td strong { color: #777; }
+
+    /* COMP BLOCKS */
+    .comp-block { border: 1px solid #0d0d0d; border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
+    .comp-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 22px; background: #060606; border-bottom: 1px solid #0d0d0d; flex-wrap: wrap; gap: 10px; }
+    .comp-title { font-size: 15px; font-weight: 800; }
+    .comp-amount { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; }
+    .comp-amount.gold { color: var(--gold); }
+    .comp-amount.green { color: var(--green); }
+    .comp-amount.blue { color: var(--blue); }
+    .comp-amount.orange { color: var(--orange); }
+    .comp-body { padding: 18px 22px; background: #040404; }
+    .comp-body p { font-size: 13.5px; color: #555; line-height: 1.75; }
+    .comp-body p + p { margin-top: 10px; }
+    .comp-body strong { color: #999; }
+    .comp-detail { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+    .comp-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 12px; background: #060606; border: 1px solid #0a0a0a; border-radius: 7px; }
+    .comp-row-label { font-size: 12.5px; color: #444; }
+    .comp-row-value { font-size: 13px; font-weight: 700; color: #777; }
+    .comp-row-value.gold { color: var(--gold); }
+    .comp-row-value.green { color: var(--green); }
+
+    /* EARNINGS TABLE */
+    .earnings-table { width: 100%; border-collapse: collapse; }
+    .earnings-table th { text-align: left; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #222; padding: 10px 14px; border-bottom: 1px solid #0d0d0d; }
+    .earnings-table th:not(:first-child) { text-align: right; }
+    .earnings-table td { padding: 12px 14px; font-size: 13px; border-bottom: 1px solid #060606; color: #555; }
+    .earnings-table td:not(:first-child) { text-align: right; font-weight: 600; }
+    .earnings-table tr:last-child td { border-bottom: none; font-weight: 800; font-size: 14px; }
+    .earnings-table tr:last-child td:first-child { color: #666; }
+    .earnings-table tr:last-child td:nth-child(2) { color: #888; }
+    .earnings-table tr:last-child td:nth-child(3) { color: var(--green); }
+    .earnings-table .source { color: #777; font-weight: 700; }
+
+    /* FLAG CARDS */
+    .flag-grid { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+    .flag-card { display: flex; align-items: flex-start; gap: 14px; padding: 14px 18px; border-radius: 10px; border: 1px solid; }
+    .flag-card.green { background: #020d06; border-color: #0a2814; }
+    .flag-card.orange { background: #0d0500; border-color: #2a1000; }
+    .flag-card.gold { background: #050500; border-color: #1a1400; }
+    .flag-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .flag-body { font-size: 13.5px; line-height: 1.7; }
+    .flag-body.green { color: #2a5a36; }
+    .flag-body.orange { color: #5a3a18; }
+    .flag-body.gold { color: #5a5018; }
+    .flag-body strong { color: #888; }
+    .flag-body.green strong { color: var(--green); }
+    .flag-body.orange strong { color: var(--orange); }
+    .flag-body.gold strong { color: var(--gold); }
+
+    /* REVIEW CLAUSE */
+    .review-box { background: #050500; border: 1px solid #1e1a00; border-radius: 12px; padding: 24px 26px; }
+    .review-box-title { font-size: 15px; font-weight: 800; color: var(--gold); margin-bottom: 14px; }
+    .review-checklist { display: flex; flex-direction: column; gap: 8px; }
+    .review-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 14px; background: #040400; border: 1px solid #0d0a00; border-radius: 8px; }
+    .review-check { width: 20px; height: 20px; border: 1px solid #2a2000; border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #2a2000; margin-top: 1px; }
+    .review-text { font-size: 13px; color: #444; line-height: 1.65; }
+    .review-text strong { color: #888; }
+
+    @media (max-width: 860px) {
+      .main { margin-left: 0; padding: 32px 20px 80px; }
+      .sidebar { display: none; }
+      .role-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text">Sales.io</div>
+    <div class="logo-sub">Internal · Coaching Structure</div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-group-label">Overview</div>
+    <a class="nav-item active" href="#role"><span class="nav-dot"></span>Role Overview</a>
+    <a class="nav-item" href="#deliverables"><span class="nav-dot"></span>Deliverables</a>
+    <a class="nav-item" href="#boundaries"><span class="nav-dot"></span>What to Clarify</a>
+
+    <div class="nav-group-label">Compensation</div>
+    <a class="nav-item" href="#base"><span class="nav-dot"></span>Base — $2,500/mo</a>
+    <a class="nav-item" href="#modules"><span class="nav-dot"></span>Module Bonus</a>
+    <a class="nav-item" href="#ascension"><span class="nav-dot"></span>Ascension — 20%</a>
+    <a class="nav-item" href="#sales"><span class="nav-dot"></span>Sales Calls — 8%</a>
+    <a class="nav-item" href="#earnings"><span class="nav-dot"></span>Earnings Snapshot</a>
+
+    <div class="nav-group-label">Terms</div>
+    <a class="nav-item" href="#review"><span class="nav-dot"></span>90-Day Review</a>
+  </div>
+  <div class="sidebar-footer">Internal · Do Not Distribute</div>
+</nav>
+
+<main class="main">
+
+  <div style="margin-bottom:52px;">
+    <div class="page-eyebrow">Sales.io · Coaching Team · Internal</div>
+    <h1 class="page-title">Evan — Expanded Role &amp; Comp Plan</h1>
+    <p class="page-desc">Restructured from a single weekly call to a full coaching presence with group sessions, public call reviews, B2B course content, an ascension tier, and optional sales calls. Built to scale his involvement without runaway fixed cost.</p>
+    <div class="page-meta">
+      <div class="meta-item"><span class="meta-label">Effective</span><span class="meta-value">TBD — Negotiation</span></div>
+      <div class="meta-item"><span class="meta-label">Current Rate</span><span class="meta-value">$1,200 / month</span></div>
+      <div class="meta-item"><span class="meta-label">New Base</span><span class="meta-value">$2,500 / month</span></div>
+      <div class="meta-item"><span class="meta-label">Max Earning Potential</span><span class="meta-value">$7,650+ / month</span></div>
+    </div>
+  </div>
+
+  <hr/>
+
+  <!-- ROLE OVERVIEW -->
+  <section class="section" id="role">
+    <span class="section-tag gold">Overview</span>
+    <h2 class="section-title">Role Overview</h2>
+    <div class="role-grid">
+      <div class="role-card">
+        <div class="role-card-label">Current</div>
+        <div class="role-card-title">1 Call / Week</div>
+        <div class="role-card-body">One group coaching call per week. No call reviews, no content, no 1-on-1 access for students. <strong>$1,200/month fixed.</strong></div>
+      </div>
+      <div class="role-card">
+        <div class="role-card-label">New Structure</div>
+        <div class="role-card-title">Full Coaching Presence</div>
+        <div class="role-card-body">2 calls/week, 2 public call reviews/week, B2B course modules, 1-on-1 ascension tier, and optional Sales.io sales calls. <strong>Base + performance upside.</strong></div>
+      </div>
+    </div>
+
+    <div class="flag-grid">
+      <div class="flag-card green">
+        <div class="flag-icon" style="color:var(--green);">&#10003;</div>
+        <div class="flag-body green">This structure <strong>aligns Evan's income with student results.</strong> His biggest paydays come from ascensions — which only happen when students are getting real value from his coaching. Everyone wins together.</div>
+      </div>
+      <div class="flag-card gold">
+        <div class="flag-icon" style="color:var(--gold);">&#9650;</div>
+        <div class="flag-body gold"><strong>JJ's risk is capped at $2,500/month base.</strong> Every dollar above that is tied to revenue Evan generates or delivers — ascensions net JJ $11,200 per student; sales calls net JJ 92% of the deal. The upside is mutual.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DELIVERABLES -->
+  <section class="section" id="deliverables">
+    <span class="section-tag gold">Deliverables</span>
+    <h2 class="section-title">What Evan Delivers</h2>
+
+    <table class="deliverable-table">
+      <thead>
+        <tr>
+          <th>Deliverable</th>
+          <th>Format</th>
+          <th>Frequency</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Group Coaching Call</td>
+          <td>Live, recorded to Skool</td>
+          <td>2x per week</td>
+          <td>60-75 min each. B2B focus. Evan sets agenda.</td>
+        </tr>
+        <tr>
+          <td>Public Call Review</td>
+          <td>Live or async video</td>
+          <td>2x per week</td>
+          <td>45-60 min. Students submit calls in advance. Published to community for shared learning.</td>
+        </tr>
+        <tr>
+          <td>B2B Course Modules</td>
+          <td>Video + written</td>
+          <td>6-8 modules total (one-time build)</td>
+          <td>JJ approves each module before it goes live. Milestone bonuses apply — see below.</td>
+        </tr>
+        <tr>
+          <td>Ascension: Game Plan Call</td>
+          <td>1-on-1, 60 min</td>
+          <td>Per ascended student</td>
+          <td>Structured intake form filled by student 48hrs before call. Evan reviews before showing up.</td>
+        </tr>
+        <tr>
+          <td>Ascension: Call Review</td>
+          <td>1-on-1 individualized</td>
+          <td>Per ascended student</td>
+          <td>Their actual recorded calls, not generic coaching.</td>
+        </tr>
+        <tr>
+          <td>Ascension: WhatsApp 1-on-1</td>
+          <td>Direct access</td>
+          <td>Ongoing for ascended students</td>
+          <td><strong>Weekdays only. 24-hour response window.</strong> Not real-time unlimited access.</td>
+        </tr>
+        <tr>
+          <td>Sales.io Sales Calls (optional)</td>
+          <td>Booked inbounds</td>
+          <td>As assigned by JJ</td>
+          <td>Overflow or additional capacity. Does not replace Lu's pipeline. Separate from coaching role.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- WHAT TO CLARIFY -->
+  <section class="section" id="boundaries">
+    <span class="section-tag">Before You Sign</span>
+    <h2 class="section-title">What to Lock In Before This Goes Live</h2>
+    <div class="flag-grid">
+      <div class="flag-card orange">
+        <div class="flag-icon" style="color:var(--orange);">&#9888;</div>
+        <div class="flag-body orange"><strong>WhatsApp access needs defined hours.</strong> "1-on-1 access" with no boundary is a fast path to coach burnout and resentment. Lock in weekdays, 24-hour response — that's it. Ascended students who need faster responses get scheduled calls.</div>
+      </div>
+      <div class="flag-card orange">
+        <div class="flag-icon" style="color:var(--orange);">&#9888;</div>
+        <div class="flag-body orange"><strong>Module quantity is 6-8, not 10-15.</strong> Committing to 10-15 up front creates the incentive to build padded content just to hit a number. Build the core 6-8 right, then expand if students need more. You approve every module before it goes live.</div>
+      </div>
+      <div class="flag-card orange">
+        <div class="flag-icon" style="color:var(--orange);">&#9888;</div>
+        <div class="flag-body orange"><strong>Sales calls need a clear handoff from Lu.</strong> Define whose leads go to Evan vs. Lu before day one. Overlap creates conflict. Evan gets overflow inbounds or a specific lead source — not open access to the whole pipeline.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- BASE -->
+  <section class="section" id="base">
+    <span class="section-tag gold">Compensation</span>
+    <h2 class="section-title">Base Compensation</h2>
+
+    <div class="comp-block">
+      <div class="comp-header">
+        <div>
+          <div class="comp-title">Monthly Base — Group Coaching Role</div>
+          <div style="font-size:12px;color:#333;margin-top:3px;">2 calls/week + 2 call reviews/week + WhatsApp community access</div>
+        </div>
+        <div class="comp-amount gold">$2,500 / mo</div>
+      </div>
+      <div class="comp-body">
+        <p>Current rate is $1,200/month for 1 call per week. The new structure is roughly <strong>4x the recurring time commitment</strong> — 16+ live sessions per month vs. 4. The $1,300 increase is modest relative to the output and positions Evan as a real part of the coaching staff, not a contract hire.</p>
+        <div class="comp-detail">
+          <div class="comp-row">
+            <div class="comp-row-label">Current monthly (1 call/week)</div>
+            <div class="comp-row-value">$1,200</div>
+          </div>
+          <div class="comp-row">
+            <div class="comp-row-label">New base (2 calls + 2 reviews/week)</div>
+            <div class="comp-row-value gold">$2,500</div>
+          </div>
+          <div class="comp-row">
+            <div class="comp-row-label">Increase</div>
+            <div class="comp-row-value">+$1,300 / month</div>
+          </div>
+          <div class="comp-row">
+            <div class="comp-row-label">Sessions per month (new)</div>
+            <div class="comp-row-value">16+ sessions</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULES -->
+  <section class="section" id="modules">
+    <span class="section-tag blue">One-Time</span>
+    <h2 class="section-title">Course Module Bonus</h2>
+
+    <div class="comp-block">
+      <div class="comp-header">
+        <div>
+          <div class="comp-title">B2B Course Modules (6-8 total)</div>
+          <div style="font-size:12px;color:#333;margin-top:3px;">One-time build. JJ approves each module before it goes live.</div>
+        </div>
+        <div class="comp-amount blue">$1,500 flat</div>
+      </div>
+      <div class="comp-body">
+        <p>Milestone-based, not paid upfront. This keeps Evan motivated to finish without you paying for content that never gets delivered.</p>
+        <div class="comp-detail">
+          <div class="comp-row">
+            <div class="comp-row-label">Milestone 1 — Modules 1-4 approved by JJ</div>
+            <div class="comp-row-value green">$750 paid</div>
+          </div>
+          <div class="comp-row">
+            <div class="comp-row-label">Milestone 2 — Modules 5-8 approved by JJ</div>
+            <div class="comp-row-value green">$750 paid</div>
+          </div>
+        </div>
+        <p style="margin-top:14px;">Modules must meet a defined format: clear learning objective, structured content, actionable takeaway. JJ has final say on whether a module is approved before bonus is released.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ASCENSION -->
+  <section class="section" id="ascension">
+    <span class="section-tag green">Ascension Tier</span>
+    <h2 class="section-title">Ascension Commission — 20%</h2>
+
+    <div class="comp-block">
+      <div class="comp-header">
+        <div>
+          <div class="comp-title">Per Student Who Ascends to $14,000 Tier</div>
+          <div style="font-size:12px;color:#333;margin-top:3px;">Evan delivers: game plan call + individualized call review + WhatsApp 1-on-1</div>
+        </div>
+        <div class="comp-amount green">$2,800 / student</div>
+      </div>
+      <div class="comp-body">
+        <p>When a student ascends, Evan earns <strong>20% of the $14,000 investment</strong>. This is the most important number in this entire structure — it means Evan's biggest paychecks come directly from developing students to a level where they want more. His incentive and Sales.io's growth are the same thing.</p>
+        <div class="comp-detail">
+          <div class="comp-row">
+            <div class="comp-row-label">Ascension price</div>
+            <div class="comp-row-value">$14,000</div>
+          </div>
+          <div class="comp-row">
+            <div class="comp-row-label">Evan earns (20%)</div>
+            <div class="comp-row-value green">$2,800 per student</div>
+          </div>
+          <div class="comp-row">
+            <div class="comp-row-label">Sales.io nets (80%)</div>
+            <div class="comp-row-value">$11,200 per student</div>
+          </div>
+          <div class="comp-row">
+            <div class="comp-row-label">Cap</div>
+            <div class="comp-row-value gold">No cap</div>
+          </div>
+        </div>
+        <p style="margin-top:14px;">No cap. The more students Evan coaches to that level of result and ambition, the more he earns — and the more Sales.io grows. At 3 ascensions in a month, Evan earns $8,400 from ascensions alone on top of his base.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SALES CALLS -->
+  <section class="section" id="sales">
+    <span class="section-tag orange">Optional</span>
+    <h2 class="section-title">Sales.io Sales Calls — 8% Per Close</h2>
+
+    <div class="comp-block">
+      <div class="comp-header">
+        <div>
+          <div class="comp-title">Inbound Sales Calls for Sales.io Flagship</div>
+          <div style="font-size:12px;color:#333;margin-top:3px;">Overflow / assigned inbounds. Does not replace Lu's pipeline.</div>
+        </div>
+        <div class="comp-amount orange">8% / close</div>
+      </div>
+      <div class="comp-body">
+        <p>Evan takes booked inbounds when assigned by JJ — overflow capacity or leads Lu can't cover. This is separate from his coaching role and entirely optional in any given week.</p>
+        <div class="comp-detail">
+          <div class="comp-row">
+            <div class="comp-row-label">$7,500 full pay close</div>
+            <div class="comp-row-value orange">$600 to Evan</div>
+          </div>
+          <div class="comp-row">
+            <div class="comp-row-label">$10,000 split pay close</div>
+            <div class="comp-row-value orange">$800 to Evan</div>
+          </div>
+          <div class="comp-row">
+            <div class="comp-row-label">Sales.io nets per $7,500 close</div>
+            <div class="comp-row-value">$6,900</div>
+          </div>
+          <div class="comp-row">
+            <div class="comp-row-label">Sales.io nets per $10,000 close</div>
+            <div class="comp-row-value">$9,200</div>
+          </div>
+        </div>
+        <p style="margin-top:14px;"><strong>Important:</strong> Clarify with Lu before Evan takes his first sales call. Define clearly which leads go to Evan and which stay with Lu. Overlap creates conflict. Evan gets assigned leads — not open pipeline access.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EARNINGS SNAPSHOT -->
+  <section class="section" id="earnings">
+    <span class="section-tag gold">Snapshot</span>
+    <h2 class="section-title">What Evan Can Earn in a Month</h2>
+
+    <div style="background:#060606;border:1px solid #0d0d0d;border-radius:12px;overflow:hidden;">
+      <table class="earnings-table" style="width:100%;">
+        <thead>
+          <tr>
+            <th>Source</th>
+            <th>Low</th>
+            <th>High</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="source">Base (2 calls + 2 reviews/week)</td>
+            <td>$2,500</td>
+            <td>$2,500</td>
+          </tr>
+          <tr>
+            <td class="source">Module build bonus (build period only)</td>
+            <td>$0</td>
+            <td>$750</td>
+          </tr>
+          <tr>
+            <td class="source">1 ascension @ 20%</td>
+            <td>$2,800</td>
+            <td>$2,800</td>
+          </tr>
+          <tr>
+            <td class="source">3 ascensions @ 20%</td>
+            <td colspan="2" style="text-align:right;color:#2a5a36;font-weight:700;">$8,400</td>
+          </tr>
+          <tr>
+            <td class="source">2 sales closes @ 8%</td>
+            <td>$1,200</td>
+            <td>$1,600</td>
+          </tr>
+          <tr>
+            <td>Total (base scenario: 1 ascension, 2 closes)</td>
+            <td>$6,500</td>
+            <td style="color:var(--green);">$7,650</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="flag-card green" style="margin-top:14px;">
+      <div class="flag-icon" style="color:var(--green);">&#9654;</div>
+      <div class="flag-body green"><strong>Evan's ceiling is real and earnable.</strong> At consistent output — 2 ascensions/month and 3 closes — he's in the $10,000-$12,000/month range. That's enough to make this his primary income source. That level of commitment shows in the coaching.</div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- 90-DAY REVIEW -->
+  <section class="section" id="review">
+    <span class="section-tag">Terms</span>
+    <h2 class="section-title">90-Day Review Clause</h2>
+
+    <div class="review-box">
+      <div class="review-box-title">At 90 Days, JJ and Evan Assess Together</div>
+      <p style="font-size:13.5px;color:#555;line-height:1.75;margin-bottom:16px;">This is not a performance improvement conversation — it's a built-in checkpoint to make sure the structure is working for both sides. If deliverables are being hit and students are getting results, the relationship continues and expands. If something slipped, you fix it before it becomes a bigger issue.</p>
+      <div class="review-checklist">
+        <div class="review-item">
+          <div class="review-check">&#9633;</div>
+          <div class="review-text"><strong>Calls delivered consistently.</strong> Were 2 group calls and 2 call reviews happening every week? Any consistent gaps?</div>
+        </div>
+        <div class="review-item">
+          <div class="review-check">&#9633;</div>
+          <div class="review-text"><strong>Course modules built.</strong> How many modules completed and approved? Are they actually being used by students?</div>
+        </div>
+        <div class="review-item">
+          <div class="review-check">&#9633;</div>
+          <div class="review-text"><strong>Student outcomes.</strong> Are students in Evan's calls improving measurably — close rates, placements, job offers? Ask the students, not just Evan.</div>
+        </div>
+        <div class="review-item">
+          <div class="review-check">&#9633;</div>
+          <div class="review-text"><strong>Ascension pipeline.</strong> Did any students ascend? If not — is that because the program is too new, or because students aren't seeing enough value to invest further?</div>
+        </div>
+        <div class="review-item">
+          <div class="review-check">&#9633;</div>
+          <div class="review-text"><strong>Sales call performance (if applicable).</strong> What was his close rate? How did students respond to his calls vs. the existing team?</div>
+        </div>
+      </div>
+      <p style="font-size:12.5px;color:#333;line-height:1.75;margin-top:16px;">If all five are solid — expand the role. If two or more slipped — renegotiate scope before renewing. This protects JJ from a fixed cost that underdelivers and gives Evan a clear target to hit.</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('.section');
+  const navItems = document.querySelectorAll('.nav-item');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navItems.forEach(i => i.classList.remove('active'));
+        const a = document.querySelector(`.nav-item[href="#${e.target.id}"]`);
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { threshold: 0.2 });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
