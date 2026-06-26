@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Weeks 8–12 · The Influence Phase · Sales.io Mastermind</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #000; --white: #fff; --gray-900: #111;
+      --gold: #f5c518; --green: #4ade80; --red: #fc8181;
+      --orange: #fb923c; --blue: #7ab3ff; --purple: #c084fc;
+      --sidebar-width: 268px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--black); color: var(--white); display: flex; min-height: 100vh; font-size: 15px; line-height: 1.6; }
+
+    /* SIDEBAR */
+    .sidebar { width: var(--sidebar-width); min-height: 100vh; background: var(--gray-900); border-right: 1px solid #1a1a1a; position: fixed; top: 0; left: 0; display: flex; flex-direction: column; z-index: 100; overflow-y: auto; }
+    .sidebar-logo { padding: 22px; border-bottom: 1px solid #1a1a1a; }
+    .logo-text { font-size: 13px; font-weight: 800; }
+    .logo-sub { font-size: 9px; color: #333; text-transform: uppercase; letter-spacing: 1px; margin-top: 3px; }
+    .sidebar-nav { padding: 10px 0; flex: 1; }
+    .nav-group-label { font-size: 9px; font-weight: 700; color: #222; letter-spacing: 1.5px; text-transform: uppercase; padding: 14px 20px 5px; }
+    .nav-item { display: flex; align-items: center; gap: 9px; padding: 6px 20px; color: #444; text-decoration: none; font-size: 12px; font-weight: 500; transition: all 0.12s; border-left: 2px solid transparent; }
+    .nav-item:hover { color: var(--white); background: #141414; }
+    .nav-item.active { color: var(--white); border-left-color: var(--gold); background: #141414; }
+    .nav-dot { width: 5px; height: 5px; border-radius: 50%; background: #1e1e1e; flex-shrink: 0; }
+    .nav-item.active .nav-dot { background: var(--gold); }
+    .week-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+    .sidebar-footer { padding: 14px 20px; border-top: 1px solid #1a1a1a; font-size: 10px; color: #222; line-height: 1.6; }
+
+    /* MAIN */
+    .main { margin-left: var(--sidebar-width); flex: 1; padding: 52px 64px 100px; max-width: 960px; }
+
+    /* HEADER */
+    .page-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #333; margin-bottom: 14px; }
+    .page-title { font-size: 36px; font-weight: 900; letter-spacing: -1px; line-height: 1.05; margin-bottom: 12px; }
+    .page-title span { color: var(--gold); }
+    .page-desc { font-size: 14px; color: #555; line-height: 1.75; max-width: 680px; }
+    .page-meta { display: flex; gap: 24px; margin-top: 24px; padding-top: 24px; border-top: 1px solid #0d0d0d; flex-wrap: wrap; }
+    .meta-item { display: flex; flex-direction: column; gap: 3px; }
+    .meta-label { font-size: 9px; color: #2a2a2a; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+    .meta-value { font-size: 13px; color: #666; font-weight: 600; }
+
+    hr { border: none; border-top: 1px solid #080808; margin: 52px 0; }
+
+    /* WEEK SECTION */
+    .week-section { margin-bottom: 80px; scroll-margin-top: 40px; }
+    .week-header { margin-bottom: 28px; }
+    .week-num { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #2a2a2a; margin-bottom: 8px; }
+    .week-title { font-size: 28px; font-weight: 900; letter-spacing: -0.6px; line-height: 1.1; margin-bottom: 10px; }
+    .week-subtitle { font-size: 14px; color: #444; line-height: 1.75; max-width: 700px; }
+
+    /* NCI PRINCIPLE BOX */
+    .nci-box { background: #030508; border: 1px solid #0d1028; border-radius: 12px; padding: 20px 24px; margin-bottom: 24px; }
+    .nci-label { font-size: 9px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: #1a2060; margin-bottom: 8px; }
+    .nci-title { font-size: 15px; font-weight: 800; color: var(--blue); margin-bottom: 8px; }
+    .nci-body { font-size: 13.5px; color: #3a4a80; line-height: 1.75; }
+    .nci-body strong { color: #5a70c0; }
+
+    /* CORE TRUTH BOX */
+    .truth-box { background: #050500; border: 1px solid #1e1800; border-radius: 12px; padding: 20px 24px; margin-bottom: 24px; }
+    .truth-label { font-size: 9px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: #3a3000; margin-bottom: 8px; }
+    .truth-text { font-size: 17px; font-weight: 800; color: #6a5800; line-height: 1.5; letter-spacing: -0.2px; }
+
+    /* CONCEPT BLOCKS */
+    .concepts { display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; }
+    .concept { background: #060606; border: 1px solid #0d0d0d; border-radius: 10px; overflow: hidden; }
+    .concept-header { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-bottom: 1px solid #0a0a0a; background: #070707; }
+    .concept-num { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; flex-shrink: 0; }
+    .cn-gold { background: #0d0e00; color: var(--gold); border: 1px solid #2a2a00; }
+    .cn-blue { background: #02060d; color: var(--blue); border: 1px solid #0a1428; }
+    .cn-green { background: #020d06; color: var(--green); border: 1px solid #0a2814; }
+    .cn-orange { background: #0d0500; color: var(--orange); border: 1px solid #2a1000; }
+    .cn-purple { background: #060010; color: var(--purple); border: 1px solid #1a0030; }
+    .concept-title { font-size: 13.5px; font-weight: 800; }
+    .concept-source { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-left: auto; padding: 2px 7px; border-radius: 4px; white-space: nowrap; }
+    .src-cialdini { background: #0a0000; color: #5c1a1a; border: 1px solid #1a0000; }
+    .src-kahneman { background: #000a08; color: #1a5c44; border: 1px solid #001a14; }
+    .src-voss { background: #00040a; color: #1a3a5c; border: 1px solid #000e1a; }
+    .src-salesio { background: #0a0e00; color: #5c5a00; border: 1px solid #1a1e00; }
+    .src-nlp { background: #08000a; color: #4a1a5c; border: 1px solid #14001a; }
+    .src-science { background: #000408; color: #1a2a5c; border: 1px solid #00081a; }
+    .concept-body { padding: 16px 18px; }
+    .concept-body p { font-size: 13.5px; color: #555; line-height: 1.75; }
+    .concept-body p + p { margin-top: 10px; }
+    .concept-body strong { color: #999; }
+    .script { font-size: 13px; color: #777; font-style: italic; background: #030303; border-left: 2px solid #1a1a00; padding: 11px 15px; border-radius: 0 6px 6px 0; margin: 12px 0; line-height: 1.7; }
+    .script strong { color: #aaa; font-style: normal; }
+
+    /* TWO COL */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+    .mini-card { background: #050505; border: 1px solid #0a0a0a; border-radius: 9px; padding: 14px 16px; }
+    .mini-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; color: #222; }
+    .mini-label.gold { color: #3a3000; }
+    .mini-label.green { color: #1a3a22; }
+    .mini-label.blue { color: #1a2a40; }
+    .mini-label.red { color: #3a1a1a; }
+    .mini-body { font-size: 12.5px; color: #444; line-height: 1.7; }
+    .mini-body li { margin-bottom: 5px; padding-left: 12px; position: relative; }
+    .mini-body li::before { content: ''; position: absolute; left: 0; top: 8px; width: 4px; height: 4px; border-radius: 50%; background: #2a2a2a; }
+
+    /* PRACTICAL + DRILL */
+    .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+    .action-card { border-radius: 10px; padding: 18px 20px; }
+    .action-card.practical { background: #020d06; border: 1px solid #082010; }
+    .action-card.drill { background: #0d0800; border: 1px solid #201400; }
+    .action-label { font-size: 9px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; }
+    .label-green { color: #2a5a36; }
+    .label-gold { color: #5a4800; }
+    .action-title { font-size: 13px; font-weight: 800; margin-bottom: 8px; }
+    .action-body { font-size: 13px; color: #444; line-height: 1.7; }
+    .action-body li { margin-bottom: 6px; padding-left: 14px; position: relative; color: #444; }
+    .action-body li::before { content: '→'; position: absolute; left: 0; font-size: 10px; color: #2a2a2a; top: 2px; }
+    .action-body strong { color: #777; }
+
+    /* FRAMEWORK OVERVIEW */
+    .overview-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 20px 0; }
+    .overview-card { background: #060606; border: 1px solid #0d0d0d; border-radius: 10px; padding: 14px 12px; text-align: center; }
+    .ov-week { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #222; margin-bottom: 6px; }
+    .ov-title { font-size: 11px; font-weight: 800; line-height: 1.3; margin-bottom: 6px; }
+    .ov-tag { font-size: 9px; padding: 2px 7px; border-radius: 8px; font-weight: 700; }
+
+    /* FRAME TABLE */
+    .frame-table { width: 100%; border-collapse: collapse; background: #060606; border: 1px solid #0d0d0d; border-radius: 10px; overflow: hidden; margin: 14px 0; }
+    .frame-table th { text-align: left; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #222; padding: 11px 15px; border-bottom: 1px solid #0d0d0d; background: #040404; }
+    .frame-table td { padding: 12px 15px; font-size: 13px; border-bottom: 1px solid #060606; color: #555; vertical-align: top; line-height: 1.55; }
+    .frame-table tr:last-child td { border-bottom: none; }
+    .frame-table td:first-child { font-weight: 700; color: #888; white-space: nowrap; }
+    .frame-table td strong { color: #777; }
+
+    /* APPENDIX */
+    .appendix-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .app-card { background: #060606; border: 1px solid #0d0d0d; border-radius: 10px; padding: 18px 20px; }
+    .app-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #222; margin-bottom: 10px; }
+    .app-list { display: flex; flex-direction: column; gap: 6px; }
+    .app-item { display: flex; align-items: flex-start; gap: 10px; }
+    .app-dot { width: 4px; height: 4px; border-radius: 50%; background: #1a1a1a; flex-shrink: 0; margin-top: 7px; }
+    .app-text { font-size: 12.5px; color: #444; line-height: 1.6; }
+    .app-text strong { color: #777; }
+
+    @media (max-width: 900px) {
+      .main { margin-left: 0; padding: 32px 20px 80px; }
+      .sidebar { display: none; }
+      .two-col, .action-row, .overview-grid, .appendix-grid { grid-template-columns: 1fr; }
+      .overview-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text">Sales.io Mastermind</div>
+    <div class="logo-sub">Advanced Curriculum · Weeks 8–12</div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-group-label">Overview</div>
+    <a class="nav-item active" href="#overview"><span class="nav-dot"></span>Phase Overview</a>
+
+    <div class="nav-group-label">The Influence Phase</div>
+    <a class="nav-item" href="#week8">
+      <span class="week-dot" style="background:#7ab3ff;"></span>Week 8 — Decision Architecture
+    </a>
+    <a class="nav-item" href="#week9">
+      <span class="week-dot" style="background:#c084fc;"></span>Week 9 — Language as Influence
+    </a>
+    <a class="nav-item" href="#week10">
+      <span class="week-dot" style="background:#f5c518;"></span>Week 10 — Identity &amp; The Invisible Sale
+    </a>
+    <a class="nav-item" href="#week11">
+      <span class="week-dot" style="background:#fb923c;"></span>Week 11 — Loss Aversion &amp; Inaction
+    </a>
+    <a class="nav-item" href="#week12">
+      <span class="week-dot" style="background:#4ade80;"></span>Week 12 — Frame Mastery &amp; The Elite Closer
+    </a>
+
+    <div class="nav-group-label">Reference</div>
+    <a class="nav-item" href="#appendix"><span class="nav-dot"></span>Framework Quick Reference</a>
+  </div>
+  <div class="sidebar-footer">Sales.io · Internal Curriculum · Instructor Guide</div>
+</nav>
+
+<main class="main">
+
+  <!-- HEADER -->
+  <div style="margin-bottom:52px;" id="overview">
+    <div class="page-eyebrow">Sales.io Mastermind · Weeks 8–12 · Instructor Guide</div>
+    <h1 class="page-title">The <span>Influence Phase.</span></h1>
+    <p class="page-desc">Weeks 1–7 built the foundation: discovery, pitch structure, objection handling, and state management. Weeks 8–12 go deeper. This is where students stop executing a process and start operating as genuine influence practitioners — closing through psychology, not pressure. Every concept in this phase can be applied on the next call.</p>
+    <div class="page-meta">
+      <div class="meta-item"><span class="meta-label">Phase</span><span class="meta-value">Weeks 8–12</span></div>
+      <div class="meta-item"><span class="meta-label">Focus</span><span class="meta-value">Influence, Psychology, Identity, Frame</span></div>
+      <div class="meta-item"><span class="meta-label">Sources</span><span class="meta-value">Cialdini, Kahneman, Voss, NLP, Sales.io</span></div>
+      <div class="meta-item"><span class="meta-label">Format</span><span class="meta-value">Concept → Script → Drill each week</span></div>
+    </div>
+
+    <div class="overview-grid" style="margin-top:28px;">
+      <div class="overview-card">
+        <div class="ov-week">Week 8</div>
+        <div class="ov-title">Decision Architecture</div>
+        <div class="ov-tag" style="background:#02060d;color:var(--blue);border:1px solid #0a1428;">Kahneman</div>
+      </div>
+      <div class="overview-card">
+        <div class="ov-week">Week 9</div>
+        <div class="ov-title">Language as Influence</div>
+        <div class="ov-tag" style="background:#060010;color:var(--purple);border:1px solid #1a0030;">NLP + Voss</div>
+      </div>
+      <div class="overview-card">
+        <div class="ov-week">Week 10</div>
+        <div class="ov-title">Identity &amp; The Invisible Sale</div>
+        <div class="ov-tag" style="background:#0d0e00;color:var(--gold);border:1px solid #2a2a00;">Sales.io</div>
+      </div>
+      <div class="overview-card">
+        <div class="ov-week">Week 11</div>
+        <div class="ov-title">Loss Aversion</div>
+        <div class="ov-tag" style="background:#0d0500;color:var(--orange);border:1px solid #2a1000;">Prospect Theory</div>
+      </div>
+      <div class="overview-card">
+        <div class="ov-week">Week 12</div>
+        <div class="ov-title">Frame Mastery</div>
+        <div class="ov-tag" style="background:#020d06;color:var(--green);border:1px solid #0a2814;">Integrated</div>
+      </div>
+    </div>
+  </div>
+
+  <hr/>
+
+  <!-- WEEK 8 -->
+  <section class="week-section" id="week8">
+    <div class="week-header">
+      <div class="week-num" style="color:#1a2a60;">Week 8</div>
+      <h2 class="week-title" style="color:var(--blue);">Decision Architecture</h2>
+      <p class="week-subtitle">How the brain actually makes buying decisions — and how to design your call around those mechanisms instead of fighting them.</p>
+    </div>
+
+    <div class="truth-box">
+      <div class="truth-label">Core Truth</div>
+      <div class="truth-text">"95% of buying decisions happen below conscious awareness. System 1 makes the call. System 2 writes the story about why."</div>
+    </div>
+
+    <div class="nci-box">
+      <div class="nci-label">NCI Principle — Kahneman / Pre-Suasion</div>
+      <div class="nci-title">The Pre-Suasion Effect</div>
+      <div class="nci-body">What directs a person's attention just <em>before</em> a decision determines the decision itself. The questions you ask, the language you open with, and the emotions you activate in the first five minutes prime the subconscious filter through which everything that follows is interpreted. <strong>Most salespeople spend zero time thinking about what they prime. Elite closers design it deliberately.</strong></div>
+    </div>
+
+    <div class="concepts">
+
+      <div class="concept">
+        <div class="concept-header">
+          <div class="concept-num cn-blue">1</div>
+          <div class="concept-title">System 1 vs. System 2 — Where Decisions Actually Happen</div>
+          <div class="concept-source src-kahneman">Kahneman</div>
+        </div>
+        <div class="concept-body">
+          <p><strong>System 1</strong> is fast, automatic, emotional, and runs 95% of the time. It pattern-matches, reads faces, detects threats, and makes snap judgments. It has already decided whether it trusts you before you finish your first sentence. <strong>System 2</strong> is slow, deliberate, and rational — it shows up when someone is calculating a percentage or consciously deciding something. The "let me think about it" response is System 2 being activated because System 1 didn't commit.</p>
+          <p><strong>Practical implication:</strong> Your job is to earn a System 1 yes — an emotional, felt, intuitive "this is right." If you only win the System 2 argument (logic, features, ROI), they'll still stall. The System 1 yes comes from being deeply understood, not being presented to.</p>
+          <div class="script">"The closer who thinks their job is to present information well will always lose to the closer who thinks their job is to create a feeling." — JJ</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-header">
+          <div class="concept-num cn-blue">2</div>
+          <div class="concept-title">Anchoring — The First Number Owns the Frame</div>
+          <div class="concept-source src-kahneman">Kahneman</div>
+        </div>
+        <div class="concept-body">
+          <p>The brain uses the first number it hears as an anchor — every subsequent number is evaluated relative to it. This is not a conscious process. It happens automatically in System 1. <strong>Whatever number is in their mind when they hear your price determines whether it feels expensive or like a steal.</strong></p>
+          <div class="two-col">
+            <div class="mini-card">
+              <div class="mini-label red">Most Closers Do This</div>
+              <div class="mini-body"><li>Jump straight to "the investment is $7,500"</li><li>Let the prospect anchor on their own price expectations (usually low)</li><li>Fight an uphill battle when price lands</li></div>
+            </div>
+            <div class="mini-card">
+              <div class="mini-label green">What Elite Closers Do</div>
+              <div class="mini-body"><li>Anchor on the cost of inaction first</li><li>Reference market alternatives (e.g. $25,000 programs)</li><li>Let comparison make the price feel accessible</li></div>
+            </div>
+          </div>
+          <div class="script">"Most of the people in this space who've tried to get the same result through courses have spent $3,000–$10,000 and still don't know what they're doing wrong. We're going to solve that in the next hour."</div>
+          <p>You've now anchored $10,000 as the comparison point. When $7,500 lands, it feels like a discount — without you ever using the word "cheaper."</p>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-header">
+          <div class="concept-num cn-blue">3</div>
+          <div class="concept-title">Attention as Endorsement — What You Focus On Gets Bigger</div>
+          <div class="concept-source src-science">Pre-Suasion / Cialdini</div>
+        </div>
+        <div class="concept-body">
+          <p>Whatever occupies attention is perceived as important. This is a neurological fact, not a sales trick. If you spend 20 minutes in discovery on pain, pain feels enormous by the time the pitch starts. If you spend 20 minutes on a bright future, possibility feels real and accessible. <strong>You are not narrating the call — you are engineering which emotional reality is most vivid at decision time.</strong></p>
+          <p>Audit your current calls: what are you making vivid — their current pain, their desired future, or neither? The answer tells you exactly why your close rate is what it is.</p>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-header">
+          <div class="concept-num cn-blue">4</div>
+          <div class="concept-title">Priming Questions — Engineering the Buying State Before the Pitch</div>
+          <div class="concept-source src-science">Applied Neuroscience</div>
+        </div>
+        <div class="concept-body">
+          <p>A priming question activates an emotional or mental state before you ask the close. The brain doesn't distinguish between a real memory and a vividly imagined future — when you ask someone to feel something, they partially feel it. Use this.</p>
+          <div class="script">"Before I explain exactly how this works — I want to ask you something. If this did exactly what you're hoping it does, what would be the first thing that actually changes for you? Not the money piece. The life piece."</div>
+          <p>They answer. Now they are in a future-paced state, emotionally feeling the desired outcome. That emotional state is active when you start the pitch. <strong>You're not selling into resistance — you're selling into desire you just activated.</strong></p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="action-row">
+      <div class="action-card practical">
+        <div class="action-label label-green">Practical This Week</div>
+        <div class="action-title">Audit + Rebuild Your Call Opening</div>
+        <div class="action-body">
+          <ul>
+            <li>Pull your last 3 call recordings. Write down the first 5 minutes verbatim.</li>
+            <li>Identify: what emotional state did you prime them for?</li>
+            <li>Write 3 priming questions specific to your offer that activate the buying state before discovery</li>
+            <li>Identify where you anchor on price. Add one cost-of-inaction or market-comparison anchor before the price reveal</li>
+          </ul>
+        </div>
+      </div>
+      <div class="action-card drill">
+        <div class="action-label label-gold">Weekly Drill — "The Priming Partner"</div>
+        <div class="action-title">Partner Exercise: Build the Emotional State Before the Ask</div>
+        <div class="action-body">
+          <ul>
+            <li>Partner A plays the prospect, cold</li>
+            <li>Partner B opens with 3 priming questions before any discovery</li>
+            <li>Debrief: what emotional state was Partner A in before the pitch even started?</li>
+            <li>Swap. Run 3x. Goal: land the prospect in desire, not evaluation, before minute 10.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- WEEK 9 -->
+  <section class="week-section" id="week9">
+    <div class="week-header">
+      <div class="week-num" style="color:#3a1a60;">Week 9</div>
+      <h2 class="week-title" style="color:var(--purple);">Language as Influence</h2>
+      <p class="week-subtitle">Words don't just describe reality — they create it. The specific words you choose activate different neural pathways, emotional states, and decision frameworks. Most closers choose words based on habit. Elite closers choose them on purpose.</p>
+    </div>
+
+    <div class="truth-box">
+      <div class="truth-label">Core Truth</div>
+      <div class="truth-text">"You can plant a decision inside a question. The prospect will think it was their idea."</div>
+    </div>
+
+    <div class="nci-box">
+      <div class="nci-label">NCI Principle — NLP + Chris Voss</div>
+      <div class="nci-title">Linguistic Presuppositions &amp; Tactical Empathy</div>
+      <div class="nci-body">Every sentence you speak presupposes something. "When you join" presupposes they will. "If you decide to join" presupposes they might not. One closes. One opens a door to doubt. <strong>NLP teaches us to embed the desired outcome into the grammar itself — so the question gets answered, and the decision gets made, without the prospect noticing the moment it happened.</strong> Voss adds the other layer: naming their emotional state before they do creates a depth of understanding that no amount of clever language can fake.</div>
+    </div>
+
+    <div class="concepts">
+
+      <div class="concept">
+        <div class="concept-header">
+          <div class="concept-num cn-purple">1</div>
+          <div class="concept-title">Embedded Commands — Hiding Directives in Larger Sentences</div>
+          <div class="concept-source src-nlp">NLP</div>
+        </div>
+        <div class="concept-body">
+          <p>An embedded command is a directive hidden inside a statement or question. The outer sentence gives the conscious mind something to respond to. The embedded command goes directly to System 1. The key is subtle — if they notice it, the effect is gone.</p>
+          <div class="two-col">
+            <div class="mini-card">
+              <div class="mini-label gold">The Command</div>
+              <div class="mini-body" style="font-style:italic;color:#555;">Imagine yourself already doing this.</div>
+            </div>
+            <div class="mini-card">
+              <div class="mini-label blue">Embedded Version</div>
+              <div class="mini-body" style="color:#555;">
+                "I want to ask you to take a moment and just <em>imagine yourself already doing this</em> — what does that feel like?"
+              </div>
+            </div>
+          </div>
+          <p style="margin-top:12px;">More examples in active use:</p>
+          <div class="script">"The interesting thing you'll notice when you start working this system is how quickly your confidence on calls shifts."</div>
+          <div class="script">"A lot of people find that once they <strong>make the decision to invest in themselves</strong>, everything else gets clearer."</div>
+          <div class="script">"I'm curious — as you <strong>picture yourself 90 days from now</strong>, what do you see changing first?"</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-header">
+          <div class="concept-num cn-purple">2</div>
+          <div class="concept-title">Presuppositions — Assume the Outcome in the Question</div>
+          <div class="concept-source src-nlp">NLP</div>
+        </div>
+        <div class="concept-body">
+          <p>A presupposition embeds an assumption into the question that must be accepted for the question to make sense. When someone answers the question, they implicitly accept the assumption.</p>
+          <div class="frame-table">
+            <thead><tr><th>Weak (opens doubt)</th><th>Presupposition (closes it)</th></tr></thead>
+            <tbody>
+              <tr><td>"Would you want to be making $20K months?"</td><td>"When you're making $20K months, what's the first thing you change?"</td></tr>
+              <tr><td>"If you decided to join, what would your goal be?"</td><td>"Once you're in, what's the first thing you want to work on?"</td></tr>
+              <tr><td>"Do you think this could work for you?"</td><td>"What part of your current situation changes fastest once you have this system?"</td></tr>
+              <tr><td>"Are you ready to invest in yourself?"</td><td>"What made you realize this was the right time to make this move?"</td></tr>
+            </tbody>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-header">
+          <div class="concept-num cn-purple">3</div>
+          <div class="concept-title">Calibrated Questions — "How" and "What," Never "Why"</div>
+          <div class="concept-source src-voss">Chris Voss</div>
+        </div>
+        <div class="concept-body">
+          <p>"Why" creates defensiveness. It activates the need to justify and explain. The prospect suddenly feels interrogated. "How" and "What" create reflection — they feel like you're trying to understand, not challenge.</p>
+          <div class="two-col">
+            <div class="mini-card">
+              <div class="mini-label red">Triggers Defensiveness</div>
+              <div class="mini-body">
+                <li>"Why haven't you made a change yet?"</li>
+                <li>"Why did you try that approach?"</li>
+                <li>"Why do you feel like you can't afford it?"</li>
+              </div>
+            </div>
+            <div class="mini-card">
+              <div class="mini-label green">Creates Reflection</div>
+              <div class="mini-body">
+                <li>"What's kept things the same so far?"</li>
+                <li>"What made you choose that direction?"</li>
+                <li>"How are you currently thinking about the investment?"</li>
+              </div>
+            </div>
+          </div>
+          <p style="margin-top:12px;">Same information. Completely different emotional result. "How" and "what" questions also tend to produce longer, more honest answers — because they don't trigger self-protection.</p>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-header">
+          <div class="concept-num cn-purple">4</div>
+          <div class="concept-title">Labeling — Name the Emotion Before They Do</div>
+          <div class="concept-source src-voss">Chris Voss</div>
+        </div>
+        <div class="concept-body">
+          <p>A label is a verbal acknowledgment of what you perceive the other person is feeling. You don't ask if it's true — you state it tentatively and let them confirm or correct. "It seems like..." / "It sounds like..." / "It feels like..."</p>
+          <p><strong>If you're right:</strong> they feel profoundly understood — more deeply than almost any salesperson has ever made them feel. Trust spikes instantly. The System 1 decision locks in. <strong>If you're slightly wrong:</strong> they correct you. In correcting you, they articulate their actual emotional state — which you now understand even better. Win either way.</p>
+          <div class="script">"It sounds like you've actually tried to figure this out before and it didn't go the way you hoped."</div>
+          <div class="script">"It seems like the part that concerns you most isn't the money — it's whether this will actually be different from what you've already tried."</div>
+          <div class="script">"It feels like you're someone who doesn't make decisions like this lightly. Like you've thought about this for a while."</div>
+          <p>Practice labeling 2-3 times per call. Don't overuse — once it becomes a pattern, it sounds clinical.</p>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-header">
+          <div class="concept-num cn-purple">5</div>
+          <div class="concept-title">Pacing and Leading — Match Their World, Then Move It</div>
+          <div class="concept-source src-nlp">NLP</div>
+        </div>
+        <div class="concept-body">
+          <p>Pacing means matching the prospect's current reality — their language, their pace, their emotional state, their perspective. Leading means gently redirecting that matched state toward a new direction. You cannot lead someone you haven't first paced. The prospect will feel dragged, not guided.</p>
+          <div class="script"><strong>Pace:</strong> "You've been doing this for three years, you're making okay money, and you know you're capable of more but nothing you've tried has actually broken through — I hear that."</div>
+          <div class="script"><strong>Lead:</strong> "And what I've seen with people exactly like you is that the missing piece is almost never effort. It's almost always a specific gap in one of three areas. Let me show you which one is yours."</div>
+          <p>Two sentences of pace → one sentence of lead. Don't rush to lead before you've truly matched where they are. The closer who paces 90 seconds feels more trustworthy than the closer who jumps straight to solutions.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="action-row">
+      <div class="action-card practical">
+        <div class="action-label label-green">Practical This Week</div>
+        <div class="action-title">Rewrite 5 Questions, Add 3 Labels</div>
+        <div class="action-body">
+          <ul>
+            <li>Take 5 questions from your current call framework. Rewrite each using presuppositions.</li>
+            <li>Write 3 embedded command sequences for your discovery, pitch, and close.</li>
+            <li>Identify every "why" question in your script. Replace with "what" or "how."</li>
+            <li>Write 3 label statements for the most common emotional states you see on calls.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="action-card drill">
+        <div class="action-label label-gold">Weekly Drill — "Label Before You Ask"</div>
+        <div class="action-title">Partner Exercise: Name It Before They Name It</div>
+        <div class="action-body">
+          <ul>
+            <li>Partner A runs a 15-min mock discovery. Partner B must label 3 emotional states before asking a question about them.</li>
+            <li>After each label, note: did it open the conversation or close it?</li>
+            <li>Track accuracy rate — how often were the labels correct?</li>
+            <li>Goal: stop asking "how do you feel about X" — start saying "it seems like X" and let them confirm.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- WEEK 10 -->
+  <section class="week-section" id="week10">
+    <div class="week-header">
+      <div class="week-num" style="color:#3a3000;">Week 10</div>
+      <h2 class="week-title" style="color:var(--gold);">Identity &amp; The Invisible Sale</h2>
+      <p class="week-subtitle">Nobody buys a product. They buy a version of themselves. The most powerful sale in existence is not the sale of a program — it is the sale of an identity that the prospect already suspects they're capable of becoming.</p>
+    </div>
+
+    <div class="truth-box">
+      <div class="truth-label">Core Truth</div>
+      <div class="truth-text">"Every objection at the close is an identity objection in disguise. They're not saying they can't afford it. They're saying they're not sure they're the kind of person who does this."</div>
+    </div>
+
+    <div class="nci-box">
+      <div class="nci-label">NCI Principle — Self-Concept Theory + Sales.io</div>
+      <div class="nci-title">The Identity-Action Gap</div>
+      <div class="nci-body">People act consistently with how they see themselves. When the action you're asking them to take is congruent with their self-concept, the decision feels easy. When it isn't, they stall — not because of logic, but because taking that action would require them to become someone different. <strong>Your job is to show them that their desired self-concept and this decision are the same thing. The decision isn't a risk. It's a confirmation of who they already know they are.</strong></div>
+    </div>
+
+    <div class="concepts">
+
+      <div class="concept">
+        <div class="concept-header">
+          <div class="concept-num cn-gold">1</div>
+          <div class="concept-title">The Four Identity Barriers — What Every Objection Is Actually About</div>
+          <div class="concept-source src-salesio">Sales.io</div>
+        </div>
+        <div class="concept-body">
+          <p>Surface objections are rarely the real objection. Below every "I need to think about it" or "the money isn't there" is one of four identity-level fears. Know which one you're dealing with before you respond.</p>
+          <div class="frame-table">
+            <thead><tr><th>Barrier</th><th>What It Looks Like on the Call</th><th>What They Actually Fear</th></tr></thead>
+            <tbody>
+              <tr><td>Fear of Failure</td><td>"I've tried things like this before." / "What if it doesn't work for me?"</td><td>"I'll try again and confirm I'm not capable of more."</td></tr>
+              <tr><td>Fear of Judgment</td><td>"I need to talk to my wife." / "I don't want to look stupid if it doesn't work."</td><td>"The people I respect will judge me for this."</td></tr>
+              <tr><td>Fear of Change</td><td>"I'm not sure I'm ready." / "I just want to think through it."</td><td>"I'll have to become someone I don't recognize yet."</td></tr>
+              <tr><td>Fear of Deserving</td><td>"Maybe later when I'm in a better position." / Silence after the pitch.</td><td>"I'm not sure I deserve this outcome."</td></tr>
+            </tbody>
+          </div>
+          <p>Once you correctly identify the barrier, the response writes itself. Most closers respond to the surface. Elite closers respond to what's underneath.</p>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-header">
+          <div class="concept-num cn-gold">2</div>
+          <div class="concept-title">Future Self Projection — Get Them to Speak AS Their Future Self</div>
+          <div class="concept-source src-salesio">Sales.io + Neuroscience</div>
+        </div>
+        <div class="concept-body">
+          <p>The brain cannot reliably distinguish between a vividly imagined future and a real memory when the emotional state is sufficiently activated. When you get a prospect to describe their future self in specific, sensory detail — they begin to feel partial ownership of that future. The gap between "wanting it" and "having committed to it" narrows.</p>
+          <div class="script">"Don't tell me about the money for a second. I want to know — when this is working and you're making $25K months, what does a Tuesday morning look like for you? Where are you? What are you doing?"</div>
+          <p>Make them get specific. Vague futures don't land. "I'd have freedom" doesn't move anyone. "I'd be able to get my kids off the school bus every day" is a decision.</p>
+          <div class="script">"And when that's your Tuesday morning — who's around you? Who sees that version of you every day?"</div>
+          <p>They're now living a future that doesn't exist yet — and your program is the only thing between them and it.</p>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-header">
+          <div class="concept-num cn-gold">3</div>
+          <div class="concept-title">Identity Consistency — Elicit the Statement, Use It at the Close</div>
+          <div class="concept-source src-cialdini">Cialdini — Commitment &amp; Consistency</div>
+        </div>
+        <div class="concept-body">
+          <p>Once someone makes a statement about who they are, they are psychologically compelled to act consistently with that statement. Cialdini's research shows that even small, trivial commitments significantly increase the likelihood of larger, congruent commitments later. Elicit identity statements early. Reference them precisely at the close.</p>
+          <div class="script"><strong>Elicit early:</strong> "Tell me — are you someone who, when the right opportunity shows up, bets on yourself? Or do you tend to wait and see?"</div>
+          <div class="script"><strong>Reference at the close:</strong> "You told me earlier you're someone who bets on yourself when the right opportunity shows up. I've shown you what this does. Is this that opportunity, or not?"</div>
+          <p>They cannot say no without contradicting their own stated identity. The close is no longer you asking them to do something — it's you asking them if they meant what they said about themselves.</p>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-header">
+          <div class="concept-num cn-gold">4</div>
+          <div class="concept-title">Cognitive Dissonance at the Identity Level</div>
+          <div class="concept-source src-salesio">Sales.io — Advanced</div>
+        </div>
+        <div class="concept-body">
+          <p>Cognitive dissonance is the psychological discomfort of holding two contradictory beliefs simultaneously. You can activate it deliberately by surfacing the gap between who they believe they are and how they are currently living. The discomfort of that gap — when properly activated — is more motivating than any benefit you could pitch.</p>
+          <div class="script">"You're clearly someone who is smart, who has worked hard, who came here and built something from nothing. And yet — you just told me you're still doing the same thing you were doing three years ago. How does that sit with someone like you?"</div>
+          <p>Wait. Don't rescue them from the discomfort. The decision to change lives inside that discomfort, not outside it. The closer who is afraid to let silence sit after this question is the closer who never gets the deep close.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="action-row">
+      <div class="action-card practical">
+        <div class="action-label label-green">Practical This Week</div>
+        <div class="action-title">Map the Identity Journey for Your Prospect</div>
+        <div class="action-body">
+          <ul>
+            <li>Identify the most common identity barrier in your prospect pool (which of the 4 shows up most?)</li>
+            <li>Write a Future Self Projection sequence for your specific offer — 3 questions minimum, each more specific than the last</li>
+            <li>Write 2 identity statement elicitors for use in the first 15 minutes</li>
+            <li>Write the close that references each identity statement back</li>
+          </ul>
+        </div>
+      </div>
+      <div class="action-card drill">
+        <div class="action-label label-gold">Weekly Drill — "The Identity Statement Close"</div>
+        <div class="action-title">Partner: Elicit, Reference, Close</div>
+        <div class="action-body">
+          <ul>
+            <li>In mock discovery, elicit 2 identity statements from Partner A</li>
+            <li>Write them down verbatim</li>
+            <li>At the close, reference both statements word-for-word</li>
+            <li>Debrief: did the close feel like a question, or like a mirror? The mirror is the goal.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- WEEK 11 -->
+  <section class="week-section" id="week11">
+    <div class="week-header">
+      <div class="week-num" style="color:#3a1a00;">Week 11</div>
+      <h2 class="week-title" style="color:var(--orange);">Loss Aversion &amp; The Cost of Inaction</h2>
+      <p class="week-subtitle">Losses feel 2.5x more painful than equivalent gains feel good. Most closers sell the upside. The elite closer makes the cost of standing still more real than the cost of investing.</p>
+    </div>
+
+    <div class="truth-box">
+      <div class="truth-label">Core Truth</div>
+      <div class="truth-text">"'You could make $10,000 more' is weaker than 'you are currently losing $10,000 every month you don't have this.' Same math. Completely different brain response."</div>
+    </div>
+
+    <div class="nci-box">
+      <div class="nci-label">NCI Principle — Kahneman &amp; Tversky · Prospect Theory</div>
+      <div class="nci-title">Prospect Theory — Losses Dominate Gains</div>
+      <div class="nci-body">The pain of losing $1,000 is psychologically roughly 2.5x as powerful as the pleasure of gaining $1,000 of equal value. This is not rational — and it's not supposed to be. It is a feature of how the human brain evolved to survive. <strong>The closer who makes the cost of not deciding vivid and specific will always outperform the closer who makes the potential gain vivid and specific.</strong> Sell what they're losing, not just what they'll gain.</div>
+    </div>
+
+    <div class="concepts">
+
+      <div class="concept">
+        <div class="concept-header">
+          <div class="concept-num cn-orange">1</div>
+          <div class="concept-title">The Cost of Inaction Framework — Make "No" Feel Expensive</div>
+          <div class="concept-source src-salesio">Sales.io</div>
+        </div>
+        <div class="concept-body">
+          <p>The prospect is not choosing between "invest" and "free." They are choosing between two futures, both of which have a cost. Your job is to make the cost of the second future (no decision) as real and specific as possible. Most closers leave this entirely to the prospect's imagination — which is rarely vivid enough.</p>
+          <div class="script">"I want to ask you something honest. If we hang up today and nothing changes — where are you in December? Not in a dramatic way. Just literally: same job, same income, same situation at home. What does that look and feel like?"</div>
+          <div class="script">"You've been trying to figure this out for [X time]. What makes you think the next [X months] will be different without something actually changing?"</div>
+          <p>Make the cost of inaction concrete, specific, and emotionally real. "You'll stay stuck" is not concrete. "Your daughter watches you leave for that job every morning and she already knows that's not where you want to be" — that's concrete.</p>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-header">
+          <div class="concept-num cn-orange">2</div>
+          <div class="concept-title">Loss Framing vs. Gain Framing — Rewrite Every Benefit</div>
+          <div class="concept-source src-kahneman">Kahneman / Applied</div>
+        </div>
+        <div class="concept-body">
+          <p>Every benefit can be framed as either a gain or the prevention of a loss. The loss frame is consistently more motivating. This is not about being negative — it is about speaking the language of how the brain actually makes decisions.</p>
+          <div class="frame-table">
+            <thead><tr><th>Gain Frame (weaker)</th><th>Loss Frame (stronger)</th></tr></thead>
+            <tbody>
+              <tr><td>"You'll learn how to close B2B deals."</td><td>"Every week without this, you're leaving B2B money on the table you'll never get back."</td></tr>
+              <tr><td>"You'll get access to a job board with 60+ vetted companies."</td><td>"Right now, you're job hunting blind — competing for offers you can't vet. That stops here."</td></tr>
+              <tr><td>"Your close rate will increase."</td><td>"Every call you're on right now where you lose the close — you already had the skills to close it. You just don't have the framework yet."</td></tr>
+              <tr><td>"You'll have a coach in your corner."</td><td>"You're making the same mistakes on calls right now that a 30-minute review session would permanently eliminate. How many more calls do you want to do that?"</td></tr>
+            </tbody>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-header">
+          <div class="concept-num cn-orange">3</div>
+          <div class="concept-title">Legitimate Urgency — Use Their Timeline, Not Fake Pressure</div>
+          <div class="concept-source src-salesio">Sales.io</div>
+        </div>
+        <div class="concept-body">
+          <p>Manufactured urgency — fake deadlines, inflated scarcity, false "last spot" claims — destroys trust and breaks frame permanently. The prospect feels it even if they can't name it. It signals that you need them more than they need you. That frame is unrecoverable.</p>
+          <p>Legitimate urgency comes entirely from their own stated timeline. You don't invent it — you reflect it back to them.</p>
+          <div class="script">"You told me earlier you want to be in a completely different position by Q4. That's 90 days. If you need 30 days to think about starting, that's 60 days to build. Is that enough time to actually get where you said you want to go?"</div>
+          <p>Their timeline creates the pressure. You simply hold the mirror. This is infinitely more credible than anything you could manufacture — because it came from them.</p>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-header">
+          <div class="concept-num cn-orange">4</div>
+          <div class="concept-title">Pattern Interrupting "Let Me Think About It" — Before It Happens</div>
+          <div class="concept-source src-salesio">Sales.io + Applied</div>
+        </div>
+        <div class="concept-body">
+          <p>The stall is not a decision — it is the absence of a decision. The best time to handle it is before it happens. If you've done thorough discovery and a solid Step 9 Confirm Fit, you've already made stalling harder. But when it arrives anyway, interrupt the pattern immediately — with specificity, not argument.</p>
+          <div class="script">"Of course — I actually want you to be sure. Before we decide: when you say think about it, what specifically is there to think through? Because if it's something about the program, I'd rather just answer it now."</div>
+          <p>The vague stall becomes a specific objection. A specific objection you can handle. <strong>The stall only survives in vagueness — drag it into specificity and it almost always dissolves into something answerable.</strong></p>
+          <div class="script">If they give you something specific: handle it. If they say "I just need to think": "I hear you. Most people I talk to who say that — the thing they're really sitting with is whether this is actually going to work for them specifically. Is that part of it?"</div>
+          <p>Almost always yes. Now you're back in discovery, not fighting a wall.</p>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-header">
+          <div class="concept-num cn-orange">5</div>
+          <div class="concept-title">The Regret Minimization Frame — Long-Term Identity Over Short-Term Comfort</div>
+          <div class="concept-source src-science">Bezos / Applied</div>
+        </div>
+        <div class="concept-body">
+          <p>Jeff Bezos described his decision to start Amazon using the Regret Minimization Framework: project yourself to age 80 and ask which decision you will regret more — having tried and failed, or never having tried at all. In sales, this gets the prospect out of short-term pain avoidance (the cost of investing) and into long-term identity alignment (who they want to have been).</p>
+          <div class="script">"Let me ask you a different kind of question. When you're 70 years old, looking back at this moment — which decision do you think you'll regret more? Trying this and it not working? Or not trying it and staying exactly where you are?"</div>
+          <p>Deploy this specifically with prospects who are emotionally engaged but paralyzed by short-term risk. It reframes the entire decision from "is this safe?" to "is this consistent with who I want to become?" Almost no one can answer that question in favor of inaction.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="action-row">
+      <div class="action-card practical">
+        <div class="action-label label-green">Practical This Week</div>
+        <div class="action-title">Rebuild Your Pitch in Loss Frames</div>
+        <div class="action-body">
+          <ul>
+            <li>Take every benefit statement in your pitch. Rewrite each in loss frame language.</li>
+            <li>Write a Cost of Inaction sequence — 3 specific, emotionally real statements for your offer's specific prospect</li>
+            <li>Build 3 responses to "let me think about it" using the specificity challenge</li>
+            <li>Add the Regret Minimization Frame to your close — practice deploying it naturally</li>
+          </ul>
+        </div>
+      </div>
+      <div class="action-card drill">
+        <div class="action-label label-gold">Weekly Drill — "Make Inaction Feel Expensive"</div>
+        <div class="action-title">Partner: The Cost of Staying the Same</div>
+        <div class="action-body">
+          <ul>
+            <li>Partner A plays a prospect who "needs to think about it." Partner B must extract the specific thing to think about.</li>
+            <li>Then build the cost of inaction in real time — using Partner A's own timeline and stated goals.</li>
+            <li>Debrief: at what point did Partner A shift from considering vs. feeling urgency? What caused it?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- WEEK 12 -->
+  <section class="week-section" id="week12">
+    <div class="week-header">
+      <div class="week-num" style="color:#0a3018;">Week 12</div>
+      <h2 class="week-title" style="color:var(--green);">Frame Mastery &amp; The Elite Closer</h2>
+      <p class="week-subtitle">Every conversation has a controlling frame. The person whose frame wins controls the emotional reality of the interaction. In week 12, students integrate every concept from the Influence Phase into one continuous, natural process — and then pressure-test it until it holds.</p>
+    </div>
+
+    <div class="truth-box">
+      <div class="truth-label">Core Truth</div>
+      <div class="truth-text">"The strongest frame always wins. Your job is not to fight the prospect's frame — it is to make yours so solid that there's nothing to fight."</div>
+    </div>
+
+    <div class="nci-box">
+      <div class="nci-label">NCI Principle — Frame Control + Certainty Transfer</div>
+      <div class="nci-title">Frame Dominance — Reality Is Negotiated, Not Given</div>
+      <div class="nci-body">In every social interaction, one person's frame absorbs the other's. The prospect comes in with a frame: "I'm evaluating you." "This might be a scam." "I probably can't afford it." "These things never work for people like me." <strong>If you operate inside their frame, you've already lost the sale — you're just negotiating terms of defeat. The elite closer never enters the prospect's frame. They expand their own until there's no room for doubt to live.</strong></div>
+    </div>
+
+    <div class="concepts">
+
+      <div class="concept">
+        <div class="concept-header">
+          <div class="concept-num cn-green">1</div>
+          <div class="concept-title">The Five Frames — Know Which One You're Running at Every Moment</div>
+          <div class="concept-source src-salesio">Sales.io Advanced</div>
+        </div>
+        <div class="concept-body">
+          <div class="frame-table">
+            <thead><tr><th>Frame</th><th>The Internal Reality</th><th>How It Sounds</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Power Frame</strong></td><td>"I have something you want more than I want your money. You are entering my world."</td><td>Calm, unhurried, unbothered by hesitation. You never flinch at objections.</td></tr>
+              <tr><td><strong>Time Frame</strong></td><td>"My time and attention are valuable. This call has a purpose and an end."</td><td>"I want to make the most of our time together — let me get right to what matters."</td></tr>
+              <tr><td><strong>Analyst Frame</strong></td><td>"I am evaluating whether you're a fit for this. You are also being selected."</td><td>"Before I explain anything, I want to understand your situation — because this isn't right for everyone."</td></tr>
+              <tr><td><strong>Prize Frame</strong></td><td>"The program is the prize. You need to earn your place in it, not the other way around."</td><td>"We're very selective about who we bring in. Let me understand if this is the right environment for you."</td></tr>
+              <tr><td><strong>Detachment Frame</strong></td><td>"I am genuinely unattached to whether you say yes. I want what's right for you."</td><td>"I'd rather you not join than join without being fully committed. So let me ask you directly..."</td></tr>
+            </tbody>
+          </div>
+          <p style="margin-top:12px;">Most closers have an unconscious default frame — usually the <em>need</em> frame ("I need this sale"). Identifying your default is the first step to replacing it. The frames above are available to you at any moment. Choose deliberately.</p>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-header">
+          <div class="concept-num cn-green">2</div>
+          <div class="concept-title">Frame Collision — What to Do When the Prospect Directly Challenges Your Frame</div>
+          <div class="concept-source src-salesio">Sales.io Advanced</div>
+        </div>
+        <div class="concept-body">
+          <p>A frame collision is when the prospect's frame directly challenges yours. "This sounds like a sales call." "I've heard this pitch before." "You just want my money." Most closers collapse under frame pressure — they apologize, over-explain, or drop price. This is frame death.</p>
+          <p>The correct response: <strong>Absorb → Agree → Redirect without yielding.</strong></p>
+          <div class="script">"You're right that I'm hoping you join — I'll be honest about that. And the reason I am is that I've watched people exactly like you go through this and have it change everything. If I didn't believe that I wouldn't be on this call. The question is whether that's actually true for you — and the only way to know is to keep talking. Fair?"</div>
+          <p>You acknowledged their challenge. You validated their skepticism. You reframed the conversation back to what's true for them specifically. Frame maintained — without fighting them.</p>
+          <div class="script">Alternative — Humor Frame (use sparingly): "You caught me. I'm deeply invested in making you successful so you tell everyone about it and make my job easier. Guilty." [Then pivot] "But seriously — let me show you what I mean."</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-header">
+          <div class="concept-num cn-green">3</div>
+          <div class="concept-title">The Detachment Close — The Most Powerful Sentence in Sales</div>
+          <div class="concept-source src-salesio">Sales.io</div>
+        </div>
+        <div class="concept-body">
+          <p>The willingness to walk away is the most powerful frame available. It is not a bluff — it has to be real. The closer who genuinely doesn't need the sale and genuinely believes the prospect's best outcome matters more than the commission will always outperform the closer who is performing detachment. The prospect's nervous system detects the difference.</p>
+          <div class="script">"Here's what I want to say before we go further. I don't want to close you if you're not fully in. The people who get the most out of this are the ones who show up all the way — and if that's not where you are right now, this isn't the right time. So I'm going to ask you directly: is this a yes or a no?"</div>
+          <p>This sentence breaks the "let me think about it" loop because it removes the third option. There is no "maybe" available here — and the absence of pressure makes a yes feel safe in a way that pushes never do.</p>
+          <p><strong>The counterintuitive truth:</strong> the closer who says this and means it will close more people than the closer who never gives the prospect permission to say no. Permission to say no makes yes feel chosen, not coerced.</p>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-header">
+          <div class="concept-num cn-green">4</div>
+          <div class="concept-title">Certainty Transfer — Your Belief Is the Product</div>
+          <div class="concept-source src-salesio">Sales.io</div>
+        </div>
+        <div class="concept-body">
+          <p>Certainty is contagious. When you speak with genuine, unshakeable belief in the outcome — not performed confidence, actual certainty grounded in watching real people get real results — that certainty transfers to the prospect on a neurological level. Mirror neurons activate. They begin to feel what you feel.</p>
+          <p>This cannot be faked at scale. Performers get exposed by the third objection. The closer with real certainty gets stronger with each objection — because they're not threatened by it. They've seen this before. They know the outcome. <strong>The certainty that closes is not "I believe in this program." It's "I've watched someone exactly like you go through this and have it change their life, and I'm looking at you right now and I see the same thing."</strong></p>
+          <div class="script">"I want to tell you something honestly. I've done a lot of these calls. And I'm telling you right now — I see in you what I've seen in the people who went on to make this work. The question isn't whether this can work for you. It's whether you're going to let it."</div>
+        </div>
+      </div>
+
+      <div class="concept">
+        <div class="concept-header">
+          <div class="concept-num cn-green">5</div>
+          <div class="concept-title">Integration — The Full System Running as One Process</div>
+          <div class="concept-source src-salesio">Sales.io · Week 12 Capstone</div>
+        </div>
+        <div class="concept-body">
+          <p>By week 12, every student should be able to identify which framework they're operating inside at every moment of a call. The integration mock call is the final exam — not a pass/fail test, but a demonstration of how far they've come and a clear diagnosis of what needs more work before they finish the program.</p>
+          <div class="frame-table">
+            <thead><tr><th>Call Moment</th><th>Framework Active</th></tr></thead>
+            <tbody>
+              <tr><td>First 90 seconds</td><td>Decision Architecture — Halo Effect, Priming, Anchoring</td></tr>
+              <tr><td>Discovery questions</td><td>Language Influence — Calibrated questions, Labeling, Pacing</td></tr>
+              <tr><td>Going deeper on pain</td><td>Identity Barriers + Cognitive Dissonance</td></tr>
+              <tr><td>Future pacing</td><td>Future Self Projection + Presuppositions</td></tr>
+              <tr><td>Transition to pitch</td><td>Attention Engineering — vivid desire activated before pitch</td></tr>
+              <tr><td>The pitch</td><td>Loss Framing + Embedded Commands + Identity Confirmation</td></tr>
+              <tr><td>Price reveal</td><td>Anchoring + Frame Control</td></tr>
+              <tr><td>Objections</td><td>Specificity Challenge + Legitimate Urgency + Regret Minimization</td></tr>
+              <tr><td>The close</td><td>Identity Statement Close + Detachment Frame + Certainty Transfer</td></tr>
+            </tbody>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="action-row">
+      <div class="action-card practical">
+        <div class="action-label label-green">Practical This Week</div>
+        <div class="action-title">Identify Your Default Frame + Build Your Close</div>
+        <div class="action-body">
+          <ul>
+            <li>Listen to your last 3 calls. What frame were you actually operating from? Write it down honestly.</li>
+            <li>Write the Detachment Close in your own voice — it must sound like you, not a script</li>
+            <li>Build a 1-page integration map: what framework runs at each stage of your specific call?</li>
+            <li>Do a full integrated mock call — record it and self-review against the integration table above</li>
+          </ul>
+        </div>
+      </div>
+      <div class="action-card drill">
+        <div class="action-label label-gold">Final Drill — "Frame Attack"</div>
+        <div class="action-title">Partner: Stress-Test the Frame Under Pressure</div>
+        <div class="action-body">
+          <ul>
+            <li>Partner A plays a hostile, skeptical prospect — actively challenging your authority, your price, and your program</li>
+            <li>Partner B must identify the frame attack and recover without dropping state</li>
+            <li>Run until the closer can maintain frame through 5 consecutive challenges</li>
+            <li>Debrief: what caused state breaks? What internal belief needs work?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr/>
+
+  <!-- APPENDIX -->
+  <section class="week-section" id="appendix">
+    <div class="week-header">
+      <div class="week-num">Reference</div>
+      <h2 class="week-title">Framework Quick Reference</h2>
+      <p class="week-subtitle">Every source and principle across the five weeks, in one place. Use this as a reference during call reviews.</p>
+    </div>
+    <div class="appendix-grid">
+      <div class="app-card">
+        <div class="app-label">Week 8 — Decision Architecture</div>
+        <div class="app-list">
+          <div class="app-item"><div class="app-dot"></div><div class="app-text"><strong>System 1/2 Theory</strong> — Kahneman, Thinking Fast and Slow</div></div>
+          <div class="app-item"><div class="app-dot"></div><div class="app-text"><strong>Anchoring Bias</strong> — first number sets the reference frame</div></div>
+          <div class="app-item"><div class="app-dot"></div><div class="app-text"><strong>Pre-Suasion</strong> — Cialdini, attention before the moment of decision</div></div>
+          <div class="app-item"><div class="app-dot"></div><div class="app-text"><strong>Halo Effect</strong> — early impressions bias all subsequent information</div></div>
+          <div class="app-item"><div class="app-dot"></div><div class="app-text"><strong>Priming Questions</strong> — activate desired emotional state before pitch</div></div>
+        </div>
+      </div>
+      <div class="app-card">
+        <div class="app-label">Week 9 — Language as Influence</div>
+        <div class="app-list">
+          <div class="app-item"><div class="app-dot"></div><div class="app-text"><strong>Embedded Commands</strong> — NLP, directives hidden in statements</div></div>
+          <div class="app-item"><div class="app-dot"></div><div class="app-text"><strong>Linguistic Presuppositions</strong> — NLP, assume the outcome in the grammar</div></div>
+          <div class="app-item"><div class="app-dot"></div><div class="app-text"><strong>Calibrated Questions</strong> — Voss, "how" and "what" over "why"</div></div>
+          <div class="app-item"><div class="app-dot"></div><div class="app-text"><strong>Labeling</strong> — Voss, name the emotion before they do</div></div>
+          <div class="app-item"><div class="app-dot"></div><div class="app-text"><strong>Pacing and Leading</strong> — NLP, match then redirect</div></div>
+        </div>
+      </div>
+      <div class="app-card">
+        <div class="app-label">Week 10 — Identity &amp; The Invisible Sale</div>
+        <div class="app-list">
+          <div class="app-item"><div class="app-dot"></div><div class="app-text"><strong>The Four Identity Barriers</strong> — Sales.io, what every objection is really about</div></div>
+          <div class="app-item"><div class="app-dot"></div><div class="app-text"><strong>Future Self Projection</strong> — neuroscience, imagined future = partial felt ownership</div></div>
+          <div class="app-item"><div class="app-dot"></div><div class="app-text"><strong>Commitment and Consistency</strong> — Cialdini, identity statements drive behavior</div></div>
+          <div class="app-item"><div class="app-dot"></div><div class="app-text"><strong>Cognitive Dissonance</strong> — Festinger, identity-reality gap drives change</div></div>
+        </div>
+      </div>
+      <div class="app-card">
+        <div class="app-label">Week 11 — Loss Aversion &amp; Inaction</div>
+        <div class="app-list">
+          <div class="app-item"><div class="app-dot"></div><div class="app-text"><strong>Prospect Theory</strong> — Kahneman/Tversky, losses 2.5x more powerful than gains</div></div>
+          <div class="app-item"><div class="app-dot"></div><div class="app-text"><strong>Cost of Inaction Framework</strong> — Sales.io, make "no decision" feel expensive</div></div>
+          <div class="app-item"><div class="app-dot"></div><div class="app-text"><strong>Loss Framing</strong> — rewrite every benefit as a prevented loss</div></div>
+          <div class="app-item"><div class="app-dot"></div><div class="app-text"><strong>Legitimate Urgency</strong> — use their timeline, never manufactured pressure</div></div>
+          <div class="app-item"><div class="app-dot"></div><div class="app-text"><strong>Regret Minimization</strong> — Bezos, long-term identity over short-term comfort</div></div>
+        </div>
+      </div>
+      <div class="app-card" style="grid-column: 1 / -1;">
+        <div class="app-label">Week 12 — Frame Mastery</div>
+        <div class="app-list" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div class="app-item"><div class="app-dot"></div><div class="app-text"><strong>The Five Frames</strong> — Power, Time, Analyst, Prize, Detachment</div></div>
+          <div class="app-item"><div class="app-dot"></div><div class="app-text"><strong>Frame Collision Recovery</strong> — Absorb, Agree, Redirect without yielding</div></div>
+          <div class="app-item"><div class="app-dot"></div><div class="app-text"><strong>The Detachment Close</strong> — remove the third option, make yes feel chosen</div></div>
+          <div class="app-item"><div class="app-dot"></div><div class="app-text"><strong>Certainty Transfer</strong> — belief in the outcome is contagious, cannot be faked</div></div>
+          <div class="app-item"><div class="app-dot" style="grid-column:1/-1;"></div><div class="app-text"><strong>Integration</strong> — all five frameworks running as one continuous process, identified in real time</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('.week-section');
+  const navItems = document.querySelectorAll('.nav-item');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navItems.forEach(i => i.classList.remove('active'));
+        const a = document.querySelector(`.nav-item[href="#${e.target.id}"]`);
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { threshold: 0.15 });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
