@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Sales.io Training Bible</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0a0a0a;
+      --gold: #f5c518;
+      --gold-dark: #c9a000;
+      --white: #ffffff;
+      --off-white: #f9f9f7;
+      --gray-100: #f3f3f0;
+      --gray-200: #e8e8e4;
+      --gray-400: #9a9a90;
+      --gray-700: #4a4a44;
+      --header-dark: #1a1a1a;
+      --row-alt: #fafaf8;
+    }
+
+    html { font-family: 'Inter', sans-serif; background: var(--white); color: var(--black); font-size: 14px; line-height: 1.5; }
+    body { margin: 0; padding: 0; }
+
+    /* ======== COVER PAGE ======== */
+    .cover {
+      width: 100%; height: 100vh; min-height: 700px;
+      background: var(--black);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      page-break-after: always;
+      padding: 60px 40px;
+    }
+    .cover-wordmark {
+      font-size: 68px; font-weight: 900; letter-spacing: -3px; line-height: 1;
+      color: var(--white); margin-bottom: 6px;
+    }
+    .cover-wordmark span { color: var(--gold); }
+    .cover-dot { width: 48px; height: 4px; background: var(--gold); margin: 22px auto; border-radius: 2px; }
+    .cover-title {
+      font-size: 28px; font-weight: 900; letter-spacing: -0.5px;
+      color: var(--white); line-height: 1.2; margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+    .cover-subtitle {
+      font-size: 13px; color: #555; font-weight: 500; max-width: 440px;
+      line-height: 1.75; letter-spacing: 0.2px;
+    }
+    .cover-footer {
+      position: absolute; bottom: 36px;
+      font-size: 10px; color: #333; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600;
+    }
+
+    /* ======== INTERIOR PAGES ======== */
+    .page {
+      background: var(--white);
+      padding: 60px 64px 72px;
+      max-width: 900px; margin: 0 auto;
+      page-break-after: always;
+    }
+    .page:last-child { page-break-after: avoid; }
+
+    /* TOC */
+    .toc-title {
+      font-size: 32px; font-weight: 900; letter-spacing: -1px; color: var(--black);
+      border-bottom: 3px solid var(--gold); padding-bottom: 16px; margin-bottom: 32px;
+    }
+    .toc-list { display: flex; flex-direction: column; gap: 0; }
+    .toc-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 13px 0; border-bottom: 1px solid var(--gray-200);
+    }
+    .toc-item:last-child { border-bottom: none; }
+    .toc-code {
+      font-size: 10px; font-weight: 800; color: var(--white);
+      background: var(--black); padding: 3px 8px; border-radius: 4px;
+      letter-spacing: 0.5px; flex-shrink: 0; margin-top: 2px;
+    }
+    .toc-section-title { font-size: 14px; font-weight: 700; color: var(--black); line-height: 1.3; }
+    .toc-desc { font-size: 12px; color: var(--gray-400); line-height: 1.6; margin-top: 2px; }
+    .toc-page { font-size: 11px; font-weight: 700; color: var(--gray-400); margin-left: auto; padding-top: 3px; white-space: nowrap; }
+
+    /* SECTION PAGES */
+    .section-page { background: var(--white); padding: 0; max-width: 900px; margin: 0 auto; page-break-after: always; }
+    .section-page:last-child { page-break-after: avoid; }
+
+    .section-header {
+      background: var(--black); color: var(--white);
+      padding: 22px 28px 18px;
+      display: flex; align-items: flex-start; gap: 16px;
+    }
+    .section-code {
+      font-size: 11px; font-weight: 900; letter-spacing: 1px;
+      background: var(--gold); color: var(--black);
+      padding: 4px 10px; border-radius: 4px; flex-shrink: 0; margin-top: 3px;
+    }
+    .section-title-block { flex: 1; }
+    .section-name {
+      font-size: 20px; font-weight: 900; letter-spacing: -0.3px; line-height: 1.2;
+      text-transform: uppercase; color: var(--white);
+    }
+    .section-sub { font-size: 11px; color: #555; margin-top: 4px; font-weight: 500; }
+
+    /* TABLE */
+    .lesson-table { width: 100%; border-collapse: collapse; }
+    .lesson-table thead tr { background: #1e1e1e; }
+    .lesson-table th {
+      text-align: left; font-size: 9px; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 1px; color: #888; padding: 9px 14px;
+    }
+    .lesson-table th:first-child { width: 40px; text-align: center; }
+    .lesson-table th:nth-child(2) { width: 60px; }
+    .lesson-table th:nth-child(3) { width: 72px; }
+    .lesson-table th:last-child { width: 100px; text-align: center; }
+
+    .lesson-table td {
+      padding: 10px 14px; font-size: 12.5px; border-bottom: 1px solid #f0f0ec;
+      color: #333; vertical-align: middle; line-height: 1.45;
+    }
+    .lesson-table tr:nth-child(even) td { background: var(--row-alt); }
+    .lesson-table tr:last-child td { border-bottom: none; }
+
+    .row-num {
+      width: 26px; height: 26px; border-radius: 5px;
+      background: var(--gold); color: var(--black);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 900; margin: auto;
+    }
+    .week-badge {
+      font-size: 10px; font-weight: 700; color: #888;
+      background: #f3f3f0; border-radius: 4px;
+      padding: 2px 8px; display: inline-block;
+    }
+    .module-badge {
+      font-size: 10px; font-weight: 700; color: var(--black);
+      background: var(--gray-200); border-radius: 4px;
+      padding: 2px 7px; display: inline-block;
+    }
+    .lesson-title-cell { font-size: 12.5px; color: #1a1a1a; font-weight: 500; }
+    .lesson-title-cell.bold { font-weight: 700; }
+    .link-cell { text-align: center; }
+    .lesson-link {
+      font-size: 10px; font-weight: 800; color: var(--white);
+      background: var(--black); padding: 4px 10px; border-radius: 4px;
+      text-decoration: none; letter-spacing: 0.3px; display: inline-block;
+      transition: background 0.1s;
+    }
+    .lesson-link:hover { background: #333; }
+    .lesson-link.coming { background: #ccc; color: #888; }
+
+    /* FOOTER */
+    .section-footer {
+      padding: 10px 28px; background: #f5f5f0; border-top: 1px solid var(--gray-200);
+      font-size: 9px; font-weight: 700; color: #aaa; letter-spacing: 1px;
+      text-transform: uppercase; display: flex; justify-content: space-between;
+    }
+
+    /* PAGE SPACER */
+    .page-spacer { height: 40px; background: var(--white); }
+
+    @media print {
+      .cover { height: 100vh; }
+      .page, .section-page { page-break-after: always; }
+      .lesson-link { background: #111 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .section-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .row-num { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+
+    @media screen {
+      body { background: #e8e8e4; }
+      .cover, .page, .section-page { box-shadow: 0 4px 40px rgba(0,0,0,0.15); }
+      .cover { margin-bottom: 0; }
+      .page { margin: 40px auto; }
+      .section-page { margin: 40px auto; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ========================================= -->
+<!-- COVER PAGE -->
+<!-- ========================================= -->
+<div class="cover" style="position:relative;">
+  <div class="cover-wordmark">Sales<span>.</span>io</div>
+  <div class="cover-dot"></div>
+  <div class="cover-title">The Training Bible</div>
+  <p class="cover-subtitle">Your complete curriculum roadmap. Organized by skill area and learning objective. Use this to navigate every lesson inside the program — and to always know what to study next.</p>
+  <div class="cover-footer">Sales.io · Internal Curriculum · Confidential</div>
+</div>
+
+<!-- ========================================= -->
+<!-- TABLE OF CONTENTS -->
+<!-- ========================================= -->
+<div class="page">
+  <div class="toc-title">Table of Contents</div>
+  <div class="toc-list">
+
+    <div class="toc-item">
+      <span class="toc-code">S1</span>
+      <div>
+        <div class="toc-section-title">Identity & Self-Mastery</div>
+        <div class="toc-desc">Who you are off your calls is who you are on them. The internal foundation everything else is built on.</div>
+      </div>
+      <span class="toc-page">Section 1</span>
+    </div>
+
+    <div class="toc-item">
+      <span class="toc-code">S2</span>
+      <div>
+        <div class="toc-section-title">Human Psychology & Behavior Profiling</div>
+        <div class="toc-desc">PACE personality typing, decision maps, needs and values — reading people before you pitch them.</div>
+      </div>
+      <span class="toc-page">Section 2</span>
+    </div>
+
+    <div class="toc-item">
+      <span class="toc-code">S3</span>
+      <div>
+        <div class="toc-section-title">The 12-Step Sales Process</div>
+        <div class="toc-desc">The complete Sales.io call framework — from intro to close. Every step, in order, with the principle behind it.</div>
+      </div>
+      <span class="toc-page">Section 3</span>
+    </div>
+
+    <div class="toc-item">
+      <span class="toc-code">S4</span>
+      <div>
+        <div class="toc-section-title">Discovery Mastery</div>
+        <div class="toc-desc">Where 80% of sales are won or lost. The pain ladder, priming questions, and the four states.</div>
+      </div>
+      <span class="toc-page">Section 4</span>
+    </div>
+
+    <div class="toc-item">
+      <span class="toc-code">S5</span>
+      <div>
+        <div class="toc-section-title">Pitch Architecture</div>
+        <div class="toc-desc">The TikTok pitch, Heaven and Hell framework, social proof matching, and the mirror recap.</div>
+      </div>
+      <span class="toc-page">Section 5</span>
+    </div>
+
+    <div class="toc-item">
+      <span class="toc-code">S6</span>
+      <div>
+        <div class="toc-section-title">Objection Psychology & Handling</div>
+        <div class="toc-desc">The emotional contract, the four identity barriers, and every objection mapped to its real source.</div>
+      </div>
+      <span class="toc-page">Section 6</span>
+    </div>
+
+    <div class="toc-item">
+      <span class="toc-code">S7</span>
+      <div>
+        <div class="toc-section-title">Advanced Influence & Persuasion</div>
+        <div class="toc-desc">Decision architecture, anchoring, pre-suasion, cognitive dissonance, loss aversion, and more.</div>
+      </div>
+      <span class="toc-page">Section 7</span>
+    </div>
+
+    <div class="toc-item">
+      <span class="toc-code">S8</span>
+      <div>
+        <div class="toc-section-title">Language as Influence</div>
+        <div class="toc-desc">Embedded commands, presuppositions, calibrated questions, labeling, pacing and leading.</div>
+      </div>
+      <span class="toc-page">Section 8</span>
+    </div>
+
+    <div class="toc-item">
+      <span class="toc-code">S9</span>
+      <div>
+        <div class="toc-section-title">Frame Mastery</div>
+        <div class="toc-desc">The five frames, frame collision recovery, the detachment close, and certainty transfer.</div>
+      </div>
+      <span class="toc-page">Section 9</span>
+    </div>
+
+    <div class="toc-item">
+      <span class="toc-code">S10</span>
+      <div>
+        <div class="toc-section-title">Setting & Lead Generation</div>
+        <div class="toc-desc">LinkedIn DM sequences, cold calling, qualification, booking confirmation, and handoff protocol.</div>
+      </div>
+      <span class="toc-page">Section 10</span>
+    </div>
+
+    <div class="toc-item">
+      <span class="toc-code">S11</span>
+      <div>
+        <div class="toc-section-title">State Management & Performance</div>
+        <div class="toc-desc">Pre-call rituals, the consciousness scale, tracking metrics, and managing bad streaks.</div>
+      </div>
+      <span class="toc-page">Section 11</span>
+    </div>
+
+    <div class="toc-item">
+      <span class="toc-code">S12</span>
+      <div>
+        <div class="toc-section-title">Call Review & Continuous Improvement</div>
+        <div class="toc-desc">Game tape philosophy, the 5-point review framework, mock call protocol, and integration drills.</div>
+      </div>
+      <span class="toc-page">Section 12</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- ========================================= -->
+<!-- S1: IDENTITY & SELF-MASTERY -->
+<!-- ========================================= -->
+<div class="section-page">
+  <div class="section-header">
+    <span class="section-code">S1</span>
+    <div class="section-title-block">
+      <div class="section-name">Identity & Self-Mastery</div>
+      <div class="section-sub">The internal foundation. Who you are off your calls is who you are on them. Build this first — everything else is downstream.</div>
+    </div>
+  </div>
+  <table class="lesson-table">
+    <thead><tr><th>#</th><th>Week</th><th>Module</th><th>Title</th><th>Lesson</th></tr></thead>
+    <tbody>
+      <tr><td><div class="row-num">1</div></td><td><span class="week-badge">W1</span></td><td><span class="module-badge">1</span></td><td class="lesson-title-cell bold">Who You Are Off Your Calls Is Who You Are On Them</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">2</div></td><td><span class="week-badge">W1</span></td><td><span class="module-badge">2</span></td><td class="lesson-title-cell">The Four Wounds — How Childhood Shapes Your Close Rate</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">3</div></td><td><span class="week-badge">W1</span></td><td><span class="module-badge">3</span></td><td class="lesson-title-cell">The Mask — Why Salespeople Hide and How to Stop</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">4</div></td><td><span class="week-badge">W2</span></td><td><span class="module-badge">4</span></td><td class="lesson-title-cell">The Internal Narrator — Silencing the Voice That Kills Deals</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">5</div></td><td><span class="week-badge">W2</span></td><td><span class="module-badge">5</span></td><td class="lesson-title-cell">Archetype Activation — Finding Your Authentic Selling Identity</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">6</div></td><td><span class="week-badge">W2</span></td><td><span class="module-badge">6</span></td><td class="lesson-title-cell">Behavioral Magnets — What You Radiate vs. What You Want to Radiate</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">7</div></td><td><span class="week-badge">W3</span></td><td><span class="module-badge">7</span></td><td class="lesson-title-cell">Composure Masterclass — Staying Grounded Under Pressure</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">8</div></td><td><span class="week-badge">W3</span></td><td><span class="module-badge">8</span></td><td class="lesson-title-cell">Confidence vs. Certainty — Performing vs. Being</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">9</div></td><td><span class="week-badge">W3</span></td><td><span class="module-badge">9</span></td><td class="lesson-title-cell">Frames & The Ego — How Your Self-Image Controls Your Frame</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">10</div></td><td><span class="week-badge">W4</span></td><td><span class="module-badge">10</span></td><td class="lesson-title-cell">Limiting Beliefs & The Governors — What Caps Your Income</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">11</div></td><td><span class="week-badge">W4</span></td><td><span class="module-badge">11</span></td><td class="lesson-title-cell">The Emotional Assessment Scale — Where Are You Operating From?</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">12</div></td><td><span class="week-badge">W4</span></td><td><span class="module-badge">12</span></td><td class="lesson-title-cell">Self-Brainwashing — Rewiring Your Identity for Elite Performance</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">13</div></td><td><span class="week-badge">W5</span></td><td><span class="module-badge">13</span></td><td class="lesson-title-cell">Perspective, Perception, Priority, Purpose — The Four Pillars of Clarity</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">14</div></td><td><span class="week-badge">W5</span></td><td><span class="module-badge">14</span></td><td class="lesson-title-cell">True Charisma — What It Is and How to Develop It</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">15</div></td><td><span class="week-badge">W5</span></td><td><span class="module-badge">15</span></td><td class="lesson-title-cell">The Consciousness Levels — Mapping Your Selling State</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">16</div></td><td><span class="week-badge">W6</span></td><td><span class="module-badge">16</span></td><td class="lesson-title-cell">Discipline & Self-Control — The Foundation of Consistency</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">17</div></td><td><span class="week-badge">W6</span></td><td><span class="module-badge">17</span></td><td class="lesson-title-cell">Confused Ancestor Theory — Why Old Programming Doesn't Serve You</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">18</div></td><td><span class="week-badge">W6</span></td><td><span class="module-badge">18</span></td><td class="lesson-title-cell">Life Reboot Protocol (Print and Complete)</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+    </tbody>
+  </table>
+  <div class="section-footer"><span>Sales.io Training Bible</span><span>Section 1 — Identity & Self-Mastery</span></div>
+</div>
+
+<!-- ========================================= -->
+<!-- S2: HUMAN PSYCHOLOGY & BEHAVIOR -->
+<!-- ========================================= -->
+<div class="section-page">
+  <div class="section-header">
+    <span class="section-code">S2</span>
+    <div class="section-title-block">
+      <div class="section-name">Human Psychology & Behavior Profiling</div>
+      <div class="section-sub">PACE personality typing, decision maps, needs and values. Read people before you try to move them.</div>
+    </div>
+  </div>
+  <table class="lesson-table">
+    <thead><tr><th>#</th><th>Week</th><th>Module</th><th>Title</th><th>Lesson</th></tr></thead>
+    <tbody>
+      <tr><td><div class="row-num">1</div></td><td><span class="week-badge">W2</span></td><td><span class="module-badge">1</span></td><td class="lesson-title-cell bold">PACE Personality System — Overview & Application</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">2</div></td><td><span class="week-badge">W2</span></td><td><span class="module-badge">2</span></td><td class="lesson-title-cell">Identifying PACE Type in the First 5 Minutes</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">3</div></td><td><span class="week-badge">W2</span></td><td><span class="module-badge">3</span></td><td class="lesson-title-cell">Practical (P) — Closing the Analytical, Skeptical Prospect</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">4</div></td><td><span class="week-badge">W2</span></td><td><span class="module-badge">4</span></td><td class="lesson-title-cell">Action (A) — Closing the Competitive, Impatient Prospect</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">5</div></td><td><span class="week-badge">W2</span></td><td><span class="module-badge">5</span></td><td class="lesson-title-cell">Social (S) — Closing the Community-Driven, Family-First Prospect</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">6</div></td><td><span class="week-badge">W2</span></td><td><span class="module-badge">6</span></td><td class="lesson-title-cell">Emotional (E) — Closing the Feeling-Led, Story-Driven Prospect</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">7</div></td><td><span class="week-badge">W3</span></td><td><span class="module-badge">7</span></td><td class="lesson-title-cell">The Decision Map — How People Actually Decide to Buy</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">8</div></td><td><span class="week-badge">W3</span></td><td><span class="module-badge">8</span></td><td class="lesson-title-cell">Needs, Values, and Decisions — The Architecture of Buying</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">9</div></td><td><span class="week-badge">W3</span></td><td><span class="module-badge">9</span></td><td class="lesson-title-cell">The Three Identity Types — Historical, Role, Social</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">10</div></td><td><span class="week-badge">W3</span></td><td><span class="module-badge">10</span></td><td class="lesson-title-cell">Secondary Needs & Neurochemicals — What Drives Behavior Below the Surface</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">11</div></td><td><span class="week-badge">W4</span></td><td><span class="module-badge">11</span></td><td class="lesson-title-cell">Elicitation — Seeing Behind the Mask</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">12</div></td><td><span class="week-badge">W4</span></td><td><span class="module-badge">12</span></td><td class="lesson-title-cell">Listening Between the Lines — What Isn't Being Said</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">13</div></td><td><span class="week-badge">W4</span></td><td><span class="module-badge">13</span></td><td class="lesson-title-cell">Rapid Prospect Profiling — What to Know Before Minute 5</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">14</div></td><td><span class="week-badge">W4</span></td><td><span class="module-badge">14</span></td><td class="lesson-title-cell">Pre-Call Profiling — Reading the Questionnaire Like a Novel</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+    </tbody>
+  </table>
+  <div class="section-footer"><span>Sales.io Training Bible</span><span>Section 2 — Human Psychology & Behavior Profiling</span></div>
+</div>
+
+<!-- ========================================= -->
+<!-- S3: THE 12-STEP SALES PROCESS -->
+<!-- ========================================= -->
+<div class="section-page">
+  <div class="section-header">
+    <span class="section-code">S3</span>
+    <div class="section-title-block">
+      <div class="section-name">The 12-Step Sales Process</div>
+      <div class="section-sub">The complete Sales.io call framework. Never pitch just to pitch. You only present once you've earned the right.</div>
+    </div>
+  </div>
+  <table class="lesson-table">
+    <thead><tr><th>#</th><th>Week</th><th>Module</th><th>Title</th><th>Lesson</th></tr></thead>
+    <tbody>
+      <tr><td><div class="row-num">1</div></td><td><span class="week-badge">W1</span></td><td><span class="module-badge">1</span></td><td class="lesson-title-cell bold">The 12-Step Framework — Overview and Philosophy</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">2</div></td><td><span class="week-badge">W1</span></td><td><span class="module-badge">2</span></td><td class="lesson-title-cell">Step 1 — Intro: Respect First, Likability Later</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">3</div></td><td><span class="week-badge">W2</span></td><td><span class="module-badge">3</span></td><td class="lesson-title-cell">Step 2 — Current Reality: Surface to Depth Inquiry</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">4</div></td><td><span class="week-badge">W2</span></td><td><span class="module-badge">4</span></td><td class="lesson-title-cell">Step 3 — Problem Awareness: Finding What's Actually in the Way</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">5</div></td><td><span class="week-badge">W2</span></td><td><span class="module-badge">5</span></td><td class="lesson-title-cell bold">Step 4 — Solution Awareness: "What Would Need to Be True?"</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">6</div></td><td><span class="week-badge">W3</span></td><td><span class="module-badge">6</span></td><td class="lesson-title-cell">Step 5 — Future Pace: The Specific Life They Actually Want</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">7</div></td><td><span class="week-badge">W3</span></td><td><span class="module-badge">7</span></td><td class="lesson-title-cell">Step 6 — Consequence: The Cost of Staying the Same</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">8</div></td><td><span class="week-badge">W3</span></td><td><span class="module-badge">8</span></td><td class="lesson-title-cell bold">Step 7 — Transition to Pitch: Earn the Right Before You Present</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">9</div></td><td><span class="week-badge">W4</span></td><td><span class="module-badge">9</span></td><td class="lesson-title-cell">Step 8 — The Pitch: Connect Every Feature to What They Said</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">10</div></td><td><span class="week-badge">W4</span></td><td><span class="module-badge">10</span></td><td class="lesson-title-cell bold">Step 9 — Confirm Fit: The Verbal Commitment Before Price</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">11</div></td><td><span class="week-badge">W4</span></td><td><span class="module-badge">11</span></td><td class="lesson-title-cell">Step 10 — Price Reveal: Say It Once and Hold Silence</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">12</div></td><td><span class="week-badge">W5</span></td><td><span class="module-badge">12</span></td><td class="lesson-title-cell">Step 11 — Objection Handling: Questions, Not Arguments</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">13</div></td><td><span class="week-badge">W5</span></td><td><span class="module-badge">13</span></td><td class="lesson-title-cell bold">Step 12 — The Close: They Commit to Transformation, Not a Program</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">14</div></td><td><span class="week-badge">W5</span></td><td><span class="module-badge">14</span></td><td class="lesson-title-cell">The Full Call Architecture — Timing, Flow, and Talk Ratios</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">15</div></td><td><span class="week-badge">W6</span></td><td><span class="module-badge">15</span></td><td class="lesson-title-cell">Call Mapping Exercise — Audit Your Calls Against the 12 Steps</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+    </tbody>
+  </table>
+  <div class="section-footer"><span>Sales.io Training Bible</span><span>Section 3 — The 12-Step Sales Process</span></div>
+</div>
+
+<!-- ========================================= -->
+<!-- S4: DISCOVERY MASTERY -->
+<!-- ========================================= -->
+<div class="section-page">
+  <div class="section-header">
+    <span class="section-code">S4</span>
+    <div class="section-title-block">
+      <div class="section-name">Discovery Mastery</div>
+      <div class="section-sub">80% of sales are won or lost here. The pain ladder, priming questions, attention engineering, and the four states.</div>
+    </div>
+  </div>
+  <table class="lesson-table">
+    <thead><tr><th>#</th><th>Week</th><th>Module</th><th>Title</th><th>Lesson</th></tr></thead>
+    <tbody>
+      <tr><td><div class="row-num">1</div></td><td><span class="week-badge">W3</span></td><td><span class="module-badge">1</span></td><td class="lesson-title-cell bold">Why Discovery Is Where the Sale Is Won or Lost</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">2</div></td><td><span class="week-badge">W3</span></td><td><span class="module-badge">2</span></td><td class="lesson-title-cell">The Pain Ladder — Surface Situation to Emotional Core</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">3</div></td><td><span class="week-badge">W3</span></td><td><span class="module-badge">3</span></td><td class="lesson-title-cell">The Four States — What Must Be Active Before You Pitch</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">4</div></td><td><span class="week-badge">W4</span></td><td><span class="module-badge">4</span></td><td class="lesson-title-cell">Dissatisfaction Priming — Making the Gap Feel Real</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">5</div></td><td><span class="week-badge">W4</span></td><td><span class="module-badge">5</span></td><td class="lesson-title-cell">Desire Activation — The Future Self Projection Technique</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">6</div></td><td><span class="week-badge">W4</span></td><td><span class="module-badge">6</span></td><td class="lesson-title-cell">Possibility Priming — Building Belief That Change Is Achievable</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">7</div></td><td><span class="week-badge">W4</span></td><td><span class="module-badge">7</span></td><td class="lesson-title-cell bold">Attention Engineering — What You Make Vivid Gets Bought</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">8</div></td><td><span class="week-badge">W5</span></td><td><span class="module-badge">8</span></td><td class="lesson-title-cell">The Reflect-Before-You-Ask Protocol</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">9</div></td><td><span class="week-badge">W5</span></td><td><span class="module-badge">9</span></td><td class="lesson-title-cell">Intentional Silence — The Most Underused Tool in Sales</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">10</div></td><td><span class="week-badge">W5</span></td><td><span class="module-badge">10</span></td><td class="lesson-title-cell">"Tell Me More About That" — Going Deeper Without Interrogating</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">11</div></td><td><span class="week-badge">W5</span></td><td><span class="module-badge">11</span></td><td class="lesson-title-cell">Cognitive Dissonance in Discovery — Widening the Identity-Reality Gap</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">12</div></td><td><span class="week-badge">W6</span></td><td><span class="module-badge">12</span></td><td class="lesson-title-cell">Discovery Mistakes — What Kills the Close Before the Pitch Starts</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">13</div></td><td><span class="week-badge">W6</span></td><td><span class="module-badge">13</span></td><td class="lesson-title-cell">The Early Objection Surface — Finding the Core Resistance in Discovery</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">14</div></td><td><span class="week-badge">W6</span></td><td><span class="module-badge">14</span></td><td class="lesson-title-cell">Active Listening — Repeat Their Life Better Than They Told It</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+    </tbody>
+  </table>
+  <div class="section-footer"><span>Sales.io Training Bible</span><span>Section 4 — Discovery Mastery</span></div>
+</div>
+
+<!-- ========================================= -->
+<!-- S5: PITCH ARCHITECTURE -->
+<!-- ========================================= -->
+<div class="section-page">
+  <div class="section-header">
+    <span class="section-code">S5</span>
+    <div class="section-title-block">
+      <div class="section-name">Pitch Architecture</div>
+      <div class="section-sub">The TikTok pitch, Heaven and Hell framework, social proof matching. Every feature connects to what they already said.</div>
+    </div>
+  </div>
+  <table class="lesson-table">
+    <thead><tr><th>#</th><th>Week</th><th>Module</th><th>Title</th><th>Lesson</th></tr></thead>
+    <tbody>
+      <tr><td><div class="row-num">1</div></td><td><span class="week-badge">W4</span></td><td><span class="module-badge">1</span></td><td class="lesson-title-cell bold">The TikTok Pitch — Only Hit the 3-4 Things That Matter to Them</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">2</div></td><td><span class="week-badge">W4</span></td><td><span class="module-badge">2</span></td><td class="lesson-title-cell">The Heaven and Hell Framework — Hell → Heaven → Gap → Bridge</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">3</div></td><td><span class="week-badge">W4</span></td><td><span class="module-badge">3</span></td><td class="lesson-title-cell bold">"Do Not Feature Dump" — Every Feature Connects to What They Said</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">4</div></td><td><span class="week-badge">W4</span></td><td><span class="module-badge">4</span></td><td class="lesson-title-cell">Pitch Check-Ins — Keeping Them Engaged, Not Just Listening</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">5</div></td><td><span class="week-badge">W5</span></td><td><span class="module-badge">5</span></td><td class="lesson-title-cell">The Mirror Recap — Reflect Their Life Before You Present the Solution</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">6</div></td><td><span class="week-badge">W5</span></td><td><span class="module-badge">6</span></td><td class="lesson-title-cell">Social Proof Architecture — Match the Case to Their Identity, Not Their Job</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">7</div></td><td><span class="week-badge">W5</span></td><td><span class="module-badge">7</span></td><td class="lesson-title-cell">The Scriptless Pitch — Natural Conversation, Not a Presentation</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">8</div></td><td><span class="week-badge">W5</span></td><td><span class="module-badge">8</span></td><td class="lesson-title-cell">Pitch Timing — How Long Is Too Long</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">9</div></td><td><span class="week-badge">W6</span></td><td><span class="module-badge">9</span></td><td class="lesson-title-cell">When to Use Screen Share — Rules for Live Proof</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">10</div></td><td><span class="week-badge">W6</span></td><td><span class="module-badge">10</span></td><td class="lesson-title-cell">The Inevitable Pitch — How to Know Discovery Is Done Before You Present</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+    </tbody>
+  </table>
+  <div class="section-footer"><span>Sales.io Training Bible</span><span>Section 5 — Pitch Architecture</span></div>
+</div>
+
+<!-- ========================================= -->
+<!-- S6: OBJECTION HANDLING -->
+<!-- ========================================= -->
+<div class="section-page">
+  <div class="section-header">
+    <span class="section-code">S6</span>
+    <div class="section-title-block">
+      <div class="section-name">Objection Psychology & Handling</div>
+      <div class="section-sub">Logical objections = emotional contract not signed. Every objection maps to a root cause. Handle that, not the surface.</div>
+    </div>
+  </div>
+  <table class="lesson-table">
+    <thead><tr><th>#</th><th>Week</th><th>Module</th><th>Title</th><th>Lesson</th></tr></thead>
+    <tbody>
+      <tr><td><div class="row-num">1</div></td><td><span class="week-badge">W5</span></td><td><span class="module-badge">1</span></td><td class="lesson-title-cell bold">The Meta-Rule — Why You Get Objections and How to Stop Getting Them</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">2</div></td><td><span class="week-badge">W5</span></td><td><span class="module-badge">2</span></td><td class="lesson-title-cell">The Emotional Contract — Diagnosing Before Price</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">3</div></td><td><span class="week-badge">W5</span></td><td><span class="module-badge">3</span></td><td class="lesson-title-cell">The Four Identity Barriers — What Every Objection Is Really About</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">4</div></td><td><span class="week-badge">W5</span></td><td><span class="module-badge">4</span></td><td class="lesson-title-cell">"I Need to Think About It" — The Specificity Challenge</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">5</div></td><td><span class="week-badge">W5</span></td><td><span class="module-badge">5</span></td><td class="lesson-title-cell">"I Don't Have the Money" — What's Actually Being Said</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">6</div></td><td><span class="week-badge">W6</span></td><td><span class="module-badge">6</span></td><td class="lesson-title-cell">"I Need to Talk to My Spouse" — Permission vs. Decision</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">7</div></td><td><span class="week-badge">W6</span></td><td><span class="module-badge">7</span></td><td class="lesson-title-cell">"Is This Worth It?" — The Three Doors Framework</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">8</div></td><td><span class="week-badge">W6</span></td><td><span class="module-badge">8</span></td><td class="lesson-title-cell">"I've Tried Things Like This Before" — Historical Identity Objection</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">9</div></td><td><span class="week-badge">W6</span></td><td><span class="module-badge">9</span></td><td class="lesson-title-cell">"What If It Doesn't Work?" — The Fear of Failure Objection</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">10</div></td><td><span class="week-badge">W7</span></td><td><span class="module-badge">10</span></td><td class="lesson-title-cell bold">Energy Shift Detection — "I Feel Like the Energy Shifted. Am I Wrong?"</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">11</div></td><td><span class="week-badge">W7</span></td><td><span class="module-badge">11</span></td><td class="lesson-title-cell">The Cost Reframe — "Is It Truly Impossible, or Not Fully Confident Yet?"</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">12</div></td><td><span class="week-badge">W7</span></td><td><span class="module-badge">12</span></td><td class="lesson-title-cell">Pattern Interrupting Stalls Before They Happen</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">13</div></td><td><span class="week-badge">W7</span></td><td><span class="module-badge">13</span></td><td class="lesson-title-cell">Handling Buyer's Remorse — The Mental Vaccine</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+    </tbody>
+  </table>
+  <div class="section-footer"><span>Sales.io Training Bible</span><span>Section 6 — Objection Psychology & Handling</span></div>
+</div>
+
+<!-- ========================================= -->
+<!-- S7: ADVANCED INFLUENCE -->
+<!-- ========================================= -->
+<div class="section-page">
+  <div class="section-header">
+    <span class="section-code">S7</span>
+    <div class="section-title-block">
+      <div class="section-name">Advanced Influence & Persuasion</div>
+      <div class="section-sub">Decision architecture, anchoring, pre-suasion, cognitive dissonance, identity leverage, loss aversion. Weeks 8–12 content.</div>
+    </div>
+  </div>
+  <table class="lesson-table">
+    <thead><tr><th>#</th><th>Week</th><th>Module</th><th>Title</th><th>Lesson</th></tr></thead>
+    <tbody>
+      <tr><td><div class="row-num">1</div></td><td><span class="week-badge">W8</span></td><td><span class="module-badge">1</span></td><td class="lesson-title-cell bold">How Buying Decisions Actually Happen — System 1 vs. System 2</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">2</div></td><td><span class="week-badge">W8</span></td><td><span class="module-badge">2</span></td><td class="lesson-title-cell">The Halo Effect — Your First 90 Seconds Determine the Whole Call</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">3</div></td><td><span class="week-badge">W8</span></td><td><span class="module-badge">3</span></td><td class="lesson-title-cell bold">Anchoring — The First Number Owns the Frame</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">4</div></td><td><span class="week-badge">W8</span></td><td><span class="module-badge">4</span></td><td class="lesson-title-cell">Pre-Suasion — Engineering Attention Before the Moment of Decision</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">5</div></td><td><span class="week-badge">W8</span></td><td><span class="module-badge">5</span></td><td class="lesson-title-cell">Priming Questions — Activating the Buying State Before the Pitch</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">6</div></td><td><span class="week-badge">W10</span></td><td><span class="module-badge">6</span></td><td class="lesson-title-cell bold">Cognitive Dissonance — The Identity-Reality Gap That Drives Change</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">7</div></td><td><span class="week-badge">W10</span></td><td><span class="module-badge">7</span></td><td class="lesson-title-cell">Identity Consistency — Elicit the Statement, Use It at the Close</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">8</div></td><td><span class="week-badge">W10</span></td><td><span class="module-badge">8</span></td><td class="lesson-title-cell">Future Self Projection — Getting Them to Speak AS Their Future Self</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">9</div></td><td><span class="week-badge">W11</span></td><td><span class="module-badge">9</span></td><td class="lesson-title-cell bold">Loss Aversion — Losses Feel 2.5x More Painful Than Gains Feel Good</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">10</div></td><td><span class="week-badge">W11</span></td><td><span class="module-badge">10</span></td><td class="lesson-title-cell">Loss Framing — Rewriting Every Benefit as a Prevented Loss</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">11</div></td><td><span class="week-badge">W11</span></td><td><span class="module-badge">11</span></td><td class="lesson-title-cell">Legitimate Urgency — Their Timeline, Not Manufactured Pressure</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">12</div></td><td><span class="week-badge">W11</span></td><td><span class="module-badge">12</span></td><td class="lesson-title-cell">The Regret Minimization Frame — Long-Term Identity Over Short-Term Comfort</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">13</div></td><td><span class="week-badge">W7</span></td><td><span class="module-badge">13</span></td><td class="lesson-title-cell">Reciprocity — How Pre-Call Value Earns the Close</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">14</div></td><td><span class="week-badge">W7</span></td><td><span class="module-badge">14</span></td><td class="lesson-title-cell">Social Proof at the Identity Level — Who They Are, Not Just What They Did</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">15</div></td><td><span class="week-badge">W7</span></td><td><span class="module-badge">15</span></td><td class="lesson-title-cell">Contagious Emotion — State Transfer on Sales Calls</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">16</div></td><td><span class="week-badge">W7</span></td><td><span class="module-badge">16</span></td><td class="lesson-title-cell">The Structure of Influence — How All the Pieces Fit Together</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+    </tbody>
+  </table>
+  <div class="section-footer"><span>Sales.io Training Bible</span><span>Section 7 — Advanced Influence & Persuasion</span></div>
+</div>
+
+<!-- ========================================= -->
+<!-- S8: LANGUAGE AS INFLUENCE -->
+<!-- ========================================= -->
+<div class="section-page">
+  <div class="section-header">
+    <span class="section-code">S8</span>
+    <div class="section-title-block">
+      <div class="section-name">Language as Influence</div>
+      <div class="section-sub">Words don't just describe reality — they create it. Embedded commands, presuppositions, labeling, and pacing and leading.</div>
+    </div>
+  </div>
+  <table class="lesson-table">
+    <thead><tr><th>#</th><th>Week</th><th>Module</th><th>Title</th><th>Lesson</th></tr></thead>
+    <tbody>
+      <tr><td><div class="row-num">1</div></td><td><span class="week-badge">W9</span></td><td><span class="module-badge">1</span></td><td class="lesson-title-cell bold">Embedded Commands — Hiding Directives Inside Larger Sentences</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">2</div></td><td><span class="week-badge">W9</span></td><td><span class="module-badge">2</span></td><td class="lesson-title-cell bold">Linguistic Presuppositions — Assuming the Outcome in the Grammar</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">3</div></td><td><span class="week-badge">W9</span></td><td><span class="module-badge">3</span></td><td class="lesson-title-cell">Calibrated Questions — "How" and "What" vs. "Why"</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">4</div></td><td><span class="week-badge">W9</span></td><td><span class="module-badge">4</span></td><td class="lesson-title-cell bold">Labeling — Name the Emotion Before They Do</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">5</div></td><td><span class="week-badge">W9</span></td><td><span class="module-badge">5</span></td><td class="lesson-title-cell">Pacing and Leading — Match Their World, Then Move It</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">6</div></td><td><span class="week-badge">W9</span></td><td><span class="module-badge">6</span></td><td class="lesson-title-cell">Tactical Empathy — "It Sounds Like…" vs. "I Understand"</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">7</div></td><td><span class="week-badge">W9</span></td><td><span class="module-badge">7</span></td><td class="lesson-title-cell">Weak Questions vs. Presupposition Rewrites — Full Comparison</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">8</div></td><td><span class="week-badge">W9</span></td><td><span class="module-badge">8</span></td><td class="lesson-title-cell">Powerful Words — The Specific Language That Opens and Closes Minds</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">9</div></td><td><span class="week-badge">W9</span></td><td><span class="module-badge">9</span></td><td class="lesson-title-cell">The Language Audit — Rewriting Your Current Script</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">10</div></td><td><span class="week-badge">W9</span></td><td><span class="module-badge">10</span></td><td class="lesson-title-cell">Metaphor as Influence — Making Complex Ideas Feel Obvious</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">11</div></td><td><span class="week-badge">W9</span></td><td><span class="module-badge">11</span></td><td class="lesson-title-cell">Tonality — How You Say It Is What They Hear</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">12</div></td><td><span class="week-badge">W9</span></td><td><span class="module-badge">12</span></td><td class="lesson-title-cell">The Silence Drill — Holding the Space After the Ask</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+    </tbody>
+  </table>
+  <div class="section-footer"><span>Sales.io Training Bible</span><span>Section 8 — Language as Influence</span></div>
+</div>
+
+<!-- ========================================= -->
+<!-- S9: FRAME MASTERY -->
+<!-- ========================================= -->
+<div class="section-page">
+  <div class="section-header">
+    <span class="section-code">S9</span>
+    <div class="section-title-block">
+      <div class="section-name">Frame Mastery</div>
+      <div class="section-sub">The strongest frame always wins. Know which frame you're running, hold it under pressure, and recover without yielding.</div>
+    </div>
+  </div>
+  <table class="lesson-table">
+    <thead><tr><th>#</th><th>Week</th><th>Module</th><th>Title</th><th>Lesson</th></tr></thead>
+    <tbody>
+      <tr><td><div class="row-num">1</div></td><td><span class="week-badge">W12</span></td><td><span class="module-badge">1</span></td><td class="lesson-title-cell bold">What a Frame Is — And Why the Strongest Frame Always Wins</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">2</div></td><td><span class="week-badge">W12</span></td><td><span class="module-badge">2</span></td><td class="lesson-title-cell">The Five Frames — Power, Time, Analyst, Prize, Detachment</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">3</div></td><td><span class="week-badge">W12</span></td><td><span class="module-badge">3</span></td><td class="lesson-title-cell">Identifying Your Default Frame — What Are You Actually Running?</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">4</div></td><td><span class="week-badge">W12</span></td><td><span class="module-badge">4</span></td><td class="lesson-title-cell bold">Frame Collision — Absorb, Validate, Redirect Without Yielding</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">5</div></td><td><span class="week-badge">W12</span></td><td><span class="module-badge">5</span></td><td class="lesson-title-cell bold">The Detachment Close — The Most Powerful Sentence in Sales</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">6</div></td><td><span class="week-badge">W12</span></td><td><span class="module-badge">6</span></td><td class="lesson-title-cell">"I'd Rather Lose the Sale Than Lose the Frame"</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">7</div></td><td><span class="week-badge">W12</span></td><td><span class="module-badge">7</span></td><td class="lesson-title-cell">Certainty Transfer — Your Belief in the Outcome Is the Product</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">8</div></td><td><span class="week-badge">W12</span></td><td><span class="module-badge">8</span></td><td class="lesson-title-cell">The Frame Attack Drill — Holding State Under 5 Consecutive Challenges</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">9</div></td><td><span class="week-badge">W12</span></td><td><span class="module-badge">9</span></td><td class="lesson-title-cell">Frame Mastery Integration — All Five Frames Running Simultaneously</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+    </tbody>
+  </table>
+  <div class="section-footer"><span>Sales.io Training Bible</span><span>Section 9 — Frame Mastery</span></div>
+</div>
+
+<!-- ========================================= -->
+<!-- S10: SETTING & LEAD GENERATION -->
+<!-- ========================================= -->
+<div class="section-page">
+  <div class="section-header">
+    <span class="section-code">S10</span>
+    <div class="section-title-block">
+      <div class="section-name">Setting & Lead Generation</div>
+      <div class="section-sub">LinkedIn DMs, cold calling, qualification, booking confirmation, and the handoff to the closer.</div>
+    </div>
+  </div>
+  <table class="lesson-table">
+    <thead><tr><th>#</th><th>Week</th><th>Module</th><th>Title</th><th>Lesson</th></tr></thead>
+    <tbody>
+      <tr><td><div class="row-num">1</div></td><td><span class="week-badge">W2</span></td><td><span class="module-badge">1</span></td><td class="lesson-title-cell bold">The Setter's Role in the Sales Architecture</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">2</div></td><td><span class="week-badge">W2</span></td><td><span class="module-badge">2</span></td><td class="lesson-title-cell">LinkedIn DM Setting — First Message to Booked Call</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">3</div></td><td><span class="week-badge">W2</span></td><td><span class="module-badge">3</span></td><td class="lesson-title-cell">Cold Calling Fundamentals — Pattern Interrupt Openers</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">4</div></td><td><span class="week-badge">W3</span></td><td><span class="module-badge">4</span></td><td class="lesson-title-cell">Tonality in Setting — Authority Before They Meet the Closer</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">5</div></td><td><span class="week-badge">W3</span></td><td><span class="module-badge">5</span></td><td class="lesson-title-cell">Qualifying on the Set — What to Know Before Booking</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">6</div></td><td><span class="week-badge">W3</span></td><td><span class="module-badge">6</span></td><td class="lesson-title-cell">Setter Objections — "I'm Not Interested" and What Comes After</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">7</div></td><td><span class="week-badge">W4</span></td><td><span class="module-badge">7</span></td><td class="lesson-title-cell">The Booking Confirmation — Reducing No-Shows to Near Zero</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">8</div></td><td><span class="week-badge">W4</span></td><td><span class="module-badge">8</span></td><td class="lesson-title-cell bold">Handoff Protocol — What the Closer Needs Before Every Call</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">9</div></td><td><span class="week-badge">W4</span></td><td><span class="module-badge">9</span></td><td class="lesson-title-cell">Setting Metrics — Connect Rate, Booking Rate, Show Rate</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">10</div></td><td><span class="week-badge">W5</span></td><td><span class="module-badge">10</span></td><td class="lesson-title-cell">Volume vs. Quality — The KPIs That Actually Matter for Setters</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+    </tbody>
+  </table>
+  <div class="section-footer"><span>Sales.io Training Bible</span><span>Section 10 — Setting & Lead Generation</span></div>
+</div>
+
+<!-- ========================================= -->
+<!-- S11: STATE MANAGEMENT & PERFORMANCE -->
+<!-- ========================================= -->
+<div class="section-page">
+  <div class="section-header">
+    <span class="section-code">S11</span>
+    <div class="section-title-block">
+      <div class="section-name">State Management & Performance</div>
+      <div class="section-sub">Pre-call rituals, the consciousness scale, tracking, and how to reset without spiraling. You perform at the level you prepare for.</div>
+    </div>
+  </div>
+  <table class="lesson-table">
+    <thead><tr><th>#</th><th>Week</th><th>Module</th><th>Title</th><th>Lesson</th></tr></thead>
+    <tbody>
+      <tr><td><div class="row-num">1</div></td><td><span class="week-badge">W1</span></td><td><span class="module-badge">1</span></td><td class="lesson-title-cell bold">The 2-Minute Pre-Call Check — The Protocol Before Every Call</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">2</div></td><td><span class="week-badge">W1</span></td><td><span class="module-badge">2</span></td><td class="lesson-title-cell">The Consciousness Levels — Mapping Where You're Operating From</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">3</div></td><td><span class="week-badge">W2</span></td><td><span class="module-badge">3</span></td><td class="lesson-title-cell">No Neutral Influence — You're Moving Them Up or Pulling Them Down</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">4</div></td><td><span class="week-badge">W3</span></td><td><span class="module-badge">4</span></td><td class="lesson-title-cell">Post-Call Debrief — What to Review After Every Call</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">5</div></td><td><span class="week-badge">W4</span></td><td><span class="module-badge">5</span></td><td class="lesson-title-cell">Call Tracking — Close Rate, Average Deal Size, Objection Patterns</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">6</div></td><td><span class="week-badge">W5</span></td><td><span class="module-badge">6</span></td><td class="lesson-title-cell">Managing a Bad Streak — How to Reset Without Spiraling</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">7</div></td><td><span class="week-badge">W6</span></td><td><span class="module-badge">7</span></td><td class="lesson-title-cell">The Winner's Mindset — Playing to Win vs. Playing Not to Lose</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">8</div></td><td><span class="week-badge">W7</span></td><td><span class="module-badge">8</span></td><td class="lesson-title-cell">Energy Management — Staying Sharp Across Multiple Calls in a Day</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">9</div></td><td><span class="week-badge">W8</span></td><td><span class="module-badge">9</span></td><td class="lesson-title-cell">Identity Under Pressure — Who Are You When Deals Are Slow?</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">10</div></td><td><span class="week-badge">ALL</span></td><td><span class="module-badge">10</span></td><td class="lesson-title-cell">Weekly Performance Review Protocol (Print and Complete)</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+    </tbody>
+  </table>
+  <div class="section-footer"><span>Sales.io Training Bible</span><span>Section 11 — State Management & Performance</span></div>
+</div>
+
+<!-- ========================================= -->
+<!-- S12: CALL REVIEW & IMPROVEMENT -->
+<!-- ========================================= -->
+<div class="section-page" style="page-break-after:avoid;">
+  <div class="section-header">
+    <span class="section-code">S12</span>
+    <div class="section-title-block">
+      <div class="section-name">Call Review & Continuous Improvement</div>
+      <div class="section-sub">Game tape is the fastest path to growth. Know what to listen for, how to give useful feedback, and how to run integration drills.</div>
+    </div>
+  </div>
+  <table class="lesson-table">
+    <thead><tr><th>#</th><th>Week</th><th>Module</th><th>Title</th><th>Lesson</th></tr></thead>
+    <tbody>
+      <tr><td><div class="row-num">1</div></td><td><span class="week-badge">W1</span></td><td><span class="module-badge">1</span></td><td class="lesson-title-cell bold">Game Tape Philosophy — Why Call Review Is the Fastest Growth Path</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">2</div></td><td><span class="week-badge">W2</span></td><td><span class="module-badge">2</span></td><td class="lesson-title-cell">What to Listen For in Your Own Calls</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">3</div></td><td><span class="week-badge">W3</span></td><td><span class="module-badge">3</span></td><td class="lesson-title-cell">The 5-Point Call Review Framework</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">4</div></td><td><span class="week-badge">W4</span></td><td><span class="module-badge">4</span></td><td class="lesson-title-cell">Peer Review Sessions — How to Give and Receive Useful Feedback</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">5</div></td><td><span class="week-badge">W5</span></td><td><span class="module-badge">5</span></td><td class="lesson-title-cell">Identifying Your Close Rate Ceiling — What's Actually Holding You Back</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">6</div></td><td><span class="week-badge">W6</span></td><td><span class="module-badge">6</span></td><td class="lesson-title-cell bold">The Mock Call Protocol — How to Run Effective Practice</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">7</div></td><td><span class="week-badge">W12</span></td><td><span class="module-badge">7</span></td><td class="lesson-title-cell">Frame Attack Drill — Stress-Testing Your Frame Under Pressure</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">8</div></td><td><span class="week-badge">W12</span></td><td><span class="module-badge">8</span></td><td class="lesson-title-cell bold">The Integration Mock Call — All Frameworks Running Simultaneously</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">9</div></td><td><span class="week-badge">ALL</span></td><td><span class="module-badge">9</span></td><td class="lesson-title-cell">Call Submission Protocol — How to Submit for Staff Review</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+      <tr><td><div class="row-num">10</div></td><td><span class="week-badge">ALL</span></td><td><span class="module-badge">10</span></td><td class="lesson-title-cell">Building a Monthly Review Habit — The Review That Compounds</td><td class="link-cell"><a href="#" class="lesson-link coming">COMING</a></td></tr>
+    </tbody>
+  </table>
+  <div class="section-footer"><span>Sales.io Training Bible</span><span>Section 12 — Call Review & Continuous Improvement</span></div>
+</div>
+
+</body>
+</html>
