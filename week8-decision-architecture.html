@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Week 8 — Decision Architecture · Sales.io Mastermind</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #000; --white: #fff; --gray-900: #111;
+      --gold: #f5c518; --green: #4ade80; --red: #fc8181;
+      --orange: #fb923c; --blue: #7ab3ff; --purple: #c084fc;
+      --sidebar-width: 280px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--black); color: var(--white); display: flex; min-height: 100vh; font-size: 15px; line-height: 1.6; }
+
+    /* SIDEBAR */
+    .sidebar { width: var(--sidebar-width); min-height: 100vh; background: var(--gray-900); border-right: 1px solid #1a1a1a; position: fixed; top: 0; left: 0; display: flex; flex-direction: column; z-index: 100; overflow-y: auto; }
+    .sidebar-logo { padding: 22px; border-bottom: 1px solid #1a1a1a; }
+    .logo-eyebrow { font-size: 9px; color: #2a2a2a; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; margin-bottom: 5px; }
+    .logo-text { font-size: 14px; font-weight: 900; letter-spacing: -0.3px; }
+    .logo-sub { font-size: 10px; color: #2a2a2a; margin-top: 3px; }
+    .sidebar-nav { padding: 10px 0; flex: 1; }
+    .nav-group-label { font-size: 9px; font-weight: 700; color: #1e1e1e; letter-spacing: 1.5px; text-transform: uppercase; padding: 14px 20px 5px; }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 7px 20px; color: #333; text-decoration: none; font-size: 12px; font-weight: 500; transition: all 0.12s; border-left: 2px solid transparent; }
+    .nav-item:hover { color: #888; background: #0a0a0a; }
+    .nav-item.active { color: var(--white); border-left-color: var(--blue); background: #0a0a0a; }
+    .lesson-num { width: 20px; height: 20px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 800; background: #0d0d0d; color: #2a2a2a; flex-shrink: 0; transition: all 0.12s; }
+    .nav-item.active .lesson-num { background: #02060d; color: var(--blue); }
+    .nav-item-text { flex: 1; line-height: 1.3; }
+    .nav-duration { font-size: 9px; color: #1e1e1e; font-weight: 600; white-space: nowrap; }
+    .nav-item.active .nav-duration { color: #1e3a60; }
+    .sidebar-footer { padding: 14px 20px; border-top: 1px solid #0d0d0d; font-size: 10px; color: #1e1e1e; line-height: 1.6; }
+    .progress-bar { height: 2px; background: #0d0d0d; margin: 12px 0; border-radius: 2px; overflow: hidden; }
+    .progress-fill { height: 100%; width: 0%; background: var(--blue); border-radius: 2px; transition: width 0.3s; }
+
+    /* MAIN */
+    .main { margin-left: var(--sidebar-width); flex: 1; padding: 0; }
+
+    /* WEEK BANNER */
+    .week-banner { padding: 52px 64px 40px; border-bottom: 1px solid #0a0a0a; background: #030303; }
+    .banner-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #1a2a60; margin-bottom: 12px; }
+    .banner-title { font-size: 40px; font-weight: 900; letter-spacing: -1.5px; line-height: 1; margin-bottom: 14px; }
+    .banner-title span { color: var(--blue); }
+    .banner-desc { font-size: 14px; color: #444; line-height: 1.8; max-width: 680px; margin-bottom: 24px; }
+    .banner-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+    .pill { font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 20px; border: 1px solid; }
+    .pill-blue { background: #02060d; color: #3a6090; border-color: #0a1428; }
+    .pill-gold { background: #0d0e00; color: #6a5800; border-color: #2a2a00; }
+    .pill-gray { background: #080808; color: #2a2a2a; border-color: #141414; }
+
+    /* LESSON SECTIONS */
+    .lessons-container { padding: 0 64px 100px; max-width: 920px; }
+
+    .lesson { margin: 60px 0; scroll-margin-top: 30px; }
+    .lesson-header { display: flex; align-items: flex-start; gap: 18px; padding: 24px 0 22px; border-bottom: 1px solid #080808; margin-bottom: 28px; }
+    .lesson-badge { display: flex; flex-direction: column; align-items: center; gap: 4px; flex-shrink: 0; padding-top: 3px; }
+    .lesson-badge-num { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 900; background: #02060d; color: var(--blue); border: 1px solid #0a1428; }
+    .lesson-badge-tag { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #1a2a60; white-space: nowrap; }
+    .lesson-info { flex: 1; }
+    .lesson-title { font-size: 24px; font-weight: 900; letter-spacing: -0.5px; line-height: 1.1; margin-bottom: 6px; }
+    .lesson-meta { display: flex; gap: 16px; }
+    .lesson-meta-item { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #2a2a2a; }
+    .lesson-objective { background: #030508; border: 1px solid #080f1e; border-radius: 10px; padding: 14px 18px; margin-bottom: 24px; }
+    .obj-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #0d1a3a; margin-bottom: 6px; }
+    .obj-text { font-size: 13.5px; color: #2a3a70; line-height: 1.7; font-weight: 500; }
+    .obj-text strong { color: #4a6aaa; }
+
+    /* CONTENT BLOCKS */
+    .block { margin-bottom: 22px; }
+    .block-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; color: #222; }
+    .block-label.blue { color: #1a2a60; }
+    .block-label.gold { color: #3a3000; }
+    .block-label.green { color: #0a3018; }
+    .block-label.red { color: #3a1010; }
+    .block-label.purple { color: #2a0a40; }
+
+    .body-text { font-size: 14px; color: #555; line-height: 1.85; }
+    .body-text + .body-text { margin-top: 14px; }
+    .body-text strong { color: #999; }
+    .body-text em { color: #777; font-style: italic; }
+
+    .callout { border-radius: 10px; padding: 18px 22px; margin: 18px 0; }
+    .callout.blue { background: #020508; border: 1px solid #080f20; }
+    .callout.gold { background: #050400; border: 1px solid #141000; }
+    .callout.green { background: #020800; border: 1px solid #081400; }
+    .callout.red { background: #080200; border: 1px solid #140800; }
+    .callout.purple { background: #040008; border: 1px solid #0d0020; }
+    .callout-title { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+    .callout.blue .callout-title { color: #1a3060; }
+    .callout.gold .callout-title { color: #4a3800; }
+    .callout.green .callout-title { color: #0a3018; }
+    .callout.red .callout-title { color: #4a1a0a; }
+    .callout.purple .callout-title { color: #2a0a50; }
+    .callout-body { font-size: 13.5px; line-height: 1.75; }
+    .callout.blue .callout-body { color: #2a4080; }
+    .callout.gold .callout-body { color: #6a5000; }
+    .callout.green .callout-body { color: #1a5030; }
+    .callout.red .callout-body { color: #6a2a1a; }
+    .callout.purple .callout-body { color: #4a1a80; }
+    .callout-body strong { color: inherit; filter: brightness(1.4); }
+
+    .research-box { background: #030303; border: 1px solid #0d0d0d; border-radius: 10px; padding: 18px 22px; margin: 18px 0; display: flex; gap: 16px; }
+    .research-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; filter: grayscale(1) opacity(0.4); }
+    .research-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #1e1e1e; margin-bottom: 5px; }
+    .research-text { font-size: 13.5px; color: #444; line-height: 1.75; }
+    .research-text strong { color: #777; }
+
+    .script { font-size: 13.5px; color: #7a7a5a; font-style: italic; background: #030300; border-left: 2px solid #1a1a00; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 14px 0; line-height: 1.8; }
+    .script-label { font-size: 8px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #2a2a00; margin-bottom: 8px; display: block; }
+    .script strong { color: #c0b060; font-style: normal; }
+    .script em { color: #8a8a50; font-style: normal; opacity: 0.8; }
+
+    .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 18px 0; }
+    .comp-side { border-radius: 9px; padding: 16px 18px; }
+    .comp-side.bad { background: #080200; border: 1px solid #180800; }
+    .comp-side.good { background: #020800; border: 1px solid #081400; }
+    .comp-side-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+    .comp-side.bad .comp-side-label { color: #5c1a0a; }
+    .comp-side.good .comp-side-label { color: #0a3a18; }
+    .comp-side ul { padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 7px; }
+    .comp-side li { font-size: 13px; line-height: 1.6; padding-left: 16px; position: relative; }
+    .comp-side.bad li { color: #4a2010; }
+    .comp-side.bad li::before { content: '✕'; position: absolute; left: 0; font-size: 10px; color: #3a1010; }
+    .comp-side.good li { color: #1a4a28; }
+    .comp-side.good li::before { content: '✓'; position: absolute; left: 0; font-size: 10px; color: #0a3018; }
+
+    .table-block { width: 100%; border-collapse: collapse; background: #040404; border: 1px solid #0d0d0d; border-radius: 10px; overflow: hidden; margin: 18px 0; }
+    .table-block th { text-align: left; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #1e1e1e; padding: 12px 16px; border-bottom: 1px solid #0d0d0d; background: #020202; }
+    .table-block td { padding: 13px 16px; font-size: 13px; border-bottom: 1px solid #070707; color: #444; vertical-align: top; line-height: 1.6; }
+    .table-block tr:last-child td { border-bottom: none; }
+    .table-block td:first-child { color: #777; font-weight: 700; }
+    .table-block td strong { color: #666; }
+
+    .mistakes { background: #060200; border: 1px solid #140800; border-radius: 10px; padding: 18px 22px; margin: 18px 0; }
+    .mistakes-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #3a1a00; margin-bottom: 12px; }
+    .mistake-item { display: flex; gap: 12px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #100600; }
+    .mistake-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+    .mistake-num { font-size: 10px; font-weight: 800; color: #3a1a00; flex-shrink: 0; padding-top: 2px; }
+    .mistake-text { font-size: 13.5px; color: #5a3010; line-height: 1.7; }
+    .mistake-text strong { color: #8a5020; }
+
+    .drill-block { background: #050500; border: 1px solid #181400; border-radius: 12px; padding: 22px 26px; margin-top: 24px; }
+    .drill-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .drill-icon { width: 32px; height: 32px; border-radius: 8px; background: #0d0e00; border: 1px solid #2a2a00; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+    .drill-title-wrap { flex: 1; }
+    .drill-tag { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #3a3000; margin-bottom: 3px; }
+    .drill-title { font-size: 15px; font-weight: 800; color: var(--gold); }
+    .drill-body { font-size: 13.5px; color: #5a5000; line-height: 1.8; }
+    .drill-body strong { color: #8a7800; }
+    .drill-steps { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+    .drill-step { display: flex; gap: 12px; padding: 10px 14px; background: #040400; border: 1px solid #100e00; border-radius: 8px; }
+    .step-num { font-size: 10px; font-weight: 800; color: #2a2800; width: 16px; flex-shrink: 0; padding-top: 2px; }
+    .step-text { font-size: 13px; color: #4a4800; line-height: 1.65; }
+    .step-text strong { color: #7a7000; }
+
+    .lesson-divider { border: none; border-top: 1px solid #070707; margin: 60px 0 0; }
+
+    .key-line { font-size: 17px; font-weight: 800; color: #2a2a2a; line-height: 1.5; letter-spacing: -0.2px; font-style: italic; border-left: 3px solid #1a1a1a; padding: 12px 20px; margin: 20px 0; }
+
+    .numbered-list { display: flex; flex-direction: column; gap: 10px; margin: 14px 0; }
+    .num-item { display: flex; gap: 14px; }
+    .num-item-n { font-size: 11px; font-weight: 800; color: #1a2a60; width: 20px; flex-shrink: 0; padding-top: 2px; }
+    .num-item-text { font-size: 14px; color: #555; line-height: 1.75; }
+    .num-item-text strong { color: #888; }
+
+    @media (max-width: 900px) {
+      .main { margin-left: 0; }
+      .week-banner, .lessons-container { padding-left: 24px; padding-right: 24px; }
+      .sidebar { display: none; }
+      .comparison { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-eyebrow">Sales.io Mastermind</div>
+    <div class="logo-text">Week 8</div>
+    <div class="logo-sub">Decision Architecture · 5 Lessons</div>
+    <div class="progress-bar" style="margin-top:14px;">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-group-label">This Week</div>
+    <a class="nav-item active" href="#lesson1">
+      <div class="lesson-num">1</div>
+      <div class="nav-item-text">How Buying Decisions Actually Happen</div>
+      <div class="nav-duration">30 min</div>
+    </a>
+    <a class="nav-item" href="#lesson2">
+      <div class="lesson-num">2</div>
+      <div class="nav-item-text">The Halo Effect &amp; Your First 90 Seconds</div>
+      <div class="nav-duration">25 min</div>
+    </a>
+    <a class="nav-item" href="#lesson3">
+      <div class="lesson-num">3</div>
+      <div class="nav-item-text">Anchoring — The First Number Owns the Frame</div>
+      <div class="nav-duration">30 min</div>
+    </a>
+    <a class="nav-item" href="#lesson4">
+      <div class="lesson-num">4</div>
+      <div class="nav-item-text">Attention Engineering — What You Make Vivid Gets Bought</div>
+      <div class="nav-duration">25 min</div>
+    </a>
+    <a class="nav-item" href="#lesson5">
+      <div class="lesson-num">5</div>
+      <div class="nav-item-text">Priming Questions — Activating the Buying State</div>
+      <div class="nav-duration">35 min</div>
+    </a>
+  </div>
+  <div class="sidebar-footer">
+    Week 8 of 12 · The Influence Phase<br/>
+    Total: ~2.5 hours of content
+  </div>
+</nav>
+
+<main class="main">
+
+  <div class="week-banner">
+    <div class="banner-eyebrow">Sales.io Mastermind · Week 8 of 12 · The Influence Phase</div>
+    <h1 class="banner-title">Decision<br/><span>Architecture.</span></h1>
+    <p class="banner-desc">Everything you've learned in weeks 1-7 was about what to do on a call. Week 8 is about why it works — and why it fails. Once you understand how the brain makes buying decisions, you stop guessing and start designing. Every lesson this week gives you something you can implement on your next call.</p>
+    <div class="banner-pills">
+      <span class="pill pill-blue">5 Lessons</span>
+      <span class="pill pill-blue">~2.5 Hours</span>
+      <span class="pill pill-gold">Kahneman · Cialdini · Applied Neuroscience</span>
+      <span class="pill pill-gray">Implement on next call</span>
+    </div>
+  </div>
+
+  <div class="lessons-container">
+
+    <!-- ===== LESSON 1 ===== -->
+    <div class="lesson" id="lesson1">
+      <div class="lesson-header">
+        <div class="lesson-badge">
+          <div class="lesson-badge-num">1</div>
+          <div class="lesson-badge-tag">Foundation</div>
+        </div>
+        <div class="lesson-info">
+          <div class="lesson-title">How Buying Decisions Actually Happen</div>
+          <div class="lesson-meta">
+            <span class="lesson-meta-item">30 min</span>
+            <span class="lesson-meta-item">·</span>
+            <span class="lesson-meta-item">Kahneman · System 1/2</span>
+            <span class="lesson-meta-item">·</span>
+            <span class="lesson-meta-item">Core Concept</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="lesson-objective">
+        <div class="obj-label">Lesson Objective</div>
+        <div class="obj-text">Understand the two systems the brain uses to make decisions — and why almost everything you were taught about sales is aimed at the wrong one. By the end of this lesson, you will never approach a call the same way again.</div>
+      </div>
+
+      <div class="block">
+        <div class="block-label blue">The Core Model</div>
+        <p class="body-text">Daniel Kahneman — a Nobel Prize-winning psychologist — spent his career studying how humans actually make decisions. His most important finding, and the one that changes everything for us in sales, is this: <strong>the brain runs two completely different decision-making systems simultaneously.</strong> They're called System 1 and System 2.</p>
+
+        <div class="callout blue" style="margin-top:18px;">
+          <div class="callout-title">System 1 — The Decider</div>
+          <div class="callout-body">Fast. Automatic. Emotional. Pattern-matching. Runs 95% of the time without your awareness. It reads faces, detects threats, makes snap judgments, and decides who to trust within seconds. <strong>It makes the buying decision.</strong> It cannot be reasoned with because it doesn't use reason — it uses feeling and pattern recognition.</div>
+        </div>
+
+        <div class="callout blue">
+          <div class="callout-title">System 2 — The Storyteller</div>
+          <div class="callout-body">Slow. Deliberate. Analytical. This is the part that can do math, weigh pros and cons, and think about long-term consequences. It feels like the decision-maker. <strong>It isn't. It comes in after the decision is made and writes the story about why the decision was rational.</strong> The "reasons" a prospect gives you for an objection are almost never the actual reason.</div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label blue">Why This Changes Everything</div>
+        <p class="body-text">Think about the last call you lost. You probably had a good pitch. You answered their questions. Maybe you handled their objections. And they still said no, or stalled. Here's why: <strong>you won the System 2 argument and lost the System 1 decision.</strong></p>
+        <p class="body-text">System 1 had already decided before you said most of what you said. It decided based on how you opened, how calm you were, whether it felt like you were genuinely curious about them or performing curiosity at them, and whether it felt safe to trust you. All of that happened in the first few minutes. Everything after was System 2 constructing reasons to support or contradict what System 1 already felt.</p>
+
+        <div class="key-line">"The prospect who says 'I need to think about it' isn't being logical. Their System 1 didn't feel enough certainty, connection, or desire — so System 2 built a wall."</div>
+      </div>
+
+      <div class="block">
+        <div class="block-label blue">The Sequence Every Closing Call Actually Runs</div>
+        <div class="numbered-list">
+          <div class="num-item">
+            <div class="num-item-n">01</div>
+            <div class="num-item-text">Prospect joins the call. <strong>System 1 immediately begins profiling you</strong> — safe or threat? Trustworthy or pitching? Confident or needy? This decision is made in seconds, before you've said anything important.</div>
+          </div>
+          <div class="num-item">
+            <div class="num-item-n">02</div>
+            <div class="num-item-text">Discovery happens. <strong>System 1 is tracking emotional resonance</strong> — does this person actually understand my situation? Am I feeling something real, or is this a scripted call? Do I like being in this conversation?</div>
+          </div>
+          <div class="num-item">
+            <div class="num-item-n">03</div>
+            <div class="num-item-text">The pitch lands. <strong>System 1 compares the emotional state of the pitch to its existing trust level and desire level.</strong> If both are high, the decision is made. If either is missing, it creates resistance that System 2 will then explain with logic.</div>
+          </div>
+          <div class="num-item">
+            <div class="num-item-n">04</div>
+            <div class="num-item-text">Objections appear. <strong>These are System 2 rationalizations</strong> of what System 1 already decided. Fighting the objection with more logic is fighting a story with the wrong weapon. The answer is to go back to what System 1 needs: genuine connection, felt understanding, or activated desire.</div>
+          </div>
+          <div class="num-item">
+            <div class="num-item-n">05</div>
+            <div class="num-item-text">The close. <strong>If System 1 is a yes, the close is almost irrelevant</strong> — they're looking for confirmation. If System 1 is a no, no close technique in the world will hold. The sale was won or lost in steps 1-3.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label blue">What Earns a System 1 Yes</div>
+        <p class="body-text">System 1 is not convinced by information. It's not moved by features. It does not care about your program's curriculum. It responds to three things:</p>
+        <div class="numbered-list">
+          <div class="num-item">
+            <div class="num-item-n">1</div>
+            <div class="num-item-text"><strong>Genuine understanding.</strong> Not "I hear you" — actually demonstrating that you understand their specific situation better than they do. When you reflect their life back to them with more clarity than they had when they were living it, System 1 says: this person is different.</div>
+          </div>
+          <div class="num-item">
+            <div class="num-item-n">2</div>
+            <div class="num-item-text"><strong>Emotional resonance.</strong> The prospect needs to feel something — hope, recognition, urgency, excitement, discomfort about their current reality. Neutral calls don't close. Calls that feel like something do.</div>
+          </div>
+          <div class="num-item">
+            <div class="num-item-n">3</div>
+            <div class="num-item-text"><strong>Trust in you, specifically.</strong> Not in the program, not in testimonials — in you, the person on this call. System 1 is deciding: is this someone I would follow? Does this person have my actual best interest in mind, or are they performing that? The answer comes from your state, your calm, your detachment from outcome — not from your words.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mistakes">
+        <div class="mistakes-label">The Most Common System 1 Mistakes</div>
+        <div class="mistake-item">
+          <div class="mistake-num">01</div>
+          <div class="mistake-text"><strong>Treating the call like a presentation.</strong> Presenting information to System 2 while System 1 watches and decides whether any of it matters. The closer who creates a feeling outperforms the closer who delivers a flawless pitch every time.</div>
+        </div>
+        <div class="mistake-item">
+          <div class="mistake-num">02</div>
+          <div class="mistake-text"><strong>Rushing through rapport to get to "the real call."</strong> Rapport IS the real call. The first 90 seconds are when System 1 decides whether to trust you. Everything after is downstream of that decision.</div>
+        </div>
+        <div class="mistake-item">
+          <div class="mistake-num">03</div>
+          <div class="mistake-text"><strong>Fighting objections with logic.</strong> System 2 built that objection as a story for a System 1 decision. Adding more logic to a logical story doesn't dissolve it — going back to what System 1 actually needs does.</div>
+        </div>
+        <div class="mistake-item">
+          <div class="mistake-num">04</div>
+          <div class="mistake-text"><strong>Operating from the wrong state.</strong> System 1 reads emotional states before it reads words. A closer who needs the sale radiates anxiety. Anxiety is read by the prospect's System 1 as a threat signal. It doesn't matter what you say after that.</div>
+        </div>
+      </div>
+
+      <div class="drill-block">
+        <div class="drill-header">
+          <div class="drill-icon">&#9654;</div>
+          <div class="drill-title-wrap">
+            <div class="drill-tag">Lesson 1 · Drill</div>
+            <div class="drill-title">The Call Autopsy</div>
+          </div>
+        </div>
+        <div class="drill-body">Pull a recording of a call you lost in the last 2 weeks. <strong>This time, don't listen to the words — listen for the feeling.</strong> When did the energy shift? When did they pull back? When did you get rigid or start pitching harder? That moment is where System 1 made its decision. Write down what was happening emotionally in that 30-60 second window.
+        </div>
+        <div class="drill-steps">
+          <div class="drill-step">
+            <div class="step-num">1</div>
+            <div class="step-text">Pull a lost call recording from the last 2 weeks</div>
+          </div>
+          <div class="drill-step">
+            <div class="step-num">2</div>
+            <div class="step-text">Listen only for emotional energy — not words. Where did the call go cold?</div>
+          </div>
+          <div class="drill-step">
+            <div class="step-num">3</div>
+            <div class="step-text">Write down the exact moment and what was happening. What had just been said? What was your state?</div>
+          </div>
+          <div class="drill-step">
+            <div class="step-num">4</div>
+            <div class="step-text"><strong>Answer:</strong> Was this a System 1 failure (trust, connection, emotional resonance) or a System 2 failure (logic, objection handling)? Most lost calls are System 1 failures that got misdiagnosed as System 2 problems.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="lesson-divider"/>
+
+    <!-- ===== LESSON 2 ===== -->
+    <div class="lesson" id="lesson2">
+      <div class="lesson-header">
+        <div class="lesson-badge">
+          <div class="lesson-badge-num">2</div>
+          <div class="lesson-badge-tag">Applied</div>
+        </div>
+        <div class="lesson-info">
+          <div class="lesson-title">The Halo Effect &amp; Your First 90 Seconds</div>
+          <div class="lesson-meta">
+            <span class="lesson-meta-item">25 min</span>
+            <span class="lesson-meta-item">·</span>
+            <span class="lesson-meta-item">Asch · Cialdini</span>
+            <span class="lesson-meta-item">·</span>
+            <span class="lesson-meta-item">Call Opening</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="lesson-objective">
+        <div class="obj-label">Lesson Objective</div>
+        <div class="obj-text">Understand why the first 90 seconds of a call determine the filter through which everything that follows is processed — and redesign your opening to earn a System 1 yes before discovery even begins.</div>
+      </div>
+
+      <div class="block">
+        <div class="block-label blue">The Halo Effect</div>
+        <p class="body-text">Solomon Asch's 1946 research showed that a single initial positive trait colors the perception of all subsequent information. People who were described as "intelligent, industrious, impulsive, critical, stubborn, and envious" were rated very differently than those described with the exact same traits — just in reverse order, starting with "envious." <strong>The first impression creates a halo. Everything that comes after is seen through it.</strong></p>
+
+        <div class="research-box">
+          <div class="research-icon">&#128200;</div>
+          <div>
+            <div class="research-label">Research Finding</div>
+            <div class="research-text">Studies on courtroom sentencing show that judges make initial judgments within 3 seconds of seeing a defendant that significantly bias later decisions — even after reviewing identical evidence. <strong>Medical studies show that doctors diagnose more accurately when they report liking the patient.</strong> The halo effect is not a sales concept. It is a fundamental feature of how human judgment works.</div>
+          </div>
+        </div>
+
+        <p class="body-text">On a sales call, the halo is set in the first 90 seconds. If the prospect's System 1 decides you are trustworthy, calm, and genuinely interested in them — they will filter every subsequent piece of information through that lens. Ambiguous things will be interpreted favorably. Objections will feel smaller. The price will land easier.</p>
+        <p class="body-text">If the halo is negative — if they sense performance, anxiety, or agenda — the opposite is true. Every claim you make will feel slightly suspect. Every objection will feel valid. The price will feel too high even if it isn't.</p>
+      </div>
+
+      <div class="block">
+        <div class="block-label blue">What Creates a Positive Halo Instantly</div>
+        <div class="numbered-list">
+          <div class="num-item">
+            <div class="num-item-n">1</div>
+            <div class="num-item-text"><strong>Calm authority, not excited energy.</strong> The instinct is to be high-energy and enthusiastic. Resist it. Calm signals that you do this all the time, that you don't need this call to go well, that you're in control. Excitement signals need. Need is a threat signal to System 1.</div>
+          </div>
+          <div class="num-item">
+            <div class="num-item-n">2</div>
+            <div class="num-item-text"><strong>Genuine, specific curiosity.</strong> Not "so tell me about yourself" — something that shows you actually read about them before the call. "I saw you mentioned you'd been in roofing for 12 years — what got you looking at remote sales?" Specificity signals investment. Investment signals that you're not going through a routine.</div>
+          </div>
+          <div class="num-item">
+            <div class="num-item-n">3</div>
+            <div class="num-item-text"><strong>A moment of real human connection before the agenda.</strong> One genuine exchange — not a performance of warmth. The difference is detectable by System 1. If you're going through a "rapport-building checklist," they feel it. If you're actually momentarily interested in something they said, they feel that too.</div>
+          </div>
+          <div class="num-item">
+            <div class="num-item-n">4</div>
+            <div class="num-item-text"><strong>Framing the call on your terms.</strong> The "audit not a sales call" frame works because it positions you as the person running the interaction — not reacting to it. Whoever establishes the frame first is seen as the authority. Authority is a powerful positive halo signal.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label blue">Engineering Your First 90 Seconds</div>
+        <p class="body-text">The first 90 seconds should accomplish four things in this order:</p>
+        <div class="table-block" style="margin-top:12px;">
+          <thead><tr><th>Moment</th><th>What to Do</th><th>What It Signals to System 1</th></tr></thead>
+          <tbody>
+            <tr><td>0–15 sec</td><td>Greet with calm energy. First name only. Slight pause after they answer.</td><td>"This person isn't rushing. Not anxious."</td></tr>
+            <tr><td>15–30 sec</td><td>One specific observation about them — from the questionnaire or their background.</td><td>"They actually looked at my information. They prepared."</td></tr>
+            <tr><td>30–60 sec</td><td>One brief genuine exchange on that observation. Don't force it.</td><td>"This feels like a real conversation, not a process."</td></tr>
+            <tr><td>60–90 sec</td><td>Frame the call. "This is an audit of your situation — I want to understand where you are and what's in the way. At the end, a yes or a no. Can I count on that?"</td><td>"This person is running something. They know what they're doing."</td></tr>
+          </tbody>
+        </div>
+
+        <div class="script">
+          <span class="script-label">Full Opening — Live Example</span>
+          "Hey [Name]. Good to connect with you. <em>[pause — don't rush]</em><br/><br/>
+          I was looking at what you put in before the call — you mentioned you've been in finance for 8 years and you're trying to make the move to something with more leverage on your time. <strong>What's the thing about finance that's wearing on you the most right now?</strong><br/><br/>
+          <em>[Brief genuine exchange — 45-60 seconds]</em><br/><br/>
+          Alright. Here's how I run these. This isn't a sales call. It's an audit — I want to understand exactly where you are, what's actually in the way, and where you want to go. <strong>The only thing I ask: you give me a real yes or a real no at the end. Not 'I'll think about it.' Can I count on that?"</strong>
+        </div>
+      </div>
+
+      <div class="mistakes">
+        <div class="mistakes-label">Halo Killers — What Destroys the Frame in the First 60 Seconds</div>
+        <div class="mistake-item">
+          <div class="mistake-num">01</div>
+          <div class="mistake-text"><strong>Opening with "How are you doing today?"</strong> It's a script signal. System 1 recognizes it as a sales opening and raises its guard. Skip it or replace it with something real.</div>
+        </div>
+        <div class="mistake-item">
+          <div class="mistake-num">02</div>
+          <div class="mistake-text"><strong>Over-explaining the program before discovery.</strong> "Let me tell you about what we do" before you know anything about them signals that you're there to pitch, not to help. System 1 reads this as agenda over interest.</div>
+        </div>
+        <div class="mistake-item">
+          <div class="mistake-num">03</div>
+          <div class="mistake-text"><strong>Sounding excited about the call.</strong> Genuine enthusiasm for the person is fine. Excitement about your opportunity to pitch them activates their defenses. Stay calm, curious, and in control.</div>
+        </div>
+      </div>
+
+      <div class="drill-block">
+        <div class="drill-header">
+          <div class="drill-icon">&#9654;</div>
+          <div class="drill-title-wrap">
+            <div class="drill-tag">Lesson 2 · Drill</div>
+            <div class="drill-title">The 90-Second Re-Record</div>
+          </div>
+        </div>
+        <div class="drill-body">Record yourself delivering your opening using the four-step structure above. <strong>Watch it back with the sound off first</strong> — just look at your face, posture, and energy. If someone who didn't know what you were selling watched the first 30 seconds, would they see calm confidence or anxious performance?</div>
+        <div class="drill-steps">
+          <div class="drill-step">
+            <div class="step-num">1</div>
+            <div class="step-text">Write your new opening using the four-step table above</div>
+          </div>
+          <div class="drill-step">
+            <div class="step-num">2</div>
+            <div class="step-text">Record yourself delivering it on camera</div>
+          </div>
+          <div class="drill-step">
+            <div class="step-num">3</div>
+            <div class="step-text">Watch it back with sound off. What does your body say?</div>
+          </div>
+          <div class="drill-step">
+            <div class="step-num">4</div>
+            <div class="step-text">Now watch with sound. Does it sound like you read it or lived it? <strong>Run it until it sounds like you.</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="lesson-divider"/>
+
+    <!-- ===== LESSON 3 ===== -->
+    <div class="lesson" id="lesson3">
+      <div class="lesson-header">
+        <div class="lesson-badge">
+          <div class="lesson-badge-num">3</div>
+          <div class="lesson-badge-tag">Applied</div>
+        </div>
+        <div class="lesson-info">
+          <div class="lesson-title">Anchoring — The First Number Owns the Frame</div>
+          <div class="lesson-meta">
+            <span class="lesson-meta-item">30 min</span>
+            <span class="lesson-meta-item">·</span>
+            <span class="lesson-meta-item">Kahneman · Cialdini · Contrast Principle</span>
+            <span class="lesson-meta-item">·</span>
+            <span class="lesson-meta-item">Price Psychology</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="lesson-objective">
+        <div class="obj-label">Lesson Objective</div>
+        <div class="obj-text">Understand how anchoring biases every price reaction — and learn three specific anchor types you can deploy before your price reveal to make any investment feel accessible, not expensive.</div>
+      </div>
+
+      <div class="block">
+        <div class="block-label blue">What Anchoring Is</div>
+        <p class="body-text">In one of Kahneman's most famous experiments, participants were asked to spin a wheel that was rigged to land on either 10 or 65. They were then asked to estimate the percentage of African nations in the United Nations. The people who spun 65 guessed an average of 45%. The people who spun 10 guessed an average of 25%. <strong>A completely irrelevant number — from a rigged wheel — shifted their estimate by 80%.</strong></p>
+        <p class="body-text">This is anchoring. The brain uses the first number it encounters as a reference point and evaluates every subsequent number relative to it. This process is automatic, unconscious, and nearly impossible to override even when you know it's happening.</p>
+
+        <div class="callout blue">
+          <div class="callout-title">What This Means for Your Price Reveal</div>
+          <div class="callout-body">If the first number in the prospect's mind when they hear your price is $1,000 (their internal expectation), your $7,500 feels like a lot. If the first number is $25,000 (what they'd pay for a comparable outcome elsewhere), your $7,500 feels like a strategic decision. <strong>Same price. Completely different emotional response. The only variable is what number they anchored on first.</strong></div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label blue">The Three Anchor Types — With Scripts</div>
+
+        <div class="callout gold">
+          <div class="callout-title">Anchor Type 1: The Cost of Inaction Anchor</div>
+          <div class="callout-body">Anchor the price against what staying the same is already costing them. This is the most powerful anchor because it reframes the investment as the cheaper option.<br/><br/>
+          <strong>Script:</strong> <em>"Let me ask you something before we go into the numbers. You've been in this for 3 years at roughly what you're making now. If nothing changes, what does the next 3 years cost you — not just in money, but in time, in what you're not building, in what the gap between where you are and where you want to be actually represents? I want you to have a real number in your head before I tell you what this costs."</em>
+          </div>
+        </div>
+
+        <div class="callout gold">
+          <div class="callout-title">Anchor Type 2: The Market Comparison Anchor</div>
+          <div class="callout-body">Anchor against what comparable outcomes cost in the market — whether that's competitors, coaches, universities, or the cost of trial and error on their own.<br/><br/>
+          <strong>Script:</strong> <em>"For context — people at this level who go the coaching route typically spend $15,000 to $40,000 for the kind of access and curriculum we're talking about. The programs that get you this level of personalization — real coaches actively closing, not consultants who used to — that's where the market is. I want you to have that context."</em>
+          </div>
+        </div>
+
+        <div class="callout gold">
+          <div class="callout-title">Anchor Type 3: The Premium Tier Anchor</div>
+          <div class="callout-body">If you have a higher tier or a more premium version, present it first. The Contrast Principle (Cialdini) shows that following a high price with a lower one makes the lower feel accessible, not expensive.<br/><br/>
+          <strong>Script:</strong> <em>"There are two ways people work with us. Some go the full 1-on-1 route — that's $14,000 for individualized access. Most people, especially starting out, come through the mastermind — that's what we're talking about today, at $7,500. It gives you everything except the dedicated 1-on-1 coaching time."</em>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label blue">When and How to Deploy Anchors</div>
+        <p class="body-text">Anchors work best when they're set naturally, not as a setup. The prospect should not feel like you're "doing a thing" before the price. Deploy anchors as genuine context — because they are. The cost of inaction IS real. The market rates ARE that high. If you believe what you're saying, it sounds like honesty, not technique.</p>
+
+        <div class="table-block">
+          <thead><tr><th>Call Moment</th><th>Anchor to Deploy</th><th>Why Here</th></tr></thead>
+          <tbody>
+            <tr><td>During discovery (early)</td><td>Cost of Inaction Anchor</td><td>Activates loss aversion early. By the time you reveal price, the cost of staying the same is already vivid.</td></tr>
+            <tr><td>After discovery, before pitch</td><td>Market Comparison Anchor</td><td>Sets the reference frame for what solving this problem normally costs, right before you present the solution.</td></tr>
+            <tr><td>At price reveal</td><td>Premium Tier Anchor (if applicable)</td><td>Contrast effect — $7,500 follows $14,000 and feels proportionate, not steep.</td></tr>
+          </tbody>
+        </div>
+
+        <div class="script">
+          <span class="script-label">Full Anchor Sequence — Into the Price Reveal</span>
+          <em>[After discovery, transition:]</em><br/>
+          "Before I walk you through what this looks like — and I want to give you real context here. The people who try to get the same result without a structured program like this end up spending 12-18 months figuring it out on their own, burning through bad offers, and making every mistake that someone with a roadmap wouldn't make. That time has a cost. <strong>You already know what that cost is, because you've been living it.</strong><br/><br/>
+          The market for elite 1-on-1 access at this level runs $15,000 to $40,000. What we've built is a way to get most of that outcome in a cohort model that keeps the cost realistic for someone serious about the outcome.<br/><br/>
+          <strong>The investment for the program is $7,500.</strong>"<br/><br/>
+          <em>[Stop. Wait.]</em>
+        </div>
+      </div>
+
+      <div class="mistakes">
+        <div class="mistakes-label">Anchoring Mistakes That Kill the Price Reveal</div>
+        <div class="mistake-item">
+          <div class="mistake-num">01</div>
+          <div class="mistake-text"><strong>Revealing price with no prior anchor.</strong> The prospect fills the anchor void with their own — usually whatever they spent last time on something similar, or whatever number feels "expensive" to them generically. You have no control over that number. Set the anchor first.</div>
+        </div>
+        <div class="mistake-item">
+          <div class="mistake-num">02</div>
+          <div class="mistake-text"><strong>Making anchors feel like a setup.</strong> "Most people pay $50,000 for this kind of result... but for you, today only, it's just $7,500!" That's not an anchor, it's a used car lot. Deliver anchors as honest context, not as theater.</div>
+        </div>
+        <div class="mistake-item">
+          <div class="mistake-num">03</div>
+          <div class="mistake-text"><strong>Apologizing around the price after setting anchors.</strong> "I know it's a big investment, but..." instantly cancels the work your anchors just did. State the price. Stop talking. The silence is doing work — let it.</div>
+        </div>
+      </div>
+
+      <div class="drill-block">
+        <div class="drill-header">
+          <div class="drill-icon">&#9654;</div>
+          <div class="drill-title-wrap">
+            <div class="drill-tag">Lesson 3 · Drill</div>
+            <div class="drill-title">The Anchor Sequence Build</div>
+          </div>
+        </div>
+        <div class="drill-body">Write all three anchors for your specific offer and practice delivering each one in a way that sounds like honest context, not technique. Then sequence them in a mock price reveal and time the silence after the price.</div>
+        <div class="drill-steps">
+          <div class="drill-step">
+            <div class="step-num">1</div>
+            <div class="step-text">Write your Cost of Inaction Anchor — specific to your offer's market and typical prospect</div>
+          </div>
+          <div class="drill-step">
+            <div class="step-num">2</div>
+            <div class="step-text">Write your Market Comparison Anchor — what does solving this problem actually cost in the broader market?</div>
+          </div>
+          <div class="drill-step">
+            <div class="step-num">3</div>
+            <div class="step-text">Write your Premium Tier Anchor if applicable</div>
+          </div>
+          <div class="drill-step">
+            <div class="step-num">4</div>
+            <div class="step-text">Run the full sequence with a partner. After saying the price: <strong>time how long you can hold silence before speaking again.</strong> Goal: 7+ seconds without flinching.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="lesson-divider"/>
+
+    <!-- ===== LESSON 4 ===== -->
+    <div class="lesson" id="lesson4">
+      <div class="lesson-header">
+        <div class="lesson-badge">
+          <div class="lesson-badge-num">4</div>
+          <div class="lesson-badge-tag">Applied</div>
+        </div>
+        <div class="lesson-info">
+          <div class="lesson-title">Attention Engineering — What You Make Vivid Gets Bought</div>
+          <div class="lesson-meta">
+            <span class="lesson-meta-item">25 min</span>
+            <span class="lesson-meta-item">·</span>
+            <span class="lesson-meta-item">Cialdini · Pre-Suasion</span>
+            <span class="lesson-meta-item">·</span>
+            <span class="lesson-meta-item">Discovery Architecture</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="lesson-objective">
+        <div class="obj-label">Lesson Objective</div>
+        <div class="obj-text">Learn how attention determines perceived importance — and redesign your discovery phase to deliberately engineer which emotional realities are most vivid when the pitch starts.</div>
+      </div>
+
+      <div class="block">
+        <div class="block-label blue">The Pre-Suasion Principle</div>
+        <p class="body-text">Cialdini's research on Pre-Suasion showed that whatever a person is paying attention to immediately before a decision determines the decision. In one study, participants who were first asked about their feelings of love and affection reported higher satisfaction with their cars than those who were first asked about practical transportation needs. <strong>The car didn't change. What changed was which filter they were looking through when they evaluated it.</strong></p>
+        <p class="body-text">There's a second layer: the brain cannot simultaneously attend to something and dismiss it. Attention is endorsement. If you are holding someone's attention on their pain for 15 minutes, that pain feels significant and real by the time you present a solution. If you spend 3 minutes on pain and jump to features, neither the pain nor the solution registers with the emotional weight that drives decisions.</p>
+
+        <div class="key-line">"A prospect should feel their problem more acutely at minute 20 of discovery than they did at minute 1. If that isn't happening, you are not discovering — you are interviewing."</div>
+      </div>
+
+      <div class="block">
+        <div class="block-label blue">The Attention Architecture of a Great Call</div>
+        <div class="table-block">
+          <thead><tr><th>Phase</th><th>What Gets Attention</th><th>Emotional State Being Built</th></tr></thead>
+          <tbody>
+            <tr><td>Opening (0–3 min)</td><td>Them, specifically — their story, their background</td><td>Feeling seen and understood before any substance</td></tr>
+            <tr><td>Current Reality (3–10 min)</td><td>Where they are right now, in detail</td><td>Neutral → mild dissatisfaction as gaps become visible</td></tr>
+            <tr><td>Pain Deepening (10–18 min)</td><td>What it's costing them, what stays the same if nothing changes</td><td>Real emotional awareness of the problem — pain is vivid and specific</td></tr>
+            <tr><td>Future Pace (18–22 min)</td><td>What they actually want — specific, sensory, personal</td><td>Desire activated — they're feeling the pull of a different life</td></tr>
+            <tr><td>Transition (22–24 min)</td><td>The gap between those two realities</td><td>Urgency — the distance between where they are and where they want to be feels real</td></tr>
+            <tr><td>Pitch (24–35 min)</td><td>The solution as a bridge across the gap</td><td>Hope — this is specifically the thing that closes the gap they just felt</td></tr>
+          </tbody>
+        </div>
+        <p class="body-text" style="margin-top:12px;">Notice: the pitch happens after desire and urgency are at their peak — not before. Most closers pitch into a neutral or mildly interested emotional state. Elite closers pitch into desire they engineered through the attention they directed during discovery.</p>
+      </div>
+
+      <div class="block">
+        <div class="block-label blue">How to Deepen Attention on Pain Without Being Pushy</div>
+        <p class="body-text">The instinct when someone says something painful is to move past it quickly — either to the solution or to the next question. Resist this. The moment they reveal something real is the moment to slow down, not speed up. Three techniques:</p>
+
+        <div class="numbered-list">
+          <div class="num-item">
+            <div class="num-item-n">1</div>
+            <div class="num-item-text"><strong>"Tell me more about that."</strong> The simplest and most underused phrase in sales. When they say something that carries emotional weight — stop and ask them to go deeper. Most closers move on. The ones who slow down get the real story.</div>
+          </div>
+          <div class="num-item">
+            <div class="num-item-n">2</div>
+            <div class="num-item-text"><strong>Intentional silence.</strong> After they share something real, pause. Don't fill the space. They will. What they say in those next 5-10 seconds of silence is almost always more revealing than anything they said before it. Silence signals that you're processing what they said — that it mattered. That creates connection.</div>
+          </div>
+          <div class="num-item">
+            <div class="num-item-n">3</div>
+            <div class="num-item-text"><strong>Reflect before you ask.</strong> Before asking the next question, reflect back what they just said — not to summarize, but to show you actually heard it. <em>"So for the last two years, you've essentially been repeating the same month, just with different variables. That's what I'm hearing."</em> When they confirm, they deepen their own awareness of it.</div>
+          </div>
+        </div>
+
+        <div class="script">
+          <span class="script-label">Pain Deepening Sequence</span>
+          <strong>Them:</strong> "Yeah, I've just been doing the same thing and not really growing."<br/><br/>
+          <strong>You:</strong> <em>[silence — 4-5 seconds]</em><br/><br/>
+          "So for [X] years, you've been putting in the work, and the situation is basically the same. The effort has been there — the outcome hasn't moved."<br/><br/>
+          <strong>Them:</strong> "Yeah, exactly."<br/><br/>
+          "What does that actually feel like at this point? Like, where does that sit with you personally?"<br/><br/>
+          <em>[Now they tell you the real thing — not the situation, the feeling about the situation. That feeling is what you'll reference at the close.]</em>
+        </div>
+      </div>
+
+      <div class="mistakes">
+        <div class="mistakes-label">Attention Engineering Mistakes</div>
+        <div class="mistake-item">
+          <div class="mistake-num">01</div>
+          <div class="mistake-text"><strong>Rushing through pain to get to the pitch.</strong> "Okay, I hear you — here's how we solve that." Every time you rush past pain to get to the pitch, you're pitching into a problem that doesn't feel big enough to justify the investment. Make the problem feel as big as it actually is before you present the solution.</div>
+        </div>
+        <div class="mistake-item">
+          <div class="mistake-num">02</div>
+          <div class="mistake-text"><strong>Asking the next question too fast.</strong> When they say something significant, the next question should not be immediate. Silence, reflection, and follow-up are what turn a data-gathering call into a felt experience. The felt experience is what System 1 votes on.</div>
+        </div>
+        <div class="mistake-item">
+          <div class="mistake-num">03</div>
+          <div class="mistake-text"><strong>Moving to future pace before pain is fully established.</strong> Future pace only creates urgency when it's contrasted against a pain that's vivid and real. If you jump to the dream before the problem has landed emotionally, the gap between them doesn't feel urgent — it just feels nice.</div>
+        </div>
+      </div>
+
+      <div class="drill-block">
+        <div class="drill-header">
+          <div class="drill-icon">&#9654;</div>
+          <div class="drill-title-wrap">
+            <div class="drill-tag">Lesson 4 · Drill</div>
+            <div class="drill-title">The Attention Audit</div>
+          </div>
+        </div>
+        <div class="drill-body">Pull a recent call recording. At the 20-minute mark, pause and ask: <strong>what is the most vivid thing in this conversation right now?</strong> If the answer is "the problem they want to solve," your attention architecture is working. If the answer is "the features of the program" or "nothing in particular," discovery isn't done yet.</div>
+        <div class="drill-steps">
+          <div class="drill-step">
+            <div class="step-num">1</div>
+            <div class="step-text">Pull a call recording and listen to the first 20 minutes</div>
+          </div>
+          <div class="drill-step">
+            <div class="step-num">2</div>
+            <div class="step-text">At the 20-min mark, pause. Identify: what is the most emotionally vivid thing in the conversation at this moment?</div>
+          </div>
+          <div class="drill-step">
+            <div class="step-num">3</div>
+            <div class="step-text">Count how many times you used silence or reflection after a pain statement vs. how many times you immediately asked the next question</div>
+          </div>
+          <div class="drill-step">
+            <div class="step-num">4</div>
+            <div class="step-text"><strong>Identify one moment where you moved on too fast.</strong> Write what you should have said instead — reflect, slow down, or ask "tell me more about that."</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="lesson-divider"/>
+
+    <!-- ===== LESSON 5 ===== -->
+    <div class="lesson" id="lesson5">
+      <div class="lesson-header">
+        <div class="lesson-badge">
+          <div class="lesson-badge-num">5</div>
+          <div class="lesson-badge-tag">Capstone</div>
+        </div>
+        <div class="lesson-info">
+          <div class="lesson-title">Priming Questions — Activating the Buying State Before the Pitch</div>
+          <div class="lesson-meta">
+            <span class="lesson-meta-item">35 min</span>
+            <span class="lesson-meta-item">·</span>
+            <span class="lesson-meta-item">Applied Neuroscience · Integration</span>
+            <span class="lesson-meta-item">·</span>
+            <span class="lesson-meta-item">Week Capstone</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="lesson-objective">
+        <div class="obj-label">Lesson Objective</div>
+        <div class="obj-text">Learn what a priming question is, how it activates emotional states before conscious decisions are made, and build a custom priming sequence for your specific offer that you can deploy on your next call.</div>
+      </div>
+
+      <div class="block">
+        <div class="block-label blue">What Priming Is and Why It Works</div>
+        <p class="body-text">Priming is a psychological phenomenon where exposure to one stimulus influences the response to a later stimulus — without the person being aware of the connection. In a famous study, participants asked to think about professors before a general knowledge quiz scored significantly higher than those asked to think about soccer hooligans first. <strong>The mental state activated by the first stimulus bled into performance on the second task.</strong></p>
+        <p class="body-text">On a sales call, the questions you ask in the first 15-20 minutes prime the emotional state the prospect is in when you start the pitch. Most closers ask questions purely to gather information. Elite closers ask questions that gather information AND prime the desired emotional state simultaneously. These are not two separate things — they're the same question, designed more intentionally.</p>
+
+        <div class="callout blue">
+          <div class="callout-title">The Four States You Need Active Before the Pitch</div>
+          <div class="callout-body">
+            <strong>1. Dissatisfaction</strong> — their current reality feels insufficient, not just inconvenient<br/>
+            <strong>2. Desire</strong> — a specific, emotionally real vision of what they actually want<br/>
+            <strong>3. Possibility</strong> — the belief that change is actually achievable for someone like them<br/>
+            <strong>4. Trust</strong> — the felt sense that you're the right guide to get them there<br/><br/>
+            If all four are active when you say "let me walk you through what this looks like" — the pitch lands in fertile ground. If any of them are missing, you're pitching uphill.
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label blue">Priming Questions for Each State</div>
+
+        <div class="callout gold">
+          <div class="callout-title">Priming Dissatisfaction — Make the Gap Feel Real</div>
+          <div class="callout-body">
+            These questions activate awareness of the gap between current reality and desired outcome. They don't create pain — they illuminate pain that already exists.<br/><br/>
+            <strong>"If everything stayed exactly the same for the next 12 months — same income, same hours, same trajectory — how does that sit with you?"</strong><br/><br/>
+            <strong>"You've been doing this for [X] years. What's the honest answer to why you're not further along than you are?"</strong><br/><br/>
+            <strong>"What's the thing about your current situation that, when you're honest with yourself late at night, bothers you the most?"</strong>
+          </div>
+        </div>
+
+        <div class="callout gold">
+          <div class="callout-title">Priming Desire — Activate the Pull of a Different Future</div>
+          <div class="callout-body">
+            These questions get the prospect to construct and emotionally occupy a specific, sensory future. The more specific they get, the more real it becomes.<br/><br/>
+            <strong>"If this actually worked and everything changed the way you're hoping — not the income number, the life piece — what does a normal Tuesday look like for you?"</strong><br/><br/>
+            <strong>"Who's around you when you get to that place? What does it feel like to have that conversation with them?"</strong><br/><br/>
+            <strong>"What would you stop doing the moment you didn't have to do it anymore? What's the first thing you'd let go?"</strong>
+          </div>
+        </div>
+
+        <div class="callout gold">
+          <div class="callout-title">Priming Possibility — Build the Belief That Change Is Real</div>
+          <div class="callout-body">
+            These questions help the prospect see themselves as someone who could actually achieve the desired outcome — not just someone who wants it.<br/><br/>
+            <strong>"When you think about the people you know who've made a similar transition — what do you think made the difference for them vs. the ones who didn't?"</strong><br/><br/>
+            <strong>"What's something you've figured out in the past that you didn't think you could — where you surprised yourself?"</strong><br/><br/>
+            <strong>"What do you actually think is in the way? Like, the real reason this hasn't happened yet — what is it?"</strong><br/><br/>
+            <em>Note: This last question also surfaces the core objection early — so you can handle it in discovery, not at the close.</em>
+          </div>
+        </div>
+
+        <div class="callout gold">
+          <div class="callout-title">Priming Trust — Build the Relationship Before the Pitch</div>
+          <div class="callout-body">
+            Trust isn't primed with a question — it's primed with how you handle what they say. These aren't questions to ask; they're behaviors to practice during discovery that build the trust state.<br/><br/>
+            <strong>Reflect before you ask.</strong> Don't jump to the next question. Show you actually processed what they said.<br/><br/>
+            <strong>Say the harder truth.</strong> If something they say suggests a pattern they're not seeing, name it gently. This is the behavior that separates advisors from salespeople.<br/><br/>
+            <strong>Be willing to say this isn't for them.</strong> Nothing builds trust faster than someone who prioritizes honesty over closing. If they sense you mean it, System 1 responds: this person is safe.
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-label blue">Putting It Together — A Full Priming Sequence</div>
+        <p class="body-text">This is how the four priming states layer together across a discovery call. Notice that each question naturally leads to the next — this isn't a questionnaire, it's a conversation with intentional architecture underneath it.</p>
+
+        <div class="script">
+          <span class="script-label">Full Priming Sequence — Week 8 Integration</span>
+          <strong>[After rapport, framing the call]</strong><br/><br/>
+          "Let me start by understanding where you actually are. Not the highlight reel version — the real one. You've been doing [X] for [Y time]. What's actually working, and what's not?"<br/><br/>
+          <em>[They answer. Reflect. Go deeper.]</em><br/><br/>
+          "You said [their words]. Tell me more about that. What does that actually cost you?"<br/><br/>
+          <em>[They go deeper. Silence. Let it land.]</em><br/><br/>
+          "Okay. Flip side — if none of that was in the way anymore, and this was exactly what you hoped it would be, what changes first? I mean in your actual life, not just the income."<br/><br/>
+          <em>[They describe their future. Ask follow-ups until it's specific — names, places, feelings, not just numbers.]</em><br/><br/>
+          "What do you think is actually in the way of that? Like, what's the honest answer to why that's not your life right now?"<br/><br/>
+          <em>[They surface the core objection — usually in disguise as a situation statement. You now have the real problem AND you've heard the core objection before the pitch, so you can handle it inside the pitch, not after.]</em><br/><br/>
+          <strong>[After they've answered all four:]</strong><br/><br/>
+          "Let me make sure I've got this right before I walk you through anything..." <em>[Mirror recap — they confirm. Now pitch into a room full of dissatisfaction, desire, emerging possibility, and trust. That's the buying state.]</em>
+        </div>
+      </div>
+
+      <div class="comparison">
+        <div class="comp-side bad">
+          <div class="comp-side-label">Information Gathering (Most Closers)</div>
+          <ul>
+            <li>Ask questions to fill a mental form</li>
+            <li>Move through questions at a pace that keeps things comfortable</li>
+            <li>Reach the pitch with a clear picture of the situation</li>
+            <li>Pitch into a neutral, evaluating prospect</li>
+            <li>Rely on the pitch content to create desire</li>
+          </ul>
+        </div>
+        <div class="comp-side good">
+          <div class="comp-side-label">Emotional State Engineering (Elite)</div>
+          <ul>
+            <li>Ask questions that gather information AND activate states</li>
+            <li>Slow down at moments of emotional weight</li>
+            <li>Reach the pitch with all four states active</li>
+            <li>Pitch into a prospect already feeling dissatisfaction, desire, possibility, and trust</li>
+            <li>The pitch confirms what they've already decided</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="drill-block">
+        <div class="drill-header">
+          <div class="drill-icon">&#9654;</div>
+          <div class="drill-title-wrap">
+            <div class="drill-tag">Lesson 5 · Week Capstone Drill</div>
+            <div class="drill-title">Build Your Custom Priming Sequence</div>
+          </div>
+        </div>
+        <div class="drill-body">This is the week's integration drill. You will build a custom priming sequence for your specific offer and run it in a full mock discovery. The goal is not a perfect call — it's to identify which of the four priming states you're currently missing and which questions need to be added to your discovery to activate them.</div>
+        <div class="drill-steps">
+          <div class="drill-step">
+            <div class="step-num">1</div>
+            <div class="step-text">Write 2 dissatisfaction-priming questions specific to your offer's market</div>
+          </div>
+          <div class="drill-step">
+            <div class="step-num">2</div>
+            <div class="step-text">Write 2 desire-priming questions — specific enough to get sensory, personal answers, not vague "what do you want" answers</div>
+          </div>
+          <div class="drill-step">
+            <div class="step-num">3</div>
+            <div class="step-text">Write 1 possibility-priming question that also surfaces the core objection early</div>
+          </div>
+          <div class="drill-step">
+            <div class="step-num">4</div>
+            <div class="step-text">Run a 25-minute mock discovery using your sequence. At minute 22, stop and ask your partner: <strong>which of the four states do you feel most right now? Which is missing?</strong></div>
+          </div>
+          <div class="drill-step">
+            <div class="step-num">5</div>
+            <div class="step-text"><strong>Missing state = the gap to fix this week.</strong> Add or rewrite the question that would have activated it. Run again until all four are present before you transition to the pitch.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+  const lessons = document.querySelectorAll('.lesson');
+  const navItems = document.querySelectorAll('.nav-item');
+  const progressFill = document.getElementById('progressFill');
+  let maxSeen = 0;
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navItems.forEach(i => i.classList.remove('active'));
+        const id = e.target.id;
+        const a = document.querySelector(`.nav-item[href="#${id}"]`);
+        if (a) a.classList.add('active');
+        const num = parseInt(id.replace('lesson',''));
+        if (num > maxSeen) {
+          maxSeen = num;
+          progressFill.style.width = (maxSeen / 5 * 100) + '%';
+        }
+      }
+    });
+  }, { threshold: 0.15 });
+
+  lessons.forEach(l => observer.observe(l));
+</script>
+
+</body>
+</html>
