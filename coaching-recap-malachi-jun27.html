@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Coaching Recap — Malachi Lachance | June 27</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0d0d; --bg2: #141414; --bg3: #1a1a1a; --bg4: #222;
+      --white: #f5f5f0; --muted: #555; --muted2: #2a2a2a;
+      --tapioca: #e2cfa8; --tapioca-d: #c9b490;
+      --green: #4ade80; --green-bg: rgba(74,222,128,0.07);
+      --red: #f87171; --red-bg: rgba(248,113,113,0.08);
+      --amber: #fbbf24; --amber-bg: rgba(251,191,36,0.07);
+      --blue: #60a5fa; --blue-bg: rgba(96,165,250,0.07);
+      --sidebar: 240px;
+    }
+    html { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--white); font-size: 14px; line-height: 1.6; }
+    body { display: flex; min-height: 100vh; }
+
+    .sidebar {
+      width: var(--sidebar); flex-shrink: 0; background: var(--bg2);
+      border-right: 1px solid var(--muted2); position: fixed; top: 0; left: 0;
+      height: 100vh; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 22px 18px 14px; border-bottom: 1px solid var(--muted2); }
+    .sidebar-wordmark { font-size: 15px; font-weight: 900; letter-spacing: -0.5px; }
+    .sidebar-wordmark span { color: var(--tapioca); }
+    .sidebar-sub { font-size: 10px; color: var(--muted); margin-top: 3px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+    .sidebar-nav { padding: 14px 0; }
+    .nav-group { padding: 4px 16px 3px; font-size: 9px; font-weight: 800; color: #333; letter-spacing: 1.5px; text-transform: uppercase; margin-top: 10px; }
+    .nav-link {
+      display: block; padding: 6px 18px; font-size: 12px; font-weight: 500;
+      color: var(--muted); text-decoration: none;
+      border-left: 2px solid transparent; transition: all 0.1s;
+    }
+    .nav-link:hover { color: var(--white); background: var(--bg3); }
+    .nav-link.active { color: var(--white); border-left-color: var(--tapioca); background: var(--bg3); }
+
+    .main { margin-left: var(--sidebar); flex: 1; padding: 48px 52px 100px; max-width: 780px; }
+
+    /* HERO */
+    .hero { margin-bottom: 36px; }
+    .hero-tag { font-size: 10px; font-weight: 800; color: var(--tapioca); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
+    h1 { font-size: 28px; font-weight: 900; letter-spacing: -1px; color: var(--white); line-height: 1.2; }
+    h1 span { color: var(--tapioca); }
+    .hero-meta { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+    .meta-pill { font-size: 11px; font-weight: 600; color: var(--muted); background: var(--bg3); border: 1px solid var(--muted2); padding: 4px 10px; border-radius: 20px; }
+
+    /* SECTION */
+    .section { scroll-margin-top: 28px; margin-bottom: 44px; }
+    h2 { font-size: 16px; font-weight: 800; color: var(--white); margin-bottom: 14px; letter-spacing: -0.2px; }
+    h2 .section-icon { margin-right: 6px; }
+    p { color: #999; line-height: 1.75; font-size: 13.5px; margin-bottom: 12px; }
+    p strong { color: var(--white); }
+    p:last-child { margin-bottom: 0; }
+
+    /* CALLOUT */
+    .callout { border-radius: 7px; padding: 14px 18px; margin: 12px 0; border-left: 3px solid; }
+    .callout-tapioca { background: rgba(226,207,168,0.06); border-color: var(--tapioca); }
+    .callout-green { background: var(--green-bg); border-color: var(--green); }
+    .callout-red { background: var(--red-bg); border-color: var(--red); }
+    .callout-amber { background: var(--amber-bg); border-color: var(--amber); }
+    .callout-blue { background: var(--blue-bg); border-color: var(--blue); }
+    .callout-label { font-size: 9px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 5px; }
+    .callout-tapioca .callout-label { color: var(--tapioca); }
+    .callout-green .callout-label { color: var(--green); }
+    .callout-red .callout-label { color: var(--red); }
+    .callout-amber .callout-label { color: var(--amber); }
+    .callout-blue .callout-label { color: var(--blue); }
+    .callout p { color: #bbb; margin: 0; font-size: 13px; line-height: 1.7; }
+    .callout p + p { margin-top: 6px; }
+    .callout p strong { color: var(--white); }
+
+    /* QUOTE */
+    .quote { background: var(--bg3); border-left: 3px solid var(--muted2); padding: 12px 16px; border-radius: 0 6px 6px 0; margin: 12px 0; }
+    .quote-text { font-size: 13px; color: #aaa; font-style: italic; line-height: 1.7; }
+    .quote-attr { font-size: 10px; color: #444; font-weight: 700; margin-top: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* SCALE */
+    .scale-grid { display: flex; flex-direction: column; gap: 2px; margin: 14px 0; }
+    .scale-row { display: flex; align-items: center; gap: 12px; padding: 7px 12px; border-radius: 5px; }
+    .scale-row.highlight { background: rgba(226,207,168,0.08); border: 1px solid rgba(226,207,168,0.15); }
+    .scale-level { font-size: 11px; font-weight: 800; color: var(--muted); width: 28px; flex-shrink: 0; }
+    .scale-name { font-size: 13px; font-weight: 700; width: 90px; flex-shrink: 0; }
+    .scale-desc { font-size: 12px; color: #666; flex: 1; }
+    .scale-tag { font-size: 9px; font-weight: 800; padding: 2px 7px; border-radius: 4px; flex-shrink: 0; }
+    .tag-baseline { background: rgba(226,207,168,0.15); color: var(--tapioca); }
+    .tag-high { background: rgba(74,222,128,0.1); color: var(--green); }
+    .tag-low { background: rgba(248,113,113,0.1); color: var(--red); }
+    .tag-threshold { background: rgba(96,165,250,0.1); color: var(--blue); }
+    .scale-divider { height: 1px; background: var(--muted2); margin: 4px 0; }
+
+    /* LIST */
+    ul.clean-list { padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    ul.clean-list li { font-size: 13px; color: #999; padding-left: 18px; position: relative; line-height: 1.65; }
+    ul.clean-list li::before { content: "—"; position: absolute; left: 0; color: #333; }
+    ul.clean-list li strong { color: var(--white); }
+
+    /* ACTION ITEMS */
+    .action-card { background: var(--bg2); border: 1px solid var(--muted2); border-radius: 8px; padding: 14px 16px; margin-bottom: 8px; display: flex; gap: 12px; align-items: flex-start; }
+    .action-num { width: 22px; height: 22px; background: var(--tapioca); color: #1a1a1a; border-radius: 4px; font-size: 10px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .action-body { flex: 1; }
+    .action-title { font-size: 13px; font-weight: 700; color: var(--white); line-height: 1.4; }
+    .action-desc { font-size: 12px; color: #666; margin-top: 3px; line-height: 1.55; }
+
+    /* OPP CARD */
+    .opp-card { background: var(--bg3); border: 1px solid var(--muted2); border-radius: 8px; padding: 16px 18px; margin-bottom: 10px; }
+    .opp-name { font-size: 14px; font-weight: 800; color: var(--white); }
+    .opp-tag { display: inline-block; font-size: 9px; font-weight: 800; padding: 2px 8px; border-radius: 4px; background: var(--green-bg); color: var(--green); border: 1px solid rgba(74,222,128,0.2); margin-left: 8px; vertical-align: middle; }
+    .opp-detail { font-size: 12px; color: #777; margin-top: 6px; line-height: 1.6; }
+    .opp-detail strong { color: #aaa; }
+
+    .divider { height: 1px; background: var(--muted2); margin: 36px 0; }
+
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 28px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-wordmark">Sales<span>.</span>io</div>
+    <div class="sidebar-sub">Coaching Recap</div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-group">Session</div>
+    <a class="nav-link active" href="#overview">Overview</a>
+    <a class="nav-link" href="#consciousness">Map of Consciousness</a>
+    <a class="nav-link" href="#baseline">Malachi's Baseline</a>
+    <div class="nav-group">Identity Work</div>
+    <a class="nav-link" href="#up">What Brings Him Up</a>
+    <a class="nav-link" href="#down">What Brings Him Down</a>
+    <a class="nav-link" href="#patterns">Patterns Identified</a>
+    <div class="nav-group">Next Steps</div>
+    <a class="nav-link" href="#actions">Action Items</a>
+    <a class="nav-link" href="#opps">Opportunities</a>
+  </div>
+</nav>
+
+<main class="main">
+
+  <div class="hero" id="overview">
+    <div class="hero-tag">Coaching Recap</div>
+    <h1>Malachi Lachance<br><span>June 27, 2026</span></h1>
+    <div class="hero-meta">
+      <span class="meta-pill">Session 2</span>
+      <span class="meta-pill">Identity & State Work</span>
+      <span class="meta-pill">~35 min</span>
+    </div>
+  </div>
+
+  <div class="callout callout-tapioca">
+    <div class="callout-label">Session Focus</div>
+    <p>Walked Malachi through the Map of Consciousness (David Hawkins) to identify his emotional baseline, what drives him up and pulls him down, and the core pattern underneath his inconsistency. Identified anticipation anxiety and value attribution to money as the two things to work on. Next focus: right vehicle + calendar structure.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- MAP OF CONSCIOUSNESS -->
+  <div class="section" id="consciousness">
+    <h2>The Map of Consciousness</h2>
+    <p>Introduced the consciousness scale from David Hawkins' <em>Power vs. Force</em>. The key principle: everything emits energy — positive or negative. The scale runs 20 to 1,000. <strong>Courage at 200 is the critical threshold</strong> — below it is destructive and draining, above it is life-supportive and generative.</p>
+    <p><strong>True power strengthens. Force weakens.</strong> Above 200, people seek you out because you give energy. Below 200, people avoid you because you take it.</p>
+
+    <div class="scale-grid">
+      <div class="scale-row"><span class="scale-level">600</span><span class="scale-name" style="color:#e2cfa8;">Peace</span><span class="scale-desc">Bliss, effortlessness, non-duality</span><span class="scale-tag tag-high">High</span></div>
+      <div class="scale-row"><span class="scale-level">540</span><span class="scale-name" style="color:#e2cfa8;">Joy</span><span class="scale-desc">Unconditional love, beauty in all things, self-sufficiency</span><span class="scale-tag tag-high">High</span></div>
+      <div class="scale-row"><span class="scale-level">500</span><span class="scale-name" style="color:#e2cfa8;">Love</span><span class="scale-desc">Forgiving, nurturing, heart-led not mind-led</span><span class="scale-tag tag-high">High</span></div>
+      <div class="scale-row"><span class="scale-level">400</span><span class="scale-name" style="color:#aaa;">Reason</span><span class="scale-desc">Logic, abstract thinking, problem solving</span></div>
+      <div class="scale-row"><span class="scale-level">350</span><span class="scale-name" style="color:#aaa;">Acceptance</span><span class="scale-desc">Easygoing, no inner resistance, meets life on its terms</span></div>
+      <div class="scale-row"><span class="scale-level">310</span><span class="scale-name" style="color:#aaa;">Willingness</span><span class="scale-desc">Positive, helpful, wants to be of service</span></div>
+      <div class="scale-row"><span class="scale-level">250</span><span class="scale-name" style="color:#aaa;">Neutrality</span><span class="scale-desc">Pragmatic, comfortable, non-judgmental</span></div>
+      <div class="scale-divider"></div>
+      <div class="scale-row"><span class="scale-level">200</span><span class="scale-name" style="color:var(--blue);">Courage</span><span class="scale-desc">I can do it. Determined, productive, self-empowered</span><span class="scale-tag tag-threshold">Threshold</span></div>
+      <div class="scale-divider"></div>
+      <div class="scale-row"><span class="scale-level">175</span><span class="scale-name" style="color:#888;">Pride</span><span class="scale-desc">My way is the best way. Achievement-driven but superior</span></div>
+      <div class="scale-row highlight"><span class="scale-level">150</span><span class="scale-name" style="color:var(--amber);">Anger</span><span class="scale-desc">Overcomes fear by force. I'll show you. Volatile.</span><span class="scale-tag tag-baseline">Malachi</span></div>
+      <div class="scale-row highlight"><span class="scale-level">125</span><span class="scale-name" style="color:var(--amber);">Desire</span><span class="scale-desc">Seeking gain, insatiable, never satisfied. Give me more.</span><span class="scale-tag tag-baseline">Malachi</span></div>
+      <div class="scale-row"><span class="scale-level">100</span><span class="scale-name" style="color:#888;">Fear</span><span class="scale-desc">Danger everywhere. Avoidant, defensive, anxious, restless</span></div>
+      <div class="scale-row"><span class="scale-level">75</span><span class="scale-name" style="color:#666;">Grief</span><span class="scale-desc">Helplessness, despair, regret, if only I had</span></div>
+      <div class="scale-row"><span class="scale-level">50</span><span class="scale-name" style="color:#555;">Apathy</span><span class="scale-desc">Hopeless, immobilized, I can't, who cares</span></div>
+      <div class="scale-row"><span class="scale-level">30</span><span class="scale-name" style="color:#444;">Guilt</span><span class="scale-desc">Self-rejection, remorse, self-sabotage, it's all my fault</span><span class="scale-tag tag-low">Low</span></div>
+      <div class="scale-row"><span class="scale-level">20</span><span class="scale-name" style="color:#333;">Shame</span><span class="scale-desc">Humiliation, banishment. Destructive to health</span><span class="scale-tag tag-low">Lowest</span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- BASELINE -->
+  <div class="section" id="baseline">
+    <h2>Malachi's Baseline</h2>
+    <p>Self-identified baseline: <strong>between Desire (125) and Anger (150).</strong></p>
+    <p>Highest he's experienced: <strong>Joy (540).</strong> He knows what that state feels like — it's accessible, not foreign.</p>
+    <p>Lowest: around Guilt — the "why the f*** did I do that" feeling. Not shame-level, but the self-directed frustration after a bad decision.</p>
+
+    <div class="callout callout-amber">
+      <div class="callout-label">JJ's Take</div>
+      <p><strong>Anger and desire create movement — that's not a problem.</strong> Most sales reps operate out of fear (100), which stops them. Desire and anger push forward. Michael Jordan, Kobe Bryant, Hormozi — all operate(d) from anger/desire. "I'll show you" is a powerful fuel.</p>
+      <p>The issue isn't the state itself. It's the mental bandwidth it consumes and the way it skews decisions — chasing what others are doing rather than what's best for you personally.</p>
+    </div>
+
+    <div class="quote">
+      <div class="quote-text">"I see other people performing and doing better than me and talking down to me, and I know that I have the capability of performing to where they're at, or maybe even exceeding that."</div>
+      <div class="quote-attr">Malachi — describing what anger and desire look like for him</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- WHAT BRINGS HIM UP -->
+  <div class="section" id="up">
+    <h2>What Brings Him Up</h2>
+
+    <p>Malachi's honest answer: <strong>money.</strong> Specifically, making enough to provide for the people he loves — his parents.</p>
+    <p>"When I made the most amount of money I have, I had all the joy because I was able to provide for the people I wanted to."</p>
+
+    <div class="callout callout-red">
+      <div class="callout-label">The Problem With This</div>
+      <p><strong>Value attribution.</strong> When your emotional state is tied to the number in your bank account, you will inevitably fluctuate. You can't hold a high baseline when your baseline is conditional on an outcome you don't fully control.</p>
+      <p>This isn't about money being bad. It's about what money means to him. The actual driver is <strong>providing for his family and feeling capable</strong> — not the dollar amount itself. That's the thing to anchor to, not the number.</p>
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">JJ's Reframe</div>
+      <p><strong>Conviction in skill solves this.</strong> If you know your skill is so solid that you could lose everything today and rebuild to six figures by next month — the bank account stops being the variable. The skill is the constant. That conviction is what puts you above 200 regardless of circumstances.</p>
+      <p>"We can create a circumstance where you are in a vehicle to make more money. That is literally not an issue." The vehicle gets fixed. The skill is already there.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- WHAT BRINGS HIM DOWN -->
+  <div class="section" id="down">
+    <h2>What Brings Him Down</h2>
+
+    <ul class="clean-list" style="margin-bottom:16px;">
+      <li><strong>Not being able to provide for his family.</strong> His parents are sick — dad has a broken shoulder needing surgery, mom is unwell. They're in Alaska. He's been bouncing between Florida and Alaska to help.</li>
+      <li><strong>Environmental instability.</strong> Constant travel disrupted any sense of routine or stability. Now committing to staying in Florida for 4–5 months.</li>
+      <li><strong>Comparison and competition.</strong> Measuring his progress against others rather than his own benchmark. Creates reactive decisions.</li>
+      <li><strong>No neutral influence.</strong> Some people in his current environment are pulling him down, not up.</li>
+    </ul>
+
+    <div class="callout callout-tapioca">
+      <div class="callout-label">Key Insight</div>
+      <p>The environment has been the primary destabilizer — not mindset, not skill, not effort. Constant travel + sick parents + financial pressure + team environment that may not be lifting him = a cocktail that would strain anyone's baseline.</p>
+      <p>Stabilizing environment (staying in Florida) removes a major drag before anything else changes.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PATTERNS -->
+  <div class="section" id="patterns">
+    <h2>Patterns Identified</h2>
+
+    <div class="callout callout-amber" style="margin-bottom:14px;">
+      <div class="callout-label">Pattern 1 — Anticipation Anxiety</div>
+      <p>A physiological response that precedes the cognitive one. The body feels the anxiety before the brain processes it. This creates avoidance — Malachi knows what he needs to do, can put it on paper, but still doesn't do it. It's not laziness. It's the body protecting itself from perceived threat by shutting down.</p>
+      <p>Triggers: money fluctuations, relationship uncertainty, environmental changes, upcoming decisions. Any change creates the response.</p>
+      <p><strong>JJ's note:</strong> "It might not even be an actual problem. It could be the environment creating chaos around you, which is creating this distance in your brain between what needs to get done and what you feel."</p>
+    </div>
+
+    <div class="callout callout-amber" style="margin-bottom:14px;">
+      <div class="callout-label">Pattern 2 — Driving as Escape</div>
+      <p>Currently spending more time in the car than at his desk. Not procrastination — it's regulation. Driving shuts the mind off and provides relief from the emotional noise. The problem: it delays the things that would actually fix the underlying feeling.</p>
+      <p>JJ's read: "You're probably escaping the things you know you need to address." Named it not as a criticism but as recognition.</p>
+    </div>
+
+    <div class="callout callout-amber">
+      <div class="callout-label">Pattern 3 — Value Attribution to Money</div>
+      <p>Emotional state tracks the bank account. When money is good, he feels capable. When it's not, he questions himself. This creates a loop where slow periods hit harder than they should, making it even harder to perform when it matters most.</p>
+      <p>The fix isn't to care less about money. It's to anchor identity to skill and capability rather than outcome. Skill doesn't fluctuate the way a commission check does.</p>
+    </div>
+
+    <div class="quote">
+      <div class="quote-text">"You can't expect to operate at a specific baseline and operate at a higher level of consciousness if your baseline is tied to the amount of money in your bank account. It'd be impossible."</div>
+      <div class="quote-attr">JJ</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ACTION ITEMS -->
+  <div class="section" id="actions">
+    <h2>Action Items</h2>
+
+    <div class="action-card">
+      <div class="action-num">1</div>
+      <div class="action-body">
+        <div class="action-title">Watch the calendar video (sent in chat)</div>
+        <div class="action-desc">Most important immediate task. JJ's calendar system for structuring time and attention. Don't need to show JJ the setup — build it for yourself. This is the structural fix for scattered time and attention.</div>
+      </div>
+    </div>
+
+    <div class="action-card">
+      <div class="action-num">2</div>
+      <div class="action-body">
+        <div class="action-title">Reference the system audit document (sent on Circle)</div>
+        <div class="action-desc">JJ sending a document with execution steps specific to Malachi's situation — what to watch for, what brings him up, what to avoid. May include homework/action steps to follow up on.</div>
+      </div>
+    </div>
+
+    <div class="action-card">
+      <div class="action-num">3</div>
+      <div class="action-body">
+        <div class="action-title">Commit to the Florida environment for 4–5 months</div>
+        <div class="action-desc">Already decided. No more bouncing. Stable environment is the prerequisite for everything else — performance, skill development, and getting into the right role.</div>
+      </div>
+    </div>
+
+    <div class="action-card">
+      <div class="action-num">4</div>
+      <div class="action-body">
+        <div class="action-title">Review the Moves Method opportunity (next Wednesday)</div>
+        <div class="action-desc">JJ coordinating an interview. $1M+/month company. Brian O'Donovan. Confirm details with JJ after he's back from Mexico on Sunday.</div>
+      </div>
+    </div>
+
+    <div class="action-card">
+      <div class="action-num">5</div>
+      <div class="action-body">
+        <div class="action-title">Week 3: Begin process development</div>
+        <div class="action-desc">Weeks 1–2 are identity and environment. Week 3 shifts to the sales process curriculum. Focus for now: the vessel (who you are) and the vehicle (where you close).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- OPPORTUNITIES -->
+  <div class="section" id="opps">
+    <h2>Opportunities on the Table</h2>
+
+    <div class="opp-card">
+      <div class="opp-name">Moves Method <span class="opp-tag">Interview Next Wed</span></div>
+      <div class="opp-detail">
+        <strong>Contact:</strong> Brian O'Donovan (JJ did a podcast with him)<br>
+        <strong>Revenue:</strong> $1M+/month<br>
+        <strong>Status:</strong> JJ coordinating interview for next Wednesday. Malachi back Sunday — JJ will confirm timing then.
+      </div>
+    </div>
+
+    <div class="opp-card">
+      <div class="opp-name">Goat Academy</div>
+      <div class="opp-detail">
+        <strong>Revenue:</strong> $5M/month<br>
+        <strong>Structure:</strong> Start as setter → scale to closer<br>
+        <strong>Upside:</strong> Last closer made $72K<br>
+        <strong>Note:</strong> Requires setter ramp-up first. High ceiling, strong track record. JJ thinks it's a big opportunity worth working through despite the entry path.
+      </div>
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">JJ's Framework on Vehicle Selection</div>
+      <p>Operating from anger/desire means Malachi might chase what someone else is doing rather than what's the best vehicle for him. The goal is to select the right opportunity based on fit and upside — not comparison or competition. That's the decision framework to hold when evaluating these two options.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section">
+    <h2>Next Session</h2>
+    <p>Weekly recurring on <strong>Fridays.</strong> JJ will get the time confirmed. May also connect next week in person or via call depending on scheduling around the opportunities above.</p>
+  </div>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const link = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -75% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
