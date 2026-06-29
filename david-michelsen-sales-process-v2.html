@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>David Michelsen Sales Process V2</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0d0d; --bg2: #141414; --bg3: #1a1a1a; --bg4: #222;
+      --white: #f5f5f0; --muted: #555; --muted2: #2a2a2a;
+      --tapioca: #e2cfa8; --tapioca-d: #c9b490;
+      --green: #4ade80; --green-bg: rgba(74,222,128,0.07);
+      --red: #f87171; --red-bg: rgba(248,113,113,0.07);
+      --amber: #fbbf24; --amber-bg: rgba(251,191,36,0.07);
+      --blue: #60a5fa; --blue-bg: rgba(96,165,250,0.07);
+      --sidebar: 256px;
+    }
+    html { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--white); font-size: 14px; line-height: 1.6; }
+    body { display: flex; min-height: 100vh; }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: var(--sidebar); flex-shrink: 0; background: var(--bg2);
+      border-right: 1px solid var(--muted2); position: fixed; top: 0; left: 0;
+      height: 100vh; overflow-y: auto; display: flex; flex-direction: column;
+    }
+    .sidebar-logo { padding: 22px 18px 14px; border-bottom: 1px solid var(--muted2); }
+    .sidebar-wordmark { font-size: 15px; font-weight: 900; letter-spacing: -0.5px; }
+    .sidebar-wordmark span { color: var(--tapioca); }
+    .sidebar-doc { font-size: 10px; color: var(--muted); margin-top: 4px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+    .sidebar-nav { padding: 14px 0; }
+    .nav-group { padding: 0 14px 3px; font-size: 9px; font-weight: 800; color: #333; letter-spacing: 1.5px; text-transform: uppercase; margin-top: 10px; }
+    .nav-link {
+      display: flex; align-items: center; padding: 6px 18px; font-size: 11.5px;
+      font-weight: 500; color: var(--muted); text-decoration: none;
+      border-left: 2px solid transparent; transition: all 0.1s; gap: 8px;
+    }
+    .nav-link:hover { color: var(--white); background: var(--bg3); }
+    .nav-link.active { color: var(--white); border-left-color: var(--tapioca); background: var(--bg3); }
+    .nav-num { font-size: 9px; font-weight: 800; color: #333; flex-shrink: 0; width: 14px; }
+
+    /* MAIN */
+    .main { margin-left: var(--sidebar); flex: 1; padding: 48px 52px 100px; max-width: 800px; }
+
+    /* HERO */
+    .hero { margin-bottom: 40px; }
+    .hero-tag { font-size: 10px; font-weight: 800; color: var(--tapioca); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
+    h1 { font-size: 30px; font-weight: 900; letter-spacing: -1px; color: var(--white); line-height: 1.15; }
+    h1 span { color: var(--tapioca); }
+    .hero-meta { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+    .meta-pill { font-size: 11px; font-weight: 600; color: var(--muted); background: var(--bg3); border: 1px solid var(--muted2); padding: 4px 10px; border-radius: 20px; }
+
+    /* VERSION BADGE */
+    .version-bar { display: flex; gap: 12px; margin-bottom: 36px; }
+    .v-badge { font-size: 11px; font-weight: 800; padding: 6px 14px; border-radius: 6px; letter-spacing: 0.5px; }
+    .v-old { background: var(--bg3); color: #444; border: 1px solid #222; text-decoration: line-through; }
+    .v-new { background: var(--tapioca); color: #1a1a1a; }
+    .v-arrow { color: #333; font-size: 14px; display: flex; align-items: center; }
+
+    /* CORE RULE */
+    .core-rule { background: var(--bg3); border: 1px solid var(--muted2); border-top: 3px solid var(--tapioca); border-radius: 8px; padding: 22px 24px; margin-bottom: 40px; }
+    .core-rule-label { font-size: 9px; font-weight: 900; color: var(--tapioca); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; }
+    .core-rule-text { font-size: 14px; color: #ccc; line-height: 1.75; }
+    .core-rule-text strong { color: var(--white); }
+
+    /* SECTION */
+    .section { scroll-margin-top: 28px; margin-bottom: 48px; }
+    .section-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 16px; }
+    .section-num { font-size: 11px; font-weight: 900; color: var(--tapioca); background: rgba(226,207,168,0.1); border: 1px solid rgba(226,207,168,0.2); padding: 4px 9px; border-radius: 5px; flex-shrink: 0; margin-top: 2px; }
+    h2 { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; color: var(--white); }
+    .section-sub { font-size: 11px; color: var(--muted); margin-top: 2px; font-style: italic; }
+
+    /* SCRIPT BOX */
+    .script { background: var(--bg2); border: 1px solid var(--muted2); border-radius: 8px; padding: 20px 22px; margin-bottom: 10px; }
+    .script-label { font-size: 9px; font-weight: 800; color: #444; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+    .script-line { font-size: 13.5px; color: #ccc; line-height: 1.75; margin-bottom: 8px; }
+    .script-line:last-child { margin-bottom: 0; }
+    .script-line strong { color: var(--white); }
+    .script-line em { color: #666; font-style: italic; }
+    .script-action { font-size: 12px; color: #555; font-style: italic; margin: 8px 0; padding: 6px 12px; background: #111; border-radius: 4px; display: block; }
+    .q { display: flex; gap: 10px; margin-bottom: 7px; }
+    .q-num { font-size: 11px; font-weight: 700; color: #333; flex-shrink: 0; width: 16px; margin-top: 2px; }
+    .q-text { font-size: 13.5px; color: #ccc; line-height: 1.65; }
+    .q-text strong { color: var(--white); }
+    .q-follow { font-size: 12px; color: #555; padding-left: 26px; margin-top: -2px; margin-bottom: 6px; font-style: italic; }
+
+    /* CALLOUT BOXES */
+    .callout { border-radius: 7px; padding: 14px 18px; margin: 10px 0; border-left: 3px solid; }
+    .callout-amber { background: var(--amber-bg); border-color: var(--amber); }
+    .callout-green { background: var(--green-bg); border-color: var(--green); }
+    .callout-blue { background: var(--blue-bg); border-color: var(--blue); }
+    .callout-red { background: var(--red-bg); border-color: var(--red); }
+    .callout-label { font-size: 9px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 5px; }
+    .callout-amber .callout-label { color: var(--amber); }
+    .callout-green .callout-label { color: var(--green); }
+    .callout-blue .callout-label { color: var(--blue); }
+    .callout-red .callout-label { color: var(--red); }
+    .callout p { font-size: 12.5px; color: #aaa; margin: 0; line-height: 1.7; }
+    .callout p + p { margin-top: 6px; }
+    .callout p strong { color: var(--white); }
+
+    .divider { height: 1px; background: var(--muted2); margin: 44px 0; }
+
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 28px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-wordmark">Sales<span>.</span>io</div>
+    <div class="sidebar-doc">David Michelsen — V2</div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-group">Foundation</div>
+    <a class="nav-link active" href="#core"><span class="nav-num">—</span>Core Rule</a>
+
+    <div class="nav-group">The Process</div>
+    <a class="nav-link" href="#s1"><span class="nav-num">1</span>Intro</a>
+    <a class="nav-link" href="#s2"><span class="nav-num">2</span>Current Reality</a>
+    <a class="nav-link" href="#s3"><span class="nav-num">3</span>Problem Awareness</a>
+    <a class="nav-link" href="#s4"><span class="nav-num">4</span>Solution Awareness</a>
+    <a class="nav-link" href="#s5"><span class="nav-num">5</span>Future Pace</a>
+    <a class="nav-link" href="#s6"><span class="nav-num">6</span>Cost of Inaction</a>
+    <a class="nav-link" href="#s7"><span class="nav-num">7</span>Committing to Coaching</a>
+    <a class="nav-link" href="#s8"><span class="nav-num">8</span>Transition to Pitch</a>
+    <a class="nav-link" href="#s9"><span class="nav-num">9</span>Pitch</a>
+    <a class="nav-link" href="#s10"><span class="nav-num">10</span>Confirm Fit</a>
+    <a class="nav-link" href="#s11a"><span class="nav-num">11</span>Price Reveal</a>
+    <a class="nav-link" href="#s11b"><span class="nav-num">—</span>Objection Handling</a>
+    <a class="nav-link" href="#s12"><span class="nav-num">12</span>Close</a>
+  </div>
+</nav>
+
+<main class="main">
+
+  <!-- HERO -->
+  <div class="hero" id="top">
+    <div class="hero-tag">Sales Process</div>
+    <h1>David Michelsen<br><span>V2 — Annotated</span></h1>
+    <div class="hero-meta">
+      <span class="meta-pill">Based on Sales.io Principles</span>
+      <span class="meta-pill">Outbound DM Coaching</span>
+      <span class="meta-pill">$6,000 Split-Pay Offer</span>
+    </div>
+  </div>
+
+  <div class="version-bar">
+    <span class="v-badge v-old">V1 Original</span>
+    <span class="v-arrow">→</span>
+    <span class="v-badge v-new">V2 Improved</span>
+  </div>
+
+  <!-- CORE RULE -->
+  <div class="core-rule" id="core">
+    <div class="core-rule-label">Core Rule</div>
+    <div class="core-rule-text">
+      <strong>Never pitch just to pitch. You only present once you have earned the right to present.</strong><br><br>
+      A strong close is built in discovery. If discovery is weak, objections become harder, the pitch feels forced, and the prospect will not feel clear enough to decide.<br><br>
+      <strong>The emotional contract is signed before the pitch ever starts.</strong> By the time you transition, they should already feel like they want help — your only job is to show them you're the right person to provide it.
+    </div>
+  </div>
+
+  <div class="callout callout-amber">
+    <div class="callout-label">V2 Change — Core Rule</div>
+    <p>Added the "emotional contract" line. V1 explained the rule logically but didn't name what you're actually building toward. The emotional contract is the concept that ties everything together — if prospects reach Section 11 and suddenly go cold, it's because the contract wasn't fully signed in Sections 2–7. Naming it here primes David to think about it on every call.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- S1 -->
+  <div class="section" id="s1">
+    <div class="section-header">
+      <span class="section-num">S1</span>
+      <div>
+        <h2>Intro: Respect First, Likability Later</h2>
+        <div class="section-sub">Set the frame. Get permission. Establish who's running the call.</div>
+      </div>
+    </div>
+
+    <div class="script">
+      <div class="script-label">Script</div>
+      <div class="script-line">Hey [NAME], good to connect. You booked this call about fixing your outbound system — do you still have the full 45 minutes?</div>
+      <div class="script-line" style="margin-top:12px;">Awesome. Here's how this works: I'm going to ask you some fairly in-depth questions to understand exactly where you're at and what's getting in the way. From there, I'll tell you what I think the real problem is — and if it makes sense for both of us, I'll show you exactly how I can help you fix it. Sound good?</div>
+    </div>
+
+    <div class="callout callout-amber">
+      <div class="callout-label">V2 Change — Intro</div>
+      <p><strong>"How this works"</strong> — V1 said "I'll ask a few in-depth questions." V2 says "here's how this works." Small word swap, but it shifts the frame from David asking permission to David running a structured process. He's already in control before the first question.</p>
+      <p><strong>"If it makes sense for both of us"</strong> — V1 said "if it makes sense, I'll show you how I can help." V2 adds "for both of us." This is a detachment signal. It tells the prospect David isn't just trying to close them — he has criteria too. That raises the perceived value before a single question is asked.</p>
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">Key Principle</div>
+      <p>Tone here is calm and certain. Not warm, not eager. Think doctor, not vendor. The prospect booked the call — you don't need to sell them on showing up. They're already there.</p>
+    </div>
+  </div>
+
+  <!-- S2 -->
+  <div class="section" id="s2">
+    <div class="section-header">
+      <span class="section-num">S2</span>
+      <div>
+        <h2>Current Reality</h2>
+        <div class="section-sub">Surface the situation. Get numbers. Understand volume, results, and timeline.</div>
+      </div>
+    </div>
+
+    <div class="script">
+      <div class="script-label">Script</div>
+      <div class="q"><span class="q-num">1.</span><span class="q-text">What are you trying to sell, and who are you selling it to?</span></div>
+      <div class="q"><span class="q-num">2.</span><span class="q-text">How long have you been doing outbound for this offer?</span></div>
+      <div class="q"><span class="q-num">3.</span><span class="q-text">Walk me through what you're currently doing — what does your outbound actually look like day to day?</span></div>
+      <div class="q"><span class="q-num">4.</span><span class="q-text">How many DMs are you sending a week, roughly?</span></div>
+      <div class="q"><span class="q-num">5.</span><span class="q-text">Out of those, how many replies are you getting? And how many of those turn into actual conversations?</span></div>
+      <div class="q"><span class="q-num">6.</span><span class="q-text">What's working right now, even a little bit?</span></div>
+      <div class="q"><span class="q-num">7.</span><span class="q-text">And what's clearly not working?</span></div>
+      <div class="q"><span class="q-num">8.</span><span class="q-text">What are you currently making from this offer — what does a good month look like?</span></div>
+    </div>
+
+    <div class="callout callout-amber">
+      <div class="callout-label">V2 Change — Current Reality</div>
+      <p><strong>Expanded from 3 questions to 8.</strong> V1 had "What are you currently doing," "what's working," and "what's not working." That's surface-level. You need volume numbers (Q4, Q5) because those become your reference point later when you calculate the cost of their skill gap. If they're sending 200 DMs a week and converting 0, that's a very different conversation than 20 DMs and 0 converts.</p>
+      <p><strong>Added income question (Q8).</strong> "What does a good month look like?" surfaces their baseline revenue without making it feel like a financial audit. This number gets used in Future Pace when you ask what they want to be making — the gap between those two numbers is your leverage.</p>
+      <p><strong>Split "working/not working" into two separate questions (Q6, Q7).</strong> In V1 they were combined with a parenthetical. Keeping them separate gives you cleaner answers and avoids them rushing past the "working" part to get to complaints.</p>
+    </div>
+  </div>
+
+  <!-- S3 -->
+  <div class="section" id="s3">
+    <div class="section-header">
+      <span class="section-num">S3</span>
+      <div>
+        <h2>Problem Awareness + DM Review</h2>
+        <div class="section-sub">Make them see the gap themselves. Don't tell them what's wrong — guide them to name it.</div>
+      </div>
+    </div>
+
+    <div class="script">
+      <div class="script-label">Script</div>
+      <div class="q"><span class="q-num">1.</span><span class="q-text">What do you feel is the biggest issue with where things are right now?</span></div>
+      <div class="q"><span class="q-num">2.</span><span class="q-text">What have you already tried to fix it?</span></div>
+      <div class="q"><span class="q-num">3.</span><span class="q-text">Why do you think that hasn't worked?</span></div>
+      <div class="script-action">→ Pull up their sent DMs / screen share</div>
+      <div class="q"><span class="q-num">4.</span><span class="q-text">Walk me through your thinking with this message — what were you going for here?</span></div>
+      <div class="q-follow">Let them explain first. You're listening for what they think the goal is vs. what's actually happening.</div>
+      <div class="q"><span class="q-num">5.</span><span class="q-text">When you read it back now, what do you think the person on the other end felt when they got this?</span></div>
+      <div class="q-follow">Most people pause here. That pause is the moment of self-awareness. Let it breathe.</div>
+      <div class="q"><span class="q-num">6.</span><span class="q-text">Can I show you what I'm seeing? <em>[Share the 4 keys — walk through specifically what's off and why]</em></span></div>
+      <div class="q"><span class="q-num">7.</span><span class="q-text">Does that land? Do you see how there's a gap between what you intended and what they actually received?</span></div>
+      <div class="script-action">→ End screen share</div>
+      <div class="q"><span class="q-num">8.</span><span class="q-text">What do you feel that gap is actually costing you right now — in conversations, in revenue?</span></div>
+      <div class="q"><span class="q-num">9.</span><span class="q-text">How long has this been going on?</span></div>
+    </div>
+
+    <div class="callout callout-amber">
+      <div class="callout-label">V2 Change — Problem Awareness</div>
+      <p><strong>Flipped the DM review order.</strong> V1 went: screen share → "walk me through your thought" → then David tells them what's wrong. V2 goes: screen share → "walk me through your thinking" → <strong>"when you read it back, what do you think they felt?"</strong> → then David shows them. This is critical. When someone names their own problem, they own it. When David names it first, it can feel like a critique. The self-awareness question (Q5) creates the "oh" moment before the expert commentary.</p>
+      <p><strong>"What were you going for here?"</strong> replaced "walk me through your thought with this text." Same intent, more natural language.</p>
+      <p><strong>Added pause instruction after Q5.</strong> The pause is the conversion moment in this section. V1 had no note about it. Most reps talk through silences — this annotation tells David to hold it.</p>
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">Key Principle</div>
+      <p>The DM review is your unfair advantage. Nobody else does this on an intro call. It makes the problem visible and concrete in a way that abstract questions never can. Don't rush it. This is where you earn authority.</p>
+    </div>
+  </div>
+
+  <!-- S4 -->
+  <div class="section" id="s4">
+    <div class="section-header">
+      <span class="section-num">S4</span>
+      <div>
+        <h2>Solution Awareness</h2>
+        <div class="section-sub">Surface what they already know they need — without telling them first.</div>
+      </div>
+    </div>
+
+    <div class="script">
+      <div class="script-label">Script</div>
+      <div class="q"><span class="q-num">1.</span><span class="q-text">What do you feel is missing from your current approach?</span></div>
+      <div class="q"><span class="q-num">2.</span><span class="q-text">You've been trying to fix this on your own for a while now — what's made it hard to figure out?</span></div>
+      <div class="q"><span class="q-num">3.</span><span class="q-text">Considering you haven't solved it yet, how do you actually know what the right solution would look like?</span></div>
+      <div class="q"><span class="q-num">4.</span><span class="q-text">If you could wave a wand and have one thing in place that you currently don't — what would it be?</span></div>
+      <div class="q"><span class="q-num">5.</span><span class="q-text">What would need to be true for you to feel fully confident moving forward with something new?</span></div>
+    </div>
+
+    <div class="callout callout-amber">
+      <div class="callout-label">V2 Change — Solution Awareness</div>
+      <p><strong>Added Q2 and Q4.</strong> Q2 — "What's made it hard to figure out?" — surfaces the self-doubt or knowledge gap that keeps them stuck. This is important because it directly seeds why expert help matters. Q4 — the wand question — gets them to articulate the solution in their own words before David presents anything. If they say "I need someone to just show me what's wrong with my messages in real time," David's job in the pitch just got significantly easier.</p>
+      <p><strong>Q3 is your sharpest question in this section.</strong> "Considering you haven't solved it yet, how do you know what the right solution would even look like?" V1 had this but didn't set it up. V2 flows into it from Q2 so it doesn't feel like a confrontation — it feels like a natural next question.</p>
+    </div>
+  </div>
+
+  <!-- S5 -->
+  <div class="section" id="s5">
+    <div class="section-header">
+      <span class="section-num">S5</span>
+      <div>
+        <h2>Future Pace</h2>
+        <div class="section-sub">Get them living in the outcome before you show them the path.</div>
+      </div>
+    </div>
+
+    <div class="script">
+      <div class="script-label">Script</div>
+      <div class="q"><span class="q-num">1.</span><span class="q-text">If this was fully solved in the next three to six months — what would your revenue actually look like?</span></div>
+      <div class="q"><span class="q-num">2.</span><span class="q-text">Why that number specifically? What does hitting that mean for you?</span></div>
+      <div class="q"><span class="q-num">3.</span><span class="q-text">What would that allow you to do that you can't do right now?</span></div>
+      <div class="q"><span class="q-num">4.</span><span class="q-text">What would change about how you show up — how you feel about yourself, your business, your day?</span></div>
+      <div class="q"><span class="q-num">5.</span><span class="q-text">What would make solving this fully worth it to you?</span></div>
+    </div>
+
+    <div class="callout callout-amber">
+      <div class="callout-label">V2 Change — Future Pace</div>
+      <p><strong>Added Q2 — "Why that number specifically?"</strong> V1 asked for the number and moved on. This follow-up turns a dollar amount into a story. When they explain why $10K/month matters, they reveal the real motivation — the thing that's actually driving this call. That's your anchor for the close later. Reference their reason, not just their number.</p>
+      <p><strong>Q4 was sharpened.</strong> V1 said "What do you feel that would change about how you see yourself?" V2 expands it to include "your business, your day." This opens the emotional range and usually produces a richer answer, especially for people who are identity-driven.</p>
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">Key Principle</div>
+      <p>Go slow here. Don't rush to the next question the second they answer. Reflect what they say back before you move on. "So you said hitting $8K would mean you could quit the part-time job — I want to make sure I heard that right." That reflection signals you're actually listening, not just running a script.</p>
+    </div>
+  </div>
+
+  <!-- S6 -->
+  <div class="section" id="s6">
+    <div class="section-header">
+      <span class="section-num">S6</span>
+      <div>
+        <h2>Consequence / Cost of Inaction</h2>
+        <div class="section-sub">Make the cost of staying the same feel more real than the cost of change.</div>
+      </div>
+    </div>
+
+    <div class="script">
+      <div class="script-label">Script</div>
+      <div class="q"><span class="q-num">1.</span><span class="q-text">You mentioned this has been going on for [X months/time]. What has it already cost you — not just in the future, but right now?</span></div>
+      <div class="q"><span class="q-num">2.</span><span class="q-text">What happens if this stays exactly the same for the next three to six months?</span></div>
+      <div class="q"><span class="q-num">3.</span><span class="q-text">Personally — not just in business — what does that cost you?</span></div>
+      <div class="q"><span class="q-num">4.</span><span class="q-text">If you looked at yourself in the mirror six months from now and nothing had changed — what would you feel?</span></div>
+      <div class="q"><span class="q-num">5.</span><span class="q-text">Is staying where you are actually an option for you?</span></div>
+    </div>
+
+    <div class="callout callout-amber">
+      <div class="callout-label">V2 Change — Consequence</div>
+      <p><strong>Added "not just in the future, but right now" to Q1.</strong> V1 only asked about the future cost. The past cost is equally powerful — they've already paid it. "What has this already cost you?" makes the loss feel real and accumulated, not hypothetical. Loss aversion research shows people are more moved by what they've already lost than what they might lose.</p>
+      <p><strong>Q3 was restructured.</strong> V1 said "Personally, what does that cost you?" directly after the future question. V2 separates it with "not just in business" — this signals you're asking about something deeper than revenue, which usually produces a more honest and emotionally significant answer.</p>
+      <p><strong>Q4 adjusted.</strong> V1 said "in the mirror, how would you feel about yourself?" V2 says "six months from now, nothing had changed — what would you feel?" Adding the time frame makes it more vivid and specific.</p>
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">Key Principle</div>
+      <p>Q5 — "Is staying where you are actually an option?" — is the most important question in this section. Pause after you ask it. You want them to answer it out loud. If they say "no," they've just committed to change before you've pitched anything. The sale is already 80% done.</p>
+    </div>
+  </div>
+
+  <!-- S7 -->
+  <div class="section" id="s7">
+    <div class="section-header">
+      <span class="section-num">S7</span>
+      <div>
+        <h2>Committing to Coaching</h2>
+        <div class="section-sub">The most underbuilt section in V1. This is where the emotional contract gets signed.</div>
+      </div>
+    </div>
+
+    <div class="script">
+      <div class="script-label">Script</div>
+      <div class="q"><span class="q-num">1.</span><span class="q-text">Based on everything you've just told me — why do you think you haven't been able to solve this on your own yet?</span></div>
+      <div class="q"><span class="q-num">2.</span><span class="q-text">What's it actually like trying to figure this out through trial and error — what does that process feel like?</span></div>
+      <div class="q"><span class="q-num">3.</span><span class="q-text">If you had someone who had already done what you're trying to do, and they were looking at your work with you on a weekly basis — how much faster do you think you'd move?</span></div>
+      <div class="q"><span class="q-num">4.</span><span class="q-text">Why specifically — what would be different about that kind of support?</span></div>
+      <div class="q"><span class="q-num">5.</span><span class="q-text">What would you need to see from that kind of relationship to know it was actually working?</span></div>
+    </div>
+
+    <div class="callout callout-amber">
+      <div class="callout-label">V2 Change — Committing to Coaching</div>
+      <p><strong>Expanded from 2 questions to 5.</strong> This was the weakest section in V1. The two original questions were valid but thin. This section is where the prospect argues themselves into wanting coaching — that argument needs to be fully developed before you transition to pitch. If they haven't made the case in their own words, price will feel like the obstacle.</p>
+      <p><strong>Q1 flips the attribution.</strong> "Why do you think you haven't been able to solve this on your own?" makes them say, in their own words, why solo effort isn't enough. This is not a leading question — it's an open one. Let them answer it fully.</p>
+      <p><strong>Q2 is new — the emotional texture question.</strong> "What's it actually like trying to figure this out through trial and error?" Most reps skip this entirely. The answer to this question is usually the most emotionally honest thing said on the entire call. Use it at the close.</p>
+      <p><strong>Q3 plants the specific image of mentorship</strong> without naming it as the product yet. "Someone looking at your work with you weekly" is a description of Pillar 2 — but they're endorsing it before they know it's for sale.</p>
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">Key Principle</div>
+      <p>Do not transition to pitch until Section 7 is fully developed. If the answers here are short or half-hearted, go deeper with "tell me more about that" or "what do you mean by that specifically?" A rushed Section 7 creates a cold Section 11.</p>
+    </div>
+  </div>
+
+  <!-- S8 -->
+  <div class="section" id="s8">
+    <div class="section-header">
+      <span class="section-num">S8</span>
+      <div>
+        <h2>Transition to Pitch</h2>
+        <div class="section-sub">Mirror their situation back using their exact words — then earn the right to present.</div>
+      </div>
+    </div>
+
+    <div class="script">
+      <div class="script-label">Script</div>
+      <div class="script-line">Alright. Based on what you've shared — you're sending outbound daily, you know the offer is strong, but the messaging isn't converting the way it should. You said it's been going on for [X months], it's already cost you [what they said], and staying where you are isn't actually an option for you.</div>
+      <div class="script-line" style="margin-top:10px;">I think this is a strong match. Let me walk you through exactly how I help people fix this.</div>
+    </div>
+
+    <div class="callout callout-amber">
+      <div class="callout-label">V2 Change — Transition</div>
+      <p><strong>Made the mirror specific.</strong> V1 said: "The main thing I'm hearing is that PROBLEM is stopping you from CONSEQUENCE." That's a template. V2 mirrors their actual situation: the offer is working, the messaging is the gap, it's been going on a specific amount of time, and staying isn't an option. Fill this in with exactly what they said. Use their words, not summaries of their words.</p>
+      <p><strong>Removed "I think this could be a really strong match."</strong> "Could be" hedges. V2 says "I think this is a strong match." Small word but it signals more certainty. You don't need their permission to be confident.</p>
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">Key Principle</div>
+      <p>The mirror should be so accurate that they nod or say "yeah, exactly" before you start the pitch. If it lands, the pitch isn't a sales presentation — it's a delivery. They already said yes to the need. You're just showing them what solving it looks like.</p>
+    </div>
+  </div>
+
+  <!-- S9 -->
+  <div class="section" id="s9">
+    <div class="section-header">
+      <span class="section-num">S9</span>
+      <div>
+        <h2>Pitch</h2>
+        <div class="section-sub">Three pillars. Connect each one to what they specifically said. Check in after each.</div>
+      </div>
+    </div>
+
+    <div class="script">
+      <div class="script-label">Script</div>
+      <div class="script-line">When you join, it's six months. Here's what that includes:</div>
+
+      <div class="script-line" style="margin-top:14px;"><strong>Pillar 1 — Fully tailored outbound scripts for your specific niche and offer.</strong></div>
+      <div class="script-line">You mentioned you've been sending messages that don't feel right but you're not sure why. This removes that entirely — you'll know exactly what to say, why it works, and how to adjust it for different conversations.</div>
+      <div class="script-line" style="color:#666; font-style:italic; font-size:12px;">Check-in: Does that make sense for where you're at right now?</div>
+
+      <div class="script-line" style="margin-top:14px;"><strong>Pillar 2 — Two weekly one-on-one calls where we review your actual conversations and break your specific bottleneck in real time.</strong></div>
+      <div class="script-line">You said trying to figure this out through trial and error has been exhausting. This replaces that entirely. We're looking at your real DMs every week — not theory, not frameworks in a vacuum. Your conversations, your results.</div>
+      <div class="script-line" style="color:#666; font-style:italic; font-size:12px;">Check-in: Can you see why that would move you faster than anything you've tried on your own?</div>
+
+      <div class="script-line" style="margin-top:14px;"><strong>Pillar 3 — My personal number. Text or call me anytime you're stuck between sessions.</strong></div>
+      <div class="script-line">Progress doesn't wait for the next scheduled call. When you're in a conversation that's going sideways and you need to know what to say next — I'm available.</div>
+      <div class="script-line" style="color:#666; font-style:italic; font-size:12px;">Check-in: Does that feel like the kind of access that would actually make a difference?</div>
+    </div>
+
+    <div class="callout callout-amber">
+      <div class="callout-label">V2 Change — Pitch</div>
+      <p><strong>Added connection sentences to each pillar.</strong> V1 stated each pillar and asked if they could see how it would help. V2 connects each pillar to something they specifically said in discovery. Pillar 1 references their DM confusion. Pillar 2 references their frustration with trial and error. This turns the pitch from a product list into a direct response to their situation.</p>
+      <p><strong>Rewrote the check-in questions.</strong> V1's check-ins were slightly awkward ("You see how that would help you know exactly what to say always?"). V2 makes them feel like natural conversation: "Does that make sense for where you're at?" "Can you see why that would move you faster?" These invite a yes without pushing for one.</p>
+      <p><strong>Pillar 3 expanded.</strong> V1 said "my personal number so you can text or call anytime." V2 adds "Progress doesn't wait for the next scheduled call." This one sentence makes the access feel like a real benefit instead of a feature on a list.</p>
+    </div>
+  </div>
+
+  <!-- S10 -->
+  <div class="section" id="s10">
+    <div class="section-header">
+      <span class="section-num">S10</span>
+      <div>
+        <h2>Confirm Fit</h2>
+        <div class="section-sub">Get a verbal commitment to the solution before you reveal price.</div>
+      </div>
+    </div>
+
+    <div class="script">
+      <div class="script-label">Script</div>
+      <div class="q"><span class="q-num">1.</span><span class="q-text">Overall — is it clear how those three things together: custom scripts, weekly one-on-ones, and personal access to me would help you get to [THEIR SPECIFIC GOAL]?</span></div>
+      <div class="q"><span class="q-num">2.</span><span class="q-text">Why specifically? Walk me through that.</span></div>
+    </div>
+
+    <div class="callout callout-amber">
+      <div class="callout-label">V2 Change — Confirm Fit</div>
+      <p><strong>Minor — filled in their specific goal.</strong> V1 said "THEIR ULTIMATE GOAL" as a placeholder. It's worth noting: when you ask this in real life, use the exact dollar amount or outcome they named in Future Pace. "Would help you get to $8K a month so you can leave the job" is a hundred times more powerful than "help you reach your goal."</p>
+      <p><strong>"Walk me through that" sharpened from "Why specifically, though?"</strong> Same intent, slightly more natural. The goal here is to get them to verbalize their own reasons for wanting this — which makes the transition to price feel like a logical next step, not a pressure point.</p>
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">Key Principle</div>
+      <p>Do not skip this section and go straight to price. Section 10 is the verbal handshake before the number lands. If they can clearly articulate why the three pillars would help them, you've reduced the price objection by 70% before it ever comes up.</p>
+    </div>
+  </div>
+
+  <!-- S11A -->
+  <div class="section" id="s11a">
+    <div class="section-header">
+      <span class="section-num">11</span>
+      <div>
+        <h2>Price Reveal</h2>
+        <div class="section-sub">Say it once. Say it with certainty. Then stop talking.</div>
+      </div>
+    </div>
+
+    <div class="script">
+      <div class="script-label">Script</div>
+      <div class="script-line">The investment for the six-month program is $3,000 to get started, and $3,000 once you hit $5,000 in revenue.</div>
+      <div class="script-line" style="margin-top:10px; color:#555; font-style:italic;">— Hold silence. Wait for them to respond. —</div>
+    </div>
+
+    <div class="callout callout-amber">
+      <div class="callout-label">V2 Change — Price Reveal</div>
+      <p><strong>Removed "Are you more of an Amex or Visa kind of guy?"</strong> V1 ended with this assumptive close line. The intent is correct — skip the "are you ready" question and go straight to payment. But the line itself can feel abrupt and slightly gimmicky for a coaching sale where you've just spent 40 minutes building deep trust. Save this for shorter-cycle, lower-ticket offers. For a $6K coaching program, the silence after the number is the close. Let it breathe.</p>
+      <p><strong>Added the silence instruction explicitly.</strong> V1 had no mention of what to do after the price reveal. This is one of the most important moments in the entire call. The person who speaks first after the price is said loses frame. Hold it. Let them react.</p>
+      <p><strong>The milestone pricing structure is strong — keep it.</strong> "$3K to start, $3K when you hit $5K" is a trust signal. It means David only gets fully paid when they get results. That reduces the perceived risk before the prospect even raises an objection.</p>
+    </div>
+  </div>
+
+  <!-- S11B -->
+  <div class="section" id="s11b">
+    <div class="section-header">
+      <span class="section-num">—</span>
+      <div>
+        <h2>Objection Handling</h2>
+        <div class="section-sub">Stay calm. Get curious. Resolve — don't redirect.</div>
+      </div>
+    </div>
+
+    <div class="script">
+      <div class="script-label">If the energy shifts</div>
+      <div class="script-line">"[Name], I feel like the energy shifted a little. Am I wrong, or is there something I'm not seeing?"</div>
+    </div>
+
+    <div class="script" style="margin-top:12px;">
+      <div class="script-label">If they say money</div>
+      <div class="script-line">"I hear you. Is it truly that the money is impossible — or is it more that you're not fully confident yet that this will work for you?"</div>
+      <div class="q-follow" style="padding-left:0; margin-top:8px; font-style:normal; color:#888;">[If they say confidence:] "What would you need to see to feel confident? Let's talk through that."</div>
+      <div class="q-follow" style="padding-left:0; margin-top:4px; font-style:normal; color:#888;">[If it truly is money:] "Okay. Is there a version of getting started that would work for you, or do we need to look at timing?"</div>
+    </div>
+
+    <div class="script" style="margin-top:12px;">
+      <div class="script-label">If they say they need to think about it</div>
+      <div class="script-line">"Of course. What specifically do you feel like you need to think through? Let's just talk about it now."</div>
+    </div>
+
+    <div class="script" style="margin-top:12px;">
+      <div class="script-label">If they say they need to talk to a spouse or partner</div>
+      <div class="script-line">"That makes sense. What do you think their main concern would be? Let's make sure you have everything you need to have that conversation."</div>
+      <div class="q-follow" style="padding-left:0; margin-top:6px; font-style:normal; color:#888;">Then: "Personally — setting them aside for a second — is this something you want to do?"</div>
+    </div>
+
+    <div class="callout callout-amber">
+      <div class="callout-label">V2 Change — Objection Handling</div>
+      <p><strong>Added two new objection paths.</strong> V1 covered energy shift, money, and think-about-it. V2 adds the spouse/partner objection and the branch paths inside the money objection (is it truly impossible, or is it confidence?). The money objection branches are critical because the wrong response to each is different. If they don't have the money at all, talking about confidence doesn't help. If it's a confidence issue, talking about payment plans doesn't help either.</p>
+      <p><strong>Added resolution branches inside "think about it."</strong> "Let's just talk about it now" is the move. In V1, the line ended after "What specifically do you feel like you need to think through?" V2 adds "Let's just talk about it now." This is a gentle frame reassertion — the answer isn't to give them time, it's to remove the thing blocking them.</p>
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">Key Principle</div>
+      <p>The objection stage should feel like home. If it feels urgent or pressured, the emotional contract wasn't fully signed before pitch. Stay calm, stay curious. A prospect who feels chased will pull back. A prospect who feels understood will move forward.</p>
+    </div>
+  </div>
+
+  <!-- S12 -->
+  <div class="section" id="s12">
+    <div class="section-header">
+      <span class="section-num">12</span>
+      <div>
+        <h2>Close</h2>
+        <div class="section-sub">Help them commit to the decision they already said they wanted.</div>
+      </div>
+    </div>
+
+    <div class="script">
+      <div class="script-label">Script</div>
+      <div class="script-line">"Based on what you told me, this is exactly the problem you said you wanted to solve. You said [their specific cost of inaction]. You said staying where you are isn't actually an option. And you said getting to [their specific goal] would mean [their specific why]."</div>
+      <div class="script-line" style="margin-top:10px;">"The only thing left is getting started. Let's take care of that now."</div>
+    </div>
+
+    <div class="callout callout-amber">
+      <div class="callout-label">V2 Change — Close</div>
+      <p><strong>Made the callback specific.</strong> V1 said "this is the exact problem you said you wanted to solve." V2 says "you said [their specific cost of inaction]" and "you said getting to [their specific goal] would mean [their specific why]." The close should reference the three most emotionally significant things they said on the call. This isn't manipulation — it's reminding them of their own words and their own decision.</p>
+      <p><strong>Left the core principle from V1 untouched.</strong> "They are not just committing to the program. They are committing to the new version of themselves." This is correct and important. That's what the close is about.</p>
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">Key Principle</div>
+      <p>After "let's take care of that now" — silence. Do not add another sentence. Do not soften it. Do not explain anything further. They have enough information. Give them space to say yes.</p>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const link = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -75% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
