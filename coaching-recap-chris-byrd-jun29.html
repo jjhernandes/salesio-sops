@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Coaching Recap — Chris Byrd | June 29</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0d0d; --bg2: #141414; --bg3: #1a1a1a; --bg4: #222;
+      --white: #f5f5f0; --muted: #555; --muted2: #2a2a2a;
+      --tapioca: #e2cfa8; --tapioca-d: #c9b490;
+      --green: #4ade80; --green-bg: rgba(74,222,128,0.07);
+      --red: #f87171; --red-bg: rgba(248,113,113,0.08);
+      --amber: #fbbf24; --amber-bg: rgba(251,191,36,0.07);
+      --blue: #60a5fa; --blue-bg: rgba(96,165,250,0.07);
+      --sidebar: 240px;
+    }
+    html { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--white); font-size: 14px; line-height: 1.6; }
+    body { display: flex; min-height: 100vh; }
+
+    .sidebar {
+      width: var(--sidebar); flex-shrink: 0; background: var(--bg2);
+      border-right: 1px solid var(--muted2); position: fixed; top: 0; left: 0;
+      height: 100vh; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 22px 18px 14px; border-bottom: 1px solid var(--muted2); }
+    .sidebar-wordmark { font-size: 15px; font-weight: 900; letter-spacing: -0.5px; }
+    .sidebar-wordmark span { color: var(--tapioca); }
+    .sidebar-sub { font-size: 10px; color: var(--muted); margin-top: 3px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+    .sidebar-nav { padding: 14px 0; }
+    .nav-group { padding: 4px 16px 3px; font-size: 9px; font-weight: 800; color: #333; letter-spacing: 1.5px; text-transform: uppercase; margin-top: 10px; }
+    .nav-link {
+      display: block; padding: 6px 18px; font-size: 12px; font-weight: 500;
+      color: var(--muted); text-decoration: none;
+      border-left: 2px solid transparent; transition: all 0.1s;
+    }
+    .nav-link:hover { color: var(--white); background: var(--bg3); }
+    .nav-link.active { color: var(--white); border-left-color: var(--tapioca); background: var(--bg3); }
+
+    .main { margin-left: var(--sidebar); flex: 1; padding: 48px 52px 100px; max-width: 780px; }
+
+    .hero { margin-bottom: 36px; }
+    .hero-tag { font-size: 10px; font-weight: 800; color: var(--tapioca); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
+    h1 { font-size: 28px; font-weight: 900; letter-spacing: -1px; color: var(--white); line-height: 1.2; }
+    h1 span { color: var(--tapioca); }
+    .hero-meta { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+    .meta-pill { font-size: 11px; font-weight: 600; color: var(--muted); background: var(--bg3); border: 1px solid var(--muted2); padding: 4px 10px; border-radius: 20px; }
+
+    .section { scroll-margin-top: 28px; margin-bottom: 44px; }
+    h2 { font-size: 16px; font-weight: 800; color: var(--white); margin-bottom: 14px; letter-spacing: -0.2px; }
+    p { color: #999; line-height: 1.75; font-size: 13.5px; margin-bottom: 12px; }
+    p strong { color: var(--white); }
+    p:last-child { margin-bottom: 0; }
+
+    .callout { border-radius: 7px; padding: 14px 18px; margin: 12px 0; border-left: 3px solid; }
+    .callout-tapioca { background: rgba(226,207,168,0.06); border-color: var(--tapioca); }
+    .callout-green { background: var(--green-bg); border-color: var(--green); }
+    .callout-red { background: var(--red-bg); border-color: var(--red); }
+    .callout-amber { background: var(--amber-bg); border-color: var(--amber); }
+    .callout-blue { background: var(--blue-bg); border-color: var(--blue); }
+    .callout-label { font-size: 9px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 5px; }
+    .callout-tapioca .callout-label { color: var(--tapioca); }
+    .callout-green .callout-label { color: var(--green); }
+    .callout-red .callout-label { color: var(--red); }
+    .callout-amber .callout-label { color: var(--amber); }
+    .callout-blue .callout-label { color: var(--blue); }
+    .callout p { color: #bbb; margin: 0; font-size: 13px; line-height: 1.7; }
+    .callout p + p { margin-top: 6px; }
+    .callout p strong { color: var(--white); }
+
+    .quote { background: var(--bg3); border-left: 3px solid var(--muted2); padding: 12px 16px; border-radius: 0 6px 6px 0; margin: 12px 0; }
+    .quote-text { font-size: 13px; color: #aaa; font-style: italic; line-height: 1.7; }
+    .quote-attr { font-size: 10px; color: #444; font-weight: 700; margin-top: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* ANTI-FRAGILITY DIAGRAM */
+    .af-flow { display: flex; align-items: flex-start; gap: 0; margin: 18px 0; overflow-x: auto; }
+    .af-step { background: var(--bg3); border: 1px solid var(--muted2); border-radius: 7px; padding: 14px 16px; min-width: 130px; flex: 1; }
+    .af-arrow { display: flex; align-items: center; padding: 0 8px; color: #333; font-size: 18px; flex-shrink: 0; padding-top: 14px; }
+    .af-num { font-size: 9px; font-weight: 900; color: var(--tapioca); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .af-title { font-size: 12px; font-weight: 800; color: var(--white); margin-bottom: 4px; }
+    .af-desc { font-size: 11px; color: #666; line-height: 1.5; }
+    .af-sub { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+    .af-tag { font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 3px; background: rgba(226,207,168,0.1); color: var(--tapioca); }
+
+    ul.clean-list { padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    ul.clean-list li { font-size: 13px; color: #999; padding-left: 18px; position: relative; line-height: 1.65; }
+    ul.clean-list li::before { content: "—"; position: absolute; left: 0; color: #333; }
+    ul.clean-list li strong { color: var(--white); }
+
+    .action-card { background: var(--bg2); border: 1px solid var(--muted2); border-radius: 8px; padding: 14px 16px; margin-bottom: 8px; display: flex; gap: 12px; align-items: flex-start; }
+    .action-num { width: 22px; height: 22px; background: var(--tapioca); color: #1a1a1a; border-radius: 4px; font-size: 10px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .action-body { flex: 1; }
+    .action-title { font-size: 13px; font-weight: 700; color: var(--white); line-height: 1.4; }
+    .action-desc { font-size: 12px; color: #666; margin-top: 3px; line-height: 1.55; }
+
+    .insight-row { background: var(--bg3); border: 1px solid var(--muted2); border-radius: 7px; padding: 14px 16px; margin-bottom: 8px; }
+    .insight-label { font-size: 9px; font-weight: 900; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; }
+    .insight-text { font-size: 13px; color: #ccc; line-height: 1.65; }
+    .insight-text strong { color: var(--tapioca); }
+
+    .divider { height: 1px; background: var(--muted2); margin: 36px 0; }
+
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 28px 18px; }
+      .af-flow { flex-direction: column; }
+      .af-arrow { transform: rotate(90deg); padding: 4px 0; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-wordmark">Sales<span>.</span>io</div>
+    <div class="sidebar-sub">Coaching Recap</div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-group">Session</div>
+    <a class="nav-link active" href="#overview">Overview</a>
+    <a class="nav-link" href="#checkin">Check-In</a>
+    <a class="nav-link" href="#curriculum">Week 2 Reflections</a>
+    <div class="nav-group">Concepts</div>
+    <a class="nav-link" href="#trigger">What Brings Him Down</a>
+    <a class="nav-link" href="#antifragility">Anti-Fragility System</a>
+    <a class="nav-link" href="#goals">Goals & Vehicle</a>
+    <div class="nav-group">Next Steps</div>
+    <a class="nav-link" href="#actions">Action Items</a>
+  </div>
+</nav>
+
+<main class="main">
+
+  <div class="hero" id="overview">
+    <div class="hero-tag">Coaching Recap</div>
+    <h1>Chris Byrd<br><span>June 29, 2026</span></h1>
+    <div class="hero-meta">
+      <span class="meta-pill">Week 2</span>
+      <span class="meta-pill">Identity + Anti-Fragility</span>
+      <span class="meta-pill">~27 min</span>
+    </div>
+  </div>
+
+  <div class="callout callout-tapioca">
+    <div class="callout-label">Session Summary</div>
+    <p>Chris came in feeling clear — the North Star exercise from last week landed. Session covered his personal evolution from push/negative-fuel motivation toward operating at higher consciousness, the Anti-Fragility System (from JJ's SpaceX-connected mentor), his $160K/year target, and why belief is going to be the core variable for him. Ended with a clear action: browse the job board and save opportunities before next week.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- CHECK-IN -->
+  <div class="section" id="checkin">
+    <h2>Check-In</h2>
+    <p>Chris opened with: <strong>"I feel clear."</strong> The North Star exercise from last week worked. He's now looking at things through JJ's lens — understanding what's bringing him up and down, and seeing things differently.</p>
+
+    <p>He shared something personal about his arc. At 15–17, he went through mental health challenges and family difficulties. He found Eric Thomas and Tony Robbins, which gave him a new lens — "you can do this, you're good enough" — when nobody in his environment was saying that. The gift: it renewed his mind. The curse: he was in an environment that contradicted everything he was learning, and Tony Robbins' "change your state instantly" framework masked the fact that deeper limiting beliefs weren't being addressed yet.</p>
+
+    <p>Over time, he shifted to running on <strong>negative fuel</strong> — Hormozi-style, "if it's the right thing to do, just do it." Useful fuel. Gets things done.</p>
+
+    <div class="callout callout-green">
+      <div class="callout-label">The Shift</div>
+      <p>Chris is now consciously choosing to step back into operating from a higher state. He said: "The quality of how you perceive everything is going to affect everything drastically." He's not abandoning push motivation — he's adding pull motivation on top of it and targeting Willingness and above as his new operating floor.</p>
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">JJ's Framing</div>
+      <p>Push motivation is real and not wrong. Michael Jordan, Kobe, Hormozi — all ran on anger/desire at their peak. The pull (operating from Love and Reason) develops over time through experience, not by snapping your fingers. <strong>Something shifts — a life event, a realization — and then you can't operate the old way anymore.</strong> That's a natural evolution, not a failure of the previous approach.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- WEEK 2 CURRICULUM -->
+  <div class="section" id="curriculum">
+    <h2>Week 2 Curriculum Reflections</h2>
+
+    <div class="insight-row">
+      <div class="insight-label">Fathom</div>
+      <div class="insight-text">Chris is excited about using Fathom for transcript review. He wants to be able to run through calls and assess what was good, what wasn't — from a transcript POV. Tool for self-coaching and feedback loops.</div>
+    </div>
+
+    <div class="insight-row">
+      <div class="insight-label">Who you are in sales is who you are out of sales — the triangle</div>
+      <div class="insight-text">This one landed hard for Chris. He's been applying the triangle (Be → Observe → Communicate) across everything — not just for sales, but as a general operating framework. His takeaway: <strong>"All communication is learned through pattern recognition — through trial and error and feedback loops. I don't need to focus on what to say. I need to focus on who I am and what I'm observing, then attempt my communication from that."</strong></div>
+    </div>
+
+    <div class="quote">
+      <div class="quote-text">"I don't necessarily need to focus on what I need to say, but I need to focus on who I am, what am I observing, and then attempt from my communication off of that."</div>
+      <div class="quote-attr">Chris — applying the Week 2 triangle</div>
+    </div>
+
+    <p>No confusion on Week 2 content. He absorbed it well and is already applying it outside of sales context, which is exactly the right signal.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- TRIGGER -->
+  <div class="section" id="trigger">
+    <h2>What Brings Him Down</h2>
+    <p>Chris got clear on this since last week. He hadn't had a precise answer before — now he does.</p>
+
+    <div class="callout callout-amber">
+      <div class="callout-label">The Trigger</div>
+      <p><strong>"If I'm going through a day and I feel like I'm overwhelmed, or like I can't achieve everything in the day — that's what draws me down. And then I'll fall into a place of hesitation."</strong></p>
+      <p>Not money. Not comparison. Overwhelm → hesitation. When the day feels like too much to complete, he stalls. The response is to fall into a when-then fallacy.</p>
+    </div>
+
+    <div class="callout callout-red">
+      <div class="callout-label">When-Then Fallacy</div>
+      <p>Chris identified this pattern himself this week. He'll set a goal, then lock himself into conditional thinking: "When I do this, then I'll do this... when this happens, then this will happen." It's a delay mechanism dressed as a plan. The North Star exercise broke this — it forces the question: <strong>what's the best next step?</strong> Not "what needs to be true first."</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ANTI-FRAGILITY -->
+  <div class="section" id="antifragility">
+    <h2>Anti-Fragility System</h2>
+    <p>JJ introduced this framework — originally from a mentor who worked with Elon Musk, taught inside SpaceX. It used to be in the curriculum, now delivered 1-on-1 because the conceptual guidance makes it land better.</p>
+    <p><strong>Core purpose:</strong> Make you less fragile when things don't go perfectly. Most people set a goal, assume success, and when failure happens, take it personally. This system pre-loads failure into the plan so it stops being threatening.</p>
+
+    <div class="af-flow">
+      <div class="af-step">
+        <div class="af-num">Step 1</div>
+        <div class="af-title">Desired Outcome</div>
+        <div class="af-desc">Define the specific goal. Not vague — specific. What does the win look like?</div>
+      </div>
+      <div class="af-arrow">→</div>
+      <div class="af-step">
+        <div class="af-num">Step 2</div>
+        <div class="af-title">Failure Envisioned</div>
+        <div class="af-desc">Pre-mortem. What's the most likely version of "not quite there"? Not zero — just short of the outcome.</div>
+      </div>
+      <div class="af-arrow">→</div>
+      <div class="af-step">
+        <div class="af-num">Step 3</div>
+        <div class="af-title">Process</div>
+        <div class="af-desc">Move with all available inputs until you hit a breaking point.</div>
+        <div class="af-sub">
+          <span class="af-tag">Resources</span>
+          <span class="af-tag">Initiation</span>
+          <span class="af-tag">Speed</span>
+        </div>
+      </div>
+      <div class="af-arrow">→</div>
+      <div class="af-step">
+        <div class="af-num">Step 4</div>
+        <div class="af-title">Failure Confirmed</div>
+        <div class="af-desc">Hit the breaking point. Evaluate what happened. Iterate and go back to Step 1 with new information.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-tapioca">
+      <div class="callout-label">Applied to Chris — Landing a Role</div>
+      <p><strong>Desired outcome:</strong> Land a role within the next month that fits his $160K/year earnings target.</p>
+      <p><strong>Failure envisioned:</strong> Getting stuck in the interview stage, or getting an offer that doesn't align with earnings goals.</p>
+      <p><strong>Process:</strong> Use Sales.io resources (Loom framework, interview prep, job board). Take initiative. Move fast — apply to as many aligned opportunities as possible.</p>
+      <p><strong>Breaking point / failure confirmed:</strong> If after a round of applications he hasn't landed something, assess what broke down and iterate — adjust approach, not identity.</p>
+    </div>
+
+    <p>Chris connected this to Charlie Munger's inversion model ("what's everything that could go wrong?"). JJ affirmed the comparison — same core logic, but the Anti-Fragility System makes it actionable with a clear loop.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- GOALS & VEHICLE -->
+  <div class="section" id="goals">
+    <h2>Goals & Vehicle</h2>
+
+    <ul class="clean-list" style="margin-bottom:18px;">
+      <li><strong>North Star target:</strong> $160,000/year</li>
+      <li><strong>Path:</strong> Land a closing role on a high-ticket or strong-commission offer — let the vehicle determine the mechanics</li>
+      <li><strong>Aspirational math Chris ran:</strong> 240 opportunities/month × 30% close × $1,200 commission = significant monthly earnings. JJ's note: the math varies wildly by company — don't fixate on it. The vehicle will dictate the math, not the other way around.</li>
+    </ul>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">JJ's Framing on Vehicle Selection</div>
+      <p>The vehicle matters more than the math. JJ knows people doing $100K/month with 40 reps and people doing the same with 2. Don't over-engineer the numbers before landing — the interview process will reveal what's real. Chris has sales experience. JJ isn't worried about him landing; the skill is there. Week 3 will cover how to apply, what to look for, and how to evaluate opportunities correctly.</p>
+    </div>
+
+    <div class="callout callout-amber">
+      <div class="callout-label">Why He Hasn't Applied Yet</div>
+      <p>Chris was honest: it's fear-based. He wanted to have the right perspective and supporting framework before going out. JJ's take: that's fine for week 1, but it's also the when-then fallacy in action. <strong>"When I have enough preparation, then I'll apply."</strong> The Anti-Fragility System exists exactly for this — apply, hit a breaking point, iterate. You don't need to be perfect before initiating.</p>
+    </div>
+
+    <div class="callout callout-green">
+      <div class="callout-label">Chris's Core Variable</div>
+      <p>"With me, it's always going to come down to belief. You can't sell something you don't believe in." JJ agreed 100%. For Chris, this means the right role isn't just about money or company size — it has to be something he can genuinely stand behind. That belief piece will be the multiplier when everything else is in place.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ACTION ITEMS -->
+  <div class="section" id="actions">
+    <h2>Action Items</h2>
+
+    <div class="action-card">
+      <div class="action-num">1</div>
+      <div class="action-body">
+        <div class="action-title">Browse the job board and save opportunities</div>
+        <div class="action-desc">Go through the Sales.io job board before next week. Save anything that looks interesting or aligned. This gives JJ something to review and creates a head start on Week 3 (roles + applications). Don't wait for everything to be perfect before looking.</div>
+      </div>
+    </div>
+
+    <div class="action-card">
+      <div class="action-num">2</div>
+      <div class="action-body">
+        <div class="action-title">Start using Fathom on calls</div>
+        <div class="action-desc">Chris is already excited about this. Begin recording and reviewing call transcripts using Fathom. Self-review loop: what was good, what wasn't, against the curriculum framework.</div>
+      </div>
+    </div>
+
+    <div class="action-card">
+      <div class="action-num">3</div>
+      <div class="action-body">
+        <div class="action-title">Apply the Anti-Fragility framework to your goal</div>
+        <div class="action-desc">Write out your version of the system for landing a role: desired outcome, failure envisioned, process breakdown (resources → initiation → speed), and what failure confirmed looks like. Having it written makes the breaking point less threatening when it arrives.</div>
+      </div>
+    </div>
+
+    <div class="action-card">
+      <div class="action-num">4</div>
+      <div class="action-body">
+        <div class="action-title">Watch the extra video JJ offered (removed from Week 2 curriculum)</div>
+        <div class="action-desc">JJ mentioned a concept he pulled from the Week 2 curriculum but offered as optional extra material. He'll share access. Worth watching given how well Chris absorbed Week 2.</div>
+      </div>
+    </div>
+
+    <div class="action-card">
+      <div class="action-num">5</div>
+      <div class="action-body">
+        <div class="action-title">Week 3 — Roles, applications, and interview framework</div>
+        <div class="action-desc">Next session will cover how to apply, what to look for in opportunities, and how to evaluate offers. JJ may also connect Chris directly with a role before then if something aligns.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section">
+    <h2>Next Session</h2>
+    <p>Next week. Week 3 focus: roles, job board strategy, application process, how to evaluate and vet opportunities. JJ will have video resources ready on how to apply and what to look for. If a direct connection comes up before then, JJ will reach out.</p>
+  </div>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const link = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -75% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
