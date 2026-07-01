@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ATX Global — Discovery Call Quick Reference</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0a; --bg2: #111; --bg3: #161616; --bg4: #1e1e1e;
+      --white: #f5f5f0; --muted: #444; --muted2: #222;
+      --gold: #f5c518; --gold-dim: rgba(245,197,24,0.12);
+      --green: #4ade80; --green-bg: rgba(74,222,128,0.08);
+      --red: #f87171; --red-bg: rgba(248,113,113,0.08);
+      --blue: #60a5fa; --blue-bg: rgba(96,165,250,0.08);
+      --sidebar: 210px;
+    }
+    html { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--white); font-size: 13.5px; line-height: 1.55; scroll-behavior: smooth; }
+    body { display: flex; min-height: 100vh; }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: var(--sidebar); flex-shrink: 0; background: var(--bg2);
+      border-right: 1px solid var(--muted2); position: fixed;
+      top: 0; left: 0; height: 100vh; overflow-y: auto;
+    }
+    .sidebar-logo { padding: 20px 16px 14px; border-bottom: 1px solid var(--muted2); }
+    .logo-text { font-size: 13px; font-weight: 900; letter-spacing: 1px; color: var(--gold); text-transform: uppercase; }
+    .logo-sub { font-size: 9px; color: var(--muted); margin-top: 2px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+    .sidebar-nav { padding: 10px 0 20px; }
+    .nav-section { padding: 12px 14px 2px; font-size: 8.5px; font-weight: 900; color: #2a2a2a; letter-spacing: 1.5px; text-transform: uppercase; }
+    .nav-link {
+      display: flex; align-items: center; gap: 8px;
+      padding: 5px 16px; font-size: 11.5px; font-weight: 500;
+      color: var(--muted); text-decoration: none;
+      border-left: 2px solid transparent; transition: all 0.1s;
+    }
+    .nav-link:hover { color: var(--white); }
+    .nav-link.active { color: var(--white); border-left-color: var(--gold); background: var(--gold-dim); }
+    .nav-time { font-size: 9px; font-weight: 700; color: #2e2e2e; margin-left: auto; }
+    .nav-link.active .nav-time { color: #666; }
+
+    /* MAIN */
+    .main { margin-left: var(--sidebar); flex: 1; padding: 40px 48px 100px; max-width: 820px; }
+
+    /* HEADER */
+    .page-header { margin-bottom: 28px; }
+    .page-tag { font-size: 9px; font-weight: 900; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+    h1 { font-size: 24px; font-weight: 900; letter-spacing: -0.5px; color: var(--white); }
+
+    /* NON-NEGOTIABLES */
+    .rules-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 18px 0 30px; }
+    .rule { background: var(--gold-dim); border: 1px solid rgba(245,197,24,0.2); border-radius: 7px; padding: 12px 14px; }
+    .rule-label { font-size: 8.5px; font-weight: 900; color: var(--gold); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+    .rule-text { font-size: 12px; font-weight: 600; color: var(--white); line-height: 1.4; }
+
+    /* TIMELINE */
+    .timeline { display: flex; align-items: stretch; gap: 0; margin-bottom: 36px; background: var(--bg2); border: 1px solid var(--muted2); border-radius: 8px; overflow: hidden; }
+    .tl-step { flex: 1; padding: 10px 10px 10px; border-right: 1px solid var(--muted2); min-width: 0; }
+    .tl-step:last-child { border-right: none; }
+    .tl-num { font-size: 8px; font-weight: 900; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .tl-name { font-size: 10px; font-weight: 700; color: var(--white); margin-top: 2px; line-height: 1.3; }
+    .tl-time { font-size: 9px; color: var(--gold); font-weight: 700; margin-top: 3px; }
+
+    /* SECTIONS */
+    .section { scroll-margin-top: 24px; margin-bottom: 32px; }
+    .section-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--muted2); }
+    .section-num { font-size: 9px; font-weight: 900; color: var(--gold); letter-spacing: 1px; text-transform: uppercase; }
+    h2 { font-size: 15px; font-weight: 800; color: var(--white); flex: 1; }
+    .section-time { font-size: 10px; font-weight: 700; color: var(--muted); background: var(--bg3); padding: 3px 9px; border-radius: 4px; flex-shrink: 0; }
+
+    /* PURPOSE BAR */
+    .purpose { font-size: 12px; color: #777; margin-bottom: 14px; font-style: italic; line-height: 1.55; }
+    .purpose strong { color: #aaa; font-style: normal; }
+
+    /* GRID */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+    .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+
+    /* CARD */
+    .card { background: var(--bg3); border: 1px solid var(--muted2); border-radius: 7px; padding: 12px 14px; }
+    .card-label { font-size: 8.5px; font-weight: 900; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    .card p { font-size: 12px; color: #888; line-height: 1.6; margin: 0; }
+    .card p + p { margin-top: 6px; }
+    .card p strong { color: #ccc; }
+
+    /* SCRIPT */
+    .script { background: var(--bg3); border-left: 3px solid var(--gold); padding: 12px 16px; border-radius: 0 6px 6px 0; margin: 10px 0; }
+    .script-label { font-size: 8.5px; font-weight: 900; color: var(--gold); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    .script p { font-size: 12px; color: #ccc; line-height: 1.7; font-style: italic; margin: 0; }
+    .script p + p { margin-top: 6px; }
+    .script p strong { color: var(--white); font-style: normal; }
+
+    /* CALLOUT */
+    .callout { border-radius: 6px; padding: 11px 14px; margin: 10px 0; border-left: 3px solid; }
+    .callout-red { background: var(--red-bg); border-color: var(--red); }
+    .callout-green { background: var(--green-bg); border-color: var(--green); }
+    .callout-blue { background: var(--blue-bg); border-color: var(--blue); }
+    .callout-label { font-size: 8.5px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; }
+    .callout-red .callout-label { color: var(--red); }
+    .callout-green .callout-label { color: var(--green); }
+    .callout-blue .callout-label { color: var(--blue); }
+    .callout p { font-size: 12px; color: #aaa; margin: 0; line-height: 1.6; }
+    .callout p strong { color: var(--white); }
+
+    /* Q LIST */
+    .q-list { display: flex; flex-direction: column; gap: 8px; margin: 10px 0; }
+    .q-item { background: var(--bg3); border: 1px solid var(--muted2); border-radius: 6px; padding: 10px 14px; display: flex; gap: 10px; }
+    .q-badge { width: 20px; height: 20px; background: var(--gold); color: #000; border-radius: 3px; font-size: 9px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .q-body { flex: 1; }
+    .q-text { font-size: 12px; color: #ccc; font-style: italic; line-height: 1.55; }
+    .q-note { font-size: 11px; color: #555; margin-top: 4px; line-height: 1.45; }
+
+    /* CHECKLIST */
+    .checklist { display: flex; flex-direction: column; gap: 6px; margin: 10px 0; }
+    .check-item { display: flex; align-items: flex-start; gap: 10px; padding: 9px 12px; background: var(--bg3); border: 1px solid var(--muted2); border-radius: 5px; }
+    .check-box { width: 16px; height: 16px; border: 2px solid var(--muted); border-radius: 3px; flex-shrink: 0; margin-top: 1px; }
+    .check-text { font-size: 12px; color: #999; line-height: 1.45; }
+    .check-text strong { color: var(--white); }
+
+    /* DIVIDER */
+    .divider { height: 1px; background: var(--muted2); margin: 28px 0; }
+
+    @media (max-width: 820px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 24px 18px; }
+      .two-col, .three-col, .rules-bar { grid-template-columns: 1fr; }
+      .timeline { flex-wrap: wrap; }
+      .tl-step { min-width: 45%; border-bottom: 1px solid var(--muted2); }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-text">ATX Global</div>
+    <div class="logo-sub">Discovery Call — Call 1</div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-section">Before the Call</div>
+    <a class="nav-link active" href="#prep">Pre-Call Prep <span class="nav-time">5 min</span></a>
+    <div class="nav-section">On the Call</div>
+    <a class="nav-link" href="#open">Open & Frame <span class="nav-time">3–4 min</span></a>
+    <a class="nav-link" href="#qualify">Quick Qualify <span class="nav-time">4–5 min</span></a>
+    <a class="nav-link" href="#discovery">Discovery <span class="nav-time">10–12 min</span></a>
+    <a class="nav-link" href="#problem">Build the Problem <span class="nav-time">4–5 min</span></a>
+    <a class="nav-link" href="#valuation">Plant Valuation Concept <span class="nav-time">2–3 min</span></a>
+    <a class="nav-link" href="#inaction">Cost of Inaction <span class="nav-time">2 min</span></a>
+    <a class="nav-link" href="#credibility">Credibility <span class="nav-time">30 sec</span></a>
+    <a class="nav-link" href="#close">Frame Video + Book <span class="nav-time">4 min</span></a>
+    <div class="nav-section">After the Call</div>
+    <a class="nav-link" href="#postcall">Post-Call Checklist</a>
+  </div>
+</nav>
+
+<main class="main">
+
+  <div class="page-header" id="top">
+    <div class="page-tag">ATX Global</div>
+    <h1>Discovery Call — Quick Reference</h1>
+  </div>
+
+  <div class="rules-bar">
+    <div class="rule">
+      <div class="rule-label">You talk</div>
+      <div class="rule-text">Less than 30% of the call</div>
+    </div>
+    <div class="rule">
+      <div class="rule-label">Goal</div>
+      <div class="rule-text">Call 2 booked before they leave</div>
+    </div>
+    <div class="rule">
+      <div class="rule-label">After</div>
+      <div class="rule-text">Video on WhatsApp within 30 min</div>
+    </div>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-step"><div class="tl-num">S1</div><div class="tl-name">Open & Frame</div><div class="tl-time">3–4m</div></div>
+    <div class="tl-step"><div class="tl-num">S2</div><div class="tl-name">Quick Qualify</div><div class="tl-time">4–5m</div></div>
+    <div class="tl-step"><div class="tl-num">S3</div><div class="tl-name">Discovery</div><div class="tl-time">10–12m</div></div>
+    <div class="tl-step"><div class="tl-num">S4</div><div class="tl-name">Build Problem</div><div class="tl-time">4–5m</div></div>
+    <div class="tl-step"><div class="tl-num">S5</div><div class="tl-name">Valuation Plant</div><div class="tl-time">2–3m</div></div>
+    <div class="tl-step"><div class="tl-num">S6</div><div class="tl-name">Cost of Inaction</div><div class="tl-time">2m</div></div>
+    <div class="tl-step"><div class="tl-num">S7</div><div class="tl-name">Credibility</div><div class="tl-time">30s</div></div>
+    <div class="tl-step" style="border-right:none"><div class="tl-num">S8</div><div class="tl-name">Book Call 2</div><div class="tl-time">4m</div></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PRE-CALL -->
+  <div class="section" id="prep">
+    <div class="section-header">
+      <span class="section-num">Pre-Call</span>
+      <h2>Preparation</h2>
+      <span class="section-time">5 min</span>
+    </div>
+    <div class="purpose">Read their form. Note their capital range, timeline, and <strong>free text field</strong> — that's what's on their mind walking in. Build the opening around it.</div>
+
+    <div class="three-col">
+      <div class="card">
+        <div class="card-label">Capital + Timeline</div>
+        <p><strong>£250k–350k, 6–12mo:</strong> Low urgency. Cost of inaction is your key tool.</p>
+        <p><strong>£500k+, "as soon as right oppy":</strong> Fast mover. Remove blockers, don't manage the journey.</p>
+        <p><strong>£1M+, any timeline:</strong> Sophisticated. Skip basics. Depth, specificity, honest on risk.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Free Text Field</div>
+        <p>Most important field on the form. If they wrote something specific, address it proactively — don't wait for them to raise it.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Day-of WhatsApp</div>
+        <p>"Hi [Name], looking forward to speaking [day]. I've had a look at what you shared — is there anything specific on your mind going in? Happy to know in advance."</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- OPEN & FRAME -->
+  <div class="section" id="open">
+    <div class="section-header">
+      <span class="section-num">Section 1</span>
+      <h2>Open & Frame</h2>
+      <span class="section-time">3–4 min</span>
+    </div>
+    <div class="purpose">You talk for 90 seconds max. Make them feel they're in a <strong>consultation, not a sales call</strong> within the first 60 seconds.</div>
+
+    <div class="script">
+      <div class="script-label">Opening Frame</div>
+      <p>"[Name], good to meet you properly. I've already had a look at what you shared so I've got some context going in. I'm not going to walk you through the product today — you've already watched the video. What I don't have yet is your situation. The opportunity I bring you on the second call needs to be built around what you've told me specifically, not a generic deal I'd show anyone. So I'd like to spend most of this call understanding where you're at and what's most important to you. Then I'll tell you honestly whether we have something that fits. <strong>Does that work for you?</strong>"</p>
+    </div>
+
+    <div class="callout callout-green">
+      <div class="callout-label">Wait for the yes. Then immediately:</div>
+      <p>"One thing I noticed from what you wrote — <strong>[specific reference from their Q5 or investor type]</strong>. I want to make sure we cover that properly before we're done."</p>
+    </div>
+
+    <div class="script">
+      <div class="script-label">Brokerage Disclosure (10 seconds — deliver before moving on)</div>
+      <p>"Just so you know upfront — we earn from the seller when a transaction completes. You pay nothing and your capital goes directly through your solicitor."</p>
+    </div>
+
+    <div class="callout callout-red">
+      <div class="callout-label">Avoid in the first 90 seconds</div>
+      <p>Describing ATX. Repeating the VSL. Asking more than one question before they've spoken. Moving toward the product.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- QUICK QUALIFY -->
+  <div class="section" id="qualify">
+    <div class="section-header">
+      <span class="section-num">Section 2</span>
+      <h2>Quick Qualify</h2>
+      <span class="section-time">4–5 min</span>
+    </div>
+    <div class="purpose">5 questions in conversation, not interrogation. Reference form answers — don't re-ask what they already told you.</div>
+
+    <div class="q-list">
+      <div class="q-item">
+        <div class="q-badge">1</div>
+        <div class="q-body">
+          <div class="q-text">"You've mentioned capital ready to deploy — without the exact figure, can you tell me where it's sitting right now? Liquid cash, tied to a sale coming up, retained profits?"</div>
+          <div class="q-note">Listen for: genuinely liquid or does a step need to happen first? If idle: "How long has it been sitting there?" — sets up cost of inaction.</div>
+        </div>
+      </div>
+      <div class="q-item">
+        <div class="q-badge">2</div>
+        <div class="q-body">
+          <div class="q-text">"What prompted you to look at this specifically now? Something that's been on your mind, or did something shift recently?"</div>
+          <div class="q-note">Note their answer word for word. This is the emotional driver. You'll echo it back before booking Call 2.</div>
+        </div>
+      </div>
+      <div class="q-item">
+        <div class="q-badge">3</div>
+        <div class="q-body">
+          <div class="q-text">"How are you looking to hold the investment — personal name, limited company, or is that something you'd want guidance on?"</div>
+          <div class="q-note">Don't turn into a tax conversation. Note it, acknowledge, move on. Pension structure → flag for Call 2.</div>
+        </div>
+      </div>
+      <div class="q-item">
+        <div class="q-badge">4</div>
+        <div class="q-body">
+          <div class="q-text">"Who else tends to be part of a decision at this level — partner, accountant, financial advisor, or do you make these independently?"</div>
+          <div class="q-note">If partner: "Do they want to be across the detail, or are you usually the one who researches and brings a recommendation?" If accountant: "Are they broadly supportive of alternatives to conventional property?" Supportive accountant = accelerator. Sceptical one = silent deal-killer.</div>
+        </div>
+      </div>
+      <div class="q-item">
+        <div class="q-badge">5</div>
+        <div class="q-body">
+          <div class="q-text">"Have you looked at anything like this before, or spoken to anyone else offering this kind of structure? How did that go?"</div>
+          <div class="q-note">Tells you: baseline knowledge, what's already let them down, objections already formed.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="script">
+      <div class="script-label">Echo Back Before Moving On</div>
+      <p>"Let me just make sure I've got the picture right. You've got [capital context], it's been [sitting/just freed up/tied to X]. The thing that's brought this into focus is [their trigger]. You're [structure]. And [decision circle]. Have I got that right?"</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- DISCOVERY -->
+  <div class="section" id="discovery">
+    <div class="section-header">
+      <span class="section-num">Section 3</span>
+      <h2>Discovery</h2>
+      <span class="section-time">10–12 min</span>
+    </div>
+    <div class="purpose">You talk less than 20%. Take notes in <strong>their exact words</strong> — not paraphrased. Four things to fully understand: capital situation, BTL reality, goal beyond numbers, monthly income figure.</div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-label">Movement 1 — Business & Capital</div>
+        <p>"Tell me a bit about the business — what do you do, how long have you been running it, how has the last couple of years been?"</p>
+        <p style="margin-top:8px;">Then: "Where is the capital sitting? What is it doing for you while you've been looking at options?"</p>
+        <p style="margin-top:8px; color:#555;">If they seem uncertain about returns: "Do you know what it's actually generating on an annualised basis?" Most don't. That moment surfaces cost of inaction without you saying a word.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Movement 2 — BTL Portfolio</div>
+        <p>"Walk me through the portfolio — how many properties, how it's structured, and honestly how it's performing compared to what you originally expected."</p>
+        <p style="margin-top:8px;">Follow up: "What does managing it actually cost you in time and mental load — not just hours, but headspace?"</p>
+        <p style="margin-top:8px;">Find the worst experience: "What's the single worst experience you've had? The thing that most made you think this is not what I signed up for." — <strong>Note this story word for word. It's the emotional anchor for Call 2.</strong></p>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-label">Movement 3 — The Goal</div>
+        <p>"If the portfolio was performing the way you originally imagined and the capital was genuinely working — what does that look like for your life? Not a yield. Practically, day to day."</p>
+        <p style="margin-top:8px;">Follow up: "Is there a specific point in the next few years where this capital needs to be doing something different? A business transition, a handover?"</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Movement 4 — Income Anchor</div>
+        <p>"Not what feels realistic given what you've seen so far — what you <em>actually</em> want. What's the monthly number in your head?"</p>
+        <p style="margin-top:8px;">Wait for a specific figure. If they give a range: "If you had to pick one number that would make you feel like it's genuinely working, what would it be?"</p>
+        <p style="margin-top:8px; color:#555;"><strong>Note this exactly.</strong> It anchors Section 5 and Call 2.</p>
+      </div>
+    </div>
+
+    <div class="script">
+      <div class="script-label">Echo Back — Do Not Skip This</div>
+      <p>"The business is [their words]. Outside the business you've got [capital context] currently [what it's doing]. On property, [their BTL situation in their words] — the main frustration has been [their exact phrase]. What you want this to deliver is [their goal] — specifically [their monthly figure] a month. The reason it's come into focus now is [their trigger]. Have I got that right?"</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- BUILD THE PROBLEM -->
+  <div class="section" id="problem">
+    <div class="section-header">
+      <span class="section-num">Section 4</span>
+      <h2>Build the Problem</h2>
+      <span class="section-time">4–5 min</span>
+    </div>
+    <div class="purpose">They already know intellectually BTL is broken. Move them from <strong>intellectual understanding → felt recognition</strong> of what it's costing them. What they say carries 10x the weight of what you say.</div>
+
+    <div class="q-list">
+      <div class="q-item">
+        <div class="q-badge">1</div>
+        <div class="q-body">
+          <div class="q-text">"How long has the portfolio been feeling like this? And in your honest assessment — is it getting better, staying the same, or getting worse?"</div>
+        </div>
+      </div>
+      <div class="q-item">
+        <div class="q-badge">2</div>
+        <div class="q-body">
+          <div class="q-text">"When you think about the full cost — not just maintenance and fees, but time, stress, decisions it forces you to make — what does the full picture actually look like?"</div>
+        </div>
+      </div>
+      <div class="q-item">
+        <div class="q-badge">3</div>
+        <div class="q-body">
+          <div class="q-text">"If nothing changes in the next two years — same portfolio, same setup — what does that look like for you? Not yield percentages. Practically, for your life."</div>
+        </div>
+      </div>
+      <div class="q-item">
+        <div class="q-badge">4</div>
+        <div class="q-body">
+          <div class="q-text">"What do you think it's cost you — not having something like this running properly for the last few years? If you'd deployed this capital into a structure that was genuinely passive, where would you be now?"</div>
+          <div class="q-note">Stop. Say nothing. Let them calculate it in their own head.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin: 10px 0;">
+      <div class="card-label">Amplify (2 min max) — Start from their specific frustration, not a generic list</div>
+      <p><strong>Tenant / Section 21:</strong> "Section 21 is gone. Two months notice before you can even begin a possession process. The investors building real wealth have moved away from that model entirely."</p>
+      <p style="margin-top:8px;"><strong>Costs / compliance:</strong> "EPC upgrades mandatory by 2028. Mortgage interest relief progressively removed. The maths that made BTL work 15 years ago no longer holds."</p>
+      <p style="margin-top:8px;"><strong>Yield compression:</strong> "Average BTL yield is 4–6% gross. Net of costs — 2–3%. Inflation running at 3–4%. That's not an investment. That's a slow erosion of purchasing power with a management burden attached."</p>
+      <p style="margin-top:8px;"><strong>Close with:</strong> "The investors who understand what's coming have already started moving capital into structures not exposed to any of that. That's the whole point of what we do."</p>
+    </div>
+
+    <div class="script">
+      <div class="script-label">Cost of Inaction Close</div>
+      <p>"You mentioned [their monthly figure]. Based on where the capital is sitting now — [their capital] at [current return] is generating about [X] a month. You want [their figure]. That's a gap of [difference] a month. Over 12 months — <strong>[annualised gap]</strong>. That is the number this conversation is about."</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- VALUATION CONCEPT -->
+  <div class="section" id="valuation">
+    <div class="section-header">
+      <span class="section-num">Section 5</span>
+      <h2>Plant the Valuation Concept</h2>
+      <span class="section-time">2–3 min</span>
+    </div>
+    <div class="purpose">If they see the price on Rightmove first without context, the deal dies. Plant this now so the video lands as <strong>confirmation</strong>, not a justification for an overpriced product.</div>
+
+    <div class="script">
+      <div class="script-label">The Business Valuation Analogy</div>
+      <p>"When most people first look at one of these properties, they check what the house next door sold for on Rightmove. And the price looks high. But here's the thing — and this will feel immediately obvious to you as a business owner. If someone wanted to buy your business tomorrow, how would they value it? Not your office furniture. Not what the building is worth on Zoopla. <strong>What the business generates. A multiple of the earnings.</strong></p>
+      <p>This asset works on exactly the same logic. It's not a residential asset — it's a commercial asset valued on the income it produces. A property generating £30k a year net at a 10% yield is worth £300k on an income basis. That's the same methodology BlackRock uses. Rightmove is not the relevant benchmark for this asset class. Once that clicks, the pricing makes complete sense.</p>
+      <p>I'm going to send you a short video before our next call — about 10 minutes — that walks through this specifically. Watch it before we speak and Call 2 will be significantly more useful."</p>
+    </div>
+
+    <div class="callout callout-blue">
+      <div class="callout-label">If they push back or ask for more</div>
+      <p>"The video covers it better than I can in a couple of minutes on a call, and it's specifically built around the questions that come up most often. Watch it tonight and message me directly if anything's still unclear."</p>
+    </div>
+
+    <div class="callout callout-red">
+      <div class="callout-label">Don't skip this section if time is short — this is what directly addresses deal drop-off</div>
+      <p>One idea only. Don't go deeper than the analogy. Don't apologise for the pricing.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- COST OF INACTION -->
+  <div class="section" id="inaction">
+    <div class="section-header">
+      <span class="section-num">Section 6</span>
+      <h2>Cost of Inaction</h2>
+      <span class="section-time">2 min max</span>
+    </div>
+    <div class="purpose">Section 4 looked backward. This looks <strong>forward</strong>. Three questions only. Ask and stop talking. Make delay feel like it has a financial consequence that belongs to <em>them</em>, not pressure that belongs to you.</div>
+
+    <div class="q-list">
+      <div class="q-item">
+        <div class="q-badge">1</div>
+        <div class="q-body">
+          <div class="q-text">"Do you know roughly what [the capital] is generating on an annualised basis right now, net of everything?"</div>
+          <div class="q-note">State the gap and stop. Don't repeat the Section 4 calculation — this is forward-looking.</div>
+        </div>
+      </div>
+      <div class="q-item">
+        <div class="q-badge">2</div>
+        <div class="q-body">
+          <div class="q-text">"If this takes another three months to get into something — more research, more conversations, timing — what does that gap cost you over that period?"</div>
+          <div class="q-note">Let them do the arithmetic. Business owners will do this immediately. When they calculate it themselves, the figure is theirs.</div>
+        </div>
+      </div>
+      <div class="q-item">
+        <div class="q-badge">3</div>
+        <div class="q-body">
+          <div class="q-text">"The opportunities we bring to market are genuinely finite — each development has a fixed number of units. When they're placed they're gone. I want to make sure that if what we're looking at on Call 2 is the right fit, you've got enough context to make a decision confidently."</div>
+          <div class="q-note">Deliver as a factual observation. Not a pressure tactic. Stop after this — don't add to it.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- CREDIBILITY -->
+  <div class="section" id="credibility">
+    <div class="section-header">
+      <span class="section-num">Section 7</span>
+      <h2>Credibility Statement</h2>
+      <span class="section-time">30 sec</span>
+    </div>
+
+    <div class="script">
+      <div class="script-label">Deliver This. Then Move Straight Into Booking.</div>
+      <p>"You will want to do your own due diligence on us, and you should. We're registered as ATX Global — Companies House, Google page lists our office on Great Portland Street. We've placed over £162 million across 276 individual investments. 96% of our investors come back for a second. Our own capital is in the same deals we bring to clients."</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- BOOK CALL 2 -->
+  <div class="section" id="close">
+    <div class="section-header">
+      <span class="section-num">Section 8</span>
+      <h2>Frame the Video + Book Call 2</h2>
+      <span class="section-time">4 min</span>
+    </div>
+    <div class="purpose">Three movements in sequence. <strong>Get the calendar invite confirmed before they leave the call.</strong></div>
+
+    <div class="q-list">
+      <div class="q-item">
+        <div class="q-badge">1</div>
+        <div class="q-body">
+          <div class="q-text">Echo back their situation in their own words, then: "That's what I'm building the Call 2 presentation around. Not a generic deck — something specific to what you've told me. Does that feel like I've got it right?"</div>
+        </div>
+      </div>
+      <div class="q-item">
+        <div class="q-badge">2</div>
+        <div class="q-body">
+          <div class="q-text">"Before Call 2 I'm sending a short video — about 10 minutes. It covers two things: the commercial valuation methodology, and what actually happens if a housing association runs into trouble. Watch it before we speak and we can go straight into live numbers."</div>
+        </div>
+      </div>
+      <div class="q-item">
+        <div class="q-badge">3</div>
+        <div class="q-body">
+          <div class="q-text">"I've got [specific day] at [specific time] or [specific day] at [specific time]. Which works better for you?"</div>
+          <div class="q-note">Don't ask an open question. Give two options. When they confirm: send the calendar invite immediately, while they're still on the call.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="callout callout-blue">
+        <div class="callout-label">If they hesitate on booking</div>
+        <p>"Watch it tonight and message me on WhatsApp when you're done. If it makes sense, we'll get something in the diary then."</p>
+      </div>
+      <div class="callout callout-blue">
+        <div class="callout-label">If they need to think about whether Call 2 is worth their time</div>
+        <p>"That's exactly what the video is for. Watch it and if it doesn't feel worth a second conversation, message me and I'll tell you honestly whether I think there's something here or not."</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- POST-CALL -->
+  <div class="section" id="postcall">
+    <div class="section-header">
+      <span class="section-num">Post-Call</span>
+      <h2>Checklist</h2>
+    </div>
+    <div class="purpose">Complete all five before you close your laptop.</div>
+
+    <div class="checklist">
+      <div class="check-item"><div class="check-box"></div><div class="check-text"><strong>Calendar invite</strong> sent and confirmed in their diary</div></div>
+      <div class="check-item"><div class="check-box"></div><div class="check-text"><strong>CRM notes</strong> completed in their exact words — situation, frustration, goal, monthly figure, decision circle</div></div>
+      <div class="check-item"><div class="check-box"></div><div class="check-text"><strong>WhatsApp</strong> sent within 30 minutes with video link</div></div>
+      <div class="check-item"><div class="check-box"></div><div class="check-text"><strong>Email</strong> sent within 30 minutes — subject: "[Name] — your Call 2 preparation"</div></div>
+      <div class="check-item"><div class="check-box"></div><div class="check-text"><strong>Promises logged</strong> — anything specific you committed to on the call noted for Call 2 prep</div></div>
+    </div>
+
+    <div class="two-col" style="margin-top:14px;">
+      <div class="card">
+        <div class="card-label">WhatsApp (30 min)</div>
+        <p>"[Name], great speaking today. As promised, here's the video: [link]. It's around 10 minutes — covers the valuation methodology and the housing association question. Message me directly if anything comes up. Speak [confirmed day/time]."</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Email (30 min) — Subject: "[Name] — your Call 2 preparation"</div>
+        <p>"[Name], good to speak. Here's the video before our next call: [link]. It covers: (1) commercial valuation methodology and (2) what happens to investors when a housing association fails. Ten minutes. Watch it before [date/time] and we go straight into the numbers. Any questions, reply here or WhatsApp me directly. [Name], ATX Global"</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const link = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-10% 0px -80% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
