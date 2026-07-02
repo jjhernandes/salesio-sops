@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eric — Intro Call SOP</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent: #e2cfa8;
+      --accent-dim: #c4a96a;
+      --accent-bg: #15120a;
+      --bg: #080808;
+      --card: #0f0f0f;
+      --border: #1c1c1c;
+      --text: #e0e0e0;
+      --muted: #666;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: 232px;
+      min-height: 100vh;
+      background: #050505;
+      border-right: 1px solid #141414;
+      padding: 32px 0;
+      position: fixed;
+      top: 0; left: 0;
+      overflow-y: auto;
+      z-index: 100;
+    }
+
+    .sidebar-brand {
+      padding: 0 22px 24px;
+      border-bottom: 1px solid #141414;
+      margin-bottom: 18px;
+    }
+
+    .sidebar-brand .eyebrow {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .sidebar-brand .brand-name {
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    .sidebar-brand .brand-sub {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .nav-group-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #2e2e2e;
+      padding: 0 22px;
+      margin: 18px 0 6px;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 8px 22px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      transition: all 0.15s;
+      border-left: 2px solid transparent;
+    }
+
+    .nav-link:hover { color: #ccc; background: #0d0d0d; }
+    .nav-link.active { color: #fff; border-left-color: var(--accent); background: rgba(226,207,168,0.06); }
+
+    /* ── MAIN ── */
+    .main {
+      margin-left: 232px;
+      flex: 1;
+      padding: 52px 48px;
+      max-width: 880px;
+    }
+
+    /* ── HERO ── */
+    .hero { margin-bottom: 52px; }
+
+    .hero-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .hero h1 {
+      font-size: 38px;
+      font-weight: 900;
+      line-height: 1.1;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      font-size: 15px;
+      color: #666;
+      max-width: 520px;
+      line-height: 1.7;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .hero-stat {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .hero-stat .num {
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .hero-stat .desc { font-size: 11px; color: var(--muted); line-height: 1.4; }
+
+    /* ── DIVIDER ── */
+    .divider { height: 1px; background: var(--border); margin: 52px 0; }
+
+    /* ── SECTIONS ── */
+    .section { margin-bottom: 60px; scroll-margin-top: 32px; }
+
+    .section-eyebrow {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #3a3a3a;
+      margin-bottom: 8px;
+    }
+
+    h2 { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 24px; }
+    h3 { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+
+    /* ── STEP CARDS ── */
+    .step-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 26px;
+      margin-bottom: 12px;
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    .step-badge {
+      width: 30px;
+      height: 30px;
+      background: rgba(226,207,168,0.1);
+      border: 1px solid rgba(226,207,168,0.2);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .step-body h3 { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .step-body p { font-size: 13px; color: #888; line-height: 1.65; }
+    .step-body p + p { margin-top: 8px; }
+    .step-body ul { padding-left: 16px; margin-top: 8px; }
+    .step-body ul li { font-size: 13px; color: #888; line-height: 1.7; }
+    .step-body .timing {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(226,207,168,0.5);
+      margin-bottom: 6px;
+    }
+
+    /* ── SCRIPT BLOCKS ── */
+    .script-block {
+      border-left: 3px solid var(--accent);
+      padding: 13px 16px;
+      background: var(--accent-bg);
+      border-radius: 0 8px 8px 0;
+      margin-top: 12px;
+    }
+
+    .script-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(226,207,168,0.5);
+      margin-bottom: 5px;
+    }
+
+    .script-block p {
+      font-size: 13px;
+      color: var(--accent);
+      font-style: italic;
+      line-height: 1.65;
+    }
+
+    .script-block p + p { margin-top: 8px; }
+
+    /* ── HIGHLIGHT BOXES ── */
+    .highlight {
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      border: 1px solid #1e1e1e;
+      background: #0d0d0d;
+    }
+
+    .highlight.gold { border-left: 3px solid var(--accent); background: var(--accent-bg); }
+    .highlight.amber { border-left: 3px solid #f59e0b; background: #0e0900; }
+    .highlight.red { border-left: 3px solid #f87171; background: #100404; }
+    .highlight.green { border-left: 3px solid #34d399; background: #021008; }
+
+    .highlight h3 { font-size: 13px; font-weight: 700; margin-bottom: 5px; }
+    .highlight.gold h3 { color: var(--accent); }
+    .highlight.amber h3 { color: #f59e0b; }
+    .highlight.red h3 { color: #f87171; }
+    .highlight.green h3 { color: #34d399; }
+    .highlight p { font-size: 13px; color: #888; line-height: 1.65; }
+    .highlight p + p { margin-top: 6px; }
+
+    /* ── DO / DON'T GRID ── */
+    .do-dont {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .do-card, .dont-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 22px;
+    }
+
+    .do-card { border-top: 2px solid #34d399; }
+    .dont-card { border-top: 2px solid #f87171; }
+
+    .do-card .card-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #34d399; margin-bottom: 14px; }
+    .dont-card .card-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #f87171; margin-bottom: 14px; }
+
+    .do-card ul, .dont-card ul { padding-left: 0; list-style: none; }
+    .do-card ul li, .dont-card ul li {
+      font-size: 13px;
+      color: #999;
+      padding: 7px 0;
+      border-bottom: 1px solid #141414;
+      line-height: 1.5;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .do-card ul li:last-child, .dont-card ul li:last-child { border-bottom: none; }
+
+    .do-card ul li::before { content: "✓"; color: #34d399; font-weight: 800; font-size: 12px; flex-shrink: 0; margin-top: 1px; }
+    .dont-card ul li::before { content: "✕"; color: #f87171; font-weight: 800; font-size: 12px; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── CHECKLIST ── */
+    .checklist { list-style: none; }
+    .checklist li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 10px 0;
+      border-bottom: 1px solid #111;
+      font-size: 13px;
+      color: #999;
+      line-height: 1.6;
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist li .cb {
+      width: 17px;
+      height: 17px;
+      border: 1px solid #2a2a2a;
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .checklist li strong { color: #ddd; }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 26px;
+      margin-bottom: 14px;
+    }
+    .card p { font-size: 13px; color: #888; line-height: 1.7; }
+    .card p + p { margin-top: 8px; }
+
+    /* ── OBJECTION CARDS ── */
+    .objection-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 12px;
+    }
+
+    .objection-card .obj-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #f87171;
+      background: rgba(248,113,113,0.08);
+      border: 1px solid rgba(248,113,113,0.15);
+      border-radius: 4px;
+      padding: 2px 8px;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+
+    .objection-card .obj-q {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    /* ── REMINDER SEQUENCE ── */
+    .reminder-seq { display: flex; flex-direction: column; gap: 10px; }
+    .reminder-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+    }
+    .reminder-time {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      min-width: 80px;
+      padding-top: 2px;
+      flex-shrink: 0;
+    }
+    .reminder-body p { font-size: 13px; color: #888; line-height: 1.6; }
+    .reminder-body .msg {
+      font-size: 12px;
+      color: var(--accent);
+      font-style: italic;
+      margin-top: 6px;
+      padding: 8px 12px;
+      background: var(--accent-bg);
+      border-radius: 6px;
+      border-left: 2px solid var(--accent);
+      line-height: 1.6;
+    }
+
+    /* ── LINK ── */
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    @media (max-width: 860px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 32px 20px; }
+      .hero-stats { grid-template-columns: 1fr 1fr; }
+      .do-dont { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ── -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="eyebrow">Sales.io</div>
+    <div class="brand-name">Intro Call SOP</div>
+    <div class="brand-sub">Eric — Discovery Framework</div>
+  </div>
+
+  <div class="nav-group-label">Foundation</div>
+  <a class="nav-link active" href="#overview">Overview</a>
+  <a class="nav-link" href="#mindset">Frame of Mind</a>
+  <a class="nav-link" href="#dosdont">Do's & Don'ts</a>
+
+  <div class="nav-group-label">The Call</div>
+  <a class="nav-link" href="#energy">Energy & Intro</a>
+  <a class="nav-link" href="#frame">Frame the Call</a>
+  <a class="nav-link" href="#problem">Find the Problem</a>
+  <a class="nav-link" href="#data">Data Gathering</a>
+  <a class="nav-link" href="#tiedowns">Tie Downs</a>
+  <a class="nav-link" href="#transition">Transition & Book</a>
+
+  <div class="nav-group-label">Objections & Follow-Up</div>
+  <a class="nav-link" href="#objections">Objection Handling</a>
+  <a class="nav-link" href="#noshow">No-Show SOP</a>
+  <a class="nav-link" href="#showrate">Show Rate</a>
+</aside>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+  <!-- HERO -->
+  <div class="hero" id="overview">
+    <div class="hero-eyebrow">Sales.io — Eric's Framework</div>
+    <h1>Intro Call SOP</h1>
+    <p>This is the discovery call — 15 minutes, no pitch. Your job is to find the problem, qualify the person, and make them want to show up to the close call.</p>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="num">15</div>
+        <div class="desc">Minutes max — keep it tight</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">45</div>
+        <div class="desc">Minute strategy/close call is the goal</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">2</div>
+        <div class="desc">Call close process — book call 2 here</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- FRAME OF MIND -->
+  <div class="section" id="mindset">
+    <div class="section-eyebrow">Before You Dial</div>
+    <h2>Frame of Mind</h2>
+
+    <div class="highlight gold">
+      <h3>Your One Job</h3>
+      <p>See if this person has a problem you can solve, they seem serious, they're qualified — and therefore worth taking 45 minutes out of your day to get them on a closing call.</p>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-bottom: 8px;">The Three Questions You're Answering</h3>
+      <ul class="checklist">
+        <li><div class="cb"></div><div><strong>What is the problem?</strong> — Get them to name it clearly.</div></li>
+        <li><div class="cb"></div><div><strong>How bad is it?</strong> — Quantify it. Numbers, time, consequences.</div></li>
+        <li><div class="cb"></div><div><strong>How big of a priority is it to solve now?</strong> — No urgency means no show rate on call 2.</div></li>
+      </ul>
+    </div>
+
+    <div class="highlight amber">
+      <h3>Why People No-Show the Second Call</h3>
+      <p>They do not see value in showing up. Your discovery was not good enough. They do not feel like you can actually help them — or they think it is going to be a sales pitch. Fix this on call 1, not after.</p>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-bottom: 8px;">Quick Links</h3>
+      <ul class="checklist">
+        <li><div class="cb"></div><div><strong>Calendly:</strong> <a href="https://calendly.com/ericardito/strategy-call-with-eric" target="_blank">calendly.com/ericardito/strategy-call-with-eric</a></div></li>
+        <li><div class="cb"></div><div><strong>VSL:</strong> <a href="https://youtu.be/6H_45O8bm28" target="_blank">youtu.be/6H_45O8bm28</a></div></li>
+        <li><div class="cb"></div><div><strong>Instagram Leads Video:</strong> <a href="https://youtu.be/yWtDIF2QFWA" target="_blank">youtu.be/yWtDIF2QFWA</a></div></li>
+        <li><div class="cb"></div><div><strong>In-Person Option:</strong> Eric is based in Lake Nona, Orlando — can meet in person if the prospect is local and it makes sense to close face-to-face.</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- DO'S AND DON'TS -->
+  <div class="section" id="dosdont">
+    <div class="section-eyebrow">Standards</div>
+    <h2>Do's & Don'ts</h2>
+
+    <div class="do-dont">
+      <div class="do-card">
+        <div class="card-label">Do</div>
+        <ul>
+          <li>Qualify with BANT — Budget, Authority, Need, Timing</li>
+          <li>Keep it to 15 minutes max</li>
+          <li>Ask specific questions to get specific answers</li>
+          <li>Find out how much money they're making</li>
+          <li>Focus on the problem and the pain</li>
+          <li>Frame the call upfront</li>
+          <li>Tie them down to wanting the second meeting</li>
+          <li>Confirm a time that 100% works — double tie down</li>
+          <li>Confirm they won't be driving and know how to use Zoom</li>
+          <li>Send the homework video (VSL, case study, or Loom)</li>
+          <li>Figure out what they actually want — position call 2 as the gameplan</li>
+          <li>Plan what you're sending after the Loom to keep them warm</li>
+        </ul>
+      </div>
+
+      <div class="dont-card">
+        <div class="card-label">Don't</div>
+        <ul>
+          <li>Have an agenda for the call — listen, don't present</li>
+          <li>Over-explain your offer</li>
+          <li>Over-talk — silence is a tool</li>
+          <li>Assume you know their problem before they tell you</li>
+          <li>Type notes — write them by hand</li>
+          <li>Ask a lot of logistical or background questions</li>
+          <li>Go too deep into emotional pain on this call — keep it logical</li>
+          <li>Be distracted or scrolling</li>
+          <li>Drop the price unless it contextually makes sense (they sound broke)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ENERGY & INTRO -->
+  <div class="section" id="energy">
+    <div class="section-eyebrow">Opening</div>
+    <h2>Energy & Intro</h2>
+
+    <div class="card" style="margin-bottom: 16px;">
+      <h3 style="margin-bottom: 8px;">Your Energy on Every Call</h3>
+      <ul class="checklist">
+        <li><div class="cb"></div><div>Positive, upbeat, grounded, calm, friendly, confident</div></li>
+        <li><div class="cb"></div><div>You are reading their energy too — disinterested? Humble? Serious? Open? Guarded? Nervous? Distracted? Trying to control the call?</div></li>
+        <li><div class="cb"></div><div>Match their pace — mirror energy, do not force yours on them</div></li>
+      </ul>
+    </div>
+
+    <div class="step-card">
+      <div class="step-badge">01</div>
+      <div class="step-body">
+        <div class="timing">0:00 — 0:30</div>
+        <h3>The Opener</h3>
+        <p>Warm, casual, no pressure. Confirm you have their attention before moving forward.</p>
+        <div class="script-block">
+          <div class="script-label">Script</div>
+          <p>"Hey [Name]? How's it going, it's Eric here from Instagram. [Wait for response.] Yeah — I had a few minutes here and wanted to reach out. Did I catch you at a bad time?"</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- FRAME -->
+  <div class="section" id="frame">
+    <div class="section-eyebrow">Call Structure</div>
+    <h2>Frame the Call</h2>
+
+    <div class="step-card">
+      <div class="step-badge">02</div>
+      <div class="step-body">
+        <div class="timing">0:30 — 1:30</div>
+        <h3>Set the Frame</h3>
+        <p>Take control immediately. Tell them exactly what this call is and what it is not. Remove the sales call energy before you ask a single question.</p>
+        <div class="script-block">
+          <div class="script-label">Script</div>
+          <p>"So I've got about 15 minutes here before my next meeting. Are you ready to jump in? Awesome. So the goal of this call is simple — I want to understand where you're at in the business, what you might be looking for help with, and from there see if I can help or worst case, point you in a better direction. Does that sound good?"</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-badge">03</div>
+      <div class="step-body">
+        <div class="timing">1:30 — 3:00</div>
+        <h3>Opening Question</h3>
+        <p>Reference the DM conversation briefly, then hand the conversation to them. You are listening for the real problem — not the surface answer.</p>
+        <div class="script-block">
+          <div class="script-label">Script</div>
+          <p>"So I've got a few details from our DM convo and I'm curious — in your opinion, what is the biggest reason you're looking into marketing and growing your brand on Instagram right now?"</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight gold" style="margin-top: 20px;">
+      <h3>Listen for These — Always</h3>
+      <p>The problem. The pain. The cost. The consequences. The implications. Every word they say after your opening question is material. Do not interrupt. Do not jump to your next question before they are done.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- FIND THE PROBLEM -->
+  <div class="section" id="problem">
+    <div class="section-eyebrow">Core Skill</div>
+    <h2>Find the Problem</h2>
+
+    <div class="step-card">
+      <div class="step-badge">04</div>
+      <div class="step-body">
+        <div class="timing">3:00 — 7:00</div>
+        <h3>Dig Into the Real Problem</h3>
+        <p>Their first answer is rarely the real problem. Listen for what they say that sounds painful, then pull on that thread. The pain point and the objection often live in the same sentence.</p>
+        <div class="card" style="background: #0a0a0a; border: 1px solid #1a1a1a; margin-top: 10px;">
+          <p style="font-size: 12px; color: #666; margin-bottom: 6px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">Example</p>
+          <p style="font-style: italic; color: #aaa;">"We're doing SEO and Google ads, and right now it's going pretty well but it's also <strong style="color: #e2cfa8;">up and down</strong>, and we're looking into other alternatives..."</p>
+          <p style="margin-top: 8px; font-size: 12px; color: #666;"><strong style="color: #f59e0b;">Pain point:</strong> "up and down" &nbsp;|&nbsp; <strong style="color: #f87171;">Hidden objection:</strong> "it's going pretty well"</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-badge">05</div>
+      <div class="step-body">
+        <div class="timing">7:00 — 8:00</div>
+        <h3>Summarize and Confirm the Problem</h3>
+        <p>Feed their own words back to them. Make them say yes. This locks in the problem before you go deeper on data.</p>
+        <div class="script-block">
+          <div class="script-label">Script — Confirm the Pain</div>
+          <p>"Got it — so it sounds like you're wanting to scale but the problem is you're not able to do that through [current method] alone. Is that accurate?"</p>
+        </div>
+        <div class="script-block" style="margin-top: 8px;">
+          <div class="script-label">Script — Layer It</div>
+          <p>"Okay, so the business is up and down, and [current channels] aren't generating enough consistency in your revenue. Is that right?"</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- DATA GATHERING -->
+  <div class="section" id="data">
+    <div class="section-eyebrow">Qualification</div>
+    <h2>Data Gathering</h2>
+
+    <div class="highlight gold" style="margin-bottom: 24px;">
+      <h3>Why You're Gathering Data</h3>
+      <p>You need numbers to close on call 2. The specific metrics you collect now are what make the second call feel personalized and urgent. Gather everything here — you will not get another clean shot at it.</p>
+    </div>
+
+    <div class="step-card">
+      <div class="step-badge">06</div>
+      <div class="step-body">
+        <div class="timing">8:00 — 11:00</div>
+        <h3>Money — Quantify Everything</h3>
+        <ul>
+          <li>How are they generating leads right now?</li>
+          <li>How much are they spending on ads — or how much time if it's organic?</li>
+          <li>How many leads this week or month?</li>
+          <li>How many appointments booked?</li>
+          <li>How many closed? At what price point?</li>
+          <li>Do they have other offers, upsells, or a backend?</li>
+          <li>Last month's new revenue — and is that total or net?</li>
+          <li>Total profit or margins?</li>
+          <li>How does that compare to the two months before?</li>
+          <li>Have they ever had higher months?</li>
+          <li>Personal take-home? Other income sources?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-badge">07</div>
+      <div class="step-body">
+        <div class="timing">Weave in naturally</div>
+        <h3>Time & Team</h3>
+        <ul>
+          <li>How many hours did they work last week or month?</li>
+          <li>Do they have any team members?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-badge">08</div>
+      <div class="step-body">
+        <div class="timing">Weave in naturally</div>
+        <h3>Goals & Qualitative Pain</h3>
+        <p>This is where you get the emotional context — but keep it light on this call. Stay logical and numbers-based. Save the deeper emotional work for call 2.</p>
+        <ul style="margin-top: 10px;">
+          <li>What are other problems related to the numbers?</li>
+          <li>What are they being prevented from doing?</li>
+          <li>What's that costing them personally?</li>
+          <li>What do they want their life to look like?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-badge">09</div>
+      <div class="step-body">
+        <div class="timing">End of data section</div>
+        <h3>Stretch the Pain & Create Urgency</h3>
+        <p>Once you have the data, make the problem feel bigger by attaching it to time.</p>
+        <div class="script-block">
+          <div class="script-label">Stretch</div>
+          <p>"How long have you been stuck at [X revenue]?" &nbsp;/&nbsp; "How long has this been a problem for?"</p>
+        </div>
+        <div class="script-block" style="margin-top: 8px;">
+          <div class="script-label">Urgency</div>
+          <p>"How quickly are you looking to fix that?" &nbsp;/&nbsp; "If you found a way to [solve X], how soon would you want to implement that?" &nbsp;/&nbsp; "What's got you wanting to solve this sooner rather than later?"</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight amber">
+      <h3>Budget Check — Use This When You Need To</h3>
+      <p>If they are showing red flags around money, ask early rather than waste the close call:</p>
+      <div class="script-block" style="margin-top: 10px;">
+        <div class="script-label">Script</div>
+        <p>"Do you have at least $500 a month to put into ads right now? If everything made sense, would you be ready to start right away — or would you need more time?"</p>
+      </div>
+      <p style="margin-top: 10px;">If they need time: "How much more time? Any particular reason why?"</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- TIE DOWNS -->
+  <div class="section" id="tiedowns">
+    <div class="section-eyebrow">Pre-Close</div>
+    <h2>Tie Downs</h2>
+
+    <div class="highlight gold" style="margin-bottom: 24px;">
+      <h3>You Cannot Book the Second Call Without These</h3>
+      <p>Every tie down below must be confirmed before you pitch the second meeting. If you skip one, your show rate suffers.</p>
+    </div>
+
+    <ul class="checklist">
+      <li>
+        <div class="cb"></div>
+        <div><strong>Confirmed need to change.</strong> They have a painful problem, you know how bad it is, and they have a reason to act now.</div>
+      </li>
+      <li>
+        <div class="cb"></div>
+        <div><strong>Urgency is real.</strong> They have answered "how quickly are you looking to solve this?" with something specific — not "whenever."</div>
+      </li>
+      <li>
+        <div class="cb"></div>
+        <div><strong>Decision makers identified.</strong> Know if anyone else is involved. If yes, they need to be on the second call.</div>
+      </li>
+      <li>
+        <div class="cb"></div>
+        <div><strong>Budget confirmed.</strong> If red flags exist, ask directly before booking: "How much do you have available to invest in solving this?"</div>
+      </li>
+      <li>
+        <div class="cb"></div>
+        <div><strong>They want the second meeting.</strong> Tie them down that they actually want the longer call — do not assume a booked slot equals genuine buy-in.</div>
+      </li>
+      <li>
+        <div class="cb"></div>
+        <div><strong>Time is locked and double confirmed.</strong> "Does [day/time] 100% work for you?" Get a hard yes — not a "should be fine."</div>
+      </li>
+      <li>
+        <div class="cb"></div>
+        <div><strong>They will not be driving.</strong> Confirm: Zoom or in person. If Zoom, confirm they have used it before.</div>
+      </li>
+      <li>
+        <div class="cb"></div>
+        <div><strong>Homework is sent and framed.</strong> Send the VSL, case study, or Loom before call 2. Frame it as giving them context so the next call goes faster.</div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- TRANSITION -->
+  <div class="section" id="transition">
+    <div class="section-eyebrow">Closing the Intro Call</div>
+    <h2>Transition & Book</h2>
+
+    <div class="step-card">
+      <div class="step-badge">10</div>
+      <div class="step-body">
+        <div class="timing">12:00 — 13:00</div>
+        <h3>Summarize Their Problem Back to Them</h3>
+        <p>Before you pitch anything, mirror their exact situation back using their words. They should be nodding before you say another word.</p>
+        <div class="script-block">
+          <div class="script-label">Script</div>
+          <p>"So it sounds like the main issue is your business is going through an income rollercoaster because you don't have control over your lead flow. That's causing you to work longer hours than you want to and creating uncertainty around your ability to scale. All of this is coming down to the fact that you don't have a consistent marketing system. Is that a fair summary?"</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-badge">11</div>
+      <div class="step-body">
+        <div class="timing">13:00 — 15:00</div>
+        <h3>Pitch the Second Call</h3>
+        <p>Position call 2 as a custom gameplan — not a sales call. The more it feels like you are building something for them, the higher your show rate.</p>
+        <div class="script-block">
+          <div class="script-label">Script</div>
+          <p>"So I've got another call coming up in a few minutes — but it sounds like this is something I can help with. Here's what I'm thinking: why don't we book a longer meeting where we can go deeper and make sure there's real alignment between what you want and what I can do. From there, if there is, we can build out a custom gameplan on what it would look like to get you to [their goal]. And of course if you want help executing the plan, we can talk about options. How does that sound?"</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-badge">12</div>
+      <div class="step-body">
+        <div class="timing">After booking</div>
+        <h3>Send the Homework Video</h3>
+        <p>Frame the VSL or Loom as something that helps them — not as something that helps you sell.</p>
+        <div class="script-block">
+          <div class="script-label">Script</div>
+          <p>"Before our next call, I'm going to send you a short video — it'll give you context on how we work and help me skip the basics so we can get straight to building your gameplan. Takes about [X] minutes. Can you commit to watching it before we talk?"</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- OBJECTIONS -->
+  <div class="section" id="objections">
+    <div class="section-eyebrow">Handling Resistance</div>
+    <h2>Objection Handling</h2>
+
+    <div class="objection-card">
+      <div class="obj-tag">Objection</div>
+      <div class="obj-q">"How much is this going to cost me?"</div>
+      <div class="script-block">
+        <div class="script-label">Response</div>
+        <p>"Everything is custom — so on the next call we would put together a proposal and go over a few options that actually make sense for where you're at. That's what the strategy session is for."</p>
+      </div>
+    </div>
+
+    <div class="objection-card">
+      <div class="obj-tag">Objection</div>
+      <div class="obj-q">"What do you actually do?"</div>
+      <div class="script-block">
+        <div class="script-label">Response</div>
+        <p>"In short — I help local service businesses get leads from Instagram by building a personal brand and running hyper-targeted local ads. I build the system and then hand it off to you or your team with full training. What that looks like for your business specifically might be entirely different — which is why the next call is fully customized."</p>
+      </div>
+    </div>
+
+    <div class="highlight amber">
+      <h3>Objections on This Call = You Went Too Deep</h3>
+      <p>If you are getting hard objections on the intro call, you probably over-explained the offer or stayed too long. Keep this call about them. Save the pitch for call 2.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- NO-SHOW SOP -->
+  <div class="section" id="noshow">
+    <div class="section-eyebrow">When They Ghost</div>
+    <h2>No-Show SOP</h2>
+
+    <div class="highlight red" style="margin-bottom: 24px;">
+      <h3>A No-Show Is Not the End — Work the Protocol</h3>
+      <p>Most no-shows pick up if you follow the right sequence. Do not send one text and give up. Be persistent without being desperate.</p>
+    </div>
+
+    <div class="reminder-seq">
+      <div class="reminder-item">
+        <div class="reminder-time">On the call</div>
+        <div class="reminder-body">
+          <p>Wait 5 minutes. Send a quick message immediately.</p>
+          <div class="msg">"Hey [Name], I'm on Zoom now — still good to connect today?"</div>
+        </div>
+      </div>
+
+      <div class="reminder-item">
+        <div class="reminder-time">At 15 min</div>
+        <div class="reminder-body">
+          <p>They are not coming. Start the call-back sequence. Double dial each attempt.</p>
+          <p style="margin-top: 6px;">Call 2–3 times total over the next few hours. Space calls 2–4 hours apart. Try FaceTime Audio — higher pickup rates than a regular call.</p>
+        </div>
+      </div>
+
+      <div class="reminder-item">
+        <div class="reminder-time">24 hours</div>
+        <div class="reminder-body">
+          <p>One more outreach attempt. If no response after this, close the loop.</p>
+          <div class="msg">"Hey [Name], I haven't heard back from you so I'm going to go ahead and cancel our meeting. Let me know if you'd like to reschedule in the future."</div>
+        </div>
+      </div>
+
+      <div class="reminder-item">
+        <div class="reminder-time">No response</div>
+        <div class="reminder-body">
+          <p>Move to Nurture. Set a 30-day follow-up task. Do not chase beyond this.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SHOW RATE -->
+  <div class="section" id="showrate">
+    <div class="section-eyebrow">Show Rate Optimization</div>
+    <h2>Keeping Them Warm</h2>
+
+    <div class="highlight green" style="margin-bottom: 24px;">
+      <h3>Show Rate Starts on the Intro Call</h3>
+      <p>The best reminder sequence in the world cannot fix a bad intro call. They need to leave call 1 feeling like you genuinely understood them and that the second call will be worth their time. Get that right first.</p>
+    </div>
+
+    <div class="reminder-seq">
+      <div class="reminder-item">
+        <div class="reminder-time">After booking</div>
+        <div class="reminder-body">
+          <p>Send the homework video immediately. Frame it as giving them context, not as a sales tool.</p>
+        </div>
+      </div>
+
+      <div class="reminder-item">
+        <div class="reminder-time">Morning of call</div>
+        <div class="reminder-body">
+          <p>Confirm the time and check if they watched the video.</p>
+          <div class="msg">"Hey [Name], just popping in to make sure you're all set for our meeting today at [time]. Let me know if you need me to re-send that video or if you're all set. Talk soon. Eric"</div>
+        </div>
+      </div>
+
+      <div class="reminder-item">
+        <div class="reminder-time">1–2 hrs later (no response)</div>
+        <div class="reminder-body">
+          <div class="msg">"Did you see this?"</div>
+        </div>
+      </div>
+
+      <div class="reminder-item">
+        <div class="reminder-time">Another hour (no response)</div>
+        <div class="reminder-body">
+          <div class="msg">"[Name]?"</div>
+        </div>
+      </div>
+
+      <div class="reminder-item">
+        <div class="reminder-time">1–2 hrs before call (still nothing)</div>
+        <div class="reminder-body">
+          <div class="msg">"Hey — I didn't hear back from you yet. Did something come up? Let me know if you're still good for [time] or not."</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top: 20px;">
+      <h3 style="margin-bottom: 10px;">What Actually Drives Show Rate</h3>
+      <ul class="checklist">
+        <li><div class="cb"></div><div>They left the intro call feeling genuinely understood — not pitched</div></li>
+        <li><div class="cb"></div><div>They watched the homework video and got curious</div></li>
+        <li><div class="cb"></div><div>They confirmed a time that 100% works — not a maybe</div></li>
+        <li><div class="cb"></div><div>All decision makers are already committed to attending</div></li>
+        <li><div class="cb"></div><div>The second call was framed as a custom gameplan — not a sales presentation</div></li>
+      </ul>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  const links = document.querySelectorAll('.nav-link');
+  const sections = document.querySelectorAll('.section, .hero');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const id = entry.target.id;
+        const active = document.querySelector(`.nav-link[href="#${id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
