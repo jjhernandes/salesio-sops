@@ -1,0 +1,732 @@
+
+<title>FitMama × Sales.io — Kickoff Meeting</title>
+<style>
+  :root {
+    --bg: #080808;
+    --surface: #111111;
+    --surface-2: #181818;
+    --accent: #e2cfa8;
+    --accent-dim: rgba(226, 207, 168, 0.12);
+    --text: #f0ede8;
+    --text-muted: #8a8480;
+    --text-faint: #4a4440;
+    --border: #252018;
+    --border-mid: #302a22;
+    --section-num: #3a3228;
+    --tag-bg: #1c1812;
+    --khalil-bg: #12110f;
+    --salesio-bg: #0e0d0c;
+    --khalil-accent: #c4b08a;
+    --salesio-accent: #e2cfa8;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f5;
+      --surface: #f2ede6;
+      --surface-2: #ede7de;
+      --accent: #8a6e42;
+      --accent-dim: rgba(138, 110, 66, 0.1);
+      --text: #1a1612;
+      --text-muted: #7a6e62;
+      --text-faint: #c0b8ae;
+      --border: #e0d8cc;
+      --border-mid: #ccc2b4;
+      --section-num: #d8cfc4;
+      --tag-bg: #e8e0d6;
+      --khalil-bg: #eee8e0;
+      --salesio-bg: #f0ebe2;
+      --khalil-accent: #8a6e42;
+      --salesio-accent: #6a5030;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #080808;
+    --surface: #111111;
+    --surface-2: #181818;
+    --accent: #e2cfa8;
+    --accent-dim: rgba(226, 207, 168, 0.12);
+    --text: #f0ede8;
+    --text-muted: #8a8480;
+    --text-faint: #4a4440;
+    --border: #252018;
+    --border-mid: #302a22;
+    --section-num: #3a3228;
+    --tag-bg: #1c1812;
+    --khalil-bg: #12110f;
+    --salesio-bg: #0e0d0c;
+    --khalil-accent: #c4b08a;
+    --salesio-accent: #e2cfa8;
+  }
+
+  :root[data-theme="light"] {
+    --bg: #faf8f5;
+    --surface: #f2ede6;
+    --surface-2: #ede7de;
+    --accent: #8a6e42;
+    --accent-dim: rgba(138, 110, 66, 0.1);
+    --text: #1a1612;
+    --text-muted: #7a6e62;
+    --text-faint: #c0b8ae;
+    --border: #e0d8cc;
+    --border-mid: #ccc2b4;
+    --section-num: #d8cfc4;
+    --tag-bg: #e8e0d6;
+    --khalil-bg: #eee8e0;
+    --salesio-bg: #f0ebe2;
+    --khalil-accent: #8a6e42;
+    --salesio-accent: #6a5030;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { font-size: 16px; scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Identity Bar ── */
+  .identity-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .identity-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .party {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .party-sep {
+    color: var(--accent);
+    font-size: 0.8125rem;
+    font-weight: 300;
+  }
+
+  .identity-right {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .meta-chip {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.6875rem;
+    color: var(--text-faint);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .doc-type {
+    background: var(--accent-dim);
+    color: var(--accent);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+  }
+
+  /* ── Main ── */
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3.5rem 2rem 5rem;
+  }
+
+  /* ── Header ── */
+  .meeting-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .eyebrow {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .meeting-title {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    text-wrap: balance;
+    margin-bottom: 0.875rem;
+  }
+
+  .meeting-context {
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    max-width: 56ch;
+    line-height: 1.6;
+  }
+
+  .meeting-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .meta-label {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .meta-value {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--text-muted);
+  }
+
+  /* ── Agenda Sections ── */
+  .agenda-section {
+    position: relative;
+    padding: 1.625rem 1.5rem 1.625rem 1.75rem;
+    border-left: 2px solid var(--border-mid);
+    margin-bottom: 0.5rem;
+    transition: border-color 0.15s ease;
+  }
+
+  .agenda-section:hover {
+    border-left-color: var(--accent);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .section-title-group {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+
+  .section-num {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.6875rem;
+    color: var(--text-faint);
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+    margin-top: 0.1rem;
+  }
+
+  .section-title {
+    font-size: 1.0625rem;
+    font-weight: 650;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  .time-tag {
+    flex-shrink: 0;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.6875rem;
+    color: var(--text-faint);
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .section-body {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .section-body p {
+    margin-bottom: 0.875rem;
+  }
+
+  .section-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .item-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .item-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .item-list li::before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 0.55rem;
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+
+  .sub-label {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 0.5rem;
+    margin-top: 0.875rem;
+  }
+
+  /* ── Divider ── */
+  .section-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 1.25rem 0;
+  }
+
+  /* ── Milestones ── */
+  .milestone-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-top: 0.125rem;
+  }
+
+  .milestone-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.875rem 1rem;
+  }
+
+  .milestone-month {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .milestone-text {
+    font-size: 0.8375rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+
+  /* ── Actions ── */
+  .actions-block {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .actions-label {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 1.25rem;
+  }
+
+  .actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .action-col {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .action-col-header {
+    padding: 0.75rem 1.125rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .action-col.khalil .action-col-header { background: var(--khalil-bg); }
+  .action-col.salesio .action-col-header { background: var(--salesio-bg); }
+
+  .action-col-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .action-col.khalil .action-col-dot { background: var(--khalil-accent); }
+  .action-col.salesio .action-col-dot { background: var(--salesio-accent); }
+
+  .action-col-name {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.01em;
+  }
+
+  .action-col-body {
+    padding: 0.875rem 1.125rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    background: var(--surface);
+  }
+
+  .action-item {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+  }
+
+  .action-item::before {
+    content: '→';
+    color: var(--text-faint);
+    font-size: 0.8rem;
+    margin-top: 0.05rem;
+    flex-shrink: 0;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+  }
+
+  /* ── Footer ── */
+  .doc-footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .footer-brand {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .footer-note {
+    font-size: 0.75rem;
+    color: var(--text-faint);
+  }
+
+  /* ── Total time ── */
+  .total-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.75rem;
+    padding-right: 0.25rem;
+  }
+
+  .total-chip {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.6875rem;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border: 1px solid rgba(226, 207, 168, 0.2);
+    padding: 0.25rem 0.625rem;
+    border-radius: 2px;
+    letter-spacing: 0.06em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (max-width: 600px) {
+    .identity-bar { padding: 0 1.25rem; }
+    main { padding: 2.5rem 1.25rem 4rem; }
+    .meeting-title { font-size: 1.5rem; }
+    .milestone-grid { grid-template-columns: 1fr; }
+    .actions-grid { grid-template-columns: 1fr; }
+    .identity-right { display: none; }
+    .agenda-section { padding: 1.375rem 1rem 1.375rem 1.375rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .agenda-section { transition: none; }
+  }
+</style>
+
+<!-- Identity Bar -->
+<div class="identity-bar">
+  <div class="identity-left">
+    <span class="party">FitMama Coaching</span>
+    <span class="party-sep">×</span>
+    <span class="party">Sales.io</span>
+  </div>
+  <div class="identity-right">
+    <span class="meta-chip">July 4, 2026</span>
+    <span class="meta-chip">Telegram</span>
+    <span class="doc-type">Kickoff</span>
+  </div>
+</div>
+
+<main>
+
+  <!-- Header -->
+  <header class="meeting-header">
+    <div class="eyebrow">First Meeting</div>
+    <h1 class="meeting-title">Kickoff — Khalil Bass &amp; JJ Hernandez</h1>
+    <p class="meeting-context">Align on the 90-day engagement. Understand what's actually happening in the sales operation right now. Leave with a clear Week 1 action plan.</p>
+    <div class="meeting-meta">
+      <div class="meta-item">
+        <span class="meta-label">Goal</span>
+        <span class="meta-value">Remove Khalil from the closer seat</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Duration</span>
+        <span class="meta-value">~65 minutes</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Comms</span>
+        <span class="meta-value">Telegram</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">CRM</span>
+        <span class="meta-value">GoHighLevel</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Section 1 -->
+  <div class="agenda-section">
+    <div class="section-header">
+      <div class="section-title-group">
+        <span class="section-num">01</span>
+        <h2 class="section-title">Set the Frame</h2>
+      </div>
+      <span class="time-tag">5 min</span>
+    </div>
+    <div class="section-body">
+      <ul class="item-list">
+        <li>What the next 90 days are actually about: remove Khalil from the closer seat entirely</li>
+        <li>Define "winning" by Day 90 — a sales team running without him on the phones</li>
+        <li>Confirm comms structure: everything through Telegram, weekly check-in cadence</li>
+        <li>40% close rate is elite — the job is to clone Khalil's process, not replace it</li>
+        <li>100+ leads/day means this is a capacity problem, not a conversion problem</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="agenda-section">
+    <div class="section-header">
+      <div class="section-title-group">
+        <span class="section-num">02</span>
+        <h2 class="section-title">Audit the Current Sales Operation</h2>
+      </div>
+      <span class="time-tag">15 min</span>
+    </div>
+    <div class="section-body">
+      <p>Pull up GoHighLevel together. Walk through exactly how a lead moves from ad to close right now.</p>
+      <ul class="item-list">
+        <li>How many calls is Khalil actually running per week?</li>
+        <li>What does the pipeline look like today — leads sitting in each stage?</li>
+        <li>Setters: who are they, what are their individual book rates, what does a DM conversation actually look like?</li>
+        <li>No-show rate on booked calls — how bad is it, and who follows up?</li>
+        <li>The setter who wants to close: how long have they been setting, have they been on any calls yet?</li>
+        <li>Where do leads die most often — in the DM, before the call, or on the call?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="agenda-section">
+    <div class="section-header">
+      <div class="section-title-group">
+        <span class="section-num">03</span>
+        <h2 class="section-title">Walk the Offer</h2>
+      </div>
+      <span class="time-tag">10 min</span>
+    </div>
+    <div class="section-body">
+      <p>Confirm the handbook we built is accurate before it goes to a rep.</p>
+      <ul class="item-list">
+        <li>Confirm pitch order: $5K flagship → annual → Spouse in the House</li>
+        <li>Spouse in the House ($7.5K / 6-mo, $12.5–13.5K / annual) — how often does the husband actually end up on the call?</li>
+        <li>What is the actual average deal size closing right now?</li>
+        <li>Any qualifying criteria the setters miss that Khalil catches on calls?</li>
+        <li>Red flags to add or remove from the handbook?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Section 4 -->
+  <div class="agenda-section">
+    <div class="section-header">
+      <div class="section-title-group">
+        <span class="section-num">04</span>
+        <h2 class="section-title">Closer Hiring — Define the Profile</h2>
+      </div>
+      <span class="time-tag">15 min</span>
+    </div>
+    <div class="section-body">
+      <p>Most urgent deliverable. Every week without a closer is Khalil's time.</p>
+      <ul class="item-list">
+        <li>What does the ideal first closer look like — background, experience level, personality type?</li>
+        <li>Is the setter who wants to close ready to try, or do we need a net-new hire?</li>
+        <li>Where are we sourcing candidates — Sales.io job board, internal network, outbound?</li>
+        <li>What does the vetting process look like? Who approves the hire?</li>
+        <li>Does Khalil want to be on the first few calls to evaluate candidates live?</li>
+        <li>Timeline: when does Khalil need someone live on calls? Can we have someone shadowing by Week 2?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Section 5 -->
+  <div class="agenda-section">
+    <div class="section-header">
+      <div class="section-title-group">
+        <span class="section-num">05</span>
+        <h2 class="section-title">Review the Handbook</h2>
+      </div>
+      <span class="time-tag">10 min</span>
+    </div>
+    <div class="section-body">
+      <p>Walk Khalil through the FitMama Sales Team Handbook. Confirm every section is accurate before a rep touches it.</p>
+      <ul class="item-list">
+        <li>Offer tiers and pitch logic</li>
+        <li>Red flags list — plant-based, pregnant, TTC/IVF, mental illness, unwilling to change</li>
+        <li>Setting SOP and DM qualification flow — does it match how his setters actually work?</li>
+        <li>Call framework — does it match how Khalil closes?</li>
+        <li>GoHighLevel pipeline stages — are these accurate?</li>
+        <li>Any sections to add or change before the first rep sees it?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Section 6 -->
+  <div class="agenda-section">
+    <div class="section-header">
+      <div class="section-title-group">
+        <span class="section-num">06</span>
+        <h2 class="section-title">90-Day Milestones</h2>
+      </div>
+      <span class="time-tag">10 min</span>
+    </div>
+    <div class="section-body">
+      <p>Lock in targets by month so there's no ambiguity on what success looks like.</p>
+      <div class="milestone-grid">
+        <div class="milestone-card">
+          <div class="milestone-month">Month 1</div>
+          <div class="milestone-text">Hire and onboard first closer. Get them live on calls. Khalil reviews recordings weekly.</div>
+        </div>
+        <div class="milestone-card">
+          <div class="milestone-month">Month 2</div>
+          <div class="milestone-text">Closer hits 30%+ independently. Assess if second closer is needed. Setter → closer transition decision.</div>
+        </div>
+        <div class="milestone-card">
+          <div class="milestone-month">Month 3</div>
+          <div class="milestone-text">Team running without Khalil on phones. Sales manager conversation begins.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="total-row">
+    <span class="total-chip">Total ≈ 65 min</span>
+  </div>
+
+  <!-- Action Items -->
+  <div class="actions-block">
+    <div class="actions-label">Action Items — Both Sides</div>
+    <div class="actions-grid">
+      <div class="action-col khalil">
+        <div class="action-col-header">
+          <div class="action-col-dot"></div>
+          <span class="action-col-name">Khalil walks away with</span>
+        </div>
+        <div class="action-col-body">
+          <div class="action-item">Grant Sales.io access to GoHighLevel — full pipeline view</div>
+          <div class="action-item">Pull last 30 days of setter data — conversations, applications sent, booked calls</div>
+          <div class="action-item">Send 5 recent recorded closes via Fathom for JJ to study the pattern</div>
+          <div class="action-item">Confirm rep start availability — does Monday still work?</div>
+          <div class="action-item">Review handbook sections 7–12 and send back any corrections</div>
+        </div>
+      </div>
+      <div class="action-col salesio">
+        <div class="action-col-header">
+          <div class="action-col-dot"></div>
+          <span class="action-col-name">Sales.io walks away with</span>
+        </div>
+        <div class="action-col-body">
+          <div class="action-item">Finalize closer candidate based on Khalil's criteria</div>
+          <div class="action-item">Build setter daily operating rhythm SOP from audit findings</div>
+          <div class="action-item">Set up Telegram group with Khalil + Sales.io coaching staff</div>
+          <div class="action-item">Schedule weekly check-in recurring slot — day, time, what gets reviewed</div>
+          <div class="action-item">Send Khalil the onboarding checklist for the first closer</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="doc-footer">
+    <span class="footer-brand">Sales.io — Confidential</span>
+    <span class="footer-note">90-day engagement · $12,500</span>
+  </footer>
+
+</main>
