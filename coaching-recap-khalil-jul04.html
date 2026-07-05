@@ -1,0 +1,882 @@
+
+<title>FitMama × Sales.io — Kickoff Call Recap</title>
+<style>
+  :root {
+    --bg: #080808;
+    --surface: #111111;
+    --surface-2: #181818;
+    --accent: #e2cfa8;
+    --accent-dim: rgba(226, 207, 168, 0.1);
+    --accent-border: rgba(226, 207, 168, 0.18);
+    --text: #f0ede8;
+    --text-muted: #8a8480;
+    --text-faint: #4a4440;
+    --border: #252018;
+    --border-mid: #302a22;
+    --tag-bg: #1c1812;
+    --win-bg: rgba(78, 160, 100, 0.08);
+    --win-border: rgba(78, 160, 100, 0.25);
+    --win-text: #7dcf95;
+    --khalil-bg: #12110f;
+    --salesio-bg: #0e0d0c;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f5;
+      --surface: #f2ede6;
+      --surface-2: #ede7de;
+      --accent: #8a6e42;
+      --accent-dim: rgba(138, 110, 66, 0.08);
+      --accent-border: rgba(138, 110, 66, 0.2);
+      --text: #1a1612;
+      --text-muted: #7a6e62;
+      --text-faint: #c0b8ae;
+      --border: #e0d8cc;
+      --border-mid: #ccc2b4;
+      --tag-bg: #e8e0d6;
+      --win-bg: rgba(40, 130, 70, 0.07);
+      --win-border: rgba(40, 130, 70, 0.22);
+      --win-text: #2a7a45;
+      --khalil-bg: #eee8e0;
+      --salesio-bg: #f0ebe2;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #080808;
+    --surface: #111111;
+    --surface-2: #181818;
+    --accent: #e2cfa8;
+    --accent-dim: rgba(226, 207, 168, 0.1);
+    --accent-border: rgba(226, 207, 168, 0.18);
+    --text: #f0ede8;
+    --text-muted: #8a8480;
+    --text-faint: #4a4440;
+    --border: #252018;
+    --border-mid: #302a22;
+    --tag-bg: #1c1812;
+    --win-bg: rgba(78, 160, 100, 0.08);
+    --win-border: rgba(78, 160, 100, 0.25);
+    --win-text: #7dcf95;
+    --khalil-bg: #12110f;
+    --salesio-bg: #0e0d0c;
+  }
+
+  :root[data-theme="light"] {
+    --bg: #faf8f5;
+    --surface: #f2ede6;
+    --surface-2: #ede7de;
+    --accent: #8a6e42;
+    --accent-dim: rgba(138, 110, 66, 0.08);
+    --accent-border: rgba(138, 110, 66, 0.2);
+    --text: #1a1612;
+    --text-muted: #7a6e62;
+    --text-faint: #c0b8ae;
+    --border: #e0d8cc;
+    --border-mid: #ccc2b4;
+    --tag-bg: #e8e0d6;
+    --win-bg: rgba(40, 130, 70, 0.07);
+    --win-border: rgba(40, 130, 70, 0.22);
+    --win-text: #2a7a45;
+    --khalil-bg: #eee8e0;
+    --salesio-bg: #f0ebe2;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Identity Bar ── */
+  .identity-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .identity-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .party {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .party-sep {
+    color: var(--accent);
+    font-size: 0.8125rem;
+  }
+
+  .identity-right {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .meta-chip {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.6875rem;
+    color: var(--text-faint);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .doc-type {
+    background: var(--accent-dim);
+    color: var(--accent);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+  }
+
+  /* ── Main ── */
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3.5rem 2rem 5rem;
+  }
+
+  /* ── Header ── */
+  .recap-header {
+    margin-bottom: 2.75rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .eyebrow {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .recap-title {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    text-wrap: balance;
+    margin-bottom: 0.875rem;
+  }
+
+  .recap-sub {
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    max-width: 54ch;
+    line-height: 1.6;
+  }
+
+  .meeting-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .meta-label {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .meta-value {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--text-muted);
+  }
+
+  /* ── Sections ── */
+  .section {
+    margin-bottom: 2.25rem;
+  }
+
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .section-label {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    flex-shrink: 0;
+  }
+
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .section-title {
+    font-size: 1.0625rem;
+    font-weight: 650;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    margin-bottom: 0.75rem;
+  }
+
+  /* ── On-Call Win ── */
+  .win-block {
+    background: var(--win-bg);
+    border: 1px solid var(--win-border);
+    border-radius: 4px;
+    padding: 1rem 1.125rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .win-label {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--win-text);
+    margin-bottom: 0.375rem;
+  }
+
+  .win-text {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* ── Insight Block ── */
+  .insight {
+    border-left: 2px solid var(--accent);
+    padding: 0.875rem 1.125rem;
+    margin: 0.875rem 0;
+    background: var(--accent-dim);
+  }
+
+  .insight-label {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.35rem;
+    opacity: 0.7;
+  }
+
+  .insight-text {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+
+  /* ── Body Text ── */
+  .body-text {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 0.875rem;
+  }
+
+  .body-text:last-child { margin-bottom: 0; }
+
+  /* ── Lists ── */
+  .item-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .item-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+
+  .item-list li::before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 0.55rem;
+    flex-shrink: 0;
+    opacity: 0.55;
+  }
+
+  /* ── Sub-label ── */
+  .sub-label {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .sub-label:first-child { margin-top: 0; }
+
+  /* ── Candidate Cards ── */
+  .candidate-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.875rem;
+    margin-bottom: 1rem;
+  }
+
+  .candidate-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .candidate-header {
+    padding: 0.625rem 1rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .candidate-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .candidate-role {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .candidate-body {
+    padding: 0.875rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .candidate-fact {
+    font-size: 0.8375rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .candidate-fact::before {
+    content: '—';
+    color: var(--text-faint);
+    font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  /* ── Framework row ── */
+  .framework-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.875rem;
+    margin-bottom: 1rem;
+  }
+
+  .framework-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .framework-card-head {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    background: var(--surface-2);
+  }
+
+  .framework-card-body {
+    padding: 0.875rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .framework-step {
+    font-size: 0.8375rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  .step-num {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.625rem;
+    color: var(--accent);
+    opacity: 0.6;
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Action Items ── */
+  .actions-block {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .actions-eyebrow {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 1.25rem;
+  }
+
+  .actions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .action-col {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .action-col-header {
+    padding: 0.75rem 1.125rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .action-col.khalil .action-col-header { background: var(--khalil-bg); }
+  .action-col.salesio .action-col-header { background: var(--salesio-bg); }
+
+  .action-col-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .action-col-name {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  .action-col-body {
+    padding: 0.875rem 1.125rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    background: var(--surface);
+  }
+
+  .action-item {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+  }
+
+  .action-item::before {
+    content: '→';
+    color: var(--text-faint);
+    font-size: 0.8rem;
+    flex-shrink: 0;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+  }
+
+  /* ── Footer ── */
+  .doc-footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .footer-brand {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .footer-note {
+    font-size: 0.75rem;
+    color: var(--text-faint);
+  }
+
+  @media (max-width: 600px) {
+    .identity-bar { padding: 0 1.25rem; }
+    main { padding: 2.5rem 1.25rem 4rem; }
+    .recap-title { font-size: 1.5rem; }
+    .candidate-grid, .framework-compare, .actions-grid { grid-template-columns: 1fr; }
+    .identity-right { display: none; }
+  }
+</style>
+
+<!-- Identity Bar -->
+<div class="identity-bar">
+  <div class="identity-left">
+    <span class="party">FitMama Coaching</span>
+    <span class="party-sep">×</span>
+    <span class="party">Sales.io</span>
+  </div>
+  <div class="identity-right">
+    <span class="meta-chip">July 4, 2026</span>
+    <span class="meta-chip">~51 min</span>
+    <span class="doc-type">Kickoff Recap</span>
+  </div>
+</div>
+
+<main>
+
+  <!-- Header -->
+  <header class="recap-header">
+    <div class="eyebrow">Call Recap — Session 1</div>
+    <h1 class="recap-title">Khalil Bass &amp; JJ Hernandez</h1>
+    <p class="recap-sub">Kickoff call covering operations audit, closer candidates, sales framework alignment, and 90-day plan. All notes captured from recording.</p>
+    <div class="meeting-meta">
+      <div class="meta-item">
+        <span class="meta-label">Date</span>
+        <span class="meta-value">July 4, 2026</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Duration</span>
+        <span class="meta-value">~51 minutes</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Attendees</span>
+        <span class="meta-value">JJ Hernandez, Khalil Bass</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Next step</span>
+        <span class="meta-value">Josh CRM audit — Monday</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 1. SendBlue -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-label">01</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2 class="section-title">SendBlue — Handled Live on the Call</h2>
+
+    <div class="win-block">
+      <div class="win-label">On-Call Win</div>
+      <div class="win-text">JJ texted Simon (top AE at SendBlue) during the call to audit Khalil's account. Simon confirmed: FitMama is on a small business plan capped at 10 new contacts/day. JJ is connecting Khalil directly with SendBlue to upgrade.</div>
+    </div>
+
+    <p class="body-text">Khalil had been running SendBlue earlier in the year — DMs moved to SMS, response rates were way higher, booking was easy. Once ad spend scaled to 100+ conversations/day, they hit the 10-contact cap and had to stop. Switched to ManyChat, but ManyChat cuts contact after 7 days.</p>
+
+    <ul class="item-list">
+      <li>JJ's own SendBlue plan: $500-750/month — took show rate from 43% to 93%</li>
+      <li>The current plan is likely the self-managed beta version, not the full service tier</li>
+      <li>Full plan should allow 150 net new contacts/day with voice, video, and text sequences</li>
+      <li>Green SMS (carrier) messages are not a viable alternative — hurt brand perception and show rates</li>
+    </ul>
+  </div>
+
+  <!-- 2. CRM / Pipeline -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-label">02</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2 class="section-title">CRM &amp; Pipeline Audit</h2>
+
+    <p class="body-text">Khalil is running GHL + ManyChat. The pipeline is the biggest operational gap — 100-120 new DM conversations/day with no consistent way to manage leads over time.</p>
+
+    <div class="sub-label">Current Problems</div>
+    <ul class="item-list">
+      <li>When a lead applies via the GHL form, their Instagram username and their application become two separate contacts in the system — hard to reconcile</li>
+      <li>ManyChat cuts off contact after 7 days — leads fall into the void if the conversation stalled</li>
+      <li>No system to flag stale conversations — leads from days ago buried 300+ conversations deep with no follow-up trigger</li>
+      <li>KPI tracking lives in a manual Google Sheet — no centralized dashboard view</li>
+    </ul>
+
+    <div class="sub-label">JJ's Recommendation (long-term)</div>
+    <ul class="item-list">
+      <li>Add Close CRM alongside GHL — one for pipeline tracking, one for communication</li>
+      <li>Connect via automation so stage changes in GHL sync to Close contact list</li>
+      <li>Integrate Slack notifications: new lead in → setter tagged → call within minutes (speed to lead)</li>
+      <li>Move from a Google Sheets empire to a proper reporting dashboard — essential if you ever want to sell the business or remove key-man dependency</li>
+    </ul>
+
+    <div class="insight">
+      <div class="insight-label">Next Step</div>
+      <div class="insight-text">Josh (JJ's ops/tech guy) is on vacation for the 4th. He'll be back Monday and will hop on a call with Khalil's team to audit the current stack and make specific recommendations. No additional cost — Josh will just assess and advise.</div>
+    </div>
+  </div>
+
+  <!-- 3. KPI Data -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-label">03</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2 class="section-title">Call Volume &amp; KPI Review</h2>
+
+    <p class="body-text">Khalil has a full KPI sheet with every call logged for 2026. JJ will pull the data directly. Key context on the dips:</p>
+
+    <ul class="item-list">
+      <li>April/May: down because Khalil and team traveled to Japan for 2 weeks + company retreat</li>
+      <li>June: testing a new call booking funnel — loosened the NQL/SQL filters, which created a spike in no-shows</li>
+      <li>Current close rate holding strong — the dips are operational, not performance-related</li>
+    </ul>
+  </div>
+
+  <!-- 4. Closer Candidates -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-label">04</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2 class="section-title">Closer Candidates — Jess &amp; Micah</h2>
+
+    <div class="candidate-grid">
+      <div class="candidate-card">
+        <div class="candidate-header">
+          <span class="candidate-name">Jess</span>
+          <span class="candidate-role">External Hire</span>
+        </div>
+        <div class="candidate-body">
+          <div class="candidate-fact">External closer being recruited</div>
+          <div class="candidate-fact">No prior FitMama context — coming in fresh</div>
+          <div class="candidate-fact">Second interview call still needs to be scheduled</div>
+          <div class="candidate-fact">Status: first call done — move to roleplay round</div>
+        </div>
+      </div>
+      <div class="candidate-card">
+        <div class="candidate-header">
+          <span class="candidate-name">Micah</span>
+          <span class="candidate-role">Internal — Setter → Closer</span>
+        </div>
+        <div class="candidate-body">
+          <div class="candidate-fact">6 months on FitMama's setting team</div>
+          <div class="candidate-fact">Previously closed cold traffic for Renee Lacan on a $497 offer</div>
+          <div class="candidate-fact">No experience on high-ticket 1:1 closing calls yet</div>
+          <div class="candidate-fact">Referred through Khalil's wife's network</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="body-text">JJ's approach: treat Jess and Micah through the same evaluation process. Two types of closers — skill-based (technically trained) and conviction-based (deep belief in the offer). Ideally you want both. A skilled closer and a conviction closer feeding off each other is the goal.</p>
+
+    <div class="sub-label">Interview &amp; Roleplay Framework</div>
+    <ul class="item-list">
+      <li>Round 1 — Energy pulse: do they connect as humans? If it feels stale, don't continue</li>
+      <li>Round 2 — Go deeper on anything unclear, check for culture/personality fit, is this someone you want to nurture or someone ready now?</li>
+      <li>Round 3 — Roleplay: intro + 5-min discovery. Have Micah play the prospect. After: debrief both on a 1-10 scale. Ask why that number. Listen for self-awareness vs. surface-level critique</li>
+    </ul>
+
+    <div class="sub-label">What to Look For</div>
+    <ul class="item-list">
+      <li>Green flag: leads with respect, not likability — earns authority in the first 3 minutes without trying to befriend the prospect</li>
+      <li>Green flag: self-awareness. They know what they missed (didn't find the pain, surface-level discovery) vs. blaming mechanics (tonality, stuttering)</li>
+      <li>Green flag: composure — you can't tell they're nervous, even if they are</li>
+      <li>Red flag: "it was my tonality" — surface-level self-critique means they don't understand the real problem</li>
+      <li>Red flag: losing control of the frame in the first 2-3 minutes — if they allow interruptions or bad behavior early, it will continue throughout</li>
+    </ul>
+
+    <div class="insight">
+      <div class="insight-label">Key Point</div>
+      <div class="insight-text">Reps will never sell exactly like Khalil — he's the founder, that's not replicable. The goal is not to clone him. It's to give them enough ammunition to close with confidence in their own style, inside the same call environment: calm, trusting, vulnerable. Never tense. Never scripted feeling.</div>
+    </div>
+  </div>
+
+  <!-- 5. Sales Framework -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-label">05</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2 class="section-title">Sales Framework Alignment</h2>
+
+    <p class="body-text">Khalil already runs a strong framework. Both frameworks map to the same underlying principle — creating a visible gap between where the prospect is and where they want to be.</p>
+
+    <div class="framework-compare">
+      <div class="framework-card">
+        <div class="framework-card-head">Khalil's Three Stories</div>
+        <div class="framework-card-body">
+          <div class="framework-step"><span class="step-num">1</span> Current reality — how they got here</div>
+          <div class="framework-step"><span class="step-num">2</span> Future story — where they're trying to go and why</div>
+          <div class="framework-step"><span class="step-num">3</span> Our story — how FitMama gets them there</div>
+        </div>
+      </div>
+      <div class="framework-card">
+        <div class="framework-card-head">Sales.io Framework</div>
+        <div class="framework-card-body">
+          <div class="framework-step"><span class="step-num">1</span> Current reality</div>
+          <div class="framework-step"><span class="step-num">2</span> Problem awareness</div>
+          <div class="framework-step"><span class="step-num">3</span> Solution awareness</div>
+          <div class="framework-step"><span class="step-num">4</span> Future pacing</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="body-text">JJ to send Khalil the "Why Humans Buy" doc. Khalil has his own version — "Why People Buy" built from their closes. JJ will merge both and incorporate into the handbook.</p>
+
+    <div class="sub-label">Why Humans Buy — 5 Core Reasons</div>
+    <ul class="item-list">
+      <li>To escape pain</li>
+      <li>To reach a future version of themselves</li>
+      <li>To protect or reinforce who they believe they are</li>
+      <li>Because they trust the person in front of them</li>
+      <li>Because they can't unsee the gap</li>
+    </ul>
+
+    <div class="insight">
+      <div class="insight-label">Teaching Point — Cognitive Dissonance</div>
+      <div class="insight-text">The gap between who they say they are and what the evidence proves creates real anxiety — not manufactured emotion. When you pull that out through your questions, you become both the authority (you saw what they couldn't) and the savior (you have the solution). That's why they hand over money. The quality of your questions dictates the quality of their responses. Any question you ask tells the prospect more about you than anything you can say directly.</div>
+    </div>
+
+    <div class="sub-label">Subjective Language — Always Follow Up</div>
+    <p class="body-text">When a prospect says "it's been tough," "things have been rough," or any vague emotional language — always ask what that means to them. "Tough" to one person is losing $1.7M in revenue. To another it's barely getting off the couch. You can't close on a word. You close on what's underneath it.</p>
+  </div>
+
+  <!-- 6. Handbook -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-label">06</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2 class="section-title">Handbook &amp; Coach Handoff</h2>
+
+    <p class="body-text">Khalil reviewed the Sales Team Handbook. He hasn't had one before, so he doesn't have major corrections — the call framework at the bottom differs slightly from how he closes. He'll send JJ his version so they can merge both.</p>
+
+    <div class="sub-label">Coach Handoff Process (new addition)</div>
+    <p class="body-text">After the close, Khalil personally matches clients to the right coach. Clients always say "you put me with the best coach." This needs to be SOP'd before it goes to a rep.</p>
+    <ul class="item-list">
+      <li>Khalil to send JJ a breakdown of each coach and who they're best for</li>
+      <li>JJ will add coach profiles + handoff decision tree to the handbook</li>
+      <li>Short-term buffer: 10-15 minute onboarding call between close and first coaching session — use the onboarding special slot</li>
+      <li>Long-term: rep can make the handoff independently based on coach descriptions in the SOP</li>
+    </ul>
+  </div>
+
+  <!-- 7. 90-Day Plan -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-label">07</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2 class="section-title">90-Day Plan — Confirmed</h2>
+
+    <ul class="item-list">
+      <li><strong style="color: var(--text); font-weight: 600;">Month 1:</strong> Hire and onboard closers. Khalil moves to the backseat — reviewing recordings weekly. KPIs dialed for each team member. By day 25-30: do we need to scale or hold?</li>
+      <li><strong style="color: var(--text); font-weight: 600;">Month 2:</strong> Closers hitting 30%+ independently. Second closer decision. Setter → closer transition for Micah if ready. Weekly check-in cadence locked in.</li>
+      <li><strong style="color: var(--text); font-weight: 600;">Month 3:</strong> Khalil off calls. JJ and Khalil review from the manager seat only. Sales manager conversation begins.</li>
+    </ul>
+
+    <p class="body-text">Check-in cadence: JJ mapping his calendar post-call and sending available times. Team sessions to be Mon/Wed/Fri or adjusted based on Khalil's schedule.</p>
+  </div>
+
+  <!-- Action Items -->
+  <div class="actions-block">
+    <div class="actions-eyebrow">Action Items — Post-Call</div>
+    <div class="actions-grid">
+      <div class="action-col khalil">
+        <div class="action-col-header">
+          <div class="action-col-dot"></div>
+          <span class="action-col-name">Khalil</span>
+        </div>
+        <div class="action-col-body">
+          <div class="action-item">Send JJ your close framework/process doc so we can merge it with the handbook</div>
+          <div class="action-item">Send coach breakdown — who each coach is, who they're best matched with</div>
+          <div class="action-item">Schedule second call with Jess — move to roleplay round</div>
+          <div class="action-item">Set up Jess + Micah roleplay session (you mediate)</div>
+          <div class="action-item">Review the handbook and sign off (edit as we progress — don't overthink it)</div>
+          <div class="action-item">Be available Monday for Josh's CRM audit call</div>
+        </div>
+      </div>
+      <div class="action-col salesio">
+        <div class="action-col-header">
+          <div class="action-col-dot"></div>
+          <span class="action-col-name">Sales.io / JJ</span>
+        </div>
+        <div class="action-col-body">
+          <div class="action-item">Connect Khalil with Simon/Alec at SendBlue to upgrade from small business plan</div>
+          <div class="action-item">Pull KPI data from Khalil's sheet — no-show rates, call volume, close rates by period</div>
+          <div class="action-item">Have Josh reach out to Khalil's team Monday for CRM stack audit</div>
+          <div class="action-item">Add coach handoff SOP + coach profiles to the handbook</div>
+          <div class="action-item">Send Khalil the "Why Humans Buy" doc</div>
+          <div class="action-item">Map calendar and send weekly check-in times + team session slots</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="doc-footer">
+    <span class="footer-brand">Sales.io — Confidential</span>
+    <span class="footer-note">Generated from call recording · July 4, 2026</span>
+  </footer>
+
+</main>
