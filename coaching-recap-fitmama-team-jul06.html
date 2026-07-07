@@ -1,0 +1,426 @@
+
+<title>FitMama Sales Team — Kickoff Recap</title>
+<style>
+  :root {
+    --bg: #080808;
+    --surface: #111111;
+    --surface-2: #181818;
+    --accent: #e2cfa8;
+    --accent-dim: rgba(226, 207, 168, 0.1);
+    --accent-border: rgba(226, 207, 168, 0.18);
+    --text: #f0ede8;
+    --text-muted: #8a8480;
+    --text-faint: #4a4440;
+    --border: #252018;
+    --border-mid: #302a22;
+    --tag-bg: #1c1812;
+    --green-bg: rgba(78, 160, 100, 0.08);
+    --green-border: rgba(78, 160, 100, 0.25);
+    --green-text: #7dcf95;
+    --khalil-bg: #12110f;
+    --salesio-bg: #0e0d0c;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f5;
+      --surface: #f2ede6;
+      --surface-2: #ede7de;
+      --accent: #8a6e42;
+      --accent-dim: rgba(138, 110, 66, 0.08);
+      --accent-border: rgba(138, 110, 66, 0.2);
+      --text: #1a1612;
+      --text-muted: #7a6e62;
+      --text-faint: #c0b8ae;
+      --border: #e0d8cc;
+      --border-mid: #ccc2b4;
+      --tag-bg: #e8e0d6;
+      --green-bg: rgba(40, 130, 70, 0.07);
+      --green-border: rgba(40, 130, 70, 0.22);
+      --green-text: #2a7a45;
+      --khalil-bg: #eee8e0;
+      --salesio-bg: #f0ebe2;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #080808; --surface: #111111; --surface-2: #181818;
+    --accent: #e2cfa8; --accent-dim: rgba(226,207,168,0.1); --accent-border: rgba(226,207,168,0.18);
+    --text: #f0ede8; --text-muted: #8a8480; --text-faint: #4a4440;
+    --border: #252018; --border-mid: #302a22; --tag-bg: #1c1812;
+    --green-bg: rgba(78,160,100,0.08); --green-border: rgba(78,160,100,0.25); --green-text: #7dcf95;
+    --khalil-bg: #12110f; --salesio-bg: #0e0d0c;
+  }
+
+  :root[data-theme="light"] {
+    --bg: #faf8f5; --surface: #f2ede6; --surface-2: #ede7de;
+    --accent: #8a6e42; --accent-dim: rgba(138,110,66,0.08); --accent-border: rgba(138,110,66,0.2);
+    --text: #1a1612; --text-muted: #7a6e62; --text-faint: #c0b8ae;
+    --border: #e0d8cc; --border-mid: #ccc2b4; --tag-bg: #e8e0d6;
+    --green-bg: rgba(40,130,70,0.07); --green-border: rgba(40,130,70,0.22); --green-text: #2a7a45;
+    --khalil-bg: #eee8e0; --salesio-bg: #f0ebe2;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.9375rem; line-height: 1.65; -webkit-font-smoothing: antialiased;
+  }
+
+  .identity-bar {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--bg); border-bottom: 1px solid var(--border);
+    padding: 0 2rem; height: 52px;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  }
+  .identity-left { display: flex; align-items: center; gap: 0.75rem; }
+  .party { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); }
+  .party-sep { color: var(--accent); font-size: 0.8125rem; }
+  .identity-right { display: flex; align-items: center; gap: 1.25rem; }
+  .meta-chip { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; color: var(--text-faint); letter-spacing: 0.04em; text-transform: uppercase; }
+  .doc-type { background: var(--accent-dim); color: var(--accent); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 2px; }
+
+  main { max-width: 720px; margin: 0 auto; padding: 3.5rem 2rem 5rem; }
+
+  .recap-header { margin-bottom: 2.75rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+  .eyebrow { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+  .recap-title { font-size: 2rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); text-wrap: balance; margin-bottom: 0.875rem; }
+  .recap-sub { font-size: 0.9375rem; color: var(--text-muted); max-width: 54ch; line-height: 1.6; }
+
+  .meeting-meta { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 1.5rem; }
+  .meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+  .meta-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); }
+  .meta-value { font-size: 0.8125rem; font-weight: 500; color: var(--text-muted); }
+
+  .section { margin-bottom: 2.5rem; }
+  .section-head { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+  .section-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); flex-shrink: 0; }
+  .section-rule { flex: 1; height: 1px; background: var(--border); }
+  .section-title { font-size: 1.0625rem; font-weight: 650; color: var(--text); letter-spacing: -0.01em; margin-bottom: 0.75rem; }
+
+  .body-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 0.875rem; }
+  .body-text:last-child { margin-bottom: 0; }
+
+  .item-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.875rem; }
+  .item-list li { display: flex; align-items: flex-start; gap: 0.625rem; font-size: 0.9rem; color: var(--text-muted); line-height: 1.55; }
+  .item-list li::before { content: ''; display: block; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); margin-top: 0.55rem; flex-shrink: 0; opacity: 0.55; }
+
+  .sub-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 0.5rem; margin-top: 1rem; }
+  .sub-label:first-child { margin-top: 0; }
+
+  .insight { border-left: 2px solid var(--accent); padding: 0.875rem 1.125rem; margin: 0.875rem 0; background: var(--accent-dim); }
+  .insight-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; opacity: 0.7; }
+  .insight-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.65; }
+
+  /* ── Attendees ── */
+  .attendee-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem; }
+  .attendee-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .attendee-header { padding: 0.625rem 1rem; border-bottom: 1px solid var(--border); background: var(--surface-2); display: flex; flex-direction: column; gap: 0.2rem; }
+  .attendee-name { font-size: 0.875rem; font-weight: 600; color: var(--text); }
+  .attendee-role { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+  .attendee-body { padding: 0.75rem 1rem; font-size: 0.8125rem; color: var(--text-muted); line-height: 1.55; }
+
+  /* ── Member Assessment Cards ── */
+  .member-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 1rem; }
+  .member-card-header { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1.125rem; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+  .member-name { font-size: 0.9375rem; font-weight: 650; color: var(--text); }
+  .member-role-tag { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.625rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); background: var(--tag-bg); border: 1px solid var(--border); padding: 0.15rem 0.5rem; border-radius: 2px; }
+  .member-card-body { padding: 1rem 1.125rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .assess-col-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .assess-col-label.strength { color: var(--green-text); }
+  .assess-col-label.improve { color: var(--accent); opacity: 0.7; }
+  .assess-text { font-size: 0.875rem; color: var(--text-muted); line-height: 1.55; }
+  .coaching-note { padding: 0.875rem 1.125rem; border-top: 1px solid var(--border); background: var(--accent-dim); }
+  .coaching-note-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); opacity: 0.7; margin-bottom: 0.375rem; }
+  .coaching-note-text { font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; }
+
+  /* ── Cadence Grid ── */
+  .cadence-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem; }
+  .cadence-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .cadence-day { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); padding: 0.625rem 1rem; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+  .cadence-body { padding: 0.875rem 1rem; display: flex; flex-direction: column; gap: 0.375rem; }
+  .cadence-item { font-size: 0.8375rem; color: var(--text-muted); line-height: 1.5; display: flex; align-items: flex-start; gap: 0.5rem; }
+  .cadence-item::before { content: '—'; color: var(--text-faint); font-size: 0.75rem; flex-shrink: 0; font-family: 'SF Mono','Fira Code',monospace; }
+
+  /* ── Action Items ── */
+  .actions-block { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+  .actions-eyebrow { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 1.25rem; }
+  .actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .action-col { border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .action-col-header { padding: 0.75rem 1.125rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.5rem; }
+  .action-col.khalil .action-col-header { background: var(--khalil-bg); }
+  .action-col.salesio .action-col-header { background: var(--salesio-bg); }
+  .action-col-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .action-col-name { font-size: 0.8125rem; font-weight: 600; color: var(--text-muted); }
+  .action-col-body { padding: 0.875rem 1.125rem; display: flex; flex-direction: column; gap: 0.625rem; background: var(--surface); }
+  .action-item { font-size: 0.875rem; color: var(--text-muted); line-height: 1.5; display: flex; align-items: flex-start; gap: 0.625rem; }
+  .action-item::before { content: '→'; color: var(--text-faint); font-size: 0.8rem; flex-shrink: 0; font-family: 'SF Mono','Fira Code',monospace; }
+
+  .doc-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+  .footer-brand { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); }
+  .footer-note { font-size: 0.75rem; color: var(--text-faint); }
+
+  @media (max-width: 600px) {
+    .identity-bar { padding: 0 1.25rem; }
+    main { padding: 2.5rem 1.25rem 4rem; }
+    .recap-title { font-size: 1.5rem; }
+    .attendee-grid, .cadence-grid { grid-template-columns: 1fr; }
+    .actions-grid { grid-template-columns: 1fr; }
+    .member-card-body { grid-template-columns: 1fr; }
+    .identity-right { display: none; }
+  }
+</style>
+
+<div class="identity-bar">
+  <div class="identity-left">
+    <span class="party">FitMama Coaching</span>
+    <span class="party-sep">×</span>
+    <span class="party">Sales.io</span>
+  </div>
+  <div class="identity-right">
+    <span class="meta-chip">July 6, 2026</span>
+    <span class="meta-chip">~33 min</span>
+    <span class="doc-type">Team Kickoff Recap</span>
+  </div>
+</div>
+
+<main>
+
+  <header class="recap-header">
+    <div class="eyebrow">Session 2 — Full Sales Team</div>
+    <h1 class="recap-title">FitMama Sales Team Kickoff</h1>
+    <p class="recap-sub">First meeting with the full team. Introductions, self-assessments, core coaching principles, and the Mon/Wed/Fri cadence structure.</p>
+    <div class="meeting-meta">
+      <div class="meta-item"><span class="meta-label">Date</span><span class="meta-value">July 6, 2026</span></div>
+      <div class="meta-item"><span class="meta-label">Duration</span><span class="meta-value">~33 minutes</span></div>
+      <div class="meta-item"><span class="meta-label">Cadence starts</span><span class="meta-value">Monday, Wed, Fri @ 3pm</span></div>
+      <div class="meta-item"><span class="meta-label">Comms</span><span class="meta-value">Telegram</span></div>
+    </div>
+  </header>
+
+  <!-- Attendees -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">01</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Who Was on the Call</h2>
+    <div class="attendee-grid">
+      <div class="attendee-card">
+        <div class="attendee-header">
+          <span class="attendee-name">Staci Livingston</span>
+          <span class="attendee-role">Setter</span>
+        </div>
+        <div class="attendee-body">9 years hospitality, financial advising/insurance, 1+ year remote sales. Trained through Shelby. Moving from Louisiana to Austin this week.</div>
+      </div>
+      <div class="attendee-card">
+        <div class="attendee-header">
+          <span class="attendee-name">Micah</span>
+          <span class="attendee-role">Setter → Closer</span>
+        </div>
+        <div class="attendee-body">Fashion business background. Also trained through Shelby, worked alongside Stacy. 6 months on the FitMama team. Closer candidate.</div>
+      </div>
+      <div class="attendee-card">
+        <div class="attendee-header">
+          <span class="attendee-name">Jessica Whitman</span>
+          <span class="attendee-role">Closer — Day 1</span>
+        </div>
+        <div class="attendee-body">Competitive bodybuilder since 16. Ran own fitness coaching company 7 years. Bodybuilding + lifestyle coaching. First day on the FitMama team.</div>
+      </div>
+    </div>
+    <div class="insight">
+      <div class="insight-label">JJ's Read — Post Call</div>
+      <div class="insight-text">No red flags from any of the three. Great dynamic. Can already see how they'll grow together — Jess is new but the energy is right. Everyone explained themselves clearly and self-awareness was strong across the board.</div>
+    </div>
+  </div>
+
+  <!-- Self Assessments -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">02</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Self-Assessments + Coaching Notes</h2>
+    <p class="body-text">JJ asked each member: where do you do best, and where can you improve? Not a test — looking for self-awareness.</p>
+
+    <div class="member-card">
+      <div class="member-card-header">
+        <span class="member-name">Staci</span>
+        <span class="member-role-tag">Setter</span>
+      </div>
+      <div class="member-card-body">
+        <div>
+          <div class="assess-col-label strength">Strength</div>
+          <div class="assess-text">Unsure — wasn't ready to call one out yet. Will surface as we review conversations.</div>
+        </div>
+        <div>
+          <div class="assess-col-label improve">Improve</div>
+          <div class="assess-text">Emotional depth in setting conversations — tends to accept surface-level answers when there's more beneath. Knows both the timing and the execution need work.</div>
+        </div>
+      </div>
+      <div class="coaching-note">
+        <div class="coaching-note-label">JJ's Note</div>
+        <div class="coaching-note-text">There's a real balance to manage here — setters shouldn't be diving into closing questions in the DM, but getting more emotionally present is the right instinct. Will review actual conversations together to find where the depth opportunities are and how to take them without overstepping the setter role.</div>
+      </div>
+    </div>
+
+    <div class="member-card">
+      <div class="member-card-header">
+        <span class="member-name">Micah</span>
+        <span class="member-role-tag">Setter → Closer</span>
+      </div>
+      <div class="member-card-body">
+        <div>
+          <div class="assess-col-label strength">Strength</div>
+          <div class="assess-text">Discovery — gets to deeper levels, checks boxes on how issues affect life day-to-day, asks the right questions to understand impact and emotional state.</div>
+        </div>
+        <div>
+          <div class="assess-col-label improve">Improve</div>
+          <div class="assess-text">Leading questions — knows the answer she wants and tries to get there in one big question instead of a trail of simpler ones. Wants them to admit it without being told.</div>
+        </div>
+      </div>
+      <div class="coaching-note">
+        <div class="coaching-note-label">JJ's Note</div>
+        <div class="coaching-note-text">She already has the frame, the skill, and the conviction. That's everything — the rest is teachable. The shift is small: stop trying to get the answer you know is right and start asking questions you genuinely want to know the answer to. Authenticity closes the gap between their skepticism and your authority faster than any tactical question. Challenge subjective language ("what do you mean by tough?"). Always defer to a question, never a statement. Better to be memorable than persuasive.</div>
+      </div>
+    </div>
+
+    <div class="member-card">
+      <div class="member-card-header">
+        <span class="member-name">Jessica</span>
+        <span class="member-role-tag">Closer — Day 1</span>
+      </div>
+      <div class="member-card-body">
+        <div>
+          <div class="assess-col-label strength">Strength</div>
+          <div class="assess-text">Personable — naturally breaks the ice, makes people comfortable and laugh. Already strong at creating connection from the first moment.</div>
+        </div>
+        <div>
+          <div class="assess-col-label improve">Improve</div>
+          <div class="assess-text">(1) Specificity — asking more clarity questions (sticky note on laptop). (2) Cost of not buying / reframing pain from a mom and parenthood lens — not a parent herself, so needs to build that understanding.</div>
+        </div>
+      </div>
+      <div class="coaching-note">
+        <div class="coaching-note-label">JJ's Note</div>
+        <div class="coaching-note-text">"What happens if nothing changes?" only lands after emotional tension is already built — it's a powerful question but timing is everything. Being personable is a genuine strength, but respect must come before likability. Don't become friends too early or the close feels dissonant when you need to shift neutral or directive. The prospect decides in the first 2-3 minutes: do I trust this person or are they just trying to sell me? You can't scale charisma — you scale credibility. Status wins every time. Khalil's model: stay neutral long, go up a little, always come back down.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core Principles Taught -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">03</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Core Principles Introduced</h2>
+
+    <div class="sub-label">Question Quality</div>
+    <ul class="item-list">
+      <li>The quality of your questions dictates the quality of their responses — and the questions you ask reveal more about you than anything you can say directly</li>
+      <li>Always defer to a question over a statement. More questions, fewer statements, throughout the entire process</li>
+      <li>Challenge subjective language every time — "tough," "hard," "frustrated" can mean completely different things to different people</li>
+      <li>Ask questions you genuinely want to know the answer to — that authenticity creates real trust faster than any tactical question</li>
+      <li>Safety questions ("so what's your goal?", "how would that make you feel?") lower your authority and make you sound like every other rep. Eliminate them</li>
+    </ul>
+
+    <div class="sub-label">Frame & Presence</div>
+    <ul class="item-list">
+      <li>Respect before likability — earn the authority first, the connection follows. Not the other way around</li>
+      <li>Nothing else should matter in the world during the call. Full presence. That's what creates the environment where people share things they've never shared with anyone</li>
+      <li>Trust or distrust is decided in the first 2-3 minutes — the call environment is set before you even get into discovery</li>
+    </ul>
+
+    <div class="sub-label">Cost of Not Buying</div>
+    <ul class="item-list">
+      <li>"What happens if nothing changes?" only creates real impact if emotional tension is already present — the question lands when they're already feeling it, not before</li>
+      <li>The goal is to surface what's already there — not manufacture emotions. There's a real scratch they need to fix. Pull it out</li>
+    </ul>
+
+    <div class="insight">
+      <div class="insight-label">Resource — Sending via Telegram</div>
+      <div class="insight-text">JJ is sending all three reps the "Why Humans Buy" doc — 9-step neuroscience-based process from trigger to purchase decision. Also: Sales.io curriculum in the Circle community will drip out Week 1 content starting with state management.</div>
+    </div>
+  </div>
+
+  <!-- Team Cadence -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">04</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Mon / Wed / Fri Team Cadence</h2>
+    <p class="body-text">Proposed start time: 3pm. Stacy is driving to Austin this week (MIA until ~Thursday). Full cadence kicks off once she's settled.</p>
+
+    <div class="cadence-grid">
+      <div class="cadence-card">
+        <div class="cadence-day">Monday</div>
+        <div class="cadence-body">
+          <div class="cadence-item">Set BAM (Bare Ass Minimum) and Reach for the week</div>
+          <div class="cadence-item">BAM = floor you guarantee. Reach = selfish stretch goal for your own paycheck</div>
+          <div class="cadence-item">Reach creates urgency — if it's Friday and you're short, you work to close the gap</div>
+        </div>
+      </div>
+      <div class="cadence-card">
+        <div class="cadence-day">Wednesday</div>
+        <div class="cadence-body">
+          <div class="cadence-item">Midweek stat check (10-15 min)</div>
+          <div class="cadence-item">Cross-reference: setter-reported qualified sets vs. closer-reported qualified sets — find the discrepancy</div>
+          <div class="cadence-item">Roleplay OR call review</div>
+        </div>
+      </div>
+      <div class="cadence-card">
+        <div class="cadence-day">Friday</div>
+        <div class="cadence-body">
+          <div class="cadence-item">Tactical exercises or call review (alternate with Wed format)</div>
+          <div class="cadence-item">Culture day — wins and shoutouts</div>
+          <div class="cadence-item">Cross-department shoutouts once coaches join — must be specific and earned</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-label">Culture Day — How It Works</div>
+    <ul class="item-list">
+      <li>Shoutouts must be cross-department — sales shouts out coaches, coaches shout out setters, etc.</li>
+      <li>Forces real relationships across the team — can't give a BS shoutout ("nice hair, Khalil") — has to be legitimate</li>
+      <li>If someone goes 3 weeks without a shoutout, there's a reason. That triggers a private 1:1 to help, not blame</li>
+      <li>Coaches + full team on Fridays eventually — Khalil is open to it</li>
+      <li>Next company retreat: November</li>
+    </ul>
+  </div>
+
+  <!-- Open Items -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">05</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Open Item — Setter Replacement</h2>
+    <p class="body-text">Micah raised it: if she transitions to closing, who replaces her setting volume? 100+ leads/day need consistent coverage.</p>
+    <ul class="item-list">
+      <li>Khalil's instinct: hire a new setter to cover the gap</li>
+      <li>JJ's offer: can source women with DM setting experience from Sales.io network</li>
+      <li>Khalil's preference: he has FitMama clients interested in setting — strong conviction, already know the offer and Khalil's voice</li>
+      <li>Decision: Khalil will talk to Jazz (current setter) about the transition plan before committing to either path</li>
+    </ul>
+  </div>
+
+  <!-- Action Items -->
+  <div class="actions-block">
+    <div class="actions-eyebrow">Action Items — Post Session</div>
+    <div class="actions-grid">
+      <div class="action-col khalil">
+        <div class="action-col-header"><div class="action-col-dot"></div><span class="action-col-name">Khalil</span></div>
+        <div class="action-col-body">
+          <div class="action-item">Talk to Jazz about Micah's closer transition — what does the setter coverage plan look like?</div>
+          <div class="action-item">Decide: source a new setter from clients or let JJ send candidates</div>
+          <div class="action-item">Confirm Monday start date for the cadence — 3pm works for the team?</div>
+          <div class="action-item">Decide: add coaches to Friday culture day call (he's open to it)</div>
+        </div>
+      </div>
+      <div class="action-col salesio">
+        <div class="action-col-header"><div class="action-col-dot"></div><span class="action-col-name">JJ / Sales.io</span></div>
+        <div class="action-col-body">
+          <div class="action-item">Send "Why Humans Buy" 9-step doc to Stacy, Micah, and Jess via Telegram</div>
+          <div class="action-item">Send all SOPs and docs to Khalil on both Telegram and Slack</div>
+          <div class="action-item">1:1 calls with Stacy and Micah — overdue, reach out to schedule this week</div>
+          <div class="action-item">If Khalil wants setter candidates: send Loom applications from women with DM setting experience</div>
+          <div class="action-item">Confirm Mon/Wed/Fri 3pm slot and send calendar link to the team</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="doc-footer">
+    <span class="footer-brand">Sales.io — Confidential</span>
+    <span class="footer-note">Generated from call recording · July 6, 2026</span>
+  </footer>
+
+</main>
