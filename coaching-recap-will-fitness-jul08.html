@@ -1,0 +1,408 @@
+
+<title>Will — Fitness Offer Strategy Recap</title>
+<style>
+  :root {
+    --bg: #080808;
+    --surface: #111111;
+    --surface-2: #181818;
+    --accent: #e2cfa8;
+    --accent-dim: rgba(226, 207, 168, 0.1);
+    --accent-border: rgba(226, 207, 168, 0.18);
+    --text: #f0ede8;
+    --text-muted: #8a8480;
+    --text-faint: #4a4440;
+    --border: #252018;
+    --border-mid: #302a22;
+    --tag-bg: #1c1812;
+    --green-bg: rgba(78, 160, 100, 0.08);
+    --green-border: rgba(78, 160, 100, 0.25);
+    --green-text: #7dcf95;
+    --khalil-bg: #12110f;
+    --salesio-bg: #0e0d0c;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f5;
+      --surface: #f2ede6;
+      --surface-2: #ede7de;
+      --accent: #8a6e42;
+      --accent-dim: rgba(138, 110, 66, 0.08);
+      --accent-border: rgba(138, 110, 66, 0.2);
+      --text: #1a1612;
+      --text-muted: #7a6e62;
+      --text-faint: #c0b8ae;
+      --border: #e0d8cc;
+      --border-mid: #ccc2b4;
+      --tag-bg: #e8e0d6;
+      --green-bg: rgba(40, 130, 70, 0.07);
+      --green-border: rgba(40, 130, 70, 0.22);
+      --green-text: #2a7a45;
+      --khalil-bg: #eee8e0;
+      --salesio-bg: #f0ebe2;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #080808; --surface: #111111; --surface-2: #181818;
+    --accent: #e2cfa8; --accent-dim: rgba(226,207,168,0.1); --accent-border: rgba(226,207,168,0.18);
+    --text: #f0ede8; --text-muted: #8a8480; --text-faint: #4a4440;
+    --border: #252018; --border-mid: #302a22; --tag-bg: #1c1812;
+    --green-bg: rgba(78,160,100,0.08); --green-border: rgba(78,160,100,0.25); --green-text: #7dcf95;
+    --khalil-bg: #12110f; --salesio-bg: #0e0d0c;
+  }
+
+  :root[data-theme="light"] {
+    --bg: #faf8f5; --surface: #f2ede6; --surface-2: #ede7de;
+    --accent: #8a6e42; --accent-dim: rgba(138,110,66,0.08); --accent-border: rgba(138,110,66,0.2);
+    --text: #1a1612; --text-muted: #7a6e62; --text-faint: #c0b8ae;
+    --border: #e0d8cc; --border-mid: #ccc2b4; --tag-bg: #e8e0d6;
+    --green-bg: rgba(40,130,70,0.07); --green-border: rgba(40,130,70,0.22); --green-text: #2a7a45;
+    --khalil-bg: #eee8e0; --salesio-bg: #f0ebe2;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.9375rem; line-height: 1.65; -webkit-font-smoothing: antialiased;
+  }
+
+  .identity-bar {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--bg); border-bottom: 1px solid var(--border);
+    padding: 0 2rem; height: 52px;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  }
+  .identity-left { display: flex; align-items: center; gap: 0.75rem; }
+  .party { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); }
+  .party-sep { color: var(--accent); font-size: 0.8125rem; }
+  .identity-right { display: flex; align-items: center; gap: 1.25rem; }
+  .meta-chip { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; color: var(--text-faint); letter-spacing: 0.04em; text-transform: uppercase; }
+  .doc-type { background: var(--accent-dim); color: var(--accent); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 2px; }
+
+  main { max-width: 720px; margin: 0 auto; padding: 3.5rem 2rem 5rem; }
+
+  .recap-header { margin-bottom: 2.75rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+  .eyebrow { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+  .recap-title { font-size: 2rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); text-wrap: balance; margin-bottom: 0.875rem; }
+  .recap-sub { font-size: 0.9375rem; color: var(--text-muted); max-width: 54ch; line-height: 1.6; }
+
+  .meeting-meta { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 1.5rem; }
+  .meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+  .meta-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); }
+  .meta-value { font-size: 0.8125rem; font-weight: 500; color: var(--text-muted); }
+
+  .section { margin-bottom: 2.5rem; }
+  .section-head { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+  .section-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); flex-shrink: 0; }
+  .section-rule { flex: 1; height: 1px; background: var(--border); }
+  .section-title { font-size: 1.0625rem; font-weight: 650; color: var(--text); letter-spacing: -0.01em; margin-bottom: 0.75rem; }
+
+  .body-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 0.875rem; }
+  .body-text:last-child { margin-bottom: 0; }
+
+  .item-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.875rem; }
+  .item-list li { display: flex; align-items: flex-start; gap: 0.625rem; font-size: 0.9rem; color: var(--text-muted); line-height: 1.55; }
+  .item-list li::before { content: ''; display: block; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); margin-top: 0.55rem; flex-shrink: 0; opacity: 0.55; }
+
+  .sub-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 0.5rem; margin-top: 1rem; }
+  .sub-label:first-child { margin-top: 0; }
+
+  .insight { border-left: 2px solid var(--accent); padding: 0.875rem 1.125rem; margin: 0.875rem 0; background: var(--accent-dim); }
+  .insight-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; opacity: 0.7; }
+  .insight-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.65; }
+
+  /* ── Attendees ── */
+  .attendee-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem; }
+  .attendee-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .attendee-header { padding: 0.625rem 1rem; border-bottom: 1px solid var(--border); background: var(--surface-2); display: flex; flex-direction: column; gap: 0.2rem; }
+  .attendee-name { font-size: 0.875rem; font-weight: 600; color: var(--text); }
+  .attendee-role { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+  .attendee-body { padding: 0.75rem 1rem; font-size: 0.8125rem; color: var(--text-muted); line-height: 1.55; }
+
+  /* ── Case Study Cards ── */
+  .case-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 1rem; }
+  .case-card-header { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1.125rem; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+  .case-name { font-size: 0.9375rem; font-weight: 650; color: var(--text); }
+  .case-tag { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.625rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); background: var(--tag-bg); border: 1px solid var(--border); padding: 0.15rem 0.5rem; border-radius: 2px; }
+  .case-card-body { padding: 1rem 1.125rem; }
+  .case-text { font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; }
+
+  /* ── Stat Row ── */
+  .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem; }
+  .stat-box { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 0.875rem 1rem; }
+  .stat-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 0.35rem; }
+  .stat-value { font-size: 1.125rem; font-weight: 650; color: var(--text); }
+  .stat-value.warn { color: var(--accent); }
+
+  /* ── SOP References ── */
+  .sop-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .sop-link { display: flex; align-items: center; justify-content: space-between; gap: 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 0.75rem 1rem; text-decoration: none; transition: border-color 0.15s ease; }
+  .sop-link:hover { border-color: var(--accent-border); }
+  .sop-link-name { font-size: 0.875rem; font-weight: 600; color: var(--text); }
+  .sop-link-desc { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem; }
+  .sop-link-arrow { font-family: 'SF Mono','Fira Code',monospace; color: var(--accent); font-size: 0.875rem; flex-shrink: 0; }
+
+  /* ── Action Items ── */
+  .actions-block { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+  .actions-eyebrow { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 1.25rem; }
+  .actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .action-col { border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .action-col-header { padding: 0.75rem 1.125rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.5rem; }
+  .action-col.khalil .action-col-header { background: var(--khalil-bg); }
+  .action-col.salesio .action-col-header { background: var(--salesio-bg); }
+  .action-col-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .action-col-name { font-size: 0.8125rem; font-weight: 600; color: var(--text-muted); }
+  .action-col-body { padding: 0.875rem 1.125rem; display: flex; flex-direction: column; gap: 0.625rem; background: var(--surface); }
+  .action-item { font-size: 0.875rem; color: var(--text-muted); line-height: 1.5; display: flex; align-items: flex-start; gap: 0.625rem; }
+  .action-item::before { content: '→'; color: var(--text-faint); font-size: 0.8rem; flex-shrink: 0; font-family: 'SF Mono','Fira Code',monospace; }
+
+  .doc-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+  .footer-brand { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); }
+  .footer-note { font-size: 0.75rem; color: var(--text-faint); }
+
+  @media (max-width: 600px) {
+    .identity-bar { padding: 0 1.25rem; }
+    main { padding: 2.5rem 1.25rem 4rem; }
+    .recap-title { font-size: 1.5rem; }
+    .attendee-grid, .stat-row { grid-template-columns: 1fr; }
+    .actions-grid { grid-template-columns: 1fr; }
+    .sop-link { flex-direction: column; align-items: flex-start; }
+    .identity-right { display: none; }
+  }
+</style>
+
+<div class="identity-bar">
+  <div class="identity-left">
+    <span class="party">Will — Fitness Offer</span>
+    <span class="party-sep">×</span>
+    <span class="party">Sales.io</span>
+  </div>
+  <div class="identity-right">
+    <span class="meta-chip">July 8, 2026</span>
+    <span class="meta-chip">~25 min</span>
+    <span class="doc-type">Strategy Recap</span>
+  </div>
+</div>
+
+<main>
+
+  <header class="recap-header">
+    <div class="eyebrow">Post-Launch Strategy Call</div>
+    <h1 class="recap-title">Will Fitness Offer — Webinar Post-Mortem &amp; Low-to-High Pivot</h1>
+    <p class="recap-sub">Tom and Justin brought JJ in after Sunday's fitness webinar underperformed. JJ diagnoses the cold-audience problem, walks through the Ashton Hall turnaround, and lays out a low-to-high MRR strategy plus a plan for the 7K untouched DM backlog.</p>
+    <div class="meeting-meta">
+      <div class="meta-item"><span class="meta-label">Date</span><span class="meta-value">July 8, 2026</span></div>
+      <div class="meta-item"><span class="meta-label">Duration</span><span class="meta-value">~25 minutes</span></div>
+      <div class="meta-item"><span class="meta-label">Trigger</span><span class="meta-value">Sunday fitness webinar underperformed</span></div>
+      <div class="meta-item"><span class="meta-label">Client</span><span class="meta-value">Will (fitness creator)</span></div>
+    </div>
+  </header>
+
+  <!-- Attendees -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">01</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Who Was on the Call</h2>
+    <div class="attendee-grid">
+      <div class="attendee-card">
+        <div class="attendee-header">
+          <span class="attendee-name">JJ Hernandez</span>
+          <span class="attendee-role">Sales.io</span>
+        </div>
+        <div class="attendee-body">Advising on offer strategy. Drew on prior work with Ashton Hall, Iman, and other creator/fitness accounts.</div>
+      </div>
+      <div class="attendee-card">
+        <div class="attendee-header">
+          <span class="attendee-name">Tom Dale</span>
+          <span class="attendee-role">Sales / Setters Lead</span>
+        </div>
+        <div class="attendee-body">Owns booking, setter management, and setter coaching on the Will account. Reported webinar call stats and setter feedback.</div>
+      </div>
+      <div class="attendee-card">
+        <div class="attendee-header">
+          <span class="attendee-name">Justin (buildingjustin)</span>
+          <span class="attendee-role">Account / Content Lead</span>
+        </div>
+        <div class="attendee-body">Ran the fitness repositioning and the Sunday webinar launch. Gave the full account background and pricing structure.</div>
+      </div>
+      <div class="attendee-card">
+        <div class="attendee-header">
+          <span class="attendee-name">Talha</span>
+          <span class="attendee-role">Closer</span>
+        </div>
+        <div class="attendee-body">Joined near the end, straight off a 2-hour call. Reported a close on a prior buyer.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Situation -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">02</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Where the Account Stands</h2>
+    <p class="body-text">Before this, Will had spent 4–5 weeks being repositioned as a personal-branding authority — but was still selling a $20 fitness PDF and a "Content Creation Mentorship" side by side, and taking sales calls himself. Audience was confused. Team pulled back to a straight fitness webinar on Sunday, targeting Will's core (much larger) fitness audience.</p>
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="stat-label">Calls Booked</div>
+        <div class="stat-value">~15 direct + more after</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Sales Closed</div>
+        <div class="stat-value warn">2</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Normal Show Rate</div>
+        <div class="stat-value">50–60% (this was well below)</div>
+      </div>
+    </div>
+    <ul class="item-list">
+      <li>Pricing: mid-ticket $4K (5-person group), high-ticket $6K — team noted they could've tested $5K/$7K but priced off available data</li>
+      <li>Heavy no-shows day one; several financial DQs who booked themselves in anyway</li>
+      <li>Multiple bookers lied to the setter to get to Will specifically — left the call within 2–10 minutes once they saw a closer instead</li>
+      <li>Justin's read: fitness, at Will's creator size, reads as "intangible" — audience treats him like a general self-improvement guy (comp: Alex Eubank) rather than a fitness authority they'd pay high-ticket for</li>
+    </ul>
+  </div>
+
+  <!-- JJ's Diagnosis -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">03</span><div class="section-rule"></div></div>
+    <h2 class="section-title">JJ's Diagnosis — Why It's Different From Other Niches</h2>
+    <p class="body-text">Fitness high-ticket is uniquely hard to sell to a large creator's audience: ROI is intangible (can't put a number on "better physique" the way you can on a money offer), and Will's younger followers (~24–26 skew) don't have the runway to shrug off a $4K ask the first time they hear it.</p>
+
+    <div class="case-card">
+      <div class="case-card-header">
+        <span class="case-name">Eubank's Team</span>
+        <span class="case-tag">Comparable</span>
+      </div>
+      <div class="case-card-body">
+        <div class="case-text">$200–300K/month, but entirely on payment plans (Klarna/ClarityPay), no one paying in full, buyers skewing 18–21. Took months of nurturing before the audience saw him as a personal-branding authority rather than just "the fitness guy."</div>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-card-header">
+        <span class="case-name">Ashton Hall Turnaround</span>
+        <span class="case-tag">Playbook JJ Reused</span>
+      </div>
+      <div class="case-card-body">
+        <div class="case-text">Ashton was self-taking calls into a cold, chaotic audience. JJ's team stopped booking calls entirely for ~2 weeks, scripted daily high-level talking-head content on becoming a fitness coach, then relaunched with a new VSL and a straight "book a call" funnel — no webinar. Result: ~$150K/mo baseline to $370K the first month, $582K the second (before the month was even over). Content <em>quality</em>, not audience size, was the lever — same principle JJ points to in "Mr. Free Value" (John)'s content. Caveat: the growth spiral also triggered fulfillment breakdowns and a near class-action situation — a cautionary note on scaling faster than fulfillment can hold.</div>
+      </div>
+    </div>
+
+    <div class="insight">
+      <div class="insight-label">Setter Feedback — Confirms the Diagnosis</div>
+      <div class="insight-text">Tom's setters reported prospects are genuine fans who relate to Will, but either can't financially commit right now, or don't yet see him as the fitness <em>authority</em> — they'd rather go to a local 1:1 trainer with hundreds of reviews and a track record. At $4K–6K, Will is being compared against a commodity, and losing on proof.</div>
+    </div>
+  </div>
+
+  <!-- Strategic Recommendation -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">04</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Recommendation — Low-to-High, MRR First</h2>
+    <p class="body-text">JJ's call: step back from high-ticket for 2–6 weeks (not months — depends on how fast the audience responds to rebuilt content), and launch a low-ticket entry offer / MRR community first to build trust and buy-in before re-approaching high-ticket.</p>
+    <ul class="item-list">
+      <li>Entry offer in the $50–100/month MRR range — low barrier, builds runway and a real base before asking for $4K+</li>
+      <li>MRR covers Will's lifestyle overhead; everything beyond that is profit, and the agency's 30% cut of a much larger recurring pool beats a trickle of high-ticket deals</li>
+      <li>Low-ticket buy-in builds proximity and trust — makes the eventual high-ticket ask feel like a natural next step, not a cold ask</li>
+      <li>Keeps fulfillment risk low — JJ's stated concern with fitness high-ticket specifically is capacity: a batch of $10K sales that can't be fulfilled well leads to chargebacks. Fitness is the only niche JJ would run this low-to-high sequencing on</li>
+      <li>Reference case: Michaela Milhouse (~1M followers, ~$20K/mo off low-effort PDF sales) — projected to ~$90K/mo running a $197 low-to-high entry sequence instead</li>
+    </ul>
+    <div class="sub-label">Optional Price-Ascension Play (Iman Playbook)</div>
+    <ul class="item-list">
+      <li>Open enrollment low (~$100), publicly document price increases ($150 → $300–400) with real screenshots of the raises and of people being turned away at the old price — manufactures FOMO and buy-in at scale</li>
+      <li>Once the base is built (~300 people), one-on-one upsell ascension: push CTAs in community chat and live calls, give priority access to existing members</li>
+      <li>Break the fourth wall — have Will publicly own the personal-branding pivot ("didn't feel aligned, want to refocus on fitness coaching and changing lives") to reconnect authentically before the relaunch</li>
+      <li>Find a unique differentiating mechanism/hook (comp: Nate Belmar's ~$300K single-day launch off a distinct visual angle) so Will isn't competing as a commodity trainer</li>
+    </ul>
+  </div>
+
+  <!-- Account Structure -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">05</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Second Account? — Keep It on Main, Gate a Private IG</h2>
+    <p class="body-text">Tom raised whether to run a second, more niche account. JJ's recommendation: start on Will's main account. Use a private/backend Instagram as a reward mechanism — access unlocked only after the community paywall — for spamming CTAs and ascension offers to people who are already bought in. Not everyone gets access to the private account.</p>
+  </div>
+
+  <!-- DM Backlog & Setter Comp -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">06</span><div class="section-rule"></div></div>
+    <h2 class="section-title">7K Untouched DMs — Setter Deployment</h2>
+    <p class="body-text">Instagram inbound has ~7,000 untouched DMs (6K+ in the last 30 days alone). Tom flagged that the 3 newly trained setters could go idle if the account shifts toward a lower-touch, low-ticket funnel.</p>
+    <ul class="item-list">
+      <li>JJ's proposal: point setters at the untouched DM backlog — real conversations, not link-drops, that lead into the low-ticket offer</li>
+      <li>Comp structure floated: ~15% commission to the setter on the low-ticket sale itself; the recurring MRR flows to Will/the agency</li>
+      <li>Framed as a volume play (JJ's storage-unit/live-shopping analogy) — individually thin margins, but it compounds at scale</li>
+      <li>Setters can also be shifted to other Sales.io offers if there isn't enough volume on Will's account to keep them full-time</li>
+      <li>Tom confirmed current setter coaching feedback is positive — no overpromising going in, so no complaints about the pivot so far</li>
+    </ul>
+  </div>
+
+  <!-- SOP References -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">07</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Related SOPs</h2>
+    <p class="body-text">Use these alongside this recap when executing the plan above.</p>
+    <div class="sop-list">
+      <a class="sop-link" href="./sop-community-reengagement-90day.html">
+        <div>
+          <div class="sop-link-name">90-Day Community Re-Engagement</div>
+          <div class="sop-link-desc">Playbook for working the 7K untouched DM backlog into the low-ticket funnel</div>
+        </div>
+        <span class="sop-link-arrow">→</span>
+      </a>
+      <a class="sop-link" href="./personal-brand-framework.html">
+        <div>
+          <div class="sop-link-name">Personal Brand Framework</div>
+          <div class="sop-link-desc">Reference for repositioning Will as fitness authority vs. general personal-branding creator</div>
+        </div>
+        <span class="sop-link-arrow">→</span>
+      </a>
+      <a class="sop-link" href="./setter-expectations-commission.html">
+        <div>
+          <div class="sop-link-name">Setter Expectations &amp; Commission</div>
+          <div class="sop-link-desc">Base structure to adapt for the proposed 15% low-ticket commission</div>
+        </div>
+        <span class="sop-link-arrow">→</span>
+      </a>
+      <a class="sop-link" href="./sop-pablo-pipeline-outreach.html">
+        <div>
+          <div class="sop-link-name">Pipeline Outreach SOP</div>
+          <div class="sop-link-desc">Outreach cadence/scripting reference for setters working the DM backlog</div>
+        </div>
+        <span class="sop-link-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Action Items -->
+  <div class="actions-block">
+    <div class="actions-eyebrow">Action Items — Post Call</div>
+    <div class="actions-grid">
+      <div class="action-col khalil">
+        <div class="action-col-header"><div class="action-col-dot"></div><span class="action-col-name">Tom / Justin</span></div>
+        <div class="action-col-body">
+          <div class="action-item">Pause/de-prioritize high-ticket booking for 2–6 weeks while content and trust rebuild</div>
+          <div class="action-item">Scope and price a low-ticket MRR entry offer ($50–100/mo range) — decide flat price vs. price-ascension launch</div>
+          <div class="action-item">Script Will's "fourth wall" post/video owning the personal-branding pivot and refocusing on fitness coaching</div>
+          <div class="action-item">Decide second-account question — confirmed: stay on main, stand up a gated private IG for bought-in members</div>
+          <div class="action-item">Find and test a unique differentiating angle/mechanism for Will vs. commodity local trainers</div>
+          <div class="action-item">Decide setter deployment against the 7K DM backlog — commission structure, and which setters move to other offers if volume doesn't support it</div>
+        </div>
+      </div>
+      <div class="action-col salesio">
+        <div class="action-col-header"><div class="action-col-dot"></div><span class="action-col-name">JJ / Sales.io</span></div>
+        <div class="action-col-body">
+          <div class="action-item">Send follow-up document and the call recording to Tom and Justin</div>
+          <div class="action-item">Available for follow-up questions — open to being added to a group chat with the team</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="doc-footer">
+    <span class="footer-brand">Sales.io — Confidential</span>
+    <span class="footer-note">Generated from call recording · July 8, 2026</span>
+  </footer>
+
+</main>
