@@ -1,0 +1,359 @@
+
+<title>Elliott Richards — Week 2 Coaching Recap</title>
+<style>
+  :root {
+    --bg: #080808;
+    --surface: #111111;
+    --surface-2: #181818;
+    --accent: #e2cfa8;
+    --accent-dim: rgba(226, 207, 168, 0.1);
+    --accent-border: rgba(226, 207, 168, 0.18);
+    --text: #f0ede8;
+    --text-muted: #8a8480;
+    --text-faint: #4a4440;
+    --border: #252018;
+    --border-mid: #302a22;
+    --tag-bg: #1c1812;
+    --win-bg: rgba(78, 160, 100, 0.08);
+    --win-border: rgba(78, 160, 100, 0.25);
+    --win-text: #7dcf95;
+    --khalil-bg: #12110f;
+    --salesio-bg: #0e0d0c;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f5;
+      --surface: #f2ede6;
+      --surface-2: #ede7de;
+      --accent: #8a6e42;
+      --accent-dim: rgba(138, 110, 66, 0.08);
+      --accent-border: rgba(138, 110, 66, 0.2);
+      --text: #1a1612;
+      --text-muted: #7a6e62;
+      --text-faint: #c0b8ae;
+      --border: #e0d8cc;
+      --border-mid: #ccc2b4;
+      --tag-bg: #e8e0d6;
+      --win-bg: rgba(40, 130, 70, 0.07);
+      --win-border: rgba(40, 130, 70, 0.22);
+      --win-text: #2a7a45;
+      --khalil-bg: #eee8e0;
+      --salesio-bg: #f0ebe2;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #080808; --surface: #111111; --surface-2: #181818;
+    --accent: #e2cfa8; --accent-dim: rgba(226,207,168,0.1); --accent-border: rgba(226,207,168,0.18);
+    --text: #f0ede8; --text-muted: #8a8480; --text-faint: #4a4440;
+    --border: #252018; --border-mid: #302a22; --tag-bg: #1c1812;
+    --win-bg: rgba(78,160,100,0.08); --win-border: rgba(78,160,100,0.25); --win-text: #7dcf95;
+    --khalil-bg: #12110f; --salesio-bg: #0e0d0c;
+  }
+
+  :root[data-theme="light"] {
+    --bg: #faf8f5; --surface: #f2ede6; --surface-2: #ede7de;
+    --accent: #8a6e42; --accent-dim: rgba(138,110,66,0.08); --accent-border: rgba(138,110,66,0.2);
+    --text: #1a1612; --text-muted: #7a6e62; --text-faint: #c0b8ae;
+    --border: #e0d8cc; --border-mid: #ccc2b4; --tag-bg: #e8e0d6;
+    --win-bg: rgba(40,130,70,0.07); --win-border: rgba(40,130,70,0.22); --win-text: #2a7a45;
+    --khalil-bg: #eee8e0; --salesio-bg: #f0ebe2;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.9375rem; line-height: 1.65; -webkit-font-smoothing: antialiased;
+  }
+
+  .identity-bar {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--bg); border-bottom: 1px solid var(--border);
+    padding: 0 2rem; height: 52px;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  }
+  .identity-left { display: flex; align-items: center; gap: 0.75rem; }
+  .party { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); }
+  .party-sep { color: var(--accent); font-size: 0.8125rem; }
+  .identity-right { display: flex; align-items: center; gap: 1.25rem; }
+  .meta-chip { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; color: var(--text-faint); letter-spacing: 0.04em; text-transform: uppercase; }
+  .doc-type { background: var(--accent-dim); color: var(--accent); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 2px; }
+
+  main { max-width: 720px; margin: 0 auto; padding: 3.5rem 2rem 5rem; }
+
+  .recap-header { margin-bottom: 2.75rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+  .eyebrow { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+  .recap-title { font-size: 2rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); text-wrap: balance; margin-bottom: 0.875rem; }
+  .recap-sub { font-size: 0.9375rem; color: var(--text-muted); max-width: 54ch; line-height: 1.6; }
+
+  .meeting-meta { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 1.5rem; }
+  .meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+  .meta-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); }
+  .meta-value { font-size: 0.8125rem; font-weight: 500; color: var(--text-muted); }
+
+  .section { margin-bottom: 2.25rem; }
+  .section-head { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+  .section-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); flex-shrink: 0; }
+  .section-rule { flex: 1; height: 1px; background: var(--border); }
+  .section-title { font-size: 1.0625rem; font-weight: 650; color: var(--text); letter-spacing: -0.01em; margin-bottom: 0.75rem; }
+
+  .win-block { background: var(--win-bg); border: 1px solid var(--win-border); border-radius: 4px; padding: 1rem 1.125rem; margin-bottom: 0.875rem; }
+  .win-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--win-text); margin-bottom: 0.375rem; }
+  .win-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+  .insight { border-left: 2px solid var(--accent); padding: 0.875rem 1.125rem; margin: 0.875rem 0; background: var(--accent-dim); }
+  .insight-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; opacity: 0.7; }
+  .insight-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.65; }
+
+  .body-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 0.875rem; }
+  .body-text:last-child { margin-bottom: 0; }
+
+  .item-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.875rem; }
+  .item-list li { display: flex; align-items: flex-start; gap: 0.625rem; font-size: 0.9rem; color: var(--text-muted); line-height: 1.55; }
+  .item-list li::before { content: ''; display: block; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); margin-top: 0.55rem; flex-shrink: 0; opacity: 0.55; }
+
+  .sub-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 0.5rem; margin-top: 1rem; }
+  .sub-label:first-child { margin-top: 0; }
+
+  /* ── Framework row ── */
+  .framework-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 0.875rem; margin-bottom: 1rem; }
+  .framework-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .framework-card-head { padding: 0.5rem 1rem; border-bottom: 1px solid var(--border); font-family: 'SF Mono','Fira Code',monospace; font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); background: var(--surface-2); }
+  .framework-card-body { padding: 0.875rem 1rem; display: flex; flex-direction: column; gap: 0.375rem; }
+  .framework-step { font-size: 0.8375rem; color: var(--text-muted); display: flex; align-items: baseline; gap: 0.5rem; }
+  .step-num { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.625rem; color: var(--accent); opacity: 0.6; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+
+  /* ── R.I.S.B row ── */
+  .risb-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-bottom: 1rem; }
+  .risb-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 0.875rem 0.875rem; text-align: center; }
+  .risb-letter { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.9rem; font-weight: 700; color: var(--accent); margin-bottom: 0.35rem; }
+  .risb-word { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; }
+
+  /* ── SOP References ── */
+  .sop-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .sop-link { display: flex; align-items: center; justify-content: space-between; gap: 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 0.75rem 1rem; text-decoration: none; transition: border-color 0.15s ease; }
+  .sop-link:hover { border-color: var(--accent-border); }
+  .sop-link-name { font-size: 0.875rem; font-weight: 600; color: var(--text); }
+  .sop-link-desc { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem; }
+  .sop-link-arrow { font-family: 'SF Mono','Fira Code',monospace; color: var(--accent); font-size: 0.875rem; flex-shrink: 0; }
+
+  .actions-block { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+  .actions-eyebrow { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 1.25rem; }
+  .actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .action-col { border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .action-col-header { padding: 0.75rem 1.125rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.5rem; }
+  .action-col.khalil .action-col-header { background: var(--khalil-bg); }
+  .action-col.salesio .action-col-header { background: var(--salesio-bg); }
+  .action-col-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .action-col-name { font-size: 0.8125rem; font-weight: 600; color: var(--text-muted); }
+  .action-col-body { padding: 0.875rem 1.125rem; display: flex; flex-direction: column; gap: 0.625rem; background: var(--surface); }
+  .action-item { font-size: 0.875rem; color: var(--text-muted); line-height: 1.5; display: flex; align-items: flex-start; gap: 0.625rem; }
+  .action-item::before { content: '→'; color: var(--text-faint); font-size: 0.8rem; flex-shrink: 0; font-family: 'SF Mono','Fira Code',monospace; }
+
+  .doc-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+  .footer-brand { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); }
+  .footer-note { font-size: 0.75rem; color: var(--text-faint); }
+
+  @media (max-width: 600px) {
+    .identity-bar { padding: 0 1.25rem; }
+    main { padding: 2.5rem 1.25rem 4rem; }
+    .recap-title { font-size: 1.5rem; }
+    .framework-compare, .actions-grid { grid-template-columns: 1fr; }
+    .risb-grid { grid-template-columns: 1fr 1fr; }
+    .sop-link { flex-direction: column; align-items: flex-start; }
+    .identity-right { display: none; }
+  }
+</style>
+
+<div class="identity-bar">
+  <div class="identity-left">
+    <span class="party">Elliott Richards</span>
+    <span class="party-sep">×</span>
+    <span class="party">Sales.io</span>
+  </div>
+  <div class="identity-right">
+    <span class="meta-chip">July 8, 2026</span>
+    <span class="meta-chip">~18 min</span>
+    <span class="doc-type">Week 2 Coaching Recap</span>
+  </div>
+</div>
+
+<main>
+
+  <header class="recap-header">
+    <div class="eyebrow">Curriculum Coaching — Week 2</div>
+    <h1 class="recap-title">Elliott Richards — Mistake Compression &amp; the Anti-Fragility System</h1>
+    <p class="recap-sub">Week 2 review call. Covered the rapport/energy lesson, a cognitive dissonance question from Elliott, and a full walkthrough of the Anti-Fragility System — the framework JJ uses to make failure productive instead of demoralizing.</p>
+    <div class="meeting-meta">
+      <div class="meta-item"><span class="meta-label">Date</span><span class="meta-value">July 8, 2026</span></div>
+      <div class="meta-item"><span class="meta-label">Duration</span><span class="meta-value">~18 minutes</span></div>
+      <div class="meta-item"><span class="meta-label">Program Week</span><span class="meta-value">Week 2 of curriculum</span></div>
+      <div class="meta-item"><span class="meta-label">Next unlock</span><span class="meta-value">Week 3 — setting/closing cheat sheet</span></div>
+    </div>
+  </header>
+
+  <!-- Week 2 Review -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">01</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Week 2 Curriculum Review</h2>
+    <p class="body-text">Week 2 is the last week focused on identity and self-work before the curriculum shifts into process. Elliott had already gone through the material — no issues with the rapport/energy/tone section, which he called out specifically: your energy and tone dictate how the call goes before you've said anything of substance.</p>
+    <div class="win-block">
+      <div class="win-label">On-Call Win</div>
+      <div class="win-text">Elliott came in with a real question instead of a pass/fail check-in — asked JJ to elaborate on why "attacking someone's identity leads to humiliation" and how that ties to cognitive dissonance. Good sign of engagement with the material, not just consuming it.</div>
+    </div>
+  </div>
+
+  <!-- Cognitive Dissonance -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">02</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Cognitive Dissonance — Elliott's Question</h2>
+    <p class="body-text">JJ's definition: cognitive dissonance is the gap between who someone believes they are and what the evidence actually proves. Example walked through live — someone claims "I'm super on top of my calendar and routine," but under questioning ("what does that look like day to day?") the evidence shows otherwise. That gap is where the tension — and the sale — lives.</p>
+    <div class="insight">
+      <div class="insight-label">Why It Matters</div>
+      <div class="insight-text">Never attack the identity claim directly ("no you're not") — that produces humiliation and defensiveness, not buy-in. Instead, ask questions that let the prospect surface the gap themselves. There's a dedicated Cognitive Dissonance &amp; Persuasion lesson JJ is sending Elliott separately to go deeper.</div>
+    </div>
+  </div>
+
+  <!-- Anti-Fragility System -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">03</span><div class="section-rule"></div></div>
+    <h2 class="section-title">The Anti-Fragility System</h2>
+    <p class="body-text">Originally developed from an Elon Musk mental model, passed to JJ by a mentor. The core idea: people become fragile because they only plan for the goal and never plan for failure. Anti-fragility means defining what falling short looks like <em>before</em> you start, so a setback is data, not a crisis.</p>
+
+    <div class="sub-label">The Structure — R.I.S.B.</div>
+    <div class="risb-grid">
+      <div class="risb-card"><div class="risb-letter">R</div><div class="risb-word">Resources</div></div>
+      <div class="risb-card"><div class="risb-letter">I</div><div class="risb-word">Initiation</div></div>
+      <div class="risb-card"><div class="risb-letter">S</div><div class="risb-word">Speed</div></div>
+      <div class="risb-card"><div class="risb-letter">B</div><div class="risb-word">Breaking Point</div></div>
+    </div>
+    <p class="body-text">You get the resources (framework, process, people to roleplay with), take the initiation to start, move with speed, and eventually hit a breaking point — the moment failure or success gets confirmed. At that point you iterate with what you learned and go again.</p>
+
+    <div class="sub-label">Worked Example — Elliott's Track</div>
+    <div class="framework-compare">
+      <div class="framework-card">
+        <div class="framework-card-head">Desired Outcome</div>
+        <div class="framework-card-body">
+          <div class="framework-step"><span class="step-num">→</span> Get skilled enough to pass the baseline test</div>
+        </div>
+      </div>
+      <div class="framework-card">
+        <div class="framework-card-head">Failure Envisioned</div>
+        <div class="framework-card-body">
+          <div class="framework-step"><span class="step-num">→</span> Falling short in one specific stage — discovery, objections, or energy</div>
+        </div>
+      </div>
+    </div>
+    <p class="body-text">Key correction JJ made: failure envisioned isn't just "not landing the job" — that's too vague to act on. Get specific to the exact stage or skill where you'd stall, so when it happens you know precisely what to iterate on rather than spiraling into "I'm not good enough."</p>
+
+    <div class="insight">
+      <div class="insight-label">Why It's Called Anti-Fragility</div>
+      <div class="insight-text">Most people fail and internalize it as a character flaw. The system reframes it: failure was already anticipated, so it's not a referendum on your ability — it's a checkpoint. Go back, take the resources you gained, move with more initiation and speed, hit the next breaking point. JJ: "There's no such thing as failure because you're not good enough — the only reason you won't get somewhere is because you stop."</div>
+    </div>
+  </div>
+
+  <!-- Riley Case Study -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">04</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Riley — Case Study in the System Working</h2>
+    <p class="body-text">JJ used Riley (further along in the program) as the live example of the R.I.S.B. loop in action. Riley had a first interview go well but didn't land the role — instead of treating "I made it to final stages" as a win to coast on, he kept iterating.</p>
+    <ul class="item-list">
+      <li>Re-recorded his intro Loom ~20 times based on feedback — background, outfit, delivery, all iterated</li>
+      <li>Same-day turnaround on every note JJ gave him — "I'll have it back to you by 9pm," and he did, repeatedly</li>
+      <li>The company he interviewed with said he was talented but wanted more self-feedback from him — JJ pushed back on that as a bad reason not to hire, and thinks he may still land it</li>
+      <li>JJ's takeaway for Elliott: that's what "hard work" means in this program — not effort in the abstract, fast honest iteration on specific feedback</li>
+    </ul>
+  </div>
+
+  <!-- Baseline Test -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">05</span><div class="section-rule"></div></div>
+    <h2 class="section-title">What the Baseline Test Actually Is</h2>
+    <p class="body-text">Elliott asked directly. JJ clarified: it's not a certification exam — it's a skills check to confirm a rep can conduct a sales call. Eli and Riley have been practicing together and JJ has already reviewed some of those recordings as a reference point for what "ready" looks like.</p>
+  </div>
+
+  <!-- Logistics -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">06</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Logistics &amp; What's Next</h2>
+    <ul class="item-list">
+      <li>Elliott is doing a mock call with Riley — will record it and send to JJ for critique</li>
+      <li>Week 3 unlocks a setting + closing reference sheet (not a script to read from, a scaffold to build his own delivery on) — JJ will send an early version now so Elliott can study ahead</li>
+      <li>Elliott plans to get familiar with both setting and closing material, not just one track</li>
+      <li>Cole's advanced content — JJ gave a heads-up not to feel intimidated if some of it goes over Elliott's head at first; it gets explained</li>
+      <li>Evan's call tonight, 6pm Eastern, on the Sales.io platform (not Circle/School) — Elliott confirmed he'll attend</li>
+      <li>Preferred contact channel: Circle first, text is fine too — JJ shared his number</li>
+    </ul>
+  </div>
+
+  <!-- Related Lessons -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">07</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Related Lessons</h2>
+    <p class="body-text">Send/reference these alongside this recap.</p>
+    <div class="sop-list">
+      <a class="sop-link" href="./lesson-cognitive-dissonance.html">
+        <div>
+          <div class="sop-link-name">Cognitive Dissonance &amp; Persuasion Mastery</div>
+          <div class="sop-link-desc">Full lesson JJ referenced live — the belief-vs-evidence gap in more depth</div>
+        </div>
+        <span class="sop-link-arrow">→</span>
+      </a>
+      <a class="sop-link" href="./lesson-anti-fragility-system.html">
+        <div>
+          <div class="sop-link-name">The Anti-Fragility System</div>
+          <div class="sop-link-desc">Source lesson for R.I.S.B. and the desired-outcome / failure-envisioned framework</div>
+        </div>
+        <span class="sop-link-arrow">→</span>
+      </a>
+      <a class="sop-link" href="./lesson-setter-levers.html">
+        <div>
+          <div class="sop-link-name">Setter Levers</div>
+          <div class="sop-link-desc">Setting-side reference — one half of the "get familiar with both" recommendation</div>
+        </div>
+        <span class="sop-link-arrow">→</span>
+      </a>
+      <a class="sop-link" href="./lesson-closer-levers.html">
+        <div>
+          <div class="sop-link-name">Closer Levers</div>
+          <div class="sop-link-desc">Closing-side reference — the other half</div>
+        </div>
+        <span class="sop-link-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Action Items -->
+  <div class="actions-block">
+    <div class="actions-eyebrow">Action Items — Post Call</div>
+    <div class="actions-grid">
+      <div class="action-col khalil">
+        <div class="action-col-header"><div class="action-col-dot"></div><span class="action-col-name">Elliott</span></div>
+        <div class="action-col-body">
+          <div class="action-item">Do the mock call with Riley, record it, send to JJ for critique</div>
+          <div class="action-item">Keep studying setting + closing material as it comes in — get familiar with both tracks</div>
+          <div class="action-item">Attend Evan's call tonight, 6pm Eastern, on Sales.io</div>
+          <div class="action-item">Watch the Cognitive Dissonance lesson once sent</div>
+        </div>
+      </div>
+      <div class="action-col salesio">
+        <div class="action-col-header"><div class="action-col-dot"></div><span class="action-col-name">JJ / Sales.io</span></div>
+        <div class="action-col-body">
+          <div class="action-item">Send Elliott the Cognitive Dissonance &amp; Persuasion lesson</div>
+          <div class="action-item">Send the Anti-Fragility System document/recording for reference</div>
+          <div class="action-item">Send an early setting + closing reference sheet ahead of the official Week 3 unlock</div>
+          <div class="action-item">Review Elliott's mock call recording with Riley once submitted</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="doc-footer">
+    <span class="footer-brand">Sales.io — Confidential</span>
+    <span class="footer-note">Generated from call recording · July 8, 2026</span>
+  </footer>
+
+</main>
