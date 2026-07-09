@@ -1,0 +1,403 @@
+
+<title>FitMama Sales Team — Midweek Roleplay Recap</title>
+<style>
+  :root {
+    --bg: #080808;
+    --surface: #111111;
+    --surface-2: #181818;
+    --accent: #e2cfa8;
+    --accent-dim: rgba(226, 207, 168, 0.1);
+    --accent-border: rgba(226, 207, 168, 0.18);
+    --text: #f0ede8;
+    --text-muted: #8a8480;
+    --text-faint: #4a4440;
+    --border: #252018;
+    --border-mid: #302a22;
+    --tag-bg: #1c1812;
+    --green-bg: rgba(78, 160, 100, 0.08);
+    --green-border: rgba(78, 160, 100, 0.25);
+    --green-text: #7dcf95;
+    --khalil-bg: #12110f;
+    --salesio-bg: #0e0d0c;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f5;
+      --surface: #f2ede6;
+      --surface-2: #ede7de;
+      --accent: #8a6e42;
+      --accent-dim: rgba(138, 110, 66, 0.08);
+      --accent-border: rgba(138, 110, 66, 0.2);
+      --text: #1a1612;
+      --text-muted: #7a6e62;
+      --text-faint: #c0b8ae;
+      --border: #e0d8cc;
+      --border-mid: #ccc2b4;
+      --tag-bg: #e8e0d6;
+      --green-bg: rgba(40, 130, 70, 0.07);
+      --green-border: rgba(40, 130, 70, 0.22);
+      --green-text: #2a7a45;
+      --khalil-bg: #eee8e0;
+      --salesio-bg: #f0ebe2;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #080808; --surface: #111111; --surface-2: #181818;
+    --accent: #e2cfa8; --accent-dim: rgba(226,207,168,0.1); --accent-border: rgba(226,207,168,0.18);
+    --text: #f0ede8; --text-muted: #8a8480; --text-faint: #4a4440;
+    --border: #252018; --border-mid: #302a22; --tag-bg: #1c1812;
+    --green-bg: rgba(78,160,100,0.08); --green-border: rgba(78,160,100,0.25); --green-text: #7dcf95;
+    --khalil-bg: #12110f; --salesio-bg: #0e0d0c;
+  }
+
+  :root[data-theme="light"] {
+    --bg: #faf8f5; --surface: #f2ede6; --surface-2: #ede7de;
+    --accent: #8a6e42; --accent-dim: rgba(138,110,66,0.08); --accent-border: rgba(138,110,66,0.2);
+    --text: #1a1612; --text-muted: #7a6e62; --text-faint: #c0b8ae;
+    --border: #e0d8cc; --border-mid: #ccc2b4; --tag-bg: #e8e0d6;
+    --green-bg: rgba(40,130,70,0.07); --green-border: rgba(40,130,70,0.22); --green-text: #2a7a45;
+    --khalil-bg: #eee8e0; --salesio-bg: #f0ebe2;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.9375rem; line-height: 1.65; -webkit-font-smoothing: antialiased;
+  }
+
+  .identity-bar {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--bg); border-bottom: 1px solid var(--border);
+    padding: 0 2rem; height: 52px;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  }
+  .identity-left { display: flex; align-items: center; gap: 0.75rem; }
+  .party { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); }
+  .party-sep { color: var(--accent); font-size: 0.8125rem; }
+  .identity-right { display: flex; align-items: center; gap: 1.25rem; }
+  .meta-chip { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; color: var(--text-faint); letter-spacing: 0.04em; text-transform: uppercase; }
+  .doc-type { background: var(--accent-dim); color: var(--accent); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 2px; }
+
+  main { max-width: 720px; margin: 0 auto; padding: 3.5rem 2rem 5rem; }
+
+  .recap-header { margin-bottom: 2.75rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+  .eyebrow { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+  .recap-title { font-size: 2rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); text-wrap: balance; margin-bottom: 0.875rem; }
+  .recap-sub { font-size: 0.9375rem; color: var(--text-muted); max-width: 54ch; line-height: 1.6; }
+
+  .meeting-meta { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 1.5rem; }
+  .meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+  .meta-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); }
+  .meta-value { font-size: 0.8125rem; font-weight: 500; color: var(--text-muted); }
+
+  .section { margin-bottom: 2.5rem; }
+  .section-head { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+  .section-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); flex-shrink: 0; }
+  .section-rule { flex: 1; height: 1px; background: var(--border); }
+  .section-title { font-size: 1.0625rem; font-weight: 650; color: var(--text); letter-spacing: -0.01em; margin-bottom: 0.75rem; }
+
+  .body-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 0.875rem; }
+  .body-text:last-child { margin-bottom: 0; }
+
+  .item-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.875rem; }
+  .item-list li { display: flex; align-items: flex-start; gap: 0.625rem; font-size: 0.9rem; color: var(--text-muted); line-height: 1.55; }
+  .item-list li::before { content: ''; display: block; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); margin-top: 0.55rem; flex-shrink: 0; opacity: 0.55; }
+
+  .sub-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 0.5rem; margin-top: 1rem; }
+  .sub-label:first-child { margin-top: 0; }
+
+  .insight { border-left: 2px solid var(--accent); padding: 0.875rem 1.125rem; margin: 0.875rem 0; background: var(--accent-dim); }
+  .insight-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; opacity: 0.7; }
+  .insight-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.65; }
+
+  /* ── Attendees ── */
+  .attendee-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem; }
+  .attendee-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .attendee-header { padding: 0.625rem 1rem; border-bottom: 1px solid var(--border); background: var(--surface-2); display: flex; flex-direction: column; gap: 0.2rem; }
+  .attendee-name { font-size: 0.875rem; font-weight: 600; color: var(--text); }
+  .attendee-role { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+  .attendee-body { padding: 0.75rem 1rem; font-size: 0.8125rem; color: var(--text-muted); line-height: 1.55; }
+
+  /* ── Roleplay flow ── */
+  .flow-list { display: flex; flex-direction: column; gap: 0; margin-bottom: 1rem; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .flow-item { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); background: var(--surface); display: flex; gap: 0.75rem; }
+  .flow-item:last-child { border-bottom: none; }
+  .flow-num { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.7rem; color: var(--accent); opacity: 0.7; flex-shrink: 0; padding-top: 0.05rem; }
+  .flow-body { font-size: 0.85rem; color: var(--text-muted); line-height: 1.55; }
+  .flow-body strong { color: var(--text); font-weight: 600; }
+
+  /* ── Rating chip ── */
+  .rating-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+  .rating-chip { font-family: 'SF Mono','Fira Code',monospace; font-size: 1.5rem; font-weight: 700; color: var(--accent); background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 0.5rem 1rem; }
+  .rating-desc { font-size: 0.85rem; color: var(--text-muted); }
+
+  /* ── Framework row ── */
+  .framework-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem; margin-bottom: 1rem; }
+  .framework-step-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 0.75rem 0.6rem; text-align: center; }
+  .framework-step-num { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.65rem; color: var(--accent); opacity: 0.7; margin-bottom: 0.3rem; }
+  .framework-step-name { font-size: 0.75rem; font-weight: 600; color: var(--text); line-height: 1.3; }
+
+  /* ── SOP References ── */
+  .sop-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .sop-link { display: flex; align-items: center; justify-content: space-between; gap: 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 0.75rem 1rem; text-decoration: none; transition: border-color 0.15s ease; }
+  .sop-link:hover { border-color: var(--accent-border); }
+  .sop-link-name { font-size: 0.875rem; font-weight: 600; color: var(--text); }
+  .sop-link-desc { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem; }
+  .sop-link-arrow { font-family: 'SF Mono','Fira Code',monospace; color: var(--accent); font-size: 0.875rem; flex-shrink: 0; }
+
+  /* ── Action Items ── */
+  .actions-block { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+  .actions-eyebrow { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 1.25rem; }
+  .actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .action-col { border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .action-col-header { padding: 0.75rem 1.125rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.5rem; }
+  .action-col.khalil .action-col-header { background: var(--khalil-bg); }
+  .action-col.salesio .action-col-header { background: var(--salesio-bg); }
+  .action-col-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .action-col-name { font-size: 0.8125rem; font-weight: 600; color: var(--text-muted); }
+  .action-col-body { padding: 0.875rem 1.125rem; display: flex; flex-direction: column; gap: 0.625rem; background: var(--surface); }
+  .action-item { font-size: 0.875rem; color: var(--text-muted); line-height: 1.5; display: flex; align-items: flex-start; gap: 0.625rem; }
+  .action-item::before { content: '→'; color: var(--text-faint); font-size: 0.8rem; flex-shrink: 0; font-family: 'SF Mono','Fira Code',monospace; }
+
+  .doc-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+  .footer-brand { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); }
+  .footer-note { font-size: 0.75rem; color: var(--text-faint); }
+
+  @media (max-width: 600px) {
+    .identity-bar { padding: 0 1.25rem; }
+    main { padding: 2.5rem 1.25rem 4rem; }
+    .recap-title { font-size: 1.5rem; }
+    .attendee-grid { grid-template-columns: 1fr; }
+    .framework-steps { grid-template-columns: 1fr 1fr; }
+    .actions-grid { grid-template-columns: 1fr; }
+    .sop-link { flex-direction: column; align-items: flex-start; }
+    .identity-right { display: none; }
+  }
+</style>
+
+<div class="identity-bar">
+  <div class="identity-left">
+    <span class="party">FitMama Coaching</span>
+    <span class="party-sep">×</span>
+    <span class="party">Sales.io</span>
+  </div>
+  <div class="identity-right">
+    <span class="meta-chip">July 8, 2026</span>
+    <span class="meta-chip">~31 min</span>
+    <span class="doc-type">Midweek Roleplay Recap</span>
+  </div>
+</div>
+
+<main>
+
+  <header class="recap-header">
+    <div class="eyebrow">Session 3 — Midweek Cadence</div>
+    <h1 class="recap-title">FitMama Sales Team — Roleplay Day</h1>
+    <p class="recap-sub">First team roleplay session since kickoff. Jess ran a full closing roleplay on Micah (playing a postpartum mom prospect) — strong result. JJ used it to teach the current-reality → problem-aware → solution-aware → future-pace framework and to address a real authority gap Micah raised.</p>
+    <div class="meeting-meta">
+      <div class="meta-item"><span class="meta-label">Date</span><span class="meta-value">July 8, 2026</span></div>
+      <div class="meta-item"><span class="meta-label">Duration</span><span class="meta-value">~31 minutes</span></div>
+      <div class="meta-item"><span class="meta-label">Format</span><span class="meta-value">Live roleplay (Jess closing, Micah as prospect)</span></div>
+      <div class="meta-item"><span class="meta-label">Jess self-rating</span><span class="meta-value">8/10</span></div>
+    </div>
+  </header>
+
+  <!-- Attendees -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">01</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Who Was on the Call</h2>
+    <div class="attendee-grid">
+      <div class="attendee-card">
+        <div class="attendee-header">
+          <span class="attendee-name">Jessica Whitman</span>
+          <span class="attendee-role">Closer</span>
+        </div>
+        <div class="attendee-body">Been "absorbing" — rewatching Khalil's calls to internalize ICP context. Ran today's live roleplay as closer.</div>
+      </div>
+      <div class="attendee-card">
+        <div class="attendee-header">
+          <span class="attendee-name">Micah</span>
+          <span class="attendee-role">Setter → Closer</span>
+        </div>
+        <div class="attendee-body">Currently the only DM setter on the team (the other is mid-relocation) — running DMs all day while training for closing. Played the prospect in today's roleplay.</div>
+      </div>
+      <div class="attendee-card">
+        <div class="attendee-header">
+          <span class="attendee-name">Khalil Bass</span>
+          <span class="attendee-role">Founder — Brief Cameo</span>
+        </div>
+        <div class="attendee-body">Dropped in to say hi, then had to step away to deal with a combative former house manager who wouldn't move out. Didn't rejoin before the call ended.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Where they're at -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">02</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Where the Team's At</h2>
+    <p class="body-text">Jess: heavy on absorption mode — watching as many of Khalil's calls as possible to internalize the ICP and what actually matters to these prospects at a deeper level. Says that context was the missing piece early on; now it's about applying it.</p>
+    <div class="insight">
+      <div class="insight-label">Real Bottleneck — Micah's Workload</div>
+      <div class="insight-text">With the other setter mid-move, Micah is the only one covering DMs — working all day into the night, then also training for closing on top of it. She described it as constantly switching between "DM brain" and "closer brain," which is a real cognitive tax, not just a busy schedule. JJ committed to moving fast on getting setter support in — expects relief today or tomorrow per what Khalil told him.</div>
+    </div>
+  </div>
+
+  <!-- Feedback on Jess's earlier roleplay -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">03</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Feedback on Jess's Prior Roleplay</h2>
+    <p class="body-text">JJ rewatched Jess's earlier solo roleplay (twice — once by coincidence while prepping for an unrelated in-person fitness client, once with his fiancée, who loved her energy enough to say she'd buy from her). That reaction is exactly the risk he wanted to flag.</p>
+    <ul class="item-list">
+      <li>Jess's warmth and easygoing energy are authentically her — genuine strength, not something to suppress</li>
+      <li>But with more sophisticated buyers or at the objection stage, pure friendliness can undercut her — prospects sense the shift to a "neutral, firmer" tone as jarring if the whole call has been soft</li>
+      <li>Specific moment flagged: when the prospect said something like "it's been tough, I don't feel like myself," Jess laughed lightly and moved past it ("we'll totally figure it out") instead of sitting in that discomfort — that's exactly where the real emotion lives</li>
+      <li>The fix isn't to be cold — it's "serious" in the sense that health conversations deserve real weight, which is what creates urgency and value perception</li>
+    </ul>
+    <div class="insight">
+      <div class="insight-label">Respect First, Likability Second</div>
+      <div class="insight-text">Sales is a response to authority — and authority is composure and neutrality, not domineering control. Humans are wired to follow "the most followable person" in the room. Reference point: Layla — not the friendliest on the surface, very direct, but people respect her first and then discover the warmth, which lands much harder than warmth offered upfront. Gain respect in the first few minutes, let personality and charisma show after that's established — not before.</div>
+    </div>
+  </div>
+
+  <!-- Micah's authority question -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">04</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Micah's Question — Authority as a Woman Selling to Women</h2>
+    <p class="body-text">Micah raised something real: woman-to-woman, prospects seem less likely to instinctively grant her authority the way they do with Khalil, whose presence alone reads as "this guy's in charge." She's been thinking through how to establish that same authority in her own way.</p>
+    <div class="insight">
+      <div class="insight-label">JJ's Answer</div>
+      <div class="insight-text">Don't try to copy Khalil's intensity — find your own version. JJ's own shift: he dropped the exaggerated "hey what's going on!!" sales-guy voice entirely and now opens calls almost flatly neutral ("Hey Jess, how's it going, where are you based — oh nice, I love Colorado"). No forced rapport-building. Prospects are looking for the rep's approval just as much as the rep is looking for theirs — once that's established, it becomes a social dynamic built on the prospect sensing genuine care, not a pitch.</div>
+    </div>
+  </div>
+
+  <!-- Live Roleplay -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">05</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Live Roleplay — Jess Closing, Micah as Prospect</h2>
+    <p class="body-text">Jess chose to run this present/conversational rather than off a strict script — let Micah's answers lead the direction and pulled deeper on subjective language instead of following a rigid checklist. JJ approved running it as-is to observe her natural process first.</p>
+    <div class="flow-list">
+      <div class="flow-item"><span class="flow-num">01</span><span class="flow-body"><strong>Set up the call</strong> — confirmed time, opened with why she applied to work with FitMama Coaching</span></div>
+      <div class="flow-item"><span class="flow-num">02</span><span class="flow-body"><strong>Surfaced the story</strong> — prospect (Micah): second baby 6 months ago, struggled to feel like herself again in a way she didn't after her first — pulled the "how did you feel after your first?" comparison to isolate what actually changed</span></div>
+      <div class="flow-item"><span class="flow-num">03</span><span class="flow-body"><strong>Grounded it in the real schedule</strong> — daily routine (6am wake, daycare drop-off, work, dinner/bath/bed until 8-10pm) to make "no time for myself" concrete, not abstract</span></div>
+      <div class="flow-item"><span class="flow-num">04</span><span class="flow-body"><strong>Chased the subjective language</strong> — "nothing left," "lost," "not the me I remember" all got a direct follow-up ("help me understand," "what does that look like for you") instead of being accepted at face value</span></div>
+      <div class="flow-item"><span class="flow-num">05</span><span class="flow-body"><strong>Reached real identity-level pain</strong> — prospect landed on losing touch with fashion, creativity, and confidence — hadn't done anything for herself in so long she couldn't remember the last time. JJ cut the roleplay there for time, right at the emotional peak</span></div>
+    </div>
+  </div>
+
+  <!-- Debrief & Framework -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">06</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Debrief &amp; the Framework</h2>
+    <div class="rating-row">
+      <div class="rating-chip">8<span style="font-size:0.9rem;color:var(--text-faint);">/10</span></div>
+      <div class="rating-desc">Jess's self-rating — noticeably better than her first roleplay, which she felt went too broad/surface-level. This one combined depth with direction, guiding back toward fitness relevance instead of just following tangents</div>
+    </div>
+    <p class="body-text">Micah (still in prospect mode when asked) confirmed it felt like it was "getting deep" — she had to actively hold back from breaking character to talk about her own real fitness/body stuff.</p>
+
+    <div class="sub-label">The Sales.io Framework — Current → Future</div>
+    <div class="framework-steps">
+      <div class="framework-step-card"><div class="framework-step-num">01</div><div class="framework-step-name">Current Reality</div></div>
+      <div class="framework-step-card"><div class="framework-step-num">02</div><div class="framework-step-name">Problem Aware</div></div>
+      <div class="framework-step-card"><div class="framework-step-num">03</div><div class="framework-step-name">Solution Aware</div></div>
+      <div class="framework-step-card"><div class="framework-step-num">04</div><div class="framework-step-name">Future Pace</div></div>
+    </div>
+    <ul class="item-list">
+      <li><strong style="color: var(--text); font-weight: 600;">Current Reality</strong> — grasp what's actually happening now. Watch for subjective language ("tough," "lost," "not myself") and always follow up with "what do you mean by that"</li>
+      <li><strong style="color: var(--text); font-weight: 600;">Problem Aware</strong> — of the 5 buyer levels (unaware → problem aware → solution aware → product aware → decision ready), get them to name the problem themselves rather than being told what it is</li>
+      <li><strong style="color: var(--text); font-weight: 600;">Solution Aware</strong> — establish why <em>this</em> coach specifically, not just that coaching in general is the answer. In a niche this personal, relatability beats generic authority — memorable wins over persuasive</li>
+      <li><strong style="color: var(--text); font-weight: 600;">Future Pace</strong> — make the outcome vivid and tangible (not surface-level imagination) before pitching</li>
+    </ul>
+    <div class="insight">
+      <div class="insight-label">The Core Principle</div>
+      <div class="insight-text">Humans decide on emotion and justify with logic. Get to the real emotion — even shooting from the hip, off-framework, like Jess did today — and you can win the call. The framework isn't required if you can find the emotion naturally; it exists to make the outcome repeatable when you can't. Never pitch unless you're already confident they'll say yes — decisions are rooted in clarity, "no" is rooted in fear or confusion, and financing options can dissolve the fear once it's identified.</div>
+    </div>
+    <p class="body-text">JJ sent Jess the written framework doc to keep as reference going forward.</p>
+  </div>
+
+  <!-- Program Context -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">07</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Program Context &amp; Curriculum</h2>
+    <ul class="item-list">
+      <li>JJ is trying to line up a guest-speaker session with Ashton Hall's former top closer (also closed for Shelby) — would give the team direct access to a proven high-level closer's perspective</li>
+      <li>Flagged the "Laws of Consciousness" module as the one to prioritize early — understanding how you personally operate makes every later concept land faster</li>
+      <li>Context on caliber: Sales.io coaches teams including Dan Martell's closers, some Seventh Level closers, and many of Shelby's reps came up through this training — the material is built for advanced teams</li>
+      <li>Micah's closing background so far: outbound cold one-call closes, no high-ticket Zoom closing experience yet — good context for how much scaffolding she'll need early on</li>
+      <li>JJ's framing: the rep's vessel — communication and influence ability — matters 9-10x more than any script or structure. Micah brings conviction (she's lived the offer herself); Jess brings technical closing skill. JJ expects them to sharpen each other</li>
+      <li>Micah asked if curriculum modules could be unlocked faster than the standard drip schedule, given the team is ramping quickly. JJ's answer: it's intentionally dripped, but since they're staff and not standard students, he'll see what he can do</li>
+    </ul>
+  </div>
+
+  <!-- Related Lessons -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">08</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Related Lessons &amp; SOPs</h2>
+    <div class="sop-list">
+      <a class="sop-link" href="./fitmama-sales-handbook.html">
+        <div>
+          <div class="sop-link-name">FitMama Coaching — Sales Handbook</div>
+          <div class="sop-link-desc">Team's own reference doc — cross-check against the framework taught today</div>
+        </div>
+        <span class="sop-link-arrow">→</span>
+      </a>
+      <a class="sop-link" href="./lesson-why-humans-buy.html">
+        <div>
+          <div class="sop-link-name">Why Humans Buy</div>
+          <div class="sop-link-desc">Underlies the "decide on emotion, justify with logic" principle from today's debrief</div>
+        </div>
+        <span class="sop-link-arrow">→</span>
+      </a>
+      <a class="sop-link" href="./lesson-heaven-and-hell.html">
+        <div>
+          <div class="sop-link-name">Heaven &amp; Hell Framework</div>
+          <div class="sop-link-desc">Deeper reference for the future-pacing step</div>
+        </div>
+        <span class="sop-link-arrow">→</span>
+      </a>
+      <a class="sop-link" href="./lesson-authority-objection.html">
+        <div>
+          <div class="sop-link-name">Authority Objection</div>
+          <div class="sop-link-desc">Direct follow-up material for Micah's authority question and Jess's respect-before-likability note</div>
+        </div>
+        <span class="sop-link-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Action Items -->
+  <div class="actions-block">
+    <div class="actions-eyebrow">Action Items — Post Session</div>
+    <div class="actions-grid">
+      <div class="action-col khalil">
+        <div class="action-col-header"><div class="action-col-dot"></div><span class="action-col-name">Khalil / FitMama</span></div>
+        <div class="action-col-body">
+          <div class="action-item">Resolve the house manager situation (Khalil's personal priority — no action needed from JJ)</div>
+          <div class="action-item">Confirm Micah's DM coverage is stable once JJ's setter support kicks in</div>
+          <div class="action-item">Jess and Micah: continue through curriculum, prioritize the Laws of Consciousness module</div>
+          <div class="action-item">Jess: apply the respect-first framework and sit in emotional tension rather than deflecting it on the next live call</div>
+          <div class="action-item">Micah: keep building her own version of authority in calls — doesn't need to mirror Khalil's style</div>
+        </div>
+      </div>
+      <div class="action-col salesio">
+        <div class="action-col-header"><div class="action-col-dot"></div><span class="action-col-name">JJ / Sales.io</span></div>
+        <div class="action-col-body">
+          <div class="action-item">Get setter support in place to take load off Micah's DMs — targeting today/tomorrow</div>
+          <div class="action-item">Pursue the Ashton Hall/Shelby guest-closer speaker session</div>
+          <div class="action-item">Send Jess and Micah the current reality → problem aware → solution aware → future pace framework doc</div>
+          <div class="action-item">Look into unlocking curriculum content faster given the team's ramp pace</div>
+          <div class="action-item">Give Micah her full 5-minute roleplay rep next session — she didn't get one today due to time</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="doc-footer">
+    <span class="footer-brand">Sales.io — Confidential</span>
+    <span class="footer-note">Generated from call recording · July 8, 2026</span>
+  </footer>
+
+</main>
