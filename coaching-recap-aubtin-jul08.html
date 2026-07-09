@@ -1,0 +1,413 @@
+
+<title>Aubtin Sharifpour — Call Review: Finding the One Thing</title>
+<style>
+  :root {
+    --bg: #080808;
+    --surface: #111111;
+    --surface-2: #181818;
+    --accent: #e2cfa8;
+    --accent-dim: rgba(226, 207, 168, 0.1);
+    --accent-border: rgba(226, 207, 168, 0.18);
+    --text: #f0ede8;
+    --text-muted: #8a8480;
+    --text-faint: #4a4440;
+    --border: #252018;
+    --border-mid: #302a22;
+    --tag-bg: #1c1812;
+    --win-bg: rgba(78, 160, 100, 0.08);
+    --win-border: rgba(78, 160, 100, 0.25);
+    --win-text: #7dcf95;
+    --red-bg: rgba(196, 92, 92, 0.08);
+    --red-border: rgba(196, 92, 92, 0.25);
+    --red-text: #d98080;
+    --khalil-bg: #12110f;
+    --salesio-bg: #0e0d0c;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f5;
+      --surface: #f2ede6;
+      --surface-2: #ede7de;
+      --accent: #8a6e42;
+      --accent-dim: rgba(138, 110, 66, 0.08);
+      --accent-border: rgba(138, 110, 66, 0.2);
+      --text: #1a1612;
+      --text-muted: #7a6e62;
+      --text-faint: #c0b8ae;
+      --border: #e0d8cc;
+      --border-mid: #ccc2b4;
+      --tag-bg: #e8e0d6;
+      --win-bg: rgba(40, 130, 70, 0.07);
+      --win-border: rgba(40, 130, 70, 0.22);
+      --win-text: #2a7a45;
+      --red-bg: rgba(180, 60, 60, 0.06);
+      --red-border: rgba(180, 60, 60, 0.2);
+      --red-text: #a83f3f;
+      --khalil-bg: #eee8e0;
+      --salesio-bg: #f0ebe2;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #080808; --surface: #111111; --surface-2: #181818;
+    --accent: #e2cfa8; --accent-dim: rgba(226,207,168,0.1); --accent-border: rgba(226,207,168,0.18);
+    --text: #f0ede8; --text-muted: #8a8480; --text-faint: #4a4440;
+    --border: #252018; --border-mid: #302a22; --tag-bg: #1c1812;
+    --win-bg: rgba(78,160,100,0.08); --win-border: rgba(78,160,100,0.25); --win-text: #7dcf95;
+    --red-bg: rgba(196,92,92,0.08); --red-border: rgba(196,92,92,0.25); --red-text: #d98080;
+    --khalil-bg: #12110f; --salesio-bg: #0e0d0c;
+  }
+
+  :root[data-theme="light"] {
+    --bg: #faf8f5; --surface: #f2ede6; --surface-2: #ede7de;
+    --accent: #8a6e42; --accent-dim: rgba(138,110,66,0.08); --accent-border: rgba(138,110,66,0.2);
+    --text: #1a1612; --text-muted: #7a6e62; --text-faint: #c0b8ae;
+    --border: #e0d8cc; --border-mid: #ccc2b4; --tag-bg: #e8e0d6;
+    --win-bg: rgba(40,130,70,0.07); --win-border: rgba(40,130,70,0.22); --win-text: #2a7a45;
+    --red-bg: rgba(180,60,60,0.06); --red-border: rgba(180,60,60,0.2); --red-text: #a83f3f;
+    --khalil-bg: #eee8e0; --salesio-bg: #f0ebe2;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.9375rem; line-height: 1.65; -webkit-font-smoothing: antialiased;
+  }
+
+  .identity-bar {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--bg); border-bottom: 1px solid var(--border);
+    padding: 0 2rem; height: 52px;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  }
+  .identity-left { display: flex; align-items: center; gap: 0.75rem; }
+  .party { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); }
+  .party-sep { color: var(--accent); font-size: 0.8125rem; }
+  .identity-right { display: flex; align-items: center; gap: 1.25rem; }
+  .meta-chip { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; color: var(--text-faint); letter-spacing: 0.04em; text-transform: uppercase; }
+  .doc-type { background: var(--accent-dim); color: var(--accent); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 2px; }
+
+  main { max-width: 720px; margin: 0 auto; padding: 3.5rem 2rem 5rem; }
+
+  .recap-header { margin-bottom: 2.75rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+  .eyebrow { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+  .recap-title { font-size: 2rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); text-wrap: balance; margin-bottom: 0.875rem; }
+  .recap-sub { font-size: 0.9375rem; color: var(--text-muted); max-width: 54ch; line-height: 1.6; }
+
+  .meeting-meta { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 1.5rem; }
+  .meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+  .meta-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); }
+  .meta-value { font-size: 0.8125rem; font-weight: 500; color: var(--text-muted); }
+
+  .section { margin-bottom: 2.5rem; }
+  .section-head { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+  .section-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); flex-shrink: 0; }
+  .section-rule { flex: 1; height: 1px; background: var(--border); }
+  .section-title { font-size: 1.0625rem; font-weight: 650; color: var(--text); letter-spacing: -0.01em; margin-bottom: 0.75rem; }
+
+  .body-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 0.875rem; }
+  .body-text:last-child { margin-bottom: 0; }
+
+  .item-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.875rem; }
+  .item-list li { display: flex; align-items: flex-start; gap: 0.625rem; font-size: 0.9rem; color: var(--text-muted); line-height: 1.55; }
+  .item-list li::before { content: ''; display: block; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); margin-top: 0.55rem; flex-shrink: 0; opacity: 0.55; }
+
+  .sub-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 0.5rem; margin-top: 1rem; }
+  .sub-label:first-child { margin-top: 0; }
+
+  .insight { border-left: 2px solid var(--accent); padding: 0.875rem 1.125rem; margin: 0.875rem 0; background: var(--accent-dim); }
+  .insight-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; opacity: 0.7; }
+  .insight-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.65; }
+
+  .win-block { background: var(--win-bg); border: 1px solid var(--win-border); border-radius: 4px; padding: 1rem 1.125rem; margin-bottom: 0.875rem; }
+  .win-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--win-text); margin-bottom: 0.375rem; }
+  .win-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+  /* ── Central "One Thing" callout ── */
+  .one-thing { text-align: center; padding: 1.75rem 1.5rem; background: var(--surface); border: 1px solid var(--accent-border); border-radius: 6px; margin-bottom: 1rem; }
+  .one-thing-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 0.6rem; }
+  .one-thing-text { font-size: 1.375rem; font-weight: 700; color: var(--accent); letter-spacing: -0.01em; line-height: 1.35; }
+
+  /* ── Case comparison cards ── */
+  .case-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.875rem; margin-bottom: 1rem; }
+  .case-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .case-card-header { padding: 0.625rem 1rem; border-bottom: 1px solid var(--border); background: var(--surface-2); display: flex; align-items: center; justify-content: space-between; }
+  .case-name { font-size: 0.875rem; font-weight: 650; color: var(--text); }
+  .case-outcome { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.15rem 0.5rem; border-radius: 2px; }
+  .case-outcome.lost { background: var(--red-bg); color: var(--red-text); border: 1px solid var(--red-border); }
+  .case-body { padding: 0.875rem 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .case-fact { font-size: 0.825rem; color: var(--text-muted); line-height: 1.55; display: flex; align-items: flex-start; gap: 0.5rem; }
+  .case-fact::before { content: '—'; color: var(--text-faint); font-size: 0.75rem; flex-shrink: 0; }
+
+  /* ── Framework steps ── */
+  .framework-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem; margin-bottom: 1rem; }
+  .framework-step-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 0.75rem 0.6rem; text-align: center; }
+  .framework-step-num { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.65rem; color: var(--accent); opacity: 0.7; margin-bottom: 0.3rem; }
+  .framework-step-name { font-size: 0.75rem; font-weight: 600; color: var(--text); line-height: 1.3; }
+
+  /* ── Driver grid (Why Humans Buy) ── */
+  .driver-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+  .driver-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 0.875rem 1rem; }
+  .driver-card.primary { border-color: var(--accent-border); background: var(--accent-dim); }
+  .driver-name { font-size: 0.85rem; font-weight: 650; color: var(--text); margin-bottom: 0.3rem; }
+  .driver-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+
+  /* ── SOP References ── */
+  .sop-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .sop-link { display: flex; align-items: center; justify-content: space-between; gap: 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 0.75rem 1rem; text-decoration: none; transition: border-color 0.15s ease; }
+  .sop-link:hover { border-color: var(--accent-border); }
+  .sop-link-name { font-size: 0.875rem; font-weight: 600; color: var(--text); }
+  .sop-link-desc { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem; }
+  .sop-link-arrow { font-family: 'SF Mono','Fira Code',monospace; color: var(--accent); font-size: 0.875rem; flex-shrink: 0; }
+
+  .actions-block { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+  .actions-eyebrow { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 1.25rem; }
+  .actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .action-col { border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .action-col-header { padding: 0.75rem 1.125rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.5rem; }
+  .action-col.khalil .action-col-header { background: var(--khalil-bg); }
+  .action-col.salesio .action-col-header { background: var(--salesio-bg); }
+  .action-col-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .action-col-name { font-size: 0.8125rem; font-weight: 600; color: var(--text-muted); }
+  .action-col-body { padding: 0.875rem 1.125rem; display: flex; flex-direction: column; gap: 0.625rem; background: var(--surface); }
+  .action-item { font-size: 0.875rem; color: var(--text-muted); line-height: 1.5; display: flex; align-items: flex-start; gap: 0.625rem; }
+  .action-item::before { content: '→'; color: var(--text-faint); font-size: 0.8rem; flex-shrink: 0; font-family: 'SF Mono','Fira Code',monospace; }
+
+  .doc-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+  .footer-brand { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); }
+  .footer-note { font-size: 0.75rem; color: var(--text-faint); }
+
+  @media (max-width: 600px) {
+    .identity-bar { padding: 0 1.25rem; }
+    main { padding: 2.5rem 1.25rem 4rem; }
+    .recap-title { font-size: 1.5rem; }
+    .case-grid, .driver-grid, .actions-grid { grid-template-columns: 1fr; }
+    .framework-steps { grid-template-columns: 1fr 1fr; }
+    .one-thing-text { font-size: 1.125rem; }
+    .sop-link { flex-direction: column; align-items: flex-start; }
+    .identity-right { display: none; }
+  }
+</style>
+
+<div class="identity-bar">
+  <div class="identity-left">
+    <span class="party">Aubtin Sharifpour</span>
+    <span class="party-sep">×</span>
+    <span class="party">Sales.io</span>
+  </div>
+  <div class="identity-right">
+    <span class="meta-chip">July 8, 2026</span>
+    <span class="meta-chip">~30 min</span>
+    <span class="doc-type">Call Review</span>
+  </div>
+</div>
+
+<main>
+
+  <header class="recap-header">
+    <div class="eyebrow">1:1 Coaching — Call Review</div>
+    <h1 class="recap-title">Aubtin Sharifpour — Finding the One Thing</h1>
+    <p class="recap-sub">JJ reviewed Aubtin's call with a prospect named Kale — a $56K mistake, real interest, no close. Not a skill problem: a focus problem. The entire session builds toward one idea — stop trying to resolve everything, find the single thing worth $25K, and go deep instead of wide.</p>
+    <div class="meeting-meta">
+      <div class="meta-item"><span class="meta-label">Date</span><span class="meta-value">July 8, 2026</span></div>
+      <div class="meta-item"><span class="meta-label">Duration</span><span class="meta-value">~30 minutes</span></div>
+      <div class="meta-item"><span class="meta-label">Call Reviewed</span><span class="meta-value">Kale — no close</span></div>
+      <div class="meta-item"><span class="meta-label">Offer</span><span class="meta-value">AI automation, ~$25–30K (Dan Martell network)</span></div>
+    </div>
+  </header>
+
+  <!-- The Core Idea -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">01</span><div class="section-rule"></div></div>
+    <h2 class="section-title">The Session in One Line</h2>
+    <div class="one-thing">
+      <div class="one-thing-label">JJ's Central Point</div>
+      <div class="one-thing-text">Stop trying to resolve everything. Find the one thing worth solving — and go all the way down on it.</div>
+    </div>
+    <p class="body-text">JJ's read on Aubtin going in: this isn't a skill deficiency. The pitch is strong, the product is real, trust isn't the issue, and the vessel — Aubtin's energy, charisma, and the assumed authority of working with Dan Martell — is already there. The gap is process: prospects surface multiple pains, and without anchoring to one and going deep, the conversation stays wide and shallow, which is exactly where deals like Kale's stall out.</p>
+  </div>
+
+  <!-- Case Study: Kale -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">02</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Case Study — The Kale Call</h2>
+    <p class="body-text">Financing context first: the team just turned on installment financing through Klarna — $5K deposit to start onboarding, remaining $20K due to complete it (total moves from $25K to $30K on the financed path). No true in-house 2-payment split was offered on this call.</p>
+    <div class="case-grid">
+      <div class="case-card">
+        <div class="case-card-header">
+          <span class="case-name">What Happened</span>
+          <span class="case-outcome lost">No Close</span>
+        </div>
+        <div class="case-body">
+          <div class="case-fact">Kale surfaced four separate pains: accounts receivable, dispatch, and two others — never anchored to one</div>
+          <div class="case-fact">15 minutes in before any real clarity on which pain mattered most</div>
+          <div class="case-fact">Mentioned losing $56K on an accounts-receivable mistake — never got dug into</div>
+          <div class="case-fact">Kept repeating "it's just a lot up front" — a financing objection standing in for an unresolved clarity problem</div>
+          <div class="case-fact">Still willing to buy — objection was confusion, not refusal</div>
+        </div>
+      </div>
+      <div class="case-card">
+        <div class="case-card-header">
+          <span class="case-name">What Should've Happened</span>
+        </div>
+        <div class="case-body">
+          <div class="case-fact">"I appreciate the context — of the four, what's most important to resolve right now?"</div>
+          <div class="case-fact">Go down the $56K rabbit hole the moment he mentioned it: when did it happen, how, what did it actually cost you</div>
+          <div class="case-fact">Get specific enough that removing the AR risk clearly beats keeping the headcount tied to it</div>
+          <div class="case-fact">JJ's estimate: with real clarity on that one number, $25–30K stops feeling like "a lot up front" and starts feeling obvious</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Case Study: VA prospect (Aubtin's own diagnosis) -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">03</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Aubtin's Own Catch — The VA Prospect</h2>
+    <p class="body-text">Aubtin brought his own recent example unprompted: a prospect paying a VA $30K/year, half of it spent on one reporting task. Pitch was "automate that task, save half the salary, redeploy that time elsewhere" — logically sound, but it didn't land as worth $25K. Aubtin's self-diagnosis: he'd split focus between that angle and another pain point, going halfway deep on both instead of all the way on one.</p>
+    <div class="insight">
+      <div class="insight-label">JJ's Sharpened Version</div>
+      <div class="insight-text">"Save half the salary" invites resistance — the prospect starts thinking about what else they'd want that salary to cover instead of losing the frame. The fix: once they name a pain, ask why it's the most important thing to resolve — and if the answer doesn't hold up ("is that really the number one thing? Is there something else I'm not seeing?"), push there instead of accepting the first answer at face value. Certainty on the real number beats a generic efficiency argument every time.</div>
+    </div>
+    <div class="win-block">
+      <div class="win-label">Aubtin's Reaction</div>
+      <div class="win-text">"That was gold." He connected it immediately to his own pattern — building value by touching a bunch of things (going horizontal) instead of committing to one vertical and proving certainty on it before moving to solution.</div>
+    </div>
+  </div>
+
+  <!-- The Framework -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">04</span><div class="section-rule"></div></div>
+    <h2 class="section-title">The Framework — Simplest Form</h2>
+    <div class="framework-steps">
+      <div class="framework-step-card"><div class="framework-step-num">01</div><div class="framework-step-name">Current Reality</div></div>
+      <div class="framework-step-card"><div class="framework-step-num">02</div><div class="framework-step-name">Problem Aware</div></div>
+      <div class="framework-step-card"><div class="framework-step-num">03</div><div class="framework-step-name">Solution Aware</div></div>
+      <div class="framework-step-card"><div class="framework-step-num">04</div><div class="framework-step-name">Future Pace</div></div>
+    </div>
+    <p class="body-text">Intro/rapport, then a wide read on current reality — what they're doing now, across the board. They'll usually surface their own problems unprompted. The moment multiple pains show up, ask directly: <em>"What's the one thing we're trying to resolve for today?"</em> Everything downstream — problem awareness, solution awareness, future pacing — gets built on that single anchor. Cost-of-inaction/consequence framing can follow if the emotion is genuinely there, but JJ doesn't recommend pushing it hard with sophisticated buyers — it reads as manipulative to people who are used to being sold to.</p>
+    <div class="insight">
+      <div class="insight-label">Every Indecision Is Rooted in Confusion</div>
+      <div class="insight-text">Not always obvious confusion ("I don't understand") — sometimes it's "I don't see how this actually applies to my situation," which was exactly Kale's issue. Getting hyper-specific on one use case removes that fog. JJ's own numbers when he ran this discipline: 78% close rate in his best month at Emonz, never dropped below 50% — purely from getting fast and automatic at isolating the one thing.</div>
+    </div>
+  </div>
+
+  <!-- Why Humans Buy -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">05</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Why Humans Buy — Sent Live on the Call</h2>
+    <p class="body-text">Normally week 7 material — JJ unlocked it early and sent the HTML doc directly in the Zoom chat because it's directly relevant to the clarity gap. Core premise: people decide on emotion and justify with logic. Once you find which driver is live for a given prospect, the sale becomes about surfacing it, not persuading them.</p>
+    <div class="driver-grid">
+      <div class="driver-card primary">
+        <div class="driver-name">Escape Pain</div>
+        <div class="driver-desc">Highest-leverage driver, every time. If the pain is real and specific (Kale's $56K), lead here first.</div>
+      </div>
+      <div class="driver-card">
+        <div class="driver-name">Reach a Future Identity</div>
+        <div class="driver-desc">Buying who they'll become — e.g. "I want to be an AI-first company." They're buying the identity, not the tool.</div>
+      </div>
+      <div class="driver-card">
+        <div class="driver-name">Protect / Reinforce Identity</div>
+        <div class="driver-desc">Illustrated with the Josh Lyons story — surface reason was ROI logic, real driver was status: "he has eyeballs I don't have, and he's beating me."</div>
+      </div>
+      <div class="driver-card">
+        <div class="driver-name">Trust in You</div>
+        <div class="driver-desc">JJ's read: not a gap for Aubtin at all — he earns this consistently, partly through the offer itself, partly through Dan Martell association.</div>
+      </div>
+    </div>
+    <p class="body-text">A fifth angle sits underneath all of them: once you show someone the gap between where they are and where they could be, they can't unsee it. That's the mechanism behind digging into specifics (the $56K, the pregnant employee's role, the exact monthly cost) rather than staying conceptual.</p>
+  </div>
+
+  <!-- Assumed Authority -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">06</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Leverage Already Available — Assumed Authority</h2>
+    <p class="body-text">Working with Dan Martell is real leverage in the room — prospects register it as "this guy is legit" before Aubtin says a word. JJ's own parallel: at Emon's, he built a background that echoed the founder's setup, and prospects assumed real proximity to the founder — it measurably shifted how calls opened. The advice isn't to lean on the association instead of substance — it's to combine it with real clarity. Confident conviction plus specific certainty about the one thing is what actually closes; conviction alone just feels like a pitch.</p>
+    <div class="insight">
+      <div class="insight-label">Certainty Sells at Any Price</div>
+      <div class="insight-text">People pay $25K, $50K, $100K for certainty of ROI, not for the offer itself. JJ's own personal examples: $200/week for a cleaning service because the tangible payoff (better week, better environment) is obvious to him. $1,000/week for a trainer because he can trace it directly to $10K/week in results. Nobody buys without seeing that line clearly — the job on the call is to draw it, not to convince someone the line exists.</div>
+    </div>
+  </div>
+
+  <!-- Related Lessons -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">07</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Related Lessons</h2>
+    <div class="sop-list">
+      <a class="sop-link" href="./lesson-why-humans-buy.html">
+        <div>
+          <div class="sop-link-name">Why Humans Buy</div>
+          <div class="sop-link-desc">Full doc sent live on this call — the 4 drivers plus behavioral science underneath them</div>
+        </div>
+        <span class="sop-link-arrow">→</span>
+      </a>
+      <a class="sop-link" href="./lesson-on-call-framework.html">
+        <div>
+          <div class="sop-link-name">The On-Call Framework</div>
+          <div class="sop-link-desc">Current Reality → Problem Aware → Solution Aware → Future Pace, in full</div>
+        </div>
+        <span class="sop-link-arrow">→</span>
+      </a>
+      <a class="sop-link" href="./lesson-building-urgency.html">
+        <div>
+          <div class="sop-link-name">Building Urgency</div>
+          <div class="sop-link-desc">Deeper reference on cost-of-inaction framing — use carefully with sophisticated buyers</div>
+        </div>
+        <span class="sop-link-arrow">→</span>
+      </a>
+      <a class="sop-link" href="./lesson-authority-objection.html">
+        <div>
+          <div class="sop-link-name">Authority Objection</div>
+          <div class="sop-link-desc">Background on assumed authority and status — relevant to the Dan Martell leverage point</div>
+        </div>
+        <span class="sop-link-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Logistics -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">08</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Logistics</h2>
+    <ul class="item-list">
+      <li>Optional invite: Evan Brown's B2B senior-closer session tonight, 6pm, in Circle — Evan runs Apex Acquisitions, doing ~$50-60K/month at a similar ~$50K ticket, selling cold traffic on stage. Comparable enough to Aubtin's motion to be worth watching. Camera optional; it's a smaller, senior-closer group (7-figure closers, sales directors) that stays intentional rather than hype-driven</li>
+      <li>JJ sent the Why Humans Buy HTML doc directly in the Zoom chat, plus the Evan Brown session link</li>
+      <li>~300-student Sales.io WhatsApp community exists — Aubtin isn't in it yet</li>
+    </ul>
+  </div>
+
+  <!-- Action Items -->
+  <div class="actions-block">
+    <div class="actions-eyebrow">Action Items — Post Call</div>
+    <div class="actions-grid">
+      <div class="action-col khalil">
+        <div class="action-col-header"><div class="action-col-dot"></div><span class="action-col-name">Aubtin</span></div>
+        <div class="action-col-body">
+          <div class="action-item">Watch the full call review of the Kale call once it's sent</div>
+          <div class="action-item">On the next live call, ask "of everything you've mentioned, what's the one thing we're solving for today?" before moving past discovery</div>
+          <div class="action-item">When a pain is named, push on why it's the most important one before accepting it — don't let the first answer stand unchallenged</div>
+          <div class="action-item">Read the Why Humans Buy doc JJ sent in chat</div>
+          <div class="action-item">Decide whether to join Evan Brown's 6pm Circle session tonight</div>
+        </div>
+      </div>
+      <div class="action-col salesio">
+        <div class="action-col-header"><div class="action-col-dot"></div><span class="action-col-name">JJ / Sales.io</span></div>
+        <div class="action-col-body">
+          <div class="action-item">Send the full recap document and Kale call review today</div>
+          <div class="action-item">Confirm Aubtin's invite to Evan Brown's B2B Circle session</div>
+          <div class="action-item">Add Aubtin to the Sales.io WhatsApp community</div>
+          <div class="action-item">Follow up next week — optional call after Aubtin watches the call review, if he has questions</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="doc-footer">
+    <span class="footer-brand">Sales.io — Confidential</span>
+    <span class="footer-note">Generated from call recording · July 8, 2026</span>
+  </footer>
+
+</main>
