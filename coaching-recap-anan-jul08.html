@@ -1,0 +1,331 @@
+
+<title>Anan Al Anani — Coaching &amp; Roleplay Recap</title>
+<style>
+  :root {
+    --bg: #080808;
+    --surface: #111111;
+    --surface-2: #181818;
+    --accent: #e2cfa8;
+    --accent-dim: rgba(226, 207, 168, 0.1);
+    --accent-border: rgba(226, 207, 168, 0.18);
+    --text: #f0ede8;
+    --text-muted: #8a8480;
+    --text-faint: #4a4440;
+    --border: #252018;
+    --border-mid: #302a22;
+    --tag-bg: #1c1812;
+    --win-bg: rgba(78, 160, 100, 0.08);
+    --win-border: rgba(78, 160, 100, 0.25);
+    --win-text: #7dcf95;
+    --khalil-bg: #12110f;
+    --salesio-bg: #0e0d0c;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f5;
+      --surface: #f2ede6;
+      --surface-2: #ede7de;
+      --accent: #8a6e42;
+      --accent-dim: rgba(138, 110, 66, 0.08);
+      --accent-border: rgba(138, 110, 66, 0.2);
+      --text: #1a1612;
+      --text-muted: #7a6e62;
+      --text-faint: #c0b8ae;
+      --border: #e0d8cc;
+      --border-mid: #ccc2b4;
+      --tag-bg: #e8e0d6;
+      --win-bg: rgba(40, 130, 70, 0.07);
+      --win-border: rgba(40, 130, 70, 0.22);
+      --win-text: #2a7a45;
+      --khalil-bg: #eee8e0;
+      --salesio-bg: #f0ebe2;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #080808; --surface: #111111; --surface-2: #181818;
+    --accent: #e2cfa8; --accent-dim: rgba(226,207,168,0.1); --accent-border: rgba(226,207,168,0.18);
+    --text: #f0ede8; --text-muted: #8a8480; --text-faint: #4a4440;
+    --border: #252018; --border-mid: #302a22; --tag-bg: #1c1812;
+    --win-bg: rgba(78,160,100,0.08); --win-border: rgba(78,160,100,0.25); --win-text: #7dcf95;
+    --khalil-bg: #12110f; --salesio-bg: #0e0d0c;
+  }
+
+  :root[data-theme="light"] {
+    --bg: #faf8f5; --surface: #f2ede6; --surface-2: #ede7de;
+    --accent: #8a6e42; --accent-dim: rgba(138,110,66,0.08); --accent-border: rgba(138,110,66,0.2);
+    --text: #1a1612; --text-muted: #7a6e62; --text-faint: #c0b8ae;
+    --border: #e0d8cc; --border-mid: #ccc2b4; --tag-bg: #e8e0d6;
+    --win-bg: rgba(40,130,70,0.07); --win-border: rgba(40,130,70,0.22); --win-text: #2a7a45;
+    --khalil-bg: #eee8e0; --salesio-bg: #f0ebe2;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.9375rem; line-height: 1.65; -webkit-font-smoothing: antialiased;
+  }
+
+  .identity-bar {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--bg); border-bottom: 1px solid var(--border);
+    padding: 0 2rem; height: 52px;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  }
+  .identity-left { display: flex; align-items: center; gap: 0.75rem; }
+  .party { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); }
+  .party-sep { color: var(--accent); font-size: 0.8125rem; }
+  .identity-right { display: flex; align-items: center; gap: 1.25rem; }
+  .meta-chip { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; color: var(--text-faint); letter-spacing: 0.04em; text-transform: uppercase; }
+  .doc-type { background: var(--accent-dim); color: var(--accent); font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 2px; }
+
+  main { max-width: 720px; margin: 0 auto; padding: 3.5rem 2rem 5rem; }
+
+  .recap-header { margin-bottom: 2.75rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+  .eyebrow { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+  .recap-title { font-size: 2rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); text-wrap: balance; margin-bottom: 0.875rem; }
+  .recap-sub { font-size: 0.9375rem; color: var(--text-muted); max-width: 54ch; line-height: 1.6; }
+
+  .meeting-meta { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 1.5rem; }
+  .meta-item { display: flex; flex-direction: column; gap: 0.2rem; }
+  .meta-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); }
+  .meta-value { font-size: 0.8125rem; font-weight: 500; color: var(--text-muted); }
+
+  .section { margin-bottom: 2.25rem; }
+  .section-head { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+  .section-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); flex-shrink: 0; }
+  .section-rule { flex: 1; height: 1px; background: var(--border); }
+  .section-title { font-size: 1.0625rem; font-weight: 650; color: var(--text); letter-spacing: -0.01em; margin-bottom: 0.75rem; }
+
+  .win-block { background: var(--win-bg); border: 1px solid var(--win-border); border-radius: 4px; padding: 1rem 1.125rem; margin-bottom: 0.875rem; }
+  .win-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--win-text); margin-bottom: 0.375rem; }
+  .win-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+  .insight { border-left: 2px solid var(--accent); padding: 0.875rem 1.125rem; margin: 0.875rem 0; background: var(--accent-dim); }
+  .insight-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; opacity: 0.7; }
+  .insight-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.65; }
+
+  .body-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 0.875rem; }
+  .body-text:last-child { margin-bottom: 0; }
+
+  .item-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.875rem; }
+  .item-list li { display: flex; align-items: flex-start; gap: 0.625rem; font-size: 0.9rem; color: var(--text-muted); line-height: 1.55; }
+  .item-list li::before { content: ''; display: block; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); margin-top: 0.55rem; flex-shrink: 0; opacity: 0.55; }
+
+  .sub-label { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 0.5rem; margin-top: 1rem; }
+  .sub-label:first-child { margin-top: 0; }
+
+  /* ── Roleplay flow ── */
+  .flow-list { display: flex; flex-direction: column; gap: 0; margin-bottom: 1rem; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .flow-item { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); background: var(--surface); display: flex; gap: 0.75rem; }
+  .flow-item:last-child { border-bottom: none; }
+  .flow-num { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.7rem; color: var(--accent); opacity: 0.7; flex-shrink: 0; padding-top: 0.05rem; }
+  .flow-body { font-size: 0.85rem; color: var(--text-muted); line-height: 1.55; }
+  .flow-body strong { color: var(--text); font-weight: 600; }
+
+  /* ── Rating chip ── */
+  .rating-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+  .rating-chip { font-family: 'SF Mono','Fira Code',monospace; font-size: 1.5rem; font-weight: 700; color: var(--accent); background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 0.5rem 1rem; }
+  .rating-desc { font-size: 0.85rem; color: var(--text-muted); }
+
+  /* ── SOP References ── */
+  .sop-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .sop-link { display: flex; align-items: center; justify-content: space-between; gap: 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 0.75rem 1rem; text-decoration: none; transition: border-color 0.15s ease; }
+  .sop-link:hover { border-color: var(--accent-border); }
+  .sop-link-name { font-size: 0.875rem; font-weight: 600; color: var(--text); }
+  .sop-link-desc { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem; }
+  .sop-link-arrow { font-family: 'SF Mono','Fira Code',monospace; color: var(--accent); font-size: 0.875rem; flex-shrink: 0; }
+
+  .actions-block { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+  .actions-eyebrow { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 1.25rem; }
+  .actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .action-col { border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .action-col-header { padding: 0.75rem 1.125rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.5rem; }
+  .action-col.khalil .action-col-header { background: var(--khalil-bg); }
+  .action-col.salesio .action-col-header { background: var(--salesio-bg); }
+  .action-col-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+  .action-col-name { font-size: 0.8125rem; font-weight: 600; color: var(--text-muted); }
+  .action-col-body { padding: 0.875rem 1.125rem; display: flex; flex-direction: column; gap: 0.625rem; background: var(--surface); }
+  .action-item { font-size: 0.875rem; color: var(--text-muted); line-height: 1.5; display: flex; align-items: flex-start; gap: 0.625rem; }
+  .action-item::before { content: '→'; color: var(--text-faint); font-size: 0.8rem; flex-shrink: 0; font-family: 'SF Mono','Fira Code',monospace; }
+
+  .doc-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+  .footer-brand { font-family: 'SF Mono','Fira Code',monospace; font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); }
+  .footer-note { font-size: 0.75rem; color: var(--text-faint); }
+
+  @media (max-width: 600px) {
+    .identity-bar { padding: 0 1.25rem; }
+    main { padding: 2.5rem 1.25rem 4rem; }
+    .recap-title { font-size: 1.5rem; }
+    .actions-grid { grid-template-columns: 1fr; }
+    .sop-link { flex-direction: column; align-items: flex-start; }
+    .identity-right { display: none; }
+  }
+</style>
+
+<div class="identity-bar">
+  <div class="identity-left">
+    <span class="party">Anan Al Anani</span>
+    <span class="party-sep">×</span>
+    <span class="party">Sales.io</span>
+  </div>
+  <div class="identity-right">
+    <span class="meta-chip">July 8, 2026</span>
+    <span class="meta-chip">~27 min</span>
+    <span class="doc-type">Coaching + Roleplay Recap</span>
+  </div>
+</div>
+
+<main>
+
+  <header class="recap-header">
+    <div class="eyebrow">1:1 Coaching — Live Roleplay</div>
+    <h1 class="recap-title">Anan Al Anani — Job Board Reality Check &amp; Live Closing Roleplay</h1>
+    <p class="recap-sub">Anan came in questioning whether he should start as a setter given his corporate (not high-ticket) background, then ran a live closing roleplay with JJ's setter Faris standing in as prospect. Good energy and flow, but lost the frame mid-call and moved to pitch before extracting enough pain.</p>
+    <div class="meeting-meta">
+      <div class="meta-item"><span class="meta-label">Date</span><span class="meta-value">July 8, 2026</span></div>
+      <div class="meta-item"><span class="meta-label">Duration</span><span class="meta-value">~27 minutes</span></div>
+      <div class="meta-item"><span class="meta-label">Roleplay Partner</span><span class="meta-value">Faris Izeldin (setter)</span></div>
+      <div class="meta-item"><span class="meta-label">Self-Rating</span><span class="meta-value">4–5 / 10</span></div>
+    </div>
+  </header>
+
+  <!-- Where Anan is at -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">01</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Where Anan's At</h2>
+    <p class="body-text">Anan's been heads-down on the job board more than anything else in the curriculum. He's re-listening to the decision-making module a second time — finds the material dense (not podcast-consumable) and wants to fully internalize one lesson before layering on the next, rather than rushing through everything once.</p>
+    <div class="win-block">
+      <div class="win-label">Self-Aware Course Correction</div>
+      <div class="win-text">Anan flagged, unprompted, that he's been leaning too hard on training and analysis ("should I do this, should I do that" — same loop he noticed happening in the Uplevel conversation) instead of just getting reps in. He named the fix himself before JJ had to say it: stop watching, start reaching out and roleplaying whenever there isn't a scheduled mock.</div>
+    </div>
+    <p class="body-text">Based on feedback from multiple people he's talked to (including a call with Jessica and separate feedback from the Moves Method group) — plus what came up live on this call — Anan is leaning toward starting as a setter for 3–6 months rather than jumping straight to closing. His read: he has real corporate sales experience, but it isn't high-ticket, and people keep flagging that gap when he pitches himself.</p>
+  </div>
+
+  <!-- Feedback Noise vs Signal -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">02</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Feedback Noise vs. Signal</h2>
+    <p class="body-text">Anan had gotten notes on his Loom/calls about visible earphones and lighting/background in his new home office setup. JJ's take: that's cosmetic noise, not a real blocker — don't over-index on it. Headphones don't hurt call quality; if anything JJ prefers them for audio. On background: JJ's own setup is deliberately framed on a corner for symmetry, not because plain backgrounds are wrong — it's a minor aesthetic choice, not something to lose sleep over.</p>
+  </div>
+
+  <!-- Job Board / Networking -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">03</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Job Board Notes</h2>
+    <ul class="item-list">
+      <li>A poster on the job board (Hassan, from mastermind.com) asked Anan for an updated Loom — confused on whether he has genuine high-ticket sales experience. JJ recognized the name — he's sourced reps to that team before — and texted him directly to vouch/clarify</li>
+      <li>Anan also mentioned tapping into Tony Robbins's community through the same channel — noted the audience skews as loyal, bought-in "diehard fans," useful context if that community ever becomes a lead source</li>
+      <li>Access question: Anan wanted to know if he could share his Sales.io job board link with people he's trying to bring in (Lana, plus her sister and boyfriend) — he'd seen a warning that link-sharing can get you blacklisted</li>
+    </ul>
+    <div class="insight">
+      <div class="insight-label">JJ's Answer</div>
+      <div class="insight-text">Don't share the link — send JJ their emails directly and he'll grant access himself. Simple fix, avoids the blacklist risk entirely. Anan agreed to send the emails over.</div>
+    </div>
+  </div>
+
+  <!-- Live Roleplay -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">04</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Live Closing Roleplay — Fitness Offer</h2>
+    <p class="body-text">JJ pulled in Faris (his setter) to play the prospect so he could evaluate Anan live rather than just talk theory. Discovery-only cut — JJ planned to stop it before the pitch stage to focus feedback on the front half of the call.</p>
+    <div class="flow-list">
+      <div class="flow-item"><span class="flow-num">01</span><span class="flow-body"><strong>Opened clean</strong> — set frame for the call (questions → offer walkthrough → next steps if it's a fit), confirmed time available</span></div>
+      <div class="flow-item"><span class="flow-num">02</span><span class="flow-body"><strong>Surfaced the presenting problem</strong> — Faris (as prospect): consistent gym 4–5x/week + occasional runs, but weight hasn't moved in 6 months, suspects it could be a health issue or something he's doing wrong</span></div>
+      <div class="flow-item"><span class="flow-num">03</span><span class="flow-body"><strong>Uncovered the tracking gap</strong> — prospect eats "clean" but doesn't track macros, admits he's probably exceeding calories without knowing it. Anan correctly flagged this as the real lever</span></div>
+      <div class="flow-item"><span class="flow-num">04</span><span class="flow-body"><strong>Asked why this offer specifically</strong> — prospect cited genuine-feeling testimonials and real before/afters as the trust signal that got him to sign up</span></div>
+      <div class="flow-item"><span class="flow-num">05</span><span class="flow-body"><strong>Lost the thread</strong> — moved toward pricing/next-steps and audibly stalled ("I'm kind of losing track now... do I go into...") — hadn't built enough pain before trying to transition</span></div>
+      <div class="flow-item"><span class="flow-num">06</span><span class="flow-body"><strong>Faris broke character to flag it live</strong> — "I'm not sure you got enough pain out of me yet" — call paused there for debrief</span></div>
+    </div>
+  </div>
+
+  <!-- Debrief -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">05</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Debrief &amp; Feedback</h2>
+    <div class="rating-row">
+      <div class="rating-chip">4–5<span style="font-size:0.9rem;color:var(--text-faint);">/10</span></div>
+      <div class="rating-desc">Anan's self-rating — his own read: let the prospect lead too much, held the frame but didn't dig deep enough to get problem-awareness before moving toward the pitch</div>
+    </div>
+
+    <div class="sub-label">Faris — Prospect-Side Read</div>
+    <p class="body-text">Felt good and conversational, but as an experienced/proactive prospect he said he'd naturally back off right at the close if it came too soon — which it did here. His suggestion: spend more time on pain before transitioning — e.g. "was this one big event or an accumulation that made you decide now instead of waiting another six months?" Bottom line: good conversation, too early for the pitch.</p>
+
+    <div class="sub-label">JJ — Coaching Notes</div>
+    <p class="body-text">Real strength: the call felt conversational and welcoming, not scripted — Anan has a natural flow and was clearly running the show. Don't change that energy.</p>
+    <div class="insight">
+      <div class="insight-label">The Actual Gap</div>
+      <div class="insight-text">Anan was guiding the conversation without knowing where he was going — getting answers and buy-in, but not tracking whether he had enough information or where he was in the process. It felt good enough that an untrained ear would call it a great call, but it stayed service-level rather than building real problem-awareness. JJ's read: Anan has the instincts to become an excellent scriptless seller eventually, but needs to run the structured framework for now so he always knows where he is in the call and whether he's earned the right to pitch yet.</div>
+    </div>
+  </div>
+
+  <!-- Related Lessons -->
+  <div class="section">
+    <div class="section-head"><span class="section-label">06</span><div class="section-rule"></div></div>
+    <h2 class="section-title">Related Lessons</h2>
+    <div class="sop-list">
+      <a class="sop-link" href="./lesson-on-call-framework.html">
+        <div>
+          <div class="sop-link-name">The On-Call Framework</div>
+          <div class="sop-link-desc">Structure JJ wants Anan running instead of freelancing the conversation</div>
+        </div>
+        <span class="sop-link-arrow">→</span>
+      </a>
+      <a class="sop-link" href="./sales-call-script.html">
+        <div>
+          <div class="sop-link-name">Sales Call Script</div>
+          <div class="sop-link-desc">Scaffold to lean on so pain gets extracted before the pitch, every time</div>
+        </div>
+        <span class="sop-link-arrow">→</span>
+      </a>
+      <a class="sop-link" href="./lesson-deep-questioning.html">
+        <div>
+          <div class="sop-link-name">Deep Questioning</div>
+          <div class="sop-link-desc">Direct fix for the identified gap — going one or two layers past the first answer before transitioning</div>
+        </div>
+        <span class="sop-link-arrow">→</span>
+      </a>
+      <a class="sop-link" href="./lesson-scriptless-selling.html">
+        <div>
+          <div class="sop-link-name">Scriptless Selling</div>
+          <div class="sop-link-desc">Where JJ sees Anan heading long-term, once the framework is second nature</div>
+        </div>
+        <span class="sop-link-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Action Items -->
+  <div class="actions-block">
+    <div class="actions-eyebrow">Action Items — Post Call</div>
+    <div class="actions-grid">
+      <div class="action-col khalil">
+        <div class="action-col-header"><div class="action-col-dot"></div><span class="action-col-name">Anan</span></div>
+        <div class="action-col-body">
+          <div class="action-item">Send JJ the emails for Lana, her sister, and her boyfriend so JJ can grant job board access directly</div>
+          <div class="action-item">Run the discovery framework/script on the next roleplay instead of freelancing — track pain before moving toward pitch</div>
+          <div class="action-item">Prioritize live reps (roleplays, real conversations) over consuming more training content</div>
+          <div class="action-item">Review this recording alongside JJ's written feedback</div>
+        </div>
+      </div>
+      <div class="action-col salesio">
+        <div class="action-col-header"><div class="action-col-dot"></div><span class="action-col-name">JJ / Sales.io</span></div>
+        <div class="action-col-body">
+          <div class="action-item">Send the call recording and written feedback document to Anan</div>
+          <div class="action-item">Grant job board access to Lana, her sister, and her boyfriend once emails come in</div>
+          <div class="action-item">Send Anan another job application/lead to pursue</div>
+          <div class="action-item">Follow up with Hassan (mastermind.com) re: Anan's high-ticket experience confusion</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="doc-footer">
+    <span class="footer-brand">Sales.io — Confidential</span>
+    <span class="footer-note">Generated from call recording · July 8, 2026</span>
+  </footer>
+
+</main>
