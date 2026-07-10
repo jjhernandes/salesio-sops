@@ -1,0 +1,649 @@
+
+<title>Partner & Referral Commission Structure</title>
+<style>
+  :root {
+    --bg: #080808;
+    --surface: #111111;
+    --surface-2: #181818;
+    --accent: #e2cfa8;
+    --accent-dim: rgba(226, 207, 168, 0.09);
+    --accent-border: rgba(226, 207, 168, 0.16);
+    --text: #f0ede8;
+    --text-muted: #8a8480;
+    --text-faint: #4a4440;
+    --border: #242018;
+    --border-mid: #2e2820;
+    --mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f5;
+      --surface: #f1ece5;
+      --surface-2: #e8e1d8;
+      --accent: #7a5e30;
+      --accent-dim: rgba(122, 94, 48, 0.08);
+      --accent-border: rgba(122, 94, 48, 0.18);
+      --text: #1a1612;
+      --text-muted: #6e6258;
+      --text-faint: #b8ae a4;
+      --border: #ddd5c8;
+      --border-mid: #c8bcb0;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #080808; --surface: #111111; --surface-2: #181818;
+    --accent: #e2cfa8; --accent-dim: rgba(226,207,168,.09); --accent-border: rgba(226,207,168,.16);
+    --text: #f0ede8; --text-muted: #8a8480; --text-faint: #4a4440;
+    --border: #242018; --border-mid: #2e2820;
+  }
+  :root[data-theme="light"] {
+    --bg: #faf8f5; --surface: #f1ece5; --surface-2: #e8e1d8;
+    --accent: #7a5e30; --accent-dim: rgba(122,94,48,.08); --accent-border: rgba(122,94,48,.18);
+    --text: #1a1612; --text-muted: #6e6258; --text-faint: #c0b4a8;
+    --border: #ddd5c8; --border-mid: #c8bcb0;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  main {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 4rem 2rem 6rem;
+  }
+
+  /* ── Header ── */
+  .doc-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .doc-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.875rem;
+  }
+
+  .doc-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+    color: var(--text);
+    text-wrap: balance;
+    margin-bottom: 1rem;
+  }
+
+  .doc-summary {
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    max-width: 54ch;
+    line-height: 1.65;
+  }
+
+  /* ── Section ── */
+  .sec {
+    margin-bottom: 2.5rem;
+  }
+
+  .sec-label {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 0.625rem;
+  }
+
+  .sec-title {
+    font-size: 1rem;
+    font-weight: 650;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    margin-bottom: 0.75rem;
+  }
+
+  .body-text {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.72;
+    margin-bottom: 0.875rem;
+    max-width: 58ch;
+  }
+  .body-text:last-child { margin-bottom: 0; }
+
+  /* ── Rule ── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 2.5rem 0;
+  }
+
+  /* ── Problem cards ── */
+  .problem-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .problem-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+    padding: 0.875rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+  }
+
+  .problem-num {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    color: var(--accent);
+    opacity: 0.6;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .problem-text {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+
+  .problem-text strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* ── Math comparison ── */
+  .math-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    overflow-x: auto;
+  }
+
+  .math-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .math-card-head {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-2);
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .math-card-body {
+    padding: 0.875rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .math-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+  }
+
+  .math-row-label {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+  }
+
+  .math-row-val {
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .math-row-val.accent { color: var(--accent); }
+  .math-row-val.faint { color: var(--text-faint); }
+
+  .math-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0.125rem 0;
+  }
+
+  /* ── Framework cards ── */
+  .framework {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .fw-card {
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .fw-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.625rem 1rem;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .fw-card-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .fw-card-tag {
+    font-family: var(--mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-border);
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+  }
+
+  .fw-card-body {
+    padding: 0.875rem 1rem;
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .fw-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .fw-row-key {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    color: var(--text-faint);
+    flex-shrink: 0;
+    min-width: 80px;
+    padding-top: 0.05rem;
+    letter-spacing: 0.02em;
+  }
+
+  .fw-row-val {
+    color: var(--text-muted);
+  }
+
+  .fw-row-val em {
+    font-style: normal;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Cap grid ── */
+  .cap-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .cap-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1rem;
+  }
+
+  .cap-card-label {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0.65;
+    margin-bottom: 0.375rem;
+  }
+
+  .cap-card-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.375rem;
+  }
+
+  .cap-card-body {
+    font-size: 0.8375rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+
+  /* ── Insight ── */
+  .insight {
+    border-left: 2px solid var(--accent);
+    padding: 0.875rem 1.125rem;
+    margin: 1rem 0;
+    background: var(--accent-dim);
+  }
+
+  .insight-label {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0.65;
+    margin-bottom: 0.3rem;
+  }
+
+  .insight-text {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+
+  /* ── Item list ── */
+  .item-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .item-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+
+  .item-list li::before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 0.55rem;
+    flex-shrink: 0;
+    opacity: 0.5;
+  }
+
+  /* ── Footer ── */
+  .doc-footer {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  @media (max-width: 580px) {
+    main { padding: 2.5rem 1.25rem 5rem; }
+    .doc-title { font-size: 1.5rem; }
+    .math-compare, .cap-grid { grid-template-columns: 1fr; }
+    .fw-row-key { min-width: 64px; }
+  }
+</style>
+
+<main>
+
+  <header class="doc-header">
+    <div class="doc-eyebrow">Sales.io — Commission Reference</div>
+    <h1 class="doc-title">How to Pay a Rep Who Closes a Referral Partner</h1>
+    <p class="doc-summary">When a salesperson lands a partnership like SimilarWeb — not a direct customer, but a source of referred businesses — standard commission math breaks down. Here's how to structure it.</p>
+  </header>
+
+  <!-- Why standard commission doesn't work -->
+  <div class="sec">
+    <div class="sec-label">The Problem</div>
+    <h2 class="sec-title">Three reasons you can't pay standard rate on partner deals</h2>
+
+    <div class="problem-list">
+      <div class="problem-item">
+        <span class="problem-num">01</span>
+        <span class="problem-text"><strong>The price is already discounted.</strong> Agency and partner deals come in at a reduced rate — the partner marks up to their clients and keeps margin. If you're netting $3,500 on a deal that normally closes at $5,000, paying 10% of $5,000 is paying 14% of what you actually received.</span>
+      </div>
+      <div class="problem-item">
+        <span class="problem-num">02</span>
+        <span class="problem-text"><strong>The rep didn't close the end customer.</strong> They closed the partnership — a one-time act. Every business that comes through after that is mostly passive inbound. That's a different contribution than working a direct sale from cold to close.</span>
+      </div>
+      <div class="problem-item">
+        <span class="problem-num">03</span>
+        <span class="problem-text"><strong>Perpetuity exposure is real.</strong> A single good partnership could pay out for years. If SimilarWeb sends 15 businesses a month at 10% commission, you've created a liability that grows with volume and never stops.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- The math -->
+  <div class="sec">
+    <div class="sec-label">Why the Numbers Change</div>
+    <h2 class="sec-title">Direct sale vs. partner-referred deal</h2>
+    <p class="body-text">Using a $5,000 offer as the example. Partner discount of 30% (agency pricing). Standard commission of 10%.</p>
+
+    <div class="math-compare">
+      <div class="math-card">
+        <div class="math-card-head">Direct Sale</div>
+        <div class="math-card-body">
+          <div class="math-row">
+            <span class="math-row-label">Deal price</span>
+            <span class="math-row-val">$5,000</span>
+          </div>
+          <div class="math-row">
+            <span class="math-row-label">Your revenue</span>
+            <span class="math-row-val">$5,000</span>
+          </div>
+          <div class="math-divider"></div>
+          <div class="math-row">
+            <span class="math-row-label">Commission (10%)</span>
+            <span class="math-row-val accent">$500</span>
+          </div>
+          <div class="math-row">
+            <span class="math-row-label">Your net</span>
+            <span class="math-row-val">$4,500</span>
+          </div>
+        </div>
+      </div>
+      <div class="math-card">
+        <div class="math-card-head">Partner-Referred Deal</div>
+        <div class="math-card-body">
+          <div class="math-row">
+            <span class="math-row-label">Deal price to partner</span>
+            <span class="math-row-val">$3,500</span>
+          </div>
+          <div class="math-row">
+            <span class="math-row-label">Your revenue</span>
+            <span class="math-row-val">$3,500</span>
+          </div>
+          <div class="math-divider"></div>
+          <div class="math-row">
+            <span class="math-row-label">Commission at 10%</span>
+            <span class="math-row-val faint">$350 — still too high</span>
+          </div>
+          <div class="math-row">
+            <span class="math-row-label">Commission at 3%</span>
+            <span class="math-row-val accent">$105</span>
+          </div>
+          <div class="math-row">
+            <span class="math-row-label">Your net at 3%</span>
+            <span class="math-row-val">$3,395</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight">
+      <div class="insight-label">The Principle</div>
+      <div class="insight-text">Commission should be calculated on revenue received, not the end-user price. On a discounted partner deal, paying 3% of what you actually collected is the right baseline — it's still meaningful to the rep, and it doesn't erode your margins on an already-discounted deal.</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- The framework -->
+  <div class="sec">
+    <div class="sec-label">Recommended Structure</div>
+    <h2 class="sec-title">Two-part payout: signing bonus + micro-commission</h2>
+    <p class="body-text">Separate the act of closing the partnership from the ongoing credit for referrals. They're different contributions and should be compensated differently.</p>
+
+    <div class="framework">
+
+      <div class="fw-card">
+        <div class="fw-card-head">
+          <span class="fw-card-name">Part 1 — Partnership Signing Bonus</span>
+          <span class="fw-card-tag">One-time</span>
+        </div>
+        <div class="fw-card-body">
+          <div class="fw-row">
+            <span class="fw-row-key">When paid</span>
+            <span class="fw-row-val">When the agreement is signed <em>and</em> the first referral converts — not on signing alone</span>
+          </div>
+          <div class="fw-row">
+            <span class="fw-row-key">Amount</span>
+            <span class="fw-row-val">Flat <em>$250 – $1,000</em> based on partner size. SimilarWeb (20K users) warrants the high end</span>
+          </div>
+          <div class="fw-row">
+            <span class="fw-row-key">Why flat</span>
+            <span class="fw-row-val">No revenue at signing to % against. Flat fee rewards the close without creating perpetuity</span>
+          </div>
+          <div class="fw-row">
+            <span class="fw-row-key">Validation</span>
+            <span class="fw-row-val">Requiring first referral to convert protects against dead partnerships that never produce</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="fw-card">
+        <div class="fw-card-head">
+          <span class="fw-card-name">Part 2 — Referral Stream Commission</span>
+          <span class="fw-card-tag">Capped + time-limited</span>
+        </div>
+        <div class="fw-card-body">
+          <div class="fw-row">
+            <span class="fw-row-key">Rate</span>
+            <span class="fw-row-val"><em>2 – 3%</em> of revenue received per closed referral (not the end-user price, not your list price)</span>
+          </div>
+          <div class="fw-row">
+            <span class="fw-row-key">Time cap</span>
+            <span class="fw-row-val">Commissions expire <em>12 months</em> from the date the partnership goes live</span>
+          </div>
+          <div class="fw-row">
+            <span class="fw-row-key">Volume cap</span>
+            <span class="fw-row-val">Max <em>$3,000 – $5,000</em> total earned from any single partner source, regardless of time remaining</span>
+          </div>
+          <div class="fw-row">
+            <span class="fw-row-key">Whichever first</span>
+            <span class="fw-row-val">Time cap OR volume cap — whichever is hit first ends the payout</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- The cap mechanics -->
+  <div class="sec">
+    <div class="sec-label">Cap Mechanics</div>
+    <h2 class="sec-title">How to protect against runaway payouts</h2>
+
+    <div class="cap-grid">
+      <div class="cap-card">
+        <div class="cap-card-label">Time Cap</div>
+        <div class="cap-card-title">12-month window</div>
+        <div class="cap-card-body">Partnership commissions expire one year after the first referral converts. After that, the stream is house revenue. Simple to track, easy to communicate upfront.</div>
+      </div>
+      <div class="cap-card">
+        <div class="cap-card-label">Volume Cap</div>
+        <div class="cap-card-title">$3–5K per partner</div>
+        <div class="cap-card-body">No matter how productive the partnership gets, the rep's total payout is capped. Especially important for high-volume partners like SimilarWeb — protects you from a single deal becoming a six-figure liability.</div>
+      </div>
+    </div>
+
+    <div class="insight">
+      <div class="insight-label">Worked Example — SimilarWeb</div>
+      <div class="insight-text">Rep closes SimilarWeb. Signing bonus: $750 (paid when first business converts). Over the next 12 months, SimilarWeb refers 40 businesses that close at $3,500 each. At 3% commission = $105/deal × 40 deals = $4,200. Volume cap of $4,000 kicks in — rep earns $4,000, not $4,200. Total rep payout: $750 + $4,000 = $4,750. Your gross from the same 40 deals: $140,000. That's 3.4% total cost of the partnership channel — fair for both sides.</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Key rules -->
+  <div class="sec">
+    <div class="sec-label">Rules to Set in the Agreement</div>
+    <h2 class="sec-title">What to put in writing before the rep goes to work</h2>
+
+    <ul class="item-list">
+      <li>Commission is calculated on <strong>revenue received</strong> — never the end-user price or list price</li>
+      <li>Partner deals and direct deals are separate commission tiers. Make this explicit from day one</li>
+      <li>The signing bonus requires first-referral conversion — not paid on the partnership agreement alone</li>
+      <li>Time and volume caps both apply. Whichever is hit first ends the payout stream</li>
+      <li>If the same rep later closes a referred business directly on a upsell or renewal, that closes under the direct commission table — not the referral rate</li>
+      <li>If a referred business is also an existing direct prospect in the pipeline, the sourcing credit goes to whoever touched them first — define this before it becomes a dispute</li>
+    </ul>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- TL;DR -->
+  <div class="sec">
+    <div class="sec-label">Bottom Line</div>
+    <h2 class="sec-title">The short version</h2>
+    <p class="body-text">A flat signing bonus ($500–$1,000) when the partnership actually produces, plus 2–3% on referred revenue for 12 months, capped at $3,000–$5,000 total per partner. Not perpetuity. Not full rate. Not on discounted price. Rep still gets meaningful credit for building the channel — you keep the upside as volume scales.</p>
+    <p class="body-text">The simplest version: if deal size is consistent, just do a flat $75–$150 fee per converted referral with a monthly cap of $500. No percentages, no math disputes.</p>
+  </div>
+
+  <footer class="doc-footer">
+    <span>Sales.io — Internal Reference</span>
+    <span>Partner Commission Structure</span>
+  </footer>
+
+</main>
