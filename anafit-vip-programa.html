@@ -1,0 +1,753 @@
+
+<title>Coaching VIP 1:1 — Programa Insignia Ana Fit</title>
+<style>
+  :root {
+    --bg: #090807;
+    --surface: #111009;
+    --surface-2: #1a1710;
+    --accent: #f97316;
+    --accent-soft: #fdba74;
+    --accent-dim: rgba(249, 115, 22, 0.08);
+    --accent-border: rgba(249, 115, 22, 0.18);
+    --text: #f5f0e8;
+    --text-muted: #8a8070;
+    --text-faint: #403c30;
+    --border: #201e14;
+    --border-mid: #302c1e;
+    --check: #7dcf95;
+    --check-dim: rgba(125, 207, 149, 0.08);
+    --mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #fdfaf5;
+      --surface: #f5ede0;
+      --surface-2: #ede3d0;
+      --accent: #c2540a;
+      --accent-soft: #ea7c2a;
+      --accent-dim: rgba(194, 84, 10, 0.07);
+      --accent-border: rgba(194, 84, 10, 0.18);
+      --text: #1c1710;
+      --text-muted: #6e6050;
+      --text-faint: #c0b49e;
+      --border: #e0d4be;
+      --border-mid: #cdbfa4;
+      --check: #2a7a45;
+      --check-dim: rgba(42, 122, 69, 0.07);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #090807; --surface: #111009; --surface-2: #1a1710;
+    --accent: #f97316; --accent-soft: #fdba74;
+    --accent-dim: rgba(249,115,22,.08); --accent-border: rgba(249,115,22,.18);
+    --text: #f5f0e8; --text-muted: #8a8070; --text-faint: #403c30;
+    --border: #201e14; --border-mid: #302c1e;
+    --check: #7dcf95; --check-dim: rgba(125,207,149,.08);
+  }
+
+  :root[data-theme="light"] {
+    --bg: #fdfaf5; --surface: #f5ede0; --surface-2: #ede3d0;
+    --accent: #c2540a; --accent-soft: #ea7c2a;
+    --accent-dim: rgba(194,84,10,.07); --accent-border: rgba(194,84,10,.18);
+    --text: #1c1710; --text-muted: #6e6050; --text-faint: #c0b49e;
+    --border: #e0d4be; --border-mid: #cdbfa4;
+    --check: #2a7a45; --check-dim: rgba(42,122,69,.07);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.9375rem; line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Header ── */
+  .program-header {
+    border-bottom: 1px solid var(--border);
+    padding: 3.5rem 2rem 3rem;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .brand-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .program-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    color: var(--text);
+    text-wrap: balance;
+    margin-bottom: 1rem;
+  }
+
+  .program-sub {
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 54ch;
+    line-height: 1.65;
+    margin-bottom: 1.875rem;
+  }
+
+  .program-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+  }
+
+  .stat-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-border);
+    border-radius: 2px;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8125rem;
+    color: var(--accent-soft);
+    font-weight: 500;
+  }
+
+  .stat-chip-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* ── Main ── */
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+
+  /* ── Includes ── */
+  .includes-block {
+    padding: 2.5rem 0 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sec-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 0.875rem;
+  }
+
+  .sec-title {
+    font-size: 1.125rem;
+    font-weight: 650;
+    color: var(--text);
+    letter-spacing: -0.015em;
+    margin-bottom: 1.25rem;
+  }
+
+  .includes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .include-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem 0.875rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .check-box {
+    width: 16px; height: 16px;
+    border: 1.5px solid var(--check);
+    border-radius: 2px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.1rem;
+    background: var(--check-dim);
+  }
+
+  .check-mark {
+    width: 8px; height: 6px;
+    border-left: 1.5px solid var(--check);
+    border-bottom: 1.5px solid var(--check);
+    transform: rotate(-45deg) translate(0.5px, -1px);
+  }
+
+  /* ── Phases ── */
+  .phases-block {
+    padding: 2.5rem 0 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .phase-track {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.625rem;
+  }
+
+  .phase-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .phase-head {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-2);
+  }
+
+  .phase-tag {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.3rem;
+  }
+
+  .phase-name {
+    font-size: 0.9375rem;
+    font-weight: 650;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+
+  .phase-months {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.15rem;
+  }
+
+  .phase-body {
+    padding: 0.875rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .phase-item {
+    font-size: 0.8375rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .phase-item::before {
+    content: '';
+    display: block;
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 0.6rem;
+    flex-shrink: 0;
+    opacity: 0.5;
+  }
+
+  /* ── Pillars ── */
+  .pillars-block { padding: 2.5rem 0 2rem; }
+
+  .pillar {
+    margin-bottom: 0.625rem;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .pillar-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.125rem 1.25rem;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pillar-icon { font-size: 1.125rem; flex-shrink: 0; line-height: 1; margin-top: 0.1rem; }
+  .pillar-title-group { flex: 1; }
+
+  .pillar-label {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0.65;
+    margin-bottom: 0.2rem;
+  }
+
+  .pillar-title {
+    font-size: 1rem;
+    font-weight: 650;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  .pillar-body {
+    padding: 1.125rem 1.25rem;
+    background: var(--surface);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  .pillar-col-label {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 0.625rem;
+  }
+
+  .pillar-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .pillar-list li {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .pillar-list li::before {
+    content: '→';
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--accent);
+    opacity: 0.5;
+    flex-shrink: 0;
+    margin-top: 0.08rem;
+  }
+
+  .pillar-note {
+    grid-column: 1 / -1;
+    padding: 0.75rem 1rem;
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-border);
+    border-radius: 2px;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  /* ── Community ── */
+  .community-card {
+    margin-top: 0.625rem;
+    border: 1px solid var(--accent-border);
+    border-radius: 3px;
+    overflow: hidden;
+    background: var(--accent-dim);
+  }
+
+  .community-head {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--accent-border);
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+  }
+
+  .community-title {
+    font-size: 1rem;
+    font-weight: 650;
+    color: var(--text);
+  }
+
+  .community-body {
+    padding: 1.125rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .community-item {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .community-item::before {
+    content: '✦';
+    font-size: 0.625rem;
+    color: var(--accent);
+    opacity: 0.7;
+    margin-top: 0.2rem;
+    flex-shrink: 0;
+  }
+
+  .doc-footer {
+    margin-top: 3rem;
+    padding: 1.5rem 0 0;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  @media (max-width: 600px) {
+    .program-header, main { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .program-title { font-size: 1.625rem; }
+    .includes-grid, .phase-track { grid-template-columns: 1fr; }
+    .pillar-body { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="program-header">
+  <div class="brand-eyebrow">Ana Fit — Oferta Principal</div>
+  <h1 class="program-title">Coaching VIP 1:1 con Ana</h1>
+  <p class="program-sub">Una transformación de 6 meses diseñada para mujeres latinas que ya se cansaron de empezar de cero. Fuerza, nutrición, mentalidad y vida real — todo en un solo lugar.</p>
+  <div class="program-stats">
+    <div class="stat-chip"><div class="stat-chip-dot"></div>6 Meses</div>
+    <div class="stat-chip"><div class="stat-chip-dot"></div>1:1 Personalizado</div>
+    <div class="stat-chip"><div class="stat-chip-dot"></div>Nutrición + Entrenamiento + Mentalidad</div>
+    <div class="stat-chip"><div class="stat-chip-dot"></div>Apoyo Médico</div>
+    <div class="stat-chip"><div class="stat-chip-dot"></div>Comunidad Latina</div>
+  </div>
+</div>
+
+<main>
+
+  <!-- Qué incluye -->
+  <div class="includes-block">
+    <div class="sec-eyebrow">Qué Incluye</div>
+    <h2 class="sec-title">Todo lo que viene en el programa</h2>
+    <div class="includes-grid">
+      <div class="include-item">
+        <div class="check-box"><div class="check-mark"></div></div>
+        6 meses de coaching personalizado 1:1
+      </div>
+      <div class="include-item">
+        <div class="check-box"><div class="check-mark"></div></div>
+        Reset metabólico y nutrición construida alrededor de la comida latina
+      </div>
+      <div class="include-item">
+        <div class="check-box"><div class="check-mark"></div></div>
+        Levantamiento de pesas y evaluaciones de movimiento con correcciones de forma
+      </div>
+      <div class="include-item">
+        <div class="check-box"><div class="check-mark"></div></div>
+        Sistemas de manejo del tiempo diseñados para su vida real
+      </div>
+      <div class="include-item">
+        <div class="check-box"><div class="check-mark"></div></div>
+        Trabajo de mentalidad e identidad: autosabotaje, perfeccionismo, síndrome del impostor
+      </div>
+      <div class="include-item">
+        <div class="check-box"><div class="check-mark"></div></div>
+        Apoyo médico: prediabetes, diabetes tipo 2, hígado graso, presión alta, colesterol, diástasis
+      </div>
+      <div class="include-item">
+        <div class="check-box"><div class="check-mark"></div></div>
+        Comunidad latina unida con relaciones reales
+      </div>
+      <div class="include-item">
+        <div class="check-box"><div class="check-mark"></div></div>
+        Retiro presencial anual
+      </div>
+    </div>
+  </div>
+
+  <!-- Fases -->
+  <div class="phases-block">
+    <div class="sec-eyebrow">Cronograma del Programa</div>
+    <h2 class="sec-title">6 meses — 3 fases</h2>
+    <div class="phase-track">
+
+      <div class="phase-card">
+        <div class="phase-head">
+          <div class="phase-tag">Fase 1</div>
+          <div class="phase-name">Fundación</div>
+          <div class="phase-months">Meses 1 – 2</div>
+        </div>
+        <div class="phase-body">
+          <div class="phase-item">Evaluación completa de salud y estilo de vida</div>
+          <div class="phase-item">Evaluación de movimiento y correcciones de forma base</div>
+          <div class="phase-item">Reset metabólico — calibrar la nutrición de inicio</div>
+          <div class="phase-item">Identificar los 3 principales patrones de autosabotaje</div>
+          <div class="phase-item">Construir los hábitos diarios no negociables</div>
+          <div class="phase-item">Coordinación médica inicia</div>
+          <div class="phase-item">Integración a la comunidad</div>
+        </div>
+      </div>
+
+      <div class="phase-card">
+        <div class="phase-head">
+          <div class="phase-tag">Fase 2</div>
+          <div class="phase-name">Construir</div>
+          <div class="phase-months">Meses 3 – 4</div>
+        </div>
+        <div class="phase-body">
+          <div class="phase-item">Sobrecarga progresiva introducida</div>
+          <div class="phase-item">Nutrición refinada según la vida real y análisis de laboratorio</div>
+          <div class="phase-item">Trabajo de identidad más profundo — en quién se está convirtiendo</div>
+          <div class="phase-item">Sistemas de tiempo probados en eventos reales</div>
+          <div class="phase-item">Pensamiento todo-o-nada activamente desmantelado</div>
+          <div class="phase-item">Primeros logros físicos medibles</div>
+          <div class="phase-item">Responsabilidad comunitaria intensificada</div>
+        </div>
+      </div>
+
+      <div class="phase-card">
+        <div class="phase-head">
+          <div class="phase-tag">Fase 3</div>
+          <div class="phase-name">Integrar</div>
+          <div class="phase-months">Meses 5 – 6</div>
+        </div>
+        <div class="phase-body">
+          <div class="phase-item">Programación avanzada — ciclos de fuerza completos</div>
+          <div class="phase-item">Nutrición en piloto automático — sin depender del conteo</div>
+          <div class="phase-item">Identidad consolidada — ella controla el sistema, no al revés</div>
+          <div class="phase-item">Planes para viajes, fiestas y reuniones familiares</div>
+          <div class="phase-item">Reevaluación médica — laboratorios e indicadores revisados</div>
+          <div class="phase-item">Plan de continuación o graduación construido</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Pilares -->
+  <div class="pillars-block">
+    <div class="sec-eyebrow">Pilares del Programa</div>
+    <h2 class="sec-title">En qué trabajamos realmente</h2>
+
+    <!-- Pilar 1: Nutrición -->
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon">🫘</div>
+        <div class="pillar-title-group">
+          <div class="pillar-label">Pilar 1</div>
+          <div class="pillar-title">Reset Metabólico y Nutrición</div>
+        </div>
+      </div>
+      <div class="pillar-body">
+        <div>
+          <div class="pillar-col-label">Lo que construimos</div>
+          <ul class="pillar-list">
+            <li>Metas calóricas basadas en su metabolismo, no en una calculadora genérica</li>
+            <li>Estructura de macros que incluye arroz, frijoles, tortillas, tamales y la comida de la abuela — ningún alimento está prohibido</li>
+            <li>Protocolo antiinflamatorio para prediabetes, hígado graso y colesterol alto</li>
+            <li>Estrategias de control de azúcar en sangre que no requieren eliminar carbohidratos</li>
+            <li>Déficit sostenible — pierde grasa sin dejar de cocinar para la familia</li>
+          </ul>
+        </div>
+        <div>
+          <div class="pillar-col-label">Lo que eliminamos</div>
+          <ul class="pillar-list">
+            <li>La culpa alrededor de la comida "mala" — el arroz no es el enemigo</li>
+            <li>Planes todo-o-nada que se caen en la primera reunión familiar</li>
+            <li>Marcos dietéticos occidentales que borran su cultura</li>
+            <li>La obsesión con contar — sistemas que funcionan incluso sin un diario de comida</li>
+            <li>Dependencia de suplementos — primero la comida, siempre</li>
+          </ul>
+        </div>
+        <div class="pillar-note">
+          "Le han dicho toda la vida que la comida latina es la razón por la que no puede bajar de peso. Aquí lo demostramos al revés. El arroz se queda."
+        </div>
+      </div>
+    </div>
+
+    <!-- Pilar 2: Entrenamiento -->
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon">🏋️</div>
+        <div class="pillar-title-group">
+          <div class="pillar-label">Pilar 2</div>
+          <div class="pillar-title">Levantamiento de Pesas y Movimiento</div>
+        </div>
+      </div>
+      <div class="pillar-body">
+        <div>
+          <div class="pillar-col-label">Estructura del entrenamiento</div>
+          <ul class="pillar-list">
+            <li>Evaluación de movimiento completa al inicio — identificar desequilibrios, limitaciones y condiciones posparto</li>
+            <li>Programación progresiva de fuerza: sentadilla, bisagra, empuje, jalón, carga</li>
+            <li>Correcciones de forma en video — cada levantamiento mayor revisado antes de aumentar peso</li>
+            <li>Protocolo para diástasis de rectos — programación modificada que sana, no daña</li>
+            <li>Adaptado para presión alta, hígado graso y diabetes tipo 2 — intensidad manejada según estándares médicos</li>
+          </ul>
+        </div>
+        <div>
+          <div class="pillar-col-label">Lo que cambia</div>
+          <ul class="pillar-list">
+            <li>Deja de creer que el cardio es la respuesta</li>
+            <li>Levanta pesado y se siente capaz por primera vez</li>
+            <li>Su composición corporal cambia aunque la báscula no se mueva</li>
+            <li>El entrenamiento cabe en 45-60 minutos, 3-4 veces por semana — no 2 horas diarias</li>
+            <li>Puede entrenar en viajes, en vacaciones escolares, durante la vida</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pilar 3: Sistemas de vida -->
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon">📅</div>
+        <div class="pillar-title-group">
+          <div class="pillar-label">Pilar 3</div>
+          <div class="pillar-title">Sistemas de Vida y Manejo del Tiempo</div>
+        </div>
+      </div>
+      <div class="pillar-body">
+        <div>
+          <div class="pillar-col-label">Sistemas que construimos</div>
+          <ul class="pillar-list">
+            <li>Bloqueo de calendario alrededor del trabajo, recogidas escolares y horario del esposo</li>
+            <li>Meal prep que alimenta a toda la familia — no comida de "dieta" por separado</li>
+            <li>Protocolos de viaje: cómo entrenar y comer en aeropuertos, hoteles y reuniones familiares</li>
+            <li>Manual de fiestas — Nochebuena, quinceañeras, bautizos, cumpleaños sin perder el progreso</li>
+            <li>Manejo de energía: cuándo entrenar, cuándo descansar, cómo recuperarse sin culpa</li>
+          </ul>
+        </div>
+        <div>
+          <div class="pillar-col-label">Construido alrededor de su vida real</div>
+          <ul class="pillar-list">
+            <li>Trabajo — turnos largos, trabajo en corporativo, viajes de negocios</li>
+            <li>Hijos — sus horarios, sus actividades, su caos</li>
+            <li>Esposo — sistema de apoyo o no, construimos alrededor de ello</li>
+            <li>Familia extendida — obligaciones, expectativas, presión</li>
+            <li>Agenda social — fiestas, fiestas y más fiestas</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pilar 4: Mentalidad -->
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon">🧠</div>
+        <div class="pillar-title-group">
+          <div class="pillar-label">Pilar 4</div>
+          <div class="pillar-title">Mentalidad e Identidad</div>
+        </div>
+      </div>
+      <div class="pillar-body">
+        <div>
+          <div class="pillar-col-label">Lo que abordamos</div>
+          <ul class="pillar-list">
+            <li><strong style="color:var(--text);">Autosabotaje</strong> — los comportamientos inconscientes que deshacen el progreso justo cuando está funcionando</li>
+            <li><strong style="color:var(--text);">Todo o nada</strong> — un entrenamiento perdido se convierte en un mes perdido. Rompemos este patrón para siempre</li>
+            <li><strong style="color:var(--text);">Perfeccionismo</strong> — la creencia de que si no puede hacerlo perfecto, para qué hacerlo</li>
+            <li><strong style="color:var(--text);">Síndrome del impostor</strong> — la sensación de que alguien como ella no merece estar saludable o tomar espacio</li>
+            <li><strong style="color:var(--text);">Ponerse al último</strong> — la presión cultural de poner a todos los demás primero, siempre</li>
+          </ul>
+        </div>
+        <div>
+          <div class="pillar-col-label">Lo que cambia</div>
+          <ul class="pillar-list">
+            <li>Deja de identificarse como "alguien que siempre se cae"</li>
+            <li>La salud se convierte en parte de quién es, no en un proyecto que está haciendo</li>
+            <li>Deja de pedir permiso para cuidarse a sí misma</li>
+            <li>La consistencia reemplaza a la motivación como la fuerza impulsora</li>
+            <li>Les muestra a sus hijos cómo es una relación sana con la comida y el cuerpo</li>
+          </ul>
+        </div>
+        <div class="pillar-note">
+          "No necesita más información — necesita una nueva historia sobre sí misma. Ahí es donde ocurre el trabajo real."
+        </div>
+      </div>
+    </div>
+
+    <!-- Pilar 5: Apoyo médico -->
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon">🩺</div>
+        <div class="pillar-title-group">
+          <div class="pillar-label">Pilar 5</div>
+          <div class="pillar-title">Apoyo Médico y Condiciones de Salud</div>
+        </div>
+      </div>
+      <div class="pillar-body">
+        <div>
+          <div class="pillar-col-label">Condiciones con las que trabajamos</div>
+          <ul class="pillar-list">
+            <li>Prediabetes y Diabetes Tipo 2 — azúcar en sangre, A1C, timing de carbohidratos</li>
+            <li>Hígado graso no alcohólico — protocolos de nutrición y ejercicio</li>
+            <li>Presión arterial alta — manejo de intensidad, conciencia de sodio, contexto de medicación</li>
+            <li>Colesterol alto — estrategia de grasa dietética, fibra, movimiento</li>
+            <li>Diástasis de rectos — rehabilitación de núcleo, modificaciones de programación</li>
+            <li>Posparto — hormonas, riesgo de prolapso, cronograma de regreso al levantamiento</li>
+          </ul>
+        </div>
+        <div>
+          <div class="pillar-col-label">Cómo lo abordamos</div>
+          <ul class="pillar-list">
+            <li>Trabajamos junto a su médico, no alrededor de él</li>
+            <li>Cambios de estilo de vida que mueven los marcadores de laboratorio — A1C, enzimas hepáticas, lípidos</li>
+            <li>Entrenamiento y nutrición ajustados a su cuadro médico específico — no un plan genérico</li>
+            <li>Progreso rastreado junto con chequeos médicos para que sus proveedores vean los resultados</li>
+            <li>Deja de sentir que sus condiciones la hacen "demasiado complicada" para recibir ayuda</li>
+          </ul>
+        </div>
+        <div class="pillar-note">
+          "Su médico le dijo que hiciera ejercicio y comiera mejor. Aquí le mostramos exactamente qué significa eso para su cuerpo, sus análisis y su vida."
+        </div>
+      </div>
+    </div>
+
+    <!-- Comunidad -->
+    <div class="community-card">
+      <div class="community-head">
+        <div class="pillar-icon">🤝</div>
+        <div class="community-title">La Comunidad Ana Fit</div>
+      </div>
+      <div class="community-body">
+        <div class="community-item">Un grupo unido de mujeres latinas que realmente entienden su vida — la comida, la presión familiar, la culpa cultural, las expectativas</div>
+        <div class="community-item">Relaciones reales construidas durante meses, no solo un grupo de Facebook que revisa una vez a la semana</div>
+        <div class="community-item">Mujeres en diferentes etapas del mismo camino — alguien que lleva 6 meses adelante es la prueba de que funciona</div>
+        <div class="community-item">Retiro presencial anual — conexión, celebración e impulso en la vida real</div>
+        <div class="community-item">Un espacio donde no tiene que explicar por qué no puede "simplemente dejar el arroz" en la cena familiar</div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="doc-footer">
+    <span>Ana Fit — Referencia Interna del Programa</span>
+    <span>Coaching VIP 1:1 · 6 Meses</span>
+  </footer>
+
+</main>
