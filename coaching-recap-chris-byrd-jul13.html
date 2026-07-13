@@ -1,0 +1,501 @@
+
+<title>Coaching Recap — Chris Byrd · Jul 13</title>
+<style>
+  :root {
+    --bg: #090908;
+    --surface: #111110;
+    --surface-2: #1a1916;
+    --accent: #e2cfa8;
+    --accent-soft: #f0e4c8;
+    --accent-dim: rgba(226,207,168,.07);
+    --accent-border: rgba(226,207,168,.14);
+    --text: #f0ece4;
+    --text-muted: #8a8475;
+    --text-faint: #3e3b30;
+    --border: #201f18;
+    --check: #7dcf95;
+    --check-dim: rgba(125,207,149,.08);
+    --mono: 'SF Mono','Fira Code','Consolas',monospace;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f2;
+      --surface: #f0ece0;
+      --surface-2: #e4dece;
+      --accent: #8a6d3a;
+      --accent-soft: #6b5228;
+      --accent-dim: rgba(138,109,58,.07);
+      --accent-border: rgba(138,109,58,.2);
+      --text: #1a1914;
+      --text-muted: #6a6450;
+      --text-faint: #c0b898;
+      --border: #ddd8c8;
+      --check: #2a7a45;
+      --check-dim: rgba(42,122,69,.07);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#090908;--surface:#111110;--surface-2:#1a1916;
+    --accent:#e2cfa8;--accent-soft:#f0e4c8;
+    --accent-dim:rgba(226,207,168,.07);--accent-border:rgba(226,207,168,.14);
+    --text:#f0ece4;--text-muted:#8a8475;--text-faint:#3e3b30;
+    --border:#201f18;--check:#7dcf95;--check-dim:rgba(125,207,149,.08);
+  }
+  :root[data-theme="light"] {
+    --bg:#faf8f2;--surface:#f0ece0;--surface-2:#e4dece;
+    --accent:#8a6d3a;--accent-soft:#6b5228;
+    --accent-dim:rgba(138,109,58,.07);--accent-border:rgba(138,109,58,.2);
+    --text:#1a1914;--text-muted:#6a6450;--text-faint:#c0b898;
+    --border:#ddd8c8;--check:#2a7a45;--check-dim:rgba(42,122,69,.07);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{font-size:16px;scroll-behavior:smooth;}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    font-size:.9375rem;line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ── Header ── */
+  .doc-header{
+    max-width:760px;margin:0 auto;
+    padding:3rem 2rem 2.5rem;
+    border-bottom:1px solid var(--border);
+  }
+  .eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:.875rem;
+  }
+  .doc-title{
+    font-size:1.875rem;font-weight:700;
+    letter-spacing:-.03em;line-height:1.2;
+    color:var(--text);margin-bottom:.75rem;
+  }
+  .meta-row{
+    display:flex;flex-wrap:wrap;gap:.5rem;
+    margin-top:1.125rem;
+  }
+  .meta-chip{
+    display:flex;align-items:center;gap:.4rem;
+    font-family:var(--mono);font-size:.6875rem;
+    color:var(--text-muted);
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:2px;padding:.25rem .625rem;
+  }
+  .meta-chip-dot{
+    width:4px;height:4px;border-radius:50%;
+    background:var(--accent);flex-shrink:0;
+  }
+
+  /* ── Main ── */
+  main{max-width:760px;margin:0 auto;padding:0 2rem 5rem;}
+
+  /* ── Section ── */
+  .section{padding:2.25rem 0 1.75rem;border-bottom:1px solid var(--border);}
+  .section:last-child{border-bottom:none;}
+  .sec-eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.12em;text-transform:uppercase;
+    color:var(--text-faint);margin-bottom:.75rem;
+  }
+  .sec-title{
+    font-size:1.0625rem;font-weight:650;
+    color:var(--text);letter-spacing:-.015em;
+    margin-bottom:1.25rem;
+  }
+
+  /* ── Week track ── */
+  .week-track{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    gap:.5rem;
+  }
+  .week-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:3px;overflow:hidden;
+  }
+  .week-head{
+    padding:.625rem .875rem;
+    background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+  }
+  .week-tag{
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.1em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:.2rem;opacity:.75;
+  }
+  .week-label{
+    font-size:.875rem;font-weight:650;
+    color:var(--text);letter-spacing:-.01em;
+  }
+  .week-body{
+    padding:.75rem .875rem;
+    font-size:.8125rem;color:var(--text-muted);
+    line-height:1.55;
+  }
+  .week-note{
+    margin-top:.5rem;font-size:.75rem;
+    color:var(--text-faint);font-style:italic;
+  }
+
+  /* ── Coaching moments ── */
+  .moment{
+    margin-bottom:.625rem;
+    border:1px solid var(--border);
+    border-radius:3px;overflow:hidden;
+  }
+  .moment-header{
+    display:flex;align-items:flex-start;gap:.875rem;
+    padding:1rem 1.125rem;
+    background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+  }
+  .moment-num{
+    font-family:var(--mono);font-size:.625rem;
+    letter-spacing:.08em;color:var(--accent);
+    opacity:.6;flex-shrink:0;margin-top:.15rem;
+    min-width:1.5rem;
+  }
+  .moment-title-group{flex:1;}
+  .moment-label{
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.1em;text-transform:uppercase;
+    color:var(--accent);opacity:.6;margin-bottom:.2rem;
+  }
+  .moment-title{
+    font-size:.9375rem;font-weight:650;
+    color:var(--text);letter-spacing:-.01em;line-height:1.3;
+  }
+  .moment-body{
+    padding:1rem 1.125rem;
+    background:var(--surface);
+  }
+  .moment-p{
+    font-size:.875rem;color:var(--text-muted);
+    line-height:1.65;margin-bottom:.625rem;
+  }
+  .moment-p:last-child{margin-bottom:0;}
+  .moment-p strong{color:var(--text);font-weight:600;}
+
+  /* ── Quote ── */
+  .quote-block{
+    margin:.875rem 0;
+    padding:.75rem 1rem;
+    background:var(--accent-dim);
+    border-left:2px solid var(--accent);
+    border-radius:0 2px 2px 0;
+  }
+  .quote-text{
+    font-size:.875rem;color:var(--accent-soft);
+    line-height:1.6;font-style:italic;
+  }
+  .quote-attr{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--text-faint);margin-top:.4rem;
+  }
+
+  /* ── Action items ── */
+  .action-grid{
+    display:grid;grid-template-columns:1fr 1fr;
+    gap:.5rem;
+  }
+  .action-item{
+    display:flex;align-items:flex-start;gap:.75rem;
+    padding:.75rem .875rem;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:3px;
+    font-size:.875rem;color:var(--text-muted);
+    line-height:1.5;
+  }
+  .action-owner{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent);opacity:.7;
+    flex-shrink:0;margin-top:.15rem;
+    min-width:2.5rem;
+  }
+
+  /* ── Key quotes grid ── */
+  .quotes-grid{
+    display:grid;grid-template-columns:1fr 1fr;
+    gap:.5rem;
+  }
+  .quote-card{
+    padding:.875rem 1rem;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:3px;
+  }
+  .quote-card-text{
+    font-size:.875rem;color:var(--text-muted);
+    line-height:1.6;font-style:italic;
+    margin-bottom:.375rem;
+  }
+  .quote-card-attr{
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--text-faint);
+  }
+
+  .doc-footer{
+    max-width:760px;margin:0 auto;
+    padding:1.5rem 2rem;
+    border-top:1px solid var(--border);
+    display:flex;justify-content:space-between;
+    flex-wrap:wrap;gap:.5rem;
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--text-faint);
+  }
+
+  @media (max-width:600px){
+    .doc-header,main{padding-left:1.25rem;padding-right:1.25rem;}
+    .doc-title{font-size:1.5rem;}
+    .week-track,.action-grid,.quotes-grid{grid-template-columns:1fr;}
+  }
+</style>
+
+<div class="doc-header">
+  <div class="eyebrow">Sales.io — Coaching Recap</div>
+  <h1 class="doc-title">Chris Byrd</h1>
+  <div class="meta-row">
+    <div class="meta-chip"><div class="meta-chip-dot"></div>July 13, 2026</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>~38 min</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Week 4–5</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Student-led session</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Job placement + Interview frame</div>
+  </div>
+</div>
+
+<main>
+
+  <!-- Week recap -->
+  <div class="section">
+    <div class="sec-eyebrow">Self-Assessment</div>
+    <h2 class="sec-title">Chris's week-by-week recap</h2>
+    <div class="week-track">
+
+      <div class="week-card">
+        <div class="week-head">
+          <div class="week-tag">Week 1</div>
+          <div class="week-label">State Management</div>
+        </div>
+        <div class="week-body">
+          Clicked immediately — he'd already seen the impact of state during door-to-door. Validated something he knew intuitively but never had named.
+        </div>
+      </div>
+
+      <div class="week-card">
+        <div class="week-head">
+          <div class="week-tag">Week 2</div>
+          <div class="week-label">Frame + Expansion</div>
+        </div>
+        <div class="week-body">
+          Frame intro through Cole. Expansion framework — taking a prospect from their stated goal to what 6 months of success looks like — was a major eye-opener. He had never run that.
+        </div>
+      </div>
+
+      <div class="week-card">
+        <div class="week-head">
+          <div class="week-tag">Week 3</div>
+          <div class="week-label">Schedule Leverage</div>
+        </div>
+        <div class="week-body">
+          Came to JJ feeling off. JJ challenged him to use his calendar as a tool instead of a constraint. Did it, it worked.
+          <div class="week-note">Low emotional moment → structural fix</div>
+        </div>
+      </div>
+
+      <div class="week-card">
+        <div class="week-head">
+          <div class="week-tag">Weeks 4–5</div>
+          <div class="week-label">Job Placement Focus</div>
+        </div>
+        <div class="week-body">
+          Shift to landing a role. Loom submissions, interview with Drew (Ryan Pineda team), went through Jackson's job hiring module. Lots of clarity from this week.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Coaching moments -->
+  <div class="section">
+    <div class="sec-eyebrow">Coaching Moments</div>
+    <h2 class="sec-title">What was worked through</h2>
+
+    <div class="moment">
+      <div class="moment-header">
+        <div class="moment-num">01</div>
+        <div class="moment-title-group">
+          <div class="moment-label">Closing</div>
+          <div class="moment-title">The closing sequence breakthrough</div>
+        </div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">Chris was sitting at a <strong>10% close rate</strong> in door-to-door. He optimized every other lever — built 4 avatar-specific opening scripts, pushed his show rate to 76%, understood qualification cold. But close rate didn't move.</div>
+        <div class="moment-p">After going through the closing sequence this week (money aside → what do you like → why → handle logistics → handle authority), he went back through every lost deal he could remember. The pattern was obvious: <strong>they weren't saying no. They were saying "not yet" — and he never helped them make a decision.</strong> He handled pre-close, never the close.</div>
+        <div class="quote-block">
+          <div class="quote-text">"They weren't saying they didn't want to buy. They were just saying now seems like a busy time. I never helped them make a decision — and that was my final job."</div>
+          <div class="quote-attr">Chris Byrd</div>
+        </div>
+        <div class="moment-p">He also noted: from a pre-close standpoint, he had it. People loved him, trusted him, were ready to buy from him. The sequence — specifically working through the onion of circumstances, other people, and then the prospect's own decision — is the piece that was missing.</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-header">
+        <div class="moment-num">02</div>
+        <div class="moment-title-group">
+          <div class="moment-label">Interviews</div>
+          <div class="moment-title">Drew at Ryan Pineda — what went wrong</div>
+        </div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">Chris had an interview with Drew (Ryan Pineda's team). He spent the call asking Drew about the offer structure — dream outcome, perceived likelihood of achievement, hidden costs. He was demonstrating business understanding.</div>
+        <div class="moment-p"><strong>The miss:</strong> He wasn't selling himself. He was analyzing their business without ever connecting his experience to what they need. Drew came back later: "Come back in 3 months when you have an offer. It's experience for us." Chris was confused — he thought showing depth of knowledge was the move.</div>
+        <div class="moment-p">After going through Jackson's job hiring module, Chris saw it: <strong>he never aligned his experience to their avatar.</strong> He was speaking business-owner to business-owner. He was showing he gets the offer. But he never said "here's why I'm the person you hire."</div>
+        <div class="quote-block">
+          <div class="quote-text">"I should have taken the time to align how I understood their avatar with my experience. I did not do that."</div>
+          <div class="quote-attr">Chris Byrd</div>
+        </div>
+        <div class="moment-p">JJ's note: It's worth texting Drew back — "What did you mean by no experience? I want to make sure I understand." Push for clarity. It might not be what you think.</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-header">
+        <div class="moment-num">03</div>
+        <div class="moment-title-group">
+          <div class="moment-label">Loom + Positioning</div>
+          <div class="moment-title">How you frame your background determines your status</div>
+        </div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">Chris asked why JJ said not to mention "outbound sales" in a general Loom. He had a chip on his shoulder about it — he felt it represented what he worked for, the grind, the dog mentality.</div>
+        <div class="moment-p">JJ played an example Loom (Nora Campbell): <em>"I started my career making 100 cold calls a day in New York City selling high-value commercial real estate and PropTech deals. Over 6 years I focused on high-growth Series A and Series B startups…"</em></div>
+        <div class="moment-p"><strong>The point:</strong> She's doing outbound sales. But she's not saying "outbound sales." She's saying 100 cold calls a day, NYC, commercial real estate, PropTech, Series A, B. Every detail elevates her status. People don't even know what Series A means — but it sounds important and they assume she does.</div>
+        <div class="quote-block">
+          <div class="quote-text">"If you just say outbound sales, people put you in a box. They see it as replaceable. It's not you, it's the industry perception. Frame it with specifics that show you know what you're doing."</div>
+          <div class="quote-attr">JJ Hernandez</div>
+        </div>
+        <div class="moment-p"><strong>The rule:</strong> General Loom → just say "sales," let them assume in the positive. Applying for a full-cycle or outbound-specific role → name it, but lead with specific impressive details, not the category. Serving background (over $1M in revenue, part-time) is also worth surfacing if framed right — it's proof of performance, not a lesser credential.</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-header">
+        <div class="moment-num">04</div>
+        <div class="moment-title-group">
+          <div class="moment-label">Interview Frame</div>
+          <div class="moment-title">Frame can't be in the conscious mind</div>
+        </div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">Chris asked: "Should I run my sales process through the interview?" JJ's answer cut through the overthinking.</div>
+        <div class="moment-p">Don't premeditate it. The moment you're strategizing about how to show frame, you've already lost it. Frame has to be internalized, not performed. The interviewer has assumed authority because of their role — all you have to do is make them feel like you're on the same level. If you do it right, they start wondering why you're even applying.</div>
+        <div class="quote-block">
+          <div class="quote-text">"It's pretty damn simple to just show up as the authority. They can't make you feel like you're below. They should almost feel like you could be above them — and when you do too good of a job, that's when they ask, 'Why is this guy applying here?'"</div>
+          <div class="quote-attr">JJ Hernandez</div>
+        </div>
+        <div class="moment-p"><strong>The frame:</strong> You understand what they're talking about. You get what they need. That's all it takes for them to hire you. Don't try to guide the call consciously — just show up as yourself, knowing what they're looking for.</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-header">
+        <div class="moment-num">05</div>
+        <div class="moment-title-group">
+          <div class="moment-label">Accountability</div>
+          <div class="moment-title">Chris asked for brutal honesty — JJ answered it directly</div>
+        </div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">Chris asked JJ to always hold him to an unreasonable standard. He said the story where JJ got genuinely irritated — the moving company being late — showed him that JJ actually cares, and that's the kind of coach he wants.</div>
+        <div class="moment-p">JJ's response was a story: a student came to him after 8 weeks complaining he didn't "fully understand scriptless selling yet." JJ told him that's disrespectful — what took JJ years to learn, the student expected to have in 8 weeks. The student didn't like it. JJ didn't care.</div>
+        <div class="quote-block">
+          <div class="quote-text">"I don't tolerate anybody's bullshit. I just won't. If you give me a reason to call it out, I will. But I'm not going to look for things just to be like that."</div>
+          <div class="quote-attr">JJ Hernandez</div>
+        </div>
+        <div class="moment-p">Chris gave JJ permission to hold him to that standard. JJ accepted it.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Action items -->
+  <div class="section">
+    <div class="sec-eyebrow">Next Steps</div>
+    <h2 class="sec-title">Action items</h2>
+    <div class="action-grid">
+      <div class="action-item">
+        <div class="action-owner">JJ</div>
+        Send Chris job opportunities from the platform — several may not require a formal interview (direct placement)
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Chris</div>
+        Text Drew back: "Hey, what did you mean by no experience? I want to make sure I understand." Push for clarity, don't assume
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Chris</div>
+        Apply Jackson's module framework on next interview: align your experience specifically to the offer avatar, not just show business knowledge
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Chris</div>
+        When resubmitting the Loom: lead with specific impressive details (door volume, show rate, dollar figures), not category labels like "outbound sales"
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Chris</div>
+        Look up Marshall Crews — JJ mentioned him heading into the next call. Possible connection or opportunity
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Both</div>
+        Once Chris lands a role: set up Fathom, record calls, bring them to sessions — that's when the program gets fully leveraged
+      </div>
+    </div>
+  </div>
+
+  <!-- Key quotes -->
+  <div class="section">
+    <div class="sec-eyebrow">Quotes from the Call</div>
+    <h2 class="sec-title">Worth keeping</h2>
+    <div class="quotes-grid">
+      <div class="quote-card">
+        <div class="quote-card-text">"People will assume in the positive what less of they know."</div>
+        <div class="quote-card-attr">JJ Hernandez — on why specificity beats category labels</div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-card-text">"You're selling the person, not the product. You're selling the company on hiring you."</div>
+        <div class="quote-card-attr">JJ Hernandez — on interviews</div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-card-text">"Frame can't be in your conscious mind. The moment you're thinking about it, you've lost it."</div>
+        <div class="quote-card-attr">JJ Hernandez — on interview frame control</div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-card-text">"Be your most authentic self. Every time. That will carry over everything."</div>
+        <div class="quote-card-attr">JJ Hernandez</div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-card-text">"I wasn't selling myself. I thought if I asked him questions about the offer, he'd see that I already understand all these concepts."</div>
+        <div class="quote-card-attr">Chris Byrd — on the Drew miss</div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-card-text">"The fact that you think what took me years to learn you can do in 8 weeks — that's disrespectful."</div>
+        <div class="quote-card-attr">JJ Hernandez — on standards</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="doc-footer">
+  <span>Sales.io — Internal Coaching Recap</span>
+  <span>Chris Byrd · Jul 13, 2026</span>
+</footer>
