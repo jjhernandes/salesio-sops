@@ -1,0 +1,399 @@
+
+<title>FitMama Team — Monday KPI Meeting · Jul 13</title>
+<style>
+  :root {
+    --bg: #090908;
+    --surface: #111110;
+    --surface-2: #1a1916;
+    --accent: #e2cfa8;
+    --accent-soft: #f0e4c8;
+    --accent-dim: rgba(226,207,168,.07);
+    --accent-border: rgba(226,207,168,.14);
+    --text: #f0ece4;
+    --text-muted: #8a8475;
+    --text-faint: #3e3b30;
+    --border: #201f18;
+    --check: #7dcf95;
+    --check-dim: rgba(125,207,149,.08);
+    --warn: #f59e0b;
+    --warn-dim: rgba(245,158,11,.07);
+    --warn-border: rgba(245,158,11,.16);
+    --mono: 'SF Mono','Fira Code','Consolas',monospace;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f2; --surface: #f0ece0; --surface-2: #e4dece;
+      --accent: #8a6d3a; --accent-soft: #6b5228;
+      --accent-dim: rgba(138,109,58,.07); --accent-border: rgba(138,109,58,.2);
+      --text: #1a1914; --text-muted: #6a6450; --text-faint: #c0b898;
+      --border: #ddd8c8; --check: #2a7a45; --check-dim: rgba(42,122,69,.07);
+      --warn: #b45309; --warn-dim: rgba(180,83,9,.07); --warn-border: rgba(180,83,9,.2);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#090908;--surface:#111110;--surface-2:#1a1916;
+    --accent:#e2cfa8;--accent-soft:#f0e4c8;
+    --accent-dim:rgba(226,207,168,.07);--accent-border:rgba(226,207,168,.14);
+    --text:#f0ece4;--text-muted:#8a8475;--text-faint:#3e3b30;
+    --border:#201f18;--check:#7dcf95;--check-dim:rgba(125,207,149,.08);
+    --warn:#f59e0b;--warn-dim:rgba(245,158,11,.07);--warn-border:rgba(245,158,11,.16);
+  }
+  :root[data-theme="light"] {
+    --bg:#faf8f2;--surface:#f0ece0;--surface-2:#e4dece;
+    --accent:#8a6d3a;--accent-soft:#6b5228;
+    --accent-dim:rgba(138,109,58,.07);--accent-border:rgba(138,109,58,.2);
+    --text:#1a1914;--text-muted:#6a6450;--text-faint:#c0b898;
+    --border:#ddd8c8;--check:#2a7a45;--check-dim:rgba(42,122,69,.07);
+    --warn:#b45309;--warn-dim:rgba(180,83,9,.07);--warn-border:rgba(180,83,9,.2);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{font-size:16px;scroll-behavior:smooth;}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    font-size:.9375rem;line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .doc-header{
+    max-width:760px;margin:0 auto;
+    padding:3rem 2rem 2.5rem;
+    border-bottom:1px solid var(--border);
+  }
+  .eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:.875rem;
+  }
+  .doc-title{
+    font-size:1.875rem;font-weight:700;
+    letter-spacing:-.03em;line-height:1.2;
+    color:var(--text);margin-bottom:.25rem;
+  }
+  .doc-sub{font-size:.9375rem;color:var(--text-muted);}
+  .meta-row{
+    display:flex;flex-wrap:wrap;gap:.5rem;
+    margin-top:1.125rem;
+  }
+  .meta-chip{
+    display:flex;align-items:center;gap:.4rem;
+    font-family:var(--mono);font-size:.6875rem;
+    color:var(--text-muted);background:var(--surface);
+    border:1px solid var(--border);border-radius:2px;
+    padding:.25rem .625rem;
+  }
+  .meta-chip-dot{
+    width:4px;height:4px;border-radius:50%;
+    background:var(--accent);flex-shrink:0;
+  }
+
+  main{max-width:760px;margin:0 auto;padding:0 2rem 5rem;}
+
+  .section{padding:2.25rem 0 1.75rem;border-bottom:1px solid var(--border);}
+  .section:last-child{border-bottom:none;}
+  .sec-eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.12em;text-transform:uppercase;
+    color:var(--text-faint);margin-bottom:.75rem;
+  }
+  .sec-title{
+    font-size:1.0625rem;font-weight:650;
+    color:var(--text);letter-spacing:-.015em;margin-bottom:1.25rem;
+  }
+
+  /* ── KPI table ── */
+  .kpi-table-wrap{overflow-x:auto;}
+  .kpi-table{
+    width:100%;border-collapse:collapse;
+    font-size:.875rem;
+  }
+  .kpi-table th{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.1em;text-transform:uppercase;
+    color:var(--text-faint);
+    padding:.625rem 1rem;text-align:left;
+    border-bottom:1px solid var(--border);
+    background:var(--surface-2);
+    font-weight:500;
+  }
+  .kpi-table td{
+    padding:.75rem 1rem;
+    color:var(--text-muted);
+    border-bottom:1px solid var(--border);
+    vertical-align:top;
+  }
+  .kpi-table tr:last-child td{border-bottom:none;}
+  .kpi-table tr:hover td{background:var(--accent-dim);}
+  .name-cell{color:var(--text);font-weight:600;}
+  .role-tag{
+    display:inline-block;
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent);background:var(--accent-dim);
+    border:1px solid var(--accent-border);
+    border-radius:2px;padding:.1rem .4rem;
+    margin-left:.5rem;vertical-align:middle;
+  }
+  .num-bam{
+    font-family:var(--mono);font-size:.8125rem;
+    color:var(--text-muted);font-variant-numeric:tabular-nums;
+  }
+  .num-reach{
+    font-family:var(--mono);font-size:.8125rem;
+    color:var(--check);font-variant-numeric:tabular-nums;
+  }
+
+  /* ── Topic blocks ── */
+  .topic{
+    margin-bottom:.625rem;
+    border:1px solid var(--border);border-radius:3px;overflow:hidden;
+  }
+  .topic-head{
+    display:flex;align-items:flex-start;gap:.875rem;
+    padding:.9375rem 1.125rem;
+    background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+  }
+  .topic-num{
+    font-family:var(--mono);font-size:.625rem;
+    letter-spacing:.08em;color:var(--accent);opacity:.55;
+    flex-shrink:0;margin-top:.15rem;min-width:1.5rem;
+  }
+  .topic-title{
+    font-size:.9375rem;font-weight:650;
+    color:var(--text);letter-spacing:-.01em;line-height:1.3;
+  }
+  .topic-body{
+    padding:.9375rem 1.125rem;background:var(--surface);
+  }
+  .topic-p{
+    font-size:.875rem;color:var(--text-muted);
+    line-height:1.65;margin-bottom:.625rem;
+  }
+  .topic-p:last-child{margin-bottom:0;}
+  .topic-p strong{color:var(--text);font-weight:600;}
+
+  .callout{
+    margin:.75rem 0;
+    padding:.75rem 1rem;
+    background:var(--accent-dim);
+    border:1px solid var(--accent-border);
+    border-radius:2px;
+    font-size:.875rem;color:var(--text-muted);line-height:1.6;
+  }
+  .callout strong{color:var(--accent-soft);}
+
+  .warn-callout{
+    margin:.75rem 0;
+    padding:.75rem 1rem;
+    background:var(--warn-dim);
+    border:1px solid var(--warn-border);
+    border-radius:2px;
+    font-size:.875rem;color:var(--text-muted);line-height:1.6;
+  }
+  .warn-callout strong{color:var(--warn);}
+
+  /* ── Action items ── */
+  .action-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:.5rem;
+  }
+  .action-item{
+    display:flex;align-items:flex-start;gap:.75rem;
+    padding:.75rem .875rem;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:3px;
+    font-size:.875rem;color:var(--text-muted);line-height:1.5;
+  }
+  .action-owner{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent);opacity:.7;flex-shrink:0;
+    margin-top:.15rem;min-width:2.75rem;
+  }
+
+  .doc-footer{
+    max-width:760px;margin:0 auto;
+    padding:1.5rem 2rem;border-top:1px solid var(--border);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);
+  }
+
+  @media(max-width:600px){
+    .doc-header,main{padding-left:1.25rem;padding-right:1.25rem;}
+    .doc-title{font-size:1.5rem;}
+    .action-grid{grid-template-columns:1fr;}
+  }
+</style>
+
+<div class="doc-header">
+  <div class="eyebrow">FitMama — Team Meeting Recap</div>
+  <h1 class="doc-title">Monday KPI Kickoff</h1>
+  <div class="doc-sub">First formal KPI structure meeting — BAMs, Reaches, SendBlue, and Wednesday plan</div>
+  <div class="meta-row">
+    <div class="meta-chip"><div class="meta-chip-dot"></div>July 13, 2026</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>~22 min</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>JJ · Khalil · Jess · Stacy · Micah</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Jess Week 1 Live</div>
+  </div>
+</div>
+
+<main>
+
+  <!-- KPIs -->
+  <div class="section">
+    <div class="sec-eyebrow">Weekly KPIs — Committed Numbers</div>
+    <h2 class="sec-title">BAMs and Reaches · Week of Jul 13</h2>
+    <div class="kpi-table-wrap">
+      <table class="kpi-table">
+        <thead>
+          <tr>
+            <th>Person</th>
+            <th>Metric</th>
+            <th>BAM</th>
+            <th>Reach</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name-cell">Stacy <span class="role-tag">Setter</span></td>
+            <td>Sets / week</td>
+            <td><span class="num-bam">15</span></td>
+            <td><span class="num-reach">25</span></td>
+            <td>Back from a week off — first day back in routine</td>
+          </tr>
+          <tr>
+            <td class="name-cell">Micah <span class="role-tag">Setter</span></td>
+            <td>Sets / week</td>
+            <td><span class="num-bam">15</span></td>
+            <td><span class="num-reach">20</span></td>
+            <td>Needs clarity on triaging script — Wednesday session will cover</td>
+          </tr>
+          <tr>
+            <td class="name-cell">Jess <span class="role-tag">Closer</span></td>
+            <td>Cash collected / week</td>
+            <td><span class="num-bam">$30K</span></td>
+            <td><span class="num-reach">$50K</span></td>
+            <td>BAM = 6 closes at $5K @ 40% rate off setter BAM. Reach requires annuals/multi-year deals</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout" style="margin-top:.875rem;">
+      <strong>Cadence:</strong> By Wednesday — know if on track, surface what you need. By Friday — push or flag. JJ sending the BAM/Reach document to the team; what you commit to, you own.
+    </div>
+  </div>
+
+  <!-- Topics -->
+  <div class="section">
+    <div class="sec-eyebrow">Topics Covered</div>
+    <h2 class="sec-title">What was discussed</h2>
+
+    <div class="topic">
+      <div class="topic-head">
+        <div class="topic-num">01</div>
+        <div class="topic-title">KPI framework — BAMs and Reaches explained</div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-p">This is the <strong>first week running a real KPI structure</strong> for the FitMama team. JJ introduced the BAM/Reach model: BAM (bare-ass minimum) is the floor you commit to no matter what. Reach is what you're selfishly chasing.</div>
+        <div class="topic-p">Setters track <strong>sets</strong> (shows). Closers track <strong>cash collected</strong> — because closers control that lever directly. Eventually, the team can forecast cash collected from setter sets, but not yet.</div>
+        <div class="topic-p">The number you put in writing is the number you're accountable to. A team with no goals is a team with no results.</div>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head">
+        <div class="topic-num">02</div>
+        <div class="topic-title">Setter attribution — what counts as a set</div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-p">Micah and Stacy raised a legitimate question: with the new VSL funnel auto-booking qualified leads directly onto Jess's calendar, what counts as the setter's set?</div>
+        <div class="topic-p"><strong>JJ's rule:</strong> Any call where the setter had a touchpoint — a real conversation — is their set. If a lead comes through the VSL and auto-books with zero setter contact, that's a marketing set, not a setter set.</div>
+        <div class="topic-p"><strong>Khalil's framing:</strong> If VSL books 6 calls for the day, the question isn't "do we stop?" — it's "why can't we book 12?" VSL auto-books don't reduce setter targets. They're parallel tracks.</div>
+        <div class="callout">
+          <strong>Future state:</strong> If the VSL performs as intended, Khalil will shift ad spend fully to it and redirect setter focus from DM outreach to calling missed VSL opportunities — people who started the application but didn't finish, or qualified leads who didn't book.
+        </div>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head">
+        <div class="topic-num">03</div>
+        <div class="topic-title">SendBlue — seamless handoff plan</div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-p">Team sentiment: SendBlue is working. iMessage appearance helps response rates. The personal touch from the closer in the thread is effective. Automations were going "crazy" at one point but have since settled. Stacy uses it regularly; Micah finds the Jazz impersonation for non-applicants is driving fill rates. Jess got invited to SendBlue during the call — needs to log in and review.</div>
+        <div class="topic-p"><strong>JJ's plan — the seamless handoff:</strong> Build a prerecorded voice or video message from Khalil that bridges him to Jess before the call. The goal is to transfer Khalil's authority to Jess so prospects arrive primed — not surprised they're talking to someone else.</div>
+        <div class="topic-p">The model: Iman used this with JJ. He'd send a message introducing JJ as his right-hand, sometimes including JJ's Instagram. Prospects would check, see it was real, and show up with a different level of respect and readiness.</div>
+        <div class="callout">
+          <strong>Expected impact:</strong> Show rate minimum 2x. Prospects arrive treating Jess as the authority, not as a gatekeeper. Reduces the need to "fight for respect" at the start of every call.
+        </div>
+        <div class="warn-callout">
+          <strong>Watch for:</strong> Don't over-set the expectation that they're talking to Khalil directly. The bridge message should transfer authority, not create confusion about who's on the call.
+        </div>
+        <div class="topic-p">JJ to send Khalil a few variations of handoff messages. Khalil plans to implement the same day.</div>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head">
+        <div class="topic-num">04</div>
+        <div class="topic-title">Wednesday — Jalen demos the triaging script</div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-p">Micah asked for the triaging/dialing script so setters can start calling missed VSL opportunities right away. JJ will send the script before Wednesday, but more importantly — <strong>Jalen is coming in on Wednesday to demo the process live.</strong></div>
+        <div class="topic-p">Jalen has been JJ's setter since one of his earliest offers. He'll walk the team through what the triaging process looks like in practice — not just theory.</div>
+        <div class="topic-p">Wednesday is also the first check-in point on KPIs — if anyone's not on track, that's the moment to surface what they need.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Action items -->
+  <div class="section">
+    <div class="sec-eyebrow">Action Items</div>
+    <h2 class="sec-title">Who's doing what</h2>
+    <div class="action-grid">
+      <div class="action-item">
+        <div class="action-owner">JJ</div>
+        Send BAM/Reach commitment document to team — what's committed is committed
+      </div>
+      <div class="action-item">
+        <div class="action-owner">JJ</div>
+        Send Khalil 2-3 SendBlue handoff message variations within 10 min of call
+      </div>
+      <div class="action-item">
+        <div class="action-owner">JJ</div>
+        Send Jalen's triaging script to team before Wednesday
+      </div>
+      <div class="action-item">
+        <div class="action-owner">JJ</div>
+        Bring Jalen in Wednesday to demo the full triaging process live
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Khalil</div>
+        Implement SendBlue handoff sequence with Jess today once JJ sends variations
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Khalil</div>
+        Increase ad spend — Jess's first call expected Tuesday/Wednesday
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Khalil</div>
+        Fix Fathom document (Fathom links) once Claude credit renews
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Jess</div>
+        Log into SendBlue, review thread setup, follow up with Khalil on anything needed
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="doc-footer">
+  <span>FitMama — Team Meeting Recap</span>
+  <span>Monday KPI Kickoff · Jul 13, 2026</span>
+</footer>
