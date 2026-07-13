@@ -1,0 +1,471 @@
+
+<title>Coaching Recap — Pablo Humerez · Jul 13</title>
+<style>
+  :root {
+    --bg: #090908;
+    --surface: #111110;
+    --surface-2: #1a1916;
+    --accent: #e2cfa8;
+    --accent-soft: #f0e4c8;
+    --accent-dim: rgba(226,207,168,.07);
+    --accent-border: rgba(226,207,168,.14);
+    --text: #f0ece4;
+    --text-muted: #8a8475;
+    --text-faint: #3e3b30;
+    --border: #201f18;
+    --check: #7dcf95;
+    --check-dim: rgba(125,207,149,.08);
+    --mono: 'SF Mono','Fira Code','Consolas',monospace;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f2; --surface: #f0ece0; --surface-2: #e4dece;
+      --accent: #8a6d3a; --accent-soft: #6b5228;
+      --accent-dim: rgba(138,109,58,.07); --accent-border: rgba(138,109,58,.2);
+      --text: #1a1914; --text-muted: #6a6450; --text-faint: #c0b898;
+      --border: #ddd8c8; --check: #2a7a45; --check-dim: rgba(42,122,69,.07);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#090908;--surface:#111110;--surface-2:#1a1916;
+    --accent:#e2cfa8;--accent-soft:#f0e4c8;
+    --accent-dim:rgba(226,207,168,.07);--accent-border:rgba(226,207,168,.14);
+    --text:#f0ece4;--text-muted:#8a8475;--text-faint:#3e3b30;
+    --border:#201f18;--check:#7dcf95;--check-dim:rgba(125,207,149,.08);
+  }
+  :root[data-theme="light"] {
+    --bg:#faf8f2;--surface:#f0ece0;--surface-2:#e4dece;
+    --accent:#8a6d3a;--accent-soft:#6b5228;
+    --accent-dim:rgba(138,109,58,.07);--accent-border:rgba(138,109,58,.2);
+    --text:#1a1914;--text-muted:#6a6450;--text-faint:#c0b898;
+    --border:#ddd8c8;--check:#2a7a45;--check-dim:rgba(42,122,69,.07);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{font-size:16px;scroll-behavior:smooth;}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    font-size:.9375rem;line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .doc-header{
+    max-width:760px;margin:0 auto;
+    padding:3rem 2rem 2.5rem;
+    border-bottom:1px solid var(--border);
+  }
+  .eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:.875rem;
+  }
+  .doc-title{
+    font-size:1.875rem;font-weight:700;
+    letter-spacing:-.03em;line-height:1.2;
+    color:var(--text);margin-bottom:.25rem;
+  }
+  .doc-sub{color:var(--text-muted);font-size:.9375rem;margin-top:.25rem;}
+  .meta-row{
+    display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.125rem;
+  }
+  .meta-chip{
+    display:flex;align-items:center;gap:.4rem;
+    font-family:var(--mono);font-size:.6875rem;
+    color:var(--text-muted);background:var(--surface);
+    border:1px solid var(--border);border-radius:2px;padding:.25rem .625rem;
+  }
+  .meta-chip-dot{
+    width:4px;height:4px;border-radius:50%;
+    background:var(--accent);flex-shrink:0;
+  }
+
+  main{max-width:760px;margin:0 auto;padding:0 2rem 5rem;}
+
+  .section{padding:2.25rem 0 1.75rem;border-bottom:1px solid var(--border);}
+  .section:last-child{border-bottom:none;}
+  .sec-eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.12em;text-transform:uppercase;
+    color:var(--text-faint);margin-bottom:.75rem;
+  }
+  .sec-title{
+    font-size:1.0625rem;font-weight:650;
+    color:var(--text);letter-spacing:-.015em;margin-bottom:1.25rem;
+  }
+
+  /* ── Snapshot cards ── */
+  .snap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;}
+  .snap-card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:3px;overflow:hidden;
+  }
+  .snap-head{
+    padding:.5rem .75rem;background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--text-faint);
+  }
+  .snap-val{
+    padding:.625rem .75rem;font-size:.875rem;color:var(--text-muted);
+    line-height:1.5;
+  }
+  .snap-val strong{color:var(--text);font-weight:600;}
+
+  /* ── Closer grid ── */
+  .closer-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;}
+  .closer-card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:3px;overflow:hidden;
+  }
+  .closer-head{
+    padding:.75rem .875rem;background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+  }
+  .closer-name{font-size:.9375rem;font-weight:650;color:var(--text);letter-spacing:-.01em;}
+  .closer-tag{
+    font-family:var(--mono);font-size:.575rem;letter-spacing:.07em;
+    text-transform:uppercase;color:var(--text-faint);margin-top:.15rem;
+  }
+  .closer-body{padding:.75rem .875rem;}
+  .closer-row{
+    font-size:.8125rem;color:var(--text-muted);line-height:1.5;
+    margin-bottom:.375rem;padding-bottom:.375rem;
+    border-bottom:1px solid var(--border);
+  }
+  .closer-row:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+  .closer-row strong{color:var(--text);font-weight:600;}
+
+  /* ── Coaching moments ── */
+  .moment{
+    margin-bottom:.625rem;
+    border:1px solid var(--border);border-radius:3px;overflow:hidden;
+  }
+  .moment-head{
+    display:flex;align-items:flex-start;gap:.875rem;
+    padding:.9375rem 1.125rem;background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+  }
+  .moment-num{
+    font-family:var(--mono);font-size:.625rem;
+    letter-spacing:.08em;color:var(--accent);opacity:.55;
+    flex-shrink:0;margin-top:.15rem;min-width:1.5rem;
+  }
+  .moment-title{
+    font-size:.9375rem;font-weight:650;
+    color:var(--text);letter-spacing:-.01em;line-height:1.3;
+  }
+  .moment-body{
+    padding:.9375rem 1.125rem;background:var(--surface);
+  }
+  .moment-p{
+    font-size:.875rem;color:var(--text-muted);
+    line-height:1.65;margin-bottom:.625rem;
+  }
+  .moment-p:last-child{margin-bottom:0;}
+  .moment-p strong{color:var(--text);font-weight:600;}
+
+  .quote-block{
+    margin:.75rem 0;padding:.75rem 1rem;
+    background:var(--accent-dim);border-left:2px solid var(--accent);
+    border-radius:0 2px 2px 0;
+    font-size:.875rem;color:var(--accent-soft);
+    line-height:1.6;font-style:italic;
+  }
+  .quote-attr{
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--text-faint);margin-top:.35rem;font-style:normal;
+  }
+
+  .callout{
+    padding:.75rem 1rem;
+    background:var(--accent-dim);border:1px solid var(--accent-border);
+    border-radius:2px;font-size:.875rem;color:var(--text-muted);line-height:1.6;
+    margin-top:.875rem;
+  }
+  .callout strong{color:var(--accent-soft);}
+
+  /* ── Pablo's catches ── */
+  .catch-list{display:flex;flex-direction:column;gap:.375rem;}
+  .catch-item{
+    display:flex;align-items:flex-start;gap:.75rem;
+    padding:.75rem .875rem;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:3px;
+  }
+  .catch-icon{
+    font-size:.75rem;color:var(--check);flex-shrink:0;
+    margin-top:.2rem;font-family:var(--mono);
+    letter-spacing:.04em;
+  }
+  .catch-text{font-size:.875rem;color:var(--text-muted);line-height:1.55;}
+  .catch-text strong{color:var(--text);}
+
+  /* ── Action items ── */
+  .action-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+  .action-item{
+    display:flex;align-items:flex-start;gap:.75rem;
+    padding:.75rem .875rem;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:3px;font-size:.875rem;color:var(--text-muted);line-height:1.5;
+  }
+  .action-owner{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent);opacity:.7;flex-shrink:0;
+    margin-top:.15rem;min-width:3.5rem;
+  }
+
+  .doc-footer{
+    max-width:760px;margin:0 auto;
+    padding:1.5rem 2rem;border-top:1px solid var(--border);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);
+  }
+
+  @media(max-width:600px){
+    .doc-header,main{padding-left:1.25rem;padding-right:1.25rem;}
+    .doc-title{font-size:1.5rem;}
+    .snap-grid,.closer-grid,.action-grid{grid-template-columns:1fr;}
+  }
+</style>
+
+<div class="doc-header">
+  <div class="eyebrow">Sales.io — Coaching Recap</div>
+  <h1 class="doc-title">Pablo Humerez</h1>
+  <div class="doc-sub">Call Review Session — Tristan Steckler's Financial Advisory Closers</div>
+  <div class="meta-row">
+    <div class="meta-chip"><div class="meta-chip-dot"></div>July 13, 2026</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Day 1 on new offer</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>3 closers reviewed</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Ryan Kirui sat in</div>
+  </div>
+</div>
+
+<main>
+
+  <!-- Snapshot -->
+  <div class="section">
+    <div class="sec-eyebrow">Context</div>
+    <h2 class="sec-title">Where Pablo is</h2>
+    <div class="snap-grid">
+      <div class="snap-card">
+        <div class="snap-head">Offer</div>
+        <div class="snap-val">Financial advisory — closes for <strong>Tristan Steckler's team</strong>. Day 1. No calls taken yet.</div>
+      </div>
+      <div class="snap-card">
+        <div class="snap-head">First day</div>
+        <div class="snap-val">Attended team meeting: live call review with Tristan's team. Format mirrors JJ's — stop the call, ask "what did the prospect give us?"</div>
+      </div>
+      <div class="snap-card">
+        <div class="snap-head">Call start</div>
+        <div class="snap-val">Pablo planned to start <strong>Thursday</strong>. Two calls booked Wednesday — aiming to take those and move any earlier ones.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Three closers -->
+  <div class="section">
+    <div class="sec-eyebrow">Call Review</div>
+    <h2 class="sec-title">Three closers — Tristan's team</h2>
+    <div class="closer-grid">
+      <div class="closer-card">
+        <div class="closer-head">
+          <div class="closer-name">Imran</div>
+          <div class="closer-tag">Reviewed first</div>
+        </div>
+        <div class="closer-body">
+          <div class="closer-row"><strong>Style</strong> — Casual, quick rapport, friendly energy</div>
+          <div class="closer-row"><strong>Good</strong> — Sets tone of the call in 50 seconds. Understands what he's doing</div>
+          <div class="closer-row"><strong>Red flag</strong> — Asked woman her age. Never do this. Tristan called him the best; JJ wouldn't emulate</div>
+          <div class="closer-row"><strong>Risk</strong> — Works if prospect matches the energy. Wrong audience and it reads as "who is this guy"</div>
+        </div>
+      </div>
+      <div class="closer-card">
+        <div class="closer-head">
+          <div class="closer-name">Chris</div>
+          <div class="closer-tag">JJ's "worst of three" — Tristan's "best"</div>
+        </div>
+        <div class="closer-body">
+          <div class="closer-row"><strong>Style</strong> — Slow, methodical, lets the prospect guide. Heavy note-taking for the math</div>
+          <div class="closer-row"><strong>Good</strong> — Took it really slow. Repeated back what the prospect said. Let them run and just caught the signal</div>
+          <div class="closer-row"><strong>Missed</strong> — "We're ready" (buying signal after a year). Didn't fully leverage it</div>
+          <div class="closer-row"><strong>Why it still worked</strong> — Spoke Jessica's language quickly. Warm couple. Emotions did the heavy lifting</div>
+        </div>
+      </div>
+      <div class="closer-card">
+        <div class="closer-head">
+          <div class="closer-name">Spencer</div>
+          <div class="closer-tag">JJ's top pick</div>
+        </div>
+        <div class="closer-body">
+          <div class="closer-row"><strong>Style</strong> — Scriptless. Most composed of the three. Very slow pacing (watched at 1.3x)</div>
+          <div class="closer-row"><strong>Good</strong> — Silence as authority. Waited until prospect confirmed time. Didn't move forward until everyone was present</div>
+          <div class="closer-row"><strong>"Interrogation" preframe</strong> — "This might feel like an interrogation at times." Removes the power of it being one. Subtle and effective</div>
+          <div class="closer-row"><strong>Energy match</strong> — JJ to Pablo: "I think you sell very similar to Spencer in terms of energy"</div>
+        </div>
+      </div>
+    </div>
+    <div class="callout" style="margin-top:.75rem;">
+      <strong>Bottom line across all three:</strong> 99% of what worked was demeanor and energy in the first 2–5 minutes. After that, they all stuck to the framework. The "advanced" moments were just cutting corners on unnecessary questions when the prospect already gave the answer.
+    </div>
+  </div>
+
+  <!-- Coaching moments -->
+  <div class="section">
+    <div class="sec-eyebrow">Coaching Moments</div>
+    <h2 class="sec-title">What was worked through</h2>
+
+    <div class="moment">
+      <div class="moment-head">
+        <div class="moment-num">01</div>
+        <div class="moment-title">De-selling — the thing most reps don't know they're doing</div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">When someone is warm and ready to go, continuing to ask tactical questions doesn't build them up — it takes them out of their emotional state and back into their head. They start second-guessing. That's de-selling.</div>
+        <div class="quote-block">
+          "You think they're here, and then you're like slowly trying to build them up — but they're really up here, ready to go, and you're just taking way too long."
+          <div class="quote-attr">JJ Hernandez</div>
+        </div>
+        <div class="moment-p">The couple Chris called (31-year married, ALS mom, daughter's wedding, $4K/month income drop, mounting debt) had already given him everything. He didn't need 10 more questions. He just needed to go into the numbers and let them confront their own reality.</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head">
+        <div class="moment-num">02</div>
+        <div class="moment-title">Verbal buying cues — "we're ready" is not small</div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">The couple had followed the brand for over a year. When the husband said <em>"we're ready"</em> — that's certainty language. That's commitment. Compare it to maybe, probably, I think, I guess. Those are wishy-washy. "We're ready" is not.</div>
+        <div class="moment-p">JJ's coaching: you still don't rush. You still take it slow. But you know internally the sale is yours to lose. The one question you should have asked right there: <strong>"It's been a year — what's kept you from pulling the trigger until now?"</strong> That curiosity isn't just good sales. It's what makes you actually understand someone.</div>
+        <div class="quote-block">
+          "Don't ask the question you don't know the answer to? Man, what the fuck — you don't have any answers. You don't know this guy. You don't know where he's from. We have zero."
+          <div class="quote-attr">JJ Hernandez — on bad sales advice</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head">
+        <div class="moment-num">03</div>
+        <div class="moment-title">The data brings out the emotions — not the other way around</div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">Going into the numbers isn't tactical coldness — it's where the emotional weight builds. Making someone look at $100K of debt, nothing in savings, nothing in retirement, a 4K monthly gap they can't close — that's intense. That discomfort is the emotion.</div>
+        <div class="moment-p">Chris didn't push further on why they couldn't go back to Dave Ramsey. He didn't need to. She opened the door to the numbers. He walked through it. Once you're comfortable going through their numbers together — the close is almost done. What follows is just confirming they're ready to let someone help.</div>
+        <div class="quote-block">
+          "As long as they're comfortable giving you the numbers, the rest is pretty much smooth sailing."
+          <div class="quote-attr">JJ Hernandez</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head">
+        <div class="moment-num">04</div>
+        <div class="moment-title">Slowness = composure = lowered anxiety</div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">All three closers were played at 1.3–1.4x speed because they're all that slow in real time. Spencer especially. He waited for full presence before starting. He didn't rush through the tech hiccup — just held space until it was sorted. He asked if they were still free for 40 minutes and didn't accept a vague nod — he waited for a real answer.</div>
+        <div class="quote-block">
+          "Slower is composure. It slows down their anxiety every single time. The slower you are, the better."
+          <div class="quote-attr">JJ Hernandez</div>
+        </div>
+        <div class="moment-p">Pablo's natural energy maps closest to Spencer's. JJ's note: the energy Pablo had on the Tristan call — that casual, comfortable, real-person energy — is exactly what needs to come into his sales calls.</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head">
+        <div class="moment-num">05</div>
+        <div class="moment-title">Problem aware vs. solution aware — Pablo's question</div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">Pablo asked: if they're problem-aware and solution-aware and still haven't bought — what certainty do they need? JJ's correction: they're not solution-aware yet. Following a brand = knowing you have a problem. Solution-aware means knowing how the program works, what the execution looks like, what they're actually buying into.</div>
+        <div class="moment-p">What gets them to solution-aware is the presentation. The numbers create the emotional pressure. The pitch shows them the exit. Then certainty closes the gap. The sale on a warm prospect like this is often just: open strong → go through numbers → make the gap vivid → present the bridge → confirm they see it.</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head">
+        <div class="moment-num">06</div>
+        <div class="moment-title">Clarity is for you, not them</div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">You're asking questions to understand their situation — not to perform curiosity. If you don't actually understand why they're there, you cannot close the call. The questions aren't a script you run. They're how you get clarity for yourself.</div>
+        <div class="quote-block">
+          "If you don't know why they're here, you can't continue the call. You literally cannot."
+          <div class="quote-attr">JJ Hernandez</div>
+        </div>
+        <div class="moment-p">Some reps will catch the key moment fast (Pablo's pattern recognition is already strong). Some will need to hear it 2–3 times in context. Ryan might take a few more sessions. Neither is wrong — it's reps. The point is to build the pattern until you spot it automatically, in the moment, on a live call.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Pablo's catches -->
+  <div class="section">
+    <div class="sec-eyebrow">Pablo's Observations</div>
+    <h2 class="sec-title">What Pablo caught on his own</h2>
+    <div class="catch-list">
+      <div class="catch-item">
+        <div class="catch-icon">→</div>
+        <div class="catch-text"><strong>Blame pattern:</strong> The couple blamed the wedding, the job loss, the financial advisor, the parents, the ALS diagnosis. Pablo flagged this unprompted — JJ: "That's it. 100%." The right follow-up: "You had success with Dave Ramsey — what stopped you from going back to that?"</div>
+      </div>
+      <div class="catch-item">
+        <div class="catch-icon">→</div>
+        <div class="catch-text"><strong>Note-taking on calls:</strong> Pablo noticed all three closers were writing heavily during calls. He recognized it's for the math — tracking debt, income, expenses to run the numbers back. Exactly right.</div>
+      </div>
+      <div class="catch-item">
+        <div class="catch-icon">→</div>
+        <div class="catch-text"><strong>The "things in between":</strong> Pablo said he can follow the framework all day — the gaps are the small in-between moments, the things Spencer says that make you go "how did that come up?" JJ's coaching: those come from genuine curiosity and not assuming you already know what they mean.</div>
+      </div>
+      <div class="catch-item">
+        <div class="catch-icon">→</div>
+        <div class="catch-text"><strong>The framework vs. the questions beneath it:</strong> Pablo asked whether he should ask the "why did you wait?" question or stick to the framework. JJ: if they already answered it, don't ask it again. If they didn't, ask. The framework is a floor, not a ceiling.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action items -->
+  <div class="section">
+    <div class="sec-eyebrow">Next Steps</div>
+    <h2 class="sec-title">Action items</h2>
+    <div class="action-grid">
+      <div class="action-item">
+        <div class="action-owner">Pablo</div>
+        Watch Tristan's Loom on pre-call SOP — custom assets by prospect bucket, when and how to send
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Pablo</div>
+        Set up recurring blocks in Google Calendar that align with GHL — not just day-blocks; include before/after buffer so no calls leak in at wrong times
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Pablo</div>
+        Take calls starting Wednesday — check in with Tristan's team to confirm tomorrow's calls are moved; if not, take them
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Pablo</div>
+        Continue call review session with JJ — more calls to go through; Spencer and Chris only partially reviewed
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Pablo</div>
+        Bring the same easy, real energy from today's session into every call — JJ: "That energy is all you need"
+      </div>
+      <div class="action-item">
+        <div class="action-owner">JJ</div>
+        Text Pablo to schedule continuation of the call review session
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="doc-footer">
+  <span>Sales.io — Internal Coaching Recap</span>
+  <span>Pablo Humerez · Jul 13, 2026</span>
+</footer>
