@@ -1,0 +1,533 @@
+
+<title>Coaching Recap — Brandon Wilner · Jul 13</title>
+<style>
+  :root {
+    --bg: #090908;
+    --surface: #111110;
+    --surface-2: #1a1916;
+    --accent: #e2cfa8;
+    --accent-soft: #f0e4c8;
+    --accent-dim: rgba(226,207,168,.07);
+    --accent-border: rgba(226,207,168,.14);
+    --text: #f0ece4;
+    --text-muted: #8a8475;
+    --text-faint: #3e3b30;
+    --border: #201f18;
+    --check: #7dcf95;
+    --check-dim: rgba(125,207,149,.08);
+    --mono: 'SF Mono','Fira Code','Consolas',monospace;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f2; --surface: #f0ece0; --surface-2: #e4dece;
+      --accent: #8a6d3a; --accent-soft: #6b5228;
+      --accent-dim: rgba(138,109,58,.07); --accent-border: rgba(138,109,58,.2);
+      --text: #1a1914; --text-muted: #6a6450; --text-faint: #c0b898;
+      --border: #ddd8c8; --check: #2a7a45; --check-dim: rgba(42,122,69,.07);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#090908;--surface:#111110;--surface-2:#1a1916;
+    --accent:#e2cfa8;--accent-soft:#f0e4c8;
+    --accent-dim:rgba(226,207,168,.07);--accent-border:rgba(226,207,168,.14);
+    --text:#f0ece4;--text-muted:#8a8475;--text-faint:#3e3b30;
+    --border:#201f18;--check:#7dcf95;--check-dim:rgba(125,207,149,.08);
+  }
+  :root[data-theme="light"] {
+    --bg:#faf8f2;--surface:#f0ece0;--surface-2:#e4dece;
+    --accent:#8a6d3a;--accent-soft:#6b5228;
+    --accent-dim:rgba(138,109,58,.07);--accent-border:rgba(138,109,58,.2);
+    --text:#1a1914;--text-muted:#6a6450;--text-faint:#c0b898;
+    --border:#ddd8c8;--check:#2a7a45;--check-dim:rgba(42,122,69,.07);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{font-size:16px;scroll-behavior:smooth;}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    font-size:.9375rem;line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .doc-header{
+    max-width:760px;margin:0 auto;
+    padding:3rem 2rem 2.5rem;
+    border-bottom:1px solid var(--border);
+  }
+  .eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:.875rem;
+  }
+  .doc-title{
+    font-size:1.875rem;font-weight:700;
+    letter-spacing:-.03em;line-height:1.2;
+    color:var(--text);margin-bottom:.25rem;
+  }
+  .meta-row{
+    display:flex;flex-wrap:wrap;gap:.5rem;
+    margin-top:1.125rem;
+  }
+  .meta-chip{
+    display:flex;align-items:center;gap:.4rem;
+    font-family:var(--mono);font-size:.6875rem;
+    color:var(--text-muted);background:var(--surface);
+    border:1px solid var(--border);border-radius:2px;
+    padding:.25rem .625rem;
+  }
+  .meta-chip-dot{
+    width:4px;height:4px;border-radius:50%;
+    background:var(--accent);flex-shrink:0;
+  }
+
+  main{max-width:760px;margin:0 auto;padding:0 2rem 5rem;}
+
+  .section{padding:2.25rem 0 1.75rem;border-bottom:1px solid var(--border);}
+  .section:last-child{border-bottom:none;}
+  .sec-eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.12em;text-transform:uppercase;
+    color:var(--text-faint);margin-bottom:.75rem;
+  }
+  .sec-title{
+    font-size:1.0625rem;font-weight:650;
+    color:var(--text);letter-spacing:-.015em;margin-bottom:1.25rem;
+  }
+
+  /* ── Snapshot ── */
+  .snapshot-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;
+  }
+  .snap-card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:3px;padding:.875rem 1rem;
+  }
+  .snap-label{
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.1em;text-transform:uppercase;
+    color:var(--text-faint);margin-bottom:.375rem;
+  }
+  .snap-value{
+    font-size:1.375rem;font-weight:700;
+    color:var(--text);letter-spacing:-.02em;
+    font-variant-numeric:tabular-nums;line-height:1.2;
+  }
+  .snap-sub{
+    font-size:.75rem;color:var(--text-muted);margin-top:.2rem;
+  }
+
+  /* ── Framework ── */
+  .framework-block{
+    border:1px solid var(--border);border-radius:3px;overflow:hidden;
+    margin-bottom:1rem;
+  }
+  .framework-head{
+    padding:1rem 1.125rem;
+    background:var(--surface-2);border-bottom:1px solid var(--border);
+  }
+  .framework-label{
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.1em;text-transform:uppercase;
+    color:var(--accent);opacity:.65;margin-bottom:.2rem;
+  }
+  .framework-title{
+    font-size:.9375rem;font-weight:650;
+    color:var(--text);letter-spacing:-.01em;
+  }
+  .framework-body{
+    padding:1rem 1.125rem;background:var(--surface);
+  }
+
+  .cycle-row{
+    display:flex;align-items:flex-start;gap:.625rem;
+    margin-bottom:.5rem;
+  }
+  .cycle-row:last-child{margin-bottom:0;}
+  .cycle-tag{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent);background:var(--accent-dim);
+    border:1px solid var(--accent-border);
+    border-radius:2px;padding:.15rem .5rem;
+    flex-shrink:0;white-space:nowrap;margin-top:.1rem;
+    min-width:5rem;text-align:center;
+  }
+  .cycle-text{
+    font-size:.875rem;color:var(--text-muted);line-height:1.6;
+  }
+  .cycle-text strong{color:var(--text);font-weight:600;}
+
+  .applied-block{
+    margin-top:.875rem;padding:.875rem 1rem;
+    background:var(--accent-dim);border:1px solid var(--accent-border);
+    border-radius:2px;
+  }
+  .applied-label{
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.1em;text-transform:uppercase;
+    color:var(--accent);opacity:.7;margin-bottom:.5rem;
+  }
+  .applied-row{
+    display:flex;align-items:flex-start;gap:.75rem;
+    margin-bottom:.375rem;font-size:.875rem;color:var(--text-muted);
+  }
+  .applied-row:last-child{margin-bottom:0;}
+  .applied-field{
+    font-family:var(--mono);font-size:.625rem;
+    letter-spacing:.06em;color:var(--accent-soft);
+    opacity:.8;flex-shrink:0;min-width:6rem;margin-top:.1rem;
+  }
+
+  .callout{
+    padding:.75rem 1rem;
+    background:var(--accent-dim);border:1px solid var(--accent-border);
+    border-radius:2px;
+    font-size:.875rem;color:var(--text-muted);line-height:1.6;
+    margin-top:.875rem;
+  }
+  .callout strong{color:var(--accent-soft);}
+
+  /* ── Offers ── */
+  .offers-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+  .offer-card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:3px;overflow:hidden;
+  }
+  .offer-head{
+    padding:.625rem .875rem;background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .offer-name{
+    font-size:.875rem;font-weight:650;color:var(--text);
+  }
+  .offer-status{
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    padding:.15rem .5rem;border-radius:2px;
+  }
+  .status-hot{
+    color:var(--check);background:var(--check-dim);
+    border:1px solid rgba(125,207,149,.2);
+  }
+  .status-maybe{
+    color:var(--accent);background:var(--accent-dim);
+    border:1px solid var(--accent-border);
+  }
+  .offer-body{
+    padding:.75rem .875rem;
+    font-size:.8375rem;color:var(--text-muted);line-height:1.55;
+  }
+  .offer-detail{
+    display:flex;gap:.5rem;margin-bottom:.3rem;font-size:.8125rem;
+  }
+  .offer-detail:last-child{margin-bottom:0;}
+  .offer-key{
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.06em;color:var(--text-faint);
+    text-transform:uppercase;flex-shrink:0;
+    min-width:4rem;margin-top:.15rem;
+  }
+
+  /* ── Logistics ── */
+  .logistics-card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:3px;overflow:hidden;margin-bottom:.625rem;
+  }
+  .logistics-head{
+    padding:.75rem 1rem;background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+    font-size:.875rem;font-weight:650;color:var(--text);
+  }
+  .logistics-body{
+    padding:.875rem 1rem;
+    display:flex;flex-direction:column;gap:.4rem;
+  }
+  .logistics-item{
+    font-size:.875rem;color:var(--text-muted);
+    display:flex;align-items:flex-start;gap:.625rem;line-height:1.5;
+  }
+  .logistics-day{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent);flex-shrink:0;min-width:3.5rem;
+    margin-top:.15rem;
+  }
+
+  /* ── Action items ── */
+  .action-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+  .action-item{
+    display:flex;align-items:flex-start;gap:.75rem;
+    padding:.75rem .875rem;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:3px;
+    font-size:.875rem;color:var(--text-muted);line-height:1.5;
+  }
+  .action-owner{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent);opacity:.7;flex-shrink:0;
+    margin-top:.15rem;min-width:2.5rem;
+  }
+
+  .doc-footer{
+    max-width:760px;margin:0 auto;
+    padding:1.5rem 2rem;border-top:1px solid var(--border);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);
+  }
+
+  @media(max-width:600px){
+    .doc-header,main{padding-left:1.25rem;padding-right:1.25rem;}
+    .doc-title{font-size:1.5rem;}
+    .snapshot-grid,.offers-grid,.action-grid{grid-template-columns:1fr;}
+  }
+</style>
+
+<div class="doc-header">
+  <div class="eyebrow">Sales.io — Coaching Recap</div>
+  <h1 class="doc-title">Brandon Wilner</h1>
+  <div class="meta-row">
+    <div class="meta-chip"><div class="meta-chip-dot"></div>July 13, 2026</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>~21 min</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Week 2 curriculum</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Anti-Fragility + Job Strategy</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>In-person Thu–Fri</div>
+  </div>
+</div>
+
+<main>
+
+  <!-- Snapshot -->
+  <div class="section">
+    <div class="sec-eyebrow">Where He's At</div>
+    <h2 class="sec-title">Current situation</h2>
+    <div class="snapshot-grid">
+      <div class="snap-card">
+        <div class="snap-label">Summit Sprint (Wed–Sun)</div>
+        <div class="snap-value">$5.3K</div>
+        <div class="snap-sub">Commissions earned in 5 days — more calls than a 3-month stretch</div>
+      </div>
+      <div class="snap-card">
+        <div class="snap-label">This Month (so far)</div>
+        <div class="snap-value">$6K</div>
+        <div class="snap-sub">On track — well above his expense floor of $3K/mo</div>
+      </div>
+      <div class="snap-card">
+        <div class="snap-label">Offer Status</div>
+        <div class="snap-value">Winding</div>
+        <div class="snap-sub">Summit over, volume dropping — team too big for non-event volume. Next event: September</div>
+      </div>
+    </div>
+    <div class="callout" style="margin-top:.875rem;">
+      <strong>Direction:</strong> Wants long-term stability over launch-hopping ("storm chaser with roofing"). JJ aligned — be patient, find the right $500K–$1M+/month opportunity rather than settling.
+    </div>
+  </div>
+
+  <!-- Anti-Fragility Framework -->
+  <div class="section">
+    <div class="sec-eyebrow">Main Coaching Moment</div>
+    <h2 class="sec-title">The Anti-Fragility Framework</h2>
+
+    <div class="framework-block">
+      <div class="framework-head">
+        <div class="framework-label">Concept — Ali (NASA / SpaceX-adjacent mentor)</div>
+        <div class="framework-title">Anticipate failure so it can't break you</div>
+      </div>
+      <div class="framework-body">
+        <div class="cycle-row">
+          <div class="cycle-tag">Desired Outcome</div>
+          <div class="cycle-text">The real goal — ambitious but specific. Not a vague income number, a clear state to be in.</div>
+        </div>
+        <div class="cycle-row">
+          <div class="cycle-tag">Failure + Vision</div>
+          <div class="cycle-text"><strong>Not zero.</strong> What does failure actually look like based on your history? When's the last time you truly made zero? Failure envisioned should be near your current average floor — realistic, not catastrophic.</div>
+        </div>
+        <div class="cycle-row">
+          <div class="cycle-tag">Resources</div>
+          <div class="cycle-text">What's missing right now that would close the gap between where you are and the desired outcome?</div>
+        </div>
+        <div class="cycle-row">
+          <div class="cycle-tag">Initiation</div>
+          <div class="cycle-text">Once resources are in place, move with speed. Limited time to act before the window closes.</div>
+        </div>
+        <div class="cycle-row">
+          <div class="cycle-tag">Breaking Point</div>
+          <div class="cycle-text">You'll hit a moment where it's clear you're not going to hit the target this cycle. Confirm failure early — don't grind into a wall. Iterate instead.</div>
+        </div>
+        <div class="cycle-row">
+          <div class="cycle-tag">Iterate</div>
+          <div class="cycle-text">Go back. Same desired outcome, updated failure vision, refined resources. The cycle repeats — but faster and smarter each time.</div>
+        </div>
+
+        <div class="applied-block">
+          <div class="applied-label">Applied to Brandon</div>
+          <div class="applied-row">
+            <div class="applied-field">Desired outcome</div>
+            Land a role where he's making $20K+/month within 2 months
+          </div>
+          <div class="applied-row">
+            <div class="applied-field">Failure vision</div>
+            $7–8K/month — roughly where he is now. Not zero. Survivable.
+          </div>
+          <div class="applied-row">
+            <div class="applied-field">Resources</div>
+            Has everything he needs. The gap is structure and intentionality — actually applying, evaluating looms, moving with urgency instead of drifting
+          </div>
+          <div class="applied-row">
+            <div class="applied-field">Self-diagnosis</div>
+            Stayed too long at his last offer after maxing out. Took Malachi talking to him multiple times before he moved. Needs to act on his own read earlier
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Offer opportunities -->
+  <div class="section">
+    <div class="sec-eyebrow">Opportunities on the Table</div>
+    <h2 class="sec-title">Offers JJ has in mind</h2>
+    <div class="offers-grid">
+      <div class="offer-card">
+        <div class="offer-head">
+          <div class="offer-name">Dr. Pompa</div>
+          <div class="offer-status status-hot">Ready in 2 wks</div>
+        </div>
+        <div class="offer-body">
+          <div class="offer-detail">
+            <div class="offer-key">What</div>
+            Holistic health / functional medicine — not supplements, more coaching-adjacent
+          </div>
+          <div class="offer-detail">
+            <div class="offer-key">Revenue</div>
+            Doing $10K (likely $10M/mo range — JJ connection)
+          </div>
+          <div class="offer-detail">
+            <div class="offer-key">Timeline</div>
+            Needs someone within 2 weeks
+          </div>
+          <div class="offer-detail">
+            <div class="offer-key">Next step</div>
+            JJ sending website to Brandon
+          </div>
+        </div>
+      </div>
+      <div class="offer-card">
+        <div class="offer-head">
+          <div class="offer-name">Marshall Crews</div>
+          <div class="offer-status status-maybe">Event-based</div>
+        </div>
+        <div class="offer-body">
+          <div class="offer-detail">
+            <div class="offer-key">What</div>
+            Event-launch model; JJ has consulted and trained their sales managers (Jack + Joey)
+          </div>
+          <div class="offer-detail">
+            <div class="offer-key">Revenue</div>
+            $350K–$600K per launch; top closer did $18K last event
+          </div>
+          <div class="offer-detail">
+            <div class="offer-key">Team</div>
+            ~10 closers; B2B offer also available (Daniel Garcia ran it)
+          </div>
+          <div class="offer-detail">
+            <div class="offer-key">Fit</div>
+            Not ideal for long-term stability goal — launch model, inconsistent volume
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="callout">
+      JJ also mentioned setter-to-closer path at a $5M–$10M/month offer. Brandon open to it if setters earn at Goat Academy levels (~$20K/mo). Not interested if it's 50 setters at $5K each. JJ said this model is becoming more common — Goat Academy started it.
+    </div>
+  </div>
+
+  <!-- Loom -->
+  <div class="section">
+    <div class="sec-eyebrow">Loom + Setup</div>
+    <h2 class="sec-title">Getting the loom right</h2>
+    <div class="framework-block">
+      <div class="framework-head">
+        <div class="framework-label">Status</div>
+        <div class="framework-title">Due Wednesday — lighting to fix first</div>
+      </div>
+      <div class="framework-body">
+        <div class="cycle-row">
+          <div class="cycle-tag">Lighting</div>
+          <div class="cycle-text">Has two ring lights but lost the remote — using his phone. Fix: both lights barely out of frame, one each side, front-lit. Black wall panels (like Simon's) are just adhesive stickers — won't damage walls. Good option for the background.</div>
+        </div>
+        <div class="cycle-row">
+          <div class="cycle-tag">Presence</div>
+          <div class="cycle-text">Brandon's self-assessment: no issue getting looms to convert to interviews. He gives off the right vibe. Has reviewed looms for setters before. Knows what makes a bad one — shitty sound, poor lighting, someone who sounds uncertain.</div>
+        </div>
+        <div class="cycle-row">
+          <div class="cycle-tag">JJ's take</div>
+          <div class="cycle-text">Not concerned about execution. Just needs the loom in hand so he can connect Brandon with the open roles. Applications strategy (volume and targets) to be set on Wednesday after loom review.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- In-person -->
+  <div class="section">
+    <div class="sec-eyebrow">This Week</div>
+    <h2 class="sec-title">In-person visit Thu–Fri</h2>
+    <div class="logistics-card">
+      <div class="logistics-head">Brandon (+ one other) at JJ's office</div>
+      <div class="logistics-body">
+        <div class="logistics-item">
+          <div class="logistics-day">Thursday</div>
+          Brandon lands 11am. Lighter day — hang out, food, maybe content. JJ not taking many calls.
+        </div>
+        <div class="logistics-item">
+          <div class="logistics-day">Friday</div>
+          Tactical work day at the office. Possibly a soccer game in the evening. The other person is driving up so arrives whenever.
+        </div>
+        <div class="logistics-item">
+          <div class="logistics-day">Coordination</div>
+          JJ creating group chat after remaining calls today to finalize the schedule.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action items -->
+  <div class="section">
+    <div class="sec-eyebrow">Next Steps</div>
+    <h2 class="sec-title">Action items</h2>
+    <div class="action-grid">
+      <div class="action-item">
+        <div class="action-owner">Brandon</div>
+        Record and send loom to JJ — by Wednesday. Fix lighting setup first (both lights just out of frame, front-lit)
+      </div>
+      <div class="action-item">
+        <div class="action-owner">JJ</div>
+        Send Brandon the anti-fragility framework doc based on today's session
+      </div>
+      <div class="action-item">
+        <div class="action-owner">JJ</div>
+        Send Dr. Pompa website — Brandon to review before Wednesday
+      </div>
+      <div class="action-item">
+        <div class="action-owner">JJ</div>
+        Connect Brandon with 3 ready opportunities including Dr. Pompa (needs someone in 2 weeks)
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Both</div>
+        Wednesday check-in: review loom, commit to application volume and offer targets
+      </div>
+      <div class="action-item">
+        <div class="action-owner">JJ</div>
+        Set up group chat today — coordinate Thursday/Friday schedule for in-person visit
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="doc-footer">
+  <span>Sales.io — Internal Coaching Recap</span>
+  <span>Brandon Wilner · Jul 13, 2026</span>
+</footer>
