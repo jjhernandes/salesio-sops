@@ -1,0 +1,439 @@
+<title>FitMama — Book-to-Call SendBlue Sequence</title>
+<style>
+  @font-face {
+    font-family: 'system-serif';
+    src: local('Iowan Old Style'), local('Georgia');
+  }
+
+  :root {
+    --bg: #f6f1ec;
+    --surface: #fffdfb;
+    --surface-2: #efe7df;
+    --ink: #241a1f;
+    --ink-muted: #6b5b60;
+    --ink-faint: #a6989c;
+    --line: #e4dacf;
+    --accent: #8c3350;
+    --accent-soft: rgba(140, 51, 80, 0.08);
+    --accent-line: rgba(140, 51, 80, 0.22);
+    --gold: #93712f;
+    --gold-soft: rgba(147, 113, 47, 0.1);
+    --bubble-blue: #2f7bf6;
+    --bubble-blue-text: #ffffff;
+    --bubble-grey: #e9e6e3;
+    --bubble-grey-text: #2a2224;
+    --good: #4f7a57;
+    --good-soft: rgba(79, 122, 87, 0.1);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #17111a;
+      --surface: #1f1720;
+      --surface-2: #271d28;
+      --ink: #f3ece9;
+      --ink-muted: #b7a6ac;
+      --ink-faint: #7c6a70;
+      --line: #362a35;
+      --accent: #e08aa8;
+      --accent-soft: rgba(224, 138, 168, 0.12);
+      --accent-line: rgba(224, 138, 168, 0.28);
+      --gold: #d3b477;
+      --gold-soft: rgba(211, 180, 119, 0.12);
+      --bubble-blue: #3b8bff;
+      --bubble-blue-text: #ffffff;
+      --bubble-grey: #322830;
+      --bubble-grey-text: #eee5e8;
+      --good: #7fbf8c;
+      --good-soft: rgba(127, 191, 140, 0.12);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #17111a; --surface: #1f1720; --surface-2: #271d28;
+    --ink: #f3ece9; --ink-muted: #b7a6ac; --ink-faint: #7c6a70;
+    --line: #362a35; --accent: #e08aa8; --accent-soft: rgba(224,138,168,0.12); --accent-line: rgba(224,138,168,0.28);
+    --gold: #d3b477; --gold-soft: rgba(211,180,119,0.12);
+    --bubble-blue: #3b8bff; --bubble-blue-text: #ffffff;
+    --bubble-grey: #322830; --bubble-grey-text: #eee5e8;
+    --good: #7fbf8c; --good-soft: rgba(127,191,140,0.12);
+  }
+
+  :root[data-theme="light"] {
+    --bg: #f6f1ec; --surface: #fffdfb; --surface-2: #efe7df;
+    --ink: #241a1f; --ink-muted: #6b5b60; --ink-faint: #a6989c;
+    --line: #e4dacf; --accent: #8c3350; --accent-soft: rgba(140,51,80,0.08); --accent-line: rgba(140,51,80,0.22);
+    --gold: #93712f; --gold-soft: rgba(147,113,47,0.1);
+    --bubble-blue: #2f7bf6; --bubble-blue-text: #ffffff;
+    --bubble-grey: #e9e6e3; --bubble-grey-text: #2a2224;
+    --good: #4f7a57; --good-soft: rgba(79,122,87,0.1);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  .doc {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .wrap { max-width: 860px; margin: 0 auto; padding: 3.5rem 1.75rem 6rem; }
+
+  h1, h2, h3 { font-family: system-serif, Georgia, 'Iowan Old Style', serif; font-weight: 500; letter-spacing: -0.01em; text-wrap: balance; }
+
+  /* ── Header / handoff diagram ── */
+  .eyebrow { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 0.9rem; }
+  h1 { font-size: 2.35rem; line-height: 1.12; margin: 0 0 0.9rem; }
+  .lede { font-size: 1.02rem; color: var(--ink-muted); max-width: 58ch; margin: 0 0 2.25rem; }
+
+  .handoff {
+    display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;
+    padding: 1.1rem 1.25rem; background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+    margin-bottom: 1rem;
+  }
+  .handoff-chip { display: flex; flex-direction: column; gap: 0.15rem; padding: 0.55rem 0.9rem; border-radius: 7px; background: var(--surface-2); flex: 1; min-width: 150px; }
+  .handoff-chip .k { font-size: 0.63rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-faint); }
+  .handoff-chip .v { font-size: 0.88rem; font-weight: 600; color: var(--ink); }
+  .handoff-arrow { color: var(--ink-faint); font-size: 1.1rem; flex-shrink: 0; }
+
+  .assumption {
+    font-size: 0.85rem; color: var(--ink-muted); border-left: 2px solid var(--gold); background: var(--gold-soft);
+    padding: 0.7rem 1rem; border-radius: 0 6px 6px 0; margin-bottom: 3rem;
+  }
+  .assumption strong { color: var(--ink); }
+
+  /* ── Section scaffolding ── */
+  .section { margin-bottom: 3.25rem; }
+  .section-head { display: flex; align-items: baseline; gap: 0.85rem; margin-bottom: 1.15rem; }
+  .section-head h2 { font-size: 1.35rem; margin: 0; }
+  .section-head .rule { flex: 1; height: 1px; background: var(--line); }
+  .section-note { font-size: 0.9rem; color: var(--ink-muted); max-width: 62ch; margin-bottom: 1.5rem; }
+
+  /* ── Persona / tone card row ── */
+  .rule-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin-bottom: 0.5rem; }
+  .rule-card { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.15rem; }
+  .rule-card .t { font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 0.4rem; }
+  .rule-card p { margin: 0; font-size: 0.87rem; color: var(--ink-muted); line-height: 1.55; }
+
+  /* ── Timeline ── */
+  .timeline { position: relative; }
+  .stage {
+    display: grid; grid-template-columns: 74px 1fr; gap: 1.4rem;
+    padding-bottom: 2.4rem; position: relative;
+  }
+  .stage:not(:last-child)::before {
+    content: ''; position: absolute; left: 36px; top: 2.1rem; bottom: -0.3rem; width: 1px; background: var(--line);
+  }
+  .stage-marker { display: flex; flex-direction: column; align-items: center; }
+  .stage-dot {
+    width: 12px; height: 12px; border-radius: 50%; background: var(--accent); border: 3px solid var(--accent-soft);
+    margin-top: 0.3rem;
+  }
+  .stage-content { min-width: 0; }
+
+  .stage-meta { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+  .stage-time { font-family: ui-monospace, 'SF Mono', monospace; font-size: 0.72rem; color: var(--ink-faint); letter-spacing: 0.02em; }
+  .stage-tag { font-size: 0.62rem; letter-spacing: 0.07em; text-transform: uppercase; font-weight: 700; padding: 0.16rem 0.5rem; border-radius: 3px; background: var(--gold-soft); color: var(--gold); }
+  .stage-tag.feature { background: var(--accent-soft); color: var(--accent); }
+
+  .stage-title { font-size: 1.05rem; font-weight: 650; margin: 0 0 0.3rem; }
+  .stage-goal { font-size: 0.88rem; color: var(--ink-muted); margin: 0 0 1rem; max-width: 56ch; }
+
+  .stage-body { display: grid; grid-template-columns: minmax(0,1fr) minmax(230px, 300px); gap: 1.25rem; align-items: start; }
+
+  /* ── Phone bubbles ── */
+  .thread { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 1rem 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.45rem; }
+  .bubble-time { text-align: center; font-size: 0.64rem; color: var(--ink-faint); letter-spacing: 0.03em; margin: 0.15rem 0 0.3rem; }
+  .bubble { max-width: 84%; padding: 0.55rem 0.85rem; border-radius: 16px; font-size: 0.86rem; line-height: 1.42; }
+  .bubble.out { align-self: flex-end; background: var(--bubble-blue); color: var(--bubble-blue-text); border-bottom-right-radius: 5px; }
+  .bubble.out a { color: #eaf2ff; text-decoration: underline; }
+  .bubble.in { align-self: flex-start; background: var(--bubble-grey); color: var(--bubble-grey-text); border-bottom-left-radius: 5px; font-style: italic; }
+  .bubble.media { align-self: flex-end; background: var(--bubble-blue); color: var(--bubble-blue-text); border-bottom-right-radius: 5px; display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; font-weight: 600; }
+  .bubble.media .icon { font-size: 1rem; }
+
+  .stage-notes { display: flex; flex-direction: column; gap: 0.7rem; }
+  .note-block { background: var(--surface-2); border-radius: 8px; padding: 0.7rem 0.85rem; }
+  .note-block .k { font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 0.25rem; }
+  .note-block .v { font-size: 0.82rem; color: var(--ink); line-height: 1.45; }
+
+  /* ── Branch cards ── */
+  .branch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .branch-card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .branch-head { padding: 0.7rem 1rem; border-bottom: 1px solid var(--line); background: var(--surface-2); display: flex; align-items: center; justify-content: space-between; }
+  .branch-head .name { font-size: 0.86rem; font-weight: 650; }
+  .branch-head .when { font-family: ui-monospace, 'SF Mono', monospace; font-size: 0.68rem; color: var(--ink-faint); }
+  .branch-body { padding: 0.9rem 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+
+  /* ── Timing table ── */
+  .timing-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+  table.timing { width: 100%; border-collapse: collapse; font-size: 0.83rem; min-width: 640px; }
+  table.timing th { text-align: left; font-size: 0.65rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; padding: 0.7rem 0.9rem; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  table.timing td { padding: 0.65rem 0.9rem; border-bottom: 1px solid var(--line); color: var(--ink-muted); vertical-align: top; }
+  table.timing tr:last-child td { border-bottom: none; }
+  table.timing td.msg { color: var(--ink); font-weight: 500; }
+  table.timing td.num { font-variant-numeric: tabular-nums; font-family: ui-monospace, 'SF Mono', monospace; }
+
+  footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--line); font-size: 0.78rem; color: var(--ink-faint); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+
+  @media (max-width: 640px) {
+    .wrap { padding: 2.5rem 1.1rem 4rem; }
+    h1 { font-size: 1.7rem; }
+    .rule-grid, .branch-grid { grid-template-columns: 1fr; }
+    .stage { grid-template-columns: 40px 1fr; gap: 0.9rem; }
+    .stage:not(:last-child)::before { left: 19px; }
+    .stage-body { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="doc">
+<div class="wrap">
+
+  <div class="eyebrow">SendBlue Automation Build</div>
+  <h1>FitMama — Book-to-Call Sequence</h1>
+  <p class="lede">The stretch between "booked a call from her Instagram" and "on the phone with a stranger" is where trust leaks out. This sequence keeps that warmth intact — DM energy carried into iMessage, real person, no bait-and-switch, no dead air before the call.</p>
+
+  <div class="handoff">
+    <div class="handoff-chip"><span class="k">Where they came from</span><span class="v">@jasmin.elago DMs</span></div>
+    <span class="handoff-arrow">→</span>
+    <div class="handoff-chip"><span class="k">Booking event</span><span class="v">Call booked (webhook fires)</span></div>
+    <span class="handoff-arrow">→</span>
+    <div class="handoff-chip"><span class="k">Where they land</span><span class="v">SendBlue → blue-bubble iMessage</span></div>
+  </div>
+
+  <div class="assumption">
+    Built off the July 4 FitMama SendBlue upgrade (full plan — voice, video, and text sequencing) and the team's existing closer setup, <strong>Jess Whitman</strong> as the on-record sender. Swap the name, domain, and price mentions if any of that's changed.
+  </div>
+
+  <!-- Persona & Tone -->
+  <div class="section">
+    <div class="section-head"><h2>The Handoff Rule</h2><div class="rule"></div></div>
+    <p class="section-note">The Sales.io template this is built from never pretends to be someone else — JJ texts as JJ. Same rule here: the lead should <em>feel</em> like the DM never stopped, without anyone lying about who's on the other end.</p>
+    <div class="rule-grid">
+      <div class="rule-card">
+        <div class="t">Do</div>
+        <p>Open as a real named person on Jasmin's team, in the first message, before anything else. Casual, first-name, lowercase — matches how she'd actually text.</p>
+      </div>
+      <div class="rule-card">
+        <div class="t">Don't</div>
+        <p>Never sign messages "Jasmin" or let the lead assume they're texting her directly without correcting it. That's the fastest way to torch trust on the call.</p>
+      </div>
+      <div class="rule-card">
+        <div class="t">Do</div>
+        <p>Multiple short bubbles, not one paragraph — mirrors how the lead was just DMing on Instagram. Lowercase openers, real punctuation only where it'd naturally land.</p>
+      </div>
+      <div class="rule-card">
+        <div class="t">Don't</div>
+        <p>No pitching, no program details, no pricing in this sequence. Its only jobs: gather context, get them prepped, get them to show up.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="section">
+    <div class="section-head"><h2>The Sequence</h2><div class="rule"></div></div>
+    <p class="section-note">Six triggers from booking to call time. Each one is time-delayed off the last, not off the clock — if they reply early, the human takes over and the automation stands down.</p>
+
+    <div class="timeline">
+
+      <!-- Stage 1 -->
+      <div class="stage">
+        <div class="stage-marker"><div class="stage-dot"></div></div>
+        <div class="stage-content">
+          <div class="stage-meta"><span class="stage-time">T+0–3 min</span><span class="stage-tag">auto-trigger: booking webhook</span></div>
+          <h3 class="stage-title">1 · Warm Open</h3>
+          <p class="stage-goal">First thing they see after booking. Establishes who's texting before anything else — no gap where they're left assuming it's Jasmin.</p>
+          <div class="stage-body">
+            <div class="thread">
+              <div class="bubble-time">Today 8:54 AM</div>
+              <div class="bubble out">hey {{first_name}}, it's jess here — i work closely with jasmin on the coaching side 👋</div>
+              <div class="bubble out">saw you just booked a call with us, wanted to reach out before we hop on</div>
+              <div class="bubble out">i read every message myself, so don't worry about it going into some inbox nobody checks</div>
+            </div>
+            <div class="stage-notes">
+              <div class="note-block"><div class="k">Delay between bubbles</div><div class="v">45–75 sec, staggered</div></div>
+              <div class="note-block"><div class="k">Personalization token</div><div class="v">{{first_name}} from booking form</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 2 -->
+      <div class="stage">
+        <div class="stage-marker"><div class="stage-dot"></div></div>
+        <div class="stage-content">
+          <div class="stage-meta"><span class="stage-time">T+3–5 min</span><span class="stage-tag">auto-trigger: same thread</span></div>
+          <h3 class="stage-title">2 · Context Pull</h3>
+          <p class="stage-goal">The one thing this sequence actually needs from them. Sets the standard early: specific, not small talk.</p>
+          <div class="stage-body">
+            <div class="thread">
+              <div class="bubble-time">8:56 AM</div>
+              <div class="bubble out">before we talk — give me some context on you. where you're at right now, what you've tried, what's actually going on</div>
+              <div class="bubble out">voice memo, long text, whatever's easiest for you. i just want the real picture, not the highlight reel</div>
+              <div class="bubble in">"honestly since my second baby i just feel like i've lost myself. i don't even recognize my own body anymore"</div>
+              <div class="bubble out">okay, that's exactly the kind of thing i want to know before we talk 🤍</div>
+            </div>
+            <div class="stage-notes">
+              <div class="note-block"><div class="k">Grey bubble</div><div class="v">Illustrative reply — not scripted, shows the tone this question is built to surface</div></div>
+              <div class="note-block"><div class="k">If they respond</div><div class="v">Jess (human) replies live within the hour — sequence pauses here</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 3 -->
+      <div class="stage">
+        <div class="stage-marker"><div class="stage-dot"></div></div>
+        <div class="stage-content">
+          <div class="stage-meta"><span class="stage-time">T+15 min</span><span class="stage-tag">auto-trigger: no reply yet</span></div>
+          <h3 class="stage-title">3 · Call Prep Link</h3>
+          <p class="stage-goal">Removes friction before it becomes an objection on the call — logistics, what to expect, who they're talking to.</p>
+          <div class="stage-body">
+            <div class="thread">
+              <div class="bubble-time">9:09 AM</div>
+              <div class="bubble out">also {{first_name}} — want you walking into this as prepared as possible. check this before we talk if you haven't:</div>
+              <div class="bubble out">fitmamacoaching.com/call-confirmed</div>
+              <div class="bubble out">covers basically everything people ask before the call. anything not on there, just ask me here</div>
+            </div>
+            <div class="stage-notes">
+              <div class="note-block"><div class="k">Prep page covers</div><div class="v">Who calls, call length, what to have ready, financing/timing basics — no pricing</div></div>
+              <div class="note-block"><div class="k">Link behavior</div><div class="v">SendBlue rich preview — page should have a clean OG title/image, this is the only visual they see pre-call</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 4 -->
+      <div class="stage">
+        <div class="stage-marker"><div class="stage-dot"></div></div>
+        <div class="stage-content">
+          <div class="stage-meta"><span class="stage-time">Evening before</span><span class="stage-tag feature">SendBlue video message</span></div>
+          <h3 class="stage-title">4 · Video Reminder</h3>
+          <p class="stage-goal">A face, not just a name. This is the moment the "still feels like her world" promise either holds or breaks.</p>
+          <div class="stage-body">
+            <div class="thread">
+              <div class="bubble-time">Tomorrow's the call</div>
+              <div class="bubble media"><span class="icon">▶</span> Video message (0:14)</div>
+              <div class="bubble out">"hey {{first_name}}, jess again — quick reminder we're on for tomorrow at {{call_time}}. excited to actually talk 🤍"</div>
+            </div>
+            <div class="stage-notes">
+              <div class="note-block"><div class="k">Format</div><div class="v">Selfie-style, unscripted, 10–20 sec — record fresh weekly, don't reuse across leads</div></div>
+              <div class="note-block"><div class="k">Why video here</div><div class="v">Confirms Jess is a real person before the call, not a bot with a name</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 5 -->
+      <div class="stage">
+        <div class="stage-marker"><div class="stage-dot"></div></div>
+        <div class="stage-content">
+          <div class="stage-meta"><span class="stage-time">T-60 min</span><span class="stage-tag feature">SendBlue voice message</span></div>
+          <h3 class="stage-title">5 · Voice Reminder</h3>
+          <p class="stage-goal">Last touch before the call. Short, warm, no ask — just presence.</p>
+          <div class="stage-body">
+            <div class="thread">
+              <div class="bubble-time">{{call_time_minus_1h}}</div>
+              <div class="bubble media"><span class="icon">🎙</span> Voice message (0:08)</div>
+              <div class="bubble out">"hey it's jess, we're on in about an hour — talk soon!"</div>
+            </div>
+            <div class="stage-notes">
+              <div class="note-block"><div class="k">Format</div><div class="v">Voice memo over text — closes the loop on "this is a real person" right before the call</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 6 -->
+      <div class="stage">
+        <div class="stage-marker"><div class="stage-dot"></div></div>
+        <div class="stage-content">
+          <div class="stage-meta"><span class="stage-time">T-15 min</span><span class="stage-tag">auto-trigger: scheduled</span></div>
+          <h3 class="stage-title">6 · Final Nudge</h3>
+          <p class="stage-goal">The only message with zero personality required — pure logistics, sent close enough to matter.</p>
+          <div class="stage-body">
+            <div class="thread">
+              <div class="bubble-time">{{call_time_minus_15m}}</div>
+              <div class="bubble out">we're on in 15 — here's the link: {{zoom_link}}</div>
+            </div>
+            <div class="stage-notes">
+              <div class="note-block"><div class="k">Note</div><div class="v">Skip this one if the call is a phone call, not Zoom — swap for "we're on in 15, i'll call {{phone}}"</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Branches -->
+  <div class="section">
+    <div class="section-head"><h2>Branch Logic</h2><div class="rule"></div></div>
+    <p class="section-note">Three ways the happy path breaks. Each one gets its own short recovery — never silence, never a guilt trip.</p>
+    <div class="branch-grid">
+      <div class="branch-card">
+        <div class="branch-head"><span class="name">No reply to context ask</span><span class="when">T+24h</span></div>
+        <div class="branch-body">
+          <div class="thread">
+            <div class="bubble out">hey {{first_name}}, no pressure — whenever you get a sec, that context just makes our call way more useful 🙏</div>
+          </div>
+        </div>
+      </div>
+      <div class="branch-card">
+        <div class="branch-head"><span class="name">No-show</span><span class="when">T+5 min after start</span></div>
+        <div class="branch-body">
+          <div class="thread">
+            <div class="bubble out">hey, just missed you on the call — everything okay?</div>
+            <div class="bubble out">totally fine if life happened, here's a link to grab another time: {{reschedule_link}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="branch-card">
+        <div class="branch-head"><span class="name">Reschedule request</span><span class="when">Whenever it comes in</span></div>
+        <div class="branch-body">
+          <div class="thread">
+            <div class="bubble out">no worries at all — grab whatever time works here and we'll pick right back up: {{reschedule_link}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="branch-card">
+        <div class="branch-head"><span class="name">Early reply, any stage</span><span class="when">Immediate</span></div>
+        <div class="branch-body">
+          <div class="thread">
+            <div class="bubble out">sequence stands down — Jess replies live, remaining auto-messages for that lead are cancelled</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timing table -->
+  <div class="section">
+    <div class="section-head"><h2>Timing at a Glance</h2><div class="rule"></div></div>
+    <div class="timing-wrap">
+      <table class="timing">
+        <thead>
+          <tr><th>#</th><th>Trigger</th><th>Delay</th><th>Channel</th><th>Message</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="num">1</td><td>Booking webhook</td><td class="num">0–3 min</td><td>Text (3 bubbles)</td><td class="msg">Warm open — who's texting</td></tr>
+          <tr><td class="num">2</td><td>Same thread</td><td class="num">3–5 min</td><td>Text (2 bubbles)</td><td class="msg">Context pull</td></tr>
+          <tr><td class="num">3</td><td>No reply yet</td><td class="num">15 min</td><td>Text + link</td><td class="msg">Call prep page</td></tr>
+          <tr><td class="num">4</td><td>Scheduled</td><td class="num">Evening before</td><td>Video message</td><td class="msg">Face + reminder</td></tr>
+          <tr><td class="num">5</td><td>Scheduled</td><td class="num">T-60 min</td><td>Voice message</td><td class="msg">Warm final nudge</td></tr>
+          <tr><td class="num">6</td><td>Scheduled</td><td class="num">T-15 min</td><td>Text + link</td><td class="msg">Join link</td></tr>
+          <tr><td class="num">B1</td><td>No context reply</td><td class="num">T+24h</td><td>Text</td><td class="msg">Soft follow-up</td></tr>
+          <tr><td class="num">B2</td><td>No-show</td><td class="num">T+5 min post-start</td><td>Text</td><td class="msg">Check-in + reschedule</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    <span>Sales.io — Confidential build spec</span>
+    <span>FitMama × Jasmin — SendBlue sequence · July 2026</span>
+  </footer>
+
+</div>
+</div>
