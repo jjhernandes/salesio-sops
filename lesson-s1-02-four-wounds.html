@@ -1,0 +1,349 @@
+<title>The Four Wounds — S1 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table th.col-c{color:#666;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.check-icon.amber{background:#0f0800;color:#f59e0b;border:1px solid #2b1a00;}
+.check-icon.blue{background:#050a12;color:#60a5fa;border:1px solid #0a2040;}
+.check-icon.purple{background:#0a0514;color:#a78bfa;border:1px solid #2a1040;}
+.seq-list{display:flex;flex-direction:column;}
+.seq-wrap{display:flex;gap:20px;margin-bottom:4px;}
+.seq-left{display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;}
+.dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.dot-green{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.dot-amber{background:#0f0800;color:#f59e0b;border:1px solid #2b1a00;}
+.dot-red{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.dot-blue{background:#050a12;color:#60a5fa;border:1px solid #0a2040;}
+.line{flex:1;width:1px;background:#111;margin:4px 0;min-height:16px;}
+.seq-right{flex:1;padding-bottom:24px;}
+.seq-tag{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
+.seq-title{font-size:16px;font-weight:800;margin-bottom:8px;}
+.seq-body{font-size:14px;color:#888;line-height:1.7;}
+.seq-ex{font-size:13px;color:#555;font-style:italic;padding:8px 12px;background:#050505;border-radius:6px;border-left:2px solid #1a1a1a;margin-top:8px;line-height:1.6;}
+.note-list{list-style:none;}
+.note-list li{font-size:14px;color:#999;padding:9px 0;border-bottom:1px solid #0f0f0f;display:flex;gap:12px;line-height:1.6;}
+.note-list li:last-child{border-bottom:none;}
+.note-list li::before{content:"—";color:#333;flex-shrink:0;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+.wound-card{border-radius:12px;overflow:hidden;margin-bottom:16px;}
+.wound-top{padding:20px 24px;}
+.wound-label{font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:6px;}
+.wound-title{font-size:18px;font-weight:900;letter-spacing:-0.4px;margin-bottom:8px;}
+.wound-desc{font-size:14px;color:#888;line-height:1.7;}
+.wound-bottom{background:#0a0a0a;padding:16px 24px;border-top:1px solid #111;}
+.wound-sublabel{font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.wound-list{list-style:none;}
+.wound-list li{font-size:13px;line-height:1.55;padding:6px 0;border-bottom:1px solid #0d0d0d;color:#888;}
+.wound-list li:last-child{border-bottom:none;}
+.wound-card.abandon{border:1px solid #0a2040;}.wound-card.abandon .wound-top{background:#020810;}.wound-card.abandon .wound-label{color:#60a5fa;}
+.wound-card.reject{border:1px solid #2b0d0d;}.wound-card.reject .wound-top{background:#0a0202;}.wound-card.reject .wound-label{color:#f87171;}
+.wound-card.betray{border:1px solid #2b1a00;}.wound-card.betray .wound-top{background:#080400;}.wound-card.betray .wound-label{color:#f59e0b;}
+.wound-card.humil{border:1px solid #2a1040;}.wound-card.humil .wound-top{background:#080208;}.wound-card.humil .wound-label{color:#a78bfa;}
+.audit-section{margin-bottom:24px;}
+.audit-header{font-size:12px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;padding:10px 16px;border-radius:6px;display:inline-block;}
+.audit-header.blue{background:#020810;color:#60a5fa;border:1px solid #0a2040;}
+.audit-header.red{background:#0a0202;color:#f87171;border:1px solid #2b0d0d;}
+.audit-header.amber{background:#080400;color:#f59e0b;border:1px solid #2b1a00;}
+.audit-header.purple{background:#080208;color:#a78bfa;border:1px solid #2a1040;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S1 — Identity &amp; Self-Mastery</div>
+  <a href="#" class="nav-link">01. Who You Are Off Your Calls</a>
+  <a href="#overview" class="nav-link active">02. The Four Wounds</a>
+  <a href="#" class="nav-link">03. The Mask</a>
+  <a href="#" class="nav-link">04. The Internal Narrator</a>
+  <a href="#" class="nav-link">05. Archetype Activation</a>
+  <a href="#" class="nav-link">06. Behavioral Magnets</a>
+  <a href="#" class="nav-link">07. The Energy Audit</a>
+  <a href="#" class="nav-link">08. Detachment from Outcome</a>
+  <a href="#" class="nav-link">09. The Frame Game</a>
+  <a href="#" class="nav-link">10. State Management Under Pressure</a>
+  <a href="#" class="nav-link">11. Identity-Reality Gaps</a>
+  <a href="#" class="nav-link">12. Cognitive Dissonance in Sales</a>
+  <a href="#" class="nav-link">13. The Four Levels of Communication</a>
+  <a href="#" class="nav-link">14. PACE — Reading Your Prospect</a>
+  <a href="#" class="nav-link">15. Heaven &amp; Hell Framework</a>
+  <a href="#" class="nav-link">16. Scriptless Selling</a>
+  <a href="#" class="nav-link">17. The TikTok Pitch</a>
+  <a href="#" class="nav-link">18. Identity Integration</a>
+  <div class="nav-section">In This Lesson</div>
+  <a href="#overview" class="nav-link">Overview</a>
+  <a href="#why-here" class="nav-link">Why We're Starting Here</a>
+  <a href="#what-is" class="nav-link">What a Wound Is</a>
+  <a href="#four-wounds" class="nav-link">The Four Wounds</a>
+  <a href="#not-excuses" class="nav-link">Not Excuses — Data</a>
+  <a href="#self-audit" class="nav-link">The Self-Audit</a>
+  <a href="#what-to-do" class="nav-link">What to Do With It</a>
+</nav>
+
+<main class="main">
+  <div id="overview">
+    <div class="eyebrow">Sales.io — S1: Identity &amp; Self-Mastery</div>
+    <h1>The Four Wounds</h1>
+    <p class="subtitle">The patterns killing your close rate aren't sales problems. They were installed before you ever made a sales call.</p>
+  </div>
+
+  <section id="why-here">
+    <h2>Why We're Starting Here</h2>
+    <div class="block">
+      <p>Before scripts. Before frameworks. Before anything else. We need to look at what's already running.</p>
+      <p>Unresolved wounds show up as specific, predictable behaviors on calls. Behaviors that sabotage the sale — not because you lack skill, but because something deeper is running the show. The technique isn't the problem. The person using the technique is. And until you can see what's driving you, you can't change it.</p>
+      <p>This lesson is about getting visible on your own patterns. That's the whole job here.</p>
+    </div>
+  </section>
+
+  <section id="what-is">
+    <h2>What a Wound Is</h2>
+    <div class="highlight">
+      <p>Not clinical trauma talk. A wound, in this context, is a <strong>core belief about yourself or the world</strong> that formed during a vulnerable period — usually childhood or adolescence — and still operates as if it's true today.</p>
+      <p>"I'll be rejected if I push too hard." "People leave when things get uncomfortable." "I'll be humiliated if I don't have all the answers." "I'll be let down, so I won't fully trust."</p>
+      <p>These beliefs drive behavior <strong>below the level of conscious thought.</strong> You don't decide to soften your ask. You don't decide to cave on price. You don't decide to over-prepare. The wound decides. You just experience the result.</p>
+    </div>
+    <div class="block">
+      <p>The wound isn't who you are. It's a defense strategy that made sense when it formed and has been running on autopilot ever since. The goal isn't to shame yourself for having it. The goal is to see it operating in real time so you can override it.</p>
+    </div>
+  </section>
+
+  <section id="four-wounds">
+    <h2>The Four Wounds</h2>
+
+    <div class="wound-card abandon">
+      <div class="wound-top">
+        <div class="wound-label">Wound 01 — Abandonment</div>
+        <div class="wound-title">Core belief: "I will be left if I push too hard."</div>
+        <div class="wound-desc">The fear that pressing too hard — on a close, on an objection, on a follow-up — will push the prospect away entirely. So you back off. You leave the door open when you should be walking through it. You'd rather preserve the relationship than risk the rejection of losing it.</div>
+      </div>
+      <div class="wound-bottom">
+        <div class="wound-sublabel">How it shows up on calls</div>
+        <ul class="wound-list">
+          <li>Follows up 6 times on someone who's gone quiet — can't let it be over</li>
+          <li>Fills silences immediately, often talking the prospect out of their own "yes"</li>
+          <li>Softens every ask ("no pressure at all, totally fine if it's not the right time")</li>
+          <li>Chases prospects who have clearly moved on — the chase is the wound</li>
+          <li>Can't disqualify because disqualifying feels like abandoning the relationship</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="wound-card reject">
+      <div class="wound-top">
+        <div class="wound-label">Wound 02 — Rejection</div>
+        <div class="wound-title">Core belief: "I am not enough / not wanted."</div>
+        <div class="wound-desc">The fear that if they see the real you — your real opinions, your real conviction — they won't want it. So you shape-shift. You agree with the prospect to stay likable. You hedge every claim. You take the no personally because on some level you already believed it was coming.</div>
+      </div>
+      <div class="wound-bottom">
+        <div class="wound-sublabel">How it shows up on calls</div>
+        <ul class="wound-list">
+          <li>Caves when the prospect challenges the price — not because of logic, but because of the feeling</li>
+          <li>Agrees with objections instead of engaging them ("yeah totally, I understand")</li>
+          <li>Can't hold a frame when someone pushes back — immediately accommodates</li>
+          <li>Makes bold claims and immediately qualifies them ("I mean, results obviously vary...")</li>
+          <li>Takes silence or hesitation as confirmation they're not good enough</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="wound-card betray">
+      <div class="wound-top">
+        <div class="wound-label">Wound 03 — Betrayal</div>
+        <div class="wound-title">Core belief: "People will let me down / I'll be deceived."</div>
+        <div class="wound-desc">The expectation that trust is a liability. So they never fully extend it. They hold back on calls — they're never quite all the way there. And because they hold back, the prospect holds back too. You can't build real trust while withholding it yourself.</div>
+      </div>
+      <div class="wound-bottom">
+        <div class="wound-sublabel">How it shows up on calls</div>
+        <ul class="wound-list">
+          <li>Sells the offer without fully believing in it — a subtle energetic leak the prospect feels</li>
+          <li>Keeps a professional distance that reads as coldness or disinterest</li>
+          <li>Can't be vulnerable or admit uncertainty without feeling exposed</li>
+          <li>Subtly cynical about the industry or the offer, which bleeds into their energy</li>
+          <li>Struggles to celebrate a prospect's situation because they're waiting for the catch</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="wound-card humil">
+      <div class="wound-top">
+        <div class="wound-label">Wound 04 — Humiliation</div>
+        <div class="wound-title">Core belief: "I will be embarrassed if I don't have all the answers."</div>
+        <div class="wound-desc">The terror of looking stupid. Of getting caught not knowing something. Of saying the wrong thing in front of someone who's evaluating them. So they over-prepare, cling to scripts, and freeze when the conversation goes somewhere unexpected.</div>
+      </div>
+      <div class="wound-bottom">
+        <div class="wound-sublabel">How it shows up on calls</div>
+        <ul class="wound-list">
+          <li>Over-prepares to the point of rigidity — can't improvise when the prospect goes off-script</li>
+          <li>Panics visibly when asked a question they don't have a prepared answer to</li>
+          <li>Hides behind scripts because improvisation feels genuinely dangerous</li>
+          <li>Avoids saying "I don't know" even when it would actually build more trust</li>
+          <li>Rehearses answers so hard they stop listening — always half-waiting for the question they prepared for</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="not-excuses">
+    <h2>These Aren't Excuses — They're Data</h2>
+    <div class="highlight">
+      <p>Knowing which wound is running gives you a target. <strong>We find out where you suck and make you good.</strong> This is how. Not by telling you to be more confident. Not by giving you a better script. By getting precise about the pattern that's actually costing you deals.</p>
+      <p>The work isn't to fix the wound overnight. The work is to <strong>recognize when it's driving vs. when you're driving.</strong> The wound operating without your awareness closes deals against you. The wound operating with your awareness? You can catch it, override it, and choose a different response.</p>
+    </div>
+  </section>
+
+  <section id="self-audit">
+    <h2>The Self-Audit</h2>
+    <div class="block">
+      <p>For each wound, below are specific behaviors to look for in yourself — not abstract, but things that actually happen on calls. Be honest. Most reps have a primary wound and a secondary one. You're looking for the pattern that shows up most often and costs you the most.</p>
+    </div>
+
+    <div class="audit-section">
+      <div class="audit-header blue">Abandonment — Check these</div>
+      <ul class="checklist">
+        <li><span class="check-icon blue">?</span><span>When a prospect goes quiet after a follow-up, do you send another message within 24 hours even though you said you'd give them space?</span></li>
+        <li><span class="check-icon blue">?</span><span>Do you add "no rush" or "totally understand if it's not the right time" unprompted — before they've said anything about timing?</span></li>
+        <li><span class="check-icon blue">?</span><span>Do you fill silences during the call before the prospect has a chance to speak — especially after asking a question?</span></li>
+        <li><span class="check-icon blue">?</span><span>Do you have leads you're still following up on after 8+ touchpoints even though they've stopped engaging?</span></li>
+      </ul>
+    </div>
+
+    <div class="audit-section">
+      <div class="audit-header red">Rejection — Check these</div>
+      <ul class="checklist">
+        <li><span class="check-icon fail">?</span><span>When a prospect says "that's expensive," do you feel a physical reaction before you respond — a defensive tightening or a urge to immediately justify?</span></li>
+        <li><span class="check-icon fail">?</span><span>Do you hedge your strongest claims — saying "most students" or "typically" when you could say "students do X"?</span></li>
+        <li><span class="check-icon fail">?</span><span>Do you agree with objections you actually disagree with, just to keep the conversation warm?</span></li>
+        <li><span class="check-icon fail">?</span><span>After a no, is your first instinct to replay the call looking for what you did wrong?</span></li>
+      </ul>
+    </div>
+
+    <div class="audit-section">
+      <div class="audit-header amber">Betrayal — Check these</div>
+      <ul class="checklist">
+        <li><span class="check-icon amber">?</span><span>When you're describing the offer, does it feel slightly rehearsed — like you're performing belief rather than expressing it?</span></li>
+        <li><span class="check-icon amber">?</span><span>Do you hold back personal experiences or real vulnerability on calls to stay "professional"?</span></li>
+        <li><span class="check-icon amber">?</span><span>Is there any part of the offer you'd hesitate to fully endorse to someone you personally know and care about?</span></li>
+        <li><span class="check-icon amber">?</span><span>Do you get genuinely excited when a prospect buys — or do you immediately start expecting something to go wrong?</span></li>
+      </ul>
+    </div>
+
+    <div class="audit-section">
+      <div class="audit-header purple">Humiliation — Check these</div>
+      <ul class="checklist">
+        <li><span class="check-icon purple">?</span><span>When a prospect asks something you didn't prepare for, is your first reaction anxiety rather than curiosity?</span></li>
+        <li><span class="check-icon purple">?</span><span>Do you over-rehearse to the point where unscripted moments feel dangerous?</span></li>
+        <li><span class="check-icon purple">?</span><span>Is "I don't know, but here's how I'd find out" hard to say without feeling like you're losing credibility?</span></li>
+        <li><span class="check-icon purple">?</span><span>After calls, do you obsessively replay specific moments where you think you said something dumb?</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="what-to-do">
+    <h2>What to Do With It</h2>
+    <div class="block">
+      <p>Awareness alone changes behavior. Not completely, not immediately — but it changes it. The moment you can catch yourself mid-wound, something shifts. The wound was invisible. Now it's visible. You have a choice you didn't have before.</p>
+      <p>On your next call, name it when it happens. Not out loud. Internally. "That's the abandonment wound — I'm about to over-follow-up." "That's the rejection wound — I'm about to cave." Naming it creates distance. Distance creates choice.</p>
+    </div>
+
+    <div class="highlight">
+      <p>The goal isn't to eliminate the wound. That takes time and it's not a sales problem to solve — it's a life problem to work on. The goal is to <strong>stop letting it close your deals.</strong> You can acknowledge the wound is there and still choose a different action. That's the whole skill. That's what we're building.</p>
+    </div>
+
+    <h2 style="margin-top:48px;">The Same Moment — Two Responses</h2>
+    <div class="block">
+      <p>The moment: a prospect pushes back on price. "This is more than I was expecting to spend."</p>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th class="col-a">Wound-Driven Response</th>
+            <th class="col-b">Grounded Response</th>
+            <th class="col-c">What's Different</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="col-a-td">(Rejection wound) "Yeah, totally understand — honestly the investment is significant. We do have some financing options if that helps..." — immediately accommodates</td>
+            <td class="col-b-td">"Makes sense — what were you expecting?" — curious, not defensive. Let them talk.</td>
+            <td class="col-c-td">Grounded rep gathers information first. Wound-driven rep already moved to solve the objection before understanding it.</td>
+          </tr>
+          <tr>
+            <td class="col-a-td">(Abandonment wound) "No pressure at all — even if it doesn't work out, I just want what's best for you." — lets them off the hook before they asked</td>
+            <td class="col-b-td">"I hear you. Help me understand what's making it feel like a stretch — is it the number itself or the timing?"</td>
+            <td class="col-c-td">Grounded rep stays in the conversation. Wound-driven rep is already managing the loss before it happens.</td>
+          </tr>
+          <tr>
+            <td class="col-a-td">(Humiliation wound) Goes immediately into a long explanation of all the value — defensive, over-justifying, covering all bases</td>
+            <td class="col-b-td">"That's fair. Let me ask — what would need to be true for it to feel like a clear yes?"</td>
+            <td class="col-c-td">Grounded rep flips it back. Wound-driven rep performs competence to avoid looking bad.</td>
+          </tr>
+          <tr>
+            <td class="col-a-td">(Betrayal wound) Subtle hesitation before responding — slight emotional distance, as if bracing for the deal to fall apart</td>
+            <td class="col-b-td">Stays present, leans in slightly, genuinely engaged — the number doesn't shake them</td>
+            <td class="col-c-td">Grounded rep has full belief. Wound-driven rep is holding something back, and the prospect senses it.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="block">
+      <p>Same objection. Four different wound-driven responses. One grounded response pattern: stay present, stay curious, don't run from the discomfort.</p>
+    </div>
+  </section>
+</main>

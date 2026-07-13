@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>True Charisma — S1 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.check-icon.warn{background:#0f0800;color:#f59e0b;border:1px solid #2b1a00;}
+.seq-list{display:flex;flex-direction:column;}
+.seq-wrap{display:flex;gap:20px;margin-bottom:4px;}
+.seq-left{display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;}
+.dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.dot-green{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.dot-amber{background:#0f0800;color:#f59e0b;border:1px solid #2b1a00;}
+.dot-red{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.dot-blue{background:#050a12;color:#60a5fa;border:1px solid #0a2040;}
+.dot-purple{background:#080208;color:#a78bfa;border:1px solid #2a1040;}
+.line{flex:1;width:1px;background:#111;margin:4px 0;min-height:16px;}
+.seq-right{flex:1;padding-bottom:24px;}
+.seq-tag{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
+.seq-title{font-size:16px;font-weight:800;margin-bottom:8px;}
+.seq-body{font-size:14px;color:#888;line-height:1.7;}
+.seq-ex{font-size:13px;color:#555;font-style:italic;padding:8px 12px;background:#050505;border-radius:6px;border-left:2px solid #1a1a1a;margin-top:8px;line-height:1.6;}
+.note-list{list-style:none;}
+.note-list li{font-size:14px;color:#999;padding:9px 0;border-bottom:1px solid #0f0f0f;display:flex;gap:12px;line-height:1.6;}
+.note-list li:last-child{border-bottom:none;}
+.note-list li::before{content:"—";color:#333;flex-shrink:0;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+.level-card{border-radius:10px;overflow:hidden;margin-bottom:10px;border:1px solid #1a1a1a;}
+.level-head{display:flex;align-items:center;gap:14px;padding:14px 20px;}
+.level-num{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;min-width:60px;}
+.level-title{font-size:15px;font-weight:800;}
+.level-body{padding:10px 20px 14px;font-size:13px;color:#888;line-height:1.65;}
+.level-below .level-head{background:#080202;}.level-below .level-num{color:#f87171;}
+.level-mid .level-head{background:#080500;}.level-mid .level-num{color:#f59e0b;}
+.level-above .level-head{background:#020810;}.level-above .level-num{color:#60a5fa;}
+.level-peak .level-head{background:#020a04;}.level-peak .level-num{color:#4ade80;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S1 — Identity &amp; Self-Mastery</div>
+  <a class="nav-link" href="lesson-s1-01-who-you-are.html">1. Who You Are Off Your Calls</a>
+  <a class="nav-link" href="lesson-s1-02-four-wounds.html">2. The Four Wounds</a>
+  <a class="nav-link" href="lesson-s1-03-the-mask.html">3. The Mask</a>
+  <a class="nav-link" href="lesson-s1-04-internal-narrator.html">4. The Internal Narrator</a>
+  <a class="nav-link" href="lesson-s1-05-archetype-activation.html">5. Archetype Activation</a>
+  <a class="nav-link" href="lesson-s1-06-behavioral-magnets.html">6. Behavioral Magnets</a>
+  <a class="nav-link" href="lesson-s1-07-composure.html">7. Composure Masterclass</a>
+  <a class="nav-link" href="lesson-s1-08-confidence-vs-certainty.html">8. Confidence vs. Certainty</a>
+  <a class="nav-link" href="lesson-s1-09-frames-ego.html">9. Frames &amp; The Ego</a>
+  <a class="nav-link" href="lesson-s1-10-limiting-beliefs.html">10. Limiting Beliefs &amp; Governors</a>
+  <a class="nav-link" href="lesson-s1-11-emotional-assessment.html">11. Emotional Assessment Scale</a>
+  <a class="nav-link" href="lesson-s1-12-self-brainwashing.html">12. Self-Brainwashing</a>
+  <a class="nav-link" href="lesson-s1-13-four-pillars.html">13. The Four Pillars</a>
+  <a class="nav-link active" href="lesson-s1-14-true-charisma.html">14. True Charisma</a>
+  <a class="nav-link" href="lesson-s1-15-consciousness-levels.html">15. The Consciousness Levels</a>
+  <a class="nav-link" href="lesson-s1-16-discipline-self-control.html">16. Discipline &amp; Self-Control</a>
+  <a class="nav-link" href="lesson-s1-17-confused-ancestor.html">17. Confused Ancestor Theory</a>
+  <a class="nav-link" href="lesson-s1-18-life-reboot-protocol.html">18. Life Reboot Protocol</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 14 · Section 1</div>
+  <h1>True Charisma</h1>
+  <p class="subtitle">Why the least interesting person in the room closes the most. Charisma isn't a performance. It isn't energy or humor or great stories. It's something else entirely — and the harder you try for it, the further away it gets.</p>
+
+  <!-- SECTION 1 -->
+  <section id="the-inversion">
+    <h2>The Inversion</h2>
+    <div class="block">
+      <div class="block-label">What Everyone Gets Wrong</div>
+      <p>Ask any sales rep what a charismatic person is like and they'll describe someone who is interesting — captivating stories, magnetic energy, quick wit, great with names, knows how to work a room. And that description is accurate for a certain kind of person. The problem is it describes a performance, not a quality.</p>
+      <p>The charismatic rep everyone remembers isn't the one who told the best story on the call. It's the one who made you feel like your story was the most interesting one they'd ever heard. Those are completely different things — and they produce completely different results in sales.</p>
+    </div>
+    <div class="highlight">
+      <p>Real charisma is <strong>other-directed attention.</strong> It is the experience of being with someone who makes you feel fully seen, fully heard, and genuinely interesting. You don't walk away thinking "wow, that person was amazing." You walk away thinking "wow, that was a great conversation" — which means you walk away feeling good about yourself.</p>
+      <p>In sales, this is the difference between a prospect who says "that rep was impressive" (interesting rep) and a prospect who says "I just feel like they really got where I'm coming from" (charismatic rep). <strong>One of those closes. The other gets remembered and not bought.</strong></p>
+    </div>
+
+    <div class="quote-block">
+      <p>"Connection is what people actually buy."</p>
+      <div class="attribution">— JJ Hernandez</div>
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section id="the-paradox">
+    <h2>The Paradox of Performance</h2>
+    <div class="red-block">
+      <p><strong>The harder you try to be charismatic, the less charismatic you are.</strong> This is not motivational talk — it's a mechanical reality. When you're performing, your attention is on yourself: how am I coming across, is this landing, do they like me, am I being interesting enough? That self-directed attention is what makes you boring. Because the person across from you can feel that your attention is on you, not them.</p>
+      <p>The rep who spent an hour before the call practicing their opening story, rehearsing their best lines, planning how to seem relaxed — that rep walks in performing. And performance reads as performance. Prospects can't always name it, but they feel it. Something is slightly off. Slightly calculated. Slightly fake. And trust doesn't build on top of fake.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">The Effort Trap</div>
+      <p>Most reps who struggle with rapport have been told to "be more engaging" or "work on their personality." So they study charismatic people, they try to replicate the behaviors they see, and they put more effort into the performance. The effort goes up. The result gets worse. And they have no idea why.</p>
+      <p>The answer is counterintuitive: less effort in the direction of being interesting, more attention in the direction of being interested. The shift is from broadcasting to receiving. From talking to listening. From performing to being present.</p>
+    </div>
+    <div class="warning">
+      <p><strong>The tell:</strong> If after a call you can recall in detail the clever things you said but you can't recall the details of the prospect's situation — you were performing, not connecting. Charisma leaves a specific footprint: the other person feels heard.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section id="the-root">
+    <h2>The Root of Charisma</h2>
+    <div class="block">
+      <div class="block-label">Internal Security</div>
+      <p>True charisma is a byproduct of internal security. That's it. When you're not needing something from the other person — their approval, their validation, their yes — you become genuinely free to be curious about them. And genuine curiosity is the most magnetic quality a human being can have in conversation.</p>
+      <p>Internal security means: I'm okay regardless of how this call goes. Not that I don't care — I care a lot. But I'm not dependent on a specific outcome to feel like I'm enough. That security frees your attention from yourself and puts it fully on the person in front of you.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">Neediness Is the Enemy</div>
+      <p>Any time you need something from a prospect — their agreement, their approval, their purchase — your charisma drops. This is why people who are typically charismatic in social settings sometimes become robotic on sales calls: the stakes introduce need, and the need kills the quality that makes them magnetic.</p>
+      <p>The most charismatic person in the room is almost always someone who genuinely doesn't need to be there. They're present by choice, interested out of real curiosity, and completely comfortable with however the interaction goes. That's the state you're trying to build.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">Genuine Curiosity Is the Mechanism</div>
+      <p>Curiosity and charisma are nearly synonymous. When you are genuinely curious about someone — not performing curiosity, not asking the "right questions" from a framework, but actually wondering about this specific person's situation, their reasoning, their life — they feel it. People can always tell the difference between someone who is asking to check a box and someone who actually wants to know.</p>
+      <p>The rep who asks "what made you interested in getting into sales?" and then genuinely listens to the answer — follows up on the details, tracks the emotional thread, asks the obvious follow-up that shows they were paying attention — is more charismatic in that moment than any opener, story, or energy hack could make them.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section id="performance-vs-real">
+    <h2>Performing Charisma vs. Being Charismatic</h2>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th style="color:#555;">What You're Doing</th>
+          <th class="col-a">Performing Charisma</th>
+          <th class="col-b">Being Charismatic</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-c-td">Opening the call</td>
+          <td class="col-a-td">Starting with a prepared hook, a name-drop, or a high-energy opener you practiced</td>
+          <td class="col-b-td">Genuinely asking how they're doing and actually listening to the answer before saying anything else</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Building rapport</td>
+          <td class="col-a-td">Working through a mental checklist of "rapport-building" topics — sports, weather, family</td>
+          <td class="col-b-td">Following the thread of something the prospect already said, asking a specific follow-up, letting the conversation go wherever the prospect's energy takes it</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Handling a long story</td>
+          <td class="col-a-td">Waiting for them to finish so you can get back to your agenda; nodding and saying "totally" on autopilot</td>
+          <td class="col-b-td">Tracking the emotional content of the story. Asking about the detail that reveals what they actually care about most.</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Disagreeing with the prospect</td>
+          <td class="col-a-td">Either validating everything they say to maintain rapport, or over-explaining your position to seem authoritative</td>
+          <td class="col-b-td">Saying "I actually see that differently" and then genuinely explaining why, without needing them to agree with you</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">When the prospect says something surprising</td>
+          <td class="col-a-td">Recovering quickly to stay on script. "Yeah, interesting — so on that note..."</td>
+          <td class="col-b-td">Actually responding to what surprised you. "Wait — say more about that." The call just got more interesting for both of you.</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">After the call</td>
+          <td class="col-a-td">Prospect remembers that the rep seemed confident and professional</td>
+          <td class="col-b-td">Prospect tells their spouse "I talked to this person today — I don't know, they just really got it." They can't explain why. That's charisma.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SECTION 5 -->
+  <section id="kills-resistance">
+    <h2>How Charisma Kills Resistance</h2>
+    <div class="block">
+      <div class="block-label">The Guard Only Goes Up When Someone Needs Something From You</div>
+      <p>Prospects come into calls with their guard up because they've been sold to before. They've had reps who were "nice" for the first ten minutes and then pivoted into a pitch. They know the structure. They're waiting for the moment the real agenda reveals itself.</p>
+      <p>The charismatic rep dismantles this expectation not by being slicker but by being genuinely present. When a person feels like you actually want to understand them — and you have no agenda beyond understanding — the guard comes down on its own. You don't have to dismantle it. It dissolves.</p>
+    </div>
+    <div class="highlight">
+      <p>Resistance is a response to pressure. <strong>You can't create resistance in someone who doesn't feel any pressure from you.</strong> When your full attention is on the prospect and you're genuinely unconcerned about the outcome, there is no pressure to resist. The objection "I feel like you're just trying to sell me something" literally cannot arise in that environment.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">The Trust Shortcut</div>
+      <p>Trust normally takes time. But feeling understood is a massive shortcut to trust. A prospect who feels genuinely understood by a rep they just met trusts that rep more than they trust some advisors they've known for years. That's the power of charisma in sales: it doesn't just make calls more pleasant — it accelerates the single most important variable in the close.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 6 -->
+  <section id="exchange">
+    <h2>Call Exchange — Performing vs. Embodying</h2>
+
+    <div class="exchange">
+      <div class="exchange-header">REP A — Performing Charisma</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who rep">Rep A</span>
+          <div class="msg-text rep-msg">"Hey Marcus! Great to meet you man — I saw you're out in Austin, I actually know that area, awesome city. How's it treating you?"</div>
+          <span class="annotation">Opener is prepared. Name-drop of city. Designed to seem familiar and warm. Has done this 50 times today.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Haha yeah it's good, pretty hot."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep A</span>
+          <div class="msg-text rep-msg">"Ha! Always. Well hey — tell me a little bit about yourself and what you're trying to accomplish."</div>
+          <span class="annotation">Standard pivot. Didn't respond to what Marcus actually said. Moving through the structure. Marcus can feel the agenda underneath the friendliness.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Yeah, so I've been in sales for about two years, I'm doing okay but I feel like I'm kind of plateauing..."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep A</span>
+          <div class="msg-text rep-msg">"Yeah totally, plateauing is super common. So let me ask you — what does your current income look like and where are you trying to get to?"</div>
+          <span class="annotation">Bulldozed past "plateauing." Went straight to qualification metrics. The word that revealed everything about Marcus's situation was left sitting there. Marcus notices, even if he can't name it.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-header">REP B — Embodying Charisma</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who rep">Rep B</span>
+          <div class="msg-text rep-msg">"Hey Marcus, good to meet you. How are you doing?"</div>
+          <span class="annotation">Simple. No performance. Actually waiting for an answer.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Pretty good, pretty good. A little tired — it's been a long week."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep B</span>
+          <div class="msg-text rep-msg">"What happened this week?"</div>
+          <span class="annotation">Did not move past it. Asked the obvious human follow-up. Marcus is now about to tell Rep B something real about his life.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Honestly, just had a tough stretch of calls. Losing deals I thought I had. It's frustrating."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep B</span>
+          <div class="msg-text rep-msg">"I know that feeling. What kind of deals — same stage they're falling off, or is it different each time?"</div>
+          <span class="annotation">Genuine empathy. No pivot. Asked a specific, smart follow-up that shows Rep B is actually thinking about Marcus's situation, not running a sequence. The conversation is now real. The guard is already coming down and nothing has been sold yet.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7 -->
+  <section id="building-it">
+    <h2>Building It — Practice, Not Technique</h2>
+
+    <div class="warning">
+      <p><strong>This is not a technique you deploy on calls.</strong> You cannot decide to "be more interested" in someone. You cannot force genuine curiosity. What you can do is build the internal conditions that make genuine curiosity natural — and those conditions are built off the call, not on it.</p>
+    </div>
+
+    <div class="seq-list">
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-green">01</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#4ade80;">Practice</div>
+          <div class="seq-title">Get Your Attention Off Yourself in Daily Life</div>
+          <div class="seq-body">Charisma on a call is a reflection of where your attention naturally lives. If your attention is chronically on yourself off the call — how you're perceived, how you're doing, what people think of you — it will default there on calls too. Practice redirecting attention in ordinary conversations. Next time you're talking to anyone, make it a game to learn three specific things about them you didn't know before. No agenda. Just practice the direction.</div>
+        </div>
+      </div>
+
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-green">02</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#4ade80;">Practice</div>
+          <div class="seq-title">Stop Completing People's Sentences (In Your Head)</div>
+          <div class="seq-body">Most reps have already formed their response by the time the prospect is halfway through talking. That's the opposite of listening. The practice: when someone is talking, actively suppress the urge to build your response. Stay with what they're saying until they finish. Then pause. Then respond. This sounds simple and it is excruciating for people who are used to thinking ahead. That discomfort is the practice.</div>
+          <div class="seq-ex">On your next five calls: say nothing until you've given at least a two-second pause after the prospect stops talking. See what you notice about what they actually said versus what you expected them to say.</div>
+        </div>
+      </div>
+
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-green">03</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#4ade80;">Practice</div>
+          <div class="seq-title">Kill the Outcome Attachment Before the Call</div>
+          <div class="seq-body">The single thing that most reliably destroys presence on a call is needing a specific outcome. Pre-call, settle this: your job is to understand this person completely. If there's a fit, it will be obvious. You don't need to engineer the close — you need to engineer the understanding. This mental shift frees your attention from monitoring the deal and puts it back on the person.</div>
+        </div>
+      </div>
+
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-green">04</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#4ade80;">Practice</div>
+          <div class="seq-title">Follow the Thread That Reveals Real Emotion</div>
+          <div class="seq-body">Every call has a surface conversation and a real conversation. The surface conversation is what's being said. The real conversation is what those words point to emotionally. Practice identifying the single word or phrase in a prospect's response that carries the most emotional charge — and following that instead of your script.</div>
+          <div class="seq-ex">"I've just been in sales for three years and honestly I don't know if I'm cut out for this." The emotional thread is in the last nine words. The charismatic rep asks about that. The performing rep moves on to qualification.</div>
+        </div>
+      </div>
+
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-blue">05</div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#60a5fa;">Advanced Practice</div>
+          <div class="seq-title">Let Yourself Be Surprised</div>
+          <div class="seq-body">Charismatic people are genuinely surprisable. They don't already know everything. When something unexpected happens in a conversation, they respond to it instead of routing around it. The practice: notice moments on your calls when something catches you off guard. Instead of recovering quickly to stay on plan, follow the surprise. "Wait — that's interesting, say more about that." Those detours are where real connection happens.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 8 -->
+  <section id="checklist">
+    <h2>The Charisma Diagnostic</h2>
+    <p style="font-size:14px;color:#555;margin-bottom:24px;">After any call, run through these. Honest answers only. If most of these are no, you were performing. If most are yes, you were present.</p>
+
+    <ul class="checklist">
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div>Can you recall at least three specific things the prospect said that surprised you or that you didn't expect?</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div>Did you ask at least one question that wasn't in your script or framework — a question that arose purely because of something they said?</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div>If you were describing the prospect's situation to someone else, could you convey how they felt about it — not just what the situation was?</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div>At any point on the call, were you genuinely curious about the prospect's answer before they gave it?</div>
+      </li>
+      <li>
+        <div class="check-icon fail">✗</div>
+        <div>Did you find yourself waiting for the prospect to finish talking so you could make your point?</div>
+      </li>
+      <li>
+        <div class="check-icon fail">✗</div>
+        <div>Did you think about how the call was going for you (your performance) while the prospect was talking?</div>
+      </li>
+      <li>
+        <div class="check-icon fail">✗</div>
+        <div>Did the call follow roughly the same structure as your last ten calls, regardless of what the prospect said?</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div>If the prospect mentioned something personal or unexpected early in the call, did you follow it — even briefly — before continuing?</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div>Did you feel relatively unconcerned about the outcome during the call — not apathetic, just not dependent on it?</div>
+      </li>
+    </ul>
+
+    <div class="highlight" style="margin-top:24px;">
+      <p>The goal isn't to check every box. The goal is to use the pattern over time. If you're consistently hitting the fail checks and missing the pass checks, the problem isn't technique. <strong>It's where your attention lives on a call.</strong> And that's fixable — but it's fixed off the call, not on it.</p>
+    </div>
+  </section>
+
+</main>
+
+</body>
+</html>

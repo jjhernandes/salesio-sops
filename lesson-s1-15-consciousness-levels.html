@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Consciousness Levels — S1 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+.level-row{display:grid;grid-template-columns:90px 1fr;gap:0;border:1px solid #111;border-radius:8px;overflow:hidden;margin-bottom:8px;}
+.level-left{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 10px;text-align:center;}
+.level-num{font-size:18px;font-weight:900;letter-spacing:-0.5px;}
+.level-name{font-size:9px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-top:3px;}
+.level-right{padding:14px 18px;border-left:1px solid #111;}
+.level-right p{font-size:13px;color:#888;line-height:1.6;}
+.level-right strong{font-size:11px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;display:block;margin-bottom:4px;}
+.lv-shame .level-left{background:#100505;}.lv-shame .level-num,.lv-shame .level-name{color:#7f1d1d;}
+.lv-guilt .level-left{background:#0f0505;}.lv-guilt .level-num,.lv-guilt .level-name{color:#991b1b;}
+.lv-apathy .level-left{background:#111;}.lv-apathy .level-num,.lv-apathy .level-name{color:#444;}
+.lv-grief .level-left{background:#080a12;}.lv-grief .level-num,.lv-grief .level-name{color:#1e3a5f;}
+.lv-fear .level-left{background:#0d0810;}.lv-fear .level-num,.lv-fear .level-name{color:#5b21b6;}
+.lv-desire .level-left{background:#100800;}.lv-desire .level-num,.lv-desire .level-name{color:#92400e;}
+.lv-anger .level-left{background:#100802;}.lv-anger .level-num,.lv-anger .level-name{color:#b45309;}
+.lv-pride .level-left{background:#10080a;}.lv-pride .level-num,.lv-pride .level-name{color:#9d174d;}
+.lv-courage .level-left{background:#020a04;}.lv-courage .level-num,.lv-courage .level-name{color:#4ade80;}
+.lv-neutral .level-left{background:#050a12;}.lv-neutral .level-num,.lv-neutral .level-name{color:#60a5fa;}
+.lv-willing .level-left{background:#040a10;}.lv-willing .level-num,.lv-willing .level-name{color:#7dd3fc;}
+.lv-accept .level-left{background:#030a08;}.lv-accept .level-num,.lv-accept .level-name{color:#6ee7b7;}
+.lv-reason .level-left{background:#030810;}.lv-reason .level-num,.lv-reason .level-name{color:#a5b4fc;}
+.lv-love .level-left{background:#020a06;}.lv-love .level-num,.lv-love .level-name{color:#34d399;}
+.threshold-divider{display:flex;align-items:center;gap:12px;margin:16px 0;}
+.threshold-line{flex:1;height:1px;background:#1a2e1a;}
+.threshold-label{font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#4ade80;white-space:nowrap;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S1 — Identity &amp; Self-Mastery</div>
+  <a class="nav-link" href="lesson-s1-01-who-you-are.html">01. Who You Are Off Your Calls</a>
+  <a class="nav-link" href="lesson-s1-02-four-wounds.html">02. The Four Wounds</a>
+  <a class="nav-link" href="lesson-s1-03-the-mask.html">03. The Mask</a>
+  <a class="nav-link" href="lesson-s1-04-internal-narrator.html">04. The Internal Narrator</a>
+  <a class="nav-link" href="lesson-s1-05-archetype-activation.html">05. Archetype Activation</a>
+  <a class="nav-link" href="lesson-s1-06-behavioral-magnets.html">06. Behavioral Magnets</a>
+  <a class="nav-link" href="lesson-s1-07-composure.html">07. Composure Masterclass</a>
+  <a class="nav-link" href="lesson-s1-08-confidence-vs-certainty.html">08. Confidence vs. Certainty</a>
+  <a class="nav-link" href="lesson-s1-09-frames-ego.html">09. Frames &amp; The Ego</a>
+  <a class="nav-link" href="lesson-s1-10-limiting-beliefs.html">10. Limiting Beliefs &amp; The Governors</a>
+  <a class="nav-link" href="lesson-s1-11-emotional-assessment-scale.html">11. The Emotional Assessment Scale</a>
+  <a class="nav-link" href="lesson-s1-12-self-brainwashing.html">12. Self-Brainwashing</a>
+  <a class="nav-link" href="lesson-s1-13-four-pillars.html">13. The Four Pillars</a>
+  <a class="nav-link" href="lesson-s1-14-true-charisma.html">14. True Charisma</a>
+  <a class="nav-link active" href="lesson-s1-15-consciousness-levels.html">15. The Consciousness Levels</a>
+  <a class="nav-link" href="lesson-s1-16-discipline.html">16. Discipline &amp; Self-Control</a>
+  <a class="nav-link" href="lesson-s1-17-confused-ancestor.html">17. Confused Ancestor Theory</a>
+  <a class="nav-link" href="lesson-s1-18-life-reboot.html">18. Life Reboot Protocol</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Sales.io — S1: Identity &amp; Self-Mastery · Lesson 15</div>
+  <h1>The Consciousness Levels</h1>
+  <p class="subtitle">Where you are on the Map of Consciousness determines what you're capable of on a call. You can't access a state above your current level — you can only build toward it.</p>
+
+  <section id="the-map">
+    <h2>The Map of Consciousness</h2>
+    <div class="block">
+      <div class="block-label">Source</div>
+      <p>This framework comes from Dr. David Hawkins' book "Letting Go." JJ teaches it because it gives you a precise language for something you've always felt but couldn't name: why some days you're unstoppable on calls and other days you can't get out of your own way. The map tells you where you are and what the next level looks like.</p>
+      <p>Every emotion, belief, and internal state calibrates to a level. Below 200 is where force lives — manipulation, pressure, scarcity. Above 200 is where power lives — genuine influence, service, connection. The threshold is everything.</p>
+    </div>
+
+    <p style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#f87171;margin:24px 0 12px;">Below the Threshold — Force</p>
+
+    <div class="level-row lv-shame"><div class="level-left"><div class="level-num">20</div><div class="level-name">Shame</div></div><div class="level-right"><strong>On a call</strong><p>The rep who apologizes for existing. Shrinks under any pushback. Assumes they're bothering the prospect. Closes almost nothing.</p></div></div>
+    <div class="level-row lv-guilt"><div class="level-left"><div class="level-num">30</div><div class="level-name">Guilt</div></div><div class="level-right"><strong>On a call</strong><p>Feels bad about asking for the sale. Unconsciously sabotages closes because at some level they feel they don't deserve the commission.</p></div></div>
+    <div class="level-row lv-apathy"><div class="level-left"><div class="level-num">50</div><div class="level-name">Apathy</div></div><div class="level-right"><strong>On a call</strong><p>Goes through the motions. No energy. The prospect can feel the rep doesn't care whether this goes anywhere. Prospects match the energy and disengage.</p></div></div>
+    <div class="level-row lv-grief"><div class="level-left"><div class="level-num">75</div><div class="level-name">Grief</div></div><div class="level-right"><strong>On a call</strong><p>Often follows a bad streak. The rep is calling from a place of loss — you can hear it in the flatness of their voice. Every no feels like confirmation they'll never figure this out.</p></div></div>
+    <div class="level-row lv-fear"><div class="level-left"><div class="level-num">100</div><div class="level-name">Fear</div></div><div class="level-right"><strong>On a call</strong><p>Afraid of losing the deal. Every objection feels threatening. Reps in fear either freeze or over-push. Both signals transmit to the prospect who becomes appropriately cautious.</p></div></div>
+    <div class="level-row lv-desire"><div class="level-left"><div class="level-num">125</div><div class="level-name">Desire</div></div><div class="level-right"><strong>On a call</strong><p>Wanting the sale badly. This is where most commission-motivated reps live. Desire is still force — wanting something from someone. Prospects feel the pull and resist it instinctively.</p></div></div>
+    <div class="level-row lv-anger"><div class="level-left"><div class="level-num">150</div><div class="level-name">Anger</div></div><div class="level-right"><strong>On a call</strong><p>Can briefly spike performance — anger has energy. But it creates aggression that pushes prospects away. Common in reps on a bad streak who "decide to just go for it." Closes fast, burns bridges, generates refunds and chargebacks.</p></div></div>
+    <div class="level-row lv-pride"><div class="level-left"><div class="level-num">175</div><div class="level-name">Pride</div></div><div class="level-right"><strong>On a call</strong><p>The rep who needs to be right more than they need to close. Defends their method when challenged. Can't receive feedback. Closes well on prospects who admire them, closes poorly on anyone who pushes back on their ego.</p></div></div>
+
+    <div class="threshold-divider">
+      <div class="threshold-line"></div>
+      <div class="threshold-label">200 · The Courage Threshold — Force becomes Power</div>
+      <div class="threshold-line"></div>
+    </div>
+
+    <div class="highlight">
+      <p><strong>This is the line everything is built on.</strong> Below 200, you're operating through force — trying to get something from prospects. Above 200, you're operating through power — offering something to them. The prospect feels the difference. Courage is the first level where you can actually lose the sale and be okay. That's the key. Until you can genuinely be okay losing a deal, you're still below 200.</p>
+    </div>
+
+    <div class="level-row lv-courage"><div class="level-left"><div class="level-num">200</div><div class="level-name">Courage</div></div><div class="level-right"><strong>On a call</strong><p>Can ask the hard question. Can sit with uncomfortable silence. Can tell a prospect this isn't the right fit and mean it. This is the baseline for consistent high performance. The rep is no longer afraid of the outcome.</p></div></div>
+    <div class="level-row lv-neutral"><div class="level-left"><div class="level-num">250</div><div class="level-name">Neutrality</div></div><div class="level-right"><strong>On a call</strong><p>Genuinely non-attached to outcome. Can hear "no" the same way they hear "yes" — both are useful information. This feels like extreme confidence from the outside but is actually just freedom from needing a specific result.</p></div></div>
+    <div class="level-row lv-willing"><div class="level-left"><div class="level-num">310</div><div class="level-name">Willingness</div></div><div class="level-right"><strong>On a call</strong><p>Actively engaged in the prospect's best interest. Asking questions they actually want the answer to. The call feels collaborative because it is — the rep is genuinely trying to figure out what's right for this person.</p></div></div>
+    <div class="level-row lv-accept"><div class="level-left"><div class="level-num">350</div><div class="level-name">Acceptance</div></div><div class="level-right"><strong>On a call</strong><p>Sees the prospect completely as they are — not as a commission opportunity, not as a category of objector, as a specific person with a specific reality. High empathy. High close rate. Never pushy.</p></div></div>
+    <div class="level-row lv-reason"><div class="level-left"><div class="level-num">400</div><div class="level-name">Reason</div></div><div class="level-right"><strong>On a call</strong><p>Can instantly diagnose the real objection beneath the stated one. Their framework mastery is so internalized they don't think in frameworks anymore — they just think clearly about what's actually happening.</p></div></div>
+    <div class="level-row lv-love"><div class="level-left"><div class="level-num">500</div><div class="level-name">Love</div></div><div class="level-right"><strong>On a call</strong><p>The rep who genuinely cares more about the prospect's outcome than their own commission. Paradoxically, this is the highest-converting state. Prospects can feel total service and total non-attachment simultaneously. They buy because they trust completely.</p></div></div>
+  </section>
+
+  <section id="traps">
+    <h2>The Two Traps Most Reps Live In</h2>
+    <div class="warning">
+      <p><strong>The Desire Trap (125).</strong> The entire commission-motivated sales culture breeds this. You're told to want it badly, to see the vision, to stay hungry. But Desire is still force. Wanting the sale creates the neediness that kills close rates. The irony: the harder you want it, the less likely you are to get it. This is why "wanting it" is not a strategy.</p>
+    </div>
+    <div class="warning">
+      <p><strong>The Pride Trap (175).</strong> This is where skilled reps get stuck. They've developed real ability — they've closed deals, they've learned the frameworks, they've got results to point to. But pride makes them defensive. They can't take feedback without it feeling like an attack. They argue with prospects instead of getting curious. They'd rather be right than close.</p>
+      <p><strong>The move from Pride to Courage</strong> requires humility — specifically, the willingness to be wrong about your approach. Most reps resist this because it feels like losing. It's actually the only way up.</p>
+    </div>
+  </section>
+
+  <section id="letting-go">
+    <h2>The "Letting Go" Technique</h2>
+    <div class="block">
+      <div class="block-label">From David Hawkins</div>
+      <p>When you feel something on a call — triggered, nervous, frustrated, needing it — the instinct is to suppress it or act on it. Both keep you below 200. The third option: feel it completely, then let it move through you without doing anything about it.</p>
+      <p>This isn't meditation or spiritual practice. It's a practical skill. When the objection comes in and you feel the familiar tightening in your chest, instead of rushing to respond: notice the feeling. Let it be there. Don't fight it, don't feed it. Most of the time it passes in under 10 seconds. What's on the other side of it is the response you actually want to give — calm, curious, certain.</p>
+    </div>
+    <div class="highlight">
+      <p><strong>The practical version for calls:</strong> build your 2-second pause before responses into your automatic habit. Those 2 seconds are not silence — they're the letting-go moment. You feel the reaction, you let it pass, you respond from clarity instead of from reactivity. That's the 200-threshold in practice.</p>
+    </div>
+  </section>
+
+  <section id="calibrate">
+    <h2>Calibrating Before You Dial</h2>
+    <div class="block">
+      <p>Ask yourself honestly: what level am I operating from right now? Not what level you want to be at — what level you actually are. Be specific about the emotion. Fear looks like: "what if they say no." Desire looks like: "I really need this one to close." Pride looks like: "I know how to handle this." Courage looks like: "whatever happens here is fine — my job is to understand them."</p>
+    </div>
+    <ul class="checklist">
+      <li>
+        <span class="check-icon fail">!</span>
+        <span><strong style="color:#f87171;">Below 200 check:</strong> Am I going into this call thinking about what I need from it? (commission, a win, momentum after a bad week) — that's force. Stop. Reset before you dial.</span>
+      </li>
+      <li>
+        <span class="check-icon pass">✓</span>
+        <span><strong style="color:#4ade80;">At 200 check:</strong> Can I genuinely say "if this person isn't the right fit, I'll tell them" — and mean it? If yes, proceed. If not, you're still below 200.</span>
+      </li>
+      <li>
+        <span class="check-icon pass">✓</span>
+        <span><strong style="color:#4ade80;">Above 200 practice:</strong> Spend 2 minutes before the call thinking about one thing you're genuinely curious about regarding this specific person. Not rapport-building — actual curiosity. What made them book? What's their actual situation?</span>
+      </li>
+      <li>
+        <span class="check-icon pass">✓</span>
+        <span><strong style="color:#4ade80;">After a bad call:</strong> Use the letting-go technique on whatever you're feeling. Don't journal it, don't analyze it obsessively, don't call your friend to vent. Feel it, let it move through, come back to neutral. Then get on the next call clean.</span>
+      </li>
+    </ul>
+    <div class="quote-block">
+      <p>"The goal isn't to not feel anything. The goal is to be able to feel everything and still make the right call."</p>
+      <div class="attribution">— JJ Hernandez</div>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Behavioral Magnets — S1 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+.magnet-card{border:1px solid #1a1a1a;border-radius:10px;overflow:hidden;margin-bottom:12px;}
+.magnet-head{padding:16px 22px;display:flex;align-items:flex-start;gap:16px;}
+.magnet-label{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;min-width:80px;padding-top:2px;}
+.magnet-title{font-size:15px;font-weight:800;}
+.magnet-body{padding:4px 22px 16px 22px;font-size:13px;color:#888;line-height:1.65;}
+.magnet-card.neg{border-color:#2b0d0d;}.magnet-card.neg .magnet-head{background:#0a0202;}.magnet-card.neg .magnet-label{color:#f87171;}
+.magnet-card.pos{border-color:#0d2b1a;}.magnet-card.pos .magnet-head{background:#020a04;}.magnet-card.pos .magnet-label{color:#4ade80;}
+.magnet-card.neutral{border-color:#2b1a00;}.magnet-card.neutral .magnet-head{background:#080400;}.magnet-card.neutral .magnet-label{color:#f59e0b;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S1 — Identity &amp; Self-Mastery</div>
+  <a class="nav-link" href="lesson-s1-01-who-you-are.html">01. Who You Are Off Your Calls</a>
+  <a class="nav-link" href="lesson-s1-02-four-wounds.html">02. The Four Wounds</a>
+  <a class="nav-link" href="lesson-s1-03-the-mask.html">03. The Mask</a>
+  <a class="nav-link" href="lesson-s1-04-internal-narrator.html">04. The Internal Narrator</a>
+  <a class="nav-link" href="lesson-s1-05-archetype-activation.html">05. Archetype Activation</a>
+  <a class="nav-link active" href="lesson-s1-06-behavioral-magnets.html">06. Behavioral Magnets</a>
+  <a class="nav-link" href="lesson-s1-07-composure.html">07. Composure Masterclass</a>
+  <a class="nav-link" href="lesson-s1-08-confidence-vs-certainty.html">08. Confidence vs. Certainty</a>
+  <a class="nav-link" href="lesson-s1-09-frames-ego.html">09. Frames &amp; The Ego</a>
+  <a class="nav-link" href="lesson-s1-10-limiting-beliefs.html">10. Limiting Beliefs &amp; The Governors</a>
+  <a class="nav-link" href="lesson-s1-11-emotional-assessment-scale.html">11. The Emotional Assessment Scale</a>
+  <a class="nav-link" href="lesson-s1-12-self-brainwashing.html">12. Self-Brainwashing</a>
+  <a class="nav-link" href="lesson-s1-13-four-pillars.html">13. The Four Pillars</a>
+  <a class="nav-link" href="lesson-s1-14-true-charisma.html">14. True Charisma</a>
+  <a class="nav-link" href="lesson-s1-15-consciousness-levels.html">15. The Consciousness Levels</a>
+  <a class="nav-link" href="lesson-s1-16-discipline.html">16. Discipline &amp; Self-Control</a>
+  <a class="nav-link" href="lesson-s1-17-confused-ancestor.html">17. Confused Ancestor Theory</a>
+  <a class="nav-link" href="lesson-s1-18-life-reboot.html">18. Life Reboot Protocol</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Sales.io — S1: Identity &amp; Self-Mastery · Lesson 06</div>
+  <h1>Behavioral Magnets</h1>
+  <p class="subtitle">What you radiate is not what you intend to radiate. The gap between those two things is exactly where most reps lose deals.</p>
+
+  <section id="what-is">
+    <h2>What a Behavioral Magnet Is</h2>
+    <div class="block">
+      <div class="block-label">The Concept</div>
+      <p>A behavioral magnet is the signal you broadcast — the cumulative output of your internal state, your body language, your vocal tone, your pacing, and your energy. Prospects don't consciously read these signals. They feel them. And they respond to them the same way a compass responds to a magnetic field: automatically, without analyzing why.</p>
+      <p>You don't choose what you radiate. Your internal state chooses it for you. This is why two reps can say the exact same words and get completely different results. The words aren't what's doing the work.</p>
+    </div>
+    <div class="highlight">
+      <p><strong>The gap that kills close rates:</strong> Most reps think they're radiating confidence and warmth. What they're actually radiating is performance and need. The difference is invisible to them and completely obvious to the prospect.</p>
+    </div>
+  </section>
+
+  <section id="magnets">
+    <h2>The Magnets — What You Radiate and What It Attracts</h2>
+    <p style="font-size:14px;color:#555;margin-bottom:20px;">These aren't personality types. They're states. You can move between them — and most reps cycle through several of them in a single call.</p>
+
+    <div class="magnet-card neg">
+      <div class="magnet-head">
+        <div class="magnet-label">Radiates</div>
+        <div class="magnet-title">Need — "I want this sale"</div>
+      </div>
+      <div class="magnet-body">Prospects feel this as pressure. It triggers their defense mechanisms. They become harder to reach, more guarded, more skeptical of everything you say. The needier you are, the more they question whether you actually believe in what you're selling — or whether you're just selling.<br><br><strong style="color:#f87171;">Attracts:</strong> resistance, deflection, stall tactics, "I need to think about it"</div>
+    </div>
+
+    <div class="magnet-card neg">
+      <div class="magnet-head">
+        <div class="magnet-label">Radiates</div>
+        <div class="magnet-title">Performance — "Watch me close"</div>
+      </div>
+      <div class="magnet-body">This is the rep who's trying too hard. Over-enthusiastic opener, too many rapport-building questions, a pitch that sounds rehearsed because it is. Prospects can feel when someone is running a script. It feels transactional. You stop being a person and start being a function.<br><br><strong style="color:#f87171;">Attracts:</strong> surface-level answers, guardedness, "I've heard this before" energy</div>
+    </div>
+
+    <div class="magnet-card neutral">
+      <div class="magnet-head">
+        <div class="magnet-label">Radiates</div>
+        <div class="magnet-title">Competence — "I know what I'm doing"</div>
+      </div>
+      <div class="magnet-body">Better than need and performance, but still not the highest level. Competence radiates authority and knowledge — but it can come across as clinical. Prospects trust you intellectually but don't feel emotionally connected. They can respect your process and still not move.<br><br><strong style="color:#f59e0b;">Attracts:</strong> logical engagement but not emotional commitment — lots of "that makes sense" without closing</div>
+    </div>
+
+    <div class="magnet-card pos">
+      <div class="magnet-head">
+        <div class="magnet-label">Radiates</div>
+        <div class="magnet-title">Curiosity — "I actually want to understand you"</div>
+      </div>
+      <div class="magnet-body">This is where deals start to open up. Real curiosity — not performed curiosity, not pacing and leading, actual interest in what the person in front of you is experiencing — creates safety. When prospects feel genuinely understood, they open up. And when they open up, they give you everything you need to help them make the decision.<br><br><strong style="color:#4ade80;">Attracts:</strong> real answers, emotional disclosure, trust, forward momentum</div>
+    </div>
+
+    <div class="magnet-card pos">
+      <div class="magnet-head">
+        <div class="magnet-label">Radiates</div>
+        <div class="magnet-title">Certainty — "I don't need you to say yes"</div>
+      </div>
+      <div class="magnet-body">The highest-converting magnet. Certainty isn't arrogance — it's a grounded belief in the value of what you're offering, combined with a complete absence of need for the prospect to agree. This reads as authority. Prospects instinctively trust people who don't need anything from them. It signals that you're operating from truth, not from agenda.<br><br><strong style="color:#4ade80;">Attracts:</strong> respect, reduced resistance, prospects who sell themselves</div>
+    </div>
+  </section>
+
+  <section id="gap">
+    <h2>The Radiate Gap</h2>
+    <div class="red-block">
+      <p><strong>You cannot close the gap through technique.</strong> You can't practice a "certainty voice" in front of a mirror and expect it to hold under real pressure. The magnet you radiate is downstream from who you actually are in that moment. Technique changes what you say. Identity changes what you radiate.</p>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th class="col-c-td" style="color:#555;">Situation</th>
+            <th class="col-a">What Most Reps Radiate</th>
+            <th class="col-b">What Elite Reps Radiate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="col-c-td">Opening the call</td>
+            <td class="col-a-td">Forced enthusiasm ("So excited to connect!") — performance</td>
+            <td class="col-b-td">Calm, unhurried warmth — genuine interest in who this person is</td>
+          </tr>
+          <tr>
+            <td class="col-c-td">Stating the price</td>
+            <td class="col-a-td">Slight vocal hesitation, immediate pivot to payment plans — need</td>
+            <td class="col-b-td">States the number once, holds silence — certainty</td>
+          </tr>
+          <tr>
+            <td class="col-c-td">Hearing an objection</td>
+            <td class="col-a-td">Defensive body language, faster speech — anxiety</td>
+            <td class="col-b-td">Brief pause, genuine curiosity about what's underneath it</td>
+          </tr>
+          <tr>
+            <td class="col-c-td">End of call, no decision</td>
+            <td class="col-a-td">Over-accommodating, scheduling five follow-ups — desperation</td>
+            <td class="col-b-td">Clear, calm — "Here's what I'd recommend. You decide."</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="self-audit">
+    <h2>The Self-Audit</h2>
+    <div class="block">
+      <p>Pull up your last 3 call recordings. Don't listen for what you said. Listen for what you radiated. Ask yourself:</p>
+    </div>
+    <ul class="checklist">
+      <li>
+        <span class="check-icon pass">?</span>
+        <span>When the prospect went quiet, did your pace change? (Speeding up = need radiating)</span>
+      </li>
+      <li>
+        <span class="check-icon pass">?</span>
+        <span>How did you state the price? Did your voice lift or soften at the end? (Vocal uncertainty = doubt radiating)</span>
+      </li>
+      <li>
+        <span class="check-icon pass">?</span>
+        <span>When they pushed back, did you immediately counter or did you get curious? (Countering fast = performance)</span>
+      </li>
+      <li>
+        <span class="check-icon pass">?</span>
+        <span>Were you asking questions you actually wanted the answer to, or questions designed to move them forward? (Designed questions = agenda radiating)</span>
+      </li>
+      <li>
+        <span class="check-icon pass">?</span>
+        <span>At the end of the call, did you feel relieved when they said yes, or was the outcome genuinely secondary to whether it was the right fit? (Relief = you needed it)</span>
+      </li>
+    </ul>
+    <div class="quote-block">
+      <p>"The best closers don't sound like closers."</p>
+      <div class="attribution">— JJ Hernandez</div>
+    </div>
+  </section>
+
+  <section id="shift">
+    <h2>How to Shift Your Magnet</h2>
+    <div class="block">
+      <div class="block-label">The Only Real Lever</div>
+      <p>You can't will yourself into radiating certainty. But you can build the internal conditions that produce it. That's what this entire section is about. The behavioral magnet is the output. Identity is the input. Chapters 1-5 built the foundation. Chapter 6 is where you see it in action.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">In the Short Term — On the Call</div>
+      <p>When you catch yourself radiating need or performance: slow down. Not as a technique — as a reset. A genuine pause. Internally ask: what is actually true about this person right now? What do I actually want to know about them? That question shifts your orientation from selling to understanding. And understanding is what certainty radiates from.</p>
+    </div>
+    <div class="highlight">
+      <p><strong>One reframe that changes everything:</strong> Walk into every call with this as your only goal — understand this person's situation clearly enough to tell them honestly whether this is right for them. Not to close them. To understand them well enough to give them an honest answer. When that's genuinely your goal, what you radiate changes completely.</p>
+    </div>
+  </section>
+
+  <section id="exchange">
+    <h2>The Same Call — Two Different Magnets</h2>
+    <div class="exchange">
+      <div class="exchange-header">Rep radiating NEED — the prospect feels it</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Hey Marcus, so excited to connect today — I feel like this is going to be a great call. So real quick, tell me a little bit about where you're at with your sales career right now."</div>
+          <span class="annotation">"Super excited" + "real quick" + leading with an agenda — broadcasting performance and hurry. Prospect hears: this person needs something from me.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Yeah, so I've been closing for about a year, doing okay I guess, making like 6k a month..."</div>
+          <span class="annotation">Vague, surface level. Not opening up. Mirroring the guarded energy coming at them.</span>
+        </div>
+      </div>
+    </div>
+    <div class="exchange">
+      <div class="exchange-header">Same rep radiating CURIOSITY + CERTAINTY</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Marcus — good to meet you. What's going on for you right now that made you want to hop on this call?"</div>
+          <span class="annotation">No performance. No agenda-pushing. Actually wants to know the answer. Calm. Unhurried. Magnetic.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Honestly I've been in sales for a year and I feel like I know the technical stuff but there's something missing. I close okay but I'm not where I thought I'd be. I can't figure out if it's the offer or if it's me."</div>
+          <span class="annotation">Specific, honest, emotionally real. This is the conversation that leads to a close. It only happened because of what the rep radiated before saying a word about the program.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>

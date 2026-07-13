@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frames &amp; the Ego — S1 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.seq-list{display:flex;flex-direction:column;}
+.seq-wrap{display:flex;gap:20px;margin-bottom:4px;}
+.seq-left{display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;}
+.dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.dot-green{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.dot-amber{background:#0f0800;color:#f59e0b;border:1px solid #2b1a00;}
+.dot-red{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.dot-blue{background:#050a12;color:#60a5fa;border:1px solid #0a2040;}
+.dot-purple{background:#080208;color:#a78bfa;border:1px solid #2a1040;}
+.line{flex:1;width:1px;background:#111;margin:4px 0;min-height:16px;}
+.seq-right{flex:1;padding-bottom:24px;}
+.seq-tag{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
+.seq-title{font-size:16px;font-weight:800;margin-bottom:8px;}
+.seq-body{font-size:14px;color:#888;line-height:1.7;}
+.seq-ex{font-size:13px;color:#555;font-style:italic;padding:8px 12px;background:#050505;border-radius:6px;border-left:2px solid #1a1a1a;margin-top:8px;line-height:1.6;}
+.note-list{list-style:none;}
+.note-list li{font-size:14px;color:#999;padding:9px 0;border-bottom:1px solid #0f0f0f;display:flex;gap:12px;line-height:1.6;}
+.note-list li:last-child{border-bottom:none;}
+.note-list li::before{content:"—";color:#333;flex-shrink:0;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+.level-card{border-radius:10px;overflow:hidden;margin-bottom:10px;border:1px solid #1a1a1a;}
+.level-head{display:flex;align-items:center;gap:14px;padding:14px 20px;}
+.level-num{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;min-width:60px;}
+.level-title{font-size:15px;font-weight:800;}
+.level-body{padding:10px 20px 14px;font-size:13px;color:#888;line-height:1.65;}
+.level-below .level-head{background:#080202;}.level-below .level-num{color:#f87171;}
+.level-mid .level-head{background:#080500;}.level-mid .level-num{color:#f59e0b;}
+.level-above .level-head{background:#020810;}.level-above .level-num{color:#60a5fa;}
+.level-peak .level-head{background:#020a04;}.level-peak .level-num{color:#4ade80;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S1 — Identity &amp; Self-Mastery</div>
+  <a class="nav-link active" href="#what-frame">What a Frame Is</a>
+  <a class="nav-link" href="#ego-role">The Ego's Role</a>
+  <a class="nav-link" href="#low-self-image">How Low Self-Image Shows Up</a>
+  <a class="nav-link" href="#connection">Self-Image / Frame Connection</a>
+  <a class="nav-link" href="#ego-vs-self">Ego vs. Self-Image</a>
+  <a class="nav-link" href="#building">Building Self-Image</a>
+  <a class="nav-link" href="#exchange">Call Exchange</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 9 · Section 1</div>
+  <h1>Frames &amp; the Ego</h1>
+  <p class="subtitle">Your frame doesn't break because you used the wrong words. It breaks because of what you believe about yourself.</p>
+
+  <!-- SECTION 1 -->
+  <section id="what-frame">
+    <h2>What a Frame Is in This Context</h2>
+    <div class="block">
+      <div class="block-label">Brief Definition</div>
+      <p>A frame is the unspoken reality both parties are operating inside. Whoever's frame wins, controls the conversation. The prospect walks in with a frame — "I'm evaluating whether to spend money." The rep walks in with a frame — "I'm here to find out if this is right for this person." Those two frames are in tension from the first second, and one of them dominates.</p>
+      <p>The full mechanics of frame work come in Section 9. This lesson is about one specific thing: the identity piece. Why frames hold or collapse is almost never about words. It's almost always about self-image.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">What Frame Collapse Looks Like</div>
+      <p>The rep starts the call grounded — they're running the conversation. Then the prospect challenges them. Maybe they question the price, maybe they push back on the result claims, maybe they mention a competitor. The rep's energy shifts. They start justifying, softening, conceding. The prospect's frame just won — not because they had better logic, but because the rep's self-image couldn't hold under the pressure.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section id="ego-role">
+    <h2>The Ego's Role</h2>
+    <div class="highlight">
+      <p>Your self-image determines <strong>what you'll tolerate.</strong></p>
+      <p>A rep with a strong self-image can hold their frame when someone challenges them — because the challenge doesn't threaten who they are. They don't need the prospect's approval. The prospect's skepticism is information, not an indictment.</p>
+      <p>A rep with a fragile self-image collapses the moment a prospect doubts them or pushes back — and here's the critical thing: <strong>it's not because of what the prospect said. It's because some part of the rep thinks they might be right.</strong></p>
+      <p>That's the ego's shadow: a fragile self-image that requires constant external reinforcement. The moment external reinforcement is withdrawn — or worse, replaced with doubt — the ego scrambles to recover, and the frame goes with it.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section id="low-self-image">
+    <h2>How Low Self-Image Shows Up on Calls</h2>
+    <p style="font-size:14px;color:#555;margin-bottom:20px;">These are the tells. Most reps don't recognize them as self-image problems — they think they're just being helpful or thorough. They're not. They're compensating.</p>
+    <ul class="checklist">
+      <li>
+        <div class="check-icon fail">✗</div>
+        <div><strong style="color:#ccc;">Over-justifying price before it's questioned.</strong> Adding caveats and rationale before the prospect has said a word about money. "And obviously, you know, the price reflects all of this, and we've put a lot into building this..." — the prospect didn't ask. The rep's self-image is pre-emptively defending.</div>
+      </li>
+      <li>
+        <div class="check-icon fail">✗</div>
+        <div><strong style="color:#ccc;">Softening claims before they're challenged.</strong> "This is one of the best programs out there — obviously it depends on the person, but..." You diluted your own credibility before anyone pushed you. The qualifier came from anxiety, not accuracy.</div>
+      </li>
+      <li>
+        <div class="check-icon fail">✗</div>
+        <div><strong style="color:#ccc;">Adding qualifiers to strong statements.</strong> "This is probably the right move for someone in your position, but obviously every situation is different..." Every one of those softeners is your self-image flinching before the punch lands.</div>
+      </li>
+      <li>
+        <div class="check-icon fail">✗</div>
+        <div><strong style="color:#ccc;">Agreeing with the objection before addressing it.</strong> "Yeah, that's a totally fair point, and I get why you'd feel that way..." — before you've actually engaged with the objection at all. This is not empathy. This is capitulation dressed up as empathy.</div>
+      </li>
+      <li>
+        <div class="check-icon fail">✗</div>
+        <div><strong style="color:#ccc;">Volume dropping when challenged.</strong> You were clear and steady. Prospect pushed back. Your voice got quieter, more tentative. The body is signaling what the self-image is experiencing — retreat.</div>
+      </li>
+      <li>
+        <div class="check-icon fail">✗</div>
+        <div><strong style="color:#ccc;">Filling every silence.</strong> Silence after the close is uncomfortable for most reps. They fill it. But the reason it's uncomfortable is self-image: "if they're not immediately agreeing, something's wrong with me." The silence is not about you. Let it live.</div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section id="connection">
+    <h2>The Self-Image / Frame Connection</h2>
+    <p style="font-size:14px;color:#555;margin-bottom:20px;">Same prospect. Same challenge. Different self-image. Watch what happens.</p>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th class="col-c-td" style="color:#555;">Moment</th>
+          <th class="col-a">Low Self-Image Rep</th>
+          <th class="col-b">Strong Self-Image Rep</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-c-td">Prospect says: "I've heard this kind of pitch before."</td>
+          <td class="col-a-td">Immediately explains how this is different. Gets slightly defensive. Starts listing proof points. Frame is already responding to the challenge instead of holding.</td>
+          <td class="col-b-td">"What was that experience like?" Curious, not defensive. Doesn't need to prove anything yet. The frame is intact because the self-image isn't threatened.</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Prospect says: "I need to think about it."</td>
+          <td class="col-a-td">Immediately offers payment plans, follow-up calls, more info. Tries to reduce the friction because the uncertainty feels like rejection — and rejection confirms the self-image fear.</td>
+          <td class="col-b-td">Pauses. "What specifically are you still working through?" Holds the space. Doesn't rush to eliminate the discomfort because the discomfort isn't personal.</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Prospect says: "That price is pretty steep."</td>
+          <td class="col-a-td">Goes straight into justification mode — starts building the case for why it's worth it before understanding what "steep" means to this prospect. The price comment landed as an attack.</td>
+          <td class="col-b-td">"What were you expecting?" or just holds the silence. Knows the price is right. The prospect's surprise doesn't change that. Gets information before responding.</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Prospect is quiet after the pitch</td>
+          <td class="col-a-td">Fills the silence within 2-3 seconds. "So yeah, that's kind of the gist of it — does that make sense? Any questions?" The silence felt like absence of approval.</td>
+          <td class="col-b-td">Holds it. 5, 7, 10 seconds. The prospect is processing. That's good. The silence is not commentary on the rep — it's the prospect doing their job.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SECTION 5 -->
+  <section id="ego-vs-self">
+    <h2>Ego vs. Self-Image</h2>
+    <div class="block">
+      <div class="block-label">The Distinction</div>
+      <p>The ego says: "I need to be right." It defends. It attacks when threatened. It takes objections personally because an objection to the rep's position is a threat to the ego's identity. Holding a frame from ego looks combative — you can feel when someone is stubbornly digging in rather than staying grounded.</p>
+      <p>Healthy self-image says: "I'm secure whether I'm right or not." It doesn't need to win. When a prospect pushes back, a rep with strong self-image doesn't dig in defensively — they engage with genuine curiosity. They can acknowledge a valid point without feeling like it diminishes them. They can update their understanding without losing their frame.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">Why This Matters on the Call</div>
+      <p>The prospect can feel the difference. Ego-frame holding feels like a wall — the rep is protecting themselves, not serving the prospect. Self-image-frame holding feels like a floor — the rep is steady, present, not threatened by the prospect's reality.</p>
+      <p>One closes deals. The other creates resistance. The irony: ego-based frame holding usually breaks faster than self-image-based frame holding, because ego is reactive and self-image is structural.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 6 -->
+  <section id="building">
+    <h2>Building Self-Image That Holds</h2>
+    <div class="block">
+      <div class="block-label">Not Affirmations</div>
+      <p>Affirmations don't build self-image. Evidence builds self-image. Telling yourself you're great in the mirror doesn't create the structural certainty that makes a frame unshakeable — lived proof does.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">The Mechanism</div>
+      <p>Every call where you stay grounded when challenged, you add to your self-image account. Not because you won — because you held. Even the calls where the prospect is difficult and you stayed curious rather than defensive — those build self-image. Even the calls you lose but walked away from feeling like you were yourself — those count.</p>
+      <p>Every time you collapse and then recover — you notice you collapsed, you identify what happened, you don't spiral — that's also a deposit. Recovery matters more than never falling. The goal is to return to center faster each time, not to never get unsettled.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">The Standard</div>
+      <p>You know your self-image is getting stronger when a hard prospect doesn't shake you — not because you've suppressed the reaction, but because you genuinely don't need them to approve of you. When you can hear "I need to think about it" and feel curious instead of threatened, the self-image is working.</p>
+    </div>
+  </section>
+
+  <!-- EXCHANGE -->
+  <section id="exchange">
+    <h2>Call Exchange — Credentials Challenged</h2>
+
+    <div class="exchange">
+      <div class="exchange-header">VERSION 1 — Rep with Fragile Self-Image</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"How long have you actually been in high-ticket sales? You seem pretty young."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Yeah so I've been doing this for about two years, but I've been in sales my whole life honestly, like even before that I was doing door-to-door and I've studied under some of the best coaches in the space, and the results we've gotten with students speak for themselves — I mean, we have over 2,100 people who've gone through the program and the success rate is..."</div>
+          <span class="annotation">The question landed as an attack. Rep immediately went defensive, stacked credentials, rushed into social proof. The prospect's comment about age got under the skin — because some part of the rep agreed with it.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Okay... what about the price, is there any flexibility there?"</div>
+          <span class="annotation">The prospect smelled the vulnerability and immediately probed for more. Frame is gone. The rep is now negotiating from a defensive position.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-header">VERSION 2 — Rep with Solid Self-Image</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"How long have you actually been in high-ticket sales? You seem pretty young."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">[brief pause, relaxed] "I am young. What's making you ask — what specifically are you trying to verify?"</div>
+          <span class="annotation">Doesn't flinch. Doesn't defend. Acknowledges the truth without shame and redirects to what the prospect actually needs. The self-image is secure enough that "you seem young" isn't a threat — it's just an observation.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"I just want to make sure I'm learning from someone who's actually done it at a high level."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Totally fair. The person you'd primarily be learning from is JJ — he's closed over twenty million, he's coached teams inside Hormozi's and Iman's organizations, and every coach here is actively closing. Does that answer the question, or is there something more specific you want to know?"</div>
+          <span class="annotation">Now the credential is offered — but from a position of responding to what the prospect actually needs, not from defensiveness. The frame held. The prospect is now in a position where their real concern has been addressed, and they weren't given the satisfaction of watching the rep scramble.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>

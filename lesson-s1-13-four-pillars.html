@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Four Pillars — S1 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.check-icon.warn{background:#0f0800;color:#f59e0b;border:1px solid #2b1a00;}
+.seq-list{display:flex;flex-direction:column;}
+.seq-wrap{display:flex;gap:20px;margin-bottom:4px;}
+.seq-left{display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;}
+.dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.dot-green{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.dot-amber{background:#0f0800;color:#f59e0b;border:1px solid #2b1a00;}
+.dot-red{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.dot-blue{background:#050a12;color:#60a5fa;border:1px solid #0a2040;}
+.dot-purple{background:#080208;color:#a78bfa;border:1px solid #2a1040;}
+.line{flex:1;width:1px;background:#111;margin:4px 0;min-height:16px;}
+.seq-right{flex:1;padding-bottom:24px;}
+.seq-tag{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
+.seq-title{font-size:16px;font-weight:800;margin-bottom:8px;}
+.seq-body{font-size:14px;color:#888;line-height:1.7;}
+.seq-ex{font-size:13px;color:#555;font-style:italic;padding:8px 12px;background:#050505;border-radius:6px;border-left:2px solid #1a1a1a;margin-top:8px;line-height:1.6;}
+.note-list{list-style:none;}
+.note-list li{font-size:14px;color:#999;padding:9px 0;border-bottom:1px solid #0f0f0f;display:flex;gap:12px;line-height:1.6;}
+.note-list li:last-child{border-bottom:none;}
+.note-list li::before{content:"—";color:#333;flex-shrink:0;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+.pillar-card{border-radius:10px;overflow:hidden;margin-bottom:14px;border:1px solid #1a1a1a;}
+.pillar-head{display:flex;align-items:center;gap:16px;padding:16px 22px;background:#080808;}
+.pillar-num{font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;min-width:80px;}
+.pillar-title{font-size:16px;font-weight:800;}
+.pillar-body{padding:16px 22px 18px;font-size:14px;color:#888;line-height:1.7;}
+.pillar-1 .pillar-head{background:#080305;} .pillar-1 .pillar-num{color:#a78bfa;}
+.pillar-2 .pillar-head{background:#020810;} .pillar-2 .pillar-num{color:#60a5fa;}
+.pillar-3 .pillar-head{background:#0f0800;} .pillar-3 .pillar-num{color:#f59e0b;}
+.pillar-4 .pillar-head{background:#020a04;} .pillar-4 .pillar-num{color:#4ade80;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S1 — Identity &amp; Self-Mastery</div>
+  <a class="nav-link" href="lesson-s1-01-who-you-are.html">1. Who You Are Off Your Calls</a>
+  <a class="nav-link" href="lesson-s1-02-four-wounds.html">2. The Four Wounds</a>
+  <a class="nav-link" href="lesson-s1-03-the-mask.html">3. The Mask</a>
+  <a class="nav-link" href="lesson-s1-04-internal-narrator.html">4. The Internal Narrator</a>
+  <a class="nav-link" href="lesson-s1-05-archetype-activation.html">5. Archetype Activation</a>
+  <a class="nav-link" href="lesson-s1-06-behavioral-magnets.html">6. Behavioral Magnets</a>
+  <a class="nav-link" href="lesson-s1-07-composure.html">7. Composure Masterclass</a>
+  <a class="nav-link" href="lesson-s1-08-confidence-vs-certainty.html">8. Confidence vs. Certainty</a>
+  <a class="nav-link" href="lesson-s1-09-frames-ego.html">9. Frames &amp; The Ego</a>
+  <a class="nav-link" href="lesson-s1-10-limiting-beliefs.html">10. Limiting Beliefs &amp; Governors</a>
+  <a class="nav-link" href="lesson-s1-11-emotional-assessment.html">11. Emotional Assessment Scale</a>
+  <a class="nav-link" href="lesson-s1-12-self-brainwashing.html">12. Self-Brainwashing</a>
+  <a class="nav-link active" href="lesson-s1-13-four-pillars.html">13. The Four Pillars</a>
+  <a class="nav-link" href="lesson-s1-14-true-charisma.html">14. True Charisma</a>
+  <a class="nav-link" href="lesson-s1-15-consciousness-levels.html">15. The Consciousness Levels</a>
+  <a class="nav-link" href="lesson-s1-16-discipline-self-control.html">16. Discipline &amp; Self-Control</a>
+  <a class="nav-link" href="lesson-s1-17-confused-ancestor.html">17. Confused Ancestor Theory</a>
+  <a class="nav-link" href="lesson-s1-18-life-reboot-protocol.html">18. Life Reboot Protocol</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 13 · Section 1</div>
+  <h1>The Four Pillars</h1>
+  <p class="subtitle">Perspective. Perception. Priority. Purpose. These aren't sales techniques. They're the internal architecture that every technique, every framework, every close is built on top of. Get these wrong and nothing else works.</p>
+
+  <!-- SECTION 1 -->
+  <section id="what-they-are">
+    <h2>What the Four Pillars Are</h2>
+    <div class="block">
+      <div class="block-label">The Foundation Beneath the Skill</div>
+      <p>Most sales training starts at the technique layer. Scripts, objection handling, closing frameworks. And when those techniques don't work, reps assume they need better techniques. They don't. They need a better foundation.</p>
+      <p>The Four Pillars are what operate underneath all of that. They determine how you see the person in front of you, what you notice during the conversation, what you actually put first, and why you're even in the room. Change the pillars and your technique problem disappears. Keep the pillars broken and no technique will save you.</p>
+    </div>
+    <div class="highlight">
+      <p>Here's the uncomfortable truth: <strong>you already have all four pillars.</strong> They're already running. The question isn't whether you have them — it's whether they're set up in a way that serves the person in front of you or in a way that serves your own anxiety about the outcome.</p>
+      <p>This lesson is about making the unconscious conscious so you can actually work with these instead of being run by them.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">Why This Is Section 1 Material</div>
+      <p>This comes before technique because technique without the right pillars is manipulation. And manipulation is fragile — it works sometimes, on some people, under the right conditions, and then collapses. When your pillars are right, you don't need to trick anyone. You don't need to be clever. You just need to show up and do the work.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 2: THE FOUR PILLARS -->
+  <section id="the-pillars">
+    <h2>The Four Pillars</h2>
+
+    <div class="pillar-card pillar-1">
+      <div class="pillar-head">
+        <div class="pillar-num">Pillar 01</div>
+        <div class="pillar-title">Perspective</div>
+      </div>
+      <div class="pillar-body">
+        <p style="margin-bottom:12px;">Perspective is the lens through which you see the prospect and the sales conversation itself. It's built from your entire history — every call you've been on, every rejection you've felt, every person who said yes and meant it versus said yes and cancelled. You don't choose your perspective consciously. It forms from experience and then runs automatically.</p>
+        <p style="margin-bottom:12px;">Two reps can get on the same call with the same prospect and experience completely different conversations — because they're filtering through different lenses. One rep sees a person who's "on the fence and probably going to ghost." The other sees a person who's "trying to make a decision that changes their life and needs someone they can trust." Those reps will ask different questions, hold different silences, and respond to the same objection in completely different ways.</p>
+        <p>The goal is not to force a fake positive lens. The goal is to get honest about what lens you're actually using and whether it's accurate. Most sales reps operate with a perspective built from their worst calls, not their average ones.</p>
+      </div>
+    </div>
+
+    <div class="pillar-card pillar-2">
+      <div class="pillar-head">
+        <div class="pillar-num">Pillar 02</div>
+        <div class="pillar-title">Perception</div>
+      </div>
+      <div class="pillar-body">
+        <p style="margin-bottom:12px;">Perception is what you actually notice on a call. Not what you're supposed to notice — what you do notice. Most reps are so busy running a process in their head that they miss the real conversation happening in front of them. The prospect said "that sounds good" but their voice went flat. They asked about the refund policy twice. They said "I'm just not sure about the timing" but the real issue is they don't trust the result yet.</p>
+        <p style="margin-bottom:12px;">Elite closers aren't running a better script — they're paying better attention. They hear the unspoken thing. They notice the shift in energy when a topic lands wrong. They pick up on what the prospect didn't say as much as what they did. That's perception.</p>
+        <p>Perception breaks down when you're in your head. When you're thinking about your next line, calculating the probability of a close, or managing your anxiety about the outcome — your perception collapses. You stop seeing the actual person and start seeing a deal. And deals don't close. People do.</p>
+      </div>
+    </div>
+
+    <div class="pillar-card pillar-3">
+      <div class="pillar-head">
+        <div class="pillar-num">Pillar 03</div>
+        <div class="pillar-title">Priority</div>
+      </div>
+      <div class="pillar-body">
+        <p style="margin-bottom:12px;">Priority is what you put first on the call. The sale or the person. This sounds like an obvious answer — "the person, obviously" — but your actual behavior tells a different story if you're honest about it.</p>
+        <p style="margin-bottom:12px;">When you rush past a prospect's concern to get to your next pitch point, you're prioritizing the sale. When you ask a clarifying question you already know the answer to just to keep the prospect talking, you're prioritizing the sale. When you feel relief when they say yes and frustration when they say no, your priority just showed itself.</p>
+        <p>When the person is genuinely first, something changes. You start asking questions you actually don't know the answer to. You're willing to tell a prospect something they don't want to hear if it's true. You're willing to lose the sale to keep the frame. That's what priority alignment looks like from the outside. The prospect can feel it, and it builds trust faster than any technique.</p>
+      </div>
+    </div>
+
+    <div class="pillar-card pillar-4">
+      <div class="pillar-head">
+        <div class="pillar-num">Pillar 04</div>
+        <div class="pillar-title">Purpose</div>
+      </div>
+      <div class="pillar-body">
+        <p style="margin-bottom:12px;">Purpose is your "why" for being in sales — not the answer you give in an interview, but the actual thing that drives you when a call goes sideways and you're still on call number six of the day. If your purpose is purely financial, you will be brittle. Not because money is bad — money is important. But because money-as-purpose means every call where the person doesn't buy is a failure. That accumulates. And reps who are accumulating failure experiences either get desperate or burned out. Usually both.</p>
+        <p style="margin-bottom:12px;">Purpose rooted in genuine impact — in actually caring whether the person's situation changes — gives you a different kind of reserve. A call where someone doesn't buy but where you genuinely helped them get clear on what they need is not a failure. That rep doesn't carry the same emotional weight from call to call. They show up fresh.</p>
+        <p>This isn't idealistic. It's practical. The reps who last in this industry, who continue to close at a high rate for years, almost universally have a purpose that transcends the commission. Find yours or build one — it matters more than your pitch.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: HOW THEY INTERACT -->
+  <section id="how-they-interact">
+    <h2>How the Pillars Work Together</h2>
+    <div class="block">
+      <div class="block-label">They're a System</div>
+      <p>The Four Pillars don't operate independently. They compound. A broken perspective limits your perception — if you see the prospect as "resistant," you'll filter their responses through that lens and miss the signals of actual interest. A broken priority (sale over person) warps your purpose — suddenly your "I want to help people" becomes a rationalization for pushing someone into something that isn't right for them.</p>
+      <p>When all four are aligned, they create a state that feels like flow on a call. You're not working — you're just present, genuinely curious, and confident that if the fit is there, the close will follow naturally.</p>
+    </div>
+
+    <div class="seq-list">
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-red">!</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#f87171;">Misalignment Pattern 1</div>
+          <div class="seq-title">Broken Perspective Kills Perception</div>
+          <div class="seq-body">A rep who believes "people always have objections and half of them are just stalling" stops listening for the real signal behind an objection. They've already decided what it means before the prospect finishes the sentence. The lens filters the data before it ever reaches conscious attention.</div>
+          <div class="seq-ex">Prospect: "I just need a little more time." Rep (internal): "Classic stall, they're not serious." What actually happened: the prospect just got vulnerable and said they're scared. The rep missed it entirely.</div>
+        </div>
+      </div>
+
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-red">!</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#f87171;">Misalignment Pattern 2</div>
+          <div class="seq-title">Broken Priority Corrupts Purpose</div>
+          <div class="seq-body">When the sale consistently comes first, "I want to help people" becomes a story you tell yourself and prospects to make the push feel okay. This is the path to manipulation — not dramatic, movie-villain manipulation, but the slow drift where "helping" and "closing" become synonymous in your head.</div>
+          <div class="seq-ex">Rep tells themselves they're helping a prospect invest in their future while ignoring clear signals the person can't actually afford it. The purpose ("impact") is being used to justify a broken priority.</div>
+        </div>
+      </div>
+
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-amber">!</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#f59e0b;">Misalignment Pattern 3</div>
+          <div class="seq-title">Weak Purpose Breaks Composure Under Pressure</div>
+          <div class="seq-body">When your purpose is only money, every hard call is an existential threat. Not just "this call didn't close" but "I might not hit my number, which means I might not be successful, which means..." The emotional weight cascades. Composure collapses not because the call was hard but because the stakes feel existential.</div>
+          <div class="seq-ex">A rep with strong purpose can take a "no" in stride: "This person isn't the right fit right now. That's okay. Next call." The money-motivated rep: "I need to make this work. Let me try one more thing..." And they push when they should let go.</div>
+        </div>
+      </div>
+
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-green">✓</div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#4ade80;">When All Four Align</div>
+          <div class="seq-title">The Call Feels Different to Everyone on It</div>
+          <div class="seq-body">Prospects can't articulate it but they feel it. "This person is actually listening." "They're not trying to push me into anything." "They seem like they actually know what I need." These are the phrases people use after calls with reps whose pillars are aligned. That's not a script. It's a state.</div>
+          <div class="seq-ex">A rep operating from aligned pillars rarely has to "handle" objections because most objections don't arise in the first place. Not because they skipped the hard parts of the conversation — because the trust level was high enough that the prospect voiced concerns as questions rather than walls.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: COMPARE TABLE -->
+  <section id="compare">
+    <h2>Misaligned vs. Aligned — What It Looks Like</h2>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th style="color:#555;">Scenario</th>
+          <th class="col-a">Misaligned Pillars</th>
+          <th class="col-b">Aligned Pillars</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-c-td">Prospect says "I need to think about it"</td>
+          <td class="col-a-td">Internally panics. Either pushes harder or concedes immediately. Either way it's a reaction to the anxiety, not a response to the prospect.</td>
+          <td class="col-b-td">Pauses. Gets curious. "What specifically are you still working through?" Trusts the process. Doesn't need a specific outcome.</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Prospect seems disengaged early</td>
+          <td class="col-a-td">Perspective says "they're not serious." Stops investing in the call. Goes through the motions. Creates a self-fulfilling prophecy.</td>
+          <td class="col-b-td">Perception picks up on the disengagement. Gets curious about it rather than confirming it. "You seem like something's on your mind — what's that?" Call resets.</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Prospect isn't the right fit</td>
+          <td class="col-a-td">Rationalizes. Finds a way to make the numbers work. Tells themselves "they'll figure it out once they're in." Closes anyway.</td>
+          <td class="col-b-td">Says so. "Honestly, I don't think this is the right fit for where you are right now. Here's what I'd suggest instead." Loses the sale. Keeps the integrity. Gets a referral six months later.</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Call goes sideways mid-pitch</td>
+          <td class="col-a-td">Weak purpose means the pressure feels existential. Tries to recover through volume and energy. Starts over-explaining. Prospect disengages further.</td>
+          <td class="col-b-td">Strong purpose means the outcome matters but isn't everything. Can pivot, slow down, ask a genuine question, and rebuild the conversation from a calmer place.</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Prospect asks a hard question about results</td>
+          <td class="col-a-td">Perspective: "they're testing me." Goes into prove-myself mode. Fires off testimonials defensively. Reads as insecure.</td>
+          <td class="col-b-td">Priority: the person. "Good question. What specifically are you trying to validate?" Turns the question into a conversation. Reads as confident.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SECTION 5: SELF-ASSESSMENT -->
+  <section id="self-assessment">
+    <h2>Self-Assessment — Pillar by Pillar</h2>
+    <p style="font-size:14px;color:#555;margin-bottom:24px;">Go through each question honestly. If you hedge your answer or immediately jump to the "right" answer without actually checking, you're doing the assessment wrong. The value is in the discomfort, not the score.</p>
+
+    <div class="block" style="margin-bottom:24px;">
+      <div class="block-label">Pillar 1 — Perspective</div>
+      <ul class="checklist" style="padding:0;">
+        <li>
+          <div class="check-icon warn">?</div>
+          <div>When a prospect pushes back on price, what's your immediate internal assumption about why? Is it curiosity or suspicion?</div>
+        </li>
+        <li>
+          <div class="check-icon warn">?</div>
+          <div>Do you walk into calls with a genuine open mind about whether this person is a fit, or do you walk in already trying to make them one?</div>
+        </li>
+        <li>
+          <div class="check-icon warn">?</div>
+          <div>When a call is going well, do you credit the prospect's genuine interest — or do you immediately get anxious that it's "too good to be true"?</div>
+        </li>
+        <li>
+          <div class="check-icon warn">?</div>
+          <div>What is your honest default assumption about a person who says they need more time?</div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="block" style="margin-bottom:24px;">
+      <div class="block-label">Pillar 2 — Perception</div>
+      <ul class="checklist" style="padding:0;">
+        <li>
+          <div class="check-icon warn">?</div>
+          <div>After a call, can you replay the prospect's emotional state — not just what they said, but how they felt? If not, you were in your head.</div>
+        </li>
+        <li>
+          <div class="check-icon warn">?</div>
+          <div>Do you notice when a prospect's energy shifts, or do you only notice when they explicitly signal it?</div>
+        </li>
+        <li>
+          <div class="check-icon warn">?</div>
+          <div>Are you ever surprised by a "no" that in retrospect had clear signals all along? That's a perception gap.</div>
+        </li>
+        <li>
+          <div class="check-icon warn">?</div>
+          <div>When you're in a hard part of a call, how much of your attention is on the prospect versus on yourself?</div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="block" style="margin-bottom:24px;">
+      <div class="block-label">Pillar 3 — Priority</div>
+      <ul class="checklist" style="padding:0;">
+        <li>
+          <div class="check-icon warn">?</div>
+          <div>In the last 10 calls, how many times did you say something the prospect probably didn't want to hear but that was true? If the answer is zero, the sale is first.</div>
+        </li>
+        <li>
+          <div class="check-icon warn">?</div>
+          <div>When a prospect gives you an opening to close, do you take it regardless of whether you actually understand their situation yet?</div>
+        </li>
+        <li>
+          <div class="check-icon warn">?</div>
+          <div>If you were certain a prospect wasn't a fit, would you end the call early or try to make it work anyway?</div>
+        </li>
+        <li>
+          <div class="check-icon warn">?</div>
+          <div>Do you feel relief when someone says yes, or do you feel satisfied when you know they made the right decision — even if that decision was no?</div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <div class="block-label">Pillar 4 — Purpose</div>
+      <ul class="checklist" style="padding:0;">
+        <li>
+          <div class="check-icon warn">?</div>
+          <div>On a call where you know early it's not going to close, do you still bring your full presence? Or does the energy drop because the commission is gone?</div>
+        </li>
+        <li>
+          <div class="check-icon warn">?</div>
+          <div>Can you describe the impact of your best sale without mentioning the dollar amount? What changed for that person?</div>
+        </li>
+        <li>
+          <div class="check-icon warn">?</div>
+          <div>When you're in a losing streak, what's the story you tell yourself? Does it center on money, or does it center on finding the people who actually need what you have?</div>
+        </li>
+        <li>
+          <div class="check-icon warn">?</div>
+          <div>Would you do this work if the commission were 20% lower? If not, what would need to be true about your purpose for that to change?</div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SECTION 6: RECALIBRATING -->
+  <section id="recalibrate">
+    <h2>Recalibrating a Broken Pillar</h2>
+
+    <div class="warning">
+      <p><strong>You cannot fix a broken pillar with a technique.</strong> This is the most important thing to understand about this lesson. If your perspective is broken, telling yourself to "be more open-minded on calls" does nothing. The perspective shifts through evidence — through having calls that contradict your assumptions and choosing to update your lens based on them instead of explaining them away.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">For Perspective</div>
+      <p>After every call — win or loss — write down one thing the prospect did that you didn't expect. Not to be positive about it. Just to notice where your lens was wrong. Over time, this builds a more accurate picture of how people actually work versus how you assume they work.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">For Perception</div>
+      <p>Record your calls. Watch them back with the volume off for two minutes. What can you read from the prospect's body language and energy that you didn't notice in the moment? The gap between what you saw live and what you see in the replay is the size of your perception problem. Close that gap call by call.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">For Priority</div>
+      <p>On your next three calls, give yourself one job only: understand this person's actual situation. Don't close. Don't pitch. Just understand. You'll close anyway — but notice how the call feels when the understanding is genuinely first. That feeling is the recalibration.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">For Purpose</div>
+      <p>Find one student, one client, one person whose life changed because of a sale you made. Call them. Talk to them for 20 minutes. Not to get a testimonial — to reconnect with the actual impact. That conversation will do more for your purpose than three months of self-help content.</p>
+    </div>
+
+    <div class="quote-block">
+      <p>"Everyone else teaches you what to say. We teach you how to think. And the Four Pillars are where thinking starts."</p>
+      <div class="attribution">— JJ Hernandez</div>
+    </div>
+  </section>
+
+  <!-- SECTION 7: EXCHANGE -->
+  <section id="exchange">
+    <h2>Call Exchange — Pillars in Action</h2>
+    <p style="font-size:14px;color:#555;margin-bottom:24px;">Same call. Same prospect. Two reps with different pillar alignment. Notice how small the surface-level difference is and how different the outcome is.</p>
+
+    <div class="exchange">
+      <div class="exchange-header">REP A — Misaligned Priority (Sale First) + Broken Perception</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Honestly the program sounds great. I'm just not sure the timing is right. I've got a lot going on right now."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep A</span>
+          <div class="msg-text rep-msg">"I totally hear that, but honestly — there's never going to be a perfect time, right? And the longer you wait, the longer you're leaving money on the table. We do have payment plans that make the investment more manageable, so the timing issue might not be as big as you think."</div>
+          <span class="annotation">Dismissed the objection instead of understanding it. Brought up money when the prospect didn't mention money. Sold past the person.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Yeah, I think I just need to sit on it for a bit. Can I get back to you?"</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep A</span>
+          <div class="msg-text rep-msg">"Of course — I'll send you over some info and follow up in a couple days. Sound good?"</div>
+          <span class="annotation">Conceded. No close. The call is dead. Rep never understood what "timing" actually meant.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-header">REP B — Aligned Priority (Person First) + Active Perception</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Honestly the program sounds great. I'm just not sure the timing is right. I've got a lot going on right now."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep B</span>
+          <div class="msg-text rep-msg">[Pause] "What's going on right now?"</div>
+          <span class="annotation">Three words. No pitch. No reframe. Just curiosity. The prospect now has to actually tell Rep B what the real issue is.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"I'm in the middle of switching jobs, actually. I just left my last sales role and I'm figuring out what's next."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep B</span>
+          <div class="msg-text rep-msg">"Got it. So you're between roles right now — what made you decide to leave?"</div>
+          <span class="annotation">Still not selling. Building the picture. The real context is emerging. Rep B is about to understand this person's actual situation — which is exactly when the right offer becomes obvious.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+</body>
+</html>
