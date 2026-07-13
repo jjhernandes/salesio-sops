@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S4 — Discovery Mastery · Sales.io Training Bible</title>
+<style>
+  :root {
+    --bg: #090908;
+    --surf: #111110;
+    --surf2: #1a1916;
+    --acc: #e2cfa8;
+    --acc-soft: #f0e4c8;
+    --acc-dim: rgba(226,207,168,.07);
+    --acc-b: rgba(226,207,168,.14);
+    --text: #f0ece4;
+    --muted: #8a8475;
+    --faint: #3e3b30;
+    --border: #201f18;
+    --check: #7dcf95;
+    --mono: 'SF Mono','Fira Code','Consolas',monospace;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f2;
+      --surf: #f0ece0;
+      --surf2: #e4dece;
+      --acc: #8a6d3a;
+      --acc-soft: #7a5d2a;
+      --acc-dim: rgba(138,109,58,.07);
+      --acc-b: rgba(138,109,58,.18);
+      --text: #1a1914;
+      --muted: #6a6450;
+      --faint: #c0b898;
+      --border: #ddd8c8;
+      --check: #3a8a52;
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #faf8f2;
+    --surf: #f0ece0;
+    --surf2: #e4dece;
+    --acc: #8a6d3a;
+    --acc-soft: #7a5d2a;
+    --acc-dim: rgba(138,109,58,.07);
+    --acc-b: rgba(138,109,58,.18);
+    --text: #1a1914;
+    --muted: #6a6450;
+    --faint: #c0b898;
+    --border: #ddd8c8;
+    --check: #3a8a52;
+  }
+  :root[data-theme="dark"] {
+    --bg: #090908;
+    --surf: #111110;
+    --surf2: #1a1916;
+    --acc: #e2cfa8;
+    --acc-soft: #f0e4c8;
+    --acc-dim: rgba(226,207,168,.07);
+    --acc-b: rgba(226,207,168,.14);
+    --text: #f0ece4;
+    --muted: #8a8475;
+    --faint: #3e3b30;
+    --border: #201f18;
+    --check: #7dcf95;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100vh;
+    background: var(--surf);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+  }
+  .sidebar-header {
+    padding: 1.5rem 1.25rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-logo {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--acc);
+  }
+  .sidebar-sub {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.2rem;
+  }
+  .sidebar-back {
+    display: block;
+    margin: 0.85rem 1.25rem 0;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .sidebar-back:hover { color: var(--acc); }
+  .sidebar-nav {
+    padding: 0.75rem 0 1.5rem;
+    flex: 1;
+  }
+  .sidebar-nav a {
+    display: block;
+    padding: 0.38rem 1.25rem;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s, background 0.15s;
+    border-left: 2px solid transparent;
+    line-height: 1.5;
+  }
+  .sidebar-nav a:hover {
+    color: var(--text);
+    background: var(--acc-dim);
+  }
+  .sidebar-nav a.active {
+    color: var(--acc);
+    border-left-color: var(--acc);
+    background: var(--acc-dim);
+    font-weight: 600;
+  }
+
+  /* MAIN */
+  .main {
+    margin-left: 220px;
+    padding: 3rem 2.5rem;
+    max-width: 900px;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .section-badge {
+    font-family: var(--mono);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--acc);
+    letter-spacing: 0.05em;
+    line-height: 1;
+    margin-bottom: 0.75rem;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    margin-bottom: 0.6rem;
+    line-height: 1.2;
+  }
+
+  .tagline {
+    color: var(--muted);
+    font-size: 0.925rem;
+    line-height: 1.6;
+    max-width: 560px;
+    margin-bottom: 1.5rem;
+  }
+
+  .chips {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+  }
+  .chip {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.65rem;
+    background: var(--acc-dim);
+    border: 1px solid var(--acc-b);
+    border-radius: 3px;
+    color: var(--acc);
+  }
+
+  /* MODULE TABLE */
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+  thead tr {
+    background: var(--surf2);
+  }
+  thead th {
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.65rem 0.9rem;
+    text-align: left;
+    font-weight: 600;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--border);
+  }
+  tbody tr:nth-child(odd) { background: var(--surf); }
+  tbody tr:nth-child(even) { background: var(--bg); }
+  tbody tr:hover { background: var(--acc-dim); }
+  tbody td {
+    padding: 0.6rem 0.9rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+
+  .col-num {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--faint);
+    white-space: nowrap;
+    width: 2.5rem;
+  }
+  .col-week {
+    width: 3rem;
+  }
+  .week-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+    padding: 0.18rem 0.4rem;
+    background: var(--surf2);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .col-mod {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--faint);
+    width: 3rem;
+    white-space: nowrap;
+  }
+  .col-title {
+    color: var(--text);
+  }
+  .col-status {
+    width: 8rem;
+    white-space: nowrap;
+  }
+  .status-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    background: var(--acc-dim);
+    border: 1px solid var(--acc-b);
+    border-radius: 2px;
+    color: var(--acc);
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 3rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    color: var(--faint);
+  }
+
+  /* MOBILE */
+  @media (max-width: 720px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; padding: 2rem 1.25rem; max-width: 100%; }
+    h1 { font-size: 1.4rem; }
+    .section-badge { font-size: 1.75rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">Sales.io</div>
+    <div class="sidebar-sub">Training Bible</div>
+  </div>
+  <a class="sidebar-back" href="training-bible-index.html">← All Sections</a>
+  <div class="sidebar-nav">
+    <a href="training-bible-s1.html">S1 — Identity &amp; Self-Mastery</a>
+    <a href="training-bible-s2.html">S2 — Human Psychology &amp; Behavior Profiling</a>
+    <a href="training-bible-s3.html">S3 — The 12-Step Sales Process</a>
+    <a href="training-bible-s4.html" class="active">S4 — Discovery Mastery</a>
+    <a href="training-bible-s5.html">S5 — Pitch Architecture</a>
+    <a href="training-bible-s6.html">S6 — Objection Psychology &amp; Handling</a>
+    <a href="training-bible-s7.html">S7 — Advanced Influence &amp; Persuasion</a>
+    <a href="training-bible-s8.html">S8 — Language as Influence</a>
+    <a href="training-bible-s9.html">S9 — Frame Mastery</a>
+    <a href="training-bible-s10.html">S10 — Setting &amp; Lead Generation</a>
+    <a href="training-bible-s11.html">S11 — State Management &amp; Performance</a>
+    <a href="training-bible-s12.html">S12 — Call Review &amp; Continuous Improvement</a>
+    <a href="training-bible-s13.html">S13 — Finding Roles &amp; Making Looms</a>
+  </div>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Sales.io Training Bible</div>
+  <div class="section-badge">S4</div>
+  <h1>Discovery Mastery</h1>
+  <p class="tagline">80% of sales are won or lost here. The pain ladder, priming questions, attention engineering, and the four states.</p>
+
+  <div class="chips">
+    <span class="chip">14 Modules</span>
+    <span class="chip">W3 – W6</span>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Week</th>
+          <th>Mod</th>
+          <th>Title</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-num">01</td>
+          <td class="col-week"><span class="week-badge">W3</span></td>
+          <td class="col-mod">1</td>
+          <td class="col-title">Why Discovery Is Where the Sale Is Won or Lost</td>
+          <td class="col-status"><span class="status-badge">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="col-num">02</td>
+          <td class="col-week"><span class="week-badge">W3</span></td>
+          <td class="col-mod">2</td>
+          <td class="col-title">The Pain Ladder — Surface Situation to Emotional Core</td>
+          <td class="col-status"><span class="status-badge">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="col-num">03</td>
+          <td class="col-week"><span class="week-badge">W3</span></td>
+          <td class="col-mod">3</td>
+          <td class="col-title">The Four States — What Must Be Active Before You Pitch</td>
+          <td class="col-status"><span class="status-badge">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="col-num">04</td>
+          <td class="col-week"><span class="week-badge">W4</span></td>
+          <td class="col-mod">4</td>
+          <td class="col-title">Dissatisfaction Priming — Making the Gap Feel Real</td>
+          <td class="col-status"><span class="status-badge">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="col-num">05</td>
+          <td class="col-week"><span class="week-badge">W4</span></td>
+          <td class="col-mod">5</td>
+          <td class="col-title">Desire Activation — The Future Self Projection Technique</td>
+          <td class="col-status"><span class="status-badge">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="col-num">06</td>
+          <td class="col-week"><span class="week-badge">W4</span></td>
+          <td class="col-mod">6</td>
+          <td class="col-title">Possibility Priming — Building Belief That Change Is Achievable</td>
+          <td class="col-status"><span class="status-badge">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="col-num">07</td>
+          <td class="col-week"><span class="week-badge">W4</span></td>
+          <td class="col-mod">7</td>
+          <td class="col-title">Attention Engineering — What You Make Vivid Gets Bought</td>
+          <td class="col-status"><span class="status-badge">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="col-num">08</td>
+          <td class="col-week"><span class="week-badge">W5</span></td>
+          <td class="col-mod">8</td>
+          <td class="col-title">The Reflect-Before-You-Ask Protocol</td>
+          <td class="col-status"><span class="status-badge">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="col-num">09</td>
+          <td class="col-week"><span class="week-badge">W5</span></td>
+          <td class="col-mod">9</td>
+          <td class="col-title">Intentional Silence — The Most Underused Tool in Sales</td>
+          <td class="col-status"><span class="status-badge">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="col-num">10</td>
+          <td class="col-week"><span class="week-badge">W5</span></td>
+          <td class="col-mod">10</td>
+          <td class="col-title">"Tell Me More About That" — Going Deeper Without Interrogating</td>
+          <td class="col-status"><span class="status-badge">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="col-num">11</td>
+          <td class="col-week"><span class="week-badge">W5</span></td>
+          <td class="col-mod">11</td>
+          <td class="col-title">Cognitive Dissonance in Discovery — Widening the Identity-Reality Gap</td>
+          <td class="col-status"><span class="status-badge">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="col-num">12</td>
+          <td class="col-week"><span class="week-badge">W6</span></td>
+          <td class="col-mod">12</td>
+          <td class="col-title">Discovery Mistakes — What Kills the Close Before the Pitch Starts</td>
+          <td class="col-status"><span class="status-badge">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="col-num">13</td>
+          <td class="col-week"><span class="week-badge">W6</span></td>
+          <td class="col-mod">13</td>
+          <td class="col-title">The Early Objection Surface — Finding the Core Resistance in Discovery</td>
+          <td class="col-status"><span class="status-badge">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="col-num">14</td>
+          <td class="col-week"><span class="week-badge">W6</span></td>
+          <td class="col-mod">14</td>
+          <td class="col-title">Active Listening — Repeat Their Life Better Than They Told It</td>
+          <td class="col-status"><span class="status-badge">Coming Soon</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer">Sales.io Training Bible &middot; salesio.com</div>
+</main>
+
+</body>
+</html>

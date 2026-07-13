@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S1 — Identity & Self-Mastery · Sales.io Training Bible</title>
+<style>
+  :root {
+    --bg:#090908;
+    --surf:#111110;
+    --surf2:#1a1916;
+    --acc:#e2cfa8;
+    --acc-soft:#f0e4c8;
+    --acc-dim:rgba(226,207,168,.07);
+    --acc-b:rgba(226,207,168,.14);
+    --text:#f0ece4;
+    --muted:#8a8475;
+    --faint:#3e3b30;
+    --border:#201f18;
+    --check:#7dcf95;
+    --mono:'SF Mono','Fira Code','Consolas',monospace;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg:#faf8f2;
+      --surf:#f0ece0;
+      --surf2:#e4dece;
+      --acc:#8a6d3a;
+      --acc-soft:#6a5028;
+      --acc-dim:rgba(138,109,58,.07);
+      --acc-b:rgba(138,109,58,.14);
+      --text:#1a1914;
+      --muted:#6a6450;
+      --faint:#c0b898;
+      --border:#ddd8c8;
+      --check:#3a8a52;
+    }
+  }
+  :root[data-theme="light"] {
+    --bg:#faf8f2;
+    --surf:#f0ece0;
+    --surf2:#e4dece;
+    --acc:#8a6d3a;
+    --acc-soft:#6a5028;
+    --acc-dim:rgba(138,109,58,.07);
+    --acc-b:rgba(138,109,58,.14);
+    --text:#1a1914;
+    --muted:#6a6450;
+    --faint:#c0b898;
+    --border:#ddd8c8;
+    --check:#3a8a52;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100vh;
+    background: var(--surf);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-logo {
+    padding: 1.5rem 1.25rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-logo .brand {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-variant: small-caps;
+    letter-spacing: .08em;
+    color: var(--acc);
+    font-weight: 600;
+  }
+
+  .sidebar-logo .sub {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: .06em;
+    margin-top: 2px;
+    text-transform: uppercase;
+  }
+
+  .sidebar-all {
+    padding: .75rem 1.25rem .5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-all a {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    transition: color .15s;
+  }
+
+  .sidebar-all a:hover { color: var(--acc); }
+
+  .sidebar-nav {
+    padding: .75rem 0 1.5rem;
+    flex: 1;
+  }
+
+  .sidebar-nav a {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .4rem 1.25rem;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.4;
+    transition: color .15s, background .15s;
+    border-left: 2px solid transparent;
+  }
+
+  .sidebar-nav a:hover {
+    color: var(--text);
+    background: var(--acc-dim);
+  }
+
+  .sidebar-nav a.active {
+    color: var(--acc);
+    border-left-color: var(--acc);
+    background: var(--acc-dim);
+    font-weight: 500;
+  }
+
+  .sidebar-nav .sec-id {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--faint);
+    min-width: 22px;
+    font-weight: 600;
+    letter-spacing: .02em;
+  }
+
+  .sidebar-nav a.active .sec-id { color: var(--acc); }
+
+  /* MAIN */
+  .main {
+    margin-left: 220px;
+    padding: 3rem 2.5rem;
+    max-width: 900px;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .section-badge {
+    font-family: var(--mono);
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--faint);
+    letter-spacing: -.02em;
+    line-height: 1;
+    margin-bottom: .75rem;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -.02em;
+    line-height: 1.2;
+    margin-bottom: .75rem;
+  }
+
+  .tagline {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.65;
+    max-width: 560px;
+    margin-bottom: 2rem;
+  }
+
+  /* SUMMARY BAR */
+  .summary-bar {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: .875rem 1.25rem;
+    background: var(--surf);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 2rem;
+  }
+
+  .summary-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .summary-stat .label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .summary-stat .value {
+    font-family: var(--mono);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--acc);
+    letter-spacing: -.01em;
+  }
+
+  .summary-divider {
+    width: 1px;
+    height: 28px;
+    background: var(--border);
+  }
+
+  /* TABLE */
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  thead tr {
+    background: var(--surf2);
+  }
+
+  thead th {
+    padding: .625rem 1rem;
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--border);
+  }
+
+  thead th:first-child { padding-left: 1.25rem; border-radius: 8px 0 0 0; }
+  thead th:last-child { border-radius: 0 8px 0 0; }
+
+  tbody tr:nth-child(odd) { background: var(--surf); }
+  tbody tr:nth-child(even) { background: var(--bg); }
+
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:last-child { border-bottom: none; }
+
+  tbody td {
+    padding: .625rem 1rem;
+    color: var(--text);
+    vertical-align: middle;
+    line-height: 1.4;
+  }
+
+  tbody td:first-child { padding-left: 1.25rem; }
+
+  .num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--faint);
+    font-weight: 600;
+  }
+
+  .week-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    color: var(--muted);
+    background: var(--surf2);
+    border: 1px solid var(--faint);
+    border-radius: 3px;
+    padding: 2px 5px;
+    white-space: nowrap;
+  }
+
+  .mod-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .mod-title {
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 400;
+  }
+
+  .badge-soon {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    color: var(--acc);
+    background: var(--acc-dim);
+    border: 1px solid var(--acc-b);
+    border-radius: 3px;
+    padding: 2px 6px;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-left: 220px;
+    padding: 1.5rem 2.5rem;
+    border-top: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--faint);
+    letter-spacing: .06em;
+  }
+
+  /* MOBILE */
+  @media (max-width: 720px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; padding: 1.5rem 1.25rem; max-width: 100%; }
+    .footer { margin-left: 0; padding: 1.25rem; }
+    .section-badge { font-size: 32px; }
+    h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="brand">Sales.io</div>
+    <div class="sub">Training Bible</div>
+  </div>
+  <div class="sidebar-all">
+    <a href="training-bible-index.html">← All Sections</a>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="training-bible-s1.html" class="active"><span class="sec-id">S1</span>Identity & Self-Mastery</a>
+    <a href="training-bible-s2.html"><span class="sec-id">S2</span>Human Psychology & Behavior Profiling</a>
+    <a href="training-bible-s3.html"><span class="sec-id">S3</span>The 12-Step Sales Process</a>
+    <a href="training-bible-s4.html"><span class="sec-id">S4</span>Discovery Mastery</a>
+    <a href="training-bible-s5.html"><span class="sec-id">S5</span>Pitch Architecture</a>
+    <a href="training-bible-s6.html"><span class="sec-id">S6</span>Objection Psychology & Handling</a>
+    <a href="training-bible-s7.html"><span class="sec-id">S7</span>Advanced Influence & Persuasion</a>
+    <a href="training-bible-s8.html"><span class="sec-id">S8</span>Language as Influence</a>
+    <a href="training-bible-s9.html"><span class="sec-id">S9</span>Frame Mastery</a>
+    <a href="training-bible-s10.html"><span class="sec-id">S10</span>Setting & Lead Generation</a>
+    <a href="training-bible-s11.html"><span class="sec-id">S11</span>State Management & Performance</a>
+    <a href="training-bible-s12.html"><span class="sec-id">S12</span>Call Review & Continuous Improvement</a>
+    <a href="training-bible-s13.html"><span class="sec-id">S13</span>Finding Roles & Making Looms</a>
+  </nav>
+</aside>
+
+<main class="main">
+  <div class="eyebrow">Sales.io Training Bible</div>
+  <div class="section-badge">S1</div>
+  <h1>Identity &amp; Self-Mastery</h1>
+  <p class="tagline">The internal foundation. Who you are off your calls is who you are on them. Build this first — everything else is downstream.</p>
+
+  <div class="summary-bar">
+    <div class="summary-stat">
+      <span class="label">Modules</span>
+      <span class="value">18</span>
+    </div>
+    <div class="summary-divider"></div>
+    <div class="summary-stat">
+      <span class="label">Week Range</span>
+      <span class="value">W1–W6</span>
+    </div>
+    <div class="summary-divider"></div>
+    <div class="summary-stat">
+      <span class="label">Section</span>
+      <span class="value">01 / 13</span>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Week</th>
+          <th>Mod</th>
+          <th>Title</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="num">01</td>
+          <td><span class="week-chip">W1</span></td>
+          <td class="mod-num">1</td>
+          <td class="mod-title">Who You Are Off Your Calls Is Who You Are On Them</td>
+          <td><span class="badge-soon">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="num">02</td>
+          <td><span class="week-chip">W1</span></td>
+          <td class="mod-num">2</td>
+          <td class="mod-title">The Four Wounds — How Childhood Shapes Your Close Rate</td>
+          <td><span class="badge-soon">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="num">03</td>
+          <td><span class="week-chip">W1</span></td>
+          <td class="mod-num">3</td>
+          <td class="mod-title">The Mask — Why Salespeople Hide and How to Stop</td>
+          <td><span class="badge-soon">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="num">04</td>
+          <td><span class="week-chip">W2</span></td>
+          <td class="mod-num">4</td>
+          <td class="mod-title">The Internal Narrator — Silencing the Voice That Kills Deals</td>
+          <td><span class="badge-soon">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="num">05</td>
+          <td><span class="week-chip">W2</span></td>
+          <td class="mod-num">5</td>
+          <td class="mod-title">Archetype Activation — Finding Your Authentic Selling Identity</td>
+          <td><span class="badge-soon">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="num">06</td>
+          <td><span class="week-chip">W2</span></td>
+          <td class="mod-num">6</td>
+          <td class="mod-title">Behavioral Magnets — What You Radiate vs. What You Want to Radiate</td>
+          <td><span class="badge-soon">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="num">07</td>
+          <td><span class="week-chip">W3</span></td>
+          <td class="mod-num">7</td>
+          <td class="mod-title">Composure Masterclass — Staying Grounded Under Pressure</td>
+          <td><span class="badge-soon">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="num">08</td>
+          <td><span class="week-chip">W3</span></td>
+          <td class="mod-num">8</td>
+          <td class="mod-title">Confidence vs. Certainty — Performing vs. Being</td>
+          <td><span class="badge-soon">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="num">09</td>
+          <td><span class="week-chip">W3</span></td>
+          <td class="mod-num">9</td>
+          <td class="mod-title">Frames &amp; The Ego — How Your Self-Image Controls Your Frame</td>
+          <td><span class="badge-soon">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="num">10</td>
+          <td><span class="week-chip">W4</span></td>
+          <td class="mod-num">10</td>
+          <td class="mod-title">Limiting Beliefs &amp; The Governors — What Caps Your Income</td>
+          <td><span class="badge-soon">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="num">11</td>
+          <td><span class="week-chip">W4</span></td>
+          <td class="mod-num">11</td>
+          <td class="mod-title">The Emotional Assessment Scale — Where Are You Operating From?</td>
+          <td><span class="badge-soon">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="num">12</td>
+          <td><span class="week-chip">W4</span></td>
+          <td class="mod-num">12</td>
+          <td class="mod-title">Self-Brainwashing — Rewiring Your Identity for Elite Performance</td>
+          <td><span class="badge-soon">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="num">13</td>
+          <td><span class="week-chip">W5</span></td>
+          <td class="mod-num">13</td>
+          <td class="mod-title">Perspective, Perception, Priority, Purpose — The Four Pillars of Clarity</td>
+          <td><span class="badge-soon">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="num">14</td>
+          <td><span class="week-chip">W5</span></td>
+          <td class="mod-num">14</td>
+          <td class="mod-title">True Charisma — What It Is and How to Develop It</td>
+          <td><span class="badge-soon">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="num">15</td>
+          <td><span class="week-chip">W5</span></td>
+          <td class="mod-num">15</td>
+          <td class="mod-title">The Consciousness Levels — Mapping Your Selling State</td>
+          <td><span class="badge-soon">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="num">16</td>
+          <td><span class="week-chip">W6</span></td>
+          <td class="mod-num">16</td>
+          <td class="mod-title">Discipline &amp; Self-Control — The Foundation of Consistency</td>
+          <td><span class="badge-soon">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="num">17</td>
+          <td><span class="week-chip">W6</span></td>
+          <td class="mod-num">17</td>
+          <td class="mod-title">Confused Ancestor Theory — Why Old Programming Doesn't Serve You</td>
+          <td><span class="badge-soon">Coming Soon</span></td>
+        </tr>
+        <tr>
+          <td class="num">18</td>
+          <td><span class="week-chip">W6</span></td>
+          <td class="mod-num">18</td>
+          <td class="mod-title">Life Reboot Protocol (Print and Complete)</td>
+          <td><span class="badge-soon">Coming Soon</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+<footer class="footer">Sales.io Training Bible · salesio.com</footer>
+
+</body>
+</html>

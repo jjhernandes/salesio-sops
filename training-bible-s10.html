@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S10 — Setting & Lead Generation · Sales.io Training Bible</title>
+<style>
+  :root {
+    --bg:#090908; --surf:#111110; --surf2:#1a1916;
+    --acc:#e2cfa8; --acc-soft:#f0e4c8; --acc-dim:rgba(226,207,168,.07); --acc-b:rgba(226,207,168,.14);
+    --text:#f0ece4; --muted:#8a8475; --faint:#3e3b30; --border:#201f18;
+    --mono:'SF Mono','Fira Code','Consolas',monospace;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg:#faf8f2; --surf:#f0ece0; --surf2:#e4dece;
+      --acc:#8a6d3a; --acc-soft:#8a6d3a; --acc-dim:rgba(138,109,58,.07); --acc-b:rgba(138,109,58,.18);
+      --text:#1a1914; --muted:#6a6450; --faint:#c0b898; --border:#ddd8c8;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#090908; --surf:#111110; --surf2:#1a1916;
+    --acc:#e2cfa8; --acc-soft:#f0e4c8; --acc-dim:rgba(226,207,168,.07); --acc-b:rgba(226,207,168,.14);
+    --text:#f0ece4; --muted:#8a8475; --faint:#3e3b30; --border:#201f18;
+  }
+  :root[data-theme="light"] {
+    --bg:#faf8f2; --surf:#f0ece0; --surf2:#e4dece;
+    --acc:#8a6d3a; --acc-soft:#8a6d3a; --acc-dim:rgba(138,109,58,.07); --acc-b:rgba(138,109,58,.18);
+    --text:#1a1914; --muted:#6a6450; --faint:#c0b898; --border:#ddd8c8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 220px;
+    height: 100vh;
+    background: var(--surf);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    z-index: 100;
+    padding: 2rem 0 2rem;
+  }
+  .sidebar-brand {
+    padding: 0 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-brand .wordmark {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-variant: small-caps;
+    letter-spacing: 0.12em;
+    color: var(--acc);
+    text-transform: lowercase;
+    display: block;
+  }
+  .sidebar-brand .sub {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    margin-top: 0.2rem;
+    display: block;
+  }
+  .sidebar-back {
+    display: block;
+    padding: 0.75rem 1.25rem;
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--border);
+    transition: color 0.15s;
+  }
+  .sidebar-back:hover { color: var(--acc); }
+  .sidebar-nav {
+    padding: 0.75rem 0;
+  }
+  .sidebar-nav a {
+    display: block;
+    padding: 0.35rem 1.25rem;
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-decoration: none;
+    line-height: 1.4;
+    transition: color 0.15s;
+    border-left: 2px solid transparent;
+  }
+  .sidebar-nav a:hover { color: var(--text); }
+  .sidebar-nav a.active {
+    color: var(--acc);
+    border-left-color: var(--acc);
+    background: var(--acc-dim);
+  }
+
+  /* MAIN */
+  .main {
+    margin-left: 220px;
+    padding: 3rem 2.5rem 5rem;
+    max-width: calc(220px + 680px);
+  }
+  .content {
+    max-width: 680px;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+    display: block;
+  }
+  .section-badge {
+    font-family: var(--mono);
+    font-size: 2.75rem;
+    color: var(--acc);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 0.6rem;
+    line-height: 1.25;
+  }
+  .tagline {
+    color: var(--muted);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    max-width: 540px;
+  }
+  .chips {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+  }
+  .chip {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.65rem;
+    border: 1px solid var(--acc-b);
+    background: var(--acc-dim);
+    color: var(--acc);
+    border-radius: 3px;
+  }
+
+  /* MODULE TABLE */
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+  }
+  thead tr {
+    background: var(--surf2);
+    border-bottom: 1px solid var(--border);
+  }
+  thead th {
+    font-family: var(--mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.65rem 0.85rem;
+    text-align: left;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.1s;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:nth-child(odd)  { background: var(--surf); }
+  tbody tr:nth-child(even) { background: var(--bg); }
+  tbody tr:hover { background: var(--surf2); }
+
+  td { padding: 0.7rem 0.85rem; vertical-align: middle; }
+
+  .col-num {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--faint);
+    width: 36px;
+    white-space: nowrap;
+  }
+  .col-week {
+    width: 52px;
+    white-space: nowrap;
+  }
+  .week-chip {
+    font-family: var(--mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.06em;
+    padding: 0.2rem 0.45rem;
+    border: 1px solid var(--faint);
+    color: var(--muted);
+    border-radius: 3px;
+    display: inline-block;
+    white-space: nowrap;
+  }
+  .col-mod {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--faint);
+    width: 42px;
+    white-space: nowrap;
+  }
+  .col-title {
+    font-size: 0.875rem;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .col-status {
+    width: 110px;
+    white-space: nowrap;
+  }
+  .status-badge {
+    font-family: var(--mono);
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.55rem;
+    background: var(--acc-dim);
+    border: 1px solid var(--acc-b);
+    color: var(--acc);
+    border-radius: 2px;
+    display: inline-block;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 0.55rem;
+    color: var(--faint);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* MOBILE */
+  @media (max-width: 720px) {
+    .sidebar { display: none; }
+    .main {
+      margin-left: 0;
+      padding: 1.25rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <span class="wordmark">Sales.io</span>
+    <span class="sub">Training Bible</span>
+  </div>
+  <a href="training-bible-index.html" class="sidebar-back">← All Sections</a>
+  <div class="sidebar-nav">
+    <a href="training-bible-s1.html">S1 Identity &amp; Self-Mastery</a>
+    <a href="training-bible-s2.html">S2 Human Psychology &amp; Behavior Profiling</a>
+    <a href="training-bible-s3.html">S3 The 12-Step Sales Process</a>
+    <a href="training-bible-s4.html">S4 Discovery Mastery</a>
+    <a href="training-bible-s5.html">S5 Pitch Architecture</a>
+    <a href="training-bible-s6.html">S6 Objection Psychology &amp; Handling</a>
+    <a href="training-bible-s7.html">S7 Advanced Influence &amp; Persuasion</a>
+    <a href="training-bible-s8.html">S8 Language as Influence</a>
+    <a href="training-bible-s9.html">S9 Frame Mastery</a>
+    <a href="training-bible-s10.html" class="active">S10 Setting &amp; Lead Generation</a>
+    <a href="training-bible-s11.html">S11 State Management &amp; Performance</a>
+    <a href="training-bible-s12.html">S12 Call Review &amp; Continuous Improvement</a>
+    <a href="training-bible-s13.html">S13 Finding Roles &amp; Making Looms</a>
+  </div>
+</nav>
+
+<main class="main">
+  <div class="content">
+    <span class="eyebrow">Sales.io Training Bible</span>
+    <span class="section-badge">S10</span>
+    <h1>Setting &amp; Lead Generation</h1>
+    <p class="tagline">LinkedIn DMs, cold calling, qualification, booking confirmation, and the handoff to the closer.</p>
+    <div class="chips">
+      <span class="chip">10 Modules</span>
+      <span class="chip">W2 – W5</span>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Week</th>
+            <th>Mod</th>
+            <th>Title</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="col-num">01</td>
+            <td class="col-week"><span class="week-chip">W2</span></td>
+            <td class="col-mod">1</td>
+            <td class="col-title">The Setter's Role in the Sales Architecture</td>
+            <td class="col-status"><span class="status-badge">Coming Soon</span></td>
+          </tr>
+          <tr>
+            <td class="col-num">02</td>
+            <td class="col-week"><span class="week-chip">W2</span></td>
+            <td class="col-mod">2</td>
+            <td class="col-title">LinkedIn DM Setting — First Message to Booked Call</td>
+            <td class="col-status"><span class="status-badge">Coming Soon</span></td>
+          </tr>
+          <tr>
+            <td class="col-num">03</td>
+            <td class="col-week"><span class="week-chip">W2</span></td>
+            <td class="col-mod">3</td>
+            <td class="col-title">Cold Calling Fundamentals — Pattern Interrupt Openers</td>
+            <td class="col-status"><span class="status-badge">Coming Soon</span></td>
+          </tr>
+          <tr>
+            <td class="col-num">04</td>
+            <td class="col-week"><span class="week-chip">W3</span></td>
+            <td class="col-mod">4</td>
+            <td class="col-title">Tonality in Setting — Authority Before They Meet the Closer</td>
+            <td class="col-status"><span class="status-badge">Coming Soon</span></td>
+          </tr>
+          <tr>
+            <td class="col-num">05</td>
+            <td class="col-week"><span class="week-chip">W3</span></td>
+            <td class="col-mod">5</td>
+            <td class="col-title">Qualifying on the Set — What to Know Before Booking</td>
+            <td class="col-status"><span class="status-badge">Coming Soon</span></td>
+          </tr>
+          <tr>
+            <td class="col-num">06</td>
+            <td class="col-week"><span class="week-chip">W3</span></td>
+            <td class="col-mod">6</td>
+            <td class="col-title">Setter Objections — "I'm Not Interested" and What Comes After</td>
+            <td class="col-status"><span class="status-badge">Coming Soon</span></td>
+          </tr>
+          <tr>
+            <td class="col-num">07</td>
+            <td class="col-week"><span class="week-chip">W4</span></td>
+            <td class="col-mod">7</td>
+            <td class="col-title">The Booking Confirmation — Reducing No-Shows to Near Zero</td>
+            <td class="col-status"><span class="status-badge">Coming Soon</span></td>
+          </tr>
+          <tr>
+            <td class="col-num">08</td>
+            <td class="col-week"><span class="week-chip">W4</span></td>
+            <td class="col-mod">8</td>
+            <td class="col-title">Handoff Protocol — What the Closer Needs Before Every Call</td>
+            <td class="col-status"><span class="status-badge">Coming Soon</span></td>
+          </tr>
+          <tr>
+            <td class="col-num">09</td>
+            <td class="col-week"><span class="week-chip">W4</span></td>
+            <td class="col-mod">9</td>
+            <td class="col-title">Setting Metrics — Connect Rate, Booking Rate, Show Rate</td>
+            <td class="col-status"><span class="status-badge">Coming Soon</span></td>
+          </tr>
+          <tr>
+            <td class="col-num">10</td>
+            <td class="col-week"><span class="week-chip">W5</span></td>
+            <td class="col-mod">10</td>
+            <td class="col-title">Volume vs. Quality — The KPIs That Actually Matter for Setters</td>
+            <td class="col-status"><span class="status-badge">Coming Soon</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="footer">Sales.io Training Bible · salesio.com</footer>
+  </div>
+</main>
+
+</body>
+</html>

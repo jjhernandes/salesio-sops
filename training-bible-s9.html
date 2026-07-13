@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S9 — Frame Mastery · Sales.io Training Bible</title>
+<style>
+  :root {
+    --bg: #090908;
+    --surf: #111110;
+    --surf2: #1a1916;
+    --acc: #e2cfa8;
+    --acc-soft: #f0e4c8;
+    --acc-dim: rgba(226,207,168,.07);
+    --acc-b: rgba(226,207,168,.14);
+    --text: #f0ece4;
+    --muted: #8a8475;
+    --faint: #3e3b30;
+    --border: #201f18;
+    --mono: 'SF Mono','Fira Code','Consolas',monospace;
+  }
+  :root[data-theme="light"] {
+    --bg: #faf8f2;
+    --surf: #f0ece0;
+    --surf2: #e4dece;
+    --acc: #8a6d3a;
+    --acc-soft: #8a6d3a;
+    --acc-dim: rgba(138,109,58,.07);
+    --acc-b: rgba(138,109,58,.18);
+    --text: #1a1914;
+    --muted: #6a6450;
+    --faint: #c0b898;
+    --border: #ddd8c8;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #faf8f2;
+      --surf: #f0ece0;
+      --surf2: #e4dece;
+      --acc: #8a6d3a;
+      --acc-soft: #8a6d3a;
+      --acc-dim: rgba(138,109,58,.07);
+      --acc-b: rgba(138,109,58,.18);
+      --text: #1a1914;
+      --muted: #6a6450;
+      --faint: #c0b898;
+      --border: #ddd8c8;
+    }
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100vh;
+    background: var(--surf);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 0 2rem;
+    z-index: 100;
+  }
+
+  .sidebar-brand {
+    padding: 0 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1.25rem;
+  }
+
+  .sidebar-logo {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: small-caps;
+    color: var(--acc);
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+
+  .sidebar-sub {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .sidebar-back {
+    display: block;
+    padding: 0 1.25rem;
+    margin-bottom: 1rem;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.15s;
+  }
+  .sidebar-back:hover { color: var(--acc); }
+
+  .sidebar-nav {
+    list-style: none;
+    flex: 1;
+  }
+
+  .sidebar-nav li a {
+    display: block;
+    padding: 0.35rem 1.25rem;
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-decoration: none;
+    line-height: 1.4;
+    transition: color 0.15s, background 0.15s;
+    border-left: 2px solid transparent;
+  }
+  .sidebar-nav li a:hover {
+    color: var(--text);
+    background: var(--acc-dim);
+  }
+  .sidebar-nav li.active a {
+    color: var(--acc);
+    border-left-color: var(--acc);
+    background: var(--acc-dim);
+  }
+
+  /* MAIN CONTENT */
+  .main {
+    margin-left: 220px;
+    padding: 3rem 2.5rem 5rem;
+    max-width: calc(220px + 680px);
+  }
+
+  .content {
+    max-width: 680px;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .section-badge {
+    font-family: var(--mono);
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--acc);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 0.75rem;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    margin-bottom: 0.75rem;
+  }
+
+  .tagline {
+    color: var(--muted);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    max-width: 560px;
+  }
+
+  .chips {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .chip {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    background: var(--surf2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 0.25rem 0.6rem;
+    text-transform: uppercase;
+  }
+
+  /* MODULE TABLE */
+  .table-wrap {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+
+  thead tr {
+    background: var(--surf2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  thead th {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    padding: 0.65rem 0.75rem;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  thead th:first-child { padding-left: 1rem; }
+  thead th:last-child { padding-right: 1rem; }
+
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.12s;
+  }
+
+  tbody tr:hover { background: var(--surf2); }
+
+  tbody td {
+    padding: 0.7rem 0.75rem;
+    vertical-align: middle;
+  }
+
+  tbody td:first-child { padding-left: 1rem; }
+  tbody td:last-child { padding-right: 1rem; }
+
+  .col-num {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--faint);
+    white-space: nowrap;
+  }
+
+  .week-badge {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--faint);
+    background: var(--surf);
+    border: 1px solid var(--faint);
+    border-radius: 2px;
+    padding: 0.1rem 0.35rem;
+    white-space: nowrap;
+    letter-spacing: 0.04em;
+  }
+
+  .col-mod {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--faint);
+    text-align: center;
+  }
+
+  .col-title {
+    color: var(--text);
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.45;
+  }
+
+  .status-badge {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--acc);
+    background: var(--acc-dim);
+    border: 1px solid var(--acc-b);
+    border-radius: 2px;
+    padding: 0.1rem 0.4rem;
+    white-space: nowrap;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--faint);
+    letter-spacing: 0.06em;
+  }
+
+  /* MOBILE */
+  @media (max-width: 720px) {
+    .sidebar { display: none; }
+    .main {
+      margin-left: 0;
+      padding: 2rem 1.25rem 4rem;
+      max-width: 100%;
+    }
+    .content { max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <span class="sidebar-logo">Sales.io</span>
+    <span class="sidebar-sub">Training Bible</span>
+  </div>
+  <a class="sidebar-back" href="training-bible-index.html">← All Sections</a>
+  <ul class="sidebar-nav">
+    <li><a href="training-bible-s1.html">S1 Identity &amp; Self-Mastery</a></li>
+    <li><a href="training-bible-s2.html">S2 Human Psychology &amp; Behavior Profiling</a></li>
+    <li><a href="training-bible-s3.html">S3 The 12-Step Sales Process</a></li>
+    <li><a href="training-bible-s4.html">S4 Discovery Mastery</a></li>
+    <li><a href="training-bible-s5.html">S5 Pitch Architecture</a></li>
+    <li><a href="training-bible-s6.html">S6 Objection Psychology &amp; Handling</a></li>
+    <li><a href="training-bible-s7.html">S7 Advanced Influence &amp; Persuasion</a></li>
+    <li><a href="training-bible-s8.html">S8 Language as Influence</a></li>
+    <li class="active"><a href="training-bible-s9.html">S9 Frame Mastery</a></li>
+    <li><a href="training-bible-s10.html">S10 Setting &amp; Lead Generation</a></li>
+    <li><a href="training-bible-s11.html">S11 State Management &amp; Performance</a></li>
+    <li><a href="training-bible-s12.html">S12 Call Review &amp; Continuous Improvement</a></li>
+    <li><a href="training-bible-s13.html">S13 Finding Roles &amp; Making Looms</a></li>
+  </ul>
+</nav>
+
+<main class="main">
+  <div class="content">
+    <p class="eyebrow">Sales.io Training Bible</p>
+    <div class="section-badge">S9</div>
+    <h1>Frame Mastery</h1>
+    <p class="tagline">The strongest frame always wins. Know which frame you're running, hold it under pressure, and recover without yielding.</p>
+    <div class="chips">
+      <span class="chip">9 Modules</span>
+      <span class="chip">W12</span>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Week</th>
+            <th>Mod</th>
+            <th>Title</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="col-num">01</td>
+            <td><span class="week-badge">W12</span></td>
+            <td class="col-mod">1</td>
+            <td class="col-title">What a Frame Is — And Why the Strongest Frame Always Wins</td>
+            <td><span class="status-badge">Coming Soon</span></td>
+          </tr>
+          <tr>
+            <td class="col-num">02</td>
+            <td><span class="week-badge">W12</span></td>
+            <td class="col-mod">2</td>
+            <td class="col-title">The Five Frames — Power, Time, Analyst, Prize, Detachment</td>
+            <td><span class="status-badge">Coming Soon</span></td>
+          </tr>
+          <tr>
+            <td class="col-num">03</td>
+            <td><span class="week-badge">W12</span></td>
+            <td class="col-mod">3</td>
+            <td class="col-title">Identifying Your Default Frame — What Are You Actually Running?</td>
+            <td><span class="status-badge">Coming Soon</span></td>
+          </tr>
+          <tr>
+            <td class="col-num">04</td>
+            <td><span class="week-badge">W12</span></td>
+            <td class="col-mod">4</td>
+            <td class="col-title">Frame Collision — Absorb, Validate, Redirect Without Yielding</td>
+            <td><span class="status-badge">Coming Soon</span></td>
+          </tr>
+          <tr>
+            <td class="col-num">05</td>
+            <td><span class="week-badge">W12</span></td>
+            <td class="col-mod">5</td>
+            <td class="col-title">The Detachment Close — The Most Powerful Sentence in Sales</td>
+            <td><span class="status-badge">Coming Soon</span></td>
+          </tr>
+          <tr>
+            <td class="col-num">06</td>
+            <td><span class="week-badge">W12</span></td>
+            <td class="col-mod">6</td>
+            <td class="col-title">"I'd Rather Lose the Sale Than Lose the Frame"</td>
+            <td><span class="status-badge">Coming Soon</span></td>
+          </tr>
+          <tr>
+            <td class="col-num">07</td>
+            <td><span class="week-badge">W12</span></td>
+            <td class="col-mod">7</td>
+            <td class="col-title">Certainty Transfer — Your Belief in the Outcome Is the Product</td>
+            <td><span class="status-badge">Coming Soon</span></td>
+          </tr>
+          <tr>
+            <td class="col-num">08</td>
+            <td><span class="week-badge">W12</span></td>
+            <td class="col-mod">8</td>
+            <td class="col-title">The Frame Attack Drill — Holding State Under 5 Consecutive Challenges</td>
+            <td><span class="status-badge">Coming Soon</span></td>
+          </tr>
+          <tr>
+            <td class="col-num">09</td>
+            <td><span class="week-badge">W12</span></td>
+            <td class="col-mod">9</td>
+            <td class="col-title">Frame Mastery Integration — All Five Frames Running Simultaneously</td>
+            <td><span class="status-badge">Coming Soon</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="footer">Sales.io Training Bible · salesio.com</div>
+  </div>
+</main>
+
+</body>
+</html>
