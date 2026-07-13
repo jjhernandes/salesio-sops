@@ -1,0 +1,563 @@
+
+<title>Coaching Recap — Kevin Bass · Jul 13</title>
+<style>
+  :root {
+    --bg: #090908;
+    --surface: #111110;
+    --surface-2: #1a1916;
+    --accent: #e2cfa8;
+    --accent-soft: #f0e4c8;
+    --accent-dim: rgba(226,207,168,.07);
+    --accent-border: rgba(226,207,168,.14);
+    --text: #f0ece4;
+    --text-muted: #8a8475;
+    --text-faint: #3e3b30;
+    --border: #201f18;
+    --check: #7dcf95;
+    --check-dim: rgba(125,207,149,.08);
+    --mono: 'SF Mono','Fira Code','Consolas',monospace;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f2; --surface: #f0ece0; --surface-2: #e4dece;
+      --accent: #8a6d3a; --accent-soft: #6b5228;
+      --accent-dim: rgba(138,109,58,.07); --accent-border: rgba(138,109,58,.2);
+      --text: #1a1914; --text-muted: #6a6450; --text-faint: #c0b898;
+      --border: #ddd8c8; --check: #2a7a45; --check-dim: rgba(42,122,69,.07);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#090908;--surface:#111110;--surface-2:#1a1916;
+    --accent:#e2cfa8;--accent-soft:#f0e4c8;
+    --accent-dim:rgba(226,207,168,.07);--accent-border:rgba(226,207,168,.14);
+    --text:#f0ece4;--text-muted:#8a8475;--text-faint:#3e3b30;
+    --border:#201f18;--check:#7dcf95;--check-dim:rgba(125,207,149,.08);
+  }
+  :root[data-theme="light"] {
+    --bg:#faf8f2;--surface:#f0ece0;--surface-2:#e4dece;
+    --accent:#8a6d3a;--accent-soft:#6b5228;
+    --accent-dim:rgba(138,109,58,.07);--accent-border:rgba(138,109,58,.2);
+    --text:#1a1914;--text-muted:#6a6450;--text-faint:#c0b898;
+    --border:#ddd8c8;--check:#2a7a45;--check-dim:rgba(42,122,69,.07);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{font-size:16px;scroll-behavior:smooth;}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    font-size:.9375rem;line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .doc-header{
+    max-width:760px;margin:0 auto;
+    padding:3rem 2rem 2.5rem;
+    border-bottom:1px solid var(--border);
+  }
+  .eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:.875rem;
+  }
+  .doc-title{
+    font-size:1.875rem;font-weight:700;
+    letter-spacing:-.03em;line-height:1.2;
+    color:var(--text);margin-bottom:.25rem;
+  }
+  .meta-row{
+    display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.125rem;
+  }
+  .meta-chip{
+    display:flex;align-items:center;gap:.4rem;
+    font-family:var(--mono);font-size:.6875rem;
+    color:var(--text-muted);background:var(--surface);
+    border:1px solid var(--border);border-radius:2px;padding:.25rem .625rem;
+  }
+  .meta-chip-dot{
+    width:4px;height:4px;border-radius:50%;
+    background:var(--accent);flex-shrink:0;
+  }
+
+  main{max-width:760px;margin:0 auto;padding:0 2rem 5rem;}
+
+  .section{padding:2.25rem 0 1.75rem;border-bottom:1px solid var(--border);}
+  .section:last-child{border-bottom:none;}
+  .sec-eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.12em;text-transform:uppercase;
+    color:var(--text-faint);margin-bottom:.75rem;
+  }
+  .sec-title{
+    font-size:1.0625rem;font-weight:650;
+    color:var(--text);letter-spacing:-.015em;margin-bottom:1.25rem;
+  }
+
+  /* ── First call card ── */
+  .first-call-card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:3px;overflow:hidden;
+  }
+  .first-call-head{
+    padding:.875rem 1.125rem;background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+    display:flex;justify-content:space-between;align-items:center;
+    flex-wrap:wrap;gap:.5rem;
+  }
+  .first-call-title{
+    font-size:.9375rem;font-weight:650;color:var(--text);
+  }
+  .badge-pending{
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent);background:var(--accent-dim);
+    border:1px solid var(--accent-border);
+    border-radius:2px;padding:.15rem .5rem;
+  }
+  .first-call-body{
+    padding:.875rem 1.125rem;
+    display:flex;flex-direction:column;gap:.4rem;
+  }
+  .call-row{
+    display:flex;align-items:flex-start;gap:.75rem;
+    font-size:.875rem;color:var(--text-muted);line-height:1.5;
+  }
+  .call-key{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.06em;text-transform:uppercase;
+    color:var(--text-faint);flex-shrink:0;min-width:5rem;margin-top:.15rem;
+  }
+
+  .callout{
+    padding:.75rem 1rem;
+    background:var(--accent-dim);border:1px solid var(--accent-border);
+    border-radius:2px;font-size:.875rem;color:var(--text-muted);line-height:1.6;
+    margin-top:.875rem;
+  }
+  .callout strong{color:var(--accent-soft);}
+
+  /* ── Consciousness map ── */
+  .map-block{
+    border:1px solid var(--border);border-radius:3px;overflow:hidden;
+  }
+  .map-head{
+    padding:.9375rem 1.125rem;background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+  }
+  .map-label{
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.1em;text-transform:uppercase;
+    color:var(--accent);opacity:.65;margin-bottom:.2rem;
+  }
+  .map-title{
+    font-size:.9375rem;font-weight:650;color:var(--text);letter-spacing:-.01em;
+  }
+  .map-source{
+    font-size:.8125rem;color:var(--text-faint);margin-top:.15rem;
+  }
+  .map-body{padding:.9375rem 1.125rem;background:var(--surface);}
+
+  .level-row{
+    display:flex;align-items:stretch;gap:0;
+    margin-bottom:.375rem;border:1px solid var(--border);border-radius:2px;overflow:hidden;
+  }
+  .level-row:last-child{margin-bottom:0;}
+  .level-tag{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    padding:.5rem .75rem;min-width:6.5rem;
+    display:flex;align-items:center;flex-shrink:0;
+    border-right:1px solid var(--border);
+    font-weight:600;
+  }
+  .level-low .level-tag{color:#f87171;background:rgba(248,113,113,.06);}
+  .level-mid .level-tag{color:var(--accent);background:var(--accent-dim);}
+  .level-high .level-tag{color:var(--check);background:var(--check-dim);}
+  .level-kev .level-tag{
+    color:#a78bfa;background:rgba(167,139,250,.08);
+    border-right-color:rgba(167,139,250,.2);
+  }
+  .level-jj .level-tag{
+    color:#38bdf8;background:rgba(56,189,248,.07);
+    border-right-color:rgba(56,189,248,.18);
+  }
+  .level-desc{
+    padding:.5rem .875rem;font-size:.8125rem;color:var(--text-muted);
+    line-height:1.5;display:flex;align-items:center;
+  }
+  .level-note{
+    margin-left:auto;padding:.5rem .75rem;
+    font-size:.75rem;color:var(--text-faint);font-style:italic;
+    border-left:1px solid var(--border);
+    display:flex;align-items:center;min-width:10rem;
+    line-height:1.4;
+  }
+
+  .map-insight{
+    margin-top:.875rem;padding:.75rem 1rem;
+    background:var(--accent-dim);border:1px solid var(--accent-border);
+    border-radius:2px;font-size:.875rem;color:var(--text-muted);line-height:1.6;
+  }
+  .map-insight strong{color:var(--accent-soft);}
+
+  /* ── Moments ── */
+  .moment{
+    margin-bottom:.625rem;
+    border:1px solid var(--border);border-radius:3px;overflow:hidden;
+  }
+  .moment-head{
+    display:flex;align-items:flex-start;gap:.875rem;
+    padding:.9375rem 1.125rem;background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+  }
+  .moment-num{
+    font-family:var(--mono);font-size:.625rem;
+    letter-spacing:.08em;color:var(--accent);opacity:.55;
+    flex-shrink:0;margin-top:.15rem;min-width:1.5rem;
+  }
+  .moment-title{
+    font-size:.9375rem;font-weight:650;
+    color:var(--text);letter-spacing:-.01em;line-height:1.3;
+  }
+  .moment-body{
+    padding:.9375rem 1.125rem;background:var(--surface);
+  }
+  .moment-p{
+    font-size:.875rem;color:var(--text-muted);
+    line-height:1.65;margin-bottom:.625rem;
+  }
+  .moment-p:last-child{margin-bottom:0;}
+  .moment-p strong{color:var(--text);font-weight:600;}
+
+  .quote-block{
+    margin:.75rem 0;padding:.75rem 1rem;
+    background:var(--accent-dim);border-left:2px solid var(--accent);
+    border-radius:0 2px 2px 0;
+    font-size:.875rem;color:var(--accent-soft);
+    line-height:1.6;font-style:italic;
+  }
+  .quote-attr{
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--text-faint);margin-top:.35rem;font-style:normal;
+  }
+
+  /* ── Schedule ── */
+  .schedule-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+  .sched-card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:3px;overflow:hidden;
+  }
+  .sched-head{
+    padding:.625rem .875rem;background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .sched-name{font-size:.875rem;font-weight:650;color:var(--text);}
+  .sched-time{
+    font-family:var(--mono);font-size:.65rem;
+    color:var(--accent);letter-spacing:.04em;
+  }
+  .sched-body{
+    padding:.625rem .875rem;font-size:.8125rem;color:var(--text-muted);
+    line-height:1.5;
+  }
+
+  /* ── Action items ── */
+  .action-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+  .action-item{
+    display:flex;align-items:flex-start;gap:.75rem;
+    padding:.75rem .875rem;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:3px;font-size:.875rem;color:var(--text-muted);line-height:1.5;
+  }
+  .action-owner{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent);opacity:.7;flex-shrink:0;
+    margin-top:.15rem;min-width:2.5rem;
+  }
+
+  .doc-footer{
+    max-width:760px;margin:0 auto;
+    padding:1.5rem 2rem;border-top:1px solid var(--border);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);
+  }
+
+  @media(max-width:600px){
+    .doc-header,main{padding-left:1.25rem;padding-right:1.25rem;}
+    .doc-title{font-size:1.5rem;}
+    .schedule-grid,.action-grid{grid-template-columns:1fr;}
+    .level-note{display:none;}
+  }
+</style>
+
+<div class="doc-header">
+  <div class="eyebrow">Sales.io — Coaching Recap</div>
+  <h1 class="doc-title">Kevin Bass</h1>
+  <div class="meta-row">
+    <div class="meta-chip"><div class="meta-chip-dot"></div>July 13, 2026</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>~29 min</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Lesson 1 — Map of Consciousness</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>First calls on new offer</div>
+  </div>
+</div>
+
+<main>
+
+  <!-- First call debrief -->
+  <div class="section">
+    <div class="sec-eyebrow">First Call Update</div>
+    <h2 class="sec-title">Almost a close — follow-up tomorrow</h2>
+    <div class="first-call-card">
+      <div class="first-call-head">
+        <div class="first-call-title">Call #1 — Prospect very bought in, financing pending</div>
+        <div class="badge-pending">Follow-up Tomorrow</div>
+      </div>
+      <div class="first-call-body">
+        <div class="call-row">
+          <div class="call-key">Duration</div>
+          2 hours — one of the longest first calls
+        </div>
+        <div class="call-row">
+          <div class="call-key">Status</div>
+          Tried 3 financing options — none went through. Reconvening tomorrow. Worst case: downgrade to lower tier, which prospect has already agreed to
+        </div>
+        <div class="call-row">
+          <div class="call-key">Prospect state</div>
+          As bought in as possible. Kevin: "I don't think it could have been more bought in if I was just handing him a million dollars"
+        </div>
+        <div class="call-row">
+          <div class="call-key">Recording</div>
+          Fathom didn't record — Kevin sent Zoom link via text. JJ to confirm receipt; Kevin will download and email if needed
+        </div>
+        <div class="call-row">
+          <div class="call-key">Call #2</div>
+          Taken but no details shared. Kevin has completed 2 calls total on the new offer
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Map of Consciousness -->
+  <div class="section">
+    <div class="sec-eyebrow">Lesson 1</div>
+    <h2 class="sec-title">Map of Consciousness</h2>
+
+    <div class="map-block">
+      <div class="map-head">
+        <div class="map-label">Framework — David Hawkins</div>
+        <div class="map-title">Where you operate determines what you're capable of</div>
+        <div class="map-source">Source: <em>Letting Go</em> by David Hawkins — referenced by JJ</div>
+      </div>
+      <div class="map-body">
+        <div class="level-row level-low">
+          <div class="level-tag">Shame / Guilt</div>
+          <div class="level-desc">Lowest. Usually tied to deep identity wounds, dishonesty, hiding.</div>
+          <div class="level-note">Where liars and people lacking integrity typically operate</div>
+        </div>
+        <div class="level-row level-low">
+          <div class="level-tag">Apathy / Fear</div>
+          <div class="level-desc">Stuck. Afraid of not growing, not landing a role, not being enough. Paralysis.</div>
+          <div class="level-note">Common entry state for struggling reps</div>
+        </div>
+        <div class="level-row level-mid">
+          <div class="level-tag">Desire</div>
+          <div class="level-desc">Push mechanism. Wanting more money, wanting to be better than everyone. Can drive results but collapses at the top.</div>
+          <div class="level-note">Can reach 30–50K/mo, then loses the why</div>
+        </div>
+        <div class="level-row level-mid">
+          <div class="level-tag">Anger</div>
+          <div class="level-desc">Also a push mechanism. Fuel, but burns dirty. Similar ceiling to desire — sustainable only so long.</div>
+          <div class="level-note">Most sales reps cycle here</div>
+        </div>
+        <div class="level-row level-mid">
+          <div class="level-tag">Pride</div>
+          <div class="level-desc">JJ: "Genuinely the worst." Blocks all coaching. Person is right even when they're wrong. JJ has cut students operating here.</div>
+          <div class="level-note">Heavy, low energy. Coachability = zero</div>
+        </div>
+        <div class="level-row level-high">
+          <div class="level-tag">Courage</div>
+          <div class="level-desc">First level above the line. Willingness to act, to be wrong, to try.</div>
+          <div class="level-note">Where growth becomes possible</div>
+        </div>
+        <div class="level-row level-high">
+          <div class="level-tag">Neutrality</div>
+          <div class="level-desc">Things happen, you process them without spiraling. Not numb — grounded.</div>
+          <div class="level-note"></div>
+        </div>
+        <div class="level-row level-kev">
+          <div class="level-tag">Reason ← Kevin</div>
+          <div class="level-desc">Kevin's self-identified baseline. Lost a sale? There's a reason. Bad day? A reason. Nothing becomes purely emotional — it becomes logical and traceable.</div>
+          <div class="level-note">Kevin's default mode — JJ confirmed this</div>
+        </div>
+        <div class="level-row level-kev">
+          <div class="level-tag">Acceptance</div>
+          <div class="level-desc">Also Kevin's range. Things are as they are. No need to fight or inflate.</div>
+          <div class="level-note"></div>
+        </div>
+        <div class="level-row level-jj">
+          <div class="level-tag">Love ← JJ / Jalen</div>
+          <div class="level-desc">Genuine care for the person in front of you. Felt energetically, not performed. What makes prospects say "this feels different."</div>
+          <div class="level-note">JJ's target operating state on calls</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-insight">
+      <strong>Kevin's profile:</strong> Rare. 99% of sales reps operate at Pride, Anger, Desire, or Fear. Kevin is already at Reason and Acceptance — which means he loses sales without emotional spiraling, processes feedback without defensiveness, and is naturally coachable. His biggest down-trigger is dishonesty from others (brings him from Reason toward Anger) — and crucially, he does <em>not</em> tie his self-worth to his commission numbers. JJ flagged this as one of the most common failure patterns in reps he coaches.
+    </div>
+  </div>
+
+  <!-- Key coaching moments -->
+  <div class="section">
+    <div class="sec-eyebrow">Coaching Moments</div>
+    <h2 class="sec-title">What was worked through</h2>
+
+    <div class="moment">
+      <div class="moment-head">
+        <div class="moment-num">01</div>
+        <div class="moment-title">Don't tie your value to your commissions</div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">JJ asked what brings Kevin up and down on the map. Kevin didn't mention his numbers once. JJ noticed this and called it out — because most reps do the opposite: low numbers = low self-worth = low energy = worse calls = lower numbers.</div>
+        <div class="quote-block">
+          "We cannot attribute our value to our commissions and the number in our bank account. Even when I was broke, I wasn't much different than the man I am now."
+          <div class="quote-attr">JJ Hernandez</div>
+        </div>
+        <div class="moment-p">JJ's point: money reveals and amplifies, it doesn't create. The things that make him laugh, how he connects with people — that didn't change with income. The peace comes from not needing to keep up with the Joneses. Kevin already lives this way. That's a real edge.</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head">
+        <div class="moment-num">02</div>
+        <div class="moment-title">Environment shapes your operating level</div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">JJ's office: he walked into the first (smaller, cheaper) space and immediately said "I'm not working here." Paid more for windows and better energy. The $2K/month upgrade was worth it — zero distractions, no TV, no desk yet (still on a stool), but the energy is right.</div>
+        <div class="moment-p">For Kevin, who has worked remotely his whole career and is comfortable in his setup: the bigger environmental shift comes from the Sales.io community itself — coaching calls, people on the same path, connection. That replaces the office energy for someone working from home.</div>
+        <div class="quote-block">
+          "If you come here and you're inspired by what's happening around you, your energy's always going to be higher. Every single time."
+          <div class="quote-attr">JJ Hernandez</div>
+        </div>
+        <div class="moment-p">Kevin's home environment is coming back up after some personal house-related things. Dogs, wife, kids on calls — all elevate him. The community is the next layer.</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head">
+        <div class="moment-num">03</div>
+        <div class="moment-title">Who you are off the call is who you are on the call</div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">Kevin's time and attention is focused professionally — follows through on work tasks, has had that discipline even working from home with young kids. Personally, lower-urgency items (like moving furniture) take a while. JJ flagged the connection:</div>
+        <div class="quote-block">
+          "Who you are on your sales calls is who you are off your sales calls."
+          <div class="quote-attr">JJ Hernandez</div>
+        </div>
+        <div class="moment-p">Not a criticism — just awareness. The discipline Kevin has for follow-up and professional work is the same discipline that makes him reliable on calls. The personal drift is something to watch as it can bleed in at the margins.</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head">
+        <div class="moment-num">04</div>
+        <div class="moment-title">Script-based offer — how Kevin's handling it</div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">Kevin's new offer runs off a <strong>very strict script</strong> — close to fully read. He's figured out the setup: script minimized on the monitor behind Zoom so it's not visible. He's getting inflection and tonality in despite reading.</div>
+        <div class="moment-p">JJ asked to review the mock call Kevin did with the offer owner (2 parts). The goal: confirm whether the reading is detectable and whether the script is being executed at the level the offer requires. JJ will run through it.</div>
+        <div class="moment-p">Kevin started call tracking from Day 1 — which JJ praised. Being at call one and already tracking is the right move.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Coaching call schedule -->
+  <div class="section">
+    <div class="sec-eyebrow">Coaching Call Schedule</div>
+    <h2 class="sec-title">Calls Kevin should attend this week</h2>
+    <div class="schedule-grid">
+      <div class="sched-card">
+        <div class="sched-head">
+          <div class="sched-name">B2B Strategy</div>
+          <div class="sched-time">Tue · 1:00 PM ET</div>
+        </div>
+        <div class="sched-body">Tomorrow. JJ recommended it as a good starting point given Kevin's offer context.</div>
+      </div>
+      <div class="sched-card">
+        <div class="sched-head">
+          <div class="sched-name">B2B Strategy</div>
+          <div class="sched-time">Wed · 6:00 PM ET</div>
+        </div>
+        <div class="sched-body">Second B2B session this week. May not be able to attend live — recordings available.</div>
+      </div>
+      <div class="sched-card">
+        <div class="sched-head">
+          <div class="sched-name">JJ's Friday Call</div>
+          <div class="sched-time">Fri · (time TBD)</div>
+        </div>
+        <div class="sched-body">Kevin already has it blocked. JJ's flagship weekly call — high-level, Kevin called the old recordings "very good."</div>
+      </div>
+      <div class="sched-card">
+        <div class="sched-head">
+          <div class="sched-name">Watch: Evan's Calls</div>
+          <div class="sched-time">Recordings</div>
+        </div>
+        <div class="sched-body">Evan is doing ~$60K/month closing B2B AI / agency deals. JJ specifically called him out as someone worth studying — young but elite.</div>
+      </div>
+    </div>
+    <div class="callout" style="margin-top:.75rem;">
+      Curriculum is dripped weekly by module. 1:1 cadence (this time slot) can repeat weekly — Kevin to confirm once his schedule is clearer.
+    </div>
+  </div>
+
+  <!-- Action items -->
+  <div class="section">
+    <div class="sec-eyebrow">Next Steps</div>
+    <h2 class="sec-title">Action items</h2>
+    <div class="action-grid">
+      <div class="action-item">
+        <div class="action-owner">Kevin</div>
+        Send Zoom recording of Call #1 (2 hours) to JJ — email or re-send text link
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Kevin</div>
+        Send mock call with offer owner (2 parts) for JJ to review script execution
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Kevin</div>
+        Start and maintain call tracking sheet from call 1 — share with JJ
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Kevin</div>
+        Follow-up call tomorrow on Call #1 prospect — financing or downgrade to lower tier
+      </div>
+      <div class="action-item">
+        <div class="action-owner">JJ</div>
+        Send Kevin personalized Map of Consciousness document (applied to Kevin specifically)
+      </div>
+      <div class="action-item">
+        <div class="action-owner">JJ</div>
+        Text Kevin bonus modules — access by phone, not just Skool
+      </div>
+      <div class="action-item">
+        <div class="action-owner">JJ</div>
+        Upload Friday call recording — uploading immediately after this session
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Both</div>
+        Confirm weekly 1:1 time slot — align to module drip schedule once Kevin's week is clearer
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="doc-footer">
+  <span>Sales.io — Internal Coaching Recap</span>
+  <span>Kevin Bass · Jul 13, 2026</span>
+</footer>
