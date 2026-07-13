@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Call Tracking — S11 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.seq-list{display:flex;flex-direction:column;}
+.seq-wrap{display:flex;gap:20px;margin-bottom:4px;}
+.seq-left{display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;}
+.dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.dot-green{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.dot-amber{background:#0f0800;color:#f59e0b;border:1px solid #2b1a00;}
+.dot-red{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.dot-blue{background:#050a12;color:#60a5fa;border:1px solid #0a2040;}
+.line{flex:1;width:1px;background:#111;margin:4px 0;min-height:16px;}
+.seq-right{flex:1;padding-bottom:24px;}
+.seq-tag{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
+.seq-title{font-size:16px;font-weight:800;margin-bottom:8px;}
+.seq-body{font-size:14px;color:#888;line-height:1.7;}
+.seq-ex{font-size:13px;color:#555;font-style:italic;padding:8px 12px;background:#050505;border-radius:6px;border-left:2px solid #1a1a1a;margin-top:8px;line-height:1.6;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S11 — State Management</div>
+  <a class="nav-link" href="lesson-s11-01-pre-call-check.html">01 · Pre-Call Check</a>
+  <a class="nav-link" href="lesson-s11-02-consciousness-levels.html">02 · Consciousness Levels</a>
+  <a class="nav-link" href="lesson-s11-03-no-neutral.html">03 · No Neutral Influence</a>
+  <a class="nav-link" href="lesson-s11-04-post-call-debrief.html">04 · Post-Call Debrief</a>
+  <a class="nav-link active" href="lesson-s11-05-call-tracking.html">05 · Call Tracking</a>
+  <a class="nav-link" href="lesson-s11-06-bad-streak.html">06 · Bad Streak Reset</a>
+  <a class="nav-link" href="lesson-s11-07-winners-mindset.html">07 · Winner's Mindset</a>
+  <a class="nav-link" href="lesson-s11-08-energy-management.html">08 · Energy Management</a>
+  <a class="nav-link" href="lesson-s11-09-identity-under-pressure.html">09 · Identity Under Pressure</a>
+  <a class="nav-link" href="lesson-s11-10-weekly-review.html">10 · Weekly Review</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 5 · Section 11</div>
+  <h1>Call Tracking</h1>
+  <p class="subtitle">Your data tells the truth about your real ceiling. Not your best day — your consistent pattern. Close rate, show rate, deal size, and objection patterns reveal exactly where your performance actually lives and where it breaks down.</p>
+
+  <section id="minimum-stack">
+    <h2>The Minimum Tracking Stack</h2>
+    <div class="block">
+      <div class="block-label">What You Actually Need to Track</div>
+      <p>You don't need a complex system. Most reps either track nothing or build an elaborate spreadsheet they stop updating after a week. Neither works. The minimum viable tracking stack has four numbers. If you know these four numbers at any given point, you know your business.</p>
+    </div>
+
+    <div class="seq-list">
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-green">01</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#4ade80;">Metric</div>
+          <div class="seq-title">Close Rate</div>
+          <div class="seq-body">Closed deals divided by calls that showed. Not calls booked — calls that happened. If you took 20 calls this month and closed 4, your close rate is 20%. This is the primary performance number. Everything else feeds into why this number is what it is.</div>
+          <div class="seq-ex">Track over rolling 30 days minimum. A single week of data is too small to mean anything. 30-day rolling average reveals your actual pattern.</div>
+        </div>
+      </div>
+
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-green">02</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#4ade80;">Metric</div>
+          <div class="seq-title">Show Rate</div>
+          <div class="seq-body">Calls that happened divided by calls that were booked. If your setter books 30 calls and 20 actually show, your show rate is 67%. A poor show rate means pipeline problems upstream — lead quality, setter framing, or confirmation process. A poor show rate that you're misreading as a close rate problem will have you trying to fix the wrong thing.</div>
+          <div class="seq-ex">Industry benchmark: 70%+ show rate indicates solid lead quality and setter performance. Below 60% needs upstream attention before close rate work.</div>
+        </div>
+      </div>
+
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-amber">03</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#f59e0b;">Metric</div>
+          <div class="seq-title">Most Common Objections</div>
+          <div class="seq-body">After every call that doesn't close, note the primary stated objection. Price, timing, spouse/partner, need to think, past experience, skepticism. Over time you'll see a clear pattern. That pattern tells you where your discovery is leaving gaps — because if you did discovery correctly, objections at close are rare.</div>
+          <div class="seq-ex">If "I need to think about it" is your most common objection, your discovery didn't surface enough urgency or you didn't get genuine buy-in before asking for the close.</div>
+        </div>
+      </div>
+
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-blue">04</div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#60a5fa;">Metric</div>
+          <div class="seq-title">Which Step You Lose Most Deals At</div>
+          <div class="seq-body">Opener, rapport build, discovery, pitch, close, objection handling. Where do your deals most often go sideways? Most reps assume it's the close. Often it's discovery — they move on before the prospect is ready and the lost deal at minute 55 was actually lost at minute 15.</div>
+          <div class="seq-ex">Listen to your lost calls with this lens. When did the prospect stop opening up? When did they start hedging? That's where you lost the deal — not at the objection.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="what-data-reveals">
+    <h2>What Your Data Reveals About Your Real Ceiling</h2>
+    <div class="block">
+      <div class="block-label">Best Day vs. Consistent Pattern</div>
+      <p>Every rep can point to a great week. That's not your ceiling — that's your ceiling on the right day with the right leads when your state was high. Your ceiling is your 30-day rolling average on a normal week with normal leads.</p>
+      <p>The gap between your best day and your consistent pattern is the gap that tracking reveals and that deliberate practice closes. You can't close a gap you haven't measured.</p>
+    </div>
+    <div class="highlight">
+      <p>A rep with a <strong>15% close rate who can explain exactly why</strong> will improve faster than a rep with a 25% close rate who has no idea what's driving it. The first rep is in control of their growth. The second is at the mercy of circumstance.</p>
+    </div>
+    <div class="warning">
+      <p><strong>The trap:</strong> Cherry-picking time periods to tell yourself a story. "I was at 35% last month" — but you had two unusually warm leads that month and you know it. Be honest with your data. It's only useful if it's true.</p>
+    </div>
+  </section>
+
+  <section id="objection-patterns">
+    <h2>Using Objection Pattern Data to Improve Discovery</h2>
+    <div class="block">
+      <div class="block-label">Objections at Close Are Usually Discovery Problems</div>
+      <p>If a prospect is hitting you with a hard objection at the close, ask yourself: did this issue exist before the call? Almost always, yes. The prospect walked in with that concern. You just didn't find it in discovery.</p>
+      <p>When "price" is your most common objection, your discovery didn't build enough value or didn't surface enough financial pain. When "I need to think about it" is most common, you didn't get clear enough buy-in on the cost of staying where they are. When "my partner needs to decide" is most common, you didn't ask early enough who else is involved in the decision.</p>
+    </div>
+
+    <ul class="checklist">
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Price objection frequently?</strong> Add one discovery question that surfaces financial urgency — "What does staying at your current income level cost you per month in opportunity?" Do this before you pitch.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">"Need to think about it" frequently?</strong> After discovery, before pitching, get explicit buy-in: "Based on what you've told me, if there's a clear path to X in 90 days, is that something you'd want to move on?" A yes here means "think about it" later is something you can address. A no means you didn't find the real motivation yet.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">"Spouse/partner needs to be involved" frequently?</strong> Ask within the first 10 minutes: "When you make an investment like this in yourself, is that a decision you typically make on your own or is your partner involved in those conversations?" Then plan accordingly.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Skepticism about results frequently?</strong> You're not using social proof early enough. Weave a specific student story into discovery — before the pitch — that mirrors this prospect's situation.</div>
+      </li>
+    </ul>
+  </section>
+
+  <section id="two-minute-system">
+    <h2>The 2-Minute Tracking System</h2>
+    <div class="block">
+      <div class="block-label">Simple Enough to Actually Do</div>
+      <p>After each call, log four things in Close CRM and one in your private debrief. This takes 2 minutes. It doesn't need to be more complex than this — complexity kills compliance.</p>
+    </div>
+
+    <ul class="checklist">
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Outcome:</strong> Closed / No close / Follow-up. If no close, one word for why — price, timing, thinking, partner, skepticism, wrong fit.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Stage lost:</strong> Where did the deal go sideways? Opener, rapport, discovery, pitch, close, objection. One word.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Lead quality tag:</strong> Hot (self-motivated, clear pain, right fit), Warm (interested but not urgent), Cold (not a fit or not ready).</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Next step:</strong> Follow-up date in Close, or mark closed/lost. Every call should have a next step or a final status. No calls in limbo.</div>
+      </li>
+    </ul>
+
+    <div class="quote-block">
+      <p>"The rep who knows their numbers owns their career. The rep who doesn't is just hoping."</p>
+      <div class="attribution">— JJ Hernandez</div>
+    </div>
+
+    <div class="highlight">
+      <p>Review your data every Friday as part of your weekly performance review. <strong>A month of consistent tracking produces more insight about your real skill gaps than a year of untracked experience.</strong> The data tells you what your memory won't — that you've been losing deals at the same stage for three months without realizing it.</p>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

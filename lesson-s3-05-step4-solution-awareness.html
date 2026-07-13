@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Step 4 — Solution Awareness — S3 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S3 — 12-Step Sales Process</div>
+  <a class="nav-link" href="lesson-s3-01-framework-overview.html">1. Framework Overview</a>
+  <a class="nav-link" href="lesson-s3-02-step1-intro.html">2. Step 1 — Intro</a>
+  <a class="nav-link" href="lesson-s3-03-step2-current-reality.html">3. Step 2 — Current Reality</a>
+  <a class="nav-link" href="lesson-s3-04-step3-problem-awareness.html">4. Step 3 — Problem Awareness</a>
+  <a class="nav-link active" href="lesson-s3-05-step4-solution-awareness.html">5. Step 4 — Solution Awareness</a>
+  <a class="nav-link" href="lesson-s3-06-step5-future-pace.html">6. Step 5 — Future Pace</a>
+  <a class="nav-link" href="lesson-s3-07-step6-consequence.html">7. Step 6 — Consequence</a>
+  <a class="nav-link" href="lesson-s3-08-step7-transition.html">8. Step 7 — Transition</a>
+  <a class="nav-link" href="lesson-s3-09-step8-pitch.html">9. Step 8 — The Pitch</a>
+  <a class="nav-link" href="lesson-s3-10-step9-confirm-fit.html">10. Step 9 — Confirm Fit</a>
+  <a class="nav-link" href="lesson-s3-11-step10-price.html">11. Step 10 — Price Reveal</a>
+  <a class="nav-link" href="lesson-s3-12-step11-objections.html">12. Step 11 — Objections</a>
+  <a class="nav-link" href="lesson-s3-13-step12-close.html">13. Step 12 — The Close</a>
+  <a class="nav-link" href="lesson-s3-14-call-architecture.html">14. Call Architecture</a>
+  <a class="nav-link" href="lesson-s3-15-call-mapping.html">15. Call Mapping Exercise</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 5 · Section 3</div>
+  <h1>Step 4 — Solution Awareness</h1>
+  <p class="subtitle">"What would need to be true?" Get the prospect to define their own solution criteria before you ever open your mouth about what you offer.</p>
+
+  <section id="why-this-step">
+    <h2>Why This Step Exists</h2>
+    <div class="highlight">
+      <p>Most reps define the solution for the prospect. They know the problem (Step 3) and immediately map it to what their program offers. That's a mistake — because you're now pitching to your criteria, not theirs.</p>
+      <p><strong>When the prospect defines the solution criteria themselves, your pitch becomes a mirror.</strong> You're reflecting back what they said they need. That's not selling — that's confirming. And confirmation is far easier to close than persuasion.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">The Difference in Close Rate</div>
+      <p>A rep who pitches their solution to a problem they identified is doing half the work the prospect needs. A rep who pitches a solution the prospect already defined and agreed on is running at a fundamentally higher close rate — because objections at price are almost always resistance to someone else's solution, not their own.</p>
+    </div>
+  </section>
+
+  <section id="the-question">
+    <h2>The Core Question</h2>
+    <div class="highlight">
+      <p><strong>"If this was actually resolved — what would need to be different from how things are right now?"</strong></p>
+    </div>
+    <div class="block">
+      <div class="block-label">Variations That Work</div>
+      <p>"What would need to change for this to stop being a problem?" — good for concrete, behavior-based issues.</p>
+      <p>"What does the version of this that works actually look like?" — good for reps who've tried things before and failed.</p>
+      <p>"If you imagine yourself six months from now having figured this out — what specifically is different?" — good for prospects who are motivated by future state but haven't articulated it clearly yet.</p>
+    </div>
+    <div class="warning">
+      <p><strong>Don't answer this question for them.</strong> It's tempting to say "Well, what you'd probably need is..." No. Ask the question and hold silence. The prospect needs to speak their own answer. If they speak it, they own it. If you suggest it, they evaluate it — and evaluation creates resistance.</p>
+    </div>
+  </section>
+
+  <section id="pitch-anchor">
+    <h2>How to Anchor the Pitch to This Answer</h2>
+    <div class="block">
+      <div class="block-label">The Technique: Note Their Exact Words</div>
+      <p>When the prospect answers the solution awareness question, they give you language. Their specific words. Write them down or remember them — because your pitch needs to use their vocabulary, not yours. If they said "I need someone to actually watch my calls and tell me what I'm doing wrong," your pitch leads with call review. In their words.</p>
+    </div>
+    <table class="compare-table">
+      <thead>
+        <tr><th style="color:#555;">What Prospect Said</th><th class="col-b">How to Reference in Pitch</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-c-td">"I need accountability — I self-sabotage without it"</td>
+          <td class="col-b-td">"The weekly 1-on-1 with your coach is specifically designed for what you just described — someone watching your progress and calling you on your own patterns"</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">"I need to understand why people buy, not just scripts to say"</td>
+          <td class="col-b-td">"That's exactly what we built this around — the psychology of why people make decisions, not a word track you memorize"</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">"I need a job on a better offer"</td>
+          <td class="col-b-td">"We have 60-80 vetted companies on our job board every week and we guarantee placement — that's how we solve that piece specifically"</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="what-you-get">
+    <h2>What You Know After This Step</h2>
+    <ul class="checklist">
+      <li><div class="check-icon pass">✓</div><div>The prospect's own definition of a solution — in their language, not yours</div></li>
+      <li><div class="check-icon pass">✓</div><div>Which parts of your offer to lead with (the ones that match what they said)</div></li>
+      <li><div class="check-icon pass">✓</div><div>Which parts of your offer to skip or de-emphasize (the ones that didn't come up)</div></li>
+      <li><div class="check-icon pass">✓</div><div>A built-in close anchor — "Does what you just heard match what you said you needed?"</div></li>
+      <li><div class="check-icon fail">✗</div><div>What you do NOT know yet: how badly they want it (that's Step 5 and 6)</div></li>
+    </ul>
+  </section>
+
+  <section id="exchange">
+    <h2>Call Exchange — Pitching Your Criteria vs. Theirs</h2>
+    <div class="exchange">
+      <div class="exchange-header">VERSION 1 — Rep Who Defines the Solution</div>
+      <div class="exchange-body">
+        <div class="msg"><span class="msg-who prospect">Prospect</span><div class="msg-text prospect-msg">"I just feel like I need to get better at closing."</div></div>
+        <div class="msg"><span class="msg-who rep">Rep</span><div class="msg-text rep-msg">"Yeah, what you'd need is a structured process — like a framework you can follow on every call so you don't have to wing it. We cover exactly that in our program."</div>
+          <span class="annotation">Rep answered for the prospect. Now the prospect is evaluating the rep's solution — not their own. If they don't resonate with "framework," they push back. The rep has created unnecessary resistance.</span>
+        </div>
+      </div>
+    </div>
+    <div class="exchange">
+      <div class="exchange-header">VERSION 2 — Rep Who Gets the Prospect to Define It</div>
+      <div class="exchange-body">
+        <div class="msg"><span class="msg-who prospect">Prospect</span><div class="msg-text prospect-msg">"I just feel like I need to get better at closing."</div></div>
+        <div class="msg"><span class="msg-who rep">Rep</span><div class="msg-text rep-msg">"If you imagine yourself as a rep who closes confidently — what specifically would be different about how you're showing up on calls?"</div></div>
+        <div class="msg"><span class="msg-who prospect">Prospect</span><div class="msg-text prospect-msg">"I think I'd feel less desperate. Like I'd be able to sit with the silence instead of jumping in to save the deal. And I'd actually understand why the person is or isn't buying instead of just hoping."</div></div>
+        <div class="msg"><span class="msg-who rep">Rep</span><div class="msg-text rep-msg">"So you'd want composure under pressure and a read on what the prospect is actually thinking. Got it."</div>
+          <span class="annotation">Now the rep has the criteria in the prospect's exact words. The pitch will lead with composure and buyer psychology — because that's what the prospect said they need. This pitch will feel like it was built for them personally.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Proof Architecture — S5 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.seq-list{display:flex;flex-direction:column;}
+.seq-wrap{display:flex;gap:20px;margin-bottom:4px;}
+.seq-left{display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;}
+.dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.dot-green{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.dot-amber{background:#0f0800;color:#f59e0b;border:1px solid #2b1a00;}
+.line{flex:1;width:1px;background:#111;margin:4px 0;min-height:16px;}
+.seq-right{flex:1;padding-bottom:24px;}
+.seq-tag{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
+.seq-title{font-size:16px;font-weight:800;margin-bottom:8px;}
+.seq-body{font-size:14px;color:#888;line-height:1.7;}
+.seq-ex{font-size:13px;color:#555;font-style:italic;padding:8px 12px;background:#050505;border-radius:6px;border-left:2px solid #1a1a1a;margin-top:8px;line-height:1.6;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S5 — Pitch Architecture</div>
+  <a class="nav-link" href="lesson-s5-01-tiktok-pitch.html">1. The TikTok Pitch</a>
+  <a class="nav-link" href="lesson-s5-02-heaven-hell.html">2. Heaven &amp; Hell Framework</a>
+  <a class="nav-link" href="lesson-s5-03-no-feature-dump.html">3. No Feature Dump</a>
+  <a class="nav-link" href="lesson-s5-04-pitch-check-ins.html">4. Pitch Check-Ins</a>
+  <a class="nav-link" href="lesson-s5-05-mirror-recap.html">5. The Mirror Recap</a>
+  <a class="nav-link active" href="lesson-s5-06-social-proof-architecture.html">6. Social Proof Architecture</a>
+  <a class="nav-link" href="lesson-s5-07-scriptless-pitch.html">7. The Scriptless Pitch</a>
+  <a class="nav-link" href="lesson-s5-08-pitch-timing.html">8. Pitch Timing</a>
+  <a class="nav-link" href="lesson-s5-09-screen-share.html">9. When to Screen Share</a>
+  <a class="nav-link" href="lesson-s5-10-inevitable-pitch.html">10. The Inevitable Pitch</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 6 · Section 5</div>
+  <h1>Social Proof Architecture</h1>
+  <p class="subtitle">Generic testimonials don't close deals. Identity-matched proof does. The prospect needs to see themselves in the story, not just the result.</p>
+
+  <!-- SECTION 1 -->
+  <section id="the-mistake">
+    <h2>The Mistake</h2>
+    <div class="red-block">
+      <p>The most common social proof mistake is using aggregate stats: "Our students make $20k a month." "We've coached 2,100 reps." "100% success rate."</p>
+      <p>These numbers are true and they mean almost nothing to the prospect sitting in front of you. <strong>Aggregate stats create distance, not connection.</strong> The prospect hears "2,100 reps" and thinks: "Great. But am I one of them? Am I like those people? Does my situation look like the situations that worked?"</p>
+      <p>If you can't answer those questions with specifics, the social proof hasn't done its job.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">Why Generic Proof Fails</div>
+      <p>Social proof works because of identification. The prospect isn't reassured by results in the abstract. They're reassured by seeing someone with their background, their fear, their starting point — who went through the program and came out the other side. The moment of identification is: "That was me. And now look at them." Without that moment, it's just marketing copy.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section id="the-rule">
+    <h2>The Rule</h2>
+    <div class="highlight">
+      <p><strong>Social proof works when the prospect sees themselves in the story, not just the result.</strong></p>
+      <p>Match the case to their <strong>identity</strong>, not their job title. Their identity includes: where they started, what they were afraid of, what they had tried before, what made them skeptical, and what they looked like before the transformation. The closer you match those elements to the prospect in front of you, the harder the proof lands.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">The Delivery Structure</div>
+      <p>Every piece of social proof you deploy should follow this structure: the person's starting point (who they were), the specific friction they had, what shifted for them, and where they are now. That's a complete proof arc. Skip any piece and the identification breaks.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section id="identity-matching">
+    <h2>Identity-Matched Proof</h2>
+    <div class="block">
+      <div class="block-label">What Identity Matching Actually Means</div>
+      <p>Identity is not job title. Two people can both be "sales reps" and have completely different identities on a call — one comes from a 9-to-5 background and is terrified of rejection, the other was born into sales culture and is battling ego. Same job title. Completely different proof needed.</p>
+      <p>Match on the emotional reality, not the surface. Match on: background, starting fear, what they tried before, why they were skeptical, what they thought might be different about this.</p>
+    </div>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th style="color:#555;">Prospect Identity</th>
+          <th class="col-b">Identity-Matched Proof</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-c-td">Career changer — left nursing, no sales experience, afraid they're starting too late</td>
+          <td class="col-b-td">Student who left healthcare at 31 with zero sales experience — closed $15k in their first 60 days. The fear of being "too late" was the same. The starting point was the same.</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Experienced rep plateau'd at $8k, has tried other training programs, skeptical of coaching</td>
+          <td class="col-b-td">Student who was at $9k for 8 months, had already bought Jeremy Miner's course, came in skeptical — hit $22k in month three after the identity work clicked.</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Young rep, 22, using scripts, feels fake on calls, wants to sound like themselves</td>
+          <td class="col-b-td">Student who hated every script they'd ever been handed — learned scriptless selling and said the first real conversation they had felt like the first call they'd ever actually enjoyed.</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Agency owner who needs to sell their own services but has a closer's mentality, not a founder's</td>
+          <td class="col-b-td">Student who was running a 6-person agency and couldn't close their own clients consistently — used the psychology framework to close a $40k retainer in their 4th week.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section id="proof-library">
+    <h2>Building Your Proof Library</h2>
+    <div class="block">
+      <div class="block-label">The Framework</div>
+      <p>Don't wait until you're on a call to figure out which story to use. Build a library in advance, mapped to the identity types you most commonly encounter. For each identity type, have one complete proof arc ready — starting point, friction, shift, outcome.</p>
+    </div>
+
+    <div class="seq-list">
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-green">01</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#4ade80;">Step One</div>
+          <div class="seq-title">Identify Your Top 5 Prospect Identity Types</div>
+          <div class="seq-body">What are the five most common types of people you talk to? Not by job — by emotional profile. Career changer. Plateau'd rep. Skeptic. Beginner with urgency. Agency owner. Map your five. These are the identities you need proof for.</div>
+        </div>
+      </div>
+
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-green">02</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#4ade80;">Step Two</div>
+          <div class="seq-title">Find One Real Story Per Identity</div>
+          <div class="seq-body">For each identity type, identify one student whose story maps closely to that profile. Get the details: who they were before, the specific friction or fear, the moment something changed, and the concrete result. The more specific the detail, the more credible the story.</div>
+          <div class="seq-ex">"She left teaching — not nursing, teaching — at 29. She told me she felt like she was too old to start over. She hit $14k in her second month and said the first call she closed felt like the first thing she'd ever done on purpose." Specific. Believable. Identifies exactly with the "career changer afraid of starting over" profile.</div>
+        </div>
+      </div>
+
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-amber">03</div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#f59e0b;">Critical</div>
+          <div class="seq-title">Match and Deploy in Real Time</div>
+          <div class="seq-body">Listen in discovery for identity signals — not just what they want, but who they are, what they're afraid of, what they've tried. When you hear an identity signal that matches a proof story, you know exactly which one to use. No fumbling. No generic stats. The right story for this specific person.</div>
+          <div class="seq-ex">Discovery signal: "I've already tried NEPQ and Cole Gordon's stuff and I didn't see a huge change." Match: the skeptical experienced rep story. Deploy it directly: "I had a student who had done both of those — came in pretty skeptical of us too. Here's what was different..."</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXCHANGE -->
+  <section id="exchange">
+    <h2>Call Exchange — Generic Proof vs. Identity-Matched Proof</h2>
+
+    <div class="exchange">
+      <div class="exchange-header">VERSION 1 — Generic Social Proof</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"I've done programs before and honestly I'm not sure another one is going to be different."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"I totally get that. We've coached over 2,100 reps and our students consistently hit $20k-$40k months. We have a 100% success rate and a money-back guarantee so there's really no risk."</div>
+          <span class="annotation">Aggregate stats. "2,100 reps" doesn't answer their real question: "Will this work for someone like me?" The guarantee at the end signals defensiveness, not confidence.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Yeah... I'd need to think about it."</div>
+          <span class="annotation">Generic proof produces generic responses. "Think about it" usually means: I don't feel certain enough to act now.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-header">VERSION 2 — Identity-Matched Proof</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"I've done programs before and honestly I'm not sure another one is going to be different."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"I hear that — and honestly that skepticism makes sense. Can I tell you about someone who came in with the exact same frame? He'd done Jeremy Miner's NEPQ, Cole Gordon's program, had spent probably $5k on training. He was at $9k a month for almost a year. He came into our call saying almost exactly what you just said."</div>
+          <span class="annotation">Starting with identity match: "exact same frame," named the programs they'd tried before. The prospect recognizes themselves immediately.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"What was different for him wasn't the tactics — it was the identity work. Month three he did $22k. But more than the number, he said for the first time on a call he wasn't thinking about the outcome. He was just in the conversation. That's actually what everything else is built on top of."</div>
+          <span class="annotation">The shift isn't just "he made more money." The emotional shift — "not thinking about the outcome" — is what lands for a prospect who already has the tactics but is still stuck.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"That's interesting. I feel like I know what to do on calls — I'm just in my head the whole time."</div>
+          <span class="annotation">They identified with the story. "I'm just in my head" is the opening for a deeper conversation and a closer close. Identity-matched proof created trust that generic stats could never create.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>

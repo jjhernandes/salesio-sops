@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Step 9 — Confirm Fit — S3 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S3 — 12-Step Sales Process</div>
+  <a class="nav-link" href="lesson-s3-01-framework-overview.html">1. Framework Overview</a>
+  <a class="nav-link" href="lesson-s3-02-step1-intro.html">2. Step 1 — Intro</a>
+  <a class="nav-link" href="lesson-s3-03-step2-current-reality.html">3. Step 2 — Current Reality</a>
+  <a class="nav-link" href="lesson-s3-04-step3-problem-awareness.html">4. Step 3 — Problem Awareness</a>
+  <a class="nav-link" href="lesson-s3-05-step4-solution-awareness.html">5. Step 4 — Solution Awareness</a>
+  <a class="nav-link" href="lesson-s3-06-step5-future-pace.html">6. Step 5 — Future Pace</a>
+  <a class="nav-link" href="lesson-s3-07-step6-consequence.html">7. Step 6 — Consequence</a>
+  <a class="nav-link" href="lesson-s3-08-step7-transition.html">8. Step 7 — Transition</a>
+  <a class="nav-link" href="lesson-s3-09-step8-pitch.html">9. Step 8 — The Pitch</a>
+  <a class="nav-link active" href="lesson-s3-10-step9-confirm-fit.html">10. Step 9 — Confirm Fit</a>
+  <a class="nav-link" href="lesson-s3-11-step10-price.html">11. Step 10 — Price Reveal</a>
+  <a class="nav-link" href="lesson-s3-12-step11-objections.html">12. Step 11 — Objections</a>
+  <a class="nav-link" href="lesson-s3-13-step12-close.html">13. Step 12 — The Close</a>
+  <a class="nav-link" href="lesson-s3-14-call-architecture.html">14. Call Architecture</a>
+  <a class="nav-link" href="lesson-s3-15-call-mapping.html">15. Call Mapping Exercise</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 10 · Section 3</div>
+  <h1>Step 9 — Confirm Fit</h1>
+  <p class="subtitle">The verbal commitment before price. You don't reveal the number until they've told you it sounds like what they need. Skipping this creates objections that don't have to exist.</p>
+
+  <section id="why-confirm">
+    <h2>Why You Need Verbal Buy-In Before Price</h2>
+    <div class="highlight">
+      <p>Price hits differently depending on context. If a prospect hears $7,500 before they've agreed that the solution fits — price is the first thing they're evaluating. Their first thought is "is this worth it?" — and they don't yet have enough buy-in to answer that with a yes.</p>
+      <p>If they hear $7,500 after they've told you "yeah, this sounds like exactly what I need" — price is secondary. They're now evaluating logistics, not fit. <strong>That's a fundamentally easier conversation.</strong></p>
+    </div>
+    <div class="block">
+      <div class="block-label">The Confirm Fit Step Creates a Checkpoint</div>
+      <p>Before you move to price, you need a clear signal that the prospect believes the solution addresses their situation. If that signal isn't there, you are not ready to reveal price. You either go back to the pitch and find what's missing, or you ask a clarifying question to surface the gap.</p>
+    </div>
+  </section>
+
+  <section id="the-question">
+    <h2>The Confirm Fit Question</h2>
+    <div class="highlight">
+      <p><strong>"Based on what you just heard — does this sound like what you were actually looking for?"</strong></p>
+    </div>
+    <div class="block">
+      <div class="block-label">Variations</div>
+      <p>"Does this answer the thing you said was missing?" — good when the discovery surfaced a very specific gap.</p>
+      <p>"Is this the type of thing that would actually move the needle for you — or does something feel off?" — invites honest feedback and surfaces objections before price.</p>
+      <p>"Based on what I walked you through, does this feel like it's pointing at the right things?" — good when the prospect needs to trust the direction before the financial conversation.</p>
+    </div>
+    <div class="warning">
+      <p><strong>Ask one confirm fit question and wait for the answer.</strong> Don't add qualifiers. Don't say "based on what I just showed you, and I know we covered a lot, but does this feel like it addresses the core thing you mentioned?" — that's hedging. Ask clean, then hold silence until they respond.</p>
+    </div>
+  </section>
+
+  <section id="answer-is-no">
+    <h2>What to Do When the Answer Is No</h2>
+    <div class="block">
+      <div class="block-label">Go Back, Not Forward</div>
+      <p>If the prospect says "I'm not sure" or "it sounds okay but..." — do not push forward to price. That "but" is telling you something is unresolved. Going to price over unresolved doubt is how you generate the objections that feel impossible to handle — because they're actually real.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">The Recovery Question</div>
+      <p>"What part doesn't feel like it fits?" — surfaces the gap so you can address it directly. Maybe you covered something they don't care about and missed something they do. Maybe there's a feature of the program they haven't heard yet that closes the gap. Maybe the fit genuinely isn't there — and knowing now is better than pushing past it.</p>
+    </div>
+    <div class="red-block">
+      <p><strong>The rep who pushes past a "no" on confirm fit to get to price is the rep who creates the harshest objections.</strong> "I need to think about it" and "It's too expensive" at the price reveal are almost always unresolved fit concerns. The prospect hasn't said it's not for them — they just haven't said it is. Price before buy-in = resistance.</p>
+    </div>
+  </section>
+
+  <section id="eliminates-objections">
+    <h2>Why This Eliminates Most Post-Price Objections</h2>
+    <table class="compare-table">
+      <thead>
+        <tr><th style="color:#555;">Without Confirm Fit</th><th class="col-b">With Confirm Fit</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-c-td">Price hits a prospect who hasn't agreed the solution fits</td>
+          <td class="col-b-td">Price hits a prospect who just told you "yes, this sounds like what I need"</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">"Is this worth it?" is the first question in their mind — no answer yet</td>
+          <td class="col-b-td">"Is this logistically possible for me?" is the question — they've already decided it's worth it</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Price objections are really fit objections in disguise — impossible to handle cleanly</td>
+          <td class="col-b-td">Price objections are genuinely about price — addressable with financing options and ROI framing</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="exchange">
+    <h2>Call Exchange — Skipped vs. Completed Confirm Fit</h2>
+    <div class="exchange">
+      <div class="exchange-header">VERSION 1 — No Confirm Fit</div>
+      <div class="exchange-body">
+        <div class="msg"><span class="msg-who rep">Rep</span><div class="msg-text rep-msg">"...and the guarantee means you either get the results or your money back. So with all of that — the program is $7,500."</div></div>
+        <div class="msg"><span class="msg-who prospect">Prospect</span><div class="msg-text prospect-msg">"Hmm. That's a lot. I'd have to think about it."</div></div>
+        <div class="msg"><span class="msg-who rep">Rep</span><div class="msg-text rep-msg">"Totally, I understand — we also have payment plans..."</div>
+          <span class="annotation">The price hit a prospect who hadn't confirmed the solution fit. "Think about it" is not a price objection — it's a fit objection. They're not sure this is the right thing. Payment plans don't solve that. The close is already in trouble.</span>
+        </div>
+      </div>
+    </div>
+    <div class="exchange">
+      <div class="exchange-header">VERSION 2 — Confirm Fit First</div>
+      <div class="exchange-body">
+        <div class="msg"><span class="msg-who rep">Rep</span><div class="msg-text rep-msg">"...and the guarantee means you either get the results or your money back. Before I go into the investment — does what I just described sound like what you were actually looking for?"</div></div>
+        <div class="msg"><span class="msg-who prospect">Prospect</span><div class="msg-text prospect-msg">"Yeah — honestly, yeah. The 1-on-1 call review thing is exactly what I've been missing. And the job board is huge for me."</div></div>
+        <div class="msg"><span class="msg-who rep">Rep</span><div class="msg-text rep-msg">"Good. So investment-wise — to join the mastermind it's $7,500."</div>
+          <span class="annotation">Price follows buy-in. The prospect has said yes to the solution before hearing the number. They're now evaluating whether they can make it work — not whether it's the right thing. This is a much more manageable conversation.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>

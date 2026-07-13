@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frame Attack Drill — S9 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.attack-card{border-radius:12px;overflow:hidden;margin-bottom:18px;border:1px solid #1a1a1a;}
+.attack-head{background:#0a0a0a;padding:16px 22px;display:flex;align-items:center;gap:14px;border-bottom:1px solid #111;}
+.attack-num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;background:#0f0505;color:#f87171;border:1px solid #2b0d0d;flex-shrink:0;}
+.attack-title{font-size:16px;font-weight:800;color:#ccc;}
+.attack-body{padding:16px 22px 20px;display:flex;flex-direction:column;gap:14px;}
+.attack-line{background:#0f0505;border:1px solid #2b0d0d;border-radius:8px;padding:12px 16px;font-size:14px;color:#f87171;line-height:1.6;font-style:italic;}
+.attack-section{display:flex;flex-direction:column;gap:4px;}
+.attack-label{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#444;}
+.attack-text{font-size:13px;color:#888;line-height:1.65;}
+.attack-response{background:#050f08;border:1px solid #0d2b1a;border-radius:8px;padding:12px 16px;font-size:13px;color:#a3e8bb;line-height:1.6;}
+.attack-response-label{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#4ade80;margin-bottom:6px;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.check-icon.warn{background:#0f0800;color:#f59e0b;border:1px solid #2b1a00;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S9 — Frame Mastery</div>
+  <a class="nav-link" href="lesson-s9-01-what-is-a-frame.html">1. What a Frame Is</a>
+  <a class="nav-link" href="lesson-s9-02-five-frames.html">2. The Five Frames</a>
+  <a class="nav-link" href="lesson-s9-03-default-frame.html">3. Your Default Frame</a>
+  <a class="nav-link" href="lesson-s9-04-frame-collision.html">4. Frame Collision</a>
+  <a class="nav-link" href="lesson-s9-05-detachment-close.html">5. The Detachment Close</a>
+  <a class="nav-link" href="lesson-s9-06-rather-lose-sale.html">6. Lose the Sale, Not the Frame</a>
+  <a class="nav-link" href="lesson-s9-07-certainty-transfer.html">7. Certainty Transfer</a>
+  <a class="nav-link active" href="lesson-s9-08-frame-attack-drill.html">8. Frame Attack Drill</a>
+  <a class="nav-link" href="lesson-s9-09-frame-integration.html">9. Frame Integration</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 8 · Section 9</div>
+  <h1>The Frame Attack Drill — Holding State Under 5 Consecutive Challenges</h1>
+  <p class="subtitle">Reading about frame doesn't build frame. This drill does. Run it until you can take all five attacks without flinching once.</p>
+
+  <!-- SECTION 1 -->
+  <section id="the-drill">
+    <h2>What the Drill Is</h2>
+    <div class="block">
+      <div class="block-label">The Setup</div>
+      <p>You need a partner — a teammate, a fellow student, a coach. One person plays the rep. The other plays the prospect and fires five consecutive frame attacks without letting up. The rep's job is to hold their frame through all five: composure, pace, genuine curiosity. No defensiveness, no aggression, no speeding up.</p>
+      <p>The attacks are fired in sequence, one right after the other, with barely any time between them. The goal is to simulate the pressure buildup that happens in a real difficult call — where one objection follows another and the cumulative weight of them is what breaks most reps.</p>
+    </div>
+    <div class="highlight">
+      <p>This drill is recorded. After the drill, you watch it back. You're looking for the moment where your composure shifts — where you start talking faster, where your tone changes, where you start justifying instead of staying curious. <strong>You can't fix what you can't see.</strong></p>
+    </div>
+    <div class="block">
+      <div class="block-label">What Holding State Looks Like</div>
+      <p>Holding state does not mean being robotic or cold. It means that your pace, your tone, your underlying energy stays consistent regardless of what gets thrown at you. You can acknowledge a hard question, you can even feel the weight of it — but you return to center before responding. The prospect watching you hold state through five consecutive attacks reads you as genuinely secure. That security is the product.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section id="five-attacks">
+    <h2>The Five Attacks</h2>
+
+    <div class="attack-card">
+      <div class="attack-head">
+        <div class="attack-num">01</div>
+        <div class="attack-title">The Price Attack</div>
+      </div>
+      <div class="attack-body">
+        <div class="attack-line">"Seven thousand five hundred dollars. That's really expensive. I've seen other programs for a fraction of that price."</div>
+        <div class="attack-section">
+          <div class="attack-label">What this tests</div>
+          <div class="attack-text">Certainty in the offer's value. Whether you flinch at the number. Whether you need the prospect to think the price is fair.</div>
+        </div>
+        <div class="attack-section">
+          <div class="attack-label">Failure mode</div>
+          <div class="attack-text">Immediately justifying the price, listing features, offering payment plans without being asked, or apologizing for the cost.</div>
+        </div>
+        <div class="attack-label" style="margin-top:4px;">Frame-holding response</div>
+        <div class="attack-response">[Pause] "Yeah, it's real money." [Hold.] "What were those other programs?"</div>
+      </div>
+    </div>
+
+    <div class="attack-card">
+      <div class="attack-head">
+        <div class="attack-num">02</div>
+        <div class="attack-title">The Authority Challenge</div>
+      </div>
+      <div class="attack-body">
+        <div class="attack-line">"How long have you personally been doing this? Have you actually closed at the level you're talking about teaching?"</div>
+        <div class="attack-section">
+          <div class="attack-label">What this tests</div>
+          <div class="attack-text">Your ability to absorb a credibility challenge without becoming defensive or rushing to prove yourself.</div>
+        </div>
+        <div class="attack-section">
+          <div class="attack-label">Failure mode</div>
+          <div class="attack-text">Listing your entire resume quickly, getting louder, voice going slightly defensive. Or over-compensating with a very long answer that signals insecurity.</div>
+        </div>
+        <div class="attack-label" style="margin-top:4px;">Frame-holding response</div>
+        <div class="attack-response">[Pause] "Fair question." [One specific answer — not a list.] "Here's what I'd rather you judge than my resume — the quality of this conversation. Let's keep going."</div>
+      </div>
+    </div>
+
+    <div class="attack-card">
+      <div class="attack-head">
+        <div class="attack-num">03</div>
+        <div class="attack-title">"I've Heard This Before"</div>
+      </div>
+      <div class="attack-body">
+        <div class="attack-line">"I've already heard all this stuff. Sales psychology, mindset, identity — every program says this. What's actually different here?"</div>
+        <div class="attack-section">
+          <div class="attack-label">What this tests</div>
+          <div class="attack-text">Whether you can hold composure when your offer is commoditized or dismissed. Whether you need the prospect to see you as unique before you feel secure.</div>
+        </div>
+        <div class="attack-section">
+          <div class="attack-label">Failure mode</div>
+          <div class="attack-text">Immediately launching into a differentiation pitch. Getting slightly urgent. Starting sentences with "The thing is though..." in a defensive tone.</div>
+        </div>
+        <div class="attack-label" style="margin-top:4px;">Frame-holding response</div>
+        <div class="attack-response">[Pause] "What did you do with it?" [Pause.] "Because there's a difference between hearing something and having it change how you operate. We're interested in the second one."</div>
+      </div>
+    </div>
+
+    <div class="attack-card">
+      <div class="attack-head">
+        <div class="attack-num">04</div>
+        <div class="attack-title">Time Pressure Reversal</div>
+      </div>
+      <div class="attack-body">
+        <div class="attack-line">"Look, I appreciate everything but I need to think about this. I'm not ready to make a decision today. Can we reconnect in a few weeks?"</div>
+        <div class="attack-section">
+          <div class="attack-label">What this tests</div>
+          <div class="attack-text">Whether you maintain your frame as the call moves toward close. This is where most reps either panic-push or immediately capitulate. Both lose.</div>
+        </div>
+        <div class="attack-section">
+          <div class="attack-label">Failure mode</div>
+          <div class="attack-text">Immediately scheduling the follow-up to relieve the tension. Or immediately manufacturing urgency ("We have limited spots!"). Both signal the frame is gone.</div>
+        </div>
+        <div class="attack-label" style="margin-top:4px;">Frame-holding response</div>
+        <div class="attack-response">[Pause] "That's fair. What specifically are you weighing?" [Hold.] "I want to make sure a follow-up is actually useful — so let's figure out what's actually in the way first."</div>
+      </div>
+    </div>
+
+    <div class="attack-card">
+      <div class="attack-head">
+        <div class="attack-num">05</div>
+        <div class="attack-title">"Why Should I Trust You?"</div>
+      </div>
+      <div class="attack-body">
+        <div class="attack-line">"Honestly, I don't know you. I've never worked with you. Why should I trust that you can actually deliver what you're promising?"</div>
+        <div class="attack-section">
+          <div class="attack-label">What this tests</div>
+          <div class="attack-text">The final and hardest attack. It's a direct challenge to your legitimacy. This is where reps get flustered, where their voice wavers, where they try too hard to persuade. It's also the moment that, if handled right, closes more deals than any smooth pitch.</div>
+        </div>
+        <div class="attack-section">
+          <div class="attack-label">Failure mode</div>
+          <div class="attack-text">Over-explaining. Listing names and testimonials desperately. Voice getting slightly higher or faster. Any sign that you needed them to trust you.</div>
+        </div>
+        <div class="attack-label" style="margin-top:4px;">Frame-holding response</div>
+        <div class="attack-response">[Pause] "You probably shouldn't yet. You just met me." [Pause.] "What would need to be true about this conversation for you to feel like you're making a sound decision — not based on trust, but based on evidence?"</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section id="failure-modes">
+    <h2>Failure Modes to Watch On the Recording</h2>
+
+    <ul class="checklist">
+      <li>
+        <div class="check-icon fail">✕</div>
+        <div><strong style="color:#ccc;">Getting defensive.</strong> Any response that starts with "Well, actually..." or "No, but..." — this is defensiveness. You're arguing with the attack rather than absorbing it. The frame is being treated as something that needs defending. A strong frame doesn't need defending.</div>
+      </li>
+      <li>
+        <div class="check-icon fail">✕</div>
+        <div><strong style="color:#ccc;">Speeding up.</strong> Watch your pace on the recording. If you're talking faster after attack 3 than you were before attack 1, your frame is weakening under pressure. The goal is the opposite — your pace should stay the same or slow down.</div>
+      </li>
+      <li>
+        <div class="check-icon fail">✕</div>
+        <div><strong style="color:#ccc;">Getting quieter.</strong> Some reps shrink under pressure — their volume drops, they get smaller. This is equally a frame signal as getting louder. Consistent volume = consistent frame.</div>
+      </li>
+      <li>
+        <div class="check-icon fail">✕</div>
+        <div><strong style="color:#ccc;">Conceding before being asked to.</strong> Offering discounts or extras nobody asked for. Agreeing with the attack's premise without it being accurate. Qualifying your earlier statements to soften them.</div>
+      </li>
+      <li>
+        <div class="check-icon fail">✕</div>
+        <div><strong style="color:#ccc;">Losing curiosity.</strong> When your responses shift from genuine questions to prepared defenses, you've lost the frame. The strongest reps stay curious through all five attacks. Every attack is just more information about what this person needs.</div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- EXCHANGE -->
+  <section id="exchange">
+    <h2>The Full Drill — All Five Attacks in Sequence</h2>
+
+    <div class="exchange">
+      <div class="exchange-header">FULL DRILL — Rep Holding Frame Through All Five Attacks</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who prospect">Partner (Attack 1 — Price)</span>
+          <div class="msg-text prospect-msg">"$7,500. That's a lot. I've seen programs doing similar stuff for $2,000."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">[Pause] "Yeah, real money." [Holds.] "What were those programs?"</div>
+          <span class="annotation">Calm. Doesn't justify. Redirects with curiosity.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Partner (Attack 2 — Authority)</span>
+          <div class="msg-text prospect-msg">"And honestly — how long have you been doing this? Have you actually closed at the level you teach?"</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">[Pause] "Fair question." [Brief specific answer.] "Let's let the quality of this conversation speak for itself — keep going."</div>
+          <span class="annotation">One answer, no resume dump. Reframes the test.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Partner (Attack 3 — Commodity)</span>
+          <div class="msg-text prospect-msg">"I've heard all this mindset and identity stuff before. Every sales trainer says it. What's actually different here?"</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">[Pause] "What did you do with it when you heard it before?" [Pause.] "Hearing it and having it change how you operate are two different things."</div>
+          <span class="annotation">Still curious. Not defending. Prospect has to engage now.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Partner (Attack 4 — Time)</span>
+          <div class="msg-text prospect-msg">"I need more time. I'm not deciding today. Let's reconnect in a few weeks."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">[Pause] "What are you weighing?" [Holds.] "I want to make sure a follow-up is actually useful — let's understand what's in the way first."</div>
+          <span class="annotation">Frame holds. No panic. No pressure play. Real curiosity.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Partner (Attack 5 — Trust)</span>
+          <div class="msg-text prospect-msg">"Look — I don't know you. I just met you. Why should I trust that you can actually deliver on any of this?"</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">[Pause] "You probably shouldn't yet. You just met me." [Pause.] "What would you need to see in this conversation — not as a pitch, but as actual evidence — to feel like you're making a sound decision?"</div>
+          <span class="annotation">Best response in the drill. Honest, undefensive, completely secure. Frame held through all five. This is what you're building toward.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section id="how-to-run">
+    <h2>How to Run This Drill</h2>
+    <div class="block">
+      <div class="block-label">Protocol</div>
+      <p>Run the drill three times per session: once as the rep, twice as the attacker. The person playing the attacker should vary their delivery — sometimes casual, sometimes aggressive, sometimes disappointed. The rep's frame should hold regardless of the delivery style.</p>
+      <p>Record every rep. Review every recording looking for the failure modes above. The two most common: speeding up by attack 3 and going defensive by attack 5. Both have the same root cause — you care about the outcome more than the process. The fix is always the same: anchor on genuine curiosity about the person, not the outcome of the drill.</p>
+    </div>
+    <div class="warning">
+      <p><strong>Do this drill before you get on real calls, not instead of them.</strong> The drill builds tolerance under controlled pressure. Real calls are where you test whether that tolerance transfers. Run the drill, do the call, review the recording, repeat. This is how frame gets built.</p>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

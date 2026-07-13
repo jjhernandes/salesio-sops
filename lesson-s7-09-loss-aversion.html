@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loss Aversion — S7 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S7 — Advanced Influence</div>
+  <a class="nav-link" href="lesson-s7-01-buying-decisions.html">1. How Buying Decisions Actually Happen</a>
+  <a class="nav-link" href="lesson-s7-02-halo-effect.html">2. The Halo Effect</a>
+  <a class="nav-link" href="lesson-s7-03-anchoring.html">3. Anchoring</a>
+  <a class="nav-link" href="lesson-s7-04-presuasion.html">4. Pre-Suasion</a>
+  <a class="nav-link" href="lesson-s7-05-priming-questions.html">5. Priming Questions</a>
+  <a class="nav-link" href="lesson-s7-06-cognitive-dissonance.html">6. Cognitive Dissonance</a>
+  <a class="nav-link" href="lesson-s7-07-identity-consistency.html">7. Identity Consistency</a>
+  <a class="nav-link" href="lesson-s7-08-future-self.html">8. Future Self Projection</a>
+  <a class="nav-link active" href="lesson-s7-09-loss-aversion.html">9. Loss Aversion</a>
+  <a class="nav-link" href="lesson-s7-10-loss-framing.html">10. Loss Framing</a>
+  <a class="nav-link" href="lesson-s7-11-legitimate-urgency.html">11. Legitimate Urgency</a>
+  <a class="nav-link" href="lesson-s7-12-regret-minimization.html">12. Regret Minimization Frame</a>
+  <a class="nav-link" href="lesson-s7-13-reciprocity.html">13. Reciprocity</a>
+  <a class="nav-link" href="lesson-s7-14-social-proof-identity.html">14. Social Proof at the Identity Level</a>
+  <a class="nav-link" href="lesson-s7-15-contagious-emotion.html">15. Contagious Emotion</a>
+  <a class="nav-link" href="lesson-s7-16-influence-structure.html">16. The Structure of Influence</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 9 · Section 7</div>
+  <h1>Loss Aversion</h1>
+  <p class="subtitle">Kahneman's research is clear: losses feel roughly 2.5x more painful than equivalent gains feel good. Selling what someone will gain is half as powerful as helping them see what they're already losing.</p>
+
+  <section id="the-research">
+    <h2>The Research</h2>
+    <div class="block">
+      <div class="block-label">Kahneman and Tversky — Prospect Theory</div>
+      <p>In their landmark work on Prospect Theory, Kahneman and Tversky demonstrated something that overturns how most salespeople think about value. People do not evaluate gains and losses symmetrically. Losing $100 feels significantly worse than gaining $100 feels good. The pain of loss is roughly 2 to 2.5 times more powerful than the pleasure of equivalent gain.</p>
+      <p>This asymmetry has profound implications for how you frame benefits, how you talk about the cost of inaction, and what motivates people to actually make decisions rather than stay comfortable where they are.</p>
+    </div>
+    <div class="highlight">
+      <p>Most reps sell from the gain frame: "Here's what you'll get." The research says the loss frame is <strong>2.5x more motivating:</strong> "Here's what you're already losing every day this doesn't change." Both can be honest. One is more effective.</p>
+    </div>
+  </section>
+
+  <section id="sales-implications">
+    <h2>What This Means for Sales</h2>
+    <div class="block">
+      <div class="block-label">The Gain Frame Problem</div>
+      <p>"You'll gain access to weekly coaching, a job board with 60+ vetted companies, and one-on-one mentorship." All of that is real. None of it is as motivating as it could be because it's framed as something the prospect doesn't have yet. The prospect is comparing a hypothetical gain against a certain cost ($7,500). The math doesn't feel good.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">The Loss Frame Shift</div>
+      <p>Reframe the same reality through loss: "Right now, you're vetting companies alone, losing hours to bad offers that take 6 months to show they don't pay. You're closing at 15% when you should be at 35%. Every month at that close rate, you're losing $15-20K in commissions that should be yours. That's not a hypothetical gain — that's real money that's currently leaving your career."</p>
+      <p>Same situation. Dramatically different emotional weight. Now the prospect is feeling an active loss, not evaluating a potential gain. The decision calculus changes completely.</p>
+    </div>
+    <div class="warning">
+      <p><strong>The ethical frame:</strong> Loss aversion isn't manipulation when the loss is real. If the prospect is genuinely losing $15K a month by staying stuck, helping them see that is doing them a service. The manipulation version is inventing losses that don't exist. Don't do that. Focus on what's actually true in their situation.</p>
+    </div>
+  </section>
+
+  <section id="cost-of-inaction">
+    <h2>The Cost of Inaction Frame</h2>
+    <div class="block">
+      <div class="block-label">Not "What You'll Gain" — "What Not Deciding Is Costing"</div>
+      <p>The cost of inaction frame is one of the most underused tools in sales. Instead of pitching what the prospect will get, you calculate what staying put is costing them — in monthly income lost, in career trajectory lost, in time spent in a place they've already said they don't want to be.</p>
+      <p>Make it specific. "If you stay where you are for another 6 months at $9K a month instead of $25K — that's $96,000 in income that doesn't happen. Not $7,500. $96,000." That's loss framing with precision.</p>
+    </div>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th class="col-a">Gain Frame</th>
+          <th class="col-b">Loss Frame (Same Reality)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-a-td">"You'll get access to our job board with vetted companies."</td>
+          <td class="col-b-td">"You'll stop wasting weeks on offers that turn out to be duds — that's time and lost commission you don't get back."</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">"You'll increase your close rate."</td>
+          <td class="col-b-td">"Right now you're losing 6 out of 10 deals you should be winning. At your volume, that's thousands a month walking out the door."</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">"You'll get weekly 1-on-1 coaching."</td>
+          <td class="col-b-td">"You'll stop figuring this out alone and re-learning the same lessons from mistakes that cost you deals you didn't have to lose."</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">"You'll be placed on a high-paying offer."</td>
+          <td class="col-b-td">"You'll stop staying on an offer that's capping you because you don't have better options or the credibility to get on the best ones."</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="exchange">
+    <h2>Call Exchange — Cost of Inaction</h2>
+    <div class="exchange">
+      <div class="exchange-header">Helping the Prospect See What Not Deciding Is Costing</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Let me ask you something real quick. You said you've been at this for about two years and you're averaging around $9K a month. What's your ceiling on the offer you're on right now?"</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Probably $12, maybe $13K on a really good month. It doesn't go much higher than that."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"So right now the gap between where you are and where you believe you should be — $9K versus $25K — that's $16,000 a month. Every month. And you've been living in that gap for two years. That's close to $400,000 in income that didn't happen. Not because you aren't capable of it — by your own admission you are. Because the skills and access weren't there yet. The question isn't whether $7,500 is a lot of money. The question is whether $400,000 was."</div>
+          <span class="annotation">Calculates the real cost of inaction. Doesn't invent a loss — surfaces the one that actually exists. $400K makes $7,500 feel like a rounding error.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"When you put it that way... yeah."</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>

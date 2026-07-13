@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pattern Interrupting Stalls — S6 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+.seed-block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:18px 22px;margin-bottom:12px;}
+.seed-label{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#555;margin-bottom:8px;}
+.seed-text{font-size:14px;color:#a3e8bb;line-height:1.7;font-style:italic;}
+.seed-why{font-size:12px;color:#666;margin-top:8px;line-height:1.6;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S6 — Objection Psychology</div>
+  <a class="nav-link" href="lesson-s6-01-meta-rule.html">1. The Meta-Rule</a>
+  <a class="nav-link" href="lesson-s6-02-emotional-contract.html">2. The Emotional Contract</a>
+  <a class="nav-link" href="lesson-s6-03-four-identity-barriers.html">3. Four Identity Barriers</a>
+  <a class="nav-link" href="lesson-s6-04-think-about-it.html">4. "I Need to Think About It"</a>
+  <a class="nav-link" href="lesson-s6-05-no-money.html">5. "I Don't Have the Money"</a>
+  <a class="nav-link" href="lesson-s6-06-spouse.html">6. "I Need to Talk to My Spouse"</a>
+  <a class="nav-link" href="lesson-s6-07-worth-it.html">7. "Is This Worth It?"</a>
+  <a class="nav-link" href="lesson-s6-08-tried-before.html">8. "I've Tried Things Like This Before"</a>
+  <a class="nav-link" href="lesson-s6-09-what-if-doesnt-work.html">9. "What If It Doesn't Work?"</a>
+  <a class="nav-link" href="lesson-s6-10-energy-shift.html">10. Energy Shift Detection</a>
+  <a class="nav-link" href="lesson-s6-11-cost-reframe.html">11. The Cost Reframe</a>
+  <a class="nav-link active" href="lesson-s6-12-pattern-interrupt.html">12. Pattern Interrupting Stalls</a>
+  <a class="nav-link" href="lesson-s6-13-buyers-remorse.html">13. Buyer's Remorse</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 12 · Section 6</div>
+  <h1>Pattern Interrupting Stalls Before They Happen</h1>
+  <p class="subtitle">Most reps wait for stalls to arrive, then try to recover. Elite reps see them coming and change the direction before the stall has time to form.</p>
+
+  <section id="the-premise">
+    <h2>The Premise</h2>
+    <div class="highlight">
+      <p><strong>Stalls are predictable.</strong> "I need to think about it," "let me talk to my spouse," "can you send me something?" — every rep has heard these so many times they should be able to prevent them. But most reps don't. They wait for the stall, then scramble.</p>
+    </div>
+    <div class="block">
+      <p>Pattern interrupting is the practice of redirecting the conversation before the stall takes shape. Not by rushing to close, but by addressing the underlying condition that was going to create the stall in the first place.</p>
+      <p>The stall is a symptom. The pattern interrupt treats the cause.</p>
+    </div>
+  </section>
+
+  <section id="causes">
+    <h2>What Creates Stalls</h2>
+    <div class="red-block">
+      <p><strong>Stalls come from three places:</strong></p>
+      <p>1. <strong>Uncertainty</strong> — they're not sure the program works or works for them specifically. They need more certainty before they can decide.</p>
+      <p>2. <strong>Identity misalignment</strong> — some part of them doesn't see themselves as "someone who does this." The stall is them retreating to a familiar identity.</p>
+      <p>3. <strong>Permission</strong> — they feel like they need someone else's buy-in (spouse, partner, mentor) before they can feel okay making the decision.</p>
+    </div>
+    <div class="block">
+      <p>If you address all three of these during discovery and pitch — before the close — the stall either doesn't appear or appears in a weakened form that's easy to handle.</p>
+    </div>
+  </section>
+
+  <section id="seeds">
+    <h2>Pattern Interrupt Seeding — Lines to Plant Early</h2>
+    <p style="font-size:14px;color:#555;margin-bottom:24px;">Seed these during the call — in discovery, during pitch, or at transition. Not at the close. By the time you're closing, these should already be in place.</p>
+
+    <div class="seed-block">
+      <div class="seed-label">Seed 1 — Certainty interrupt (use mid-pitch)</div>
+      <div class="seed-text">"I want to be upfront — a lot of people come into this call wanting to make sure it works before they commit. I'd rather you not join if you're not certain. So as we go through this, tell me what you're not seeing yet."</div>
+      <div class="seed-why">Why it works: Names their uncertainty, gives them permission to voice it now instead of at the close, positions you as the opposite of pushy.</div>
+    </div>
+
+    <div class="seed-block">
+      <div class="seed-label">Seed 2 — Identity interrupt (use after discovery)</div>
+      <div class="seed-text">"Can I ask you something? You mentioned you're serious about this. When you imagine the version of you who's actually at $20k a month — is there any part of you that still isn't sure that person is you?"</div>
+      <div class="seed-why">Why it works: Surfaces the identity doubt early. They address it now instead of it festering into a "let me think about it."</div>
+    </div>
+
+    <div class="seed-block">
+      <div class="seed-label">Seed 3 — Spouse/partner interrupt (use in discovery if they mention a partner)</div>
+      <div class="seed-text">"Is this something your [spouse/partner] knows you're looking at? I ask because decisions like this are better made together, and I want to make sure whoever matters to you is at least in the loop."</div>
+      <div class="seed-why">Why it works: Surfaces the spouse objection early while you can address it, instead of it appearing as a stall at the end of the call.</div>
+    </div>
+
+    <div class="seed-block">
+      <div class="seed-label">Seed 4 — Decision pattern interrupt (use before price)</div>
+      <div class="seed-text">"Before I show you the investment — I want to ask: when you make decisions like this, do you generally know pretty quickly, or do you need time to process?"</div>
+      <div class="seed-why">Why it works: Gets them to name their decision pattern. If they say "I need time," you can explore what that means. If they say "I generally know quickly," you can hold them to that.</div>
+    </div>
+  </section>
+
+  <section id="exchange">
+    <h2>The Pattern Interrupt in Action</h2>
+    <div class="exchange">
+      <div class="exchange-header">Rep who didn't seed — standard stall at close</div>
+      <div class="exchange-body">
+        <div class="msg"><span class="msg-who rep">Rep</span><span class="msg-text rep-msg">So the investment is $7,500. What do you think?</span></div>
+        <div class="msg"><span class="msg-who prospect">Prospect</span><span class="msg-text prospect-msg">I love it. I just want to think about it and talk to my wife and maybe get back to you next week.</span></div>
+        <div class="msg"><span class="msg-who rep">Rep</span><span class="msg-text rep-msg">Of course, totally makes sense. I'll follow up Monday!</span></div>
+        <div class="annotation">Three stalls hit at once. Rep never seeded. Call is essentially over.</div>
+      </div>
+    </div>
+    <div class="exchange">
+      <div class="exchange-header">Rep who seeded — stalls addressed before they formed</div>
+      <div class="exchange-body">
+        <div class="msg"><span class="msg-who rep">Rep</span><span class="msg-text rep-msg">[Early in call] Is your wife aware you're looking at this? I ask because these decisions are better with both people understanding what's happening.</span></div>
+        <div class="msg"><span class="msg-who prospect">Prospect</span><span class="msg-text prospect-msg">Yeah she knows I'm on a call about sales training. She's supportive but probably wants to know more.</span></div>
+        <div class="msg"><span class="msg-who rep">Rep</span><span class="msg-text rep-msg">Makes sense. If she had one concern, what do you think it would be?</span></div>
+        <div class="msg"><span class="msg-who prospect">Prospect</span><span class="msg-text prospect-msg">Probably just if it's actually going to work.</span></div>
+        <div class="msg"><span class="msg-who rep">Rep</span><span class="msg-text rep-msg">That's fair. Let's make sure we actually address that today so you're not carrying that uncertainty into a decision.</span></div>
+        <div class="annotation">Spouse concern surfaced and addressed in discovery. Can't become a close-time stall now.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="timing">
+    <h2>Timing Is Everything</h2>
+    <div class="warning">
+      <p><strong>Pattern interrupt seeds must go in early — not right before the close.</strong> If you try to pattern-interrupt at the close, it reads as manipulation. It needs to happen during discovery or pitch, when the context is exploratory and you're genuinely trying to help them make a clear decision.</p>
+    </div>
+    <div class="highlight">
+      <p>The goal is never to prevent the prospect from thinking or involving their partner. The goal is to do that work <strong>now, together, on this call</strong> — so they're not doing it alone in an information vacuum after you hang up.</p>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

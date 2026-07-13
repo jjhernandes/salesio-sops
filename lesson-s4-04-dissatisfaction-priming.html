@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dissatisfaction Priming — S4 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S4 — Discovery Mastery</div>
+  <a class="nav-link" href="lesson-s4-01-discovery-overview.html">1. Why Discovery Wins the Sale</a>
+  <a class="nav-link" href="lesson-s4-02-pain-ladder.html">2. The Pain Ladder</a>
+  <a class="nav-link" href="lesson-s4-03-four-states.html">3. The Four States</a>
+  <a class="nav-link active" href="lesson-s4-04-dissatisfaction-priming.html">4. Dissatisfaction Priming</a>
+  <a class="nav-link" href="lesson-s4-05-desire-activation.html">5. Desire Activation</a>
+  <a class="nav-link" href="lesson-s4-06-possibility-priming.html">6. Possibility Priming</a>
+  <a class="nav-link" href="lesson-s4-07-attention-engineering.html">7. Attention Engineering</a>
+  <a class="nav-link" href="lesson-s4-08-reflect-before-ask.html">8. Reflect Before You Ask</a>
+  <a class="nav-link" href="lesson-s4-09-intentional-silence.html">9. Intentional Silence</a>
+  <a class="nav-link" href="lesson-s4-10-tell-me-more.html">10. Tell Me More About That</a>
+  <a class="nav-link" href="lesson-s4-11-cognitive-dissonance.html">11. Cognitive Dissonance</a>
+  <a class="nav-link" href="lesson-s4-12-discovery-mistakes.html">12. Discovery Mistakes</a>
+  <a class="nav-link" href="lesson-s4-13-early-objection-surface.html">13. Early Objection Surface</a>
+  <a class="nav-link" href="lesson-s4-14-active-listening.html">14. Active Listening</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 4 · Section 4</div>
+  <h1>Dissatisfaction Priming</h1>
+  <p class="subtitle">Making the gap feel real. Dissatisfaction is not about making someone feel bad. It is about making the distance between where they are and where they want to be impossible to ignore.</p>
+
+  <section id="what-it-is">
+    <h2>What Dissatisfaction Priming Actually Is</h2>
+    <div class="highlight">
+      <p>Dissatisfaction priming is the process of helping a prospect feel the full weight of their current situation before you offer a way out.</p>
+      <p>It is not manipulation. It is not manufacturing misery. <strong>It is surfacing what is already true for the prospect and making sure they feel it — not just intellectually acknowledge it.</strong></p>
+      <p>Most people walk around with a vague awareness that their situation is not what they want. They have adapted to it. The discomfort has become background noise. Dissatisfaction priming turns the background noise into something vivid and immediate — which is what creates urgency and motivation to act.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">The Gap</div>
+      <p>Every prospect has a gap between where they are and where they want to be. Your job is not to tell them the gap exists. They know it exists. Your job is to make them feel the size of that gap — specifically, what it has cost them and what it will continue to cost them if nothing changes.</p>
+      <p>The gap is where the sale lives. Make the gap real and vivid and you have built the urgency that no pitch can manufacture.</p>
+    </div>
+    <div class="warning">
+      <p><strong>The difference between priming and pressuring:</strong> Priming works through questions that invite the prospect to articulate their own situation. Pressuring tells the prospect what they should feel. One produces real urgency from inside the prospect. The other produces resistance and distrust. If you are telling them their situation is bad, you are doing it wrong.</p>
+    </div>
+  </section>
+
+  <section id="questioning-vs-telling">
+    <h2>Opening the Gap Through Questions, Not Telling</h2>
+    <div class="red-block">
+      <p><strong>Telling approach (wrong):</strong> "Look, if you keep doing what you're doing you'll stay stuck at $8K months for another year. That's $96K in lost income. You really need to make a change."</p>
+      <p>The rep is describing the prospect's pain to them. This creates defensiveness, not urgency. The prospect did not articulate this themselves — it was handed to them. They might reject it or minimize it.</p>
+    </div>
+    <div class="highlight">
+      <p><strong>Questioning approach (right):</strong> "Walk me through — if the next 12 months look like the last 12 months, what does that mean for you? Not just financially. Actually walk me through it."</p>
+      <p><strong>The prospect now describes their own pain.</strong> They hear themselves say it. They feel it. The urgency comes from inside them. That urgency belongs to them, not to you. It will not evaporate when the call ends.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">The Core Principle</div>
+      <p>Dissatisfaction that the prospect articulates is ten times more powerful than dissatisfaction you describe. The moment they say it out loud — "I've been stuck here for two years and nothing has changed" — the urgency belongs to them. You cannot give someone urgency. You can only help them find the urgency that was already there.</p>
+    </div>
+  </section>
+
+  <section id="question-types">
+    <h2>The Question Types That Prime Dissatisfaction</h2>
+    <ul class="checklist">
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Duration questions.</strong> "How long has this been going on?" Time is the amplifier of pain. A problem that has existed for two years is not the same as a problem that started last month. Duration questions make the prospect confront how long they have been living with something they did not want.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Cost questions.</strong> "What has this cost you — not just in income, but in time, energy, relationships, confidence?" Expand the scope of the cost beyond the obvious. When a prospect realizes the problem has been costing them across multiple areas of their life, the dissatisfaction becomes multi-dimensional and much harder to minimize.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Projection questions.</strong> "If the next 12 months look like the last 12 months, what does that mean?" Forward projection makes the current situation feel like a future sentence, not just a current inconvenience. It shifts the emotional frame from "this is where I am" to "this is where I am heading."</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Identity gap questions.</strong> "You clearly know what you're capable of — how does that fit with where you are right now?" This surfaces the gap between how the prospect sees themselves and what their results are showing them. The identity gap creates cognitive dissonance that is deeply uncomfortable and highly motivating.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Attempt questions.</strong> "What have you tried so far? What happened?" Surfacing failed attempts deepens dissatisfaction because it shows the prospect that the problem has been persistent across multiple solutions. They tried. It did not work. That specificity adds emotional weight.</div>
+      </li>
+    </ul>
+  </section>
+
+  <section id="owning-the-gap">
+    <h2>Making the Gap Vivid Without Pushing</h2>
+    <div class="block">
+      <div class="block-label">The Pace Matters</div>
+      <p>Dissatisfaction priming only works when you slow down. Ask the question. Then hold silence. Let the prospect sit with it. The discomfort of sitting with the question is part of what makes the dissatisfaction feel real. If you ask "what has this cost you?" and then immediately follow up with another question before they answer fully, you drain the tension from the room.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">Do Not Rescue Them</div>
+      <p>When a prospect is sitting in the discomfort of articulating their situation, the instinct is to move past it quickly, to reassure them that you have the answer. Resist this. The discomfort is productive. Stay in it with them. Let them feel the full weight of where they are before you offer the door out. The relief of the solution is proportional to the weight of the problem.</p>
+    </div>
+    <div class="quote-block">
+      <p>"People buy based on emotions and compensate logically."</p>
+      <div class="attribution">— JJ Hernandez</div>
+    </div>
+  </section>
+
+  <section id="exchange">
+    <h2>Call Exchange — Telling vs. Priming</h2>
+
+    <div class="exchange">
+      <div class="exchange-header">VERSION 1 — Rep Telling Instead of Priming</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"I've been in sales for about two years. Making around $6K a month. It's not bad but I feel like it should be higher."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Yeah, $6K is well below where you could be for two years in. You're leaving real money on the table. That's probably $150K or more over the course of the year compared to where you could be operating. That's why people come to us — they realize they can't afford to stay where they are."</div>
+          <span class="annotation">Rep is describing the pain TO the prospect. The prospect did not articulate any of this. This creates defensiveness, not urgency. The prospect might push back or shut down.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-header">VERSION 2 — Rep Priming Through Questions</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"I've been in sales for about two years. Making around $6K a month. It's not bad but I feel like it should be higher."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"When you say it should be higher — where did you think you'd be after two years?"</div>
+          <span class="annotation">Letting the prospect define their own gap instead of defining it for them.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Honestly, I thought I'd be at $15K minimum by now. I was really optimistic when I started."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"What has the gap between $6K and $15K cost you over two years — not just the income, but what else?"</div>
+          <span class="annotation">Cost question. Expanding the scope. The prospect is now doing the math themselves.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Probably a lot. I've had to hold off on buying a house. My confidence has taken a hit. I've started wondering if I'm actually cut out for this."</div>
+          <span class="annotation">The prospect has articulated multi-dimensional pain that the rep never had to describe. This dissatisfaction belongs to them. It is real and it is vivid. The pitch now lands on prepared ground.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

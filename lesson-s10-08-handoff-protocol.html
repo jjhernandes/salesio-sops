@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Handoff Protocol — S10 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.note-block{background:#070707;border:1px solid #1a1a1a;border-radius:10px;padding:20px 24px;margin-bottom:14px;font-family:monospace;}
+.note-block .note-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:12px;font-family:'Inter',sans-serif;}
+.note-field{margin-bottom:10px;}
+.note-field .nf-key{font-size:12px;color:#555;font-family:'Inter',sans-serif;font-weight:600;letter-spacing:0.04em;margin-bottom:3px;}
+.note-field .nf-val{font-size:13px;color:#a3e8bb;line-height:1.5;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-who.closer{color:#a78bfa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.msg-text.closer-msg{background:#080208;border:1px solid #2a1040;color:#c4b5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S10 — Setting &amp; Lead Gen</div>
+  <a class="nav-link" href="lesson-s10-01-setter-role.html">1. The Setter's Role</a>
+  <a class="nav-link" href="lesson-s10-02-linkedin-dm.html">2. LinkedIn DM Setting</a>
+  <a class="nav-link" href="lesson-s10-03-cold-calling.html">3. Cold Calling Fundamentals</a>
+  <a class="nav-link" href="lesson-s10-04-tonality-setting.html">4. Tonality in Setting</a>
+  <a class="nav-link" href="lesson-s10-05-qualifying.html">5. Qualifying on the Set</a>
+  <a class="nav-link" href="lesson-s10-06-setter-objections.html">6. Setter Objections</a>
+  <a class="nav-link" href="lesson-s10-07-booking-confirmation.html">7. Booking Confirmation</a>
+  <a class="nav-link active" href="lesson-s10-08-handoff-protocol.html">8. Handoff Protocol</a>
+  <a class="nav-link" href="lesson-s10-09-setting-metrics.html">9. Setting Metrics</a>
+  <a class="nav-link" href="lesson-s10-10-volume-quality.html">10. Volume vs. Quality</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 8 · Section 10 · Coach: Jalen Hoxie</div>
+  <h1>Handoff Protocol</h1>
+  <p class="subtitle">The handoff is where most setting-to-closing systems break down. The closer should never walk into a call cold. If they do, the setter didn't finish the job.</p>
+
+  <!-- SECTION 1 -->
+  <section id="where-it-breaks">
+    <h2>Where the System Breaks Down</h2>
+    <div class="red-block">
+      <p>The single most common failure point in a setter-closer system is the gap between "booked" and "briefed." The setter gets the call on the calendar and moves on. The closer shows up, opens Close CRM, sees a name with no notes, and has to start the call in the dark.</p>
+      <p><strong>Starting a call in the dark costs 5-10 minutes of rapport-building time that should have been spent on real discovery.</strong> In a 45-minute call, that's significant. The closer is re-establishing context that the setter already has. The prospect has to repeat themselves. Nobody wins.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">What a Missing Handoff Costs the Closer</div>
+      <p>The closer's first 60 seconds on a call sets the tone for the entire conversation. If they spend those 60 seconds asking the prospect to re-explain who they are and why they booked, they've started from zero and the prospect feels like they're talking to someone who doesn't know them.</p>
+      <p>A proper handoff means the closer can open with something specific: "Marcus, I heard you've been closing in the health coaching space for about a year and you're working through the 'I need to think about it' objection — that's actually a really fixable thing." That opener takes 10 seconds and builds instant connection. It's only possible if the setter left a real note.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section id="what-closer-needs">
+    <h2>What the Closer Needs Before Every Call</h2>
+    <ul class="checklist">
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Full name and how they found us.</strong> LinkedIn outreach, cold call, referral, inbound. Context on how they came in shapes how the closer frames their approach.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Current situation summary.</strong> What do they do, how long have they been doing it, what are the key numbers (close rate, income, offer type, niche). This is what the closer uses to open the call with specificity.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">What was said in the set.</strong> The specific pain they revealed. The exact words they used, if memorable. This is the anchor the closer comes back to throughout the call.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Qualification level.</strong> Did they confirm budget capacity? Is there a second decision maker? What's the urgency level? Any objections that came up during the set and how they were handled?</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Energy and tone of the conversation.</strong> Were they excited, cautious, skeptical, or just curious? Was there resistance or did it flow easily? The closer's emotional read on the prospect before the call starts directly affects how they open.</div>
+      </li>
+      <li>
+        <div class="check-icon fail">✗</div>
+        <div><strong style="color:#ccc;">What does NOT count as a handoff:</strong> A name in Close with no notes. "He seemed interested." A generic "qualified lead" tag with no context. These give the closer nothing to work with.</div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section id="handoff-format">
+    <h2>The Handoff Format — Close CRM Note</h2>
+    <div class="block">
+      <div class="block-label">The Standard</div>
+      <p>Every booked call gets a structured note in Close CRM before the call starts. No exceptions. This is entered by the setter as soon as the call is confirmed — not the day of, not an hour before. As soon as it's booked.</p>
+    </div>
+
+    <div class="note-block">
+      <div class="note-label">Close CRM Handoff Note — Template</div>
+      <div class="note-field">
+        <div class="nf-key">NAME</div>
+        <div class="nf-val">Marcus Thompson</div>
+      </div>
+      <div class="note-field">
+        <div class="nf-key">SOURCE</div>
+        <div class="nf-val">LinkedIn DM outreach — setter initiated</div>
+      </div>
+      <div class="note-field">
+        <div class="nf-key">SITUATION</div>
+        <div class="nf-val">Remote closer, health coaching niche, 9 months in. Currently at 18% close rate. Has a consistent income (~$5-7K/mo based on conversation). Not pre-revenue.</div>
+      </div>
+      <div class="note-field">
+        <div class="nf-key">PAIN POINT (THEIR WORDS)</div>
+        <div class="nf-val">"I fold whenever they say they need to think about it. My manager says I'm leaving 40% of my closes on the table."</div>
+      </div>
+      <div class="note-field">
+        <div class="nf-key">QUALIFICATION</div>
+        <div class="nf-val">Budget: confirmed willing to invest. Decision maker: solo. Timeline: actively looking now. Past programs: tried one generic program, didn't work because "all theory, no real coaching."</div>
+      </div>
+      <div class="note-field">
+        <div class="nf-key">ENERGY / TONE</div>
+        <div class="nf-val">Self-aware, a little skeptical due to past program experience, but genuinely motivated. Warmed up through the conversation. Came in cautious, left curious.</div>
+      </div>
+      <div class="note-field">
+        <div class="nf-key">SETTER NOTES</div>
+        <div class="nf-val">Address the past program skepticism early — he's worried about getting theory instead of real coaching. Differentiate on the call review and active coaches angle. Don't oversell early.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section id="bad-handoff">
+    <h2>What a Bad Handoff Does to the First 60 Seconds</h2>
+    <div class="warning">
+      <p><strong>A closer who walks in cold has to use the opening of the call to gather information the setter already had.</strong> This means the prospect has to repeat themselves, the closer loses the opportunity to open with something personal and specific, and the relationship starts from scratch instead of from where the setter left it.</p>
+    </div>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th class="col-a">No Handoff Note</th>
+          <th class="col-b">Complete Handoff Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-a-td">"Hey Marcus, thanks for hopping on. So tell me a bit about yourself and what you're looking to work on."</td>
+          <td class="col-b-td">"Marcus — I heard you've been in the health coaching space for about a year, closing around 18%, and that the main thing is what happens when prospects say they need to think about it. That right?"</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">Prospect spends 5 minutes re-explaining their situation. Feels like a cold call, not a warm referral.</td>
+          <td class="col-b-td">Prospect says "yeah exactly." Feels heard before the call even really starts. Trust is already building.</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">Closer has no angle, no anchor, no specific pain to return to. Call is generic.</td>
+          <td class="col-b-td">Closer knows the pain, the skepticism about past programs, and the right angle to differentiate. Call is targeted from the first minute.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- EXCHANGE -->
+  <section id="exchange">
+    <h2>Exchange — The Handoff That Changes the First 60 Seconds</h2>
+
+    <div class="exchange">
+      <div class="exchange-header">SCENARIO — Closer Opening with a Complete Handoff Note</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who closer">Closer</span>
+          <div class="msg-text closer-msg">"Marcus — appreciate you jumping on. I got some context from Jalen before this. You've been closing in the health coaching space for about nine months, running around 18%, and the main thing breaking down is when prospects say they need more time to think — that right?"</div>
+          <span class="annotation">Opens with everything from the handoff note. No "tell me about yourself." The prospect immediately feels heard — and didn't have to say a word yet.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Yeah, exactly. That's the biggest thing. I just — I don't know how to handle it without feeling like I'm being pushy."</div>
+          <span class="annotation">Already in the real conversation. 45 seconds in. Discovery didn't waste 10 minutes getting to this point.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who closer">Closer</span>
+          <div class="msg-text closer-msg">"The pushiness feeling is actually where we need to start — because that feeling is not about what you're saying. It's about what you believe about yourself when you're asking. Tell me more about what happens in your head when they say that."</div>
+          <span class="annotation">The handoff enabled a precise, high-trust opening. The closer is already working the real problem. The call will close at a higher rate because the first minute didn't get wasted on logistics.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+</body>
+</html>

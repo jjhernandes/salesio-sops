@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Regret Minimization Frame — S7 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S7 — Advanced Influence</div>
+  <a class="nav-link" href="lesson-s7-01-buying-decisions.html">1. How Buying Decisions Actually Happen</a>
+  <a class="nav-link" href="lesson-s7-02-halo-effect.html">2. The Halo Effect</a>
+  <a class="nav-link" href="lesson-s7-03-anchoring.html">3. Anchoring</a>
+  <a class="nav-link" href="lesson-s7-04-presuasion.html">4. Pre-Suasion</a>
+  <a class="nav-link" href="lesson-s7-05-priming-questions.html">5. Priming Questions</a>
+  <a class="nav-link" href="lesson-s7-06-cognitive-dissonance.html">6. Cognitive Dissonance</a>
+  <a class="nav-link" href="lesson-s7-07-identity-consistency.html">7. Identity Consistency</a>
+  <a class="nav-link" href="lesson-s7-08-future-self.html">8. Future Self Projection</a>
+  <a class="nav-link" href="lesson-s7-09-loss-aversion.html">9. Loss Aversion</a>
+  <a class="nav-link" href="lesson-s7-10-loss-framing.html">10. Loss Framing</a>
+  <a class="nav-link" href="lesson-s7-11-legitimate-urgency.html">11. Legitimate Urgency</a>
+  <a class="nav-link active" href="lesson-s7-12-regret-minimization.html">12. Regret Minimization Frame</a>
+  <a class="nav-link" href="lesson-s7-13-reciprocity.html">13. Reciprocity</a>
+  <a class="nav-link" href="lesson-s7-14-social-proof-identity.html">14. Social Proof at the Identity Level</a>
+  <a class="nav-link" href="lesson-s7-15-contagious-emotion.html">15. Contagious Emotion</a>
+  <a class="nav-link" href="lesson-s7-16-influence-structure.html">16. The Structure of Influence</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 12 · Section 7</div>
+  <h1>The Regret Minimization Frame</h1>
+  <p class="subtitle">Short-term comfort versus long-term identity. This frame doesn't close people — it gets them to close themselves by asking the right question about who they want to be looking back.</p>
+
+  <section id="bezos">
+    <h2>Where It Comes From</h2>
+    <div class="block">
+      <div class="block-label">Jeff Bezos — The 80-Year-Old Test</div>
+      <p>Jeff Bezos has described the framework he used when deciding to leave a high-paying Wall Street job to start Amazon. He imagined himself at 80 years old, looking back on his life. He asked: "Which decision would I regret more — trying and failing, or never trying at all?"</p>
+      <p>The answer was obvious. He wouldn't regret the attempt. He would regret not trying. That clarity cut through all the short-term risk analysis and made the decision simple.</p>
+    </div>
+    <div class="quote-block">
+      <p>"I knew that when I was 80, I would never, ever regret having tried this. I also knew that I might sincerely regret not ever having tried."</p>
+      <div class="attribution">— Jeff Bezos</div>
+    </div>
+    <div class="highlight">
+      <p>The frame shifts the decision from short-term risk evaluation to <strong>long-term identity assessment.</strong> Short-term: $7,500 is a lot of money and I'm not sure. Long-term: am I the kind of person who bet on themselves when it mattered?</p>
+    </div>
+  </section>
+
+  <section id="adapting">
+    <h2>Adapting It for Sales</h2>
+    <div class="block">
+      <div class="block-label">The Sales Version</div>
+      <p>You're not asking the prospect to imagine being 80 — that's too abstract for a sales call. You're asking them to zoom out from the immediate moment of decision and see it from the perspective of the person they want to become.</p>
+      <p>"A year from now, if you're in the exact same spot — same income, same struggles, same feeling of being stuck — what would that feel like? And what would you think about the decision you're facing right now?" That's the regret minimization frame adapted for a 12-minute window on a call.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">It's a Perspective Shift, Not a Close</div>
+      <p>The regret minimization frame isn't a closing technique in the traditional sense. It doesn't push. It doesn't apply pressure. It pulls the prospect out of the fear of the immediate decision and puts them in the place of their future self evaluating the decision they just made.</p>
+      <p>Most people, when given that perspective, already know the answer. The fear of a $7,500 investment is small compared to the pain of being in the same place a year later and knowing you had the opportunity to change it. The frame makes that obvious.</p>
+    </div>
+  </section>
+
+  <section id="when-to-use">
+    <h2>When to Use It</h2>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th style="color:#555;">Scenario</th>
+          <th style="color:#4ade80;">Why the Frame Works Here</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-c-td">Prospect is overthinking, stuck in analysis paralysis</td>
+          <td class="col-b-td">The frame interrupts the logical loop and reframes it as a values question, not a risk calculation</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Prospect keeps saying "I need to think about it"</td>
+          <td class="col-b-td">Asks what they're protecting. Short-term comfort vs. long-term identity. Makes the real trade explicit.</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Prospect has been in the same spot for a long time</td>
+          <td class="col-b-td">The regret of more time in the same place is viscerally real for them. The frame hits directly.</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Prospect values integrity and long-term thinking</td>
+          <td class="col-b-td">Appeals to their identity as someone who makes good long-term decisions</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="warning">
+      <p><strong>Don't use it as a manipulation tactic.</strong> The regret minimization frame works because it's honest. If it's deployed as a trick to make someone feel bad for not buying, the prospect will sense it. The emotional truth of the frame — that staying put has a real cost — is what makes it land. If the real situation doesn't support it, don't use it.</p>
+    </div>
+  </section>
+
+  <section id="exchange">
+    <h2>Call Exchange — The Regret Frame</h2>
+    <div class="exchange">
+      <div class="exchange-header">Using the Frame Without Making It Feel Like Pressure</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"I just need to think about it more. I don't want to make a hasty decision."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"That's fair — and I'm not going to rush you. But I want to offer you a different way to look at it, if that's okay. Imagine it's a year from today. You're in the exact same spot — same income, same feeling that you're not where you should be, same conversation going on in your head about what to do about it. What do you think you'd feel about the decision you're facing right now?"</div>
+          <span class="annotation">No pressure. Genuine question. Gives them permission to consider their future self's perspective without being told what to conclude.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">[pause] "Honestly? I'd be frustrated with myself. I've been saying 'I'll figure it out' for two years."</div>
+          <span class="annotation">They arrived at the insight themselves. The rep didn't tell them they'd regret it. The prospect realized it. That's the difference between influence and manipulation.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"So the question isn't whether this is a risk. The question is which decision you can live with."</div>
+          <span class="annotation">Lands the frame cleanly. Quiet. No push. The prospect's own insight is doing the work.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>

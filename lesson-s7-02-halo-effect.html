@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Halo Effect — S7 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S7 — Advanced Influence</div>
+  <a class="nav-link" href="lesson-s7-01-buying-decisions.html">1. How Buying Decisions Actually Happen</a>
+  <a class="nav-link active" href="lesson-s7-02-halo-effect.html">2. The Halo Effect</a>
+  <a class="nav-link" href="lesson-s7-03-anchoring.html">3. Anchoring</a>
+  <a class="nav-link" href="lesson-s7-04-presuasion.html">4. Pre-Suasion</a>
+  <a class="nav-link" href="lesson-s7-05-priming-questions.html">5. Priming Questions</a>
+  <a class="nav-link" href="lesson-s7-06-cognitive-dissonance.html">6. Cognitive Dissonance</a>
+  <a class="nav-link" href="lesson-s7-07-identity-consistency.html">7. Identity Consistency</a>
+  <a class="nav-link" href="lesson-s7-08-future-self.html">8. Future Self Projection</a>
+  <a class="nav-link" href="lesson-s7-09-loss-aversion.html">9. Loss Aversion</a>
+  <a class="nav-link" href="lesson-s7-10-loss-framing.html">10. Loss Framing</a>
+  <a class="nav-link" href="lesson-s7-11-legitimate-urgency.html">11. Legitimate Urgency</a>
+  <a class="nav-link" href="lesson-s7-12-regret-minimization.html">12. Regret Minimization Frame</a>
+  <a class="nav-link" href="lesson-s7-13-reciprocity.html">13. Reciprocity</a>
+  <a class="nav-link" href="lesson-s7-14-social-proof-identity.html">14. Social Proof at the Identity Level</a>
+  <a class="nav-link" href="lesson-s7-15-contagious-emotion.html">15. Contagious Emotion</a>
+  <a class="nav-link" href="lesson-s7-16-influence-structure.html">16. The Structure of Influence</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 2 · Section 7</div>
+  <h1>The Halo Effect</h1>
+  <p class="subtitle">Your first 90 seconds determine the lens through which the prospect experiences everything else on the call. Get the opening right and the whole call is easier. Get it wrong and you're fighting uphill the entire time.</p>
+
+  <section id="what-it-is">
+    <h2>What the Halo Effect Is</h2>
+    <div class="block">
+      <div class="block-label">The Psychology</div>
+      <p>The Halo Effect is the cognitive bias where one strong positive impression causes us to view everything else about a person or experience more favorably. One negative first impression does the reverse — a "reverse halo" or horn effect — where subsequent information gets filtered through a skeptical lens.</p>
+      <p>Psychologist Edward Thorndike identified it in the 1920s. Solomon Asch expanded on it. Kahneman describes it as one of System 1's most powerful shortcuts: instead of evaluating each piece of information independently, we let one strong data point color the whole picture.</p>
+    </div>
+    <div class="highlight">
+      <p>In a sales call context: <strong>the halo you create in the first 90 seconds is the lens through which every single thing you say afterward will be interpreted.</strong> Strong opening — your objections are received as curiosity. Weak opening — your best points are received as desperation.</p>
+    </div>
+  </section>
+
+  <section id="what-creates">
+    <h2>What Creates a Strong Positive Halo</h2>
+    <div class="block">
+      <div class="block-label">The Four Signals</div>
+      <p>A strong opening halo isn't about what you say. It's about four things the prospect's System 1 reads in the first 90 seconds — none of which are in your script.</p>
+    </div>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th style="color:#555;">Signal</th>
+          <th class="col-a">Negative Halo</th>
+          <th class="col-b">Positive Halo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-c-td">Tone</td>
+          <td class="col-a-td">Eager, slightly high-pitched, over-friendly — reads as needy</td>
+          <td class="col-b-td">Calm, grounded, unhurried — reads as certain</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Pace</td>
+          <td class="col-a-td">Fast, steamrolling into the agenda — reads as nervous</td>
+          <td class="col-b-td">Deliberate pauses, comfortable silences — reads as confident</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Opening question</td>
+          <td class="col-a-td">"Tell me a little bit about yourself" — generic, forgettable</td>
+          <td class="col-b-td">Specific to them, shows you prepared — reads as someone who cares</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Energy</td>
+          <td class="col-a-td">Performed enthusiasm — "This is awesome!" — reads as fake</td>
+          <td class="col-b-td">Genuine interest without performance — reads as real</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="block">
+      <div class="block-label">The Non-Needy Frame</div>
+      <p>The single most powerful halo signal is non-neediness. When the prospect senses you do not need this particular call to go a certain way, they relax. Their guard comes down. They start treating the conversation like a dialogue between two people with equal standing — which is exactly the frame you want.</p>
+      <p>Neediness broadcasts in your opening before you say a word: in how quickly you start talking, how you fill silence, how enthusiastic you sound about getting through your agenda.</p>
+    </div>
+  </section>
+
+  <section id="what-kills">
+    <h2>What Creates a Negative Halo</h2>
+    <div class="red-block">
+      <p><strong>Over-enthusiasm kills the halo.</strong> The rep who opens with "I'm so excited to talk with you today!" has already told the prospect they care too much about this. The prospect's System 1 reads it correctly: this person needs something from me. Guard goes up.</p>
+    </div>
+    <div class="red-block">
+      <p><strong>The unprepared opener.</strong> "So, tell me a little about yourself and what you're looking for." The prospect just got the same question they've been asked by every other rep they've ever talked to. The halo is: generic. Not someone worth paying $7,500 to.</p>
+    </div>
+    <div class="red-block">
+      <p><strong>Rushing into the agenda.</strong> Starting a call with "Great, so I'll walk you through what we cover, then we'll talk about fit, and then we can look at next steps..." signals that this is a process you're running, not a conversation you're having. The prospect feels processed, not seen.</p>
+    </div>
+    <div class="warning">
+      <p><strong>The halo is hard to reverse.</strong> A negative first impression requires roughly 8 positive interactions to fully override, according to behavioral research. You can recover from a bad opening — but it costs you energy, credibility, and momentum you need for the close. Better to get it right the first time.</p>
+    </div>
+  </section>
+
+  <section id="recovery">
+    <h2>How to Recover if the Opening Missed</h2>
+    <div class="block">
+      <div class="block-label">The Pattern Interrupt</div>
+      <p>If you feel the call starting to slip — the prospect is short with answers, the energy is flat, they seem checked out — you can interrupt the pattern. Not with a tactic, with honesty.</p>
+      <p>"Let me start over. I want to actually understand what's going on for you — not run through a process. What would make this call actually worth your time today?"</p>
+      <p>This works because it demonstrates the exact quality that creates a positive halo: not needing the call to go a specific way. The moment you give them permission to redirect, you've become the most trustworthy person who's ever gotten on a call with them.</p>
+    </div>
+  </section>
+
+  <section id="exchange">
+    <h2>Call Exchange — The First 90 Seconds</h2>
+    <div class="exchange">
+      <div class="exchange-header">VERSION 1 — Negative Halo Opening</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Hey [name]! So great to connect — I've been looking forward to this call all day. So I'll take you through a little bit about what we do, we'll talk about where you're at and see if there's a fit, and then we'll figure out next steps from there. Sound good?"</div>
+          <span class="annotation">Over-enthusiastic. Agenda-first. "Sound good?" seeks permission — signals insecurity. The prospect now knows this rep wants something from them.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Sure, yeah."</div>
+          <span class="annotation">Flat. Non-committal. The halo is already negative. Guard is up.</span>
+        </div>
+      </div>
+    </div>
+    <div class="exchange">
+      <div class="exchange-header">VERSION 2 — Positive Halo Opening</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Hey [name] — good to have you on. Before I get into anything, I read through what you shared. You mentioned you've been in sales for about two years and you're stuck around the $8-10K mark. What's been the biggest thing getting in the way?"</div>
+          <span class="annotation">No over-enthusiasm. No agenda list. Goes straight to them. Shows prep. Opens with a specific, relevant question. The prospect's System 1 reads: this person is here for me, not for a sale.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Honestly it's been consistency — I'll have a great week and then I can't figure out how to repeat it."</div>
+          <span class="annotation">The prospect is engaged. They're actually answering. The halo is positive. The rest of the call will be filtered through: this rep gets it.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="checklist">
+    <h2>Pre-Call Halo Checklist</h2>
+    <ul class="checklist">
+      <li><div class="check-icon pass">✓</div><div><strong style="color:#ccc;">Know one specific thing about this prospect</strong> before you dial. Use it in your opening question.</div></li>
+      <li><div class="check-icon pass">✓</div><div><strong style="color:#ccc;">Slow your pace by 20% in the first 60 seconds.</strong> Feel the urge to rush. Do the opposite.</div></li>
+      <li><div class="check-icon pass">✓</div><div><strong style="color:#ccc;">No agenda-listing in the opening.</strong> Let the conversation direct itself. Show you can hold space without a script.</div></li>
+      <li><div class="check-icon fail">✗</div><div><strong style="color:#ccc;">No performance enthusiasm.</strong> "So excited to talk to you" is a halo killer. Replace it with calm presence.</div></li>
+      <li><div class="check-icon fail">✗</div><div><strong style="color:#ccc;">No "sound good?" seeking approval.</strong> Make statements. Ask real questions. Don't seek permission to have a conversation.</div></li>
+    </ul>
+  </section>
+</main>
+
+</body>
+</html>

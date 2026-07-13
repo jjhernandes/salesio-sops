@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Active Listening — S4 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+.seq-list{list-style:none;counter-reset:seq;}
+.seq-list li{counter-increment:seq;display:flex;gap:16px;padding:14px 0;border-bottom:1px solid #111;font-size:14px;color:#999;line-height:1.6;}
+.seq-list li:last-child{border-bottom:none;}
+.seq-list li::before{content:counter(seq);width:24px;height:24px;border-radius:50%;background:#0a0a0a;border:1px solid #222;color:#4ade80;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.seq-list li strong{color:#fff;}
+.quote-block{border-left:3px solid #4ade80;padding:16px 22px;margin-bottom:14px;background:#050f08;}
+.quote-block p{font-size:16px;color:#a3e8bb;font-style:italic;line-height:1.7;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S4 — Discovery Mastery</div>
+  <a class="nav-link" href="lesson-s4-01-discovery-overview.html">1. Why Discovery Wins or Loses</a>
+  <a class="nav-link" href="lesson-s4-02-pain-ladder.html">2. The Pain Ladder</a>
+  <a class="nav-link" href="lesson-s4-03-four-states.html">3. The Four States</a>
+  <a class="nav-link" href="lesson-s4-04-dissatisfaction-priming.html">4. Dissatisfaction Priming</a>
+  <a class="nav-link" href="lesson-s4-05-desire-activation.html">5. Desire Activation</a>
+  <a class="nav-link" href="lesson-s4-06-possibility-priming.html">6. Possibility Priming</a>
+  <a class="nav-link" href="lesson-s4-07-attention-engineering.html">7. Attention Engineering</a>
+  <a class="nav-link" href="lesson-s4-08-reflect-before-ask.html">8. Reflect-Before-Ask</a>
+  <a class="nav-link" href="lesson-s4-09-intentional-silence.html">9. Intentional Silence</a>
+  <a class="nav-link" href="lesson-s4-10-tell-me-more.html">10. Tell Me More About That</a>
+  <a class="nav-link" href="lesson-s4-11-cognitive-dissonance.html">11. Cognitive Dissonance</a>
+  <a class="nav-link" href="lesson-s4-12-discovery-mistakes.html">12. Discovery Mistakes</a>
+  <a class="nav-link" href="lesson-s4-13-early-objection-surface.html">13. Early Objection Surface</a>
+  <a class="nav-link active" href="lesson-s4-14-active-listening.html">14. Active Listening</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 14 · Section 4</div>
+  <h1>Active Listening</h1>
+  <p class="subtitle">Repeat their life better than they told it. That's the skill. When you can do that, prospects feel more understood in 30 minutes with you than they have with most people in years.</p>
+
+  <section id="what-it-is">
+    <h2>What Active Listening Actually Is</h2>
+    <div class="highlight">
+      <p><strong>Active listening is not nodding along.</strong> It's absorbing what someone says — including the emotion behind it — and reflecting it back with enough precision that they feel genuinely heard. Not summarized. Heard.</p>
+    </div>
+    <div class="block">
+      <p>Most reps think they're listening when they're actually waiting. They hear enough to know when to speak again, but they're not processing what was actually said — they're processing what they're going to say next.</p>
+      <p>The prospect can feel this. It's why so many calls feel transactional even when the rep is technically asking all the right questions.</p>
+    </div>
+    <div class="quote-block">
+      <p>"Repeat their life better than they told it."</p>
+    </div>
+  </section>
+
+  <section id="four-levels">
+    <h2>The Four Levels of Listening</h2>
+    <table class="compare-table">
+      <thead><tr><th>Level</th><th class="col-a">What You're Doing</th><th class="col-b">What They Experience</th></tr></thead>
+      <tbody>
+        <tr><td style="color:#555;font-weight:700;">Level 1 — Passive</td><td class="col-a-td">Waiting to talk, half-present</td><td class="col-b-td">Feels like a sales call</td></tr>
+        <tr><td style="color:#555;font-weight:700;">Level 2 — Attentive</td><td class="col-a-td">Hearing the words correctly</td><td class="col-b-td">Feels like a decent conversation</td></tr>
+        <tr><td style="color:#555;font-weight:700;">Level 3 — Reflective</td><td class="col-a-td">Mirroring back what was said</td><td class="col-b-td">Feels like you were actually listening</td></tr>
+        <tr><td style="color:#555;font-weight:700;">Level 4 — Emotional</td><td class="col-a-td">Naming the feeling behind what was said</td><td class="col-b-td">Feels like you understand them</td></tr>
+      </tbody>
+    </table>
+    <div class="block">
+      <p>Most reps operate at Level 1-2. Elite closers operate at Level 3-4. The difference in close rate between Level 2 and Level 4 is not small.</p>
+    </div>
+  </section>
+
+  <section id="the-protocol">
+    <h2>The Active Listening Protocol</h2>
+    <ul class="seq-list">
+      <li><div><strong>Hear completely.</strong> Don't start formulating your response until they've fully finished. This requires you to actually be present, not planning ahead.</div></li>
+      <li><div><strong>Identify the emotion.</strong> Before you respond, ask yourself: "What is the feeling underneath what they just said?" Frustration, hope, fear, pride, shame — name it internally before speaking.</div></li>
+      <li><div><strong>Reflect the content AND the emotion.</strong> "So what I'm hearing is you've been grinding at this for 8 months, putting everything in, and it's not showing up in the results yet — and that's starting to feel like maybe the problem is you. Is that right?"</div></li>
+      <li><div><strong>Check accuracy.</strong> End with "Is that right?" or "Am I getting that right?" This gives them permission to correct you — and when they do, they go deeper.</div></li>
+    </ul>
+  </section>
+
+  <section id="exchange">
+    <h2>The Difference in Practice</h2>
+    <div class="exchange">
+      <div class="exchange-header">VERSION 1 — Attentive but not active</div>
+      <div class="exchange-body">
+        <div class="msg"><span class="msg-who prospect">Prospect</span><span class="msg-text prospect-msg">Yeah, I've been in sales for two years and I'm just kind of stuck. I'm making like $6k a month but I feel like I should be making more by now.</span></div>
+        <div class="msg"><span class="msg-who rep">Rep</span><span class="msg-text rep-msg">Got it. So what's been holding you back?</span></div>
+        <div class="annotation">Moved on without absorbing. Zero reflection. They feel like a data point.</div>
+      </div>
+    </div>
+    <div class="exchange">
+      <div class="exchange-header">VERSION 2 — Active listening at Level 4</div>
+      <div class="exchange-body">
+        <div class="msg"><span class="msg-who prospect">Prospect</span><span class="msg-text prospect-msg">Yeah, I've been in sales for two years and I'm just kind of stuck. I'm making like $6k a month but I feel like I should be making more by now.</span></div>
+        <div class="msg"><span class="msg-who rep">Rep</span><span class="msg-text rep-msg">So two years in, you've been putting the work in, and the number is there — but there's this feeling like the number should be different by now given how much effort you've put in. Like there's a gap between where you expected to be and where you actually are. Is that it?</span></div>
+        <div class="msg"><span class="msg-who prospect">Prospect</span><span class="msg-text prospect-msg">Yeah, exactly. It's like... I know I'm capable of more but I can't figure out what I'm missing.</span></div>
+        <div class="annotation">They went deeper. The reflection opened the real thing. Now you're in the conversation that matters.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="practice">
+    <h2>Building the Habit</h2>
+    <div class="highlight">
+      <p><strong>After every call:</strong> Write down one thing the prospect said and ask yourself — did I reflect it or did I move past it? If you moved past it, how would you have reflected it at Level 4?</p>
+    </div>
+    <div class="warning">
+      <p><strong>The most common mistake:</strong> Reflecting the surface content without naming the emotion. "So you want to make more money" is Level 2. "So you've been working harder than most people you know and the results don't reflect that yet — and that feels like something's wrong with you, not the situation" is Level 4. Only Level 4 opens the prospect up.</p>
+    </div>
+    <div class="block">
+      <p>Active listening is also the fastest way to handle the "but I already know what they're going to say" problem. When you actually listen instead of confirming your assumptions, prospects surprise you. And the surprises are always where the close lives.</p>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

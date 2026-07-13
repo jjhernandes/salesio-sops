@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calibrated Questions — S8 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S8 — Language as Influence</div>
+  <a class="nav-link" href="lesson-s8-01-embedded-commands.html">1. Embedded Commands</a>
+  <a class="nav-link" href="lesson-s8-02-presuppositions.html">2. Linguistic Presuppositions</a>
+  <a class="nav-link active" href="lesson-s8-03-calibrated-questions.html">3. Calibrated Questions</a>
+  <a class="nav-link" href="lesson-s8-04-labeling.html">4. Labeling</a>
+  <a class="nav-link" href="lesson-s8-05-pacing-leading.html">5. Pacing and Leading</a>
+  <a class="nav-link" href="lesson-s8-06-tactical-empathy.html">6. Tactical Empathy</a>
+  <a class="nav-link" href="lesson-s8-07-weak-questions.html">7. Weak vs. Presupposition Rewrites</a>
+  <a class="nav-link" href="lesson-s8-08-powerful-words.html">8. Powerful Words</a>
+  <a class="nav-link" href="lesson-s8-09-language-audit.html">9. The Language Audit</a>
+  <a class="nav-link" href="lesson-s8-10-metaphor.html">10. Metaphor as Influence</a>
+  <a class="nav-link" href="lesson-s8-11-tonality.html">11. Tonality</a>
+  <a class="nav-link" href="lesson-s8-12-silence-drill.html">12. The Silence Drill</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 3 · Section 8</div>
+  <h1>Calibrated Questions</h1>
+  <p class="subtitle">The words you choose shape the world the prospect experiences on the call. "Why" triggers defensiveness. "How" and "What" invite collaboration. One word changes the entire dynamic.</p>
+
+  <section id="the-problem-with-why">
+    <h2>The Problem With "Why"</h2>
+    <div class="red-block">
+      <p><strong>"Why" questions demand justification.</strong> When you ask someone "Why did you do that?" or "Why haven't you fixed this yet?" their brain interprets it as an accusation. Even when you don't mean it that way, the word itself triggers a defensive state.</p>
+      <p>In a defensive state, the prospect stops thinking collaboratively. They start building a case for why they're not wrong. You've turned a conversation into a courtroom — and you're the prosecutor.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">From Chris Voss — Never Split the Difference</div>
+      <p>"Why" activates the defensive centers of the brain. "How" and "What" activate the problem-solving centers. The same information comes out of the prospect's mouth, but the internal state they're in when they give it to you is completely different.</p>
+      <p>A prospect who answers a "how" question is a thinking partner. A prospect who answers a "why" question is a defendant. You cannot close a defendant.</p>
+    </div>
+  </section>
+
+  <section id="comparison-table">
+    <h2>Why vs. How / What — Full Comparison</h2>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th class="col-a">"Why" Version (Defensive)</th>
+          <th class="col-b">"How" / "What" Version (Collaborative)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-a-td">"Why haven't you fixed this yet?"</td>
+          <td class="col-b-td">"What's gotten in the way of solving this so far?"</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">"Why do you think you're stuck?"</td>
+          <td class="col-b-td">"What do you think is keeping you at this level?"</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">"Why did you reach out?"</td>
+          <td class="col-b-td">"What made you decide to book this call today?"</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">"Why is price a concern for you?"</td>
+          <td class="col-b-td">"What would make this feel like the right investment?"</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">"Why do you need to think about it?"</td>
+          <td class="col-b-td">"What specifically are you still working through?"</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">"Why haven't you made a change before now?"</td>
+          <td class="col-b-td">"What's been different about the timing now versus six months ago?"</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">"Why are you skeptical?"</td>
+          <td class="col-b-td">"What would need to be true for you to feel confident in this?"</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">"Why do you feel that way?"</td>
+          <td class="col-b-td">"What's driving that for you?"</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="how-they-guide">
+    <h2>How Calibrated Questions Guide Without Pushing</h2>
+    <div class="highlight">
+      <p>A calibrated question moves the conversation in a direction without the prospect feeling pushed. You're not telling them what to think. You're <strong>choosing which part of their thinking to activate</strong>.</p>
+      <p>"What would that look like for you six months from now?" activates forward-looking visioning. "What's gotten in the way so far?" activates problem articulation. Both are neutral in tone, but they direct the prospect's attention deliberately.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">The Invisible Steering Wheel</div>
+      <p>A skilled closer uses calibrated questions like a steering wheel — making precise turns without the passenger realizing the car is being driven. The prospect feels like they're thinking freely. They are. You're just choosing the terrain they're thinking on.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">The Silence That Follows</div>
+      <p>A good calibrated question produces silence. The prospect actually has to think. That silence is the sound of the question working. Resist the urge to fill it. Let them work through it. The answer they produce under genuine thinking is the one that's true — and the one you can actually use.</p>
+    </div>
+  </section>
+
+  <section id="exchange">
+    <h2>Call Exchange — The Difference in Real Time</h2>
+    <div class="exchange">
+      <div class="exchange-header">VERSION 1 — "Why" Questions (Rep loses the frame)</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Why haven't you tried to fix your close rate before now?"</div>
+          <span class="annotation">Implies negligence. Prospect immediately starts defending themselves.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"I mean, I've been busy and I've tried some things. It's not like I've just been sitting here doing nothing."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Right no I didn't mean — why do you think those things haven't worked though?"</div>
+          <span class="annotation">Another "why." Now prospect is on defense again. The conversation is about justification, not discovery.</span>
+        </div>
+      </div>
+    </div>
+    <div class="exchange">
+      <div class="exchange-header">VERSION 2 — Calibrated Questions (Rep stays in discovery)</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"What have you tried so far when it comes to improving your close rate?"</div>
+          <span class="annotation">Neutral, open. Invites them to share what they've done without implying fault.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"I've gone through NEPQ, tried a few scripts — they help a little but nothing's really moved the needle."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"What do you think has been missing from those approaches for you specifically?"</div>
+          <span class="annotation">Now they're diagnosing their own problem. The rep didn't have to say anything — the prospect is selling themselves on what they're missing.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Honestly the deeper psychology stuff. Like I know what to say but I don't know how to actually read people."</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

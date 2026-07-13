@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>No Feature Dump — S5 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S5 — Pitch Architecture</div>
+  <a class="nav-link" href="lesson-s5-01-tiktok-pitch.html">1. The TikTok Pitch</a>
+  <a class="nav-link" href="lesson-s5-02-heaven-hell.html">2. Heaven &amp; Hell Framework</a>
+  <a class="nav-link active" href="lesson-s5-03-no-feature-dump.html">3. No Feature Dump</a>
+  <a class="nav-link" href="lesson-s5-04-pitch-check-ins.html">4. Pitch Check-Ins</a>
+  <a class="nav-link" href="lesson-s5-05-mirror-recap.html">5. The Mirror Recap</a>
+  <a class="nav-link" href="lesson-s5-06-social-proof-architecture.html">6. Social Proof Architecture</a>
+  <a class="nav-link" href="lesson-s5-07-scriptless-pitch.html">7. The Scriptless Pitch</a>
+  <a class="nav-link" href="lesson-s5-08-pitch-timing.html">8. Pitch Timing</a>
+  <a class="nav-link" href="lesson-s5-09-screen-share.html">9. When to Screen Share</a>
+  <a class="nav-link" href="lesson-s5-10-inevitable-pitch.html">10. The Inevitable Pitch</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 3 · Section 5</div>
+  <h1>Do Not Feature Dump</h1>
+  <p class="subtitle">Every feature you mention that doesn't connect to something they said is a gap in relevance. Enough gaps and you've lost them — even if the offer is perfect for them.</p>
+
+  <!-- SECTION 1 -->
+  <section id="what-it-is">
+    <h2>What Feature Dumping Is</h2>
+    <div class="red-block">
+      <p><strong>Feature dumping</strong> is presenting everything the program includes regardless of what the prospect said in discovery. It's a pitch built around the offer, not the person. And it's the most common mistake reps make when they sit down to close.</p>
+      <p>Feature dumping feels responsible to the rep. They think: "If I cover everything, I can't be accused of leaving something out." What actually happens: the prospect gets overwhelmed, nothing sticks, and they exit the call unable to clearly articulate why any of it was relevant to them.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">How It Sounds</div>
+      <p>"Okay so you get the weekly 1-on-1s, seven group calls, WhatsApp community, Skool platform, the job board, 1-on-1 Slack access, quarterly events in Orlando, a money-back guarantee, and a guaranteed 10% close rate increase..."</p>
+      <p>This is a feature dump. Every item in that list may be genuinely valuable. But if the prospect only cared about three of them, you've buried the lead seven times over.</p>
+    </div>
+    <div class="warning">
+      <p><strong>Feature dumping is not about effort — it's about calibration.</strong> A rep who feature dumps is working hard. They've memorized the offer. They're trying to be thorough. The problem isn't the work. The problem is that thoroughness without relevance is noise.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section id="the-rule">
+    <h2>The Rule</h2>
+    <div class="highlight">
+      <p><strong>If the prospect didn't mention it in discovery, it doesn't go in the pitch.</strong></p>
+      <p>That's not a soft suggestion. It's the rule. Every feature you include in the pitch should have a clear line back to something the prospect said. If you can't draw that line, the feature doesn't belong there.</p>
+      <p>There is one exception: if a feature directly solves a problem the prospect clearly has but hasn't explicitly named, you can include it — but only after naming the problem first. Lead with what they said. Then connect it to what you know they need.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">The Selection Filter</div>
+      <p>After discovery, before pitching, run a quick mental filter. Ask for every feature: "Did they mention the problem this solves?" If yes, it goes in. If no, it stays out. The pitch you walk into should be shorter than the list of features you have available. Always.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section id="connect-features">
+    <h2>How to Connect Features to Pain</h2>
+    <div class="block">
+      <div class="block-label">The Bridge Phrase</div>
+      <p>Every feature you include needs a bridge phrase that ties it to what they said. The bridge phrase sounds like this: "You mentioned X — that's exactly what [feature] addresses."</p>
+      <p>This phrase does two things at once. It proves you were listening. And it makes the feature feel like a solution designed specifically for them, not a standard item in a package.</p>
+    </div>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th class="col-a">Feature Dump (No Connection)</th>
+          <th class="col-b">Connected Pitch (With Bridge Phrase)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-a-td">"You also get weekly 1-on-1 coaching sessions."</td>
+          <td class="col-b-td">"You said you've been at the same number for months and can't figure out why — the 1-on-1 coaching is specifically for that. We diagnose exactly where your ceiling is and break it."</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">"There's a job board with 60 to 80 companies posting every week."</td>
+          <td class="col-b-td">"You mentioned you're on a weak offer right now — the job board solves that. 60-80 vetted companies, new postings every week. We guarantee placement. That problem goes away in your first 30 days."</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">"We have a money-back ROI guarantee."</td>
+          <td class="col-b-td">"You said you've invested in coaching before and didn't see a return — we back everything with an ROI guarantee. If you don't make your investment back in 90 days, you get a full refund. That removes the risk you mentioned."</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">"Mock Call Monday every week so you can practice."</td>
+          <td class="col-b-td">"You said you feel like your practice reps don't transfer to real calls — Mock Call Monday changes that. It's live calls with real feedback in the moment, not theory. That's the practice environment you're missing."</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="block">
+      <div class="block-label">The Discipline</div>
+      <p>Notice that in every connected pitch example above, the feature comes second. The problem comes first. The prospect's words come first. This sequencing is not cosmetic — it's structural. When you lead with their problem, the feature is a relief. When you lead with the feature, the problem feels like an afterthought.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section id="checklist">
+    <h2>Pre-Pitch Checklist</h2>
+    <p style="font-size:14px;color:#555;margin-bottom:20px;">Run through this before you transition from discovery to pitch. If any item is a no, fix it before moving forward.</p>
+    <ul class="checklist">
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">I have identified the 3-4 things that matter most to this specific person.</strong> I am not starting the pitch until I know exactly which features I'm including and why.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Every feature I'm including has a clear line back to something they said.</strong> I can name the exact moment in discovery where they surfaced the problem this feature solves.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">I am leading with their problem, not with the feature.</strong> Each pitch point starts with "you mentioned..." or "you said..." before the feature is introduced.</div>
+      </li>
+      <li>
+        <div class="check-icon fail">✗</div>
+        <div><strong style="color:#ccc;">I am not including features I think are impressive but they didn't mention needing.</strong> My impression of what's valuable is irrelevant. Their words define the pitch.</div>
+      </li>
+      <li>
+        <div class="check-icon fail">✗</div>
+        <div><strong style="color:#ccc;">I am not listing features consecutively without breaks.</strong> Each point gets a full bridge phrase and a beat before I move to the next one. List format kills impact.</div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section id="why-reps-dump">
+    <h2>Why Reps Default to Feature Dumping</h2>
+    <div class="block">
+      <div class="block-label">The Underlying Cause</div>
+      <p>Feature dumping is almost never about arrogance or laziness. It comes from three places: insecurity about the offer, fear of leaving something out, and the mistaken belief that more information creates more confidence in the prospect.</p>
+      <p>The insecure rep dumps features because they're hoping something sticks. They don't trust that the 3 relevant features are enough. They want the weight of the full offer to compensate for the connection they didn't build in discovery. It doesn't work. A weak discovery cannot be rescued by a comprehensive pitch.</p>
+    </div>
+    <div class="warning">
+      <p><strong>If you feel the urge to cover everything, that's a signal about your discovery, not your pitch.</strong> A rep who did deep, connected discovery feels no pressure to mention the quarterly Orlando event or the WhatsApp community structure. They know exactly what this person needs. Three things. All of them tied to specific things said. That's it. The impulse to feature dump is a sign you don't know which 3 things matter — which means you need to go back to discovery, not forward to pitch.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">The Fix</div>
+      <p>Before transitioning from discovery to pitch, ask yourself: "Can I name the 3-4 features I'm including and the exact moment in this conversation where the problem they solve was mentioned?" If the answer is no — don't pitch yet. Go back and dig. Ask one more question. The pitch should be obvious to you before you deliver it. If it's not obvious to you, it won't be obvious to them.</p>
+    </div>
+  </section>
+
+  <!-- EXCHANGE -->
+  <section id="exchange">
+    <h2>Call Exchange — Feature Dump vs. Connected Pitch</h2>
+
+    <div class="exchange">
+      <div class="exchange-header">VERSION 1 — Feature Dump</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Alright so let me tell you what's included. You get weekly 1-on-1 coaching with JJ and the coaching team, seven group calls per week covering everything from setting to psychology to B2B, WhatsApp community with all the channels, our Skool platform where all the modules and recordings live, our proprietary job board with 60-80 companies hiring weekly, 1-on-1 Slack access to every coach, quarterly in-person events in Orlando, a money-back guarantee, and a guaranteed 10% close rate increase. That's the program."</div>
+          <span class="annotation">Everything listed. Nothing connected. The prospect has no idea which of these eight things is relevant to them specifically.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Okay... that's a lot. What's the price on this?"</div>
+          <span class="annotation">"That's a lot" is not excitement. They're overwhelmed and defaulting to price as the only clear filter they have.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-header">VERSION 2 — Connected Pitch (Same Prospect, Same Offer)</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Based on what you told me, there are three things that are going to directly change your situation. First — you said you've been stuck at $8k for three months and you can't figure out why. That's exactly what the 1-on-1 coaching addresses. We go into your specific calls, find the pattern that's capping you, and fix it. One-on-one, specific to how you operate. Not generic coaching."</div>
+          <span class="annotation">One feature. Connected directly to "stuck at $8k." Their problem named first.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Second — you mentioned you're using a script and hating it, that you feel fake. We teach scriptless selling. You learn to have a real conversation guided by genuine curiosity. No lines to memorize. Your calls start sounding like you."</div>
+          <span class="annotation">Second feature. Connected directly to "I feel fake." Their words used back to them.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"And third — you said your current offer isn't strong. We have a job board with 60 to 80 vetted companies posting every week, and we guarantee placement. You will be on a better offer within your first month. That problem is solved."</div>
+          <span class="annotation">Third feature. Connected to "weak offer." Pitch is complete. Three points. Everything tied. Nothing wasted.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Okay yeah — honestly that all makes sense. What's the investment look like?"</div>
+          <span class="annotation">Same question, completely different energy. "That all makes sense" means it landed. They're asking about investment, not objecting to price. The connected pitch got them there.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>

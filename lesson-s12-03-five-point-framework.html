@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5-Point Call Review Framework — S12 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table th.col-s{color:#f59e0b;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.compare-table td.col-s-td{color:#f59e0b;background:rgba(245,158,11,.03);font-weight:700;text-align:center;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.worksheet-field{background:#050505;border:1px solid #1a1a1a;border-radius:10px;padding:20px 24px;margin-bottom:12px;}
+.worksheet-field .wf-label{font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#4ade80;margin-bottom:6px;}
+.worksheet-field .wf-question{font-size:14px;color:#ccc;font-weight:600;margin-bottom:12px;line-height:1.5;}
+.worksheet-field .wf-notes{font-size:13px;color:#444;font-style:italic;line-height:1.6;margin-bottom:12px;}
+.worksheet-field .wf-score{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.score-pill{padding:4px 14px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:0.08em;cursor:default;}
+.score-1{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.score-2{background:#0f0800;color:#f59e0b;border:1px solid #2b1a00;}
+.score-3{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.score-label{font-size:11px;color:#444;margin-left:4px;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S12 — Call Review</div>
+  <a class="nav-link" href="lesson-s12-01-game-tape.html">01 · Game Tape Philosophy</a>
+  <a class="nav-link" href="lesson-s12-02-what-to-listen-for.html">02 · What to Listen For</a>
+  <a class="nav-link active" href="lesson-s12-03-five-point-framework.html">03 · 5-Point Framework</a>
+  <a class="nav-link" href="lesson-s12-04-peer-review.html">04 · Peer Review Sessions</a>
+  <a class="nav-link" href="lesson-s12-05-ceiling-identification.html">05 · Close Rate Ceiling</a>
+  <a class="nav-link" href="lesson-s12-06-mock-call.html">06 · Mock Call Protocol</a>
+  <a class="nav-link" href="lesson-s12-07-frame-attack.html">07 · Frame Attack Drill</a>
+  <a class="nav-link" href="lesson-s12-08-integration-mock.html">08 · Integration Mock Call</a>
+  <a class="nav-link" href="lesson-s12-09-call-submission.html">09 · Call Submission Protocol</a>
+  <a class="nav-link" href="lesson-s12-10-review-habit.html">10 · Monthly Review Habit</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 3 · Section 12</div>
+  <h1>The 5-Point Call Review Framework</h1>
+  <p class="subtitle">Unstructured tape review produces vague observations. This framework gives you five specific checkpoints, a scoring system, and a clear output for every call you review.</p>
+
+  <!-- SECTION 1 -->
+  <section id="overview">
+    <h2>The Framework — What It Is and Why It Works</h2>
+    <div class="highlight">
+      <p>A call has five distinct phases. Each one either builds or erodes the close. Most reps have one or two that are solid and two or three that consistently let them down. The framework forces you to evaluate <strong>all five — every time</strong> — so you can't miss the phase that's actually causing your results.</p>
+      <p>Random tape review produces random insight. Structured review produces a pattern. Once you have a pattern across five calls, you know exactly what to fix.</p>
+    </div>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th style="color:#555;">Point</th>
+          <th style="color:#ccc;">Phase</th>
+          <th style="color:#555;">The Core Question</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-c-td" style="font-weight:700;color:#4ade80;">01</td>
+          <td class="col-c-td" style="color:#ccc;font-weight:600;">Opener</td>
+          <td class="col-c-td">Did you establish authority and get them talking in the first 90 seconds?</td>
+        </tr>
+        <tr>
+          <td class="col-c-td" style="font-weight:700;color:#4ade80;">02</td>
+          <td class="col-c-td" style="color:#ccc;font-weight:600;">Discovery</td>
+          <td class="col-c-td">Did you go deep enough to find the real pain, not just the surface story?</td>
+        </tr>
+        <tr>
+          <td class="col-c-td" style="font-weight:700;color:#4ade80;">03</td>
+          <td class="col-c-td" style="color:#ccc;font-weight:600;">Pitch</td>
+          <td class="col-c-td">Was your pitch connected to what they actually said in discovery?</td>
+        </tr>
+        <tr>
+          <td class="col-c-td" style="font-weight:700;color:#4ade80;">04</td>
+          <td class="col-c-td" style="color:#ccc;font-weight:600;">Objection Handling</td>
+          <td class="col-c-td">Did you use questions or arguments when they pushed back?</td>
+        </tr>
+        <tr>
+          <td class="col-c-td" style="font-weight:700;color:#4ade80;">05</td>
+          <td class="col-c-td" style="color:#ccc;font-weight:600;">Close</td>
+          <td class="col-c-td">Did you hold the frame through the end, or did you concede before being asked?</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section id="scoring">
+    <h2>The Scoring Rubric — 1, 2, or 3</h2>
+    <p style="font-size:14px;color:#555;margin-bottom:24px;">Each point gets a score of 1, 2, or 3. One number per phase. No half-points, no averages. Force yourself to choose.</p>
+
+    <div class="block">
+      <div class="block-label">Score Key</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;">
+        <div class="score-pill score-1">1 — Broke Down</div>
+        <div class="score-pill score-2">2 — Adequate</div>
+        <div class="score-pill score-3">3 — Strong</div>
+      </div>
+      <p style="margin-top:16px;font-size:13px;color:#555;">Score 1: the phase actively hurt the call. Score 2: the phase was present but not impactful. Score 3: the phase did what it was supposed to do. You're not grading on a curve.</p>
+    </div>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th style="color:#555;">Phase</th>
+          <th class="col-a">Score 1 — Broke Down</th>
+          <th class="col-b">Score 3 — Strong</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-c-td" style="font-weight:600;">Opener</td>
+          <td class="col-a-td">Small talk rambled. No clear authority established. Prospect controlling the direction immediately.</td>
+          <td class="col-b-td">Took the frame early. Prospect sharing within 60 seconds. Agenda clear without being stiff.</td>
+        </tr>
+        <tr>
+          <td class="col-c-td" style="font-weight:600;">Discovery</td>
+          <td class="col-a-td">Stayed surface-level. Accepted first answer. Never got to the real pain.</td>
+          <td class="col-b-td">Got to third-layer pain. Prospect feeling understood. Clear emotional driver surfaced.</td>
+        </tr>
+        <tr>
+          <td class="col-c-td" style="font-weight:600;">Pitch</td>
+          <td class="col-a-td">Generic pitch. Could have been sent to anyone. No direct connection to what they shared.</td>
+          <td class="col-b-td">Prospect's own words used back. Pitch landed as "exactly what I need," not "sounds interesting."</td>
+        </tr>
+        <tr>
+          <td class="col-c-td" style="font-weight:600;">Objection Handling</td>
+          <td class="col-a-td">Argued back. Tried to logically overcome. Prospect got more entrenched.</td>
+          <td class="col-b-td">Got curious. Asked what was behind the objection. Prospect talked themselves into movement.</td>
+        </tr>
+        <tr>
+          <td class="col-c-td" style="font-weight:600;">Close</td>
+          <td class="col-a-td">Conceded before being pushed. Rushed to the follow-up. Frame lost under minimal pressure.</td>
+          <td class="col-b-td">Held the frame. Silence comfortable. Prospect felt certain because rep was certain.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section id="worksheet">
+    <h2>The Review Worksheet</h2>
+    <p style="font-size:14px;color:#555;margin-bottom:24px;">Complete this after every tape review. One worksheet per call. Keep them. The pattern across 5 worksheets tells you more than any individual call.</p>
+
+    <div class="worksheet-field">
+      <div class="wf-label">Call Info</div>
+      <div class="wf-question">Date / Prospect / Outcome</div>
+      <div class="wf-notes">Note the call date, prospect name or type, and result: closed / no close / follow-up. This context matters when you review patterns.</div>
+    </div>
+
+    <div class="worksheet-field">
+      <div class="wf-label">Point 01 — Opener</div>
+      <div class="wf-question">How did it start? Did you establish authority within the first 90 seconds?</div>
+      <div class="wf-notes">What did you do well? Where did the opener break down? What would score 3 look like?</div>
+      <div class="wf-score">
+        <span class="score-pill score-1">1</span>
+        <span class="score-pill score-2">2</span>
+        <span class="score-pill score-3">3</span>
+        <span class="score-label">Circle your score</span>
+      </div>
+    </div>
+
+    <div class="worksheet-field">
+      <div class="wf-label">Point 02 — Discovery</div>
+      <div class="wf-question">Did you go deep enough? Did you surface the real emotional driver, or just the surface story?</div>
+      <div class="wf-notes">How many layers in did you get? Did the prospect feel heard? What question could you have asked that you didn't?</div>
+      <div class="wf-score">
+        <span class="score-pill score-1">1</span>
+        <span class="score-pill score-2">2</span>
+        <span class="score-pill score-3">3</span>
+        <span class="score-label">Circle your score</span>
+      </div>
+    </div>
+
+    <div class="worksheet-field">
+      <div class="wf-label">Point 03 — Pitch</div>
+      <div class="wf-question">Was your pitch connected to what they told you, or was it a generic presentation?</div>
+      <div class="wf-notes">Did you use their words? Did the pitch feel tailored? What did you present that didn't connect to what they said?</div>
+      <div class="wf-score">
+        <span class="score-pill score-1">1</span>
+        <span class="score-pill score-2">2</span>
+        <span class="score-pill score-3">3</span>
+        <span class="score-label">Circle your score</span>
+      </div>
+    </div>
+
+    <div class="worksheet-field">
+      <div class="wf-label">Point 04 — Objection Handling</div>
+      <div class="wf-question">Did you use questions or arguments when they pushed back?</div>
+      <div class="wf-notes">List every objection that came up. For each one: did you argue or get curious? What happened after?</div>
+      <div class="wf-score">
+        <span class="score-pill score-1">1</span>
+        <span class="score-pill score-2">2</span>
+        <span class="score-pill score-3">3</span>
+        <span class="score-label">Circle your score</span>
+      </div>
+    </div>
+
+    <div class="worksheet-field">
+      <div class="wf-label">Point 05 — Close</div>
+      <div class="wf-question">Did you hold the frame? Did you concede before being asked?</div>
+      <div class="wf-notes">What was your state when you went for the close? Did you hold the silence after the ask? What happened first — them speaking or you filling the void?</div>
+      <div class="wf-score">
+        <span class="score-pill score-1">1</span>
+        <span class="score-pill score-2">2</span>
+        <span class="score-pill score-3">3</span>
+        <span class="score-label">Circle your score</span>
+      </div>
+    </div>
+
+    <div class="worksheet-field">
+      <div class="wf-label">One Thing to Change</div>
+      <div class="wf-question">Based on this review, what is the single thing you are changing on your next call?</div>
+      <div class="wf-notes">Be specific. Not "be more present" — that's too vague. "Hold the silence for 5 seconds after stating the price" — that's actionable. Write the one thing.</div>
+    </div>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section id="pattern">
+    <h2>Using the Framework Over Time</h2>
+    <div class="highlight">
+      <p>One worksheet is insight. <strong>Five worksheets is a pattern.</strong> The framework's real power shows up when you stack reviews side by side and ask: which point am I consistently scoring 1 or 2 on? That consistent low score is your ceiling. That's where to focus all your drilling.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">The Pattern Check (Every 5 Calls)</div>
+      <p>Pull your last five worksheets. Add up the scores for each point across all five calls. The lowest total score across five calls is where your current ceiling lives. That's what you drill. That's what you submit for coaching feedback. That's what you mock-call on.</p>
+    </div>
+    <div class="quote-block">
+      <p>"You can't fix everything at once. Find the one thing that's consistently broken and fix that. Then find the next one. That's how elite reps are built — one bottleneck at a time."</p>
+      <div class="attribution">— JJ Hernandez</div>
+    </div>
+  </section>
+
+</main>
+
+</body>
+</html>

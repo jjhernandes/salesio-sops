@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Three Identity Types — S2 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.seq-list{display:flex;flex-direction:column;}
+.seq-wrap{display:flex;gap:20px;margin-bottom:4px;}
+.seq-left{display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;}
+.dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.dot-green{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.dot-amber{background:#0f0800;color:#f59e0b;border:1px solid #2b1a00;}
+.dot-blue{background:#050a12;color:#60a5fa;border:1px solid #0a2040;}
+.dot-purple{background:#080208;color:#a78bfa;border:1px solid #2a1040;}
+.line{flex:1;width:1px;background:#111;margin:4px 0;min-height:16px;}
+.seq-right{flex:1;padding-bottom:24px;}
+.seq-tag{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
+.seq-title{font-size:16px;font-weight:800;margin-bottom:8px;}
+.seq-body{font-size:14px;color:#888;line-height:1.7;}
+.seq-ex{font-size:13px;color:#555;font-style:italic;padding:8px 12px;background:#050505;border-radius:6px;border-left:2px solid #1a1a1a;margin-top:8px;line-height:1.6;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S2 — Human Psychology</div>
+  <a class="nav-link" href="lesson-s2-01-pace-overview.html">1. PACE System — Overview</a>
+  <a class="nav-link" href="lesson-s2-02-pace-identification.html">2. Identifying PACE Type</a>
+  <a class="nav-link" href="lesson-s2-03-practical-type.html">3. Practical (P) Type</a>
+  <a class="nav-link" href="lesson-s2-04-action-type.html">4. Action (A) Type</a>
+  <a class="nav-link" href="lesson-s2-05-social-type.html">5. Social (S) Type</a>
+  <a class="nav-link" href="lesson-s2-06-emotional-type.html">6. Emotional (E) Type</a>
+  <a class="nav-link" href="lesson-s2-07-decision-map.html">7. The Decision Map</a>
+  <a class="nav-link" href="lesson-s2-08-needs-values.html">8. Needs, Values &amp; Decisions</a>
+  <a class="nav-link active" href="lesson-s2-09-three-identity-types.html">9. The Three Identity Types</a>
+  <a class="nav-link" href="lesson-s2-10-secondary-needs.html">10. Secondary Needs</a>
+  <a class="nav-link" href="lesson-s2-11-elicitation.html">11. Elicitation</a>
+  <a class="nav-link" href="lesson-s2-12-listening-between-lines.html">12. Listening Between Lines</a>
+  <a class="nav-link" href="lesson-s2-13-rapid-profiling.html">13. Rapid Profiling</a>
+  <a class="nav-link" href="lesson-s2-14-pre-call-profiling.html">14. Pre-Call Profiling</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 9 · Section 2</div>
+  <h1>The Three Identity Types</h1>
+  <p class="subtitle">Every prospect is navigating three versions of themselves on a call. The rep who understands which one is driving the conversation can pitch to the deepest possible level of motivation.</p>
+
+  <section id="what-identity-is">
+    <h2>Identity as a Sales Tool</h2>
+    <div class="highlight">
+      <p>Identity is how someone answers the question "who am I?" in a given context. On a sales call, that question runs in the background of everything they say. Their fears, their resistance, their excitement — all of it is filtered through their sense of self.</p>
+      <p>There are three layers of identity that show up on calls: <strong>Historical</strong> (who they've been), <strong>Role</strong> (who they believe they are in their function), and <strong>Social</strong> (who they are in their group). Each drives a different form of buying behavior and a different type of resistance.</p>
+    </div>
+  </section>
+
+  <section id="three-identities">
+    <h2>The Three Identity Types</h2>
+    <div class="seq-list">
+      <div class="seq-wrap">
+        <div class="seq-left"><div class="dot dot-amber">H</div><div class="line"></div></div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#f59e0b;">Historical Identity</div>
+          <div class="seq-title">Who they've been — the story they carry</div>
+          <div class="seq-body">Historical identity is made up of all the times they tried something and it didn't work. Every program that overpromised. Every goal they didn't hit. Every version of themselves they tried to become and fell back from. This identity drives fear of change and deep skepticism of new commitments.</div>
+          <div class="seq-ex">Language: "I've tried things like this before," "I'm someone who starts things and doesn't finish," "I'm not sure if I'm actually capable of this." The historical self is speaking. It's protecting them from another disappointment.</div>
+          <div class="seq-ex">How to pitch to it: don't dismiss the history. Acknowledge it. Then create a gap: "The reason the other things didn't work isn't that you failed — it's that they were addressing the wrong layer. This is different and here's why." Give them a reason the past doesn't predict the future.</div>
+        </div>
+      </div>
+      <div class="seq-wrap">
+        <div class="seq-left"><div class="dot dot-blue">R</div><div class="line"></div></div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#60a5fa;">Role Identity</div>
+          <div class="seq-title">Who they believe they are in their function</div>
+          <div class="seq-body">Role identity is about professional self-concept. "I'm a closer," "I'm a setter," "I'm someone who figures things out." It carries pride and shame simultaneously — pride in who they are, shame in the gap between that self-image and their actual results.</div>
+          <div class="seq-ex">Language: "I feel like I should already know this," "I've been in sales for three years so I get it but..." (trailing off). The role identity is talking. They feel like admitting the need for help threatens their self-image as someone competent in their field.</div>
+          <div class="seq-ex">How to pitch to it: honor the identity, not the gap. "The fact that you're even thinking this way tells me you're already someone who takes this seriously. What we're building here isn't remedial — it's elite-level refinement. The reps in this program are good. They're just trying to become exceptional."</div>
+        </div>
+      </div>
+      <div class="seq-wrap">
+        <div class="seq-left"><div class="dot dot-green">S</div></div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#4ade80;">Social Identity</div>
+          <div class="seq-title">Who they are in their group</div>
+          <div class="seq-body">Social identity is about belonging and reputation within a peer group — their team, their industry circle, their family. Decisions that might shift their status in that group create resistance. Decisions that elevate their standing create pull. This identity is often the most powerful motivator and the most hidden.</div>
+          <div class="seq-ex">Language: "What would my team think if I..." or "I don't want to be the guy who..." or "I want to be someone people look up to." The social identity is driving. Belonging and recognition are the real currency.</div>
+          <div class="seq-ex">How to pitch to it: "The people who come out of this aren't just better closers. They become the people their team asks questions. That's what this does to your reputation in your space."</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="using-identity">
+    <h2>How to Use Identity in Your Pitch and Close</h2>
+    <div class="block">
+      <div class="block-label">Listen for the dominant identity</div>
+      <p>In the first 10 minutes, you'll hear which identity is loudest. References to past failures = historical identity active. Resistance framed around professional pride = role identity. Mentions of peer group, team, or family = social identity. The dominant one tells you where the real decision is happening.</p>
+    </div>
+    <div class="warning">
+      <p><strong>Don't fight the dominant identity.</strong> Arguing with someone's historical identity ("that was different, this works") just makes it louder. Honoring it and reframing it moves people: "The fact that you've tried things means you've been taking this seriously for a long time. That's actually a signal — you're ready for something that works."</p>
+    </div>
+  </section>
+
+  <section id="exchange">
+    <h2>Call Exchange — Identifying and Pitching to the Historical Identity</h2>
+    <div class="exchange">
+      <div class="exchange-header">VERSION 1 — Rep dismisses the history, triggers resistance</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"I've done coaching before and it didn't really move the needle. So I'm a little cautious."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Yeah, most programs out there are honestly pretty surface level. This is completely different — we go way deeper than anything you've seen."</div>
+          <span class="annotation">Dismissed the history by jumping to differentiation. Prospect's guard goes up. They've heard "we're different" before. It confirms their skepticism rather than addressing it.</span>
+        </div>
+      </div>
+    </div>
+    <div class="exchange">
+      <div class="exchange-header">VERSION 2 — Rep honors the history, reframes it</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"I've done coaching before and it didn't really move the needle. So I'm a little cautious."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"That caution is legitimate. What did those programs actually address — tactics, mindset, both?"</div>
+          <span class="annotation">Took the history seriously. Asked a diagnostic question instead of defending.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Mostly tactics. Scripts, frameworks, objection handlers. Some mindset stuff but it felt generic."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Then the thing that actually drives your results — who you are, how you show up, the internal state you bring into calls — was never touched. That's why the tactics didn't stick. They were built on a foundation that wasn't addressed. That's what's different here. We start with the identity layer, because everything else is downstream of that."</div>
+          <span class="annotation">Reframed the failure. Named the mechanism. Historical identity is no longer an obstacle — it's evidence that they've been working on the wrong thing, not that they're incapable.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>

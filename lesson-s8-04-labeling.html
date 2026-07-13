@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Labeling — S8 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S8 — Language as Influence</div>
+  <a class="nav-link" href="lesson-s8-01-embedded-commands.html">1. Embedded Commands</a>
+  <a class="nav-link" href="lesson-s8-02-presuppositions.html">2. Linguistic Presuppositions</a>
+  <a class="nav-link" href="lesson-s8-03-calibrated-questions.html">3. Calibrated Questions</a>
+  <a class="nav-link active" href="lesson-s8-04-labeling.html">4. Labeling</a>
+  <a class="nav-link" href="lesson-s8-05-pacing-leading.html">5. Pacing and Leading</a>
+  <a class="nav-link" href="lesson-s8-06-tactical-empathy.html">6. Tactical Empathy</a>
+  <a class="nav-link" href="lesson-s8-07-weak-questions.html">7. Weak vs. Presupposition Rewrites</a>
+  <a class="nav-link" href="lesson-s8-08-powerful-words.html">8. Powerful Words</a>
+  <a class="nav-link" href="lesson-s8-09-language-audit.html">9. The Language Audit</a>
+  <a class="nav-link" href="lesson-s8-10-metaphor.html">10. Metaphor as Influence</a>
+  <a class="nav-link" href="lesson-s8-11-tonality.html">11. Tonality</a>
+  <a class="nav-link" href="lesson-s8-12-silence-drill.html">12. The Silence Drill</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 4 · Section 8</div>
+  <h1>Labeling</h1>
+  <p class="subtitle">The words you choose shape the world the prospect experiences on the call. Name the emotion before they do and they stop carrying it alone. That's when trust happens.</p>
+
+  <section id="what-labeling-is">
+    <h2>What Labeling Is</h2>
+    <div class="block">
+      <div class="block-label">The Definition</div>
+      <p>Labeling is naming the emotional state you observe in the prospect without claiming certainty about it. You're saying "here's what I'm noticing in you" — not "here's what you're definitely feeling."</p>
+      <p>The starter phrases: "It sounds like..." / "It seems like..." / "It feels like..." The tentative framing is deliberate. It lets the prospect correct you if you're wrong, which builds trust either way. Accurate label: they feel seen. Inaccurate label: they correct you, and you get better information.</p>
+    </div>
+    <div class="highlight">
+      <p>When a prospect feels that you <strong>see</strong> them — not what they said, but what's underneath what they said — something shifts. The guard comes down. The transaction stops feeling like a transaction. You're no longer a salesperson. You're someone who's paying attention.</p>
+    </div>
+  </section>
+
+  <section id="why-it-works">
+    <h2>Why It Works</h2>
+    <div class="block">
+      <div class="block-label">Emotions Occupy Attention Until Acknowledged</div>
+      <p>An unacknowledged emotion doesn't disappear. It sits in the background of the conversation, using up the prospect's mental bandwidth. They can't fully process what you're saying because part of them is still holding the emotion that hasn't been seen.</p>
+      <p>When you label it, you free it. The emotion gets acknowledged, it loses some of its grip, and the prospect becomes more present in the conversation. You didn't solve their problem — you just made space for them.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">You Demonstrate Without Claiming</div>
+      <p>Saying "I understand" claims empathy. Labeling demonstrates it. "It sounds like you've put a lot into this and haven't seen the return you expected" proves you were actually listening. The prospect doesn't have to take your word for it — they can hear it in the label.</p>
+    </div>
+  </section>
+
+  <section id="how-to-label">
+    <h2>How to Label Correctly</h2>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th class="col-a">Wrong Approach</th>
+          <th class="col-b">Correct Label</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-a-td">"I can tell you're frustrated." (Declarative — removes their right to correct you)</td>
+          <td class="col-b-td">"It sounds like this has been really frustrating." (Tentative — they confirm or correct.)</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">"You seem scared of the investment." (Accusatory tone)</td>
+          <td class="col-b-td">"It seems like the financial piece is weighing on you a bit."</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">"I know exactly how you feel." (Claims certainty, dismisses their specificity)</td>
+          <td class="col-b-td">"It feels like you've been through this loop before and you're tired of it."</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">"That must be tough." (Vague — doesn't actually name the emotion)</td>
+          <td class="col-b-td">"It sounds like the real frustration is that you're working hard and the results just aren't matching the effort."</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="warning">
+      <p><strong>Always leave space after the label.</strong> Deliver it, then go quiet. The prospect needs a moment to feel the label, confirm it, and expand on it. If you immediately pivot to a pitch or another question, you break the moment before it can land.</p>
+    </div>
+  </section>
+
+  <section id="exchange">
+    <h2>Call Exchange — Ignoring vs. Labeling</h2>
+    <div class="exchange">
+      <div class="exchange-header">VERSION 1 — Rep Who Skips the Emotion</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"I've just spent so much money on courses and coaching and nothing has worked. I don't know, I'm kind of at the point where I'm not sure anything is going to change."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Yeah totally — well, we're really different because our curriculum is psychology-based, not script-based. And we have a money-back guarantee..."</div>
+          <span class="annotation">Skipped the emotion entirely. Jumped straight to pitch. Prospect still feels like they're just another call. The guard goes back up.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Right, yeah... [skeptical silence]"</div>
+        </div>
+      </div>
+    </div>
+    <div class="exchange">
+      <div class="exchange-header">VERSION 2 — Rep Who Labels the Emotion</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"I've just spent so much money on courses and coaching and nothing has worked. I don't know, I'm kind of at the point where I'm not sure anything is going to change."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"It sounds like you've genuinely tried to fix this — put in the money, put in the effort — and the results just haven't matched what you were promised." [pause]</div>
+          <span class="annotation">Label delivered. Rep goes quiet. No pitch. Let the label land.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Yeah. Exactly. Like I've done everything they told me to do and I'm still closing at the same rate."</div>
+          <span class="annotation">Prospect opens up fully. They feel seen. This is now a real conversation, not a defense.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"It seems like the frustration isn't just about the money — it's that you're starting to doubt whether the problem is fixable at all."</div>
+          <span class="annotation">Second label, going deeper. Now we're at the core wound. Prospect is fully open.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Honestly, yeah. I'm starting to wonder if I'm just not cut out for this."</div>
+          <span class="annotation">The real objection is now on the table. Not price, not time — identity. The rep got here by labeling, not pitching.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="label-checklist">
+    <h2>Labeling Checklist</h2>
+    <ul class="checklist">
+      <li><div class="check-icon pass">✓</div><div><strong style="color:#ccc;">Use tentative openers.</strong> "It sounds like," "It seems like," "It feels like" — never "I know" or "You're clearly."</div></li>
+      <li><div class="check-icon pass">✓</div><div><strong style="color:#ccc;">Be specific.</strong> A vague label lands weakly. Name the actual emotional texture — frustration, doubt, exhaustion, hope, excitement.</div></li>
+      <li><div class="check-icon pass">✓</div><div><strong style="color:#ccc;">Shut up after the label.</strong> Say it, then hold the space. Do not follow it with a question immediately.</div></li>
+      <li><div class="check-icon pass">✓</div><div><strong style="color:#ccc;">Accept corrections gracefully.</strong> If they say "Not really, more like..." — great. You got truer information and they feel heard in the correction.</div></li>
+      <li><div class="check-icon fail">✗</div><div><strong style="color:#ccc;">Don't over-label.</strong> One or two per conversation is effective. Three or four starts to feel clinical, like you're running a technique on them.</div></li>
+    </ul>
+  </section>
+
+</main>
+</body>
+</html>

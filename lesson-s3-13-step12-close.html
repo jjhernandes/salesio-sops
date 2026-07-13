@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Step 12 — The Close — S3 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S3 — 12-Step Sales Process</div>
+  <a class="nav-link" href="lesson-s3-01-framework-overview.html">1. Framework Overview</a>
+  <a class="nav-link" href="lesson-s3-02-step1-intro.html">2. Step 1 — Intro</a>
+  <a class="nav-link" href="lesson-s3-03-step2-current-reality.html">3. Step 2 — Current Reality</a>
+  <a class="nav-link" href="lesson-s3-04-step3-problem-awareness.html">4. Step 3 — Problem Awareness</a>
+  <a class="nav-link" href="lesson-s3-05-step4-solution-awareness.html">5. Step 4 — Solution Awareness</a>
+  <a class="nav-link" href="lesson-s3-06-step5-future-pace.html">6. Step 5 — Future Pace</a>
+  <a class="nav-link" href="lesson-s3-07-step6-consequence.html">7. Step 6 — Consequence</a>
+  <a class="nav-link" href="lesson-s3-08-step7-transition.html">8. Step 7 — Transition</a>
+  <a class="nav-link" href="lesson-s3-09-step8-pitch.html">9. Step 8 — The Pitch</a>
+  <a class="nav-link" href="lesson-s3-10-step9-confirm-fit.html">10. Step 9 — Confirm Fit</a>
+  <a class="nav-link" href="lesson-s3-11-step10-price.html">11. Step 10 — Price Reveal</a>
+  <a class="nav-link" href="lesson-s3-12-step11-objections.html">12. Step 11 — Objections</a>
+  <a class="nav-link active" href="lesson-s3-13-step12-close.html">13. Step 12 — The Close</a>
+  <a class="nav-link" href="lesson-s3-14-call-architecture.html">14. Call Architecture</a>
+  <a class="nav-link" href="lesson-s3-15-call-mapping.html">15. Call Mapping Exercise</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 13 · Section 3</div>
+  <h1>Step 12 — The Close</h1>
+  <p class="subtitle">They're committing to a decision they already made. Your job is not to push — it's to make it easy for them to land on what they already know.</p>
+
+  <section id="the-reframe">
+    <h2>The Reframe: You're Not Selling a Program</h2>
+    <div class="highlight">
+      <p>By the time you get to Step 12, a well-run call has one of two situations: the prospect has essentially already decided, or there's one remaining obstacle surfaced in Step 11. The close is not a magic technique you use to get someone over the line — <strong>it's the natural conclusion of a conversation where both people have reached understanding.</strong></p>
+      <p>You are not closing them on a 12-week program. You are helping them commit to a decision about their own life that they've been working toward throughout this call. The program is just the vehicle.</p>
+    </div>
+    <div class="quote-block">
+      <p>"Connection is what people actually buy."</p>
+      <div class="attribution">— JJ Hernandez</div>
+    </div>
+  </section>
+
+  <section id="what-close-sounds-like">
+    <h2>What the Close Actually Sounds Like in Scriptless Selling</h2>
+    <div class="block">
+      <div class="block-label">No Magic Words</div>
+      <p>The close in this model does not have a secret phrase. What it has is a clear, calm, direct movement toward action — after objections have been addressed and the prospect has confirmed the solution fits. It's simple. It's direct. It doesn't have flair.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">The Direct Close</div>
+      <p>"Based on everything we've talked through — are you ready to move forward?" That's it. No qualification, no escape hatch, no softening. Ask directly. Then hold silence. Let them answer.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">The Assumptive Close</div>
+      <p>"Okay — so the next step is getting you set up. Do you want to do the full $7,500 or does one of the split-pay options work better for you?" This closes by moving to logistics rather than asking yes/no. Works well when the prospect has already said "this sounds right" but hasn't explicitly said yes. Don't use it to bypass real objections — use it when you're reading that the decision is already made and they're waiting for you to lead.</p>
+    </div>
+  </section>
+
+  <section id="when-to-close">
+    <h2>When to Close — The Signal, Not the Step Number</h2>
+    <div class="block">
+      <div class="block-label">The Signal</div>
+      <p>You close when: all objections have been addressed, the prospect has confirmed the solution fits (Step 9), and you can feel the energy shift from evaluating to agreeing. That might happen at Step 12 of the framework. It might happen earlier. The framework tells you the minimum — not the maximum.</p>
+    </div>
+    <div class="warning">
+      <p><strong>If you're on Step 12 and it doesn't feel like the conversation has resolved — don't close.</strong> Go back. Something in discovery, objection handling, or confirm fit is still open. Closing into unresolved doubt never works and usually damages the relationship.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">Signs the Prospect Is Ready</div>
+      <p>They start asking operational questions ("how does onboarding work?" "when would I start?"). Their energy shifts — they go from evaluating your answers to leaning in. They re-reference something from discovery positively: "Yeah and you said the job board has weekly postings, that's actually really helpful." These are green lights. The decision is being made in real time.</p>
+    </div>
+  </section>
+
+  <section id="two-closes">
+    <h2>Checklist — Close Readiness</h2>
+    <ul class="checklist">
+      <li><div class="check-icon pass">✓</div><div>Prospect confirmed the solution fits (Step 9 completed)</div></li>
+      <li><div class="check-icon pass">✓</div><div>Price has been stated clearly (Step 10 completed)</div></li>
+      <li><div class="check-icon pass">✓</div><div>All stated objections have been addressed (Step 11 completed)</div></li>
+      <li><div class="check-icon pass">✓</div><div>Prospect energy has shifted — they're engaging, not evaluating</div></li>
+      <li><div class="check-icon fail">✗</div><div>Do not close if one active objection remains unaddressed — go back to Step 11</div></li>
+      <li><div class="check-icon fail">✗</div><div>Do not close if you feel uncertain or rushed — your energy transfers to them</div></li>
+    </ul>
+  </section>
+
+  <section id="exchange">
+    <h2>Call Exchange — Forced vs. Natural Close</h2>
+    <div class="exchange">
+      <div class="exchange-header">VERSION 1 — Rep Who Forces the Close</div>
+      <div class="exchange-body">
+        <div class="msg"><span class="msg-who prospect">Prospect</span><div class="msg-text prospect-msg">"I mean, it sounds good but I'm still a little on the fence."</div></div>
+        <div class="msg"><span class="msg-who rep">Rep</span><div class="msg-text rep-msg">"I totally get it — but honestly I think you should just go for it. Worst case, there's a money-back guarantee. And honestly people who wait usually wish they started sooner. So what do you say — you want to lock it in today?"</div>
+          <span class="annotation">Prospect said they're on the fence. Rep pushed past it. "Just go for it" and "people who wait" are pressure tactics that acknowledge the prospect's hesitation without resolving it. The prospect hasn't been helped — they've been nudged. This doesn't close well.</span>
+        </div>
+      </div>
+    </div>
+    <div class="exchange">
+      <div class="exchange-header">VERSION 2 — Rep Who Closes Naturally</div>
+      <div class="exchange-body">
+        <div class="msg"><span class="msg-who prospect">Prospect</span><div class="msg-text prospect-msg">"I mean, it sounds good but I'm still a little on the fence."</div></div>
+        <div class="msg"><span class="msg-who rep">Rep</span><div class="msg-text rep-msg">"What part of the fence? Like — is something still unresolved, or is it more the discomfort of making a real decision?"</div>
+          <span class="annotation">Goes back to discovery instead of pushing forward. Distinguishes between a real concern and decision anxiety.</span>
+        </div>
+        <div class="msg"><span class="msg-who prospect">Prospect</span><div class="msg-text prospect-msg">"Honestly I think I'm just scared I'll invest and not follow through."</div></div>
+        <div class="msg"><span class="msg-who rep">Rep</span><div class="msg-text rep-msg">"That's the most honest thing you've said. Let me ask you something — is the fear that you can't, or that you might not? Because those are different things."</div></div>
+        <div class="msg"><span class="msg-who prospect">Prospect</span><div class="msg-text prospect-msg">"That I might not... I know I can."</div></div>
+        <div class="msg"><span class="msg-who rep">Rep</span><div class="msg-text rep-msg">"Then the decision's already made. You know what you need to do. How do you want to handle the payment?"</div>
+          <span class="annotation">The close came from resolving the actual objection — self-trust — and then moving cleanly to logistics. The prospect led themselves to yes. The rep just held the space for it to happen.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>

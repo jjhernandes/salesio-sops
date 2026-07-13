@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practical (P) Type — S2 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S2 — Human Psychology</div>
+  <a class="nav-link" href="lesson-s2-01-pace-overview.html">1. PACE System — Overview</a>
+  <a class="nav-link" href="lesson-s2-02-pace-identification.html">2. Identifying PACE Type</a>
+  <a class="nav-link active" href="lesson-s2-03-practical-type.html">3. Practical (P) Type</a>
+  <a class="nav-link" href="lesson-s2-04-action-type.html">4. Action (A) Type</a>
+  <a class="nav-link" href="lesson-s2-05-social-type.html">5. Social (S) Type</a>
+  <a class="nav-link" href="lesson-s2-06-emotional-type.html">6. Emotional (E) Type</a>
+  <a class="nav-link" href="lesson-s2-07-decision-map.html">7. The Decision Map</a>
+  <a class="nav-link" href="lesson-s2-08-needs-values.html">8. Needs, Values &amp; Decisions</a>
+  <a class="nav-link" href="lesson-s2-09-three-identity-types.html">9. The Three Identity Types</a>
+  <a class="nav-link" href="lesson-s2-10-secondary-needs.html">10. Secondary Needs</a>
+  <a class="nav-link" href="lesson-s2-11-elicitation.html">11. Elicitation</a>
+  <a class="nav-link" href="lesson-s2-12-listening-between-lines.html">12. Listening Between Lines</a>
+  <a class="nav-link" href="lesson-s2-13-rapid-profiling.html">13. Rapid Profiling</a>
+  <a class="nav-link" href="lesson-s2-14-pre-call-profiling.html">14. Pre-Call Profiling</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 3 · Section 2</div>
+  <h1>Practical (P) Type</h1>
+  <p class="subtitle">Closing the analytical, skeptical prospect. The P type doesn't need to feel good about the decision. They need to know it's the right decision. Those are different things.</p>
+
+  <section id="what-p-cares">
+    <h2>What the P Type Cares About</h2>
+    <div class="highlight">
+      <p>The P type cares about <strong>evidence, logic, and ROI</strong>. Before they commit to anything emotionally, they need the intellectual box checked. Is this real? Does it work? Can you prove it? How specifically?</p>
+      <p>They're not cold people — they can be warm and even excited. But the warmth doesn't show up until they feel like they understand what they're getting into. The skepticism is not a wall you need to break down. It's a filter you need to pass through.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">What "proof" means to a P type</div>
+      <p>Not testimonials from happy people. Testimonials can be cherry-picked and they know it. Proof to a P type is: specific numbers, clear before-and-after, what specifically happened and why, and a logical explanation for how this would apply to their situation. They want to understand the mechanism, not just the outcome.</p>
+    </div>
+  </section>
+
+  <section id="how-p-decides">
+    <h2>How the P Type Makes Decisions</h2>
+    <div class="block">
+      <div class="block-label">The decision sequence</div>
+      <p>P types run a checklist, consciously or not. Do I understand what this is? Does the logic hold up? Is there evidence this works? Is the downside manageable? If all four pass, they move. The emotional buy-in comes after the logic is satisfied — not before. This is backwards from most other types.</p>
+      <p>P types also take longer. They process. They ask follow-ups. They may say "let me think about it" not because they're stalling but because they genuinely need time to process. Pushing them accelerates their decision to no.</p>
+    </div>
+  </section>
+
+  <section id="what-kills-p">
+    <h2>What Kills the Call with a P Type</h2>
+    <div class="red-block">
+      <p><strong>Too much rapport, too soon.</strong> P types find excessive small talk suspicious. They're not there to be your friend — they're there to evaluate a decision. If you spend the first 15 minutes building "connection" they start wondering why you're avoiding the substance.</p>
+    </div>
+    <div class="red-block">
+      <p><strong>Over-emotional pitch.</strong> Transformation language, vibey community descriptions, and "you'll just feel different" pitches make P types dismiss you. They don't want to feel different. They want to make more money, learn a skill, and understand exactly how it happens.</p>
+    </div>
+    <div class="red-block">
+      <p><strong>Vague answers to specific questions.</strong> "How long does it take to see results?" "It depends on the person and how much effort they put in" — this is a P type's red flag. Specificity is a signal of trustworthiness to them. Vagueness confirms their skepticism.</p>
+    </div>
+    <div class="red-block">
+      <p><strong>Pressure tactics.</strong> Urgency, FOMO, scarcity messaging — these all communicate to a P type that you're trying to short-circuit their thinking process. And that makes them dig in and refuse. They need to decide on their terms, through their process.</p>
+    </div>
+  </section>
+
+  <section id="what-closes-p">
+    <h2>What Closes a P Type</h2>
+    <ul class="checklist">
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Specific proof with mechanism.</strong> Not "students double their income." Instead: "Marcus went from $6K to $14K in 11 weeks. Here's what changed: he was underselling on the close, and we rebuilt how he handled the post-pitch silence." The P type needs to see the how, not just the what.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Clear ROI math.</strong> Walk them through the numbers. If they're at $8K/month and closing at 18%, and they improve to 28%, what does that do to their income? Make it concrete. P types respond to math.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Logical structure in the pitch.</strong> Don't jump around. Walk them through the program in a clear sequence. The logic of how you present is itself a credibility signal for a P type.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Honesty about limitations.</strong> P types test you by asking hard questions. If you give a straight answer — including "that depends on X" with specifics — they trust you more. If you sidestep, they clock it immediately.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Remove the risk.</strong> Guarantee language lands hard with P types because it speaks to their downside calculation. "If you don't get your investment back in 90 days, we refund you" removes the biggest rational objection they have.</div>
+      </li>
+    </ul>
+  </section>
+
+  <section id="exchange">
+    <h2>Call Exchange — Right vs. Wrong Approach with a P Type</h2>
+    <div class="exchange">
+      <div class="exchange-header">VERSION 1 — Wrong approach: emotional pitch, vague answers</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"How long does it realistically take to see an income increase?"</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"It honestly depends on the person — I've seen people transform in two weeks and I've seen people take longer. It's really about the energy you bring and the commitment you have."</div>
+          <span class="annotation">Vague. P type now thinks you're hiding something or you don't actually know. Credibility drops.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Right. I guess I'd want to see some more specific data before I make a decision."</div>
+        </div>
+      </div>
+    </div>
+    <div class="exchange">
+      <div class="exchange-header">VERSION 2 — Right approach: specific proof, clear logic</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"How long does it realistically take to see an income increase?"</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Most reps who come in already working see movement in weeks 3 to 6 — that's when the 1-on-1 coaching starts targeting their specific close rate gaps. The biggest lever is usually the post-pitch silence and how they handle the first objection. What's your current close rate? I can tell you where the gains will most likely come from for your situation specifically."</div>
+          <span class="annotation">Specific timeframe. Named the mechanism. Turned it into a two-way diagnostic. P type is now engaged and feeling like this person knows what they're talking about.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"I'm at about 20% — sometimes higher if the offer I'm on is strong."</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Five Frames — S9 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.frame-card{border-radius:12px;overflow:hidden;margin-bottom:18px;border:1px solid #1a1a1a;}
+.frame-head{padding:16px 22px;display:flex;align-items:center;gap:14px;}
+.frame-badge{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border-radius:4px;}
+.frame-name{font-size:18px;font-weight:900;}
+.frame-signal{font-size:13px;color:#666;padding:0 22px 4px;font-style:italic;}
+.frame-body{padding:14px 22px 20px;display:flex;flex-direction:column;gap:14px;}
+.frame-row{display:flex;flex-direction:column;gap:4px;}
+.frame-row-label{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#444;}
+.frame-row-text{font-size:13px;color:#999;line-height:1.65;}
+.frame-ex{font-size:13px;color:#555;font-style:italic;padding:8px 12px;background:#050505;border-radius:6px;border-left:2px solid #1a1a1a;line-height:1.6;}
+.frame-power .frame-head{background:#08050f;}
+.frame-power .frame-badge{background:#150b2a;color:#a78bfa;border:1px solid #2a1040;}
+.frame-power .frame-name{color:#a78bfa;}
+.frame-time .frame-head{background:#0f0800;}
+.frame-time .frame-badge{background:#2b1a00;color:#f59e0b;border:1px solid #3a2500;}
+.frame-time .frame-name{color:#f59e0b;}
+.frame-analyst .frame-head{background:#050a12;}
+.frame-analyst .frame-badge{background:#0a2040;color:#60a5fa;border:1px solid #0d2a55;}
+.frame-analyst .frame-name{color:#60a5fa;}
+.frame-prize .frame-head{background:#0f0505;}
+.frame-prize .frame-badge{background:#2b0d0d;color:#f87171;border:1px solid #3a1010;}
+.frame-prize .frame-name{color:#f87171;}
+.frame-detach .frame-head{background:#020a04;}
+.frame-detach .frame-badge{background:#0d2b1a;color:#4ade80;border:1px solid #1a4a28;}
+.frame-detach .frame-name{color:#4ade80;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S9 — Frame Mastery</div>
+  <a class="nav-link" href="lesson-s9-01-what-is-a-frame.html">1. What a Frame Is</a>
+  <a class="nav-link active" href="lesson-s9-02-five-frames.html">2. The Five Frames</a>
+  <a class="nav-link" href="lesson-s9-03-default-frame.html">3. Your Default Frame</a>
+  <a class="nav-link" href="lesson-s9-04-frame-collision.html">4. Frame Collision</a>
+  <a class="nav-link" href="lesson-s9-05-detachment-close.html">5. The Detachment Close</a>
+  <a class="nav-link" href="lesson-s9-06-rather-lose-sale.html">6. Lose the Sale, Not the Frame</a>
+  <a class="nav-link" href="lesson-s9-07-certainty-transfer.html">7. Certainty Transfer</a>
+  <a class="nav-link" href="lesson-s9-08-frame-attack-drill.html">8. Frame Attack Drill</a>
+  <a class="nav-link" href="lesson-s9-09-frame-integration.html">9. Frame Integration</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 2 · Section 9</div>
+  <h1>The Five Frames — Power, Time, Analyst, Prize, Detachment</h1>
+  <p class="subtitle">These five frames, drawn from Oren Klaff's work in Pitch Anything and recontextualized for high-ticket sales, are the only ones you need. Know when to run each one.</p>
+
+  <!-- INTRO -->
+  <section id="intro">
+    <h2>Before You Learn the Frames</h2>
+    <div class="block">
+      <div class="block-label">How to Use This</div>
+      <p>These five frames are not costumes you put on. They're postures you access depending on what the call requires. Elite closers cycle through multiple frames in a single conversation without thinking about it — because they've internalized them to the point that it's automatic.</p>
+      <p>Start by learning each one distinctly. Know what it communicates, when to deploy it, and what it sounds like in practice. Then do the reps until they become instinctive.</p>
+    </div>
+    <div class="highlight">
+      <p>You don't announce a frame. You don't think to yourself "I'm switching to Time Frame now." You just <strong>feel</strong> the situation, read what it needs, and it comes out naturally. That's mastery. That's what Section 9 is building toward.</p>
+    </div>
+  </section>
+
+  <!-- FIVE FRAMES -->
+  <section id="frames">
+    <h2>The Five Frames</h2>
+
+    <!-- POWER FRAME -->
+    <div class="frame-card frame-power">
+      <div class="frame-head">
+        <span class="frame-badge">Frame 1</span>
+        <span class="frame-name">Power Frame</span>
+      </div>
+      <p class="frame-signal">"I'm the authority here."</p>
+      <div class="frame-body">
+        <div class="frame-row">
+          <div class="frame-row-label">What it communicates</div>
+          <div class="frame-row-text">You have more relevant expertise and decision-making authority than the prospect in this conversation. You're not a salesperson — you're a specialist evaluating whether to bring this person into something they want access to.</div>
+        </div>
+        <div class="frame-row">
+          <div class="frame-row-label">When to use it</div>
+          <div class="frame-row-text">When the prospect is testing your credibility early. When they try to interview you or flip the dynamic. When you sense them positioning themselves as the one evaluating you.</div>
+        </div>
+        <div class="frame-row">
+          <div class="frame-row-label">What it sounds like</div>
+          <div class="frame-ex">"Based on what you've told me, here's what I see happening — and here's what the data shows about people in your situation." Not explaining, not justifying. Diagnosing from authority.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIME FRAME -->
+    <div class="frame-card frame-time">
+      <div class="frame-head">
+        <span class="frame-badge">Frame 2</span>
+        <span class="frame-name">Time Frame</span>
+      </div>
+      <p class="frame-signal">"I have limited availability."</p>
+      <div class="frame-body">
+        <div class="frame-row">
+          <div class="frame-row-label">What it communicates</div>
+          <div class="frame-row-text">Your time is genuinely finite and valuable. This conversation has a natural end point that you control, not the prospect. Time is your resource, and access to it is not unlimited.</div>
+        </div>
+        <div class="frame-row">
+          <div class="frame-row-label">When to use it</div>
+          <div class="frame-row-text">When calls start drifting, when a prospect is stalling or going in circles, when you need to create productive urgency without manufactured pressure. Also use it defensively when a prospect tries to use time against you.</div>
+        </div>
+        <div class="frame-row">
+          <div class="frame-row-label">What it sounds like</div>
+          <div class="frame-ex">"I want to make sure we use the time we have well — let me ask you the question that actually matters here." Or when closing: "I've got one spot opening up in the next cohort and I need to know where you're at by end of week."</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANALYST FRAME -->
+    <div class="frame-card frame-analyst">
+      <div class="frame-head">
+        <span class="frame-badge">Frame 3</span>
+        <span class="frame-name">Analyst Frame</span>
+      </div>
+      <p class="frame-signal">"I'm evaluating whether you're a fit."</p>
+      <div class="frame-body">
+        <div class="frame-row">
+          <div class="frame-row-label">What it communicates</div>
+          <div class="frame-row-text">You have standards. Not everyone gets in. Your role in this conversation is to determine fit — not to convince, but to assess. This flips the dynamic: you're the evaluator, not the one being evaluated.</div>
+        </div>
+        <div class="frame-row">
+          <div class="frame-row-label">When to use it</div>
+          <div class="frame-row-text">In discovery, when asking qualifying questions. When the prospect seems to assume they can just decide to join on a whim. Any time you need to restore the dynamic that access to this requires passing some kind of assessment.</div>
+        </div>
+        <div class="frame-row">
+          <div class="frame-row-label">What it sounds like</div>
+          <div class="frame-ex">"Before we get into the specifics of what we do — I want to understand your situation first and see if this is even the right environment for what you're trying to accomplish." Curiosity from a position of evaluation, not desperation.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRIZE FRAME -->
+    <div class="frame-card frame-prize">
+      <div class="frame-head">
+        <span class="frame-badge">Frame 4</span>
+        <span class="frame-name">Prize Frame</span>
+      </div>
+      <p class="frame-signal">"Getting access to this requires qualification."</p>
+      <div class="frame-body">
+        <div class="frame-row">
+          <div class="frame-row-label">What it communicates</div>
+          <div class="frame-row-text">The thing you're offering is genuinely valuable and access to it is earned, not given. You're not selling — you're determining whether this person deserves a seat. This is not arrogance. It's real positioning that happens to be true when your offer is excellent.</div>
+        </div>
+        <div class="frame-row">
+          <div class="frame-row-label">When to use it</div>
+          <div class="frame-row-text">Throughout the call — woven into how you describe the program, the community, the results. Especially when prospect is being casually dismissive or shopping you against inferior alternatives.</div>
+        </div>
+        <div class="frame-row">
+          <div class="frame-row-label">What it sounds like</div>
+          <div class="frame-ex">"We're selective about who we bring in because the culture of the group matters — everyone in here is serious, and that's what makes it work. I want to make sure you'd be a good fit for that environment and it'd be a good fit for you."</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DETACHMENT FRAME -->
+    <div class="frame-card frame-detach">
+      <div class="frame-head">
+        <span class="frame-badge">Frame 5</span>
+        <span class="frame-name">Detachment Frame</span>
+      </div>
+      <p class="frame-signal">"I don't need this to go a specific way."</p>
+      <div class="frame-body">
+        <div class="frame-row">
+          <div class="frame-row-label">What it communicates</div>
+          <div class="frame-row-text">You are genuinely indifferent to the outcome in the sense that you don't need any particular result to feel okay. You want the best for the prospect — and the best might be this program, or it might not be. That genuine indifference reads as the highest form of authority.</div>
+        </div>
+        <div class="frame-row">
+          <div class="frame-row-label">When to use it</div>
+          <div class="frame-row-text">As a constant undercurrent throughout the entire call. When resistance is high. When the prospect is genuinely unsure. At the close, as the primary frame for the close itself. This is the most powerful of the five — and also the hardest to hold genuinely.</div>
+        </div>
+        <div class="frame-row">
+          <div class="frame-row-label">What it sounds like</div>
+          <div class="frame-ex">"I want to be honest with you — I don't need this to happen today. If this isn't the right move for you, I'd rather you not do it. I'd rather lose the sale than put someone in a program that isn't right for them."</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXCHANGE -->
+  <section id="exchange">
+    <h2>Call Exchange — Frames in Action</h2>
+    <div class="exchange">
+      <div class="exchange-header">All Five Frames Across a Single Call Arc</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who rep">Rep — Analyst Frame (Opening)</span>
+          <div class="msg-text rep-msg">"Before I tell you anything about the program, I want to understand your situation first. Walk me through where you're at right now."</div>
+          <span class="annotation">Analyst Frame: evaluating, not pitching. Rep controls the opening.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"I've been in sales for two years, doing okay, making about $6K a month but I feel stuck. I've tried some other programs, nothing really landed."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep — Power Frame (Diagnosis)</span>
+          <div class="msg-text rep-msg">"The reason nothing landed is because what you're describing is an identity issue, not a skills issue. You keep learning tactics but the person running the tactics hasn't changed. That's what we fix."</div>
+          <span class="annotation">Power Frame: confident diagnosis from expertise. Not selling, explaining what's true.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Okay, what's it cost?"</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep — Prize + Time Frame (Positioning)</span>
+          <div class="msg-text rep-msg">"$7,500. And before you react to that number — I want to finish understanding your situation first, because the cost only matters if this is actually the right fit. We're selective about who we bring in, and I need to know a few more things before I can tell you if you'd even be a good candidate."</div>
+          <span class="annotation">Prize Frame: access requires qualification. Time Frame: not rushing to justify price. Prospect now wants to qualify.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep — Detachment Frame (Close)</span>
+          <div class="msg-text rep-msg">"Here's where I'm at. Based on everything you've shared, I think you're someone this would work for. But I'm not going to tell you to do it if you're not fully in. If this isn't the right time or the right move, I'd rather you be honest about that now than force it."</div>
+          <span class="annotation">Detachment Frame: genuine indifference to outcome. This is the most powerful close available.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="source">
+    <h2>Source Context</h2>
+    <div class="block">
+      <div class="block-label">Oren Klaff's Framework</div>
+      <p>These five frames are adapted from Oren Klaff's Pitch Anything — specifically his work on neurofinance and the crocodile brain's response to frame dominance. Klaff identified that the primitive brain (which makes purchasing decisions) responds almost entirely to social status signals, not logic. Frame control is the mechanism that sends those signals.</p>
+      <p>At Sales.io, we apply these in high-ticket consultative sales — not in the manipulative sense, but because holding a strong frame is what allows genuine certainty to transfer. If you don't hold your frame, your prospect can't feel your conviction. And conviction is what they're buying.</p>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

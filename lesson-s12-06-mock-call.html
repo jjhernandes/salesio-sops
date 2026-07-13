@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mock Call Protocol — S12 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.seq-list{display:flex;flex-direction:column;}
+.seq-wrap{display:flex;gap:20px;margin-bottom:4px;}
+.seq-left{display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;}
+.dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.dot-green{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.dot-amber{background:#0f0800;color:#f59e0b;border:1px solid #2b1a00;}
+.dot-red{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.line{flex:1;width:1px;background:#111;margin:4px 0;min-height:16px;}
+.seq-right{flex:1;padding-bottom:24px;}
+.seq-tag{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
+.seq-title{font-size:16px;font-weight:800;margin-bottom:8px;}
+.seq-body{font-size:14px;color:#888;line-height:1.7;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S12 — Call Review</div>
+  <a class="nav-link" href="lesson-s12-01-game-tape.html">01 · Game Tape Philosophy</a>
+  <a class="nav-link" href="lesson-s12-02-what-to-listen-for.html">02 · What to Listen For</a>
+  <a class="nav-link" href="lesson-s12-03-five-point-framework.html">03 · 5-Point Framework</a>
+  <a class="nav-link" href="lesson-s12-04-peer-review.html">04 · Peer Review Sessions</a>
+  <a class="nav-link" href="lesson-s12-05-ceiling-identification.html">05 · Close Rate Ceiling</a>
+  <a class="nav-link active" href="lesson-s12-06-mock-call.html">06 · Mock Call Protocol</a>
+  <a class="nav-link" href="lesson-s12-07-frame-attack.html">07 · Frame Attack Drill</a>
+  <a class="nav-link" href="lesson-s12-08-integration-mock.html">08 · Integration Mock Call</a>
+  <a class="nav-link" href="lesson-s12-09-call-submission.html">09 · Call Submission Protocol</a>
+  <a class="nav-link" href="lesson-s12-10-review-habit.html">10 · Monthly Review Habit</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 6 · Section 12</div>
+  <h1>The Mock Call Protocol</h1>
+  <p class="subtitle">Most mock calls don't improve performance because they're run wrong. Here's exactly how to set them up, run them, and review them so that every mock translates to real call improvement.</p>
+
+  <!-- SECTION 1 -->
+  <section id="real-vs-fake">
+    <h2>Mock Calls That Work vs. Mock Calls That Don't</h2>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th class="col-a">Fake Mock Call</th>
+          <th class="col-b">Real Mock Call</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-a-td">Easy prospect profile — cooperative, agreeable, no hard objections.</td>
+          <td class="col-b-td">Realistic profile built on actual rep weaknesses. Includes known pressure points.</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">Coach goes easy because the rep is new or they want to be encouraging.</td>
+          <td class="col-b-td">Coach escalates difficulty systematically. Comfortable rep is a learning rep that isn't actually being challenged.</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">Not recorded. No review afterward.</td>
+          <td class="col-b-td">Recorded every time. Reviewed within 24 hours using the 5-Point Framework.</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">Feedback is vague. "That was pretty good, work on your close."</td>
+          <td class="col-b-td">Feedback is specific, timestamped, one observation per segment.</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">Run once in a while when someone has time.</td>
+          <td class="col-b-td">Minimum 2 per week in the first 90 days. Scheduled, not optional.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="red-block">
+      <p><strong>A mock call that isn't realistic is not practice — it's theater.</strong> If the "prospect" never pushes back, never challenges your credibility, never says "I need to think about it" and means it — you're not building anything. You're just performing. The real calls will be harder than that, and you'll be unprepared.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section id="setup">
+    <h2>The Mock Call Setup</h2>
+    <div class="block">
+      <div class="block-label">Step 1 — Build the Prospect Profile</div>
+      <p>Before the mock call, the coach creates a prospect profile. This is not random. It's based on the rep's known weaknesses. If the rep struggles with discovery, the profile includes a prospect who gives surface answers and resists going deeper. If the rep loses frame under price pressure, the profile includes a budget-conscious prospect who challenges the price.</p>
+      <p>The profile includes: background, pain point, objection type, and at which point in the call the prospect should escalate resistance.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">Step 2 — Set the Recording</div>
+      <p>Record every mock call. No exceptions. Zoom, Loom, any platform that captures both video and audio. The recording is half the value of the mock call. Without it, you're practicing blind.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">Step 3 — Treat It Like a Real Call</div>
+      <p>Rep does their pre-call preparation. No joking around before it starts. The coach gets into character — they are the prospect from the moment "start" is called. Both parties maintain the fiction for the full call. Breaking character to coach mid-call removes the realistic pressure and kills the value.</p>
+    </div>
+    <div class="highlight">
+      <p><strong>No softball scenarios.</strong> The point of the mock call is to create the same pressure as a real call in a safe environment. Safe means you can make mistakes without losing a real deal. It does not mean easy. The harder the mock, the more useful the transfer to real calls.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section id="coach-role">
+    <h2>The Coach Role — Escalating Difficulty</h2>
+    <div class="block">
+      <div class="block-label">The Coach's Job</div>
+      <p>The coach's job is not to play a pleasant prospect. The coach's job is to find the rep's ceiling and push into it. If the rep handles a surface objection well, the coach escalates — adds more skepticism, asks harder follow-up questions, challenges credibility. The goal is to find the moment the rep breaks and make that moment happen during practice, not on a real call.</p>
+    </div>
+
+    <div class="seq-list">
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-amber">L1</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#f59e0b;">Level 1</div>
+          <div class="seq-title">Engaged but Cautious</div>
+          <div class="seq-body">Prospect is interested, asks questions, gives real answers in discovery. Mentions they've "tried other programs" once. Agrees to the price without major resistance. This level tests basic structure and discovery depth.</div>
+        </div>
+      </div>
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-amber">L2</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#f59e0b;">Level 2</div>
+          <div class="seq-title">One Hard Objection</div>
+          <div class="seq-body">Prospect gives surface answers in discovery until pushed. One firm objection during close — "I need to think about it" or "the price is more than I expected." Coach holds the objection for at least 30 seconds to test whether the rep rushes or gets curious.</div>
+        </div>
+      </div>
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-red">L3</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#f87171;">Level 3</div>
+          <div class="seq-title">Credibility Challenge + Price</div>
+          <div class="seq-body">Prospect questions how long the rep has been doing this, references a competitor, and then objects to the price. Tests composure under credibility attack and ability to hold frame through a two-stage objection sequence.</div>
+        </div>
+      </div>
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-red">L4</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#f87171;">Level 4</div>
+          <div class="seq-title">Closed Off + Multiple Objections</div>
+          <div class="seq-body">Prospect gives one-word answers in early discovery. Multiple objections stacked at close. Tests whether the rep can open a closed prospect and maintain composure through sustained resistance.</div>
+        </div>
+      </div>
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-green">L5</div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#4ade80;">Level 5</div>
+          <div class="seq-title">Full Gauntlet</div>
+          <div class="seq-body">Hostile at opener, closed in discovery, credibility challenge mid-call, price objection, "I need to talk to my partner," and one more unknown variable the coach adds at their discretion. The full gauntlet. If the rep can hold frame and stay curious through this, real calls feel manageable.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section id="recording-review">
+    <h2>Recording and Reviewing — The Compound Effect</h2>
+    <div class="highlight">
+      <p>The mock call is 50% of the value. <strong>The review is the other 50%.</strong> A mock call without a review is a slightly more realistic conversation. A mock call with a review is a targeted training intervention that directly improves your next real call.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">Review the Mock Using the 5-Point Framework</div>
+      <p>Same framework as a real call. Opener, Discovery, Pitch, Objection Handling, Close. Score each point 1-3. Identify the lowest score. That's what the next mock targets. Run the next mock specifically against that weakness.</p>
+    </div>
+    <ul class="checklist">
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Minimum 2 mock calls per week in the first 90 days.</strong> This is not optional. It's the difference between reps who plateau and reps who break through. Two mocks a week, reviewed with the 5-Point Framework, applied to real calls.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Start at Level 2 difficulty minimum.</strong> Level 1 is for day one of a brand-new rep only. Anyone who has been on at least 10 real calls should start at Level 2 and move up based on performance.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Apply one thing per mock to the next real call.</strong> The transfer is mandatory. What did you learn? What are you changing? State it out loud after the review. Do it on the next call.</div>
+      </li>
+      <li>
+        <div class="check-icon fail">✗</div>
+        <div><strong style="color:#ccc;">Don't debrief mid-call.</strong> Coach stays in character until the call ends. Post-call debrief happens after a 5-minute break. Breaking the mock to coach kills the flow and realism that makes the practice valuable.</div>
+      </li>
+    </ul>
+  </section>
+
+</main>
+
+</body>
+</html>

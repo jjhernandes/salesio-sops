@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anchoring — S7 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.seq-list{display:flex;flex-direction:column;}
+.seq-wrap{display:flex;gap:20px;margin-bottom:4px;}
+.seq-left{display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;}
+.dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.dot-green{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.dot-amber{background:#0f0800;color:#f59e0b;border:1px solid #2b1a00;}
+.dot-blue{background:#050a12;color:#60a5fa;border:1px solid #0a2040;}
+.line{flex:1;width:1px;background:#111;margin:4px 0;min-height:16px;}
+.seq-right{flex:1;padding-bottom:24px;}
+.seq-tag{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
+.seq-title{font-size:16px;font-weight:800;margin-bottom:8px;}
+.seq-body{font-size:14px;color:#888;line-height:1.7;}
+.seq-ex{font-size:13px;color:#555;font-style:italic;padding:8px 12px;background:#050505;border-radius:6px;border-left:2px solid #1a1a1a;margin-top:8px;line-height:1.6;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S7 — Advanced Influence</div>
+  <a class="nav-link" href="lesson-s7-01-buying-decisions.html">1. How Buying Decisions Actually Happen</a>
+  <a class="nav-link" href="lesson-s7-02-halo-effect.html">2. The Halo Effect</a>
+  <a class="nav-link active" href="lesson-s7-03-anchoring.html">3. Anchoring</a>
+  <a class="nav-link" href="lesson-s7-04-presuasion.html">4. Pre-Suasion</a>
+  <a class="nav-link" href="lesson-s7-05-priming-questions.html">5. Priming Questions</a>
+  <a class="nav-link" href="lesson-s7-06-cognitive-dissonance.html">6. Cognitive Dissonance</a>
+  <a class="nav-link" href="lesson-s7-07-identity-consistency.html">7. Identity Consistency</a>
+  <a class="nav-link" href="lesson-s7-08-future-self.html">8. Future Self Projection</a>
+  <a class="nav-link" href="lesson-s7-09-loss-aversion.html">9. Loss Aversion</a>
+  <a class="nav-link" href="lesson-s7-10-loss-framing.html">10. Loss Framing</a>
+  <a class="nav-link" href="lesson-s7-11-legitimate-urgency.html">11. Legitimate Urgency</a>
+  <a class="nav-link" href="lesson-s7-12-regret-minimization.html">12. Regret Minimization Frame</a>
+  <a class="nav-link" href="lesson-s7-13-reciprocity.html">13. Reciprocity</a>
+  <a class="nav-link" href="lesson-s7-14-social-proof-identity.html">14. Social Proof at the Identity Level</a>
+  <a class="nav-link" href="lesson-s7-15-contagious-emotion.html">15. Contagious Emotion</a>
+  <a class="nav-link" href="lesson-s7-16-influence-structure.html">16. The Structure of Influence</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 3 · Section 7</div>
+  <h1>Anchoring</h1>
+  <p class="subtitle">The first number stated in any negotiation becomes the reference point for everything that follows. Whoever sets the anchor owns the frame. Don't let that be the prospect.</p>
+
+  <section id="what-it-is">
+    <h2>What Anchoring Is</h2>
+    <div class="block">
+      <div class="block-label">The Research</div>
+      <p>Anchoring is one of the most replicated findings in behavioral science. Kahneman and Tversky demonstrated it repeatedly: when people make numerical estimates, they are heavily influenced by the first number they hear, even when that number is arbitrary and irrelevant.</p>
+      <p>In one classic experiment, subjects who were first asked "Is the population of Turkey more or less than 65 million?" estimated a much higher population than those first asked "Is it more or less than 5 million?" The anchor shaped the estimate even when people knew it was random.</p>
+    </div>
+    <div class="highlight">
+      <p>In sales: <strong>the first number stated in a conversation becomes the reference point against which all other numbers are measured.</strong> State value first. State price last. The price is measured against the anchor you set, not against the prospect's internal number.</p>
+    </div>
+  </section>
+
+  <section id="anchor-high">
+    <h2>Anchoring High Before Price</h2>
+    <div class="block">
+      <div class="block-label">The Value Anchor</div>
+      <p>Before you reveal any number, you need to establish the value frame. The transformation value. The cost of the problem they have. The size of the opportunity they're missing. These create the high anchor against which your price will be evaluated.</p>
+      <p>If a rep doing $10K/month should be doing $30K — that's $20,000 a month in unrealized income. Over 12 months: $240,000 left on the table. That number is your real anchor. $7,500 against $240,000 is a completely different conversation than $7,500 as a standalone number.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">The Cost of Inaction Anchor</div>
+      <p>Equally powerful: anchor to the cost of not acting. Not as a pressure tactic — as an honest frame. If the prospect stays where they are for another 12 months, what is that costing them? In income, in career trajectory, in the compounding effect of staying stuck? This cost is usually enormous, and naming it explicitly creates the anchor your price will be evaluated against.</p>
+    </div>
+  </section>
+
+  <section id="never-let">
+    <h2>Never Let the Prospect Anchor First</h2>
+    <div class="red-block">
+      <p>When a prospect asks "how much does it cost?" before you've established value — and you answer immediately — <strong>you've let them set the frame.</strong> Their internal number (often much lower than your price) becomes the anchor. Your price then lands as too high, even if it's objectively reasonable given the transformation.</p>
+    </div>
+    <div class="warning">
+      <p>If a prospect says "I was thinking something around $2,000" before you've revealed your price — that's a counter-anchor. <strong>Never confirm it.</strong> Respond by re-establishing value: "Before we talk about investment, I want to make sure we've looked at what the actual outcome is worth..."</p>
+    </div>
+  </section>
+
+  <section id="the-sequence">
+    <h2>The Anchoring Sequence in Practice</h2>
+    <div class="seq-list">
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-blue">01</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#60a5fa;">Anchor Step 1</div>
+          <div class="seq-title">Surface the Current Cost</div>
+          <div class="seq-body">In discovery, get specific numbers. Not "I want to earn more" — "What are you making right now per month? What would you need to be at to feel like you've actually broken through?" Get them to articulate the gap in dollar terms. These are their own numbers — and they become your anchor.</div>
+          <div class="seq-ex">"You said you're at $9K right now and you want to be at $25K. That's a $16,000 a month difference. Over a year, that's close to $200K. Do you see that gap the same way I do?"</div>
+        </div>
+      </div>
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-amber">02</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#f59e0b;">Anchor Step 2</div>
+          <div class="seq-title">Describe the Transformation Value</div>
+          <div class="seq-body">Before price, walk through what the outcome is actually worth. Placement on a $100K–$1M/month offer. Skills that compound over a career. The ability to close at a 40%+ rate vs. 15%. Frame the value in a way that makes the investment look small relative to what it produces.</div>
+          <div class="seq-ex">"People who come out of this land roles paying $15K–$40K a month. Some significantly more. The skill set you develop here pays dividends for the rest of your career — not just the next 12 weeks."</div>
+        </div>
+      </div>
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-green">03</div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#4ade80;">Anchor Step 3</div>
+          <div class="seq-title">State the Price — Then Stop</div>
+          <div class="seq-body">With the anchors set, state the price simply and confidently. Then hold the silence. The price lands against the $200K gap, against the $30K/month future self, against the career-long compound effect. $7,500 against that backdrop is easy math. Let the prospect do the math in silence.</div>
+          <div class="seq-ex">"The investment for 12 weeks is $7,500." [Full stop. Hold the silence.]</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="exchange">
+    <h2>Call Exchange — Anchoring in Action</h2>
+    <div class="exchange">
+      <div class="exchange-header">No Anchor — Price Lands in a Vacuum</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"So what's the price?"</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"It's $7,500 for the 12-week program. We also have payment plans — you can split it into two payments of $3,750."</div>
+          <span class="annotation">Price without anchor. No value frame. Payment plans introduced before they even respond — signals the rep expects price resistance. $7,500 lands against nothing. It feels expensive.</span>
+        </div>
+      </div>
+    </div>
+    <div class="exchange">
+      <div class="exchange-header">Anchored — Price Lands Against the Right Frame</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"So what's the price?"</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Before I get there — you said you're at $8K right now and you want to be at $25K. That's $17,000 a month you're not making, every single month this doesn't change. Over a year that's over $200,000 in income that's sitting on the table. The people who come out of this program land roles at $15K to $40K a month. So here's the question: what's it worth to close that gap inside of 90 days?"</div>
+          <span class="annotation">Re-anchors to their own numbers. Frames the transformation value. Now the price will land against $200K and a $40K/month future.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"I mean, it's worth a lot."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"The investment is $7,500."</div>
+          <span class="annotation">Simple. Confident. Anchored. Now $7,500 feels like a fraction of the value. Hold the silence.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Identifying PACE Type — S2 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.seq-list{display:flex;flex-direction:column;}
+.seq-wrap{display:flex;gap:20px;margin-bottom:4px;}
+.seq-left{display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;}
+.dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.dot-green{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.dot-amber{background:#0f0800;color:#f59e0b;border:1px solid #2b1a00;}
+.dot-red{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.dot-blue{background:#050a12;color:#60a5fa;border:1px solid #0a2040;}
+.dot-purple{background:#080208;color:#a78bfa;border:1px solid #2a1040;}
+.line{flex:1;width:1px;background:#111;margin:4px 0;min-height:16px;}
+.seq-right{flex:1;padding-bottom:24px;}
+.seq-tag{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
+.seq-title{font-size:16px;font-weight:800;margin-bottom:8px;}
+.seq-body{font-size:14px;color:#888;line-height:1.7;}
+.seq-ex{font-size:13px;color:#555;font-style:italic;padding:8px 12px;background:#050505;border-radius:6px;border-left:2px solid #1a1a1a;margin-top:8px;line-height:1.6;}
+.note-list{list-style:none;}
+.note-list li{font-size:14px;color:#999;padding:9px 0;border-bottom:1px solid #0f0f0f;display:flex;gap:12px;line-height:1.6;}
+.note-list li:last-child{border-bottom:none;}
+.note-list li::before{content:"—";color:#333;flex-shrink:0;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S2 — Human Psychology</div>
+  <a class="nav-link" href="lesson-s2-01-pace-overview.html">1. PACE System — Overview</a>
+  <a class="nav-link active" href="lesson-s2-02-pace-identification.html">2. Identifying PACE Type</a>
+  <a class="nav-link" href="lesson-s2-03-practical-type.html">3. Practical (P) Type</a>
+  <a class="nav-link" href="lesson-s2-04-action-type.html">4. Action (A) Type</a>
+  <a class="nav-link" href="lesson-s2-05-social-type.html">5. Social (S) Type</a>
+  <a class="nav-link" href="lesson-s2-06-emotional-type.html">6. Emotional (E) Type</a>
+  <a class="nav-link" href="lesson-s2-07-decision-map.html">7. The Decision Map</a>
+  <a class="nav-link" href="lesson-s2-08-needs-values.html">8. Needs, Values &amp; Decisions</a>
+  <a class="nav-link" href="lesson-s2-09-three-identity-types.html">9. The Three Identity Types</a>
+  <a class="nav-link" href="lesson-s2-10-secondary-needs.html">10. Secondary Needs</a>
+  <a class="nav-link" href="lesson-s2-11-elicitation.html">11. Elicitation</a>
+  <a class="nav-link" href="lesson-s2-12-listening-between-lines.html">12. Listening Between Lines</a>
+  <a class="nav-link" href="lesson-s2-13-rapid-profiling.html">13. Rapid Profiling</a>
+  <a class="nav-link" href="lesson-s2-14-pre-call-profiling.html">14. Pre-Call Profiling</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 2 · Section 2</div>
+  <h1>Identifying PACE Type in the First 5 Minutes</h1>
+  <p class="subtitle">You don't need 20 minutes of rapport-building to know who you're talking to. The signals are there from the first words. Your job is to listen for them.</p>
+
+  <section id="signals">
+    <h2>The Signals Each Type Gives Early</h2>
+    <div class="block">
+      <div class="block-label">Practical (P) — Listen for</div>
+      <p>Asks specific clarifying questions before you've even set the agenda. References something that didn't work for them before and why. Uses words like "specifically," "exactly," "prove," "data," "what does that mean in practice." Pace is measured, not rushed. They want to understand before they respond.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">Action (A) — Listen for</div>
+      <p>Talks fast. May interrupt or jump ahead in your sentence. Drops outcome language early: "how fast," "what's the fastest," "I want to be making X by Y." References people they know or competitors. Not much small talk — they want to get into it. Time-conscious from the start.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">Social (S) — Listen for</div>
+      <p>Mentions family, partner, or close friends within the first few minutes. Uses "we" more than "I." Asks who else is in the program. Slower pace, warm, wants to feel comfortable before going anywhere. Often apologizes for asking questions. Checks if you understand them before they'll share more.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">Emotional (E) — Listen for</div>
+      <p>Shares a story without being prompted. Uses feeling-language: "I just feel like," "I'm so over," "I don't know, something just feels off." Expressive. May get emotional discussing their situation. Asks what the experience will actually be like, not the mechanics of it.</p>
+    </div>
+  </section>
+
+  <section id="reveal-questions">
+    <h2>Questions That Reveal Type Without Asking Directly</h2>
+    <p style="font-size:14px;color:#555;margin-bottom:20px;">These questions aren't diagnostic — they just invite the prospect to respond naturally. The response tells you the type.</p>
+    <ul class="checklist">
+      <li>
+        <div class="check-icon pass">Q</div>
+        <div><strong style="color:#ccc;">"What made you decide to get on a call today?"</strong> — P types give a logical reason. A types give an outcome. S types mention someone else or a situation involving others. E types share a feeling or turning point.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">Q</div>
+        <div><strong style="color:#ccc;">"What's the situation been like for you lately?"</strong> — Broad on purpose. Watch whether they go to numbers and specifics (P/A), to people and dynamics (S), or to feelings and energy (E).</div>
+      </li>
+      <li>
+        <div class="check-icon pass">Q</div>
+        <div><strong style="color:#ccc;">"What would success look like for you over the next 90 days?"</strong> — P types describe specific measurable targets. A types name a number and the lifestyle that comes with it. S types include others in the picture ("my family would be..."). E types describe how they want to feel.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">Q</div>
+        <div><strong style="color:#ccc;">"What's held you back so far?"</strong> — P types give a systemic answer. A types say they haven't found something fast enough. S types mention external factors, risk, or not wanting to let people down. E types reveal a fear of staying stuck or a belief that they're not capable.</div>
+      </li>
+    </ul>
+  </section>
+
+  <section id="misidentification">
+    <h2>When You Misidentify — and How to Recover</h2>
+    <div class="warning">
+      <p><strong>Misidentification isn't failure — it's information.</strong> The prospect's reaction tells you. If your approach lands flat or creates friction, that's a signal. Don't double down on the wrong approach. Adjust.</p>
+    </div>
+    <table class="compare-table">
+      <thead>
+        <tr><th>Signal</th><th class="col-a">What It Means</th><th class="col-b">Adjustment</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-c-td">They keep asking "but specifically, what does that mean?"</td>
+          <td class="col-a-td">You're being too emotional/vague for a P type</td>
+          <td class="col-b-td">Shift to specifics immediately. Numbers, structure, process.</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">They check the time or try to fast-forward you</td>
+          <td class="col-a-td">A type is bored. You're moving too slow.</td>
+          <td class="col-b-td">Get to outcomes. Cut the nuance. Accelerate.</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">They go quiet and stop sharing after you added pressure</td>
+          <td class="col-a-td">S type is shutting down. Felt unsafe.</td>
+          <td class="col-b-td">Slow down. Validate. Remove pressure from the decision.</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">They seem checked out mid-pitch despite being warm before</td>
+          <td class="col-a-td">E type lost the emotional thread. Pitch went too clinical.</td>
+          <td class="col-b-td">Return to their story. Ask how they're feeling about this. Get back into the human.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="exchange">
+    <h2>Call Exchange — Catching a Misread Mid-Call</h2>
+    <div class="exchange">
+      <div class="exchange-header">Rep misreads an S type as an A type, then course-corrects</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Yeah I'm just trying to figure out what makes sense for me and my family right now, you know?"</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Totally — look, this program gets people to $20K months. That's the benchmark. It's all about speed of results."</div>
+          <span class="annotation">S type mentioned family. Rep went straight to competitive outcome framing — this is A type language. Notice the prospect's next response.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Right... yeah. I guess. I just want to make sure it's the right fit, like I don't want to rush into anything."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">[Pauses — catches the signal. Resets.] "Yeah, that makes complete sense. Tell me more about what you're navigating at home — what does this decision need to look like for it to feel right for your family?"</div>
+          <span class="annotation">Mid-call correction. Drops the competitive frame. Brings the family in. S type opens back up. This is the adjustment — not starting over, just shifting registers.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Well my wife is a little nervous about the investment, so I need to feel really confident before I talk to her about it..."</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>

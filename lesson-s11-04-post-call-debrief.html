@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Post-Call Debrief — S11 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.seq-list{display:flex;flex-direction:column;}
+.seq-wrap{display:flex;gap:20px;margin-bottom:4px;}
+.seq-left{display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;}
+.dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.dot-green{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.dot-amber{background:#0f0800;color:#f59e0b;border:1px solid #2b1a00;}
+.dot-red{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.line{flex:1;width:1px;background:#111;margin:4px 0;min-height:16px;}
+.seq-right{flex:1;padding-bottom:24px;}
+.seq-tag{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
+.seq-title{font-size:16px;font-weight:800;margin-bottom:8px;}
+.seq-body{font-size:14px;color:#888;line-height:1.7;}
+.seq-ex{font-size:13px;color:#555;font-style:italic;padding:8px 12px;background:#050505;border-radius:6px;border-left:2px solid #1a1a1a;margin-top:8px;line-height:1.6;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S11 — State Management</div>
+  <a class="nav-link" href="lesson-s11-01-pre-call-check.html">01 · Pre-Call Check</a>
+  <a class="nav-link" href="lesson-s11-02-consciousness-levels.html">02 · Consciousness Levels</a>
+  <a class="nav-link" href="lesson-s11-03-no-neutral.html">03 · No Neutral Influence</a>
+  <a class="nav-link active" href="lesson-s11-04-post-call-debrief.html">04 · Post-Call Debrief</a>
+  <a class="nav-link" href="lesson-s11-05-call-tracking.html">05 · Call Tracking</a>
+  <a class="nav-link" href="lesson-s11-06-bad-streak.html">06 · Bad Streak Reset</a>
+  <a class="nav-link" href="lesson-s11-07-winners-mindset.html">07 · Winner's Mindset</a>
+  <a class="nav-link" href="lesson-s11-08-energy-management.html">08 · Energy Management</a>
+  <a class="nav-link" href="lesson-s11-09-identity-under-pressure.html">09 · Identity Under Pressure</a>
+  <a class="nav-link" href="lesson-s11-10-weekly-review.html">10 · Weekly Review</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 4 · Section 11</div>
+  <h1>Post-Call Debrief</h1>
+  <p class="subtitle">Most reps finish a call and immediately start the next one. This is how they stay stuck at the same level for years. Five minutes after every call is how you compound your growth instead of repeating your mistakes.</p>
+
+  <section id="why-reps-stay-stuck">
+    <h2>Why Most Reps Stay Stuck</h2>
+    <div class="red-block">
+      <p>The rep who ends a call and immediately dials the next one will spend years making the same mistakes. Not because they don't care about improving. Because they never stop long enough to identify what's actually happening in their calls.</p>
+      <p><strong>Experience without reflection is not learning.</strong> It's just repetition. You can take 50 calls and get worse if you're consistently reinforcing the wrong patterns without ever examining them.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">The Gap Between Good Reps and Great Reps</div>
+      <p>Great reps treat every call as a data point. They look at what happened, what they did, what worked, what didn't, and why. They carry one specific insight from each call into the next one. That compounding of small learnings is how people go from 15% to 40% close rates without any single breakthrough moment — just consistent refinement.</p>
+      <p>This is the habit that separates reps who peak and plateau from reps who keep climbing.</p>
+    </div>
+    <div class="warning">
+      <p><strong>The excuse you'll tell yourself:</strong> "I don't have time between calls." You have 5 minutes. You have 5 minutes to eat, check your phone, or stare at the ceiling. Those 5 minutes, redirected toward deliberate reflection, are worth more to your career than anything else you'll do with them.</p>
+    </div>
+  </section>
+
+  <section id="the-debrief">
+    <h2>The 5-Minute Post-Call Debrief</h2>
+    <p style="font-size:14px;color:#555;margin-bottom:24px;">Do this immediately after the call ends. The details fade fast. Run these four questions in sequence.</p>
+
+    <div class="seq-list">
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-green">01</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#4ade80;">Question</div>
+          <div class="seq-title">What happened?</div>
+          <div class="seq-body">Not your interpretation — what actually happened. The prospect came in with X situation, said Y in discovery, reacted Z way to the pitch, and we ended up at this outcome. Factual summary only. This takes 60 seconds max.</div>
+          <div class="seq-ex">Example: "Prospect was a 9-5 worker, 22, no sales experience. Opened guarded. Discovery revealed financial stress — needs income fast. Lost them at the pitch when I went to price without enough of a bridge."</div>
+        </div>
+      </div>
+
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-green">02</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#4ade80;">Question</div>
+          <div class="seq-title">What worked?</div>
+          <div class="seq-body">Name one specific thing that landed well. Not "my energy was good" — a specific moment. "My follow-up question after their objection opened them up." "I held silence for 8 seconds after the close and it worked." Specificity is what makes this transferable to the next call.</div>
+          <div class="seq-ex">If you can't name anything that worked, you're being too hard on yourself or not paying close enough attention. There's always something. Find it.</div>
+        </div>
+      </div>
+
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-amber">03</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#f59e0b;">Question</div>
+          <div class="seq-title">What broke down?</div>
+          <div class="seq-body">One specific thing. Not a list of everything that went wrong — one thing that you're going to address. Where did the call lose momentum? Where did your state drop? Where did the prospect close off? Name the moment, not the theme.</div>
+          <div class="seq-ex">Bad: "My discovery wasn't good." Better: "I skipped the follow-up question after they mentioned their fear about being scammed. I moved on instead of going deeper, and that's where I lost them."</div>
+        </div>
+      </div>
+
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-green">04</div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#4ade80;">Question</div>
+          <div class="seq-title">What's the one thing you're taking into the next call?</div>
+          <div class="seq-body">One adjustment. Not ten — one. "On my next call I'm going to hold the silence after the close no matter how long it takes." "On my next call I'm going to follow up the moment someone mentions fear before moving on." Carry one thing forward. Let it stack.</div>
+          <div class="seq-ex">The reps who improve fastest are not the ones who try to fix everything at once. They're the ones who fix one thing per call, consistently, over 90 days.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="what-to-log">
+    <h2>What to Log Where</h2>
+    <p style="font-size:14px;color:#555;margin-bottom:20px;">Not everything from the debrief goes in the same place. Separate what belongs in the CRM from what belongs in your private notes.</p>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th style="color:#555;">Type of Note</th>
+          <th class="col-b">Close CRM</th>
+          <th class="col-a">Private Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-c-td">Prospect context</td>
+          <td class="col-b-td">Situation, stated goal, objections raised, next step agreed on, follow-up date</td>
+          <td class="col-a-td">Personal impressions — their emotional state, what you think is really going on under the surface</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Call outcome</td>
+          <td class="col-b-td">Closed, no close, follow-up scheduled, lost — with primary reason</td>
+          <td class="col-a-td">Your honest read on why — including if it was a state or skill issue on your end</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Your performance</td>
+          <td class="col-b-td">Not here. This is for prospect data, not self-assessment.</td>
+          <td class="col-a-td">What worked, what broke, what you're carrying into the next call</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Pattern observations</td>
+          <td class="col-b-td">Tag calls consistently so you can filter by objection type or stage later</td>
+          <td class="col-a-td">Patterns you're noticing across calls — "I'm losing momentum at the transition to pitch" is a private note</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="compound-effect">
+    <h2>The Habit That Compounds</h2>
+    <div class="block">
+      <div class="block-label">What This Looks Like Over 90 Days</div>
+      <p>A rep who debriefs after every call and carries one improvement into the next call makes 18 meaningful skill adjustments per month, assuming 6 calls per day, 3 days of call blocks per week. Over 90 days, that's 50+ deliberate refinements to their approach.</p>
+      <p>A rep who doesn't debrief makes zero deliberate refinements. They make accidental ones — sometimes better, sometimes worse — but they don't know which is which and they can't replicate the good ones.</p>
+    </div>
+    <div class="highlight">
+      <p><strong>The compounding happens in the specificity.</strong> Vague reflection produces vague improvement. "I need to do better discovery" is not an actionable takeaway. "Next call I will ask a follow-up question every time someone mentions a fear or a past failure before I move on" is. That specificity is what gets implemented. Vague intentions don't.</p>
+    </div>
+    <div class="quote-block">
+      <p>"You don't learn from your calls. You learn from reviewing your calls with honest eyes and carrying one specific thing forward."</p>
+      <div class="attribution">— JJ Hernandez</div>
+    </div>
+    <div class="block">
+      <div class="block-label">The Simple System</div>
+      <p>Keep a running note — phone, laptop, paper, whatever you'll actually use. After each call, 4 answers, 5 minutes. "What happened. What worked. What broke. What I'm carrying forward." That's it. Review it once a week as part of your weekly performance review. Your progress will be visible and it will accelerate.</p>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

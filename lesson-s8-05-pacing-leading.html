@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pacing and Leading — S8 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.seq-list{display:flex;flex-direction:column;}
+.seq-wrap{display:flex;gap:20px;margin-bottom:4px;}
+.seq-left{display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;}
+.dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.dot-green{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.dot-amber{background:#0f0800;color:#f59e0b;border:1px solid #2b1a00;}
+.dot-blue{background:#050a12;color:#60a5fa;border:1px solid #0a2040;}
+.line{flex:1;width:1px;background:#111;margin:4px 0;min-height:16px;}
+.seq-right{flex:1;padding-bottom:24px;}
+.seq-tag{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
+.seq-title{font-size:16px;font-weight:800;margin-bottom:8px;}
+.seq-body{font-size:14px;color:#888;line-height:1.7;}
+.seq-ex{font-size:13px;color:#555;font-style:italic;padding:8px 12px;background:#050505;border-radius:6px;border-left:2px solid #1a1a1a;margin-top:8px;line-height:1.6;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S8 — Language as Influence</div>
+  <a class="nav-link" href="lesson-s8-01-embedded-commands.html">1. Embedded Commands</a>
+  <a class="nav-link" href="lesson-s8-02-presuppositions.html">2. Linguistic Presuppositions</a>
+  <a class="nav-link" href="lesson-s8-03-calibrated-questions.html">3. Calibrated Questions</a>
+  <a class="nav-link" href="lesson-s8-04-labeling.html">4. Labeling</a>
+  <a class="nav-link active" href="lesson-s8-05-pacing-leading.html">5. Pacing and Leading</a>
+  <a class="nav-link" href="lesson-s8-06-tactical-empathy.html">6. Tactical Empathy</a>
+  <a class="nav-link" href="lesson-s8-07-weak-questions.html">7. Weak vs. Presupposition Rewrites</a>
+  <a class="nav-link" href="lesson-s8-08-powerful-words.html">8. Powerful Words</a>
+  <a class="nav-link" href="lesson-s8-09-language-audit.html">9. The Language Audit</a>
+  <a class="nav-link" href="lesson-s8-10-metaphor.html">10. Metaphor as Influence</a>
+  <a class="nav-link" href="lesson-s8-11-tonality.html">11. Tonality</a>
+  <a class="nav-link" href="lesson-s8-12-silence-drill.html">12. The Silence Drill</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 5 · Section 8</div>
+  <h1>Pacing and Leading</h1>
+  <p class="subtitle">The words you choose shape the world the prospect experiences on the call. You cannot lead someone who doesn't trust you're with them. Pace first. Lead second. Most reps reverse this.</p>
+
+  <section id="definitions">
+    <h2>Pacing vs. Leading</h2>
+    <div class="block">
+      <div class="block-label">Pacing</div>
+      <p>Pacing is entering the prospect's reality fully. You're matching their world — their language, their concerns, their emotional state, their pace of speech. You're not trying to move them yet. You're showing them you're in the same room they're in.</p>
+      <p>Pacing sounds like acknowledging what they said before building on it. It sounds like using their words, not yours. It sounds like being fully present in their experience before introducing anything new.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">Leading</div>
+      <p>Leading is using the trust and rapport you built through pacing to move the conversation in a new direction. Once a prospect feels genuinely met, they become willing to follow you. Your direction pulls them because they trust that you're guiding them toward something, not away from themselves.</p>
+      <p>Leading does not mean pushing. A lead can be as subtle as a reframe or a question that opens a new frame. The prospect should feel like they arrived at the new place themselves.</p>
+    </div>
+    <div class="highlight">
+      <p>The sequence that works: <strong>pace, pace, pace, lead.</strong> Most reps pace once and lead immediately. The result is resistance. The prospect isn't ready — and they feel it before they can articulate it.</p>
+    </div>
+  </section>
+
+  <section id="what-each-looks-like">
+    <h2>What Pacing and Leading Sound Like</h2>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th style="color:#555;">Situation</th>
+          <th class="col-a">Rep Who Leads Too Early</th>
+          <th class="col-b">Rep Who Paces Then Leads</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-c-td">Prospect mentions they've tried other programs</td>
+          <td class="col-a-td">"We're different from those. Here's what makes us unique..."</td>
+          <td class="col-b-td">"So you've already invested time and money into this. What was it about those approaches that didn't quite get you there?"</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Prospect seems hesitant</td>
+          <td class="col-a-td">"I hear you — but here's the thing about waiting..."</td>
+          <td class="col-b-td">"It sounds like you want to be sure before you move. What would 'sure' look like for you?" [pause] "And what's keeping you from having that clarity right now?"</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Prospect says they need to think about it</td>
+          <td class="col-a-td">"Totally. What are the main things holding you back?" (Rushing to resolve)</td>
+          <td class="col-b-td">"That makes sense. [pause] Walk me through where you're at right now — what does the thinking process look like for you on something like this?"</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="the-failure-modes">
+    <h2>The Two Failure Modes</h2>
+    <div class="seq-list">
+      <div class="seq-wrap">
+        <div class="seq-left"><div class="dot dot-amber">01</div><div class="line"></div></div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#f59e0b;">Failure Mode</div>
+          <div class="seq-title">Pacing Without Leading — The Stall</div>
+          <div class="seq-body">You pace too long. You keep acknowledging, validating, exploring. The prospect feels heard but nothing moves. They leave the call feeling good about the conversation and confused about why they didn't buy. The call had no direction. Rapport without direction is a nice chat, not a close.</div>
+          <div class="seq-ex">This happens most with empathetic reps who are great at building connection but uncomfortable with directing the conversation forward. The fix: establish a clear lead moment — a question or reframe that moves them toward the decision.</div>
+        </div>
+      </div>
+      <div class="seq-wrap">
+        <div class="seq-left"><div class="dot-amber dot">02</div></div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#f59e0b;">Failure Mode</div>
+          <div class="seq-title">Leading Without Pacing — The Push</div>
+          <div class="seq-body">You skip the rapport phase and try to guide the prospect before they trust you. It creates friction — they don't feel understood, so they push back on everything you say. The objections aren't really about what you're saying. They're about the fact that you never showed up in their world first.</div>
+          <div class="seq-ex">Common in high-pressure sales environments. The rep is trained to drive but not to listen. Every lead becomes a push because there's no earned trust underneath it. Fix: build in a pacing budget — a dedicated first segment of the call where your only job is to be fully in their world.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="exchange">
+    <h2>Call Exchange — Pacing Into a Lead</h2>
+    <div class="exchange">
+      <div class="exchange-header">Rep Pacing Fully, Then Leading at the Right Moment</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"I've been doing sales for two years and I feel like I'm hitting a wall. I know I'm good but I'm just not breaking past $8-10K."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Two years in and you're good — you know you're good — but the ceiling's not moving. That's one of the more frustrating places to be because it's not lack of effort."</div>
+          <span class="annotation">PACE: mirrors their world back exactly. No new information introduced.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Exactly. And I'm watching people who I know aren't as good as me making way more."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"That's actually a significant signal. When reps who aren't as technically skilled are outperforming you, it's usually not a skills gap — it's a psychology gap or a framework gap. What do you think it is for you?"</div>
+          <span class="annotation">LEAD: reframes the problem (skills vs. psychology/framework) and then hands it back to them with a calibrated question. They're now exploring the new frame on their own.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Honestly I think it's the psychology stuff. Like I know what to say but I freeze up when the prospect pushes back."</div>
+          <span class="annotation">Prospect has arrived at the exact insight you needed without being told. The lead worked because the pacing was real.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

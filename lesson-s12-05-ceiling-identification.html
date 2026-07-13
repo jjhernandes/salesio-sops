@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Identifying Your Close Rate Ceiling — S12 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.check-icon.warn{background:#0f0800;color:#f59e0b;border:1px solid #2b1a00;}
+.level-card{border-radius:10px;overflow:hidden;margin-bottom:10px;border:1px solid #1a1a1a;}
+.level-head{display:flex;align-items:center;gap:14px;padding:14px 20px;}
+.level-num{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;min-width:60px;}
+.level-title{font-size:15px;font-weight:800;}
+.level-body{padding:10px 20px 14px;font-size:13px;color:#888;line-height:1.65;}
+.level-below .level-head{background:#080202;}.level-below .level-num{color:#f87171;}
+.level-mid .level-head{background:#080500;}.level-mid .level-num{color:#f59e0b;}
+.level-above .level-head{background:#020810;}.level-above .level-num{color:#60a5fa;}
+.level-peak .level-head{background:#020a04;}.level-peak .level-num{color:#4ade80;}
+.note-list{list-style:none;}
+.note-list li{font-size:14px;color:#999;padding:9px 0;border-bottom:1px solid #0f0f0f;display:flex;gap:12px;line-height:1.6;}
+.note-list li:last-child{border-bottom:none;}
+.note-list li::before{content:"—";color:#333;flex-shrink:0;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+.worksheet-field{background:#050505;border:1px solid #1a1a1a;border-radius:10px;padding:20px 24px;margin-bottom:12px;}
+.worksheet-field .wf-label{font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#4ade80;margin-bottom:6px;}
+.worksheet-field .wf-question{font-size:14px;color:#ccc;font-weight:600;margin-bottom:8px;line-height:1.5;}
+.worksheet-field .wf-notes{font-size:13px;color:#444;font-style:italic;line-height:1.6;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S12 — Call Review</div>
+  <a class="nav-link" href="lesson-s12-01-game-tape.html">01 · Game Tape Philosophy</a>
+  <a class="nav-link" href="lesson-s12-02-what-to-listen-for.html">02 · What to Listen For</a>
+  <a class="nav-link" href="lesson-s12-03-five-point-framework.html">03 · 5-Point Framework</a>
+  <a class="nav-link" href="lesson-s12-04-peer-review.html">04 · Peer Review Sessions</a>
+  <a class="nav-link active" href="lesson-s12-05-ceiling-identification.html">05 · Close Rate Ceiling</a>
+  <a class="nav-link" href="lesson-s12-06-mock-call.html">06 · Mock Call Protocol</a>
+  <a class="nav-link" href="lesson-s12-07-frame-attack.html">07 · Frame Attack Drill</a>
+  <a class="nav-link" href="lesson-s12-08-integration-mock.html">08 · Integration Mock Call</a>
+  <a class="nav-link" href="lesson-s12-09-call-submission.html">09 · Call Submission Protocol</a>
+  <a class="nav-link" href="lesson-s12-10-review-habit.html">10 · Monthly Review Habit</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 5 · Section 12</div>
+  <h1>Identifying Your Close Rate Ceiling</h1>
+  <p class="subtitle">Everyone has a ceiling. Most reps can't name what's creating it. Call review data tells you exactly what's holding your close rate where it is — and what to fix first.</p>
+
+  <!-- SECTION 1 -->
+  <section id="ceiling-exists">
+    <h2>Everyone Has a Ceiling</h2>
+    <div class="highlight">
+      <p>A close rate ceiling is not about the leads. It's not about the offer. It's about a <strong>repeating pattern in your behavior</strong> that produces the same outcome regardless of the prospect.</p>
+      <p>The rep who closes 20% keeps closing 20%. The rep who closes 35% keeps closing 35%. They're not stuck because of bad luck. They're stuck because something they do consistently limits how high the close rate can go. That something is always identifiable from the tape. And once you identify it, it's fixable.</p>
+    </div>
+    <div class="red-block">
+      <p><strong>Most reps blame everything except the ceiling.</strong> They blame the leads (unqualified). They blame the offer (not competitive). They blame the market (timing is off). Some of those things affect results at the margins. None of them are the ceiling. The ceiling is always in the call.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">How to Know You've Hit Your Ceiling</div>
+      <p>You've been closing at roughly the same rate for more than 30 days. Your volume has changed — more calls, different leads — but the close rate doesn't move. You get a few good weeks and think you're breaking through, then it levels back. That's a ceiling. Not a bad stretch. A ceiling.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section id="identifying">
+    <h2>How to Identify Your Ceiling from Call Review Data</h2>
+    <div class="block">
+      <div class="block-label">The Data You Need</div>
+      <p>Pull your last 10 calls. For each call, run the 5-Point Framework (Lesson 3) and complete a worksheet. You're looking for the point that consistently scores 1 or 2. That is your ceiling. That one phase is what's creating the pattern.</p>
+    </div>
+
+    <div class="worksheet-field">
+      <div class="wf-label">Ceiling Identification Worksheet</div>
+      <div class="wf-question">Across your last 10 calls, which of the 5 points had the most consistent low scores?</div>
+      <div class="wf-notes">Tally your scores. Opener / Discovery / Pitch / Objection Handling / Close. The lowest total score across 10 calls is your ceiling. If it's a tie, the earlier phase in the call is your primary ceiling — fix that one first.</div>
+    </div>
+
+    <div class="block">
+      <div class="block-label">What the Pattern Tells You</div>
+      <p>If Opener is your lowest: authority and frame are breaking down before the conversation even gets started. Every other phase is fighting an uphill battle because the prospect never fully trusted the frame.</p>
+      <p>If Discovery is your lowest: your pitch is disconnected because you don't know enough about the prospect. You're pitching at them, not to them.</p>
+      <p>If Close is your lowest: everything works until the end, and then composure breaks. State and frame management under closing pressure is the work.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section id="three-ceilings">
+    <h2>The 3 Most Common Ceilings</h2>
+    <p style="font-size:14px;color:#555;margin-bottom:24px;">After reviewing hundreds of reps, three ceiling types appear again and again. Most reps have elements of all three — but one is usually primary.</p>
+
+    <div class="level-card level-mid">
+      <div class="level-head">
+        <div class="level-num">Ceiling 01</div>
+        <div class="level-title">Discovery — Not Going Deep Enough</div>
+      </div>
+      <div class="level-body">
+        <strong style="color:#f59e0b;">What it looks like:</strong> Discovery is 3-4 questions, all surface. Rep moves to pitch without ever getting to the real emotional driver. Pitch is generic. Prospect says "sounds interesting" and nothing happens.<br><br>
+        <strong style="color:#f59e0b;">Why it happens:</strong> Reps are uncomfortable sitting with a prospect's pain. It feels rude to dig. They move on before the prospect has fully opened up — which means the pitch never connects to anything real.<br><br>
+        <strong style="color:#f59e0b;">The drill:</strong> For the next 10 calls, your rule is: you cannot move to pitch until the prospect has given you a third-layer answer on their core pain. Three layers minimum. Set a timer if you have to. Don't pitch early.
+      </div>
+    </div>
+
+    <div class="level-card level-below">
+      <div class="level-head">
+        <div class="level-num">Ceiling 02</div>
+        <div class="level-title">Frame — Losing It Under Pressure</div>
+      </div>
+      <div class="level-body">
+        <strong style="color:#f87171;">What it looks like:</strong> Discovery is solid. Pitch connects. And then the first real objection comes and the energy shifts entirely. Rep starts explaining, justifying, rushing. The prospect feels the insecurity and pulls back.<br><br>
+        <strong style="color:#f87171;">Why it happens:</strong> The rep holds the frame when it's easy. Under actual pressure — a real objection, a price challenge, a credibility question — the frame depends on state management, and state breaks down when the rep needs the sale.<br><br>
+        <strong style="color:#f87171;">The drill:</strong> Frame Attack Drill (Lesson 7). Run it twice a week until holding frame under consecutive pressure is automatic, not effortful.
+      </div>
+    </div>
+
+    <div class="level-card level-above">
+      <div class="level-head">
+        <div class="level-num">Ceiling 03</div>
+        <div class="level-title">State — Needing the Sale</div>
+      </div>
+      <div class="level-body">
+        <strong style="color:#60a5fa;">What it looks like:</strong> The close rate varies dramatically based on pipeline. Good month with plenty of prospects? Close rate goes up. Thin pipeline? Close rate collapses. The rep's state is tied to their need — and the prospect feels it.<br><br>
+        <strong style="color:#60a5fa;">Why it happens:</strong> This is an identity issue, not a technique issue. The rep's sense of security depends on the outcome of the call. That dependency is readable and it costs the close.<br><br>
+        <strong style="color:#60a5fa;">The drill:</strong> Pre-call state rituals (Section 1 of this program). Detachment from outcome. The internal question shifts from "will they buy?" to "what's actually true for this person?" The change in frame changes the energy on the call.
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section id="what-to-do">
+    <h2>What to Do Once You've Identified It</h2>
+    <div class="highlight">
+      <p>Identification is only useful if it leads to focused action. Once you know your ceiling, <strong>everything you do in this program targets that ceiling</strong> until it's moved.</p>
+      <p>One ceiling at a time. Not all three. Not the runner-up. The primary ceiling. Fix that. Your close rate will move. Then find the next one.</p>
+    </div>
+
+    <ul class="checklist">
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Discovery ceiling:</strong> Commit to 3 layers minimum before pitching. Use the mock call protocol (Lesson 6) specifically for discovery depth. Submit a call for staff review with the specific question: "Did I go deep enough in discovery?"</div>
+      </li>
+      <li>
+        <div class="check-icon warn">!</div>
+        <div><strong style="color:#ccc;">Frame ceiling:</strong> Run the Frame Attack Drill (Lesson 7) twice weekly. Peer review sessions focused specifically on the moment you hit an objection. Track your tonality and pace at that exact moment across five consecutive calls.</div>
+      </li>
+      <li>
+        <div class="check-icon warn">!</div>
+        <div><strong style="color:#ccc;">State ceiling:</strong> This is Section 1 work. Your call review practice still matters — but the root fix is in identity, not technique. Review Section 1 modules on neediness, outcome detachment, and the "who you are off the call" principle.</div>
+      </li>
+      <li>
+        <div class="check-icon fail">✗</div>
+        <div><strong style="color:#ccc;">Don't try to fix everything at once.</strong> Spreading your attention across all three ceilings guarantees you make no meaningful progress on any of them. One ceiling. All focus. Until it moves.</div>
+      </li>
+    </ul>
+
+    <div class="quote-block">
+      <p>"Find out where you suck and make you good. That's not a motto — it's the process. Call review data tells you where you suck. The drills in this program make you good. That's the entire loop."</p>
+      <div class="attribution">— JJ Hernandez</div>
+    </div>
+  </section>
+
+</main>
+
+</body>
+</html>

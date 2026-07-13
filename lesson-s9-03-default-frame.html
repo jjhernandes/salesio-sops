@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Default Frame — S9 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.default-card{border-radius:12px;overflow:hidden;margin-bottom:18px;border:1px solid #1a1a1a;}
+.default-head{padding:16px 22px;display:flex;align-items:center;gap:14px;}
+.default-badge{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border-radius:4px;background:#2b0d0d;color:#f87171;border:1px solid #3a1010;}
+.default-name{font-size:17px;font-weight:900;color:#f87171;}
+.default-sub{font-size:13px;color:#666;padding:0 22px 4px;font-style:italic;}
+.default-body{padding:14px 22px 20px;display:flex;flex-direction:column;gap:12px;}
+.default-row{display:flex;flex-direction:column;gap:4px;}
+.default-row-label{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#444;}
+.default-row-text{font-size:13px;color:#999;line-height:1.65;}
+.default-ex{font-size:13px;color:#555;font-style:italic;padding:8px 12px;background:#0f0505;border-radius:6px;border-left:2px solid #2b0d0d;line-height:1.6;}
+.default-head{background:#0f0505;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.check-icon.warn{background:#0f0800;color:#f59e0b;border:1px solid #2b1a00;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+.assess-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.assess-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;background:#0a0a0a;}
+.assess-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;color:#888;}
+.assess-table tr:last-child td{border-bottom:none;}
+.assess-table td:first-child{color:#f87171;font-weight:600;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S9 — Frame Mastery</div>
+  <a class="nav-link" href="lesson-s9-01-what-is-a-frame.html">1. What a Frame Is</a>
+  <a class="nav-link" href="lesson-s9-02-five-frames.html">2. The Five Frames</a>
+  <a class="nav-link active" href="lesson-s9-03-default-frame.html">3. Your Default Frame</a>
+  <a class="nav-link" href="lesson-s9-04-frame-collision.html">4. Frame Collision</a>
+  <a class="nav-link" href="lesson-s9-05-detachment-close.html">5. The Detachment Close</a>
+  <a class="nav-link" href="lesson-s9-06-rather-lose-sale.html">6. Lose the Sale, Not the Frame</a>
+  <a class="nav-link" href="lesson-s9-07-certainty-transfer.html">7. Certainty Transfer</a>
+  <a class="nav-link" href="lesson-s9-08-frame-attack-drill.html">8. Frame Attack Drill</a>
+  <a class="nav-link" href="lesson-s9-09-frame-integration.html">9. Frame Integration</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 3 · Section 9</div>
+  <h1>Identifying Your Default Frame — What Are You Actually Running?</h1>
+  <p class="subtitle">Most reps don't know what frame they're running. They find out under pressure. By then, it's too late to change it mid-call. This lesson is about seeing it before it costs you.</p>
+
+  <!-- SECTION 1 -->
+  <section id="pressure-reveals">
+    <h2>Pressure Reveals the Default</h2>
+    <div class="block">
+      <div class="block-label">The Truth About Default Frames</div>
+      <p>When everything is going well on a call, almost every rep looks like they have a strong frame. They're confident, easy, hitting their marks. The frame only becomes visible when something goes wrong — a hard objection, a credibility challenge, the "I need to think about it" moment.</p>
+      <p>Under pressure, the constructed frame evaporates. What's left is the default — the operating belief you run from when your conscious mind isn't managing it anymore. And for the vast majority of sales reps, that default belief is one of three things, and all three of them lose.</p>
+    </div>
+    <div class="quote-block">
+      <p>"You don't find out what frame you're running until it gets tested. The call that goes perfectly reveals nothing. The call where things go sideways reveals everything."</p>
+      <div class="attribution">— JJ Hernandez</div>
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section id="three-defaults">
+    <h2>The Three Default Frames That Lose</h2>
+
+    <div class="default-card">
+      <div class="default-head">
+        <span class="default-badge">Default 1</span>
+        <span class="default-name">The Pleaser Frame</span>
+      </div>
+      <p class="default-sub">Core belief: "I need you to like me."</p>
+      <div class="default-body">
+        <div class="default-row">
+          <div class="default-row-label">What it looks like</div>
+          <div class="default-row-text">The Pleaser is constantly monitoring the prospect's emotional state and adjusting to maintain approval. They laugh at things that aren't funny, over-agree with opinions they don't hold, soften every edge, avoid anything that might create friction. They're performing connection rather than creating it.</div>
+        </div>
+        <div class="default-row">
+          <div class="default-row-label">Why it loses</div>
+          <div class="default-row-text">People don't buy from people who need their approval. They buy from people who have standards and conviction. The Pleaser reads as approval-seeking, which registers as low status. Prospects unconsciously feel less safe making a $7,500 decision with someone who seems to need their validation.</div>
+        </div>
+        <div class="default-row">
+          <div class="default-row-label">The tell</div>
+          <div class="default-ex">"I totally understand that" (every 45 seconds). "No, yeah, absolutely, that makes total sense." Laughing after statements that weren't jokes. Never pushing back, even when the prospect is clearly wrong about something.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="default-card">
+      <div class="default-head">
+        <span class="default-badge">Default 2</span>
+        <span class="default-name">The Supplicant Frame</span>
+      </div>
+      <p class="default-sub">Core belief: "I need this sale."</p>
+      <div class="default-body">
+        <div class="default-row">
+          <div class="default-row-label">What it looks like</div>
+          <div class="default-row-text">The Supplicant is operating from scarcity. They came in knowing they need this deal — bad month, pipeline is thin, pressure from above. The entire call is unconsciously oriented around extracting a yes from the prospect. The prospect feels like a solution to a problem rather than a person being helped.</div>
+        </div>
+        <div class="default-row">
+          <div class="default-row-label">Why it loses</div>
+          <div class="default-row-text">The person who needs the sale the most will always lose. Desperation is odorless but somehow everyone can smell it. The moment a prospect senses that you need their yes, they become suspicious. Why does this person need this so badly? What's wrong with it that they can't fill their program otherwise?</div>
+        </div>
+        <div class="default-row">
+          <div class="default-row-label">The tell</div>
+          <div class="default-ex">Preemptively discounting before price is objected to. Offering payment plans before they're asked. Speedingup when the prospect hesitates. Filling every silence. Answering the objection before the prospect finishes stating it.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="default-card">
+      <div class="default-head">
+        <span class="default-badge">Default 3</span>
+        <span class="default-name">The Performer Frame</span>
+      </div>
+      <p class="default-sub">Core belief: "Watch how good I am."</p>
+      <div class="default-body">
+        <div class="default-row">
+          <div class="default-row-label">What it looks like</div>
+          <div class="default-row-text">The Performer is good at sales — and they know it. The call is less about the prospect's situation and more about demonstrating skill. They love objection handling because it lets them shine. They're running a performance, not a conversation. Smooth, impressive, and ultimately about themselves.</div>
+        </div>
+        <div class="default-row">
+          <div class="default-row-label">Why it loses</div>
+          <div class="default-row-text">People sense when they're being performed at rather than talked with. The Performer's call feels slick but hollow. The prospect walks away impressed but not bought in. Trust doesn't come from watching someone be good. It comes from feeling genuinely understood. The Performer can't do that because they're too busy being impressive.</div>
+        </div>
+        <div class="default-row">
+          <div class="default-row-label">The tell</div>
+          <div class="default-ex">Long, beautifully structured answers to simple questions. Pivoting every objection into a prepared speech. Asking discovery questions they clearly already know the answer to — just to set up the next move. Lots of clever lines. Not much genuine curiosity.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section id="self-assessment">
+    <h2>Self-Assessment — Which One Are You?</h2>
+    <p style="font-size:14px;color:#555;margin-bottom:20px;">Answer honestly. The goal is not to feel bad — the goal is to see clearly so you can change it.</p>
+
+    <table class="assess-table">
+      <thead>
+        <tr>
+          <th>Situation</th>
+          <th>What you actually do (be honest)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Prospect goes quiet after you pitch</td>
+          <td>Do you hold it? Or fill the silence within 3 seconds?</td>
+        </tr>
+        <tr>
+          <td>Prospect says "I've heard this before"</td>
+          <td>Do you get curious? Or immediately justify why you're different?</td>
+        </tr>
+        <tr>
+          <td>Prospect seems annoyed or skeptical</td>
+          <td>Do you hold your tone? Or soften, apologize, agree with them?</td>
+        </tr>
+        <tr>
+          <td>Prospect asks about price early</td>
+          <td>Do you state it confidently and hold? Or hedge and qualify it?</td>
+        </tr>
+        <tr>
+          <td>You misspeak or stumble</td>
+          <td>Do you recover without mentioning it? Or over-apologize?</td>
+        </tr>
+        <tr>
+          <td>"I need to think about it"</td>
+          <td>Do you get curious about what they're weighing? Or immediately accommodate?</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="warning">
+      <p><strong>The honest read:</strong> If you're filling silences, softening prices, apologizing for your pitch, or performing your best stuff rather than listening — you already know which frame you're running. It's okay. Most reps are running one of these three. The ones who know it are the ones who can change it.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section id="replace">
+    <h2>How to Replace Your Default With the Detachment Frame</h2>
+    <div class="highlight">
+      <p>The goal is not to eliminate your personality. The Detachment Frame doesn't make you cold or robotic. It means you <strong>genuinely care about the prospect's outcome more than you care about the commission.</strong> When that's actually true — not performed, actually true — your frame becomes unshakeable because it's not dependent on anything the prospect does.</p>
+    </div>
+
+    <ul class="checklist">
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Build genuine certainty about the offer before every call.</strong> Before you pick up the phone, remind yourself why this program works. Not a pep talk — a factual review. Results you've seen. People who've come in where this prospect is and come out ahead. If you can't articulate why the program genuinely works, you'll default to needing the sale because you're not sure of the value.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">The pre-call anchor: "My job is to find out if this is the right move for this person."</strong> Not "close the deal." Not "be impressive." Find out if it's right. This reorientation is not a trick — it's a genuine shift in intent that changes everything downstream. When you're actually trying to figure out if it's a fit, you stop performing and start listening.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Notice the moment you start performing vs. talking.</strong> There's a feeling — a slight shift where you stop responding to what's actually happening and start executing a plan. Notice it. Come back. Ask the next honest question instead of delivering the next prepared point.</div>
+      </li>
+      <li>
+        <div class="check-icon warn">→</div>
+        <div><strong style="color:#ccc;">This takes reps, not insight.</strong> Reading this lesson does not fix your default frame. Doing 20 calls in a row where you consciously hold the Detachment Frame starts to. The default only changes through repetition. Put it in practice immediately.</div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- EXCHANGE -->
+  <section id="exchange">
+    <h2>Call Exchange — Same Objection, Three Default Frames</h2>
+
+    <div class="exchange">
+      <div class="exchange-header">Prospect: "I need to think about it." — Three Responses</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who rep">Rep — Pleaser Frame</span>
+          <div class="msg-text rep-msg">"Yeah, absolutely, totally makes sense — take all the time you need! I'll send you some info and we can reconnect whenever works for you. No pressure at all."</div>
+          <span class="annotation">Immediately folds. No curiosity. Needs the prospect to feel okay about ending the call. Frame: "please still like me."</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep — Supplicant Frame</span>
+          <div class="msg-text rep-msg">"Of course — but just so you know, we actually have a spot opening in the next group and it might not be there when you come back. And we do have a payment plan option if that helps. I just want to make sure you don't miss out."</div>
+          <span class="annotation">Manufactured urgency + preemptive concession. Stinks of desperation. The prospect didn't ask about payment plans.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep — Performer Frame</span>
+          <div class="msg-text rep-msg">"That's interesting — typically when someone says they need to think, it's because one of three things is true: they haven't fully connected the cost to the outcome, there's a secondary decision-maker involved, or there's a specific fear underneath it. Which one is it for you?"</div>
+          <span class="annotation">Impressive and smart. Also completely disconnected from this specific person. The prospect feels like a case study, not a human.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep — Detachment Frame</span>
+          <div class="msg-text rep-msg">[Pause] "That's fair. What specifically are you working through?"</div>
+          <span class="annotation">Six words. Genuine curiosity. No agenda. No performance. Frame: I'm here for you, not for the close. This is the one that works.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

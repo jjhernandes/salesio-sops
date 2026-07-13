@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Action (A) Type — S2 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S2 — Human Psychology</div>
+  <a class="nav-link" href="lesson-s2-01-pace-overview.html">1. PACE System — Overview</a>
+  <a class="nav-link" href="lesson-s2-02-pace-identification.html">2. Identifying PACE Type</a>
+  <a class="nav-link" href="lesson-s2-03-practical-type.html">3. Practical (P) Type</a>
+  <a class="nav-link active" href="lesson-s2-04-action-type.html">4. Action (A) Type</a>
+  <a class="nav-link" href="lesson-s2-05-social-type.html">5. Social (S) Type</a>
+  <a class="nav-link" href="lesson-s2-06-emotional-type.html">6. Emotional (E) Type</a>
+  <a class="nav-link" href="lesson-s2-07-decision-map.html">7. The Decision Map</a>
+  <a class="nav-link" href="lesson-s2-08-needs-values.html">8. Needs, Values &amp; Decisions</a>
+  <a class="nav-link" href="lesson-s2-09-three-identity-types.html">9. The Three Identity Types</a>
+  <a class="nav-link" href="lesson-s2-10-secondary-needs.html">10. Secondary Needs</a>
+  <a class="nav-link" href="lesson-s2-11-elicitation.html">11. Elicitation</a>
+  <a class="nav-link" href="lesson-s2-12-listening-between-lines.html">12. Listening Between Lines</a>
+  <a class="nav-link" href="lesson-s2-13-rapid-profiling.html">13. Rapid Profiling</a>
+  <a class="nav-link" href="lesson-s2-14-pre-call-profiling.html">14. Pre-Call Profiling</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 4 · Section 2</div>
+  <h1>Action (A) Type</h1>
+  <p class="subtitle">Closing the competitive, impatient prospect. The A type doesn't want to be understood. They want to win. Get to the outcome fast or get out of the way.</p>
+
+  <section id="what-a-cares">
+    <h2>What the A Type Cares About</h2>
+    <div class="highlight">
+      <p>The A type cares about <strong>results, speed, and status</strong>. They want to know what they'll achieve and how fast they'll achieve it. They're competitive by nature — they pay attention to what top performers are doing, and they want to be in that group.</p>
+      <p>They respond to directness. If you hedge, slow down, or over-explain, you signal that you're not operating at their level. A types buy from people who move with the same decisive energy they do.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">What drives the A type beneath the surface</div>
+      <p>Underneath the competitive exterior is a deep drive to prove something — to themselves or to the people around them. They're often running from a version of themselves that didn't perform, or chasing a version that does. Framing your offer around that internal story (becoming the person who makes $30K months, being in rooms with elite closers) hits harder than features ever will.</p>
+    </div>
+  </section>
+
+  <section id="how-a-decides">
+    <h2>How the A Type Makes Decisions</h2>
+    <div class="block">
+      <div class="block-label">Fast and outcome-driven</div>
+      <p>A types make decisions quickly when the right framing is in place. They don't need to process for days — they need to see the win clearly. If you've shown them the outcome, the speed to get there, and that other high performers have done it, the decision is often made before you even close.</p>
+      <p>The biggest risk with an A type is losing momentum. Every unnecessary tangent, every long explanation, every moment of hedging is a small energy leak. Enough of them and the A type starts to wonder whether you actually know what you're doing.</p>
+    </div>
+  </section>
+
+  <section id="what-kills-a">
+    <h2>What Kills the Call with an A Type</h2>
+    <div class="red-block">
+      <p><strong>Moving too slow.</strong> A types make up their minds fast. If you're still in rapport-building mode when they've already decided to evaluate, you've lost the room. Match their pace or they'll tune out.</p>
+    </div>
+    <div class="red-block">
+      <p><strong>Too much nuance and context.</strong> A types don't want the background story on why the curriculum was built this way. They want to know what it produces. Context is a tax on their time.</p>
+    </div>
+    <div class="red-block">
+      <p><strong>No urgency or competitive framing.</strong> The A type moves when there's a reason to move now. If your pitch has no edge, no sense of what they're leaving on the table by waiting, they file it in "I'll think about it" — which for an A type usually means no.</p>
+    </div>
+    <div class="red-block">
+      <p><strong>Softness in the close.</strong> Hedging, apologizing for the price, offering payment plans before they've even reacted — all of this reads as weakness to an A type. They want to buy from strength. If you flinch at the price before they do, you've already lost.</p>
+    </div>
+  </section>
+
+  <section id="what-closes-a">
+    <h2>What Closes an A Type</h2>
+    <ul class="checklist">
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Lead with outcomes, not process.</strong> "You'll close at a higher rate and hit $20-30K months" before "here's how the coaching is structured." A types filter everything through "what do I get?" Get that answered first.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Competitive framing.</strong> "The reps who are making $40K a month right now — this is where they were 90 days ago." A types are wired to benchmark against top performers. Show them where elite looks like and let them self-select into wanting to be there.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Create real urgency.</strong> Not fake scarcity. Real stakes: "Every month you wait at your current close rate is money you're not making." A types respond to the math of inaction, not manufactured deadlines.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Match their energy.</strong> Don't slow down for an A type. Move with them. Be direct. If they interrupt, roll with it. The conversation should feel like two people who both know what they're doing — not a rep explaining something to a prospect.</div>
+      </li>
+    </ul>
+  </section>
+
+  <section id="exchange">
+    <h2>Call Exchange — Right vs. Wrong with an A Type</h2>
+    <div class="exchange">
+      <div class="exchange-header">VERSION 1 — Rep moves slow, builds too much context</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Look I'm not trying to waste time. What's the fastest someone has gone from where I am to $30K months?"</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Great question — so the way the program is structured, we actually start by building a foundation, because we've found that reps who rush into tactics without the fundamentals end up plateauing. So the first few weeks are really about identity work and understanding yourself as a closer, and then from there we build the tactical layer..."</div>
+          <span class="annotation">A type asked about speed of results. Rep launched into curriculum backstory. A type is already half-gone mentally.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Right. I appreciate that. I'll think about it."</div>
+        </div>
+      </div>
+    </div>
+    <div class="exchange">
+      <div class="exchange-header">VERSION 2 — Rep matches pace, leads with outcome</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Look I'm not trying to waste time. What's the fastest someone has gone from where I am to $30K months?"</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Fastest I've seen — 6 weeks. Jalen came in at $9K/month, closed his first $30K month in week seven. What's your current number and what's your close rate?"</div>
+          <span class="annotation">Direct. Specific. Turned it back into a diagnostic immediately. A type now feels like they're talking to someone at their level.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"I'm at $12K, close rate's around 22% but I know I can be better. What did Jalen change?"</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>

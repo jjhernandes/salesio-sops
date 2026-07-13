@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Scriptless Pitch — S5 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S5 — Pitch Architecture</div>
+  <a class="nav-link" href="lesson-s5-01-tiktok-pitch.html">1. The TikTok Pitch</a>
+  <a class="nav-link" href="lesson-s5-02-heaven-hell.html">2. Heaven &amp; Hell Framework</a>
+  <a class="nav-link" href="lesson-s5-03-no-feature-dump.html">3. No Feature Dump</a>
+  <a class="nav-link" href="lesson-s5-04-pitch-check-ins.html">4. Pitch Check-Ins</a>
+  <a class="nav-link" href="lesson-s5-05-mirror-recap.html">5. The Mirror Recap</a>
+  <a class="nav-link" href="lesson-s5-06-social-proof-architecture.html">6. Social Proof Architecture</a>
+  <a class="nav-link active" href="lesson-s5-07-scriptless-pitch.html">7. The Scriptless Pitch</a>
+  <a class="nav-link" href="lesson-s5-08-pitch-timing.html">8. Pitch Timing</a>
+  <a class="nav-link" href="lesson-s5-09-screen-share.html">9. When to Screen Share</a>
+  <a class="nav-link" href="lesson-s5-10-inevitable-pitch.html">10. The Inevitable Pitch</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 7 · Section 5</div>
+  <h1>The Scriptless Pitch</h1>
+  <p class="subtitle">Scriptless doesn't mean unprepared. It means internalized. The pitch comes from what they said — which is exactly why it can't be written in advance.</p>
+
+  <!-- SECTION 1 -->
+  <section id="not-unprepared">
+    <h2>Scriptless Is Not Unprepared</h2>
+    <div class="block">
+      <div class="block-label">The Misconception</div>
+      <p>When reps hear "scriptless," they think it means winging it. No preparation, no structure, just improvising on the fly. This is wrong. The scriptless pitch requires more preparation than a scripted one — because instead of memorizing what to say, you have to internalize why things work and what to listen for.</p>
+      <p>The scripted rep prepares the words. The scriptless rep prepares the framework. Same outcome — completely different process. And only one of them sounds human.</p>
+    </div>
+    <div class="highlight">
+      <p><strong>A script tells you what to say next.</strong> A framework tells you what you're trying to accomplish and gives you enough understanding to get there naturally. The script fails when the call goes off-path. The framework adapts because it's not tied to a sequence of words.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">Why the Pitch Can't Be Scripted in Advance</div>
+      <p>The scriptless pitch is built from what the prospect said in discovery. And you don't know what they're going to say before the call starts. The pitch for a career changer afraid of starting over looks completely different from the pitch for a plateau'd rep who's burned out on tactics. They're the same offer. They're not the same pitch. No script can contain both.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section id="what-it-sounds-like">
+    <h2>What Scriptless Sounds Like vs. Scripted</h2>
+    <div class="block">
+      <div class="block-label">The Tells</div>
+      <p>A scripted pitch has recognizable tells even when the words aren't obviously rehearsed. The prospect can't always name what's off, but they feel it. Scriptless eliminates the tells by making the pitch genuinely specific to this conversation.</p>
+    </div>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th class="col-a">Scripted Pitch Tells</th>
+          <th class="col-b">Scriptless Pitch Signals</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-a-td">Uses the program's exact marketing language: "transformational," "comprehensive," "proprietary"</td>
+          <td class="col-b-td">Uses the prospect's exact words from discovery back to them</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">Follows a fixed sequence regardless of what was discussed</td>
+          <td class="col-b-td">Adapts the order based on what mattered most to this person</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">Transitions feel rehearsed: "And the next thing I want to cover is..."</td>
+          <td class="col-b-td">Transitions flow naturally from the previous point to the next relevant thing</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">Can't adapt when the prospect interrupts or adds something new</td>
+          <td class="col-b-td">Integrates new information mid-pitch without losing the thread</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">Sounds the same on every call — reps who review their own recordings notice this</td>
+          <td class="col-b-td">Every pitch sounds different because every discovery is different</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="warning">
+      <p><strong>The script problem compounds over time.</strong> A new rep sounds scripted because they are scripted. An experienced rep who never moved past scripts still sounds scripted — they've just gotten better at hiding it. The prospect still feels the gap. The scriptless rep gets more natural the longer they do it, because internalization deepens with repetition.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section id="how-to-practice">
+    <h2>How to Practice Scriptless Pitching</h2>
+    <div class="block">
+      <div class="block-label">What You're Practicing</div>
+      <p>You're not practicing what to say. You're practicing recognizing the moments and knowing what each moment is trying to accomplish. Discovery signal heard — which framework element does it connect to? Bridge phrase — how do you tie the feature to the pain naturally? Check-in — how do you pause without breaking flow?</p>
+      <p>The practice is about developing instincts, not memorizing responses.</p>
+    </div>
+    <ul class="checklist">
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Internalize the frameworks, not the words.</strong> Know Heaven and Hell cold — not as a script, but as a logic structure. Know the TikTok Pitch principle so deeply that you automatically narrow to 3-4 things without thinking about it. The frameworks live in your judgment, not your notes.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Record and replay with intention.</strong> After every call, listen specifically to your pitch. Ask: Did I use their words or mine? Did I bridge each feature to what they said? Did I check in or monologue? You're not grading performance — you're spotting where scripted patterns slipped in.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Practice with varied discovery inputs.</strong> In mock calls, change the discovery answers every time. If you're practicing with the same "prospect persona" repeatedly, you'll develop a script for that persona without realizing it. Vary the pain, the starting point, the objections — so your responses have to come from the framework, not memory.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Do the Mirror Recap out loud before pitching.</strong> Before you transition to pitch in practice, stop and do the Mirror Recap aloud. This forces you to process what the prospect actually said and build the pitch from that — not from the sequence you had prepared.</div>
+      </li>
+      <li>
+        <div class="check-icon fail">✗</div>
+        <div><strong style="color:#ccc;">Don't memorize example pitches from this training.</strong> The exchange examples in this section exist to show you the principle, not to give you lines to use. If you start using the exact language from a training example on live calls, you've turned the scriptless training into a script. Understand the why — not the what.</div>
+      </li>
+    </ul>
+    <div class="quote-block">
+      <p>"Everyone else teaches you what to say. We teach you how to think."</p>
+      <div class="attribution">— JJ Hernandez</div>
+    </div>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section id="internalization-vs-memorization">
+    <h2>Internalization vs. Memorization</h2>
+    <div class="block">
+      <div class="block-label">The Difference</div>
+      <p>Memorization is fragile. When the call goes off-script — when the prospect says something unexpected, asks a question out of order, or introduces a concern you didn't prepare for — the memorized pitch breaks. The rep stumbles, loses their place, and either goes robotic or improvises in a way that sounds disjointed.</p>
+      <p>Internalization is durable. When the call goes in an unexpected direction, an internalized rep adapts because they understand the underlying logic — not the sequence of words. The framework remains intact regardless of what the prospect does.</p>
+    </div>
+    <div class="highlight">
+      <p>You know you've internalized a framework when you can explain <strong>why</strong> each component exists, not just what it is. "I connect features to pain because value is personal — if it doesn't map to what they said, it's noise to them." That's internalization. "Step 3 is feature-to-pain bridge" is memorization. The first survives a curveball. The second doesn't.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">The Litmus Test</div>
+      <p>Ask yourself: "If this prospect said something in the next 30 seconds that completely changed what I thought mattered to them — could I rebuild the pitch on the fly?" If yes, you've internalized the framework. If no, you've memorized a sequence. The scriptless rep answers yes, because they're not carrying a sequence — they're carrying a way of thinking about what a pitch is supposed to accomplish.</p>
+    </div>
+  </section>
+
+  <!-- EXCHANGE -->
+  <section id="exchange">
+    <h2>Call Exchange — Scripted vs. Scriptless</h2>
+
+    <div class="exchange">
+      <div class="exchange-header">VERSION 1 — Scripted Pitch (Same Pitch on Every Call)</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"So let me walk you through what makes Sales.io transformational. The first thing is our comprehensive curriculum — it covers everything from tonality and setting to advanced psychology and B2B strategy. Second is the 1-on-1 coaching which gives you personalized attention from coaches who are actually closing deals today. Third is our proprietary job board — exclusive access to the top remote closing opportunities. And finally our community — a tight-knit group of high performers all pushing toward the same goals. Any questions so far?"</div>
+          <span class="annotation">"Transformational." "Comprehensive." "Proprietary." "Tight-knit community of high performers." These are marketing phrases, not the prospect's words. This pitch sounds the same on every call regardless of what was said in discovery.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Yeah, sounds good. What's the price?"</div>
+          <span class="annotation">Polite disengagement. The pitch didn't create connection — it created an evaluation. "What's the price?" is the only logical next question when nothing felt personal.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-header">VERSION 2 — Scriptless Pitch (Built From This Specific Call)</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Okay, so — you told me you've been at $7k for four months, you hate the script you're on, and you feel like you're not actually having conversations, you're performing them. And you want to hit $20k and feel like yourself on calls. Those three things are exactly what I want to address."</div>
+          <span class="annotation">Mirror Recap built into the pitch opening. Their words. Their situation. No marketing language.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"The script problem — that's solved through the scriptless framework. You learn to have real conversations guided by curiosity. The script goes away and what replaces it actually sounds like you. That shift alone changes how you feel on calls and how prospects respond to you."</div>
+          <span class="annotation">Feature one. Tied directly to "I'm performing, not conversing." Natural language. No rehearsed phrases.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"The $7k ceiling — that's the 1-on-1 coaching. We go into your specific calls and find what's capping you. It's not generic coaching. It's diagnostic. You walk away knowing exactly what to change and why."</div>
+          <span class="annotation">Feature two. Tied to "stuck at $7k." Still in their language. Still zero rehearsed phrases.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Yeah — the diagnostic piece is what I feel like I've been missing. Like I know something is off but I can't figure out what."</div>
+          <span class="annotation">They're adding to the conversation. They're not evaluating the pitch — they're inside it. Scriptless created real engagement because the pitch was actually about them.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Identity Under Pressure — S11 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.seq-list{display:flex;flex-direction:column;}
+.seq-wrap{display:flex;gap:20px;margin-bottom:4px;}
+.seq-left{display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;}
+.dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.dot-green{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.dot-amber{background:#0f0800;color:#f59e0b;border:1px solid #2b1a00;}
+.dot-red{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.line{flex:1;width:1px;background:#111;margin:4px 0;min-height:16px;}
+.seq-right{flex:1;padding-bottom:24px;}
+.seq-tag{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
+.seq-title{font-size:16px;font-weight:800;margin-bottom:8px;}
+.seq-body{font-size:14px;color:#888;line-height:1.7;}
+.seq-ex{font-size:13px;color:#555;font-style:italic;padding:8px 12px;background:#050505;border-radius:6px;border-left:2px solid #1a1a1a;margin-top:8px;line-height:1.6;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S11 — State Management</div>
+  <a class="nav-link" href="lesson-s11-01-pre-call-check.html">01 · Pre-Call Check</a>
+  <a class="nav-link" href="lesson-s11-02-consciousness-levels.html">02 · Consciousness Levels</a>
+  <a class="nav-link" href="lesson-s11-03-no-neutral.html">03 · No Neutral Influence</a>
+  <a class="nav-link" href="lesson-s11-04-post-call-debrief.html">04 · Post-Call Debrief</a>
+  <a class="nav-link" href="lesson-s11-05-call-tracking.html">05 · Call Tracking</a>
+  <a class="nav-link" href="lesson-s11-06-bad-streak.html">06 · Bad Streak Reset</a>
+  <a class="nav-link" href="lesson-s11-07-winners-mindset.html">07 · Winner's Mindset</a>
+  <a class="nav-link" href="lesson-s11-08-energy-management.html">08 · Energy Management</a>
+  <a class="nav-link active" href="lesson-s11-09-identity-under-pressure.html">09 · Identity Under Pressure</a>
+  <a class="nav-link" href="lesson-s11-10-weekly-review.html">10 · Weekly Review</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 9 · Section 11</div>
+  <h1>Identity Under Pressure</h1>
+  <p class="subtitle">Who you are when the pipeline is empty and nothing is closing is the truest test of your identity. Most reps become a different person under this pressure. That person closes even less. Here's how to hold steady.</p>
+
+  <section id="the-test">
+    <h2>The Identity Test</h2>
+    <div class="block">
+      <div class="block-label">What Pressure Actually Reveals</div>
+      <p>When things are going well — deals are closing, your state is high, the pipeline is full — almost anyone can perform. The environment is doing half the work. It's easy to be calm, curious, and non-attached when you closed yesterday and have three warm leads tomorrow.</p>
+      <p>The identity test is what happens when none of that is true. When the pipeline is thin, when the last three calls didn't close, when you have bills to pay and the month is half over and nothing is coming in. That's when you find out who you actually are as a rep. Not who you are at your best — who you are when everything is against you.</p>
+    </div>
+    <div class="highlight">
+      <p>The rep with a strong identity gets on the next call the same way they would have if everything was fine. The prospect has no idea the pipeline is empty. The call sounds the same. The curiosity is the same. The non-attachment is the same — <strong>because it was never about the results. It was about the standard.</strong></p>
+    </div>
+    <div class="red-block">
+      <p><strong>The rep with a weak identity becomes a different person under pressure.</strong> Tighter. More needy. More reactive. They try harder but in the wrong direction — pushing instead of listening, rushing instead of holding space, closing before they've earned the right to ask. And the results get worse. Which confirms the fear. Which tightens the identity further. The cycle is vicious.</p>
+    </div>
+  </section>
+
+  <section id="what-happens">
+    <h2>What Happens to Most Reps Under Pressure</h2>
+
+    <div class="seq-list">
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-red">01</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#f87171;">Pattern</div>
+          <div class="seq-title">Their standards drop</div>
+          <div class="seq-body">When under financial pressure, reps start qualifying leads they would have screened out in a good month. They take calls with people who clearly aren't a fit because they need the pipeline full. Those calls produce worse outcomes and waste the limited energy they have available. Pressure erodes standards first.</div>
+        </div>
+      </div>
+
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-red">02</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#f87171;">Pattern</div>
+          <div class="seq-title">Their pace accelerates</div>
+          <div class="seq-body">They rush through discovery to get to the pitch faster. They don't hold the silences. They ask the close earlier because they're trying to manufacture momentum. Every rushed move signals desperation. Prospects read it and back away. The faster they go, the slower the results come.</div>
+          <div class="seq-ex">The paradox: slowing down when you feel the most pressure to go fast is the move that actually works. Pressure wants you to rush. Speed kills deals in a thin pipeline.</div>
+        </div>
+      </div>
+
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-amber">03</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#f59e0b;">Pattern</div>
+          <div class="seq-title">Their self-talk turns adversarial</div>
+          <div class="seq-body">The internal narrative shifts from growth-oriented to threat-oriented. "I need this to work" becomes "why isn't this working" becomes "maybe I'm not good at this." Each of these is a downward step on the consciousness scale, and each one shows up on the next call.</div>
+        </div>
+      </div>
+
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-amber">04</div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#f59e0b;">Pattern</div>
+          <div class="seq-title">They start looking for external fixes</div>
+          <div class="seq-body">A new script. A different close. A different offer structure. Changing the thing instead of the state. External fixes on a state problem never work. The script isn't the issue. The person running the script is. And under pressure, that person is compromised until the identity is stabilized.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="identity-anchors">
+    <h2>Identity Anchors</h2>
+    <div class="block">
+      <div class="block-label">What These Are</div>
+      <p>Identity anchors are beliefs and commitments that hold steady when results don't. They are not affirmations — they're not "I am great and things will work out." They are clear, honest statements about who you are and what you're committed to that don't depend on current results to be true.</p>
+    </div>
+
+    <ul class="checklist">
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">"I do the right things on every call regardless of the outcome."</strong> This anchor holds you to a process standard instead of a results standard. It's true even when you're losing. And it's the thing that will turn the results around — but only if you hold it through the difficulty.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">"My value does not come from my pipeline."</strong> You are not your close rate. You are not your revenue this month. These are measurements of your performance under current conditions. They are not measurements of your worth or your capability. Reps who confuse the two will tie their identity to a variable they only partially control.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">"Slow is smooth, smooth is fast."</strong> When pressure to rush comes, this anchor pulls you back. Slow down. Hold the standard. The results will follow — they always follow doing the right things at a high standard. Sometimes with a delay. But they follow.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">"The pipeline being thin doesn't change what the next prospect deserves."</strong> The next prospect on your call deserves your full presence, curiosity, and non-attachment — not a version of you that's managing financial anxiety on their time. Hold that standard because it's the right thing to hold, not because of what it produces.</div>
+      </li>
+    </ul>
+  </section>
+
+  <section id="the-question">
+    <h2>The 30-Day Question</h2>
+    <div class="block">
+      <div class="block-label">The Question</div>
+      <p>"Would I be doing the right things if I knew the results wouldn't come for 30 days?"</p>
+      <p>This is the identity question. If the answer is yes — if you would run the pre-call check, do thorough discovery, hold the silences, ask the uncomfortable questions, do the post-call debrief, track your numbers, manage your energy — then do those things. Do them now. Do them even when the month looks bad.</p>
+      <p>If the answer is no — if you'd only do them when the results are good — then your commitment is to the results, not the process. And that commitment will always break under pressure, because pressure is specifically designed to make you question whether the process is working.</p>
+    </div>
+    <div class="highlight">
+      <p>The rep who does the right things for 30 days without seeing the results isn't failing. They're building. The discipline exercised during a slow stretch is the discipline that makes the good months possible. <strong>No rep who truly commits to the fundamentals for 30 consecutive days stays stuck.</strong> The results always follow. But only if you don't abandon the process before they arrive.</p>
+    </div>
+    <div class="quote-block">
+      <p>"Who you are off your sales calls is who you are on your sales calls. Pressure doesn't create character — it reveals it."</p>
+      <div class="attribution">— JJ Hernandez</div>
+    </div>
+    <div class="warning">
+      <p><strong>The final test:</strong> At the end of a slow week, can you say "I held my standard on every call this week"? If yes, you are on the right track — regardless of what the numbers say. If no, address the standard, not the pipeline. The pipeline responds to the standard.</p>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

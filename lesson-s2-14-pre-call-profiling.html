@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pre-Call Profiling — S2 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S2 — Human Psychology</div>
+  <a class="nav-link" href="lesson-s2-01-pace-overview.html">1. PACE System — Overview</a>
+  <a class="nav-link" href="lesson-s2-02-pace-identification.html">2. Identifying PACE Type</a>
+  <a class="nav-link" href="lesson-s2-03-practical-type.html">3. Practical (P) Type</a>
+  <a class="nav-link" href="lesson-s2-04-action-type.html">4. Action (A) Type</a>
+  <a class="nav-link" href="lesson-s2-05-social-type.html">5. Social (S) Type</a>
+  <a class="nav-link" href="lesson-s2-06-emotional-type.html">6. Emotional (E) Type</a>
+  <a class="nav-link" href="lesson-s2-07-decision-map.html">7. The Decision Map</a>
+  <a class="nav-link" href="lesson-s2-08-needs-values.html">8. Needs, Values &amp; Decisions</a>
+  <a class="nav-link" href="lesson-s2-09-three-identity-types.html">9. The Three Identity Types</a>
+  <a class="nav-link" href="lesson-s2-10-secondary-needs.html">10. Secondary Needs</a>
+  <a class="nav-link" href="lesson-s2-11-elicitation.html">11. Elicitation</a>
+  <a class="nav-link" href="lesson-s2-12-listening-between-lines.html">12. Listening Between Lines</a>
+  <a class="nav-link" href="lesson-s2-13-rapid-profiling.html">13. Rapid Profiling</a>
+  <a class="nav-link active" href="lesson-s2-14-pre-call-profiling.html">14. Pre-Call Profiling</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 14 · Section 2</div>
+  <h1>Pre-Call Profiling</h1>
+  <p class="subtitle">Most reps skim the questionnaire. Elite reps read it like a novel. The emotional signals are there before the call even starts — word choice, emphasis, what they avoided saying. The rep who reads these walks into the first minute with a hypothesis. Everyone else walks in cold.</p>
+
+  <section id="most-reps-skim">
+    <h2>Why Most Reps Miss Everything in the Questionnaire</h2>
+    <div class="block">
+      <div class="block-label">The skim trap</div>
+      <p>Reps skim for facts: age, income, years in sales, offer they're working. These go into a mental box labeled "situation." Then they get on the call and start from zero, asking the same questions that are already answered in the form — which wastes time, bores the prospect, and signals that you didn't bother to prepare.</p>
+      <p>The questionnaire isn't a fact sheet. It's a window into how someone thinks, what matters to them, what they're afraid of, and what kind of conversation they're ready to have. You just have to know how to read it.</p>
+    </div>
+    <div class="warning">
+      <p><strong>The cold start problem.</strong> Walking into a call without having read the questionnaire properly means you're spending the first 5-10 minutes gathering information the prospect has already given you. Every minute of that is a minute you're not building trust. The prospect can sense when a rep hasn't done their homework — and it tells them how much you care.</p>
+    </div>
+  </section>
+
+  <section id="what-to-look-for">
+    <h2>What to Look For — Beyond the Facts</h2>
+    <ul class="checklist">
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Word choice.</strong> How did they describe their situation? Clinical and detached ("looking to optimize my performance") vs. raw and honest ("I'm exhausted and I feel like I'm failing"). The language tells you the emotional temperature before you've said hello.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">What they emphasized.</strong> If someone writes three sentences about money and one sentence about the actual skill they want to develop, money is the real driver. Emphasis is intention. Where they put energy in the form is where they put energy in their life.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">What they avoided or were vague about.</strong> "How long have you been in sales?" — "A few years." Why not the number? Either they don't want to seem inexperienced or they don't want to seem like they've been at it too long without results. The vagueness is a signal. What they hedge around is often where the real tension is.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">The ask at the end.</strong> Most questionnaires have a "why are you reaching out now?" or "what do you hope to get from this?" field. Read this carefully. It tells you what they're consciously hoping for — which is often one layer above what they actually need.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Length and thoroughness of their answers.</strong> A prospect who writes paragraphs in every field is Emotional or Social — they want to be known before they're sold. A prospect who writes single sentences is Practical or Action — they want efficiency, not explanation. Match the depth of preparation to what they've shown you they're comfortable with.</div>
+      </li>
+      <li>
+        <div class="check-icon fail">✗</div>
+        <div><strong style="color:#f87171;">Don't just check the income box.</strong> The income number is the least useful piece of data in the form. It tells you where someone is. It tells you almost nothing about where they want to go, why they want to get there, or what's stopped them.</div>
+      </li>
+    </ul>
+  </section>
+
+  <section id="opening-hypothesis">
+    <h2>Building Your Opening Hypothesis Before the Call Starts</h2>
+    <div class="highlight">
+      <p>After reading the questionnaire properly, you should be able to write three sentences: <strong>who this person is, what they actually want, and what's most likely in the way.</strong></p>
+      <p>This is your opening hypothesis. It's not a script — it's a starting orientation. You walk into the call knowing roughly where you're going and what to listen for. You still let the call tell you what's true. But you start ahead of where most reps start.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">Example hypothesis from a questionnaire</div>
+      <p>Prospect wrote: "I've been in high-ticket sales for 2 years. I'm doing okay but I know I'm leaving money on the table. My close rate is around 20% and I want to be at 30%+. I've tried a few things but haven't found anything that really clicked."</p>
+      <p><strong style="color:#ccc;">Hypothesis:</strong> This is a P or A type — clinical language, specific numbers, focused on performance metric. Primary driver is likely significance or freedom. The "haven't found anything that clicked" is a historical identity flag — probably some skepticism toward coaching. Open with specificity and earn trust through clarity before getting into transformation language.</p>
+    </div>
+  </section>
+
+  <section id="first-three-minutes">
+    <h2>How Pre-Call Prep Changes the First 3 Minutes</h2>
+    <table class="compare-table">
+      <thead>
+        <tr><th>Moment</th><th class="col-a">Rep Who Skimmed</th><th class="col-b">Rep Who Read It Properly</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-c-td">Opening question</td>
+          <td class="col-a-td">"Tell me a little about yourself and where you're at right now."</td>
+          <td class="col-b-td">"I saw in the form you mentioned you feel like you're leaving money on the table — what does that look like for you in practice?"</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Asking about income</td>
+          <td class="col-a-td">"What's your current monthly number?" [it's in the form]</td>
+          <td class="col-b-td">Already knows it. Uses it as context to ask a deeper question: "You mentioned $8K — what would $20K change for you beyond the obvious?"</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Energy and tone</td>
+          <td class="col-a-td">Neutral. Generic. Could be any rep on any call.</td>
+          <td class="col-b-td">Already calibrated to the prospect's communication style. The conversation feels tailored from the first minute.</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Prospect's impression</td>
+          <td class="col-a-td">"This feels like every other sales call I've been on."</td>
+          <td class="col-b-td">"This rep actually read what I wrote. They care. That's different."</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="quote-block">
+      <p>"Who you are off your calls is who you are on them."</p>
+      <div class="attribution">— JJ Hernandez</div>
+    </div>
+    <div class="block">
+      <div class="block-label">What the pre-call is really about</div>
+      <p>Pre-call profiling isn't a research exercise. It's a preparation of your mindset and your orientation. When you walk into a call knowing who you're talking to — even roughly — you're already more present, more curious, and more useful. The prospect can feel that. And it changes what's possible in the conversation before you've said anything.</p>
+    </div>
+  </section>
+
+  <section id="exchange">
+    <h2>Call Exchange — Skimmed Prep vs. Real Prep</h2>
+    <div class="exchange">
+      <div class="exchange-header">VERSION 1 — Rep skimmed, starts cold</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Hey Sarah, great to connect. Tell me a little bit about yourself and what you're working on."</div>
+          <span class="annotation">Generic opener. Sarah already told you all of this in the form. She knows you didn't read it. The tone of the call is set — this feels like a transactional process, not a conversation.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Sure, so I'm in high-ticket sales, been doing it about two years, I'm doing okay but I know I can do better..."</div>
+        </div>
+      </div>
+    </div>
+    <div class="exchange">
+      <div class="exchange-header">VERSION 2 — Rep prepared, opens with what they read</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Hey Sarah — I read through what you wrote. You mentioned you've tried a few things and nothing's really clicked. I'm curious what 'not clicking' feels like from where you're sitting. What's been missing?"</div>
+          <span class="annotation">Started from the form. Named something specific. Asked a depth question immediately. Sarah knows this rep did their homework and the conversation is already different.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Honestly, I've done the tactical stuff and I know it. I just can't seem to stay consistent. One week I'm great, next week I'm in my head."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"That's not a skill gap — that's a state gap. The skill is there. What's inconsistent is the internal environment you bring to calls. That's actually the more interesting problem to solve. Tell me more about what 'in your head' looks like — what are you thinking when it happens?"</div>
+          <span class="annotation">Already past the surface level in the first three exchanges because the prep gave the rep a starting point. This is the compounding advantage of real pre-call profiling.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>

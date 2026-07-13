@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PACE System — Overview · S2 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.seq-list{display:flex;flex-direction:column;}
+.seq-wrap{display:flex;gap:20px;margin-bottom:4px;}
+.seq-left{display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;}
+.dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.dot-green{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.dot-amber{background:#0f0800;color:#f59e0b;border:1px solid #2b1a00;}
+.dot-red{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.dot-blue{background:#050a12;color:#60a5fa;border:1px solid #0a2040;}
+.dot-purple{background:#080208;color:#a78bfa;border:1px solid #2a1040;}
+.line{flex:1;width:1px;background:#111;margin:4px 0;min-height:16px;}
+.seq-right{flex:1;padding-bottom:24px;}
+.seq-tag{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
+.seq-title{font-size:16px;font-weight:800;margin-bottom:8px;}
+.seq-body{font-size:14px;color:#888;line-height:1.7;}
+.seq-ex{font-size:13px;color:#555;font-style:italic;padding:8px 12px;background:#050505;border-radius:6px;border-left:2px solid #1a1a1a;margin-top:8px;line-height:1.6;}
+.note-list{list-style:none;}
+.note-list li{font-size:14px;color:#999;padding:9px 0;border-bottom:1px solid #0f0f0f;display:flex;gap:12px;line-height:1.6;}
+.note-list li:last-child{border-bottom:none;}
+.note-list li::before{content:"—";color:#333;flex-shrink:0;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.rep{color:#4ade80;}
+.msg-who.prospect{color:#60a5fa;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.msg-text.prospect-msg{background:#050a12;border:1px solid #0a2040;color:#93c5fd;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S2 — Human Psychology</div>
+  <a class="nav-link active" href="lesson-s2-01-pace-overview.html">1. PACE System — Overview</a>
+  <a class="nav-link" href="lesson-s2-02-pace-identification.html">2. Identifying PACE Type</a>
+  <a class="nav-link" href="lesson-s2-03-practical-type.html">3. Practical (P) Type</a>
+  <a class="nav-link" href="lesson-s2-04-action-type.html">4. Action (A) Type</a>
+  <a class="nav-link" href="lesson-s2-05-social-type.html">5. Social (S) Type</a>
+  <a class="nav-link" href="lesson-s2-06-emotional-type.html">6. Emotional (E) Type</a>
+  <a class="nav-link" href="lesson-s2-07-decision-map.html">7. The Decision Map</a>
+  <a class="nav-link" href="lesson-s2-08-needs-values.html">8. Needs, Values &amp; Decisions</a>
+  <a class="nav-link" href="lesson-s2-09-three-identity-types.html">9. The Three Identity Types</a>
+  <a class="nav-link" href="lesson-s2-10-secondary-needs.html">10. Secondary Needs</a>
+  <a class="nav-link" href="lesson-s2-11-elicitation.html">11. Elicitation</a>
+  <a class="nav-link" href="lesson-s2-12-listening-between-lines.html">12. Listening Between Lines</a>
+  <a class="nav-link" href="lesson-s2-13-rapid-profiling.html">13. Rapid Profiling</a>
+  <a class="nav-link" href="lesson-s2-14-pre-call-profiling.html">14. Pre-Call Profiling</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 1 · Section 2</div>
+  <h1>PACE Personality System</h1>
+  <p class="subtitle">Scripts fail because they assume every prospect is the same person. They're not. PACE gives you a framework for reading who's in front of you and adapting in real time.</p>
+
+  <section id="what-pace-is">
+    <h2>What PACE Is</h2>
+    <div class="highlight">
+      <p>PACE is a four-type personality framework built specifically for sales conversations. The four types are <strong>Practical</strong>, <strong>Action</strong>, <strong>Social</strong>, and <strong>Emotional</strong>.</p>
+      <p>Every prospect leans toward one primary type. Your job isn't to put them in a box — it's to understand what they respond to, what they fear, and how they make decisions so you can meet them there instead of making them meet you.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">Why This Framework Exists</div>
+      <p>Most sales training teaches you what to say. The same pitch, the same objection handlers, the same close. That approach assumes everyone responds to the same triggers — they don't. A Practical type shuts down when you get emotional. An Emotional type disconnects when you lead with data. Same pitch, opposite reactions.</p>
+      <p>PACE teaches you to read the person first, then decide how to communicate. The pitch comes last, not first.</p>
+    </div>
+  </section>
+
+  <section id="four-types">
+    <h2>The Four Types</h2>
+    <div class="seq-list">
+      <div class="seq-wrap">
+        <div class="seq-left"><div class="dot dot-blue">P</div><div class="line"></div></div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#60a5fa;">Practical</div>
+          <div class="seq-title">Data-driven. Skeptical. ROI-focused.</div>
+          <div class="seq-body">P types want proof. They ask hard questions and expect clear answers. They're not cold — they're cautious. They need to understand the logic before they feel. Over-emotionalizing the pitch or skipping the evidence kills the call with a P type.</div>
+          <div class="seq-ex">Signals: lots of clarifying questions, references to past experiences that didn't work out, requests for specifics ("what does that actually mean?"), methodical pace.</div>
+        </div>
+      </div>
+      <div class="seq-wrap">
+        <div class="seq-left"><div class="dot dot-red">A</div><div class="line"></div></div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#f87171;">Action</div>
+          <div class="seq-title">Competitive. Fast. Results-obsessed.</div>
+          <div class="seq-body">A types want to win and they want to win now. They're impatient with long explanations and energized by outcomes. They're often the most decisive buyers on a call — but if you move too slowly or get too nuanced, you lose them. Speed and directness close A types.</div>
+          <div class="seq-ex">Signals: interrupting, asking "how fast can I see results?", dropping names of competitors or high performers, fast conversational pace, minimal small talk.</div>
+        </div>
+      </div>
+      <div class="seq-wrap">
+        <div class="seq-left"><div class="dot dot-green">S</div><div class="line"></div></div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#4ade80;">Social</div>
+          <div class="seq-title">Community-first. Risk-averse. Relationship-led.</div>
+          <div class="seq-body">S types make decisions based on belonging and safety. They want to know who else has done this, what the community is like, and whether this decision will be supported by people they trust. Isolating the decision or putting on pressure shuts them down immediately.</div>
+          <div class="seq-ex">Signals: asking about the community, mentioning family, referencing what others have done, slower pace, lots of "we" language, wanting to feel understood before moving forward.</div>
+        </div>
+      </div>
+      <div class="seq-wrap">
+        <div class="seq-left"><div class="dot dot-purple">E</div></div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#a78bfa;">Emotional</div>
+          <div class="seq-title">Feeling-led. Story-driven. Transformation-focused.</div>
+          <div class="seq-body">E types buy based on how they imagine their future will feel. Logic is irrelevant until the emotional picture is clear. They connect through story, through shared experience, through vision. A clinical, data-heavy pitch makes them disengage instantly — not because they don't care, but because it doesn't speak to what's real for them.</div>
+          <div class="seq-ex">Signals: sharing personal stories unprompted, emotional vocabulary ("I just feel like...", "I'm so tired of..."), asking "what will this actually be like?", wanting to be seen before being sold.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="why-personality">
+    <h2>Why Personality Beats Scripts</h2>
+    <div class="block">
+      <div class="block-label">The Script Problem</div>
+      <p>A script is a one-size answer to a question that isn't the same for everyone. "Here's why this program works" pitched the same way to a P type and an E type will land completely differently — one feels manipulated, one feels bored. Neither buys.</p>
+      <p>Personality-based selling doesn't give you different scripts. It gives you a different starting point: understand the person first, then decide how to speak. That flexibility is what elite closers have that average reps don't.</p>
+    </div>
+    <div class="quote-block">
+      <p>"Everyone else teaches what to say. We teach you how to think."</p>
+      <div class="attribution">— Sales.io</div>
+    </div>
+  </section>
+
+  <section id="wrong-approach">
+    <h2>Wrong Approach, Wrong Type — What It Costs You</h2>
+    <table class="compare-table">
+      <thead>
+        <tr><th>Type</th><th class="col-a">Wrong Approach</th><th class="col-b">What Actually Lands</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-c-td">Practical (P)</td>
+          <td class="col-a-td">Leading with transformation stories, getting emotional, skipping the proof</td>
+          <td class="col-b-td">Specific results, clear ROI, logical sequence, no fluff</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Action (A)</td>
+          <td class="col-a-td">Long rapport-building, over-explaining nuance, slow close</td>
+          <td class="col-b-td">Fast, direct, outcome-heavy, competitive framing, get to the point</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Social (S)</td>
+          <td class="col-a-td">Pressure tactics, urgency, isolating the decision from family/peers</td>
+          <td class="col-b-td">Community language, safety, who else has done this, protecting what matters</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Emotional (E)</td>
+          <td class="col-a-td">Data-heavy pitch, clinical delivery, skipping the human connection</td>
+          <td class="col-b-td">Story, vision, emotional permission, what the future actually feels like</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="warning">
+      <p><strong>The most common mistake:</strong> most reps pitch to their own PACE type. They lead the way they respond, not the way the prospect does. A high-A rep loses every S type they talk to. A high-E rep loses every P type. Know your type so you know your blind spots.</p>
+    </div>
+  </section>
+
+  <section id="exchange">
+    <h2>Call Exchange — Same Prospect, Two Approaches</h2>
+    <div class="exchange">
+      <div class="exchange-header">VERSION 1 — Rep ignores PACE, defaults to emotional pitch with a Practical prospect</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"I want to understand exactly what I'm getting before I commit to anything. What's the structure?"</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Honestly it's transformational — people come in feeling stuck and they leave like completely different versions of themselves. The community is incredible, the energy is just different, you know?"</div>
+          <span class="annotation">P type asked for structure. Rep gave feelings. P type is now skeptical of the entire conversation.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Right... but what does that actually mean in practice? Like what are the specific components?"</div>
+        </div>
+      </div>
+    </div>
+    <div class="exchange">
+      <div class="exchange-header">VERSION 2 — Rep reads the P type and adapts immediately</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"I want to understand exactly what I'm getting before I commit to anything. What's the structure?"</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"Good — let me walk you through it clearly. Weekly 1-on-1 coaching, seven group sessions per week covering specific skill areas, a proprietary job board with 60-plus vetted companies, and a money-back guarantee if you don't hit your numbers. I'll give you specifics on each. What do you want to go through first?"</div>
+          <span class="annotation">Matches their energy — direct, structured, no fluff. P type relaxes because the rep is operating at their frequency.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who prospect">Prospect</span>
+          <div class="msg-text prospect-msg">"Let's start with the 1-on-1 coaching — what does that actually look like?"</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frame Attack Drill — S12 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.exchange{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.exchange-header{padding:14px 22px;border-bottom:1px solid #111;font-size:12px;font-weight:700;color:#555;letter-spacing:0.04em;}
+.exchange-body{padding:20px 22px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;flex-direction:column;gap:4px;}
+.msg-who{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;}
+.msg-who.attacker{color:#f87171;}
+.msg-who.rep{color:#4ade80;}
+.msg-text{font-size:14px;color:#ccc;line-height:1.6;padding:10px 14px;border-radius:8px;}
+.msg-text.attacker-msg{background:#0f0505;border:1px solid #2b0d0d;color:#fca5a5;}
+.msg-text.rep-msg{background:#050f08;border:1px solid #0d2b1a;color:#a3e8bb;}
+.annotation{font-size:11px;color:#f59e0b;padding:4px 10px;background:#0f0800;border-radius:5px;border:1px solid #2b1a00;display:inline-block;margin-top:4px;}
+.annotation.green{color:#4ade80;background:#050f08;border:1px solid #0d2b1a;}
+.level-card{border-radius:10px;overflow:hidden;margin-bottom:10px;border:1px solid #1a1a1a;}
+.level-head{display:flex;align-items:center;gap:14px;padding:14px 20px;}
+.level-num{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;min-width:60px;}
+.level-title{font-size:15px;font-weight:800;}
+.level-body{padding:10px 20px 14px;font-size:13px;color:#888;line-height:1.65;}
+.level-one .level-head{background:#050f08;}.level-one .level-num{color:#4ade80;}
+.level-two .level-head{background:#030c05;}.level-two .level-num{color:#86efac;}
+.level-three .level-head{background:#080500;}.level-three .level-num{color:#f59e0b;}
+.level-four .level-head{background:#0a0300;}.level-four .level-num{color:#fb923c;}
+.level-five .level-head{background:#0f0505;}.level-five .level-num{color:#f87171;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S12 — Call Review</div>
+  <a class="nav-link" href="lesson-s12-01-game-tape.html">01 · Game Tape Philosophy</a>
+  <a class="nav-link" href="lesson-s12-02-what-to-listen-for.html">02 · What to Listen For</a>
+  <a class="nav-link" href="lesson-s12-03-five-point-framework.html">03 · 5-Point Framework</a>
+  <a class="nav-link" href="lesson-s12-04-peer-review.html">04 · Peer Review Sessions</a>
+  <a class="nav-link" href="lesson-s12-05-ceiling-identification.html">05 · Close Rate Ceiling</a>
+  <a class="nav-link" href="lesson-s12-06-mock-call.html">06 · Mock Call Protocol</a>
+  <a class="nav-link active" href="lesson-s12-07-frame-attack.html">07 · Frame Attack Drill</a>
+  <a class="nav-link" href="lesson-s12-08-integration-mock.html">08 · Integration Mock Call</a>
+  <a class="nav-link" href="lesson-s12-09-call-submission.html">09 · Call Submission Protocol</a>
+  <a class="nav-link" href="lesson-s12-10-review-habit.html">10 · Monthly Review Habit</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 7 · Section 12</div>
+  <h1>Frame Attack Drill</h1>
+  <p class="subtitle">Stress-testing your frame under consecutive pressure. Not an argument drill. A state drill. You win when you stay grounded and curious — not when you "win" the exchange.</p>
+
+  <!-- SECTION 1 -->
+  <section id="the-drill">
+    <h2>What the Frame Attack Drill Is</h2>
+    <div class="highlight">
+      <p>One partner fires consecutive challenges — objections, credibility attacks, pressure statements — one after another with no pause. The other partner holds state: <strong>grounded, curious, unhurried.</strong> No scripts. No canned rebuttals. Just state management under fire.</p>
+      <p>The goal is not to have the perfect answer. The goal is to <strong>not break.</strong> To stay in your body. To respond from curiosity instead of defense. To maintain the same tone at challenge 5 that you had at challenge 1.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">Why This Drill Exists</div>
+      <p>Most reps can hold frame for one objection. Maybe two. By challenge three, they're rushing, defending, getting louder, or completely conceding. The Frame Attack Drill isolates state management from everything else on a call. No need to track where you are in the conversation, no prospect relationship to manage — just consecutive pressure and your response to it.</p>
+      <p>Five rounds a week builds a different rep. One who doesn't flinch at the fourth objection on a real call because they've trained at level 5 in the drill.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section id="five-levels">
+    <h2>5 Levels of Escalating Difficulty</h2>
+
+    <div class="level-card level-one">
+      <div class="level-head">
+        <div class="level-num">Level 1</div>
+        <div class="level-title">Soft Resistance</div>
+      </div>
+      <div class="level-body">Attacker uses gentle pushback. "I'm not sure this is for me." "I've been thinking about whether I'm ready." "The price seems high." Three challenges, low intensity, no personal edge. Goal: establish the baseline of staying grounded and curious on mild resistance. Most reps pass Level 1 immediately.</div>
+    </div>
+
+    <div class="level-card level-two">
+      <div class="level-head">
+        <div class="level-num">Level 2</div>
+        <div class="level-title">Consecutive Objections</div>
+      </div>
+      <div class="level-body">Five consecutive objections with no validation between them. Price, timing, skepticism about results, comparison to a competitor, another price. No breaks. Attacker doesn't pause or wait for a complete answer — moves to next challenge after 8-10 seconds. Tests whether the rep speeds up or stays measured across a sustained run of resistance.</div>
+    </div>
+
+    <div class="level-card level-three">
+      <div class="level-head">
+        <div class="level-num">Level 3</div>
+        <div class="level-title">Credibility Attacks</div>
+      </div>
+      <div class="level-body">"How long have you been doing this?" "Have you actually been a sales rep or just a coach?" "My last coach told me the exact same thing and it didn't work." "Why should I believe your results are real?" Personal credibility is attacked. The rep must respond without becoming defensive, without listing credentials, and without apologizing. Staying curious here is genuinely difficult.</div>
+    </div>
+
+    <div class="level-card level-four">
+      <div class="level-head">
+        <div class="level-num">Level 4</div>
+        <div class="level-title">Personal and Emotional</div>
+      </div>
+      <div class="level-body">Attacker uses language designed to trigger ego: "This feels like a high-pressure sales tactic." "You sound like every other coach I've talked to." "I don't think you actually understand my situation." "I don't think this is going to work for me." These hit differently than price objections. They're designed to make the rep feel unseen or disrespected. The trained response is the same: slow down, get curious, don't defend.</div>
+    </div>
+
+    <div class="level-card level-five">
+      <div class="level-head">
+        <div class="level-num">Level 5</div>
+        <div class="level-title">Full Gauntlet</div>
+      </div>
+      <div class="level-body">Eight consecutive challenges mixing all four types: soft resistance, consecutive objections, credibility attacks, and personal/emotional hits. No pattern. The rep cannot predict what comes next. Duration: 3-4 minutes of continuous pressure. If the rep can complete Level 5 with consistent tone, no defensive acceleration, and at least one genuine curiosity response per challenge — they're ready for anything a real call can produce.</div>
+    </div>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section id="success-failure">
+    <h2>What Success and Failure Look Like</h2>
+
+    <div class="exchange">
+      <div class="exchange-header">Frame Breaking — What Failure Sounds Like</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who attacker">Attacker</span>
+          <div class="msg-text attacker-msg">"Your results sound like every other coaching program I've heard about. I've done three of these and gotten nothing."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"No no, I totally get that — but we're really different, we actually have results to back this up, like I can show you testimonials, our method is completely different from anything else out there, JJ has worked with multiple eight-figure companies and our students consistently get results, plus we have a guarantee so there's literally no risk..."</div>
+          <span class="annotation">Pace accelerated. Volume increased. Defensive list of credentials. Introduced "guarantee" unprompted. Zero curiosity about what those other experiences were like. Frame fully broken.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exchange">
+      <div class="exchange-header">Frame Held — What Success Sounds Like</div>
+      <div class="exchange-body">
+        <div class="msg">
+          <span class="msg-who attacker">Attacker</span>
+          <div class="msg-text attacker-msg">"Your results sound like every other coaching program I've heard about. I've done three of these and gotten nothing."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">[2-second pause] "Three programs. That's a real pattern. Tell me what those were like — what did each one promise you'd get, and what actually happened?"</div>
+          <span class="annotation" class="green">Same pace. Same tone. Didn't defend. Got curious. Now the attacker has to explain their actual experience — which surfaces the real objection. Frame intact.</span>
+        </div>
+        <div class="msg">
+          <span class="msg-who attacker">Attacker</span>
+          <div class="msg-text attacker-msg">"They all taught the same scripts. Generic stuff. Nothing connected to how I actually talk."</div>
+        </div>
+        <div class="msg">
+          <span class="msg-who rep">Rep</span>
+          <div class="msg-text rep-msg">"That's exactly what this isn't. And I hear that skepticism — three programs is enough to earn it. What would have to be true about this for it to feel different to you?"</div>
+          <span class="annotation" class="green">Acknowledged the skepticism without validating the conclusion. Invited them to define what would work. Curiosity sustained through pressure. Level 3 drill passed.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section id="running-reviewing">
+    <h2>Running the Drill and Reviewing It</h2>
+    <div class="block">
+      <div class="block-label">Setup</div>
+      <p>Two reps. Record every session. The attacker fires from the level chosen — no easing in, no warmup. Start at the agreed level immediately. The defender does not know what's coming next. Duration: 3-5 minutes per round. Switch roles. Both people need both sides of this drill.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">Reviewing the Drill on Tape</div>
+      <p>After the session, review the recording together. Listen for: pace changes, volume changes, defensive language, filler words that appeared under pressure, the moment curiosity gave way to arguing. The reviewer gives one observation per challenge — specific, timestamped, behavioral. The defender commits to one change before the next session.</p>
+    </div>
+    <ul class="checklist">
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Success = staying grounded and curious, not winning the argument.</strong> If you "won" by out-arguing the attacker, you failed the drill. The metric is state, not outcome.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Frequency: twice weekly for reps with a frame ceiling.</strong> Once you consistently pass Level 4 without breaking, move to weekly maintenance.</div>
+      </li>
+      <li>
+        <div class="check-icon fail">✗</div>
+        <div><strong style="color:#ccc;">Failure signals: defensive speed increase, volume change, conceding before being asked, introducing unprompted justifications.</strong> Any of these mean the frame broke. That's what to fix next session.</div>
+      </li>
+      <li>
+        <div class="check-icon fail">✗</div>
+        <div><strong style="color:#ccc;">Don't debate about the "right" answer mid-drill.</strong> There is no right answer in the Frame Attack Drill. There is only state. Stay in state. That's the only metric.</div>
+      </li>
+    </ul>
+    <div class="quote-block">
+      <p>"I'd rather lose the sale than lose the frame. Because if you lose the frame, you lose the sale anyway — and you lose your self-respect along with it."</p>
+      <div class="attribution">— JJ Hernandez</div>
+    </div>
+  </section>
+
+</main>
+
+</body>
+</html>

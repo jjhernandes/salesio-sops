@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tonality — S8 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.level-card{border-radius:10px;overflow:hidden;margin-bottom:10px;border:1px solid #1a1a1a;}
+.level-head{display:flex;align-items:center;gap:14px;padding:14px 20px;}
+.level-num{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;min-width:80px;}
+.level-title{font-size:15px;font-weight:800;}
+.level-body{padding:10px 20px 14px;font-size:13px;color:#888;line-height:1.65;}
+.level-a .level-head{background:#020a04;}.level-a .level-num{color:#4ade80;}
+.level-b .level-head{background:#050a12;}.level-b .level-num{color:#60a5fa;}
+.level-c .level-head{background:#080500;}.level-c .level-num{color:#f59e0b;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S8 — Language as Influence</div>
+  <a class="nav-link" href="lesson-s8-01-embedded-commands.html">1. Embedded Commands</a>
+  <a class="nav-link" href="lesson-s8-02-presuppositions.html">2. Linguistic Presuppositions</a>
+  <a class="nav-link" href="lesson-s8-03-calibrated-questions.html">3. Calibrated Questions</a>
+  <a class="nav-link" href="lesson-s8-04-labeling.html">4. Labeling</a>
+  <a class="nav-link" href="lesson-s8-05-pacing-leading.html">5. Pacing and Leading</a>
+  <a class="nav-link" href="lesson-s8-06-tactical-empathy.html">6. Tactical Empathy</a>
+  <a class="nav-link" href="lesson-s8-07-weak-questions.html">7. Weak vs. Presupposition Rewrites</a>
+  <a class="nav-link" href="lesson-s8-08-powerful-words.html">8. Powerful Words</a>
+  <a class="nav-link" href="lesson-s8-09-language-audit.html">9. The Language Audit</a>
+  <a class="nav-link" href="lesson-s8-10-metaphor.html">10. Metaphor as Influence</a>
+  <a class="nav-link active" href="lesson-s8-11-tonality.html">11. Tonality</a>
+  <a class="nav-link" href="lesson-s8-12-silence-drill.html">12. The Silence Drill</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 11 · Section 8</div>
+  <h1>Tonality</h1>
+  <p class="subtitle">The words you choose shape the world the prospect experiences on the call. But how you say them shapes it more. Tonality is not decoration. It is the primary signal the prospect uses to evaluate whether to trust you.</p>
+
+  <section id="the-stat">
+    <h2>What Words Actually Carry</h2>
+    <div class="block">
+      <div class="block-label">The 55/38/7 Rule — Context</div>
+      <p>The research on nonverbal communication suggests that in face-to-face interaction, the words themselves carry roughly 7% of the emotional meaning communicated. Tone of voice carries approximately 38%. Body language carries 55%.</p>
+      <p>On a phone or video call, body language is reduced or absent. That shifts the weight: tone of voice becomes the dominant channel. The words are the content. The tone is the meaning. When they conflict, the prospect always trusts the tone.</p>
+    </div>
+    <div class="red-block">
+      <p><strong>The mismatch trap:</strong> saying the right words in the wrong tone is worse than saying slightly wrong words in the right tone. "That's a fair question" said with impatience communicates impatience. "I understand" said with warmth communicates warmth. The prospect processes tone first, words second.</p>
+    </div>
+  </section>
+
+  <section id="three-modes">
+    <h2>The Three Tonal Modes</h2>
+
+    <div class="level-card level-a">
+      <div class="level-head">
+        <div class="level-num">Mode 01</div>
+        <div class="level-title">Downward Assertive — The Statement Tone</div>
+      </div>
+      <div class="level-body">Voice drops at the end of the sentence. This signals certainty, authority, and completion. It is the tone of someone who is not seeking approval. Use it for stating facts, making price delivery, and sharing information you are confident in. The price of this program is $7,500. [Voice drops.] Not a question. Not open for debate.</div>
+    </div>
+
+    <div class="level-card level-b">
+      <div class="level-head">
+        <div class="level-num">Mode 02</div>
+        <div class="level-title">Upward Curious — The Question Tone</div>
+      </div>
+      <div class="level-body">Voice rises at the end of the sentence. This signals genuine curiosity and invitation. It is appropriate when asking questions you actually want answered — where you're handing the floor to the prospect and signaling "I'm interested in what you have to say here." Use it for discovery questions, labeling follow-ups, and calibrated questions.</div>
+    </div>
+
+    <div class="level-card level-c">
+      <div class="level-head">
+        <div class="level-num">Mode 03</div>
+        <div class="level-title">Flat Declarative — The Calm Certainty Tone</div>
+      </div>
+      <div class="level-body">Even keel. No significant rise or fall. This signals steady, unshakeable presence. It is the tone of someone who has seen this before and isn't rattled by it. Use it during objection handling, when a prospect pushes back, and when delivering key reframes. It communicates: this is not a problem. I'm still here. We're fine.</div>
+    </div>
+  </section>
+
+  <section id="the-close-rate-killer">
+    <h2>The Tonality Mistake That Kills Close Rate</h2>
+    <div class="red-block">
+      <p><strong>Upward inflection on statements.</strong> This is the most common tonality error in sales. The rep states a fact — the price, a benefit, a piece of social proof — and their voice rises at the end as if asking a question. The unconscious message: I'm not sure about this. Do you agree? Am I okay?</p>
+      <p>The prospect reads it immediately. They may not be able to name it, but they feel the insecurity. And an insecure rep is not someone you trust with a $7,500 decision.</p>
+    </div>
+    <div class="block">
+      <div class="block-label">The Most Common Versions</div>
+      <p>"The program is twelve weeks long?" [rising] — Sounds uncertain about the fact you just stated.</p>
+      <p>"We have a money-back guarantee?" [rising] — Now the guarantee sounds like a question, which makes it sound conditional or uncertain.</p>
+      <p>"Most of our students land a role within the first month?" [rising] — What was meant to be proof sounds like you're asking the prospect to confirm it.</p>
+    </div>
+    <div class="highlight">
+      <p>Fix: record yourself. Every time you make a statement, notice where your voice goes at the end. If it rises, you have a habit to drill. Practice the same sentences with a <strong>deliberate downward drop</strong> at the end until the assertive tone becomes default.</p>
+    </div>
+  </section>
+
+  <section id="when-to-use">
+    <h2>Which Mode, When</h2>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th style="color:#555;">Call Moment</th>
+          <th class="col-b">Correct Tonal Mode</th>
+          <th class="col-a">Common Error</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-c-td">Stating the price</td>
+          <td class="col-b-td">Downward assertive. State and hold silence.</td>
+          <td class="col-a-td">Upward inflection + immediately justifying before they respond</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Discovery questions</td>
+          <td class="col-b-td">Upward curious. You genuinely want to hear the answer.</td>
+          <td class="col-a-td">Flat or downward — sounds interrogative, not curious</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Handling objections</td>
+          <td class="col-b-td">Flat declarative. Calm, unhurried, certain there's a path forward.</td>
+          <td class="col-a-td">Rising + increasing speed — signals anxiety, not composure</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Delivering social proof</td>
+          <td class="col-b-td">Downward assertive. These are facts. They happened.</td>
+          <td class="col-a-td">Upward inflection — sounds like you're seeking their belief rather than presenting evidence</td>
+        </tr>
+        <tr>
+          <td class="col-c-td">Holding silence after close</td>
+          <td class="col-b-td">No tone — no words. Silence is its own tonal signal.</td>
+          <td class="col-a-td">Breaking the silence with filler language that signals discomfort</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="drilling">
+    <h2>Drilling Tonality</h2>
+    <ul class="checklist">
+      <li><div class="check-icon pass">1</div><div><strong style="color:#ccc;">Record and transcribe one call per week.</strong> On the transcript, mark each sentence with the tonal mode you used. Flag every statement where your voice rose when it should have dropped.</div></li>
+      <li><div class="check-icon pass">2</div><div><strong style="color:#ccc;">Price delivery drill.</strong> Say your price 20 times in a row with a downward drop. No hesitation, no rise, no follow-up before the imaginary silence ends. Do this before every call session.</div></li>
+      <li><div class="check-icon pass">3</div><div><strong style="color:#ccc;">Objection response drill.</strong> Have a partner throw objections at you. Your only rule: respond in flat declarative for the first sentence. The calm always lands before the logic does.</div></li>
+      <li><div class="check-icon pass">4</div><div><strong style="color:#ccc;">Intentional mode switching.</strong> In a mock call, practice switching tonal modes mid-conversation deliberately. Statement (downward). Question (upward). Reframe (flat). The ability to move between them fluidly is the mark of an elite communicator.</div></li>
+    </ul>
+  </section>
+
+</main>
+</body>
+</html>

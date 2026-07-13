@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Call Submission Protocol — S12 · Sales.io</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto;border-right:1px solid #1a1a1a;padding:40px 0;}
+.sidebar-logo{font-size:11px;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:#555;padding:0 24px 24px;border-bottom:1px solid #1a1a1a;margin-bottom:20px;}
+.nav-section{padding:6px 24px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#2a2a2a;margin-top:16px;margin-bottom:4px;}
+.nav-link{display:block;padding:7px 24px;font-size:13px;color:#555;text-decoration:none;transition:color .15s,border-color .15s;border-left:2px solid transparent;}
+.nav-link:hover{color:#ccc;}
+.nav-link.active{color:#4ade80;border-left-color:#4ade80;}
+.main{flex:1;max-width:760px;padding:56px 40px 120px;}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+h1{font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:16px;}
+.subtitle{font-size:15px;color:#666;margin-bottom:60px;line-height:1.6;max-width:560px;}
+section{margin-bottom:64px;}
+h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:24px;padding-bottom:10px;border-bottom:1px solid #111;}
+.block{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.block-label{font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#444;margin-bottom:10px;}
+.block p{font-size:14px;color:#999;line-height:1.7;}
+.block p+p{margin-top:10px;}
+.highlight{background:#050f08;border:1px solid #0d2b1a;border-radius:10px;padding:22px 26px;margin-bottom:14px;}
+.highlight p{font-size:14px;color:#ccc;line-height:1.8;}
+.highlight strong{color:#4ade80;}
+.warning{background:#0f0800;border:1px solid #2b1a00;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.warning p{font-size:14px;color:#ccc;line-height:1.7;}
+.warning strong{color:#f59e0b;}
+.red-block{background:#0f0505;border:1px solid #2b0d0d;border-radius:10px;padding:20px 24px;margin-bottom:14px;}
+.red-block p{font-size:14px;color:#ccc;line-height:1.7;}
+.red-block strong{color:#f87171;}
+.compare-table{width:100%;border-collapse:collapse;margin-bottom:14px;border-radius:10px;overflow:hidden;border:1px solid #1a1a1a;}
+.compare-table thead tr{background:#0a0a0a;}
+.compare-table th{padding:12px 18px;text-align:left;font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;border-bottom:1px solid #1a1a1a;color:#555;}
+.compare-table th.col-a{color:#f87171;}
+.compare-table th.col-b{color:#4ade80;}
+.compare-table td{padding:14px 18px;font-size:13px;line-height:1.6;vertical-align:top;border-bottom:1px solid #0d0d0d;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td.col-a-td{color:#f87171;background:rgba(248,113,113,.03);}
+.compare-table td.col-b-td{color:#a3e8bb;background:rgba(74,222,128,.03);}
+.compare-table td.col-c-td{color:#666;}
+.checklist{list-style:none;}
+.checklist li{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #0d0d0d;font-size:14px;color:#999;line-height:1.6;}
+.checklist li:last-child{border-bottom:none;}
+.check-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;}
+.check-icon.pass{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.check-icon.fail{background:#0f0505;color:#f87171;border:1px solid #2b0d0d;}
+.worksheet-field{background:#050505;border:1px solid #1a1a1a;border-radius:10px;padding:20px 24px;margin-bottom:12px;}
+.worksheet-field .wf-label{font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#4ade80;margin-bottom:6px;}
+.worksheet-field .wf-question{font-size:14px;color:#ccc;font-weight:600;margin-bottom:8px;line-height:1.5;}
+.worksheet-field .wf-notes{font-size:13px;color:#444;font-style:italic;line-height:1.6;}
+.seq-list{display:flex;flex-direction:column;}
+.seq-wrap{display:flex;gap:20px;margin-bottom:4px;}
+.seq-left{display:flex;flex-direction:column;align-items:center;width:40px;flex-shrink:0;}
+.dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.dot-green{background:#050f08;color:#4ade80;border:1px solid #0d2b1a;}
+.dot-amber{background:#0f0800;color:#f59e0b;border:1px solid #2b1a00;}
+.line{flex:1;width:1px;background:#111;margin:4px 0;min-height:16px;}
+.seq-right{flex:1;padding-bottom:24px;}
+.seq-tag{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
+.seq-title{font-size:16px;font-weight:800;margin-bottom:8px;}
+.seq-body{font-size:14px;color:#888;line-height:1.7;}
+.seq-ex{font-size:13px;color:#555;font-style:italic;padding:8px 12px;background:#050505;border-radius:6px;border-left:2px solid #1a1a1a;margin-top:8px;line-height:1.6;}
+.quote-block{border-left:3px solid #222;padding:16px 22px;background:#050505;border-radius:0 8px 8px 0;margin:16px 0;}
+.quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
+.quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
+@media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">S12 — Call Review</div>
+  <a class="nav-link" href="lesson-s12-01-game-tape.html">01 · Game Tape Philosophy</a>
+  <a class="nav-link" href="lesson-s12-02-what-to-listen-for.html">02 · What to Listen For</a>
+  <a class="nav-link" href="lesson-s12-03-five-point-framework.html">03 · 5-Point Framework</a>
+  <a class="nav-link" href="lesson-s12-04-peer-review.html">04 · Peer Review Sessions</a>
+  <a class="nav-link" href="lesson-s12-05-ceiling-identification.html">05 · Close Rate Ceiling</a>
+  <a class="nav-link" href="lesson-s12-06-mock-call.html">06 · Mock Call Protocol</a>
+  <a class="nav-link" href="lesson-s12-07-frame-attack.html">07 · Frame Attack Drill</a>
+  <a class="nav-link" href="lesson-s12-08-integration-mock.html">08 · Integration Mock Call</a>
+  <a class="nav-link active" href="lesson-s12-09-call-submission.html">09 · Call Submission Protocol</a>
+  <a class="nav-link" href="lesson-s12-10-review-habit.html">10 · Monthly Review Habit</a>
+</nav>
+
+<main class="main">
+  <div class="eyebrow">Lesson 9 · Section 12</div>
+  <h1>Call Submission Protocol</h1>
+  <p class="subtitle">How to submit a call for JJ or coaching staff to review — what to include, how to ask, and how to turn that feedback into a measurable improvement.</p>
+
+  <!-- SECTION 1 -->
+  <section id="how-to-submit">
+    <h2>How to Submit a Call</h2>
+    <div class="highlight">
+      <p>Staff call review is one of the highest-leverage tools in the program. You are getting eyes from someone who has reviewed hundreds of calls and can identify patterns in minutes that you might not see in weeks of solo review. <strong>Use this resource. And use it correctly.</strong></p>
+      <p>An unclear submission gets a generic response. A clear, specific submission gets exactly the feedback you need.</p>
+    </div>
+
+    <div class="seq-list">
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-green">01</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#4ade80;">Step 1</div>
+          <div class="seq-title">Do Your Own Review First</div>
+          <div class="seq-body">Before submitting a call, review it yourself. Use the 5-Point Framework (Lesson 3). Complete the worksheet. Identify the moment you think the call went sideways. Do not submit a call you haven't already watched. Submissions that begin with "I haven't listened to it yet but..." get deprioritized. Your own review is not optional — it's the prerequisite.</div>
+        </div>
+      </div>
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-green">02</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#4ade80;">Step 2</div>
+          <div class="seq-title">Share the Recording Link</div>
+          <div class="seq-body">Share a Zoom recording link or Loom link with permissions open — the reviewer shouldn't have to request access. If the call is over 60 minutes, also include a timestamp range for the most important section. A full 90-minute call with no direction is harder to give useful feedback on than a targeted 20-minute segment.</div>
+        </div>
+      </div>
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-green">03</div>
+          <div class="line"></div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#4ade80;">Step 3</div>
+          <div class="seq-title">Include Your Own Review Notes</div>
+          <div class="seq-body">What did you score each of the 5 points? What did you notice? What did you feel good about and what did you feel uncertain about? Your own review notes give the coach context — they can either confirm what you saw, tell you that you missed something bigger, or reframe the thing you noticed entirely. All three are valuable.</div>
+        </div>
+      </div>
+      <div class="seq-wrap">
+        <div class="seq-left">
+          <div class="dot dot-amber">04</div>
+        </div>
+        <div class="seq-right">
+          <div class="seq-tag" style="color:#f59e0b;">Step 4</div>
+          <div class="seq-title">Ask One Specific Question</div>
+          <div class="seq-body">The most important part of the submission. Not "what do you think?" — that is the question that produces the least useful feedback. One specific question about one specific moment or dimension. The more specific your question, the more actionable the answer.</div>
+          <div class="seq-ex">Good: "At minute 14:30, the prospect said they'd tried another program. I asked about it but felt like I moved on too fast. Did I close that loop well, or was there a better follow-up?"</div>
+          <div class="seq-ex" style="border-left-color:#2b0d0d;background:#0f0505;color:#f87171;">Not useful: "Let me know what you think overall."</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section id="good-submission">
+    <h2>What Makes a Good Submission</h2>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th class="col-a">Weak Submission</th>
+          <th class="col-b">Strong Submission</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-a-td">"Here's my call. Let me know what you think."</td>
+          <td class="col-b-td">"Here's my review notes from the 5-Point Framework. My weakest score was Discovery (2/3). At minute 9 the prospect said X and I moved on — I think I left a layer unturned. Did I?"</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">No recording link, or link requires permission request.</td>
+          <td class="col-b-td">Open link, timestamp range provided for the specific moment in question.</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">Submitted without having reviewed the call first.</td>
+          <td class="col-b-td">Submitted with a completed 5-Point worksheet and at least two specific observations the rep already made.</td>
+        </tr>
+        <tr>
+          <td class="col-a-td">"What should I have done differently?"</td>
+          <td class="col-b-td">"I chose to go to the close at minute 22 even though there were two unresolved objections. Was that the right call, or should I have gone back into discovery first?"</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="block">
+      <div class="block-label">The Specificity Principle</div>
+      <p>The more specific your question, the more precise the feedback. "What do you think of my call?" invites a general overview — useful, but diffuse. "At minute 18, did my tone stay grounded through the price objection or did I speed up?" invites a targeted observation that you can immediately apply. Specific question, specific answer, specific change.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section id="submission-template">
+    <h2>The Submission Template</h2>
+    <p style="font-size:14px;color:#555;margin-bottom:20px;">Use this every time. Copy it, fill it in, paste it into the coaching channel with your recording link.</p>
+
+    <div class="worksheet-field">
+      <div class="wf-label">Call Date and Outcome</div>
+      <div class="wf-question">When was the call? What was the result? (closed / no close / follow-up)</div>
+      <div class="wf-notes">Context the reviewer needs upfront.</div>
+    </div>
+    <div class="worksheet-field">
+      <div class="wf-label">Recording Link</div>
+      <div class="wf-question">Paste the open-access recording link here. Include timestamp range if relevant.</div>
+      <div class="wf-notes">If the full call is long, note the 10-15 minute window most relevant to your question.</div>
+    </div>
+    <div class="worksheet-field">
+      <div class="wf-label">My 5-Point Scores</div>
+      <div class="wf-question">Opener / Discovery / Pitch / Objection Handling / Close — one score (1-3) for each.</div>
+      <div class="wf-notes">Show your own work. The reviewer might agree, confirm, or reframe your scoring.</div>
+    </div>
+    <div class="worksheet-field">
+      <div class="wf-label">What I Noticed</div>
+      <div class="wf-question">What did you observe in your own review? What felt off? What felt strong?</div>
+      <div class="wf-notes">Two to three sentences. Enough for the reviewer to know your perspective before they watch.</div>
+    </div>
+    <div class="worksheet-field">
+      <div class="wf-label">My One Specific Question</div>
+      <div class="wf-question">The single most important thing you want the reviewer's eyes on — with a timestamp if possible.</div>
+      <div class="wf-notes">This is the most important field. Be specific. One question. The review will address other things too — but this is what you most need answered.</div>
+    </div>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section id="using-feedback">
+    <h2>Expected Turnaround and How to Use the Feedback</h2>
+    <div class="block">
+      <div class="block-label">Expected Turnaround</div>
+      <p>Staff call reviews are typically returned within 48-72 hours of a complete submission. A complete submission means all fields above are filled in and the recording is accessible. Incomplete submissions take longer or may be returned for more information first.</p>
+    </div>
+    <div class="highlight">
+      <p>When you receive feedback: <strong>read it once, sit with it, then apply it before your next call.</strong> Not after three more calls. The next call. The turnaround on application is what determines whether the feedback compounds or evaporates.</p>
+    </div>
+    <ul class="checklist">
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">After receiving feedback, state out loud what you're changing on the next call.</strong> Write it on a sticky note if that helps. Application is the only metric that matters after a review.</div>
+      </li>
+      <li>
+        <div class="check-icon pass">✓</div>
+        <div><strong style="color:#ccc;">Submit your next call for review with a note about what you tried to change.</strong> "Last review, you flagged that I moved on too fast after the first objection. Here's my next call — did the correction land?" This creates a feedback loop. This is how reps improve at 3x speed.</div>
+      </li>
+      <li>
+        <div class="check-icon fail">✗</div>
+        <div><strong style="color:#ccc;">Don't submit calls just to submit them.</strong> One well-prepared submission is worth ten lazy ones. The goal is not volume of submissions — it's the quality of the question and the speed of application.</div>
+      </li>
+      <li>
+        <div class="check-icon fail">✗</div>
+        <div><strong style="color:#ccc;">Don't defend the feedback internally.</strong> If the reviewer says something that stings or that you don't immediately agree with, write it down and sit with it for 24 hours before deciding it's wrong. Feedback from someone who has reviewed hundreds of calls is usually right.</div>
+      </li>
+    </ul>
+  </section>
+
+</main>
+
+</body>
+</html>
