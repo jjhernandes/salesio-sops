@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="night">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reading the Room — Sales.io</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.6; display: flex; min-height: 100vh; }
+
+    .sidebar { width: 220px; flex-shrink: 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; border-right: 1px solid #1a1a1a; padding: 40px 0; }
+    .sidebar-logo { font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: #555; padding: 0 24px 24px; border-bottom: 1px solid #1a1a1a; margin-bottom: 20px; }
+    .nav-section { padding: 6px 24px; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #2a2a2a; margin-top: 16px; margin-bottom: 4px; }
+    .nav-link { display: block; padding: 7px 24px; font-size: 13px; color: #555; text-decoration: none; transition: color .15s, border-color .15s; border-left: 2px solid transparent; }
+    .nav-link:hover { color: #ccc; }
+    .nav-link.active { color: #4ade80; border-left-color: #4ade80; }
+
+    .main { flex: 1; max-width: 760px; padding: 56px 40px 120px; }
+    .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 12px; }
+    h1 { font-size: 40px; font-weight: 900; line-height: 1.05; letter-spacing: -1px; margin-bottom: 16px; }
+    .subtitle { font-size: 15px; color: #666; margin-bottom: 60px; line-height: 1.6; max-width: 560px; }
+
+    section { margin-bottom: 64px; }
+    h2 { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 24px; padding-bottom: 10px; border-bottom: 1px solid #111; }
+
+    .block { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 22px 26px; margin-bottom: 14px; }
+    .block-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #444; margin-bottom: 10px; }
+    .block p { font-size: 14px; color: #999; line-height: 1.7; }
+    .block p + p { margin-top: 10px; }
+
+    .highlight { background: #050f08; border: 1px solid #0d2b1a; border-radius: 10px; padding: 22px 26px; margin-bottom: 14px; }
+    .highlight p { font-size: 14px; color: #ccc; line-height: 1.8; }
+    .highlight strong { color: #4ade80; }
+
+    .warning { background: #0f0800; border: 1px solid #2b1a00; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; }
+    .warning p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .warning strong { color: #f59e0b; }
+
+    .red-block { background: #0f0505; border: 1px solid #2b0d0d; border-radius: 10px; padding: 20px 24px; margin-bottom: 14px; }
+    .red-block p { font-size: 14px; color: #ccc; line-height: 1.7; }
+    .red-block strong { color: #f87171; }
+
+    /* PASE signal cards */
+    .pase-signal { border-radius: 14px; overflow: hidden; margin-bottom: 16px; }
+    .pase-signal.p { border: 1px solid #0a2040; }
+    .pase-signal.a { border: 1px solid #2b1a00; }
+    .pase-signal.s { border: 1px solid #0d2b1a; }
+    .pase-signal.e { border: 1px solid #2a1040; }
+
+    .pase-top { padding: 20px 26px; }
+    .pase-signal.p .pase-top { background: #020810; }
+    .pase-signal.a .pase-top { background: #080400; }
+    .pase-signal.s .pase-top { background: #020a04; }
+    .pase-signal.e .pase-top { background: #080208; }
+
+    .pase-badge { font-size: 11px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 6px; padding: 3px 10px; display: inline-block; margin-bottom: 10px; }
+    .pase-signal.p .pase-badge { background: #050a12; color: #60a5fa; border: 1px solid #0a2040; }
+    .pase-signal.a .pase-badge { background: #0f0800; color: #f59e0b; border: 1px solid #2b1a00; }
+    .pase-signal.s .pase-badge { background: #050f08; color: #4ade80; border: 1px solid #0d2b1a; }
+    .pase-signal.e .pase-badge { background: #12060e; color: #a78bfa; border: 1px solid #2a1040; }
+
+    .pase-title { font-size: 20px; font-weight: 900; letter-spacing: -0.4px; margin-bottom: 8px; }
+    .pase-hook { font-size: 14px; color: #777; line-height: 1.6; }
+
+    .pase-body { background: #0a0a0a; padding: 0; }
+    .pase-row { display: flex; border-top: 1px solid #111; }
+    .pase-col { flex: 1; padding: 16px 22px; border-right: 1px solid #111; }
+    .pase-col:last-child { border-right: none; }
+    .pase-col-label { font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #444; margin-bottom: 10px; }
+    .signal-list { list-style: none; }
+    .signal-list li { font-size: 13px; color: #777; padding: 5px 0; border-bottom: 1px solid #0a0a0a; line-height: 1.55; display: flex; gap: 8px; align-items: flex-start; }
+    .signal-list li:last-child { border-bottom: none; }
+    .signal-list li::before { content: "—"; color: #2a2a2a; flex-shrink: 0; }
+    .adjust-list { list-style: none; }
+    .adjust-list li { font-size: 13px; padding: 5px 0; border-bottom: 1px solid #0a0a0a; line-height: 1.55; display: flex; gap: 8px; align-items: flex-start; }
+    .adjust-list li:last-child { border-bottom: none; }
+    .pase-signal.p .adjust-list li { color: #93c5fd; }
+    .pase-signal.a .adjust-list li { color: #fcd34d; }
+    .pase-signal.s .adjust-list li { color: #a3e8bb; }
+    .pase-signal.e .adjust-list li { color: #c4b5fd; }
+    .pase-signal.p .adjust-list li::before { content: "→"; color: #60a5fa; flex-shrink: 0; }
+    .pase-signal.a .adjust-list li::before { content: "→"; color: #f59e0b; flex-shrink: 0; }
+    .pase-signal.s .adjust-list li::before { content: "→"; color: #4ade80; flex-shrink: 0; }
+    .pase-signal.e .adjust-list li::before { content: "→"; color: #a78bfa; flex-shrink: 0; }
+
+    .pase-trap { padding: 12px 22px; font-size: 13px; color: #666; line-height: 1.6; border-top: 1px solid #111; background: #050505; }
+    .pase-trap strong { color: #f59e0b; }
+
+    /* Calibration timeline */
+    .cal-list { display: flex; flex-direction: column; }
+    .cal-wrap { display: flex; gap: 20px; margin-bottom: 4px; }
+    .cal-left { display: flex; flex-direction: column; align-items: center; width: 40px; flex-shrink: 0; }
+    .dot { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; }
+    .vline { flex: 1; width: 1px; background: #111; margin: 4px 0; min-height: 16px; }
+    .cal-right { flex: 1; padding-bottom: 26px; }
+    .cal-tag { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .cal-title { font-size: 16px; font-weight: 800; margin-bottom: 8px; }
+    .cal-body { font-size: 14px; color: #888; line-height: 1.7; }
+    .cal-signals { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+    .cal-tag-p { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 5px; background: #050a12; color: #60a5fa; border: 1px solid #0a2040; }
+    .cal-tag-a { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 5px; background: #0f0800; color: #f59e0b; border: 1px solid #2b1a00; }
+    .cal-tag-s { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 5px; background: #050f08; color: #4ade80; border: 1px solid #0d2b1a; }
+    .cal-tag-e { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 5px; background: #12060e; color: #a78bfa; border: 1px solid #2a1040; }
+
+    /* Energy shift table */
+    .shift-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; border-radius: 10px; overflow: hidden; border: 1px solid #1a1a1a; }
+    .shift-table thead tr { background: #0a0a0a; }
+    .shift-table th { padding: 11px 16px; text-align: left; font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #444; border-bottom: 1px solid #1a1a1a; }
+    .shift-table td { padding: 13px 16px; font-size: 13px; vertical-align: top; border-bottom: 1px solid #0a0a0a; line-height: 1.55; }
+    .shift-table tr:last-child td { border-bottom: none; }
+    .shift-table td:first-child { font-weight: 700; color: #ccc; white-space: nowrap; }
+    .shift-table td:nth-child(2) { color: #666; }
+    .shift-table td:nth-child(3) { color: #a3e8bb; font-style: italic; font-size: 12px; }
+
+    /* Matching vs leading */
+    .mvl-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+    .mvl-card { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 20px 22px; }
+    .mvl-label { font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+    .mvl-label.match { color: #60a5fa; }
+    .mvl-label.lead { color: #4ade80; }
+    .mvl-title { font-size: 15px; font-weight: 800; margin-bottom: 8px; }
+    .mvl-desc { font-size: 13px; color: #777; line-height: 1.6; margin-bottom: 10px; }
+    .mvl-ex { font-size: 12px; font-style: italic; color: #555; padding: 8px 12px; border-radius: 6px; background: #050505; border-left: 2px solid #1a1a1a; line-height: 1.6; }
+
+    /* Internal monologue */
+    .monologue { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 12px; overflow: hidden; margin-bottom: 14px; }
+    .mono-header { padding: 16px 22px; border-bottom: 1px solid #111; }
+    .mono-label { font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #555; margin-bottom: 4px; }
+    .mono-title { font-size: 16px; font-weight: 800; }
+    .mono-body { padding: 0; }
+    .mono-row { display: flex; align-items: flex-start; gap: 0; border-bottom: 1px solid #0a0a0a; }
+    .mono-row:last-child { border-bottom: none; }
+    .mono-moment { width: 160px; flex-shrink: 0; padding: 14px 18px; font-size: 12px; font-weight: 700; color: #444; line-height: 1.4; border-right: 1px solid #111; background: #050505; }
+    .mono-thought { flex: 1; padding: 14px 18px; font-size: 13px; color: #4ade80; font-style: italic; line-height: 1.55; }
+    .mono-action { flex: 1; padding: 14px 18px; font-size: 13px; color: #666; line-height: 1.55; border-left: 1px solid #111; }
+
+    /* Mixed energies */
+    .mix-pair { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 10px; padding: 20px 24px; margin-bottom: 12px; display: flex; gap: 20px; align-items: flex-start; }
+    .mix-badges { display: flex; gap: 6px; flex-shrink: 0; flex-direction: column; padding-top: 3px; }
+    .mix-body { flex: 1; }
+    .mix-title { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
+    .mix-desc { font-size: 13px; color: #777; line-height: 1.6; margin-bottom: 8px; }
+    .mix-tell { font-size: 12px; color: #555; font-style: italic; padding: 8px 12px; background: #050505; border-radius: 6px; border-left: 2px solid #1a1a1a; line-height: 1.5; }
+
+    .note-list { list-style: none; }
+    .note-list li { font-size: 14px; color: #999; padding: 9px 0; border-bottom: 1px solid #0f0f0f; display: flex; gap: 12px; line-height: 1.6; }
+    .note-list li:last-child { border-bottom: none; }
+    .note-list li::before { content: "—"; color: #333; flex-shrink: 0; }
+
+    .quote-block { border-left: 3px solid #222; padding: 16px 22px; background: #050505; border-radius: 0 8px 8px 0; margin: 16px 0; }
+    .quote-block p { font-size: 15px; color: #ddd; font-style: italic; line-height: 1.8; }
+    .quote-block .attribution { font-size: 12px; color: #444; font-style: normal; margin-top: 8px; font-weight: 600; letter-spacing: 0.05em; }
+
+    @media (max-width: 780px) {
+      .sidebar { display: none; }
+      .main { padding: 40px 20px 80px; max-width: 100%; }
+      h1 { font-size: 30px; }
+      .pase-row { flex-direction: column; }
+      .pase-col { border-right: none; border-bottom: 1px solid #111; }
+      .pase-col:last-child { border-bottom: none; }
+      .mvl-row { grid-template-columns: 1fr; }
+      .mono-moment { width: 120px; }
+    }
+  
+/* ── Theme tokens ── */
+:root,[data-theme="night"]{
+  --bg:#000;--text-primary:#fff;--eyebrow-c:#4ade80;
+  --h2-c:#555;--h2-bdr:#111;--subtitle-c:#666;
+}
+[data-theme="day"]{
+  --bg:#EAE4D9;--text-primary:#0A0A08;--eyebrow-c:#A09070;
+  --h2-c:#A09070;--h2-bdr:#D5CFBF;--subtitle-c:#888;
+}
+/* ── Transitions ── */
+body,.block,.highlight,.warning,.red-block,
+.compare-table,.week-block,.signal-row,
+.follow-up-card,.exchange,.checklist li{
+  transition:background .3s,color .3s,border-color .3s;
+}
+/* ── Sidebar toggle ── */
+.sidebar{display:flex;flex-direction:column;}
+.sidebar-footer{margin-top:auto;padding:16px 24px 24px;border-top:1px solid #111;flex-shrink:0;}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;}
+.toggle-mode-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#252525;}
+.toggle-switch{width:40px;height:22px;border-radius:11px;background:#0d2b1a;border:1px solid #111;position:relative;cursor:pointer;flex-shrink:0;}
+.toggle-thumb{position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#4ade80;transition:transform .25s,background .25s;}
+[data-theme="night"] .toggle-thumb{transform:translateX(18px);}
+[data-theme="day"] .toggle-thumb{background:#252525;transform:translateX(0);}
+[data-theme="day"] .toggle-switch{background:#1a1a18;}
+[data-theme="day"] .toggle-mode-lbl{color:#888;}
+/* ── Day overrides — structural ── */
+[data-theme="day"] body{background:#EAE4D9;color:#0A0A08;}
+[data-theme="day"] h1{color:#0A0A08;}
+[data-theme="day"] .eyebrow{color:#A09070;}
+[data-theme="day"] .subtitle{color:#888;}
+[data-theme="day"] h2{color:#A09070;border-bottom-color:#D5CFBF;}
+/* .block */
+[data-theme="day"] .block{background:#fff;border-color:#E2DDD3;}
+[data-theme="day"] .block p,[data-theme="day"] .block li{color:#555;}
+[data-theme="day"] .block strong{color:#1a1a1a;}
+/* .highlight */
+[data-theme="day"] .highlight{background:#F2EDE4;border-color:#D8D0C0;}
+[data-theme="day"] .highlight p,[data-theme="day"] .highlight li{color:#444;}
+[data-theme="day"] .highlight strong{color:#5a7a3a;}
+/* .warning */
+[data-theme="day"] .warning{background:#FBF6EC;border-color:#E8D8B0;}
+[data-theme="day"] .warning p{color:#5a4a20;}
+[data-theme="day"] .warning strong{color:#8a6010;}
+/* .red-block */
+[data-theme="day"] .red-block{background:#FBF0F0;border-color:#E8C8C8;}
+[data-theme="day"] .red-block p{color:#5a2020;}
+[data-theme="day"] .red-block strong{color:#b03030;}
+/* checklist */
+[data-theme="day"] .checklist li{color:#555;border-bottom-color:#EDE8DE;}
+[data-theme="day"] .checklist li::before{border-color:#C8C2B8;}
+[data-theme="day"] .checklist li strong{color:#1a1a1a;}
+/* signals */
+[data-theme="day"] .signal-row{background:#fff;border-color:#E2DDD3;}
+[data-theme="day"] .signal-name{color:#333;}
+[data-theme="day"] .signal-desc{color:#777;}
+/* compare table */
+[data-theme="day"] .compare-table{border-color:#E2DDD3;}
+[data-theme="day"] .compare-table thead tr{background:#F8F4EE;}
+[data-theme="day"] .compare-table th{border-bottom-color:#E2DDD3;color:#888;}
+[data-theme="day"] .compare-table th.col-a{color:#c04040;}
+[data-theme="day"] .compare-table th.col-b{color:#5a7a3a;}
+[data-theme="day"] .compare-table td{background:#fff;color:#555;border-bottom-color:#EDE8DE;}
+[data-theme="day"] .compare-table td.col-a-td{background:rgba(192,64,64,.04);color:#c04040;}
+[data-theme="day"] .compare-table td.col-b-td{background:rgba(90,122,58,.04);color:#5a7a3a;}
+/* exchange */
+[data-theme="day"] .exchange{background:#fff;border-color:#E2DDD3;}
+[data-theme="day"] .exchange-header{color:#888;border-bottom-color:#E2DDD3;}
+[data-theme="day"] .msg-who.rep{color:#5a7a3a;}
+[data-theme="day"] .msg-who.prospect{color:#4a6aaa;}
+[data-theme="day"] .msg-text.rep-msg{background:#F0EBE3;border-color:#D5CFBF;color:#3a5a2a;}
+[data-theme="day"] .msg-text.prospect-msg{background:#EEF4FB;border-color:#C8D8EC;color:#2a3a6a;}
+[data-theme="day"] .annotation{background:#FBF6EC;border-color:#E8D8B0;color:#8a6010;}
+/* week blocks */
+[data-theme="day"] .week-block{background:#fff;border-color:#E2DDD3;}
+[data-theme="day"] .week-header{border-bottom-color:#E2DDD3;}
+[data-theme="day"] .week-title{color:#333;}
+[data-theme="day"] .week-item{color:#666;border-bottom-color:#EDE8DE;}
+[data-theme="day"] .week-item strong{color:#333;}
+/* follow-up cards */
+[data-theme="day"] .follow-up-card{background:#fff;border-color:#E2DDD3;}
+[data-theme="day"] .follow-up-header{background:#F5F0E8;border-bottom-color:#E2DDD3;}
+[data-theme="day"] .follow-up-name{color:#888;}
+[data-theme="day"] .follow-up-timing{color:#5a7a3a;}
+[data-theme="day"] .follow-up-body{color:#444;}
+[data-theme="day"] .follow-up-note{color:#888;border-top-color:#EDE8DE;}
+/* quote blocks */
+[data-theme="day"] .quote-block{border-left-color:#D5CFBF;}
+[data-theme="day"] .quote-block p{color:#888;}
+[data-theme="day"] .big-idea{background:#F2EDE4;border-color:#D8D0C0;color:#444;}
+[data-theme="day"] .bottom-line{background:#F2EDE4;border-color:#D8D0C0;}
+[data-theme="day"] .bottom-line p{color:#444;}
+/* generic dark block catch — anything else using the same dark bg */
+[data-theme="day"] .block-label{color:#A09070;}
+
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">Sales.io</div>
+  <div class="nav-section">Lesson</div>
+  <a href="#overview" class="nav-link active">Overview</a>
+  <div class="nav-section">The Read</div>
+  <a href="#first60" class="nav-link">The First 60 Seconds</a>
+  <a href="#signals" class="nav-link">PASE Signals + Adjustments</a>
+  <a href="#matching" class="nav-link">Matching vs. Leading</a>
+  <div class="nav-section">Calibration</div>
+  <a href="#checkpoints" class="nav-link">The 5 Checkpoints</a>
+  <a href="#shifts" class="nav-link">When the Energy Shifts</a>
+  <a href="#mixed" class="nav-link">Mixed Energies</a>
+  <a href="#monologue" class="nav-link">The Internal Monologue</a>
+</nav>
+
+<main class="main">
+
+  <div id="overview">
+    <div class="eyebrow">Sales.io — JJ Hernandez</div>
+    <h1>Reading<br>the Room</h1>
+    <p class="subtitle">Using PASE to identify dominant energy in real time — and adjust your pacing, questioning, and approach on the fly.</p>
+  </div>
+
+
+  <!-- WHAT IT IS -->
+  <section>
+    <h2>What This Skill Actually Is</h2>
+
+    <div class="block">
+      <div class="block-label">Not a one-time assessment</div>
+      <p>Reading the room is not something you do once at the start of a call. It's a continuous calibration that runs beneath the entire conversation. You make an initial read in the first 60 seconds, update it as the call progresses, and stay alert to the moments when the energy shifts — because it will.</p>
+      <p>The PASE method gives you the framework. This lesson shows you how to apply it in real time — the observable signals for each energy type, how to adjust your approach based on what you're reading, and what to do when the read changes mid-call.</p>
+    </div>
+
+    <div class="highlight">
+      <p><strong>The best reps in any room are the best readers in any room.</strong> They're not running the same call every time. They're running a different version of the same framework, calibrated to the specific human in front of them. That calibration is the skill. PASE is the lens.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">What you're actually reading</div>
+      <ul class="note-list">
+        <li><strong style="color:#ccc;">Pace and rhythm</strong> — how fast they talk, how long their answers are, whether they pause or rush</li>
+        <li><strong style="color:#ccc;">Word choice</strong> — data words vs. feeling words, action language vs. deliberate language</li>
+        <li><strong style="color:#ccc;">Questions they ask</strong> — what someone asks first tells you what they care about most</li>
+        <li><strong style="color:#ccc;">How they open up</strong> — do they give personal context immediately or wait to be asked</li>
+        <li><strong style="color:#ccc;">Response to depth</strong> — when you probe deeper, do they lean in or get more guarded</li>
+        <li><strong style="color:#ccc;">Energy direction</strong> — are they moving toward the conversation or managing their distance from it</li>
+      </ul>
+    </div>
+  </section>
+
+
+  <!-- FIRST 60 SECONDS -->
+  <section id="first60">
+    <h2>The First 60 Seconds</h2>
+
+    <div class="block">
+      <div class="block-label">Your initial read window</div>
+      <p>The dominant PASE energy almost always shows up within the first 60 seconds — before the prospect has had time to perform a version of themselves for you. How they answer your first question, what they do with silence, whether they ask you something before you ask them, whether they joke or stay serious — all of it is signal.</p>
+      <p>You are not committing to a permanent judgment in this window. You are forming a working hypothesis. Everything after confirms, adjusts, or overturns it.</p>
+    </div>
+
+    <div class="block">
+      <div class="block-label">What to listen for immediately</div>
+      <ul class="note-list">
+        <li><strong style="color:#60a5fa;">Practical:</strong> They confirm the time, get straight to context, or ask a clarifying question before you've said much. Measured opener. Minimal warmth. They're assessing you.</li>
+        <li><strong style="color:#f59e0b;">Action:</strong> Fast hello, high energy, immediately says something bold or directional. "Yeah let's get into it." Already wants to move.</li>
+        <li><strong style="color:#4ade80;">Social:</strong> Asks how you are. Mentions something personal unprompted. Laughs early. Wants to establish warmth before there's anything on the table.</li>
+        <li><strong style="color:#a78bfa;">Emotional:</strong> Quieter opener. Pauses. More deliberate in how they answer your first question. Feeling out the space before they give you anything real.</li>
+      </ul>
+    </div>
+
+    <div class="warning">
+      <p><strong>The biggest first-60-seconds mistake:</strong> Defaulting to your own dominant energy instead of responding to theirs. The Action rep who opens every call the same way will immediately create friction with a Practical or Emotional prospect. The Social rep who always warms up first will lose an Action prospect's attention in the first two minutes. Your energy is not the point. Theirs is.</p>
+    </div>
+  </section>
+
+
+  <!-- PASE SIGNALS + ADJUSTMENTS -->
+  <section id="signals">
+    <h2>PASE Signals &amp; Real-Time Adjustments</h2>
+
+    <div class="block">
+      <p>Each energy type shows up in specific, observable ways throughout a call. These aren't personality boxes — they're behavioral signals. The more you know what to look for, the faster you can calibrate your approach to meet them exactly where they are.</p>
+    </div>
+
+    <!-- PRACTICAL -->
+    <div class="pase-signal p">
+      <div class="pase-top">
+        <div class="pase-badge">P — Practical</div>
+        <div class="pase-title">Measured. Deliberate. Assessing everything.</div>
+        <div class="pase-hook">They walked in with a framework for evaluating you. They're deciding whether you're worth their time. Earn their respect before you earn their trust — and earn their trust before anything else.</div>
+      </div>
+      <div class="pase-body">
+        <div class="pase-row">
+          <div class="pase-col">
+            <div class="pase-col-label">What you'll observe</div>
+            <ul class="signal-list">
+              <li>Deliberate, measured speech — they choose their words</li>
+              <li>Short, precise answers — no filler, no extras</li>
+              <li>May ask a clarifying question before answering yours</li>
+              <li>References timelines, data, or ROI without being prompted</li>
+              <li>Comfortable with silence — doesn't fill it nervously</li>
+              <li>Minimal personal warmth early on — not cold, just strategic</li>
+              <li>May push back on something you say to test your certainty</li>
+              <li>If you're imprecise, they notice immediately</li>
+            </ul>
+          </div>
+          <div class="pase-col">
+            <div class="pase-col-label">How to adjust</div>
+            <ul class="adjust-list">
+              <li>Slow down. Match their deliberate pace — don't rush them.</li>
+              <li>Be precise. Numbers, specifics, proof. Vague claims will lose them fast.</li>
+              <li>Lead with respect before rapport. Earn credibility first.</li>
+              <li>Don't fill silences they create. Let them process.</li>
+              <li>If they push back — don't fold and don't get defensive. Hold your position calmly.</li>
+              <li>Skip the social warmup unless they initiate it.</li>
+              <li>Structure your answers. No rambling. Get to the point.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="pase-trap"><strong>Watch for:</strong> They go quiet after you say something. This almost never means they're satisfied — it means they're processing something that didn't add up. Ask: "What are you thinking?" Don't barrel forward past the silence.</div>
+    </div>
+
+    <!-- ACTION -->
+    <div class="pase-signal a">
+      <div class="pase-top">
+        <div class="pase-badge">A — Action</div>
+        <div class="pase-title">Fast. Decisive. Already thinking about the next step.</div>
+        <div class="pase-hook">They don't want to be slowed down. They want to see you move at their speed, match their energy, and get to what matters. The worst thing you can do is bore them into checking out.</div>
+      </div>
+      <div class="pase-body">
+        <div class="pase-row">
+          <div class="pase-col">
+            <div class="pase-col-label">What you'll observe</div>
+            <ul class="signal-list">
+              <li>Fast talker — high energy from the first sentence</li>
+              <li>Interrupts or jumps ahead mid-sentence</li>
+              <li>Talks about goals, growth, money, competition</li>
+              <li>Short answers that don't ask for more — they want to keep moving</li>
+              <li>May start closing themselves: "Okay so what's next?"</li>
+              <li>Gets restless with over-explanation or slow pacing</li>
+              <li>Bold claims — testing to see if you'll match their confidence</li>
+              <li>Very low tolerance for being managed or patronized</li>
+            </ul>
+          </div>
+          <div class="pase-col">
+            <div class="pase-col-label">How to adjust</div>
+            <ul class="adjust-list">
+              <li>Match their pace immediately — don't start slow</li>
+              <li>Get to the substance fast. Skip the extended warmup.</li>
+              <li>Be direct and bold. Don't hedge your language.</li>
+              <li>Create forward momentum — keep things moving</li>
+              <li>When you need to slow them for discovery, lower your own pace deliberately — they'll follow</li>
+              <li>Don't over-explain once they signal they've got it</li>
+              <li>Match their energy on the close — be equally decisive</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="pase-trap"><strong>Watch for:</strong> The Action prospect slows down mid-call. This either means you hit a real nerve — they're actually processing something — or the call lost momentum and they're checking out. Read which one it is before you proceed.</div>
+    </div>
+
+    <!-- SOCIAL -->
+    <div class="pase-signal s">
+      <div class="pase-top">
+        <div class="pase-badge">S — Social</div>
+        <div class="pase-title">Warm. Talkative. Needs connection before commitment.</div>
+        <div class="pase-hook">They're likable and they like you — but they buy the relationship before they buy the offer. Don't rush them. Don't go transactional. And when they start to open up, know that what sounds like casual conversation is actually them deciding whether you're trustworthy.</div>
+      </div>
+      <div class="pase-body">
+        <div class="pase-row">
+          <div class="pase-col">
+            <div class="pase-col-label">What you'll observe</div>
+            <ul class="signal-list">
+              <li>Asks how you are — genuinely</li>
+              <li>Personal details surface unprompted early on</li>
+              <li>Laughs easily and often, even at small things</li>
+              <li>Gives long answers with a lot of context and story</li>
+              <li>Agreement-seeking language: "you know what I mean?"</li>
+              <li>Struggles to be direct about negative things — avoids confrontation</li>
+              <li>Talks about their friends, team, community</li>
+              <li>May steer conversation back toward warmth if it gets too clinical</li>
+            </ul>
+          </div>
+          <div class="pase-col">
+            <div class="pase-col-label">How to adjust</div>
+            <ul class="adjust-list">
+              <li>Meet the warmth genuinely — not performed, not rushed past</li>
+              <li>Let them set the relational tone in the first few minutes</li>
+              <li>Use social proof: "others in the community," "people in your situation"</li>
+              <li>Keep your energy warm throughout — even in discovery</li>
+              <li>Guide into substance gently: ask a focused question that creates direction</li>
+              <li>When you need honesty from them, give explicit permission: "you don't have to give me the polished version"</li>
+              <li>Frame the offer as joining something, not buying something</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="pase-trap"><strong>Watch for:</strong> The Social prospect pulls back or goes quieter. This is almost always a signal that something felt inauthentic or the call got too transactional. Don't push. Reconnect: "Let me step back — how are you actually feeling about all of this?"</div>
+    </div>
+
+    <!-- EMOTIONAL -->
+    <div class="pase-signal e">
+      <div class="pase-top">
+        <div class="pase-badge">E — Emotional</div>
+        <div class="pase-title">Intuitive. Careful. Reads everything — including you.</div>
+        <div class="pase-hook">They feel the energy of a call before they process the content. They'll know immediately if you're being genuine or running a sequence. The only way to reach them is to actually be present — not perform presence. When they trust you, they go deep. Until then, they give you almost nothing.</div>
+      </div>
+      <div class="pase-body">
+        <div class="pase-row">
+          <div class="pase-col">
+            <div class="pase-col-label">What you'll observe</div>
+            <ul class="signal-list">
+              <li>Pauses before answering — processing before speaking</li>
+              <li>Chooses words carefully — doesn't rush to fill silence</li>
+              <li>Feeling language: "I feel like," "it doesn't sit right," "something's off"</li>
+              <li>Short initial answers — testing safety before they open up</li>
+              <li>Highly sensitive to tone shifts — if you get clinical, they close</li>
+              <li>When they open up, they go deep and personal quickly</li>
+              <li>May bring personal context without being asked</li>
+              <li>Notices incongruence immediately — if your words and energy don't match, they feel it</li>
+            </ul>
+          </div>
+          <div class="pase-col">
+            <div class="pase-col-label">How to adjust</div>
+            <ul class="adjust-list">
+              <li>Slow everything down — your pace, your pauses, your pressure</li>
+              <li>Let them finish. Do not interrupt. Do not rush them.</li>
+              <li>Mirror their language — if they use feeling words, respond with feeling words</li>
+              <li>Acknowledge before you probe: "I hear that" then pause before the next question</li>
+              <li>Create explicit safety: "you don't have to give me the polished version"</li>
+              <li>Stay consistent throughout — any energy shift toward clinical or pushy will lose them</li>
+              <li>Don't rush to solutions. Understanding before answers.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="pase-trap"><strong>Watch for:</strong> The Emotional prospect suddenly sounds formal or gives short clipped answers after being open. You moved too fast or lost congruence somewhere. Back up: "I feel like something shifted — is there something I'm not reading right?"</div>
+    </div>
+  </section>
+
+
+  <!-- MATCHING VS LEADING -->
+  <section id="matching">
+    <h2>Matching vs. Leading</h2>
+
+    <div class="block">
+      <div class="block-label">Two different tools — both necessary</div>
+      <p>Matching means meeting the prospect where they are — adapting your energy to theirs so they feel understood and comfortable. Leading means gradually shifting the energy toward what the call needs — pulling a fast prospect into depth, guiding a warm prospect toward substance. You almost always need to match before you can lead. Skip matching and the lead feels like a push.</p>
+    </div>
+
+    <div class="mvl-row">
+      <div class="mvl-card">
+        <div class="mvl-label match">Matching</div>
+        <div class="mvl-title">Meet them where they are first</div>
+        <div class="mvl-desc">Adapting your pace, tone, and energy to theirs. This establishes trust and makes them feel heard before you've asked for anything. You don't match forever — you match to earn the right to lead.</div>
+        <div class="mvl-ex">Action prospect opens fast and bold → you open fast and direct. Social prospect warms up first → you warm up with them. Practical prospect is measured → you get measured.</div>
+      </div>
+      <div class="mvl-card">
+        <div class="mvl-label lead">Leading</div>
+        <div class="mvl-title">Guide the energy toward what the call needs</div>
+        <div class="mvl-desc">Once trust is established, you can start to shift the energy. This is subtle — you don't announce it. You model the energy you need and let them follow. A gradual shift. Never a sudden gear change.</div>
+        <div class="mvl-ex">Action prospect needs depth → lower your own pace, ask a slower question, hold the silence. Social prospect needs focus → ask one specific question that creates direction. The call needs to go deeper → you go deeper first.</div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label">Practical examples of leading each energy type</div>
+      <ul class="note-list">
+        <li><strong style="color:#60a5fa;">Leading Practical deeper:</strong> They're giving you facts but no feeling. Lower your voice slightly, slow the pace, and ask: "What has sitting in this situation actually been like for you?" The deliberateness of the question signals it's safe to go beneath the data.</li>
+        <li><strong style="color:#f59e0b;">Leading Action into depth:</strong> They want to move fast. Match the speed first, then slow one question down: "Hold on — before we go further. How long have you been in this place?" The contrast of the slower question against the fast energy signals this matters.</li>
+        <li><strong style="color:#4ade80;">Leading Social to substance:</strong> They've been warming the call for 10 minutes. Meet it, then ask one focused question: "What actually made you book this call?" That question creates a direction without breaking the warmth.</li>
+        <li><strong style="color:#a78bfa;">Leading Emotional to ownership:</strong> They've been careful and brief. You've been patient. Now: "What's the part you haven't said yet?" — asked quietly, with space after it. The gentleness signals safety and the question signals you know there's more.</li>
+      </ul>
+    </div>
+  </section>
+
+
+  <!-- THE 5 CHECKPOINTS -->
+  <section id="checkpoints">
+    <h2>The 5 Calibration Checkpoints</h2>
+
+    <div class="block">
+      <p>Your read isn't a one-time thing. There are five natural moments in every call where you should consciously check your calibration — update the read, confirm you're still meeting their energy, and adjust if something has shifted. Missing these moments means drifting without realizing it.</p>
+    </div>
+
+    <div class="cal-list">
+
+      <div class="cal-wrap">
+        <div class="cal-left">
+          <div class="dot" style="background:#050a12; color:#60a5fa; border:1px solid #0a2040;">01</div>
+          <div class="vline"></div>
+        </div>
+        <div class="cal-right">
+          <div class="cal-tag" style="color:#60a5fa;">First 60 Seconds</div>
+          <div class="cal-title">Form the initial hypothesis</div>
+          <div class="cal-body">How did they answer the first question? How fast did they talk? Did they ask you something first? Did they warm up or stay straight to business? This is your first read. Hold it loosely. It's a starting point, not a verdict.</div>
+          <div class="cal-signals">
+            <span class="cal-tag-p">Practical → measured, direct opener</span>
+            <span class="cal-tag-a">Action → fast, high energy</span>
+            <span class="cal-tag-s">Social → personal warmth first</span>
+            <span class="cal-tag-e">Emotional → careful, quiet, feeling out</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cal-wrap">
+        <div class="cal-left">
+          <div class="dot" style="background:#0f0800; color:#f59e0b; border:1px solid #2b1a00;">02</div>
+          <div class="vline"></div>
+        </div>
+        <div class="cal-right">
+          <div class="cal-tag" style="color:#f59e0b;">First Real Answer</div>
+          <div class="cal-title">Confirm or adjust the hypothesis</div>
+          <div class="cal-body">When you ask your first real question and they give a full answer — this confirms or adjusts the initial read. Length, language, whether they volunteered anything beyond what was asked, how they handled a pause — all update your calibration.</div>
+          <div class="cal-signals">
+            <span class="cal-tag-p">Short, precise, data-heavy → Practical confirmed</span>
+            <span class="cal-tag-a">Long, bold, forward-focused → Action confirmed</span>
+            <span class="cal-tag-s">Story-heavy with personal context → Social confirmed</span>
+            <span class="cal-tag-e">Careful, measured, checked themselves → Emotional confirmed</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cal-wrap">
+        <div class="cal-left">
+          <div class="dot" style="background:#0a0202; color:#f87171; border:1px solid #2b0d0d;">03</div>
+          <div class="vline"></div>
+        </div>
+        <div class="cal-right">
+          <div class="cal-tag" style="color:#f87171;">When You Probe Deeper</div>
+          <div class="cal-title">How do they respond to depth?</div>
+          <div class="cal-body">This is the most revealing calibration point. When you probe below the surface — ask for the feeling behind the fact, ask about the personal cost — how do they respond? Do they lean in or get more guarded? That response tells you where their trust level actually is and whether you're in their energy or fighting against it.</div>
+        </div>
+      </div>
+
+      <div class="cal-wrap">
+        <div class="cal-left">
+          <div class="dot" style="background:#020a04; color:#4ade80; border:1px solid #0d2b1a;">04</div>
+          <div class="vline"></div>
+        </div>
+        <div class="cal-right">
+          <div class="cal-tag" style="color:#4ade80;">At the Pitch</div>
+          <div class="cal-title">Does the energy in the room match what you're about to do?</div>
+          <div class="cal-body">Before you transition to the offer — read the room. Is their energy high and leaning in? Are they asking logistical questions? Or is it flat and polite? Only pitch into warm energy. If it's flat, you have more discovery to do. The energy in the room at pitch time tells you whether the urgency was built or whether you're about to fight for it.</div>
+        </div>
+      </div>
+
+      <div class="cal-wrap">
+        <div class="cal-left">
+          <div class="dot" style="background:#12060e; color:#a78bfa; border:1px solid #2a1040;">05</div>
+        </div>
+        <div class="cal-right">
+          <div class="cal-tag" style="color:#a78bfa;">At the Close</div>
+          <div class="cal-title">Final energy read — decide or go back in</div>
+          <div class="cal-body">At the close, energy is your final diagnostic. High, committed, forward-leaning → close. Flat, polite, agreeable but not committed → go back in. An objection that surfaces at the close was created somewhere in the call — and the energy at that moment tells you whether it's a real objection or a discovery gap you need to revisit.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- WHEN ENERGY SHIFTS -->
+  <section id="shifts">
+    <h2>When the Energy Shifts</h2>
+
+    <div class="block">
+      <div class="block-label">The most important read on the call</div>
+      <p>Energy shifts mid-call are more important than the initial read. A shift almost always means something happened — you said something that didn't land, you moved too fast, you lost congruence, or you actually hit a nerve and the prospect is now processing something real. Your ability to catch the shift and respond to it is what separates reps who lose at the objection stage from reps who never get there.</p>
+    </div>
+
+    <table class="shift-table">
+      <thead>
+        <tr>
+          <th>The Shift</th>
+          <th>What It Usually Means</th>
+          <th>How to Respond</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Practical goes quiet after you make a claim</td>
+          <td>Something didn't add up. They're not satisfied — they're calculating. Don't barrel forward.</td>
+          <td>"What are you thinking right now?" Then let them answer fully before you say anything else.</td>
+        </tr>
+        <tr>
+          <td>Action person slows down suddenly</td>
+          <td>Either you hit a real nerve and they're actually processing — or the call lost momentum and they're checking out.</td>
+          <td>Check which one. "You went quiet — is that hitting something real for you, or did I lose you somewhere?"</td>
+        </tr>
+        <tr>
+          <td>Social person pulls back or gives shorter answers</td>
+          <td>The call got too transactional or something felt inauthentic. They're protecting themselves.</td>
+          <td>"Let me step back — how are you actually feeling about all of this?" Reconnect before you continue.</td>
+        </tr>
+        <tr>
+          <td>Emotional person suddenly sounds formal</td>
+          <td>You moved too fast or lost congruence. They felt rushed or unsafe and closed back up.</td>
+          <td>"I feel like something shifted — am I reading that wrong?" Say it quietly. Give them space to respond.</td>
+        </tr>
+        <tr>
+          <td>Any prospect becomes very agreeable but flat</td>
+          <td>They've disconnected from the conversation. They're being polite, not engaged. The real close risk is here.</td>
+          <td>Break the fourth wall. "You're agreeing with everything I'm saying but I can't tell if any of it is actually landing. What's really going on?"</td>
+        </tr>
+        <tr>
+          <td>Any prospect suddenly asks a logistical question</td>
+          <td>They've decided. This is urgency showing up. They're not asking about how it works — they're asking because they want to start.</td>
+          <td>Don't keep selling. Shift to close. They've made the decision — you just need to confirm it.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+
+  <!-- MIXED ENERGIES -->
+  <section id="mixed">
+    <h2>Mixed Energies</h2>
+
+    <div class="block">
+      <div class="block-label">Nobody is purely one thing</div>
+      <p>The PASE doc explains that P and E are correlated, and so are S and A. In practice, most prospects show a clear primary energy with a secondary that emerges as trust builds. The secondary usually doesn't appear until 10–15 minutes into the call — after they've decided you're worth opening up to. Knowing the common pairings tells you what's likely coming and how to lean into it.</p>
+    </div>
+
+    <div class="mix-pair">
+      <div class="mix-badges">
+        <span class="cal-tag-a">Action</span>
+        <span class="cal-tag-s">Social</span>
+      </div>
+      <div class="mix-body">
+        <div class="mix-title">Action-Social — the most common pairing</div>
+        <div class="mix-desc">Starts fast, bold, and directional. As the call progresses and trust builds, the warmth surfaces. They start making jokes, dropping personal context, referencing their team or their circle. The secondary Social energy coming out is a trust signal — it means they like you and they're in.</div>
+        <div class="mix-tell">Tell: Their answers get longer and more personal as the call goes on. They stop managing their image and start just talking to you.</div>
+      </div>
+    </div>
+
+    <div class="mix-pair">
+      <div class="mix-badges">
+        <span class="cal-tag-p">Practical</span>
+        <span class="cal-tag-e">Emotional</span>
+      </div>
+      <div class="mix-body">
+        <div class="mix-title">Practical-Emotional — the most misread pairing</div>
+        <div class="mix-desc">Starts guarded, measured, and data-focused. Looks cold. But underneath — and especially when you've earned their trust — there's a deep emotional driver. The goal, the family, the promise to themselves. When this person opens up emotionally, they go deep and personal fast. Most reps never reach this layer because they give up on the depth early.</div>
+        <div class="mix-tell">Tell: After 15+ minutes, the language shifts from data to meaning. "The reason I actually care about this is..." That's the secondary layer surfacing. When it does — stay with it.</div>
+      </div>
+    </div>
+
+    <div class="mix-pair">
+      <div class="mix-badges">
+        <span class="cal-tag-s">Social</span>
+        <span class="cal-tag-e">Emotional</span>
+      </div>
+      <div class="mix-body">
+        <div class="mix-title">Social-Emotional — the open book</div>
+        <div class="mix-desc">Warm, personal, and feeling-driven from the start. They'll tell you a lot early. The challenge is that they can be hard to keep on track — the conversation sprawls because they follow every emotional thread. Use focused questions to guide the depth. Don't let the warmth substitute for actual discovery.</div>
+        <div class="mix-tell">Tell: They give you lots of context but the context stays broad. Your job is to take one thread and go deep on it: "That piece right there — walk me through that specifically."</div>
+      </div>
+    </div>
+
+    <div class="mix-pair">
+      <div class="mix-badges">
+        <span class="cal-tag-a">Action</span>
+        <span class="cal-tag-p">Practical</span>
+      </div>
+      <div class="mix-body">
+        <div class="mix-title">Action-Practical — the operator</div>
+        <div class="mix-desc">Moves fast and wants results — but also has a framework for evaluating everything. They'll push forward quickly then stop to ask a precision question. They need both momentum and proof. Keep things moving, but don't skip the data when they ask for it.</div>
+        <div class="mix-tell">Tell: Switches between "let's move" and "wait — how does that actually work?" Read the gears and respond to whichever one is running at that moment.</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- INTERNAL MONOLOGUE -->
+  <section id="monologue">
+    <h2>The Internal Monologue</h2>
+
+    <div class="block">
+      <div class="block-label">What's running in the background while you talk</div>
+      <p>A rep who reads the room well isn't consciously thinking through PASE categories during the call. They've internalized the patterns to the point where the read happens automatically. But here's what that internal monologue looks like in the early stages — before it becomes second nature.</p>
+    </div>
+
+    <div class="monologue">
+      <div class="mono-header">
+        <div class="mono-label">Internal track — running beneath the surface conversation</div>
+        <div class="mono-title">What the rep is actually thinking at each moment</div>
+      </div>
+      <div class="mono-body">
+        <div class="mono-row">
+          <div class="mono-moment">Call starts</div>
+          <div class="mono-thought">"What's the energy? Fast or measured? Warm or direct?"</div>
+          <div class="mono-action">Forming the initial PASE hypothesis. Adjust opener accordingly.</div>
+        </div>
+        <div class="mono-row">
+          <div class="mono-moment">First full answer</div>
+          <div class="mono-thought">"Practical. Short answers, specific language, no warmth yet. Okay."</div>
+          <div class="mono-action">Confirmed. Slow down. Be precise. Skip the rapport warm-up for now.</div>
+        </div>
+        <div class="mono-row">
+          <div class="mono-moment">First probe</div>
+          <div class="mono-thought">"They gave me facts. No feeling. Still L2. Need to extend this."</div>
+          <div class="mono-action">Move 03 — Extend It. "And what does that mean for you?"</div>
+        </div>
+        <div class="mono-row">
+          <div class="mono-moment">They go quiet</div>
+          <div class="mono-thought">"Something didn't track for them. Don't fill this. Let them come to it."</div>
+          <div class="mono-action">Hold the silence. Wait for them to speak. Then ask what they're thinking.</div>
+        </div>
+        <div class="mono-row">
+          <div class="mono-moment">Their language shifts</div>
+          <div class="mono-thought">"They just used feeling language. Secondary Emotional surfacing. Stay with this."</div>
+          <div class="mono-action">Slow down further. Mirror the feeling language. Don't rush past this moment.</div>
+        </div>
+        <div class="mono-row">
+          <div class="mono-moment">They ask "how would we start?"</div>
+          <div class="mono-thought">"That's a close signal. They've decided. Stop selling."</div>
+          <div class="mono-action">Shift to the close. Confirm the decision. Don't keep pitching to someone who's already in.</div>
+        </div>
+        <div class="mono-row">
+          <div class="mono-moment">Energy goes flat pre-close</div>
+          <div class="mono-thought">"Something shifted. This isn't ready. Discovery gap somewhere."</div>
+          <div class="mono-action">Break the fourth wall. "I can feel something shifted — am I missing something?"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quote-block">
+      <p>"You put someone in front of me — any personality, any background, any energy — and I find the version of myself that speaks their language. That's what the best salespeople have. Now you know what it's called."</p>
+      <div class="attribution">— JJ Hernandez</div>
+    </div>
+
+    <div class="highlight">
+      <p><strong>Reading the room is not a skill you turn on at the start of a call.</strong> It's a continuous state of attention. The rep who is fully present — not preparing their next question while the prospect is still talking, not managing their own anxiety — is the rep who catches the subtle shifts, reads the secondary energy when it surfaces, and knows exactly when to slow down, when to push deeper, and when to close. That presence is the skill. PASE is what you're using it to see.</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const sections = document.querySelectorAll('section, #overview');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        navLinks.forEach(function(l) {
+          l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+  sections.forEach(function(s) { observer.observe(s); });
+</script>
+
+<script>
+function toggleTheme(){
+  var html=document.documentElement;
+  var next=html.getAttribute("data-theme")==="day"?"night":"day";
+  html.setAttribute("data-theme",next);
+  var lbl=document.getElementById("mode-lbl");
+  if(lbl)lbl.textContent=next==="day"?"Day":"Night";
+  try{localStorage.setItem("tb-theme",next);}catch(e){}
+}
+try{
+  var saved=localStorage.getItem("tb-theme");
+  if(saved){
+    document.documentElement.setAttribute("data-theme",saved);
+    document.addEventListener("DOMContentLoaded",function(){
+      var lbl=document.getElementById("mode-lbl");
+      if(lbl)lbl.textContent=saved==="day"?"Day":"Night";
+    });
+  }
+}catch(e){}
+</script>
+</body>
+</html>

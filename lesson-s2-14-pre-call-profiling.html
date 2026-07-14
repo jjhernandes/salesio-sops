@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en" data-theme="night">
+<head><script>try{var t=localStorage.getItem("tb-theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pre-Call Profiling — S2 · Sales.io</title>
@@ -62,6 +62,102 @@ h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase
 .quote-block p{font-size:15px;color:#ddd;font-style:italic;line-height:1.8;}
 .quote-block .attribution{font-size:12px;color:#444;font-style:normal;margin-top:8px;font-weight:600;letter-spacing:0.05em;}
 @media(max-width:780px){.sidebar{display:none;}.main{padding:40px 20px 80px;max-width:100%;}h1{font-size:30px;}}
+
+/* ── Theme tokens ── */
+:root,[data-theme="night"]{
+  --bg:#000;--text-primary:#fff;--eyebrow-c:#4ade80;
+  --h2-c:#555;--h2-bdr:#111;--subtitle-c:#666;
+}
+[data-theme="day"]{
+  --bg:#EAE4D9;--text-primary:#0A0A08;--eyebrow-c:#A09070;
+  --h2-c:#A09070;--h2-bdr:#D5CFBF;--subtitle-c:#888;
+}
+/* ── Transitions ── */
+body,.block,.highlight,.warning,.red-block,
+.compare-table,.week-block,.signal-row,
+.follow-up-card,.exchange,.checklist li{
+  transition:background .3s,color .3s,border-color .3s;
+}
+/* ── Sidebar toggle ── */
+.sidebar{display:flex;flex-direction:column;}
+.sidebar-footer{margin-top:auto;padding:16px 24px 24px;border-top:1px solid #111;flex-shrink:0;}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;}
+.toggle-mode-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#252525;}
+.toggle-switch{width:40px;height:22px;border-radius:11px;background:#0d2b1a;border:1px solid #111;position:relative;cursor:pointer;flex-shrink:0;}
+.toggle-thumb{position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#4ade80;transition:transform .25s,background .25s;}
+[data-theme="night"] .toggle-thumb{transform:translateX(18px);}
+[data-theme="day"] .toggle-thumb{background:#252525;transform:translateX(0);}
+[data-theme="day"] .toggle-switch{background:#1a1a18;}
+[data-theme="day"] .toggle-mode-lbl{color:#888;}
+/* ── Day overrides — structural ── */
+[data-theme="day"] body{background:#EAE4D9;color:#0A0A08;}
+[data-theme="day"] h1{color:#0A0A08;}
+[data-theme="day"] .eyebrow{color:#A09070;}
+[data-theme="day"] .subtitle{color:#888;}
+[data-theme="day"] h2{color:#A09070;border-bottom-color:#D5CFBF;}
+/* .block */
+[data-theme="day"] .block{background:#fff;border-color:#E2DDD3;}
+[data-theme="day"] .block p,[data-theme="day"] .block li{color:#555;}
+[data-theme="day"] .block strong{color:#1a1a1a;}
+/* .highlight */
+[data-theme="day"] .highlight{background:#F2EDE4;border-color:#D8D0C0;}
+[data-theme="day"] .highlight p,[data-theme="day"] .highlight li{color:#444;}
+[data-theme="day"] .highlight strong{color:#5a7a3a;}
+/* .warning */
+[data-theme="day"] .warning{background:#FBF6EC;border-color:#E8D8B0;}
+[data-theme="day"] .warning p{color:#5a4a20;}
+[data-theme="day"] .warning strong{color:#8a6010;}
+/* .red-block */
+[data-theme="day"] .red-block{background:#FBF0F0;border-color:#E8C8C8;}
+[data-theme="day"] .red-block p{color:#5a2020;}
+[data-theme="day"] .red-block strong{color:#b03030;}
+/* checklist */
+[data-theme="day"] .checklist li{color:#555;border-bottom-color:#EDE8DE;}
+[data-theme="day"] .checklist li::before{border-color:#C8C2B8;}
+[data-theme="day"] .checklist li strong{color:#1a1a1a;}
+/* signals */
+[data-theme="day"] .signal-row{background:#fff;border-color:#E2DDD3;}
+[data-theme="day"] .signal-name{color:#333;}
+[data-theme="day"] .signal-desc{color:#777;}
+/* compare table */
+[data-theme="day"] .compare-table{border-color:#E2DDD3;}
+[data-theme="day"] .compare-table thead tr{background:#F8F4EE;}
+[data-theme="day"] .compare-table th{border-bottom-color:#E2DDD3;color:#888;}
+[data-theme="day"] .compare-table th.col-a{color:#c04040;}
+[data-theme="day"] .compare-table th.col-b{color:#5a7a3a;}
+[data-theme="day"] .compare-table td{background:#fff;color:#555;border-bottom-color:#EDE8DE;}
+[data-theme="day"] .compare-table td.col-a-td{background:rgba(192,64,64,.04);color:#c04040;}
+[data-theme="day"] .compare-table td.col-b-td{background:rgba(90,122,58,.04);color:#5a7a3a;}
+/* exchange */
+[data-theme="day"] .exchange{background:#fff;border-color:#E2DDD3;}
+[data-theme="day"] .exchange-header{color:#888;border-bottom-color:#E2DDD3;}
+[data-theme="day"] .msg-who.rep{color:#5a7a3a;}
+[data-theme="day"] .msg-who.prospect{color:#4a6aaa;}
+[data-theme="day"] .msg-text.rep-msg{background:#F0EBE3;border-color:#D5CFBF;color:#3a5a2a;}
+[data-theme="day"] .msg-text.prospect-msg{background:#EEF4FB;border-color:#C8D8EC;color:#2a3a6a;}
+[data-theme="day"] .annotation{background:#FBF6EC;border-color:#E8D8B0;color:#8a6010;}
+/* week blocks */
+[data-theme="day"] .week-block{background:#fff;border-color:#E2DDD3;}
+[data-theme="day"] .week-header{border-bottom-color:#E2DDD3;}
+[data-theme="day"] .week-title{color:#333;}
+[data-theme="day"] .week-item{color:#666;border-bottom-color:#EDE8DE;}
+[data-theme="day"] .week-item strong{color:#333;}
+/* follow-up cards */
+[data-theme="day"] .follow-up-card{background:#fff;border-color:#E2DDD3;}
+[data-theme="day"] .follow-up-header{background:#F5F0E8;border-bottom-color:#E2DDD3;}
+[data-theme="day"] .follow-up-name{color:#888;}
+[data-theme="day"] .follow-up-timing{color:#5a7a3a;}
+[data-theme="day"] .follow-up-body{color:#444;}
+[data-theme="day"] .follow-up-note{color:#888;border-top-color:#EDE8DE;}
+/* quote blocks */
+[data-theme="day"] .quote-block{border-left-color:#D5CFBF;}
+[data-theme="day"] .quote-block p{color:#888;}
+[data-theme="day"] .big-idea{background:#F2EDE4;border-color:#D8D0C0;color:#444;}
+[data-theme="day"] .bottom-line{background:#F2EDE4;border-color:#D8D0C0;}
+[data-theme="day"] .bottom-line p{color:#444;}
+/* generic dark block catch — anything else using the same dark bg */
+[data-theme="day"] .block-label{color:#A09070;}
+
 </style>
 </head>
 <body>
@@ -222,5 +318,25 @@ h2{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase
   </section>
 </main>
 
+<script>
+function toggleTheme(){
+  var html=document.documentElement;
+  var next=html.getAttribute("data-theme")==="day"?"night":"day";
+  html.setAttribute("data-theme",next);
+  var lbl=document.getElementById("mode-lbl");
+  if(lbl)lbl.textContent=next==="day"?"Day":"Night";
+  try{localStorage.setItem("tb-theme",next);}catch(e){}
+}
+try{
+  var saved=localStorage.getItem("tb-theme");
+  if(saved){
+    document.documentElement.setAttribute("data-theme",saved);
+    document.addEventListener("DOMContentLoaded",function(){
+      var lbl=document.getElementById("mode-lbl");
+      if(lbl)lbl.textContent=saved==="day"?"Day":"Night";
+    });
+  }
+}catch(e){}
+</script>
 </body>
 </html>
