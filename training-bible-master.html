@@ -384,6 +384,11 @@ h2{font-size:30px;font-weight:900;letter-spacing:-.5px;line-height:1.05;color:va
 </head>
 <body>
 
+<button class="m-toggle" id="mob-toggle" onclick="toggleTheme();this.querySelector('.m-toggle-lbl').textContent=document.documentElement.getAttribute('data-theme')==='day'?'Day':'Night';" aria-label="Toggle theme">
+  <span class="m-toggle-lbl">Day</span>
+  <div class="m-toggle-track"><div class="m-toggle-dot"></div></div>
+</button>
+
 <nav class="sidebar">
   <div class="sidebar-brand">
     <div class="brand-logo">Sales.io</div>
@@ -3640,14 +3645,18 @@ function toggleTheme() {
   const html = document.documentElement;
   const next = html.dataset.theme === 'day' ? 'night' : 'day';
   html.dataset.theme = next;
-  document.getElementById('mode-lbl').textContent = next === 'day' ? 'Day' : 'Night';
+  const lbl = next === 'day' ? 'Day' : 'Night';
+  const el = document.getElementById('mode-lbl'); if(el) el.textContent = lbl;
+  const ml = document.querySelector('#mob-toggle .m-toggle-lbl'); if(ml) ml.textContent = lbl;
   try { localStorage.setItem('tb-theme', next); } catch(e) {}
 }
 try {
   const saved = localStorage.getItem('tb-theme');
   if (saved) {
     document.documentElement.dataset.theme = saved;
-    document.getElementById('mode-lbl').textContent = saved === 'day' ? 'Day' : 'Night';
+    const lbl = saved === 'day' ? 'Day' : 'Night';
+    const el = document.getElementById('mode-lbl'); if(el) el.textContent = lbl;
+    const ml = document.querySelector('#mob-toggle .m-toggle-lbl'); if(ml) ml.textContent = lbl;
   }
 } catch(e) {}
 
