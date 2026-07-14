@@ -271,6 +271,23 @@ body,.block,.highlight,.warning,.red-block,
   color:#A09070;
 }
 
+
+/* ── Mobile toggle (shown when sidebar hidden) ── */
+.m-toggle{
+  display:none;position:fixed;top:14px;right:14px;z-index:9999;
+  background:#0e0e0c;border:1px solid #1a1a1a;border-radius:24px;
+  padding:7px 14px 7px 10px;align-items:center;gap:10px;
+  cursor:pointer;font-family:'Inter',sans-serif;
+  box-shadow:0 2px 12px rgba(0,0,0,.4);
+}
+.m-toggle-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#444;}
+.m-toggle-track{width:36px;height:20px;border-radius:10px;background:#0d2b1a;border:1px solid #111;position:relative;flex-shrink:0;}
+.m-toggle-dot{position:absolute;top:3px;left:3px;width:12px;height:12px;border-radius:50%;background:#4ade80;transition:transform .2s,background .2s;}
+[data-theme="night"] .m-toggle-dot{transform:translateX(16px);}
+[data-theme="day"] .m-toggle-dot{background:#555;transform:translateX(0);}
+[data-theme="day"] .m-toggle-lbl{color:#888;}
+@media(max-width:960px){.m-toggle{display:flex;}}
+
 </style>
 </head>
 <body>
@@ -417,6 +434,26 @@ try{
     });
   }
 }catch(e){}
+</script>
+<script>
+(function(){
+  function syncMobileLabel(){
+    var lbl=document.querySelector('.m-toggle-lbl');
+    if(lbl){lbl.textContent=document.documentElement.getAttribute('data-theme')==='day'?'Day':'Night';}
+  }
+  function makeMobileToggle(){
+    if(document.querySelector('.m-toggle'))return;
+    var theme=document.documentElement.getAttribute('data-theme')||'night';
+    var t=document.createElement('button');
+    t.className='m-toggle';
+    t.setAttribute('aria-label','Toggle theme');
+    t.innerHTML='<span class="m-toggle-lbl">'+(theme==='day'?'Day':'Night')+'</span><div class="m-toggle-track"><div class="m-toggle-dot"></div></div>';
+    t.onclick=function(){toggleTheme();syncMobileLabel();};
+    document.body.appendChild(t);
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',makeMobileToggle);}
+  else{makeMobileToggle();}
+})();
 </script>
 </body>
 </html>
