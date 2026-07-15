@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strategy Session Notes — Ana Fit VIP</title>
+<style>
+:root{
+  --bg:#090807;--surface:#111009;--surface-2:#1a1710;
+  --accent:#f97316;--accent-soft:#fdba74;
+  --accent-dim:rgba(249,115,22,.08);--accent-bdr:rgba(249,115,22,.18);
+  --text:#f5f0e8;--text-muted:#8a8070;--text-faint:#403c30;
+  --bdr:#201e14;--bdr-mid:#302c1e;
+  --ok:#7dcf95;--ok-dim:rgba(125,207,149,.08);
+  --red:#f87171;--red-dim:rgba(248,113,113,.08);
+  --mono:'SF Mono','Fira Code','Consolas',monospace;
+}
+@media(prefers-color-scheme:light){:root{
+  --bg:#fdfaf5;--surface:#f5ede0;--surface-2:#ede3d0;
+  --accent:#c2540a;--accent-soft:#ea7c2a;
+  --accent-dim:rgba(194,84,10,.07);--accent-bdr:rgba(194,84,10,.18);
+  --text:#1c1710;--text-muted:#6e6050;--text-faint:#c0b49e;
+  --bdr:#e0d4be;--bdr-mid:#cdbfa4;
+  --ok:#2a7a45;--ok-dim:rgba(42,122,69,.07);
+  --red:#b93333;--red-dim:rgba(185,51,51,.07);
+}}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI',system-ui,sans-serif;font-size:.9375rem;line-height:1.7;-webkit-font-smoothing:antialiased;padding-bottom:6rem;}
+a{color:var(--accent-soft);text-decoration:none;}
+.back{display:inline-flex;align-items:center;gap:.375rem;font-family:var(--mono);letter-spacing:.04em;text-transform:uppercase;font-size:.65rem;color:var(--text-faint);padding:1.25rem 2rem;transition:color .15s;}
+.back:hover{color:var(--text-muted);}
+.doc-header{border-bottom:1px solid var(--bdr);padding:2.5rem 2rem 2.25rem;max-width:760px;margin:0 auto;}
+.eyebrow{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.875rem;}
+.doc-title{font-size:2rem;font-weight:700;letter-spacing:-.03em;line-height:1.15;margin-bottom:.75rem;}
+.doc-sub{font-size:.9375rem;color:var(--text-muted);max-width:52ch;line-height:1.65;}
+.doc-meta{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.25rem;}
+.meta-chip{display:flex;align-items:center;gap:.375rem;background:var(--accent-dim);border:1px solid var(--accent-bdr);border-radius:2px;padding:.3rem .65rem;font-size:.75rem;color:var(--accent-soft);font-weight:500;}
+.chip-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+main{max-width:760px;margin:0 auto;padding:0 2rem;}
+.sec{padding:2.25rem 0 2rem;border-bottom:1px solid var(--bdr);}
+.sec:last-child{border-bottom:none;}
+.sec-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.75rem;}
+.sec-heading{font-size:1.0625rem;font-weight:650;color:var(--text);letter-spacing:-.015em;margin-bottom:1.125rem;}
+.card{background:var(--surface);border:1px solid var(--bdr);border-radius:3px;padding:1.125rem 1.375rem;margin-bottom:.5rem;}
+.card-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.5rem;}
+.card p,.card-p{font-size:.875rem;color:var(--text-muted);line-height:1.65;}
+.field{margin-bottom:1.125rem;}
+.field-label{display:block;font-size:.8125rem;font-weight:600;color:var(--text-muted);margin-bottom:.375rem;}
+.field-input,.field-select{width:100%;background:var(--surface);border:1px solid var(--bdr-mid);border-radius:3px;padding:.5625rem .875rem;font-size:.875rem;color:var(--text);font-family:inherit;outline:none;transition:border-color .15s;}
+.field-input:focus,.field-select:focus{border-color:rgba(249,115,22,.4);}
+.field-input::placeholder{color:var(--text-faint);}
+textarea.field-input{resize:vertical;min-height:72px;}
+.field-select option{background:var(--surface);}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:.625rem;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.625rem;}
+@media(max-width:580px){.grid-2,.grid-3{grid-template-columns:1fr;}}
+.check-list{list-style:none;display:flex;flex-direction:column;gap:.375rem;}
+.check-item{display:flex;align-items:flex-start;gap:.75rem;padding:.6875rem .875rem;background:var(--surface);border:1px solid var(--bdr);border-radius:3px;font-size:.875rem;color:var(--text-muted);line-height:1.5;}
+.chk{width:16px;height:16px;border:1.5px solid var(--ok);border-radius:2px;flex-shrink:0;margin-top:2px;background:var(--ok-dim);cursor:pointer;}
+.ok-chk{border-color:var(--ok);background:var(--ok-dim);}
+.scale-row{display:flex;gap:.375rem;flex-wrap:wrap;margin-top:.375rem;}
+.scale-btn{min-width:36px;height:36px;border:1px solid var(--bdr-mid);border-radius:3px;background:var(--surface);color:var(--text-muted);font-size:.8125rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .12s,border-color .12s;padding:0 .5rem;}
+.scale-btn:hover{background:var(--accent-dim);border-color:var(--accent-bdr);color:var(--accent-soft);}
+.highlight-card{background:var(--accent-dim);border:1px solid var(--accent-bdr);border-radius:3px;padding:1rem 1.25rem;margin-bottom:.75rem;}
+.highlight-card p{font-size:.875rem;color:var(--accent-soft);line-height:1.65;}
+.note{font-size:.8125rem;color:var(--text-faint);margin-top:.375rem;font-style:italic;}
+.session-header-band{background:var(--surface-2);border:1px solid var(--bdr);border-radius:3px;padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;}
+.sesh-label{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);}
+.sesh-val{font-size:1rem;font-weight:700;color:var(--text);margin-top:.25rem;}
+.action-row{display:flex;align-items:flex-start;gap:.75rem;padding:.75rem .875rem;background:var(--surface);border:1px solid var(--bdr);border-radius:3px;margin-bottom:.375rem;}
+.action-chk{width:18px;height:18px;border:1.5px solid var(--accent-bdr);border-radius:2px;flex-shrink:0;margin-top:2px;background:var(--accent-dim);cursor:pointer;}
+.action-text{flex:1;font-size:.875rem;color:var(--text-muted);line-height:1.5;}
+.action-due{font-family:var(--mono);font-size:.65rem;letter-spacing:.06em;color:var(--text-faint);margin-top:.25rem;}
+</style>
+</head>
+<body>
+<a class="back" href="anafit-hub.html">← Back to Hub</a>
+<div class="doc-header">
+  <div class="eyebrow">Ana Fit VIP · Every 2 Weeks</div>
+  <h1 class="doc-title">Strategy Session Notes</h1>
+  <p class="doc-sub">Template for your biweekly deep-dive sessions with Ana. Use a fresh copy for each session. Fill in your section before the call — Ana fills in hers during and after.</p>
+  <div class="doc-meta">
+    <div class="meta-chip"><span class="chip-dot"></span>Biweekly</div>
+    <div class="meta-chip"><span class="chip-dot"></span>60 Min</div>
+    <div class="meta-chip"><span class="chip-dot"></span>6 Sessions Total</div>
+  </div>
+</div>
+<main>
+
+  <div class="sec">
+    <div class="sec-label">Session Info</div>
+    <div class="grid-3">
+      <div class="field"><label class="field-label">Session #</label><input class="field-input" type="text" placeholder="e.g. Session 3"></div>
+      <div class="field"><label class="field-label">Date</label><input class="field-input" type="text" placeholder="MM / DD / YYYY"></div>
+      <div class="field"><label class="field-label">Current Phase</label>
+        <select class="field-input field-select">
+          <option value="">Select...</option>
+          <option>Phase 1 — Foundation</option>
+          <option>Phase 2 — Build</option>
+          <option>Phase 3 — Integration</option>
+        </select>
+      </div>
+    </div>
+    <div class="field"><label class="field-label">Week # in program</label><input class="field-input" type="text" placeholder="e.g. Week 4"></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Before the Call — Client Fills This In</div>
+    <div class="sec-heading">Where you are right now</div>
+    <div class="field"><label class="field-label">Current energy and motivation level</label>
+      <div class="scale-row">
+        <span class="scale-btn">1</span><span class="scale-btn">2</span><span class="scale-btn">3</span><span class="scale-btn">4</span><span class="scale-btn">5</span><span class="scale-btn">6</span><span class="scale-btn">7</span><span class="scale-btn">8</span><span class="scale-btn">9</span><span class="scale-btn">10</span>
+      </div>
+      <div class="note">1 = struggling / want to quit · 10 = locked in and fired up</div>
+    </div>
+    <div class="field"><label class="field-label">Top 3 wins since the last session</label><textarea class="field-input" placeholder="What are you most proud of? Even small things count."></textarea></div>
+    <div class="field"><label class="field-label">Current biggest obstacle or challenge</label><textarea class="field-input" placeholder="What is genuinely hard right now? What feels stuck?"></textarea></div>
+    <div class="field"><label class="field-label">What do you most need from this session?</label><textarea class="field-input" placeholder="Accountability, strategy, clarity, mindset work, a plan adjustment, celebration — what do you need?"></textarea></div>
+    <div class="field"><label class="field-label">Questions you want to make sure we address</label><textarea class="field-input" placeholder="Anything you've been wondering, unsure about, or wanted to ask"></textarea></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">During the Call — Ana's Notes</div>
+    <div class="sec-heading">Session notes &amp; observations</div>
+    <div class="field"><label class="field-label">Client's overall state (mental, emotional, physical)</label><textarea class="field-input" placeholder="How they showed up, energy, patterns visible..."></textarea></div>
+    <div class="field"><label class="field-label">What's working well</label><textarea class="field-input" placeholder="Habits, mindset shifts, physical progress, behaviors to reinforce"></textarea></div>
+    <div class="field"><label class="field-label">What needs to be addressed or adjusted</label><textarea class="field-input" placeholder="Patterns showing up, blocks, areas needing change or more support"></textarea></div>
+    <div class="field"><label class="field-label">Key insights or breakthroughs from this call</label><textarea class="field-input" placeholder="Any shifts in understanding, aha moments, or perspective changes"></textarea></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Training Adjustments</div>
+    <div class="grid-2">
+      <div class="field"><label class="field-label">Current training frequency</label><input class="field-input" type="text" placeholder="e.g. 3x/week"></div>
+      <div class="field"><label class="field-label">Adjusted frequency (if changing)</label><input class="field-input" type="text" placeholder="e.g. 4x/week starting next week"></div>
+    </div>
+    <div class="field"><label class="field-label">Training adjustments for next 2 weeks</label><textarea class="field-input" placeholder="Volume, intensity, exercise swaps, focus areas, deload if needed..."></textarea></div>
+    <div class="field"><label class="field-label">Reason for adjustments</label><textarea class="field-input" placeholder="Why these changes — progress, injury, energy, lifestyle, etc."></textarea></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Nutrition Adjustments</div>
+    <div class="field"><label class="field-label">Nutrition adjustments for next 2 weeks</label><textarea class="field-input" placeholder="Calorie targets, macro changes, meal timing, specific food strategies..."></textarea></div>
+    <div class="field"><label class="field-label">Specific nutrition focus or experiment</label><textarea class="field-input" placeholder="e.g. track protein for 7 days, add one meal prep session, remove nighttime snacking..."></textarea></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Mindset Focus</div>
+    <div class="field"><label class="field-label">Mindset theme or focus for the next 2 weeks</label><textarea class="field-input" placeholder="What mental/identity work is this client working through right now?"></textarea></div>
+    <div class="field"><label class="field-label">Specific pattern to watch for and interrupt</label><textarea class="field-input" placeholder="e.g. all-or-nothing when travel comes up, checking the scale daily..."></textarea></div>
+    <div class="field"><label class="field-label">Affirmation or reframe to practice</label><textarea class="field-input" placeholder="A belief or identity statement to reinforce"></textarea></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Action Items</div>
+    <div class="sec-heading">Commitments before next session</div>
+    <p class="card-p" style="margin-bottom:1rem;font-size:.875rem;color:var(--text-faint);">Both client and coach fill this in during the session. Keep it to 3–5 specific, achievable actions.</p>
+    <div class="action-row">
+      <div class="action-chk"></div>
+      <div class="action-text">
+        <input class="field-input" style="margin-bottom:.375rem;" placeholder="Action item 1">
+        <div class="action-due"><input style="background:transparent;border:none;color:var(--text-faint);font-size:.65rem;font-family:var(--mono);width:100%;outline:none;" placeholder="Due: ___________"></div>
+      </div>
+    </div>
+    <div class="action-row">
+      <div class="action-chk"></div>
+      <div class="action-text">
+        <input class="field-input" style="margin-bottom:.375rem;" placeholder="Action item 2">
+        <div class="action-due"><input style="background:transparent;border:none;color:var(--text-faint);font-size:.65rem;font-family:var(--mono);width:100%;outline:none;" placeholder="Due: ___________"></div>
+      </div>
+    </div>
+    <div class="action-row">
+      <div class="action-chk"></div>
+      <div class="action-text">
+        <input class="field-input" style="margin-bottom:.375rem;" placeholder="Action item 3">
+        <div class="action-due"><input style="background:transparent;border:none;color:var(--text-faint);font-size:.65rem;font-family:var(--mono);width:100%;outline:none;" placeholder="Due: ___________"></div>
+      </div>
+    </div>
+    <div class="action-row">
+      <div class="action-chk"></div>
+      <div class="action-text">
+        <input class="field-input" style="margin-bottom:.375rem;" placeholder="Action item 4 (optional)">
+        <div class="action-due"><input style="background:transparent;border:none;color:var(--text-faint);font-size:.65rem;font-family:var(--mono);width:100%;outline:none;" placeholder="Due: ___________"></div>
+      </div>
+    </div>
+    <div class="action-row">
+      <div class="action-chk"></div>
+      <div class="action-text">
+        <input class="field-input" style="margin-bottom:.375rem;" placeholder="Action item 5 (optional)">
+        <div class="action-due"><input style="background:transparent;border:none;color:var(--text-faint);font-size:.65rem;font-family:var(--mono);width:100%;outline:none;" placeholder="Due: ___________"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Next Session</div>
+    <div class="grid-2">
+      <div class="field"><label class="field-label">Next session date</label><input class="field-input" type="text" placeholder="MM / DD / YYYY"></div>
+      <div class="field"><label class="field-label">Next session focus</label><input class="field-input" type="text" placeholder="e.g. Phase 2 transition, mindset deep-dive..."></div>
+    </div>
+    <div class="field"><label class="field-label">Anything to flag or monitor before next session</label><textarea class="field-input" placeholder="Early warning signs to watch for, check-ins to do, things to follow up on"></textarea></div>
+  </div>
+
+</main>
+</body>
+</html>

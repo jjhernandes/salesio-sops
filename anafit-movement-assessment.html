@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Movement Assessment — Ana Fit VIP</title>
+<style>
+:root{
+  --bg:#090807;--surface:#111009;--surface-2:#1a1710;
+  --accent:#f97316;--accent-soft:#fdba74;
+  --accent-dim:rgba(249,115,22,.08);--accent-bdr:rgba(249,115,22,.18);
+  --text:#f5f0e8;--text-muted:#8a8070;--text-faint:#403c30;
+  --bdr:#201e14;--bdr-mid:#302c1e;
+  --ok:#7dcf95;--ok-dim:rgba(125,207,149,.08);
+  --red:#f87171;--red-dim:rgba(248,113,113,.08);
+  --mono:'SF Mono','Fira Code','Consolas',monospace;
+}
+@media(prefers-color-scheme:light){:root{
+  --bg:#fdfaf5;--surface:#f5ede0;--surface-2:#ede3d0;
+  --accent:#c2540a;--accent-soft:#ea7c2a;
+  --accent-dim:rgba(194,84,10,.07);--accent-bdr:rgba(194,84,10,.18);
+  --text:#1c1710;--text-muted:#6e6050;--text-faint:#c0b49e;
+  --bdr:#e0d4be;--bdr-mid:#cdbfa4;
+  --ok:#2a7a45;--ok-dim:rgba(42,122,69,.07);
+  --red:#b93333;--red-dim:rgba(185,51,51,.07);
+}}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI',system-ui,sans-serif;font-size:.9375rem;line-height:1.7;-webkit-font-smoothing:antialiased;padding-bottom:6rem;}
+a{color:var(--accent-soft);text-decoration:none;}
+.back{display:inline-flex;align-items:center;gap:.375rem;font-family:var(--mono);letter-spacing:.04em;text-transform:uppercase;font-size:.65rem;color:var(--text-faint);padding:1.25rem 2rem;transition:color .15s;}
+.back:hover{color:var(--text-muted);}
+.doc-header{border-bottom:1px solid var(--bdr);padding:2.5rem 2rem 2.25rem;max-width:760px;margin:0 auto;}
+.eyebrow{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.875rem;}
+.doc-title{font-size:2rem;font-weight:700;letter-spacing:-.03em;line-height:1.15;margin-bottom:.75rem;}
+.doc-sub{font-size:.9375rem;color:var(--text-muted);max-width:52ch;line-height:1.65;}
+.doc-meta{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.25rem;}
+.meta-chip{display:flex;align-items:center;gap:.375rem;background:var(--accent-dim);border:1px solid var(--accent-bdr);border-radius:2px;padding:.3rem .65rem;font-size:.75rem;color:var(--accent-soft);font-weight:500;}
+.chip-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+main{max-width:760px;margin:0 auto;padding:0 2rem;}
+.sec{padding:2.25rem 0 2rem;border-bottom:1px solid var(--bdr);}
+.sec:last-child{border-bottom:none;}
+.sec-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.75rem;}
+.sec-heading{font-size:1.0625rem;font-weight:650;color:var(--text);letter-spacing:-.015em;margin-bottom:1.125rem;}
+.card{background:var(--surface);border:1px solid var(--bdr);border-radius:3px;padding:1.125rem 1.375rem;margin-bottom:.5rem;}
+.card-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.5rem;}
+.card p,.card-p{font-size:.875rem;color:var(--text-muted);line-height:1.65;}
+.field{margin-bottom:1.125rem;}
+.field-label{display:block;font-size:.8125rem;font-weight:600;color:var(--text-muted);margin-bottom:.375rem;}
+.field-input,.field-select{width:100%;background:var(--surface);border:1px solid var(--bdr-mid);border-radius:3px;padding:.5625rem .875rem;font-size:.875rem;color:var(--text);font-family:inherit;outline:none;transition:border-color .15s;}
+.field-input:focus,.field-select:focus{border-color:rgba(249,115,22,.4);}
+.field-input::placeholder{color:var(--text-faint);}
+textarea.field-input{resize:vertical;min-height:72px;}
+.field-select option{background:var(--surface);}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:.625rem;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.625rem;}
+@media(max-width:580px){.grid-2,.grid-3{grid-template-columns:1fr;}}
+.check-list{list-style:none;display:flex;flex-direction:column;gap:.375rem;}
+.check-item{display:flex;align-items:flex-start;gap:.75rem;padding:.6875rem .875rem;background:var(--surface);border:1px solid var(--bdr);border-radius:3px;font-size:.875rem;color:var(--text-muted);line-height:1.5;}
+.chk{width:16px;height:16px;border:1.5px solid var(--ok);border-radius:2px;flex-shrink:0;margin-top:2px;background:var(--ok-dim);cursor:pointer;}
+.ok-chk{border-color:var(--ok);background:var(--ok-dim);}
+.scale-row{display:flex;gap:.375rem;flex-wrap:wrap;margin-top:.375rem;}
+.scale-btn{min-width:36px;height:36px;border:1px solid var(--bdr-mid);border-radius:3px;background:var(--surface);color:var(--text-muted);font-size:.8125rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .12s,border-color .12s;padding:0 .5rem;}
+.scale-btn:hover{background:var(--accent-dim);border-color:var(--accent-bdr);color:var(--accent-soft);}
+.highlight-card{background:var(--accent-dim);border:1px solid var(--accent-bdr);border-radius:3px;padding:1rem 1.25rem;margin-bottom:.75rem;}
+.highlight-card p{font-size:.875rem;color:var(--accent-soft);line-height:1.65;}
+.note{font-size:.8125rem;color:var(--text-faint);margin-top:.375rem;font-style:italic;}
+.session-header-band{background:var(--surface-2);border:1px solid var(--bdr);border-radius:3px;padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;}
+.sesh-label{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);}
+.sesh-val{font-size:1rem;font-weight:700;color:var(--text);margin-top:.25rem;}
+.action-row{display:flex;align-items:flex-start;gap:.75rem;padding:.75rem .875rem;background:var(--surface);border:1px solid var(--bdr);border-radius:3px;margin-bottom:.375rem;}
+.action-chk{width:18px;height:18px;border:1.5px solid var(--accent-bdr);border-radius:2px;flex-shrink:0;margin-top:2px;background:var(--accent-dim);cursor:pointer;}
+.action-text{flex:1;font-size:.875rem;color:var(--text-muted);line-height:1.5;}
+.action-due{font-family:var(--mono);font-size:.65rem;letter-spacing:.06em;color:var(--text-faint);margin-top:.25rem;}
+
+.mov-table{width:100%;border-collapse:collapse;font-size:.8125rem;}
+.mov-table th{text-align:left;font-family:var(--mono);font-size:.575rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);padding:.5rem .875rem;border-bottom:1px solid var(--bdr);}
+.mov-table td{padding:.625rem .875rem;border-bottom:1px solid var(--bdr);color:var(--text-muted);vertical-align:top;}
+.mov-table tr:last-child td{border-bottom:none;}
+.mov-table td:first-child{color:var(--text);font-weight:500;}
+.mov-table textarea{background:transparent;border:none;color:var(--text-muted);font-size:.8125rem;font-family:inherit;width:100%;outline:none;resize:none;min-height:48px;}
+.mov-table textarea::placeholder{color:var(--text-faint);}
+.rating-cell select{background:var(--surface);border:1px solid var(--bdr-mid);border-radius:3px;color:var(--text-muted);font-size:.75rem;font-family:inherit;padding:.25rem .5rem;outline:none;}
+</style>
+</head>
+<body>
+<a class="back" href="anafit-hub.html">← Back to Hub</a>
+<div class="doc-header">
+  <div class="eyebrow">Ana Fit VIP · Week 1</div>
+  <h1 class="doc-title">Movement Assessment</h1>
+  <p class="doc-sub">Baseline movement evaluation completed in your first week. Used to personalize your training program and identify any limitations or compensation patterns.</p>
+  <div class="doc-meta">
+    <div class="meta-chip"><span class="chip-dot"></span>Complete Once · Week 1</div>
+    <div class="meta-chip"><span class="chip-dot"></span>Coach Fills In</div>
+  </div>
+</div>
+<main>
+
+  <div class="sec">
+    <div class="sec-label">Client Info</div>
+    <div class="grid-2">
+      <div class="field"><label class="field-label">Client Name</label><input class="field-input" type="text" placeholder="Full name"></div>
+      <div class="field"><label class="field-label">Assessment Date</label><input class="field-input" type="text" placeholder="MM / DD / YYYY"></div>
+    </div>
+    <div class="field"><label class="field-label">Assessment format</label>
+      <select class="field-input field-select">
+        <option value="">Select...</option>
+        <option>Video review (client sent recordings)</option>
+        <option>Live session (Zoom / in-person)</option>
+        <option>Self-assessment (client reported)</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Fundamental Patterns</div>
+    <div class="sec-heading">Key movement quality evaluation</div>
+    <div class="card" style="margin-bottom:1rem;">
+      <p>Rate each pattern and note observations. These inform exercise selection, modifications, and programming for Phase 1.</p>
+    </div>
+    <div style="overflow-x:auto;">
+    <table class="mov-table">
+      <thead>
+        <tr>
+          <th>Movement Pattern</th>
+          <th>Quality (1–5)</th>
+          <th>Observations &amp; Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Squat pattern<br><span style="font-size:.75rem;color:var(--text-faint);">Bodyweight squat to depth</span></td>
+          <td class="rating-cell"><select><option value="">—</option><option>1 — Unable to perform</option><option>2 — Significant limitation</option><option>3 — Moderate limitation</option><option>4 — Minor compensation</option><option>5 — Clean, no issues</option></select></td>
+          <td><textarea placeholder="Depth reached, knee tracking, torso lean, heel lift, valgus..."></textarea></td>
+        </tr>
+        <tr>
+          <td>Hip hinge pattern<br><span style="font-size:.75rem;color:var(--text-faint);">RDL or toe touch</span></td>
+          <td class="rating-cell"><select><option value="">—</option><option>1 — Unable to perform</option><option>2 — Significant limitation</option><option>3 — Moderate limitation</option><option>4 — Minor compensation</option><option>5 — Clean, no issues</option></select></td>
+          <td><textarea placeholder="Hamstring flexibility, lower back rounding, hip shift, ROM..."></textarea></td>
+        </tr>
+        <tr>
+          <td>Push pattern<br><span style="font-size:.75rem;color:var(--text-faint);">Push-up or wall push</span></td>
+          <td class="rating-cell"><select><option value="">—</option><option>1 — Unable to perform</option><option>2 — Significant limitation</option><option>3 — Moderate limitation</option><option>4 — Minor compensation</option><option>5 — Clean, no issues</option></select></td>
+          <td><textarea placeholder="Core stability, scapular winging, elbow flare, depth..."></textarea></td>
+        </tr>
+        <tr>
+          <td>Pull pattern<br><span style="font-size:.75rem;color:var(--text-faint);">Band or cable row</span></td>
+          <td class="rating-cell"><select><option value="">—</option><option>1 — Unable to perform</option><option>2 — Significant limitation</option><option>3 — Moderate limitation</option><option>4 — Minor compensation</option><option>5 — Clean, no issues</option></select></td>
+          <td><textarea placeholder="Scapular retraction, shoulder elevation, torso sway..."></textarea></td>
+        </tr>
+        <tr>
+          <td>Lunge / single-leg<br><span style="font-size:.75rem;color:var(--text-faint);">Split squat or reverse lunge</span></td>
+          <td class="rating-cell"><select><option value="">—</option><option>1 — Unable to perform</option><option>2 — Significant limitation</option><option>3 — Moderate limitation</option><option>4 — Minor compensation</option><option>5 — Clean, no issues</option></select></td>
+          <td><textarea placeholder="Balance, knee stability, hip drop, torso lean, foot placement..."></textarea></td>
+        </tr>
+        <tr>
+          <td>Core stability<br><span style="font-size:.75rem;color:var(--text-faint);">Plank hold</span></td>
+          <td class="rating-cell"><select><option value="">—</option><option>1 — Unable to perform</option><option>2 — Significant limitation</option><option>3 — Moderate limitation</option><option>4 — Minor compensation</option><option>5 — Clean, no issues</option></select></td>
+          <td><textarea placeholder="Hold time, hip sag, head position, breathing..."></textarea></td>
+        </tr>
+        <tr>
+          <td>Overhead mobility<br><span style="font-size:.75rem;color:var(--text-faint);">Arms overhead reach</span></td>
+          <td class="rating-cell"><select><option value="">—</option><option>1 — Unable to perform</option><option>2 — Significant limitation</option><option>3 — Moderate limitation</option><option>4 — Minor compensation</option><option>5 — Clean, no issues</option></select></td>
+          <td><textarea placeholder="Shoulder mobility, lower back arch, rib flare..."></textarea></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Injury &amp; Limitation Flag</div>
+    <div class="sec-heading">What to work around vs. work through</div>
+    <div class="field"><label class="field-label">Active injuries or pain areas (do not train through)</label><textarea class="field-input" placeholder="Location, severity, movements to avoid completely"></textarea></div>
+    <div class="field"><label class="field-label">Chronic tightness or limitations (can train around)</label><textarea class="field-input" placeholder="Tight hips, limited shoulder mobility, etc. — modifications to apply"></textarea></div>
+    <div class="field"><label class="field-label">Exercises to avoid or substitute</label><textarea class="field-input" placeholder="Specific movements and the substitutions to use instead"></textarea></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Programming Implications</div>
+    <div class="sec-heading">How this shapes Phase 1 training</div>
+    <div class="field"><label class="field-label">Training approach for Phase 1 based on this assessment</label><textarea class="field-input" placeholder="Frequency, intensity, primary focus areas, technique emphasis..."></textarea></div>
+    <div class="field"><label class="field-label">Priority corrective or mobility work to include</label><textarea class="field-input" placeholder="2–3 specific areas or exercises to incorporate weekly"></textarea></div>
+    <div class="field"><label class="field-label">Movements to build toward (not ready yet, but will be)</label><textarea class="field-input" placeholder="Exercises to progress toward as the client develops strength and mobility"></textarea></div>
+    <div class="field"><label class="field-label">Any re-assessment notes (when to check back in on an area)</label><textarea class="field-input" placeholder="e.g. re-assess squat depth at Phase 2, check lunge stability monthly..."></textarea></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Baselines</div>
+    <div class="sec-heading">Starting numbers to track improvement</div>
+    <div class="grid-2">
+      <div class="field"><label class="field-label">Max push-up reps (unbroken)</label><input class="field-input" type="text" placeholder="e.g. 8 reps"></div>
+      <div class="field"><label class="field-label">Max plank hold</label><input class="field-input" type="text" placeholder="e.g. 42 seconds"></div>
+    </div>
+    <div class="grid-2">
+      <div class="field"><label class="field-label">Squat depth reached</label><input class="field-input" type="text" placeholder="e.g. parallel / below parallel / ATG"></div>
+      <div class="field"><label class="field-label">Single-leg balance (each side)</label><input class="field-input" type="text" placeholder="e.g. L: 12s / R: 18s"></div>
+    </div>
+    <div class="field"><label class="field-label">Additional baseline notes</label><textarea class="field-input" placeholder="Any other starting benchmarks worth tracking"></textarea></div>
+  </div>
+
+</main>
+</body>
+</html>

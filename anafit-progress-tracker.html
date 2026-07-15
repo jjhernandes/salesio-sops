@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Progress Tracker — Ana Fit VIP</title>
+<style>
+:root{
+  --bg:#090807;--surface:#111009;--surface-2:#1a1710;
+  --accent:#f97316;--accent-soft:#fdba74;
+  --accent-dim:rgba(249,115,22,.08);--accent-bdr:rgba(249,115,22,.18);
+  --text:#f5f0e8;--text-muted:#8a8070;--text-faint:#403c30;
+  --bdr:#201e14;--bdr-mid:#302c1e;
+  --ok:#7dcf95;--ok-dim:rgba(125,207,149,.08);
+  --red:#f87171;--red-dim:rgba(248,113,113,.08);
+  --mono:'SF Mono','Fira Code','Consolas',monospace;
+}
+@media(prefers-color-scheme:light){:root{
+  --bg:#fdfaf5;--surface:#f5ede0;--surface-2:#ede3d0;
+  --accent:#c2540a;--accent-soft:#ea7c2a;
+  --accent-dim:rgba(194,84,10,.07);--accent-bdr:rgba(194,84,10,.18);
+  --text:#1c1710;--text-muted:#6e6050;--text-faint:#c0b49e;
+  --bdr:#e0d4be;--bdr-mid:#cdbfa4;
+  --ok:#2a7a45;--ok-dim:rgba(42,122,69,.07);
+  --red:#b93333;--red-dim:rgba(185,51,51,.07);
+}}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI',system-ui,sans-serif;font-size:.9375rem;line-height:1.7;-webkit-font-smoothing:antialiased;padding-bottom:6rem;}
+a{color:var(--accent-soft);text-decoration:none;}
+.back{display:inline-flex;align-items:center;gap:.375rem;font-size:.8125rem;color:var(--text-faint);padding:1.25rem 2rem;font-family:var(--mono);letter-spacing:.04em;text-transform:uppercase;font-size:.65rem;transition:color .15s;}
+.back:hover{color:var(--text-muted);}
+.doc-header{border-bottom:1px solid var(--bdr);padding:2.5rem 2rem 2.25rem;max-width:760px;margin:0 auto;}
+.eyebrow{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.875rem;}
+.doc-title{font-size:2rem;font-weight:700;letter-spacing:-.03em;line-height:1.15;margin-bottom:.75rem;}
+.doc-sub{font-size:.9375rem;color:var(--text-muted);max-width:52ch;line-height:1.65;}
+.doc-meta{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.25rem;}
+.meta-chip{display:flex;align-items:center;gap:.375rem;background:var(--accent-dim);border:1px solid var(--accent-bdr);border-radius:2px;padding:.3rem .65rem;font-size:.75rem;color:var(--accent-soft);font-weight:500;}
+.chip-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+main{max-width:760px;margin:0 auto;padding:0 2rem;}
+.sec{padding:2.25rem 0 2rem;border-bottom:1px solid var(--bdr);}
+.sec:last-child{border-bottom:none;}
+.sec-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.75rem;}
+.sec-heading{font-size:1.0625rem;font-weight:650;color:var(--text);letter-spacing:-.015em;margin-bottom:1.125rem;}
+.card{background:var(--surface);border:1px solid var(--bdr);border-radius:3px;padding:1.125rem 1.375rem;margin-bottom:.5rem;}
+.card-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.5rem;}
+.card p{font-size:.875rem;color:var(--text-muted);line-height:1.65;}
+.field{margin-bottom:1.125rem;}
+.field-label{display:block;font-size:.8125rem;font-weight:600;color:var(--text-muted);margin-bottom:.375rem;}
+.field-input,.field-select{width:100%;background:var(--surface);border:1px solid var(--bdr-mid);border-radius:3px;padding:.5625rem .875rem;font-size:.875rem;color:var(--text);font-family:inherit;outline:none;transition:border-color .15s;}
+.field-input:focus,.field-select:focus{border-color:rgba(249,115,22,.4);}
+.field-input::placeholder{color:var(--text-faint);}
+textarea.field-input{resize:vertical;min-height:72px;}
+.field-select option{background:var(--surface);}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:.625rem;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.625rem;}
+@media(max-width:580px){.grid-2,.grid-3{grid-template-columns:1fr;}}
+.check-list{list-style:none;display:flex;flex-direction:column;gap:.375rem;}
+.check-item{display:flex;align-items:flex-start;gap:.75rem;padding:.6875rem .875rem;background:var(--surface);border:1px solid var(--bdr);border-radius:3px;font-size:.875rem;color:var(--text-muted);line-height:1.5;}
+.chk{width:16px;height:16px;border:1.5px solid var(--ok);border-radius:2px;flex-shrink:0;margin-top:2px;background:var(--ok-dim);cursor:pointer;}
+.scale-row{display:flex;gap:.375rem;flex-wrap:wrap;margin-top:.375rem;}
+.scale-btn{min-width:36px;height:36px;border:1px solid var(--bdr-mid);border-radius:3px;background:var(--surface);color:var(--text-muted);font-size:.8125rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .12s,border-color .12s;padding:0 .5rem;}
+.scale-btn:hover{background:var(--accent-dim);border-color:var(--accent-bdr);color:var(--accent-soft);}
+.t-table{width:100%;border-collapse:collapse;font-size:.8125rem;}
+.t-table th{text-align:left;font-family:var(--mono);font-size:.575rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);padding:.5rem .875rem;border-bottom:1px solid var(--bdr);white-space:nowrap;}
+.t-table td{padding:.625rem .875rem;border-bottom:1px solid var(--bdr);color:var(--text-muted);vertical-align:middle;}
+.t-table tr:last-child td{border-bottom:none;}
+.t-table td input{background:transparent;border:none;color:var(--text);font-size:.8125rem;font-family:inherit;width:100%;outline:none;}
+.t-table td input::placeholder{color:var(--text-faint);}
+.highlight-card{background:var(--accent-dim);border:1px solid var(--accent-bdr);border-radius:3px;padding:1rem 1.25rem;margin-bottom:.5rem;}
+.highlight-card p{font-size:.875rem;color:var(--accent-soft);line-height:1.65;}
+.highlight-card strong{color:var(--accent-soft);font-weight:700;}
+.note{font-size:.8125rem;color:var(--text-faint);margin-top:.375rem;font-style:italic;}
+.divider{height:1px;background:var(--bdr);margin:1.5rem 0;}
+.phase-badge{display:inline-flex;align-items:center;gap:.375rem;background:var(--accent-dim);border:1px solid var(--accent-bdr);border-radius:2px;padding:.25rem .625rem;font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-soft);margin-bottom:.875rem;}
+
+.measure-table{width:100%;border-collapse:collapse;font-size:.8125rem;overflow:hidden;border-radius:3px;border:1px solid var(--bdr);}
+.measure-table th{text-align:left;font-family:var(--mono);font-size:.575rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);padding:.5rem 1rem;border-bottom:1px solid var(--bdr);background:var(--surface-2);}
+.measure-table td{padding:.625rem 1rem;border-bottom:1px solid var(--bdr);color:var(--text-muted);vertical-align:middle;}
+.measure-table td:first-child{color:var(--text);font-weight:500;}
+.measure-table tr:last-child td{border-bottom:none;}
+.measure-table td input{background:transparent;border:none;color:var(--accent-soft);font-size:.875rem;font-family:inherit;width:100%;outline:none;font-weight:600;}
+.measure-table td input::placeholder{color:var(--text-faint);font-weight:400;}
+.phase-header{background:var(--accent-dim);border:1px solid var(--accent-bdr);border-radius:3px;padding:.625rem 1rem;margin-bottom:.75rem;display:flex;align-items:center;gap:.625rem;}
+.phase-header-label{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-soft);}
+.phase-header-date{font-size:.8125rem;color:var(--text-faint);margin-left:auto;}
+</style>
+</head>
+<body>
+<a class="back" href="anafit-hub.html">← Back to Hub</a>
+<div class="doc-header">
+  <div class="eyebrow">Ana Fit VIP · Monthly</div>
+  <h1 class="doc-title">Progress Tracker</h1>
+  <p class="doc-sub">Body measurements, fitness benchmarks, and photo log. Update at the start of each new phase. Progress is measured in more ways than weight.</p>
+  <div class="doc-meta">
+    <div class="meta-chip"><span class="chip-dot"></span>Update Monthly</div>
+    <div class="meta-chip"><span class="chip-dot"></span>4 Checkpoints</div>
+  </div>
+</div>
+<main>
+
+  <div class="sec">
+    <div class="sec-label">Body Measurements</div>
+    <div class="sec-heading">Track across all 4 checkpoints</div>
+    <div class="card" style="margin-bottom:1rem;">
+      <p>Take measurements first thing in the morning before eating. Use the same measuring tape each time. Measure twice and record the average. <strong style="color:var(--accent-soft)">Consistency in method matters more than perfect technique.</strong></p>
+    </div>
+    <div style="overflow-x:auto;">
+    <table class="measure-table">
+      <thead>
+        <tr>
+          <th>Measurement</th>
+          <th>Baseline (Start)</th>
+          <th>Month 1 End</th>
+          <th>Month 2 End</th>
+          <th>Month 3 End</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Date taken</td><td><input placeholder="___/___"></td><td><input placeholder="___/___"></td><td><input placeholder="___/___"></td><td><input placeholder="___/___"></td></tr>
+        <tr><td>Weight</td><td><input placeholder="lbs / kg"></td><td><input placeholder="lbs / kg"></td><td><input placeholder="lbs / kg"></td><td><input placeholder="lbs / kg"></td></tr>
+        <tr><td>Waist (narrowest)</td><td><input placeholder='in / cm'></td><td><input placeholder='in / cm'></td><td><input placeholder='in / cm'></td><td><input placeholder='in / cm'></td></tr>
+        <tr><td>Hips (widest)</td><td><input placeholder='in / cm'></td><td><input placeholder='in / cm'></td><td><input placeholder='in / cm'></td><td><input placeholder='in / cm'></td></tr>
+        <tr><td>Chest</td><td><input placeholder='in / cm'></td><td><input placeholder='in / cm'></td><td><input placeholder='in / cm'></td><td><input placeholder='in / cm'></td></tr>
+        <tr><td>Left arm (flexed)</td><td><input placeholder='in / cm'></td><td><input placeholder='in / cm'></td><td><input placeholder='in / cm'></td><td><input placeholder='in / cm'></td></tr>
+        <tr><td>Right arm (flexed)</td><td><input placeholder='in / cm'></td><td><input placeholder='in / cm'></td><td><input placeholder='in / cm'></td><td><input placeholder='in / cm'></td></tr>
+        <tr><td>Left thigh (widest)</td><td><input placeholder='in / cm'></td><td><input placeholder='in / cm'></td><td><input placeholder='in / cm'></td><td><input placeholder='in / cm'></td></tr>
+        <tr><td>Right thigh (widest)</td><td><input placeholder='in / cm'></td><td><input placeholder='in / cm'></td><td><input placeholder='in / cm'></td><td><input placeholder='in / cm'></td></tr>
+        <tr><td>Body fat % (if known)</td><td><input placeholder='%'></td><td><input placeholder='%'></td><td><input placeholder='%'></td><td><input placeholder='%'></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Fitness Benchmarks</div>
+    <div class="sec-heading">Strength &amp; performance progress</div>
+    <div class="card" style="margin-bottom:1rem;">
+      <p>Track the weights you're using for key movements. These numbers reflect real, meaningful progress even when the scale doesn't move.</p>
+    </div>
+    <div style="overflow-x:auto;">
+    <table class="measure-table">
+      <thead>
+        <tr>
+          <th>Movement</th>
+          <th>Baseline</th>
+          <th>Month 1</th>
+          <th>Month 2</th>
+          <th>Month 3</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Squat (working weight)</td><td><input placeholder="lbs / kg"></td><td><input placeholder="lbs / kg"></td><td><input placeholder="lbs / kg"></td><td><input placeholder="lbs / kg"></td></tr>
+        <tr><td>Deadlift / Hip hinge</td><td><input placeholder="lbs / kg"></td><td><input placeholder="lbs / kg"></td><td><input placeholder="lbs / kg"></td><td><input placeholder="lbs / kg"></td></tr>
+        <tr><td>Upper body push (bench / press)</td><td><input placeholder="lbs / kg"></td><td><input placeholder="lbs / kg"></td><td><input placeholder="lbs / kg"></td><td><input placeholder="lbs / kg"></td></tr>
+        <tr><td>Upper body pull (row / lat)</td><td><input placeholder="lbs / kg"></td><td><input placeholder="lbs / kg"></td><td><input placeholder="lbs / kg"></td><td><input placeholder="lbs / kg"></td></tr>
+        <tr><td>Push-ups (max reps)</td><td><input placeholder="reps"></td><td><input placeholder="reps"></td><td><input placeholder="reps"></td><td><input placeholder="reps"></td></tr>
+        <tr><td>Plank hold (max time)</td><td><input placeholder="seconds"></td><td><input placeholder="seconds"></td><td><input placeholder="seconds"></td><td><input placeholder="seconds"></td></tr>
+        <tr><td>Custom: ___________</td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td></tr>
+        <tr><td>Custom: ___________</td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td><td><input placeholder=""></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Progress Photos</div>
+    <div class="sec-heading">Photo log &amp; checklist</div>
+    <div class="card" style="margin-bottom:1rem;">
+      <p>Take photos in the same lighting, same time of day (morning), same clothing. <strong style="color:var(--accent-soft)">Front, side, and back.</strong> These are for YOU — not for anyone else. They capture what measurements can't.</p>
+    </div>
+    <ul class="check-list">
+      <li class="check-item"><span class="chk"></span><div><strong style="color:var(--text)">Baseline photos</strong> — taken Week 1, before training begins</div></li>
+      <li class="check-item"><span class="chk"></span><div><strong style="color:var(--text)">Month 1 photos</strong> — taken at the end of Phase 1</div></li>
+      <li class="check-item"><span class="chk"></span><div><strong style="color:var(--text)">Month 2 photos</strong> — taken at the end of Phase 2</div></li>
+      <li class="check-item"><span class="chk"></span><div><strong style="color:var(--text)">Month 3 photos</strong> — final transformation comparison</div></li>
+    </ul>
+    <div class="field" style="margin-top:1rem;"><label class="field-label">Photo notes (lighting, angle, any context)</label><textarea class="field-input" placeholder="e.g. taken at 7am, bathroom mirror, natural light from left window..."></textarea></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">How You Feel</div>
+    <div class="sec-heading">Non-scale victories — track these too</div>
+    <div style="overflow-x:auto;">
+    <table class="measure-table">
+      <thead>
+        <tr><th>Indicator</th><th>Baseline (1–10)</th><th>Month 1</th><th>Month 2</th><th>Month 3</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Energy levels</td><td><input placeholder="/ 10"></td><td><input placeholder="/ 10"></td><td><input placeholder="/ 10"></td><td><input placeholder="/ 10"></td></tr>
+        <tr><td>Sleep quality</td><td><input placeholder="/ 10"></td><td><input placeholder="/ 10"></td><td><input placeholder="/ 10"></td><td><input placeholder="/ 10"></td></tr>
+        <tr><td>Confidence / self-image</td><td><input placeholder="/ 10"></td><td><input placeholder="/ 10"></td><td><input placeholder="/ 10"></td><td><input placeholder="/ 10"></td></tr>
+        <tr><td>Relationship with food</td><td><input placeholder="/ 10"></td><td><input placeholder="/ 10"></td><td><input placeholder="/ 10"></td><td><input placeholder="/ 10"></td></tr>
+        <tr><td>Stress management</td><td><input placeholder="/ 10"></td><td><input placeholder="/ 10"></td><td><input placeholder="/ 10"></td><td><input placeholder="/ 10"></td></tr>
+        <tr><td>How clothes fit</td><td><input placeholder="/ 10"></td><td><input placeholder="/ 10"></td><td><input placeholder="/ 10"></td><td><input placeholder="/ 10"></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+</main>
+</body>
+</html>

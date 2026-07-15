@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ana Fit VIP — Client Hub</title>
+<style>
+:root{
+  --bg:#090807;--surface:#111009;--surface-2:#1a1710;
+  --accent:#f97316;--accent-soft:#fdba74;
+  --accent-dim:rgba(249,115,22,.08);--accent-bdr:rgba(249,115,22,.18);
+  --text:#f5f0e8;--text-muted:#8a8070;--text-faint:#403c30;
+  --bdr:#201e14;--bdr-mid:#302c1e;
+  --ok:#7dcf95;--ok-dim:rgba(125,207,149,.08);
+  --red:#f87171;--red-dim:rgba(248,113,113,.08);
+  --mono:'SF Mono','Fira Code','Consolas',monospace;
+}
+@media(prefers-color-scheme:light){:root{
+  --bg:#fdfaf5;--surface:#f5ede0;--surface-2:#ede3d0;
+  --accent:#c2540a;--accent-soft:#ea7c2a;
+  --accent-dim:rgba(194,84,10,.07);--accent-bdr:rgba(194,84,10,.18);
+  --text:#1c1710;--text-muted:#6e6050;--text-faint:#c0b49e;
+  --bdr:#e0d4be;--bdr-mid:#cdbfa4;
+  --ok:#2a7a45;--ok-dim:rgba(42,122,69,.07);
+  --red:#b93333;--red-dim:rgba(185,51,51,.07);
+}}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI',system-ui,sans-serif;font-size:.9375rem;line-height:1.7;-webkit-font-smoothing:antialiased;padding-bottom:6rem;}
+a{color:var(--accent-soft);text-decoration:none;}
+.back{display:inline-flex;align-items:center;gap:.375rem;font-size:.8125rem;color:var(--text-faint);padding:1.25rem 2rem;font-family:var(--mono);letter-spacing:.04em;text-transform:uppercase;font-size:.65rem;transition:color .15s;}
+.back:hover{color:var(--text-muted);}
+.doc-header{border-bottom:1px solid var(--bdr);padding:2.5rem 2rem 2.25rem;max-width:760px;margin:0 auto;}
+.eyebrow{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.875rem;}
+.doc-title{font-size:2rem;font-weight:700;letter-spacing:-.03em;line-height:1.15;margin-bottom:.75rem;}
+.doc-sub{font-size:.9375rem;color:var(--text-muted);max-width:52ch;line-height:1.65;}
+.doc-meta{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.25rem;}
+.meta-chip{display:flex;align-items:center;gap:.375rem;background:var(--accent-dim);border:1px solid var(--accent-bdr);border-radius:2px;padding:.3rem .65rem;font-size:.75rem;color:var(--accent-soft);font-weight:500;}
+.chip-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+main{max-width:760px;margin:0 auto;padding:0 2rem;}
+.sec{padding:2.25rem 0 2rem;border-bottom:1px solid var(--bdr);}
+.sec:last-child{border-bottom:none;}
+.sec-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.75rem;}
+.sec-heading{font-size:1.0625rem;font-weight:650;color:var(--text);letter-spacing:-.015em;margin-bottom:1.125rem;}
+.card{background:var(--surface);border:1px solid var(--bdr);border-radius:3px;padding:1.125rem 1.375rem;margin-bottom:.5rem;}
+.card-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.5rem;}
+.card p{font-size:.875rem;color:var(--text-muted);line-height:1.65;}
+.field{margin-bottom:1.125rem;}
+.field-label{display:block;font-size:.8125rem;font-weight:600;color:var(--text-muted);margin-bottom:.375rem;}
+.field-input,.field-select{width:100%;background:var(--surface);border:1px solid var(--bdr-mid);border-radius:3px;padding:.5625rem .875rem;font-size:.875rem;color:var(--text);font-family:inherit;outline:none;transition:border-color .15s;}
+.field-input:focus,.field-select:focus{border-color:rgba(249,115,22,.4);}
+.field-input::placeholder{color:var(--text-faint);}
+textarea.field-input{resize:vertical;min-height:72px;}
+.field-select option{background:var(--surface);}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:.625rem;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.625rem;}
+@media(max-width:580px){.grid-2,.grid-3{grid-template-columns:1fr;}}
+.check-list{list-style:none;display:flex;flex-direction:column;gap:.375rem;}
+.check-item{display:flex;align-items:flex-start;gap:.75rem;padding:.6875rem .875rem;background:var(--surface);border:1px solid var(--bdr);border-radius:3px;font-size:.875rem;color:var(--text-muted);line-height:1.5;}
+.chk{width:16px;height:16px;border:1.5px solid var(--ok);border-radius:2px;flex-shrink:0;margin-top:2px;background:var(--ok-dim);cursor:pointer;}
+.scale-row{display:flex;gap:.375rem;flex-wrap:wrap;margin-top:.375rem;}
+.scale-btn{min-width:36px;height:36px;border:1px solid var(--bdr-mid);border-radius:3px;background:var(--surface);color:var(--text-muted);font-size:.8125rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .12s,border-color .12s;padding:0 .5rem;}
+.scale-btn:hover{background:var(--accent-dim);border-color:var(--accent-bdr);color:var(--accent-soft);}
+.t-table{width:100%;border-collapse:collapse;font-size:.8125rem;}
+.t-table th{text-align:left;font-family:var(--mono);font-size:.575rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);padding:.5rem .875rem;border-bottom:1px solid var(--bdr);white-space:nowrap;}
+.t-table td{padding:.625rem .875rem;border-bottom:1px solid var(--bdr);color:var(--text-muted);vertical-align:middle;}
+.t-table tr:last-child td{border-bottom:none;}
+.t-table td input{background:transparent;border:none;color:var(--text);font-size:.8125rem;font-family:inherit;width:100%;outline:none;}
+.t-table td input::placeholder{color:var(--text-faint);}
+.highlight-card{background:var(--accent-dim);border:1px solid var(--accent-bdr);border-radius:3px;padding:1rem 1.25rem;margin-bottom:.5rem;}
+.highlight-card p{font-size:.875rem;color:var(--accent-soft);line-height:1.65;}
+.highlight-card strong{color:var(--accent-soft);font-weight:700;}
+.note{font-size:.8125rem;color:var(--text-faint);margin-top:.375rem;font-style:italic;}
+.divider{height:1px;background:var(--bdr);margin:1.5rem 0;}
+.phase-badge{display:inline-flex;align-items:center;gap:.375rem;background:var(--accent-dim);border:1px solid var(--accent-bdr);border-radius:2px;padding:.25rem .625rem;font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-soft);margin-bottom:.875rem;}
+
+.doc-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+.doc-card{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--bdr);border-radius:3px;padding:1.125rem 1.25rem;text-decoration:none;transition:border-color .15s;}
+.doc-card:hover{border-color:var(--accent-bdr);}
+.doc-card-type{font-family:var(--mono);font-size:.575rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.5rem;}
+.doc-card-title{font-size:.9375rem;font-weight:650;color:var(--text);margin-bottom:.375rem;}
+.doc-card-desc{font-size:.8125rem;color:var(--text-muted);line-height:1.55;}
+.doc-card-arrow{margin-top:auto;padding-top:.75rem;font-size:.75rem;color:var(--accent);opacity:.6;}
+.phase-sec-label{display:flex;align-items:center;gap:.75rem;margin-bottom:.875rem;}
+.phase-line{flex:1;height:1px;background:var(--bdr);}
+@media(max-width:580px){.doc-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<a class="back" href="anafit-vip-programa.html">← Ana Fit VIP Program</a>
+<div class="doc-header">
+  <div class="eyebrow">Ana Fit VIP · Client Resources</div>
+  <h1 class="doc-title">Your Complete Hub</h1>
+  <p class="doc-sub">All documents, tracking sheets, and resources for your 3-month VIP coaching program — in one place.</p>
+  <div class="doc-meta">
+    <div class="meta-chip"><span class="chip-dot"></span>7 Documents</div>
+    <div class="meta-chip"><span class="chip-dot"></span>3 Phases</div>
+    <div class="meta-chip"><span class="chip-dot"></span>12 Weeks</div>
+  </div>
+</div>
+<main>
+  <div class="sec">
+    <div class="sec-label">Start Here</div>
+    <div class="doc-grid">
+      <a class="doc-card" href="anafit-client-intake.html">
+        <div class="doc-card-type">Assessment · Week 1</div>
+        <div class="doc-card-title">Client Intake Assessment</div>
+        <div class="doc-card-desc">Health history, goals, lifestyle, and self-sabotage patterns. Complete before your first session.</div>
+        <div class="doc-card-arrow">Open →</div>
+      </a>
+      <a class="doc-card" href="anafit-movement-assessment.html">
+        <div class="doc-card-type">Evaluation · Week 1</div>
+        <div class="doc-card-title">Movement Assessment</div>
+        <div class="doc-card-desc">Baseline movement evaluation and form notes to personalize your training program.</div>
+        <div class="doc-card-arrow">Open →</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Weekly Use</div>
+    <div class="doc-grid">
+      <a class="doc-card" href="anafit-weekly-checkin.html">
+        <div class="doc-card-type">Check-In · Every Week</div>
+        <div class="doc-card-title">Weekly Check-In Form</div>
+        <div class="doc-card-desc">Training, nutrition, mindset, and energy report. Submit every Sunday before your group check-in.</div>
+        <div class="doc-card-arrow">Open →</div>
+      </a>
+      <a class="doc-card" href="anafit-habit-tracker.html">
+        <div class="doc-card-type">Tracker · Daily</div>
+        <div class="doc-card-title">Daily Habit Tracker</div>
+        <div class="doc-card-desc">Track your non-negotiable daily habits. Hydration, movement, sleep, nutrition, and mindset.</div>
+        <div class="doc-card-arrow">Open →</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Biweekly Sessions</div>
+    <div class="doc-grid">
+      <a class="doc-card" href="anafit-biweekly-session.html">
+        <div class="doc-card-type">Session Notes · Every 2 Weeks</div>
+        <div class="doc-card-title">Strategy Session Template</div>
+        <div class="doc-card-desc">Deep-dive call notes, adjustments, and action items from your biweekly sessions with Ana.</div>
+        <div class="doc-card-arrow">Open →</div>
+      </a>
+      <a class="doc-card" href="anafit-progress-tracker.html">
+        <div class="doc-card-type">Measurements · Monthly</div>
+        <div class="doc-card-title">Progress Tracker</div>
+        <div class="doc-card-desc">Body measurements, fitness benchmarks, and progress photo log across all 3 phases.</div>
+        <div class="doc-card-arrow">Open →</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Monthly Reviews</div>
+    <div class="doc-grid">
+      <a class="doc-card" href="anafit-phase-review.html">
+        <div class="doc-card-type">Review · End of Each Phase</div>
+        <div class="doc-card-title">Phase Review Template</div>
+        <div class="doc-card-desc">Monthly review covering metrics, mindset shifts, what worked, and goals for the next phase.</div>
+        <div class="doc-card-arrow">Open →</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Program Overview</div>
+    <div class="card">
+      <div class="card-label">Phase 1 — Foundation (Month 1)</div>
+      <p>Health assessment · Movement evaluation · Nutrition calibration · Identify self-sabotage patterns · Establish daily non-negotiables</p>
+    </div>
+    <div class="card">
+      <div class="card-label">Phase 2 — Build (Month 2)</div>
+      <p>Progressive overload · Refined nutrition · Identity work · Time management systems · First measurable achievements</p>
+    </div>
+    <div class="card">
+      <div class="card-label">Phase 3 — Integration (Month 3)</div>
+      <p>Advanced programming · Nutrition on autopilot · Consolidated identity shift · Social event planning · Graduation or continuation</p>
+    </div>
+  </div>
+</main>
+</body>
+</html>
