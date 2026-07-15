@@ -1,93 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="night">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Phase Review — Ana Fit VIP</title>
-<style>
-:root{
-  --bg:#090807;--surface:#111009;--surface-2:#1a1710;
-  --accent:#f97316;--accent-soft:#fdba74;
-  --accent-dim:rgba(249,115,22,.08);--accent-bdr:rgba(249,115,22,.18);
-  --text:#f5f0e8;--text-muted:#8a8070;--text-faint:#403c30;
-  --bdr:#201e14;--bdr-mid:#302c1e;
-  --ok:#7dcf95;--ok-dim:rgba(125,207,149,.08);
-  --red:#f87171;--red-dim:rgba(248,113,113,.08);
-  --mono:'SF Mono','Fira Code','Consolas',monospace;
-}
-@media(prefers-color-scheme:light){:root{
-  --bg:#fdfaf5;--surface:#f5ede0;--surface-2:#ede3d0;
-  --accent:#c2540a;--accent-soft:#ea7c2a;
-  --accent-dim:rgba(194,84,10,.07);--accent-bdr:rgba(194,84,10,.18);
-  --text:#1c1710;--text-muted:#6e6050;--text-faint:#c0b49e;
-  --bdr:#e0d4be;--bdr-mid:#cdbfa4;
-  --ok:#2a7a45;--ok-dim:rgba(42,122,69,.07);
-  --red:#b93333;--red-dim:rgba(185,51,51,.07);
-}}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{font-size:16px;scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI',system-ui,sans-serif;font-size:.9375rem;line-height:1.7;-webkit-font-smoothing:antialiased;padding-bottom:6rem;}
-a{color:var(--accent-soft);text-decoration:none;}
-.back{display:inline-flex;align-items:center;gap:.375rem;font-family:var(--mono);letter-spacing:.04em;text-transform:uppercase;font-size:.65rem;color:var(--text-faint);padding:1.25rem 2rem;transition:color .15s;}
-.back:hover{color:var(--text-muted);}
+<script>try{var t=localStorage.getItem('af-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<style>:root{--bg:#0d0c11;--surface:#14111a;--surface-2:#1e1a28;--accent:#f472b6;--accent-soft:#fbcfe8;--accent-2:#fbbf24;--accent-2-soft:#fde68a;--accent-3:#94a3b8;--accent-dim:rgba(244,114,182,.09);--accent-bdr:rgba(244,114,182,.22);--accent-2-dim:rgba(251,191,36,.09);--accent-2-bdr:rgba(251,191,36,.22);--text:#f0eaf6;--text-muted:#9585a8;--text-faint:#3e3549;--bdr:#1e1a2a;--bdr-mid:#2e2840;--mono:'SF Mono','Fira Code','Consolas',monospace;--r:4px;}
+[data-theme="day"]{--bg:#fdfcfe;--surface:#f9f4fd;--surface-2:#f0e9f8;--accent:#be185d;--accent-soft:#f9a8d4;--accent-2:#b45309;--accent-2-soft:#fcd34d;--accent-3:#64748b;--accent-dim:rgba(190,24,93,.06);--accent-bdr:rgba(190,24,93,.18);--accent-2-dim:rgba(180,83,9,.06);--accent-2-bdr:rgba(180,83,9,.18);--text:#1a1020;--text-muted:#5e4a72;--text-faint:#c4b0d4;--bdr:#edd8f5;--bdr-mid:#d4b8e8;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}html{font-size:16px;scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI',system-ui,sans-serif;font-size:.9375rem;line-height:1.7;-webkit-font-smoothing:antialiased;padding-bottom:6rem;transition:background .25s,color .25s;}
+a{text-decoration:none;}
+.theme-toggle{position:fixed;top:1rem;right:1rem;z-index:999;display:flex;align-items:center;gap:.625rem;background:var(--surface);border:1px solid var(--bdr-mid);border-radius:50px;padding:.4375rem .875rem .4375rem .625rem;cursor:pointer;transition:border-color .2s,box-shadow .2s;box-shadow:0 2px 12px rgba(0,0,0,.18);}
+.theme-toggle:hover{border-color:var(--accent-bdr);box-shadow:0 2px 18px rgba(244,114,182,.14);}
+.toggle-track{width:32px;height:18px;background:var(--bdr-mid);border-radius:50px;position:relative;transition:background .25s;flex-shrink:0;}
+[data-theme="day"] .toggle-track{background:var(--accent);}
+.toggle-thumb{position:absolute;top:3px;left:3px;width:12px;height:12px;border-radius:50%;background:var(--accent);transition:transform .25s,background .25s;}
+[data-theme="day"] .toggle-thumb{transform:translateX(14px);background:#fff;}
+.toggle-lbl{font-family:var(--mono);font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);}
+.back{display:inline-flex;align-items:center;gap:.375rem;font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase;font-size:.65rem;color:var(--text-faint);padding:1.5rem 2rem;transition:color .15s;}
+.back:hover{color:var(--accent);}
 .doc-header{border-bottom:1px solid var(--bdr);padding:2.5rem 2rem 2.25rem;max-width:760px;margin:0 auto;}
-.eyebrow{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.875rem;}
+.eyebrow{font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:.875rem;}
 .doc-title{font-size:2rem;font-weight:700;letter-spacing:-.03em;line-height:1.15;margin-bottom:.75rem;}
 .doc-sub{font-size:.9375rem;color:var(--text-muted);max-width:52ch;line-height:1.65;}
 .doc-meta{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.25rem;}
-.meta-chip{display:flex;align-items:center;gap:.375rem;background:var(--accent-dim);border:1px solid var(--accent-bdr);border-radius:2px;padding:.3rem .65rem;font-size:.75rem;color:var(--accent-soft);font-weight:500;}
-.chip-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+.meta-chip{display:flex;align-items:center;gap:.375rem;background:var(--accent-dim);border:1px solid var(--accent-bdr);border-radius:50px;padding:.275rem .75rem;font-size:.75rem;color:var(--accent-soft);font-weight:500;}
+.chip-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;}
 main{max-width:760px;margin:0 auto;padding:0 2rem;}
-.sec{padding:2.25rem 0 2rem;border-bottom:1px solid var(--bdr);}
-.sec:last-child{border-bottom:none;}
-.sec-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.75rem;}
+.sec{padding:2.25rem 0 2rem;border-bottom:1px solid var(--bdr);}.sec:last-child{border-bottom:none;}
+.sec-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-2);margin-bottom:.75rem;}
 .sec-heading{font-size:1.0625rem;font-weight:650;color:var(--text);letter-spacing:-.015em;margin-bottom:1.125rem;}
-.card{background:var(--surface);border:1px solid var(--bdr);border-radius:3px;padding:1.125rem 1.375rem;margin-bottom:.5rem;}
-.card-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.5rem;}
-.card p,.card-p{font-size:.875rem;color:var(--text-muted);line-height:1.65;}
-.field{margin-bottom:1.125rem;}
-.field-label{display:block;font-size:.8125rem;font-weight:600;color:var(--text-muted);margin-bottom:.375rem;}
-.field-input,.field-select{width:100%;background:var(--surface);border:1px solid var(--bdr-mid);border-radius:3px;padding:.5625rem .875rem;font-size:.875rem;color:var(--text);font-family:inherit;outline:none;transition:border-color .15s;}
-.field-input:focus,.field-select:focus{border-color:rgba(249,115,22,.4);}
-.field-input::placeholder{color:var(--text-faint);}
-textarea.field-input{resize:vertical;min-height:72px;}
-.field-select option{background:var(--surface);}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:.625rem;}
-.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.625rem;}
+.card{background:var(--surface);border:1px solid var(--bdr);border-radius:var(--r);padding:1.125rem 1.375rem;margin-bottom:.5rem;}
+.card-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-2);margin-bottom:.5rem;}
+.card p,.card-p{font-size:.875rem;color:var(--text-muted);line-height:1.65;}.card strong{color:var(--accent-soft);}
+.highlight-card{background:var(--accent-dim);border:1px solid var(--accent-bdr);border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:.75rem;}
+.highlight-card p{font-size:.875rem;color:var(--accent-soft);line-height:1.65;}.highlight-card strong{color:var(--accent-soft);font-weight:700;}
+.field{margin-bottom:1.125rem;}.field-label{display:block;font-size:.8125rem;font-weight:600;color:var(--text-muted);margin-bottom:.375rem;}
+.field-input,.field-select{width:100%;background:var(--surface);border:1px solid var(--bdr-mid);border-radius:var(--r);padding:.5625rem .875rem;font-size:.875rem;color:var(--text);font-family:inherit;outline:none;transition:border-color .15s,box-shadow .15s;}
+.field-input:focus,.field-select:focus{border-color:var(--accent-bdr);box-shadow:0 0 0 3px var(--accent-dim);}
+.field-input::placeholder{color:var(--text-faint);}textarea.field-input{resize:vertical;min-height:72px;}.field-select option{background:var(--surface);}
+.note{font-size:.8rem;color:var(--text-faint);margin-top:.375rem;font-style:italic;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:.625rem;}.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.625rem;}
 @media(max-width:580px){.grid-2,.grid-3{grid-template-columns:1fr;}}
-.check-list{list-style:none;display:flex;flex-direction:column;gap:.375rem;}
-.check-item{display:flex;align-items:flex-start;gap:.75rem;padding:.6875rem .875rem;background:var(--surface);border:1px solid var(--bdr);border-radius:3px;font-size:.875rem;color:var(--text-muted);line-height:1.5;}
-.chk{width:16px;height:16px;border:1.5px solid var(--ok);border-radius:2px;flex-shrink:0;margin-top:2px;background:var(--ok-dim);cursor:pointer;}
-.ok-chk{border-color:var(--ok);background:var(--ok-dim);}
 .scale-row{display:flex;gap:.375rem;flex-wrap:wrap;margin-top:.375rem;}
-.scale-btn{min-width:36px;height:36px;border:1px solid var(--bdr-mid);border-radius:3px;background:var(--surface);color:var(--text-muted);font-size:.8125rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .12s,border-color .12s;padding:0 .5rem;}
-.scale-btn:hover{background:var(--accent-dim);border-color:var(--accent-bdr);color:var(--accent-soft);}
-.highlight-card{background:var(--accent-dim);border:1px solid var(--accent-bdr);border-radius:3px;padding:1rem 1.25rem;margin-bottom:.75rem;}
-.highlight-card p{font-size:.875rem;color:var(--accent-soft);line-height:1.65;}
-.note{font-size:.8125rem;color:var(--text-faint);margin-top:.375rem;font-style:italic;}
-.session-header-band{background:var(--surface-2);border:1px solid var(--bdr);border-radius:3px;padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;}
-.sesh-label{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);}
-.sesh-val{font-size:1rem;font-weight:700;color:var(--text);margin-top:.25rem;}
-.action-row{display:flex;align-items:flex-start;gap:.75rem;padding:.75rem .875rem;background:var(--surface);border:1px solid var(--bdr);border-radius:3px;margin-bottom:.375rem;}
-.action-chk{width:18px;height:18px;border:1.5px solid var(--accent-bdr);border-radius:2px;flex-shrink:0;margin-top:2px;background:var(--accent-dim);cursor:pointer;}
-.action-text{flex:1;font-size:.875rem;color:var(--text-muted);line-height:1.5;}
-.action-due{font-family:var(--mono);font-size:.65rem;letter-spacing:.06em;color:var(--text-faint);margin-top:.25rem;}
+.scale-btn{min-width:36px;height:36px;border:1px solid var(--bdr-mid);border-radius:var(--r);background:var(--surface);color:var(--text-muted);font-size:.8125rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s,color .15s,transform .1s;padding:0 .5rem;user-select:none;}
+.scale-btn:hover{background:var(--accent-dim);border-color:var(--accent-bdr);color:var(--accent-soft);transform:translateY(-1px);}
+.scale-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 2px 10px rgba(244,114,182,.3);}
+.check-list{list-style:none;display:flex;flex-direction:column;gap:.375rem;}
+.check-item{display:flex;align-items:flex-start;gap:.75rem;padding:.6875rem .875rem;background:var(--surface);border:1px solid var(--bdr);border-radius:var(--r);font-size:.875rem;color:var(--text-muted);line-height:1.5;cursor:pointer;transition:border-color .15s,background .15s;user-select:none;}
+.check-item:hover{border-color:var(--accent-bdr);background:var(--accent-dim);}.check-item.item-checked{border-color:var(--accent-bdr);background:var(--accent-dim);}
+.chk{width:18px;height:18px;border:1.5px solid var(--accent-bdr);border-radius:3px;flex-shrink:0;margin-top:1px;background:var(--accent-dim);transition:background .15s,border-color .15s;pointer-events:none;}
+.chk.checked{background:var(--accent);border-color:var(--accent);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 10'%3E%3Cpath d='M1.5 5l3 3.5 6-7' stroke='%23fff' stroke-width='1.75' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:center;background-size:10px 9px;}
+.m-table{width:100%;border-collapse:collapse;font-size:.8125rem;border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;}
+.m-table th{text-align:left;font-family:var(--mono);font-size:.575rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);padding:.5rem 1rem;border-bottom:1px solid var(--bdr);background:var(--surface-2);}
+.m-table td{padding:.625rem 1rem;border-bottom:1px solid var(--bdr);color:var(--text-muted);vertical-align:middle;}.m-table td:first-child{color:var(--text);font-weight:500;}.m-table tr:last-child td{border-bottom:none;}
+.m-table td input{background:transparent;border:none;color:var(--accent-soft);font-size:.875rem;font-family:inherit;width:100%;outline:none;font-weight:600;}.m-table td input::placeholder{color:var(--text-faint);font-weight:400;}
+.mov-sel{background:var(--surface);border:1px solid var(--bdr-mid);border-radius:3px;color:var(--text-muted);font-size:.75rem;font-family:inherit;padding:.25rem .5rem;outline:none;}
+.hab-chk{width:22px;height:22px;border:1.5px solid var(--accent-bdr);border-radius:3px;background:var(--accent-dim);margin:0 auto;cursor:pointer;transition:background .15s,border-color .15s,transform .1s;}.hab-chk:hover{transform:scale(1.1);border-color:var(--accent);}
+.hab-chk.checked{background:var(--accent);border-color:var(--accent);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 10'%3E%3Cpath d='M1.5 5l3 3.5 6-7' stroke='%23fff' stroke-width='1.75' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:center;background-size:11px 10px;}
 </style>
 </head>
 <body>
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+  <span class="toggle-track"><span class="toggle-thumb"></span></span>
+  <span class="toggle-lbl" id="toggleLabel">Night</span>
+</button>
 <a class="back" href="anafit-hub.html">← Back to Hub</a>
 <div class="doc-header">
   <div class="eyebrow">Ana Fit VIP · Monthly</div>
   <h1 class="doc-title">Phase Review</h1>
-  <p class="doc-sub">End-of-month review covering metrics, habits, mindset shifts, and goals for the next phase. Complete one review per phase — 3 total across the program.</p>
-  <div class="doc-meta">
-    <div class="meta-chip"><span class="chip-dot"></span>3 Reviews</div>
-    <div class="meta-chip"><span class="chip-dot"></span>Monthly</div>
-    <div class="meta-chip"><span class="chip-dot"></span>Client + Coach</div>
-  </div>
+  <p class="doc-sub">End-of-month review covering metrics, habits, mindset shifts, and goals for the next phase. One review per phase — 3 total.</p>
+  <div class="doc-meta"><div class="meta-chip"><span class="chip-dot"></span>3 Reviews</div><div class="meta-chip"><span class="chip-dot"></span>Monthly</div><div class="meta-chip"><span class="chip-dot"></span>Client + Coach</div></div>
 </div>
 <main>
-
   <div class="sec">
     <div class="sec-label">Client Info</div>
     <div class="grid-2">
@@ -95,11 +79,9 @@ textarea.field-input{resize:vertical;min-height:72px;}
       <div class="field"><label class="field-label">Program Start Date</label><input class="field-input" type="text" placeholder="MM / DD / YYYY"></div>
     </div>
   </div>
-
   
   <div class="sec">
-    <div class="sec-label">Phase 1</div>
-    <div class="sec-heading">Foundation — Month 1</div>
+    <div class="sec-label">Phase 1 — Foundation · Month 1</div>
     <div class="highlight-card" style="margin-bottom:1.25rem;">
       <p><strong>Weeks 1–4</strong> &nbsp;·&nbsp; Health assessment · Movement baseline · Nutrition calibration · Identify self-sabotage · Establish non-negotiables</p>
     </div>
@@ -107,40 +89,26 @@ textarea.field-input{resize:vertical;min-height:72px;}
       <div class="field"><label class="field-label">Phase start date</label><input class="field-input" type="text" placeholder="MM / DD"></div>
       <div class="field"><label class="field-label">Phase end date</label><input class="field-input" type="text" placeholder="MM / DD"></div>
     </div>
-
-    <div class="sec-label" style="margin-top:1.5rem;">Metrics</div>
     <div class="grid-2">
-      <div class="field"><label class="field-label">Weight at start of phase</label><input class="field-input" type="text" placeholder="lbs / kg"></div>
-      <div class="field"><label class="field-label">Weight at end of phase</label><input class="field-input" type="text" placeholder="lbs / kg"></div>
+      <div class="field"><label class="field-label">Weight at start</label><input class="field-input" type="text" placeholder="lbs / kg"></div>
+      <div class="field"><label class="field-label">Weight at end</label><input class="field-input" type="text" placeholder="lbs / kg"></div>
     </div>
-    <div class="field"><label class="field-label">Notable physical changes (measurements, strength, energy, appearance)</label><textarea class="field-input" placeholder="What changed measurably or visibly this month?"></textarea></div>
+    <div class="field"><label class="field-label">Notable physical changes this phase</label><textarea class="field-input" placeholder="Measurements, strength, energy, appearance — what changed?"></textarea></div>
     <div class="field"><label class="field-label">Average workouts per week this phase</label><input class="field-input" type="text" placeholder="e.g. 3.5/week"></div>
-    <div class="field"><label class="field-label">Average nutrition adherence (1–10)</label>
-      <div class="scale-row">
-        <span class="scale-btn">1</span><span class="scale-btn">2</span><span class="scale-btn">3</span><span class="scale-btn">4</span><span class="scale-btn">5</span><span class="scale-btn">6</span><span class="scale-btn">7</span><span class="scale-btn">8</span><span class="scale-btn">9</span><span class="scale-btn">10</span>
-      </div>
-    </div>
-
-    <div class="sec-label" style="margin-top:1.5rem;">Habits &amp; Identity</div>
-    <div class="field"><label class="field-label">Habits fully established by end of this phase</label><textarea class="field-input" placeholder="Habits that now feel automatic or natural — list them"></textarea></div>
-    <div class="field"><label class="field-label">Biggest identity or mindset shift this phase</label><textarea class="field-input" placeholder="How has the client's self-perception changed? What did they start believing about themselves?"></textarea></div>
-    <div class="field"><label class="field-label">Most common self-sabotage pattern and how it was handled</label><textarea class="field-input" placeholder="Did it show up? How did they respond? Was it interrupted or did it win?"></textarea></div>
-
-    <div class="sec-label" style="margin-top:1.5rem;">Review</div>
-    <div class="field"><label class="field-label">What worked well this phase</label><textarea class="field-input" placeholder="Strategies, habits, types of support, programming, or nutrition that produced results"></textarea></div>
-    <div class="field"><label class="field-label">What didn't work or needs to change</label><textarea class="field-input" placeholder="Honest reflection — approaches to drop, timing issues, things to do differently"></textarea></div>
-    <div class="field"><label class="field-label">Biggest breakthrough moment of the phase</label><textarea class="field-input" placeholder="The moment things clicked — a decision, a result, a conversation, a realization"></textarea></div>
-
-    <div class="sec-label" style="margin-top:1.5rem;">Goals for Next Phase</div>
-    <div class="field"><label class="field-label">Top physical goal for next phase</label><textarea class="field-input" placeholder="Specific, measurable"></textarea></div>
-    <div class="field"><label class="field-label">Top habit/behavior goal for next phase</label><textarea class="field-input" placeholder="What new habit needs to be built or solidified?"></textarea></div>
-    <div class="field"><label class="field-label">Top mindset goal for next phase</label><textarea class="field-input" placeholder="What belief shift or identity work is the focus?"></textarea></div>
-    <div class="field"><label class="field-label">Ana's coaching focus for next phase</label><textarea class="field-input" placeholder="What will Ana be watching for, working on, and emphasizing?"></textarea></div>
+    <div class="field"><label class="field-label">Average nutrition adherence (1–10)</label><div class="scale-row"><button type="button" class="scale-btn">1</button><button type="button" class="scale-btn">2</button><button type="button" class="scale-btn">3</button><button type="button" class="scale-btn">4</button><button type="button" class="scale-btn">5</button><button type="button" class="scale-btn">6</button><button type="button" class="scale-btn">7</button><button type="button" class="scale-btn">8</button><button type="button" class="scale-btn">9</button><button type="button" class="scale-btn">10</button></div></div>
+    <div class="field"><label class="field-label">Habits fully established by end of this phase</label><textarea class="field-input" placeholder="Habits that now feel automatic — list them"></textarea></div>
+    <div class="field"><label class="field-label">Biggest identity or mindset shift this phase</label><textarea class="field-input" placeholder="How has the client's self-perception changed?"></textarea></div>
+    <div class="field"><label class="field-label">Self-sabotage pattern and how it was handled</label><textarea class="field-input" placeholder="Did it show up? Was it interrupted or did it win?"></textarea></div>
+    <div class="field"><label class="field-label">What worked well this phase</label><textarea class="field-input" placeholder="Strategies, habits, support types that produced results"></textarea></div>
+    <div class="field"><label class="field-label">What needs to change next phase</label><textarea class="field-input" placeholder="Honest reflection — approaches to drop, things to do differently"></textarea></div>
+    <div class="field"><label class="field-label">Biggest breakthrough moment</label><textarea class="field-input" placeholder="The moment things clicked"></textarea></div>
+    <div class="field"><label class="field-label">Top physical goal for next phase</label><textarea class="field-input" placeholder="Specific and measurable"></textarea></div>
+    <div class="field"><label class="field-label">Top habit goal for next phase</label><textarea class="field-input" placeholder="What new habit needs to be built or solidified?"></textarea></div>
+    <div class="field"><label class="field-label">Top mindset goal for next phase</label><textarea class="field-input" placeholder="What belief shift is the focus?"></textarea></div>
   </div>
   
   <div class="sec">
-    <div class="sec-label">Phase 2</div>
-    <div class="sec-heading">Build — Month 2</div>
+    <div class="sec-label">Phase 2 — Build · Month 2</div>
     <div class="highlight-card" style="margin-bottom:1.25rem;">
       <p><strong>Weeks 5–8</strong> &nbsp;·&nbsp; Progressive overload · Refined nutrition · Identity work · Time management · First measurable achievements</p>
     </div>
@@ -148,101 +116,66 @@ textarea.field-input{resize:vertical;min-height:72px;}
       <div class="field"><label class="field-label">Phase start date</label><input class="field-input" type="text" placeholder="MM / DD"></div>
       <div class="field"><label class="field-label">Phase end date</label><input class="field-input" type="text" placeholder="MM / DD"></div>
     </div>
-
-    <div class="sec-label" style="margin-top:1.5rem;">Metrics</div>
     <div class="grid-2">
-      <div class="field"><label class="field-label">Weight at start of phase</label><input class="field-input" type="text" placeholder="lbs / kg"></div>
-      <div class="field"><label class="field-label">Weight at end of phase</label><input class="field-input" type="text" placeholder="lbs / kg"></div>
+      <div class="field"><label class="field-label">Weight at start</label><input class="field-input" type="text" placeholder="lbs / kg"></div>
+      <div class="field"><label class="field-label">Weight at end</label><input class="field-input" type="text" placeholder="lbs / kg"></div>
     </div>
-    <div class="field"><label class="field-label">Notable physical changes (measurements, strength, energy, appearance)</label><textarea class="field-input" placeholder="What changed measurably or visibly this month?"></textarea></div>
+    <div class="field"><label class="field-label">Notable physical changes this phase</label><textarea class="field-input" placeholder="Measurements, strength, energy, appearance — what changed?"></textarea></div>
     <div class="field"><label class="field-label">Average workouts per week this phase</label><input class="field-input" type="text" placeholder="e.g. 3.5/week"></div>
-    <div class="field"><label class="field-label">Average nutrition adherence (1–10)</label>
-      <div class="scale-row">
-        <span class="scale-btn">1</span><span class="scale-btn">2</span><span class="scale-btn">3</span><span class="scale-btn">4</span><span class="scale-btn">5</span><span class="scale-btn">6</span><span class="scale-btn">7</span><span class="scale-btn">8</span><span class="scale-btn">9</span><span class="scale-btn">10</span>
-      </div>
-    </div>
-
-    <div class="sec-label" style="margin-top:1.5rem;">Habits &amp; Identity</div>
-    <div class="field"><label class="field-label">Habits fully established by end of this phase</label><textarea class="field-input" placeholder="Habits that now feel automatic or natural — list them"></textarea></div>
-    <div class="field"><label class="field-label">Biggest identity or mindset shift this phase</label><textarea class="field-input" placeholder="How has the client's self-perception changed? What did they start believing about themselves?"></textarea></div>
-    <div class="field"><label class="field-label">Most common self-sabotage pattern and how it was handled</label><textarea class="field-input" placeholder="Did it show up? How did they respond? Was it interrupted or did it win?"></textarea></div>
-
-    <div class="sec-label" style="margin-top:1.5rem;">Review</div>
-    <div class="field"><label class="field-label">What worked well this phase</label><textarea class="field-input" placeholder="Strategies, habits, types of support, programming, or nutrition that produced results"></textarea></div>
-    <div class="field"><label class="field-label">What didn't work or needs to change</label><textarea class="field-input" placeholder="Honest reflection — approaches to drop, timing issues, things to do differently"></textarea></div>
-    <div class="field"><label class="field-label">Biggest breakthrough moment of the phase</label><textarea class="field-input" placeholder="The moment things clicked — a decision, a result, a conversation, a realization"></textarea></div>
-
-    <div class="sec-label" style="margin-top:1.5rem;">Goals for Next Phase</div>
-    <div class="field"><label class="field-label">Top physical goal for next phase</label><textarea class="field-input" placeholder="Specific, measurable"></textarea></div>
-    <div class="field"><label class="field-label">Top habit/behavior goal for next phase</label><textarea class="field-input" placeholder="What new habit needs to be built or solidified?"></textarea></div>
-    <div class="field"><label class="field-label">Top mindset goal for next phase</label><textarea class="field-input" placeholder="What belief shift or identity work is the focus?"></textarea></div>
-    <div class="field"><label class="field-label">Ana's coaching focus for next phase</label><textarea class="field-input" placeholder="What will Ana be watching for, working on, and emphasizing?"></textarea></div>
+    <div class="field"><label class="field-label">Average nutrition adherence (1–10)</label><div class="scale-row"><button type="button" class="scale-btn">1</button><button type="button" class="scale-btn">2</button><button type="button" class="scale-btn">3</button><button type="button" class="scale-btn">4</button><button type="button" class="scale-btn">5</button><button type="button" class="scale-btn">6</button><button type="button" class="scale-btn">7</button><button type="button" class="scale-btn">8</button><button type="button" class="scale-btn">9</button><button type="button" class="scale-btn">10</button></div></div>
+    <div class="field"><label class="field-label">Habits fully established by end of this phase</label><textarea class="field-input" placeholder="Habits that now feel automatic — list them"></textarea></div>
+    <div class="field"><label class="field-label">Biggest identity or mindset shift this phase</label><textarea class="field-input" placeholder="How has the client's self-perception changed?"></textarea></div>
+    <div class="field"><label class="field-label">Self-sabotage pattern and how it was handled</label><textarea class="field-input" placeholder="Did it show up? Was it interrupted or did it win?"></textarea></div>
+    <div class="field"><label class="field-label">What worked well this phase</label><textarea class="field-input" placeholder="Strategies, habits, support types that produced results"></textarea></div>
+    <div class="field"><label class="field-label">What needs to change next phase</label><textarea class="field-input" placeholder="Honest reflection — approaches to drop, things to do differently"></textarea></div>
+    <div class="field"><label class="field-label">Biggest breakthrough moment</label><textarea class="field-input" placeholder="The moment things clicked"></textarea></div>
+    <div class="field"><label class="field-label">Top physical goal for next phase</label><textarea class="field-input" placeholder="Specific and measurable"></textarea></div>
+    <div class="field"><label class="field-label">Top habit goal for next phase</label><textarea class="field-input" placeholder="What new habit needs to be built or solidified?"></textarea></div>
+    <div class="field"><label class="field-label">Top mindset goal for next phase</label><textarea class="field-input" placeholder="What belief shift is the focus?"></textarea></div>
   </div>
   
   <div class="sec">
-    <div class="sec-label">Phase 3</div>
-    <div class="sec-heading">Integration — Month 3</div>
+    <div class="sec-label">Phase 3 — Integration · Month 3</div>
     <div class="highlight-card" style="margin-bottom:1.25rem;">
-      <p><strong>Weeks 9–12</strong> &nbsp;·&nbsp; Advanced programming · Nutrition on autopilot · Consolidated identity shift · Graduation or continuation planning</p>
+      <p><strong>Weeks 9–12</strong> &nbsp;·&nbsp; Advanced programming · Nutrition on autopilot · Identity shift · Graduation or continuation planning</p>
     </div>
     <div class="grid-2">
       <div class="field"><label class="field-label">Phase start date</label><input class="field-input" type="text" placeholder="MM / DD"></div>
       <div class="field"><label class="field-label">Phase end date</label><input class="field-input" type="text" placeholder="MM / DD"></div>
     </div>
-
-    <div class="sec-label" style="margin-top:1.5rem;">Metrics</div>
     <div class="grid-2">
-      <div class="field"><label class="field-label">Weight at start of phase</label><input class="field-input" type="text" placeholder="lbs / kg"></div>
-      <div class="field"><label class="field-label">Weight at end of phase</label><input class="field-input" type="text" placeholder="lbs / kg"></div>
+      <div class="field"><label class="field-label">Weight at start</label><input class="field-input" type="text" placeholder="lbs / kg"></div>
+      <div class="field"><label class="field-label">Weight at end</label><input class="field-input" type="text" placeholder="lbs / kg"></div>
     </div>
-    <div class="field"><label class="field-label">Notable physical changes (measurements, strength, energy, appearance)</label><textarea class="field-input" placeholder="What changed measurably or visibly this month?"></textarea></div>
+    <div class="field"><label class="field-label">Notable physical changes this phase</label><textarea class="field-input" placeholder="Measurements, strength, energy, appearance — what changed?"></textarea></div>
     <div class="field"><label class="field-label">Average workouts per week this phase</label><input class="field-input" type="text" placeholder="e.g. 3.5/week"></div>
-    <div class="field"><label class="field-label">Average nutrition adherence (1–10)</label>
-      <div class="scale-row">
-        <span class="scale-btn">1</span><span class="scale-btn">2</span><span class="scale-btn">3</span><span class="scale-btn">4</span><span class="scale-btn">5</span><span class="scale-btn">6</span><span class="scale-btn">7</span><span class="scale-btn">8</span><span class="scale-btn">9</span><span class="scale-btn">10</span>
-      </div>
-    </div>
-
-    <div class="sec-label" style="margin-top:1.5rem;">Habits &amp; Identity</div>
-    <div class="field"><label class="field-label">Habits fully established by end of this phase</label><textarea class="field-input" placeholder="Habits that now feel automatic or natural — list them"></textarea></div>
-    <div class="field"><label class="field-label">Biggest identity or mindset shift this phase</label><textarea class="field-input" placeholder="How has the client's self-perception changed? What did they start believing about themselves?"></textarea></div>
-    <div class="field"><label class="field-label">Most common self-sabotage pattern and how it was handled</label><textarea class="field-input" placeholder="Did it show up? How did they respond? Was it interrupted or did it win?"></textarea></div>
-
-    <div class="sec-label" style="margin-top:1.5rem;">Review</div>
-    <div class="field"><label class="field-label">What worked well this phase</label><textarea class="field-input" placeholder="Strategies, habits, types of support, programming, or nutrition that produced results"></textarea></div>
-    <div class="field"><label class="field-label">What didn't work or needs to change</label><textarea class="field-input" placeholder="Honest reflection — approaches to drop, timing issues, things to do differently"></textarea></div>
-    <div class="field"><label class="field-label">Biggest breakthrough moment of the phase</label><textarea class="field-input" placeholder="The moment things clicked — a decision, a result, a conversation, a realization"></textarea></div>
-
-    <div class="sec-label" style="margin-top:1.5rem;">Goals for Next Phase</div>
-    <div class="field"><label class="field-label">Top physical goal for next phase</label><textarea class="field-input" placeholder="Specific, measurable"></textarea></div>
-    <div class="field"><label class="field-label">Top habit/behavior goal for next phase</label><textarea class="field-input" placeholder="What new habit needs to be built or solidified?"></textarea></div>
-    <div class="field"><label class="field-label">Top mindset goal for next phase</label><textarea class="field-input" placeholder="What belief shift or identity work is the focus?"></textarea></div>
-    <div class="field"><label class="field-label">Ana's coaching focus for next phase</label><textarea class="field-input" placeholder="What will Ana be watching for, working on, and emphasizing?"></textarea></div>
+    <div class="field"><label class="field-label">Average nutrition adherence (1–10)</label><div class="scale-row"><button type="button" class="scale-btn">1</button><button type="button" class="scale-btn">2</button><button type="button" class="scale-btn">3</button><button type="button" class="scale-btn">4</button><button type="button" class="scale-btn">5</button><button type="button" class="scale-btn">6</button><button type="button" class="scale-btn">7</button><button type="button" class="scale-btn">8</button><button type="button" class="scale-btn">9</button><button type="button" class="scale-btn">10</button></div></div>
+    <div class="field"><label class="field-label">Habits fully established by end of this phase</label><textarea class="field-input" placeholder="Habits that now feel automatic — list them"></textarea></div>
+    <div class="field"><label class="field-label">Biggest identity or mindset shift this phase</label><textarea class="field-input" placeholder="How has the client's self-perception changed?"></textarea></div>
+    <div class="field"><label class="field-label">Self-sabotage pattern and how it was handled</label><textarea class="field-input" placeholder="Did it show up? Was it interrupted or did it win?"></textarea></div>
+    <div class="field"><label class="field-label">What worked well this phase</label><textarea class="field-input" placeholder="Strategies, habits, support types that produced results"></textarea></div>
+    <div class="field"><label class="field-label">What needs to change next phase</label><textarea class="field-input" placeholder="Honest reflection — approaches to drop, things to do differently"></textarea></div>
+    <div class="field"><label class="field-label">Biggest breakthrough moment</label><textarea class="field-input" placeholder="The moment things clicked"></textarea></div>
+    <div class="field"><label class="field-label">Top physical goal for next phase</label><textarea class="field-input" placeholder="Specific and measurable"></textarea></div>
+    <div class="field"><label class="field-label">Top habit goal for next phase</label><textarea class="field-input" placeholder="What new habit needs to be built or solidified?"></textarea></div>
+    <div class="field"><label class="field-label">Top mindset goal for next phase</label><textarea class="field-input" placeholder="What belief shift is the focus?"></textarea></div>
   </div>
-
   <div class="sec">
-    <div class="sec-label">Program Complete</div>
-    <div class="sec-heading">3-Month Summary</div>
-    <div class="field"><label class="field-label">Total physical change (weight, measurements, fitness)</label><textarea class="field-input" placeholder="From start to finish — what changed?"></textarea></div>
-    <div class="field"><label class="field-label">Biggest overall transformation (non-scale)</label><textarea class="field-input" placeholder="The thing that changed most that isn't a number on a scale"></textarea></div>
-    <div class="field"><label class="field-label">Client's overall rating of the program (1–10)</label>
-      <div class="scale-row">
-        <span class="scale-btn">1</span><span class="scale-btn">2</span><span class="scale-btn">3</span><span class="scale-btn">4</span><span class="scale-btn">5</span><span class="scale-btn">6</span><span class="scale-btn">7</span><span class="scale-btn">8</span><span class="scale-btn">9</span><span class="scale-btn">10</span>
-      </div>
-    </div>
-    <div class="field"><label class="field-label">Client's testimonial / in their own words</label><textarea class="field-input" style="min-height:120px;" placeholder="Ask the client: 'In your own words, how would you describe your experience and results?'"></textarea></div>
-    <div class="field"><label class="field-label">Ana's coaching notes — what this client taught you</label><textarea class="field-input" placeholder="Patterns, lessons, adjustments that helped — what you'd do differently, what you'd keep"></textarea></div>
+    <div class="sec-label">Program Complete — 3-Month Summary</div>
+    <div class="field"><label class="field-label">Total physical change (start to finish)</label><textarea class="field-input" placeholder="Weight, measurements, fitness — from baseline to now"></textarea></div>
+    <div class="field"><label class="field-label">Biggest overall transformation (non-scale)</label><textarea class="field-input" placeholder="The thing that changed most that isn't a number"></textarea></div>
+    <div class="field"><label class="field-label">Client's program rating (1–10)</label><div class="scale-row"><button type="button" class="scale-btn">1</button><button type="button" class="scale-btn">2</button><button type="button" class="scale-btn">3</button><button type="button" class="scale-btn">4</button><button type="button" class="scale-btn">5</button><button type="button" class="scale-btn">6</button><button type="button" class="scale-btn">7</button><button type="button" class="scale-btn">8</button><button type="button" class="scale-btn">9</button><button type="button" class="scale-btn">10</button></div></div>
+    <div class="field"><label class="field-label">Client testimonial — in their own words</label><textarea class="field-input" style="min-height:110px;" placeholder="Ask: 'How would you describe your experience and results?'"></textarea></div>
+    <div class="field"><label class="field-label">Ana's coaching notes — what this client taught you</label><textarea class="field-input" placeholder="Patterns, lessons, what you'd do differently, what you'd keep"></textarea></div>
     <div class="field"><label class="field-label">Continuation recommendation</label>
-      <select class="field-input field-select">
-        <option value="">Select...</option>
-        <option>Graduated — client has systems and can continue independently</option>
-        <option>Recommend continuation program (monthly group coaching)</option>
-        <option>Recommend full program renewal for continued transformation</option>
-        <option>Discuss individually — more context needed</option>
-      </select>
-    </div>
-  </div>
-
-</main>
-</body>
-</html>
+      <select class="field-input field-select"><option value="">Select...</option><option>Graduated — client has systems and can continue independently</option><option>Recommend monthly group continuation</option><option>Recommend full program renewal</option><option>Discuss individually</option></select></div>
+  </div></main>
+<script>
+function toggleTheme(){var h=document.documentElement,n=h.getAttribute('data-theme')==='day'?'night':'day';h.setAttribute('data-theme',n);var l=document.getElementById('toggleLabel');if(l)l.textContent=n==='day'?'Day':'Night';try{localStorage.setItem('af-theme',n);}catch(e){}}
+(function(){var t=document.documentElement.getAttribute('data-theme')||'night';var l=document.getElementById('toggleLabel');if(l)l.textContent=t==='day'?'Day':'Night';})();
+document.querySelectorAll('.scale-row').forEach(function(row){row.querySelectorAll('.scale-btn').forEach(function(btn){btn.addEventListener('click',function(){var was=btn.classList.contains('active');row.querySelectorAll('.scale-btn').forEach(function(b){b.classList.remove('active');});if(!was)btn.classList.add('active');});});});
+document.querySelectorAll('.check-item').forEach(function(item){item.addEventListener('click',function(){var chk=item.querySelector('.chk');if(chk)chk.classList.toggle('checked');item.classList.toggle('item-checked');});});
+document.querySelectorAll('.action-chk').forEach(function(chk){chk.addEventListener('click',function(){chk.classList.toggle('checked');});});
+document.querySelectorAll('.hab-chk').forEach(function(chk){chk.addEventListener('click',function(){chk.classList.toggle('checked');});});
+</script>
+</body></html>
