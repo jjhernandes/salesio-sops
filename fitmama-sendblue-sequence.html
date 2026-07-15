@@ -158,6 +158,14 @@
   .note-block .k { font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 0.25rem; }
   .note-block .v { font-size: 0.82rem; color: var(--ink); line-height: 1.45; }
 
+  /* ── Sender tag ── */
+  .sender-row { display: flex; align-items: center; gap: 0.45rem; margin: 0.1rem 0 0.4rem; }
+  .sender-row:not(:first-child) { margin-top: 0.7rem; }
+  .sender-pill { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.04em; padding: 0.14rem 0.55rem; border-radius: 20px; }
+  .sender-pill.jaz { background: var(--accent-soft); color: var(--accent); }
+  .sender-pill.closer { background: var(--gold-soft); color: var(--gold); }
+  .sender-line { flex: 1; height: 1px; background: var(--line); }
+
   /* ── Branch cards ── */
   .branch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
   .branch-card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
@@ -190,42 +198,44 @@
 <div class="doc">
 <div class="wrap">
 
-  <div class="eyebrow">SendBlue Automation Build</div>
+  <div class="eyebrow">SendBlue Automation Build — v2</div>
   <h1>FitMama — Book-to-Call Sequence</h1>
-  <p class="lede">The stretch between "booked a call from her Instagram" and "on the phone with a stranger" is where trust leaks out. This sequence keeps that warmth intact — DM energy carried into iMessage, real person, no bait-and-switch, no dead air before the call.</p>
+  <p class="lede">Jaz opens every thread herself — same voice the incomplete-application flow already uses — then hands the lead off, by name, to whichever closer the call is assigned to. The DM never visibly stops. Nobody gets ghosted by "her," and nobody gets lied to once the real conversation starts.</p>
 
   <div class="handoff">
     <div class="handoff-chip"><span class="k">Where they came from</span><span class="v">@jasmin.elago DMs</span></div>
     <span class="handoff-arrow">→</span>
     <div class="handoff-chip"><span class="k">Booking event</span><span class="v">Call booked (webhook fires)</span></div>
     <span class="handoff-arrow">→</span>
-    <div class="handoff-chip"><span class="k">Where they land</span><span class="v">SendBlue → blue-bubble iMessage</span></div>
+    <div class="handoff-chip"><span class="k">Opens the thread</span><span class="v">Jaz, same number</span></div>
+    <span class="handoff-arrow">→</span>
+    <div class="handoff-chip"><span class="k">Takes it from there</span><span class="v">{{closer_name}}</span></div>
   </div>
 
   <div class="assumption">
-    Built off the July 4 FitMama SendBlue upgrade (full plan — voice, video, and text sequencing) and the team's existing closer setup, <strong>Jess Whitman</strong> as the on-record sender. Swap the name, domain, and price mentions if any of that's changed.
+    v2 correction: v1 had the assigned closer introduce themselves immediately, cutting Jaz out entirely — that broke continuity with the existing incomplete-application flow, where Jaz is already the one texting. This version keeps Jaz in the loop for the open and the handoff, then the closer takes the thread for everything operational. Closer defaults to <strong>Jess Whitman</strong> — swap the token if a lead is routed elsewhere. Also flagging: your message used "Jazz" and "Jas" — running with <strong>"Jaz"</strong> below, swap the spelling to match exactly what's live in the incomplete-application automation.
   </div>
 
   <!-- Persona & Tone -->
   <div class="section">
     <div class="section-head"><h2>The Handoff Rule</h2><div class="rule"></div></div>
-    <p class="section-note">The Sales.io template this is built from never pretends to be someone else — JJ texts as JJ. Same rule here: the lead should <em>feel</em> like the DM never stopped, without anyone lying about who's on the other end.</p>
+    <p class="section-note">Two people are legitimately texting from this number now, in sequence. The rule isn't "always say who you are immediately" — it's "never let anyone be confused about who they're talking to for longer than one message."</p>
     <div class="rule-grid">
       <div class="rule-card">
         <div class="t">Do</div>
-        <p>Open as a real named person on Jasmin's team, in the first message, before anything else. Casual, first-name, lowercase — matches how she'd actually text.</p>
+        <p>Open as Jaz. Same energy as the incomplete-application flow — this is the account they were just DMing, so the thread should read as unbroken.</p>
       </div>
       <div class="rule-card">
         <div class="t">Don't</div>
-        <p>Never sign messages "Jasmin" or let the lead assume they're texting her directly without correcting it. That's the fastest way to torch trust on the call.</p>
+        <p>Don't let Jaz linger. Once the booking's confirmed, her job is a warm handoff, not ongoing conversation — dragging it out is what actually breaks trust, not the handoff itself.</p>
       </div>
       <div class="rule-card">
         <div class="t">Do</div>
-        <p>Multiple short bubbles, not one paragraph — mirrors how the lead was just DMing on Instagram. Lowercase openers, real punctuation only where it'd naturally land.</p>
+        <p>Have the closer name-check Jaz the moment they take over ("jaz looped me in"). That one line is what makes the switch feel like a introduction, not a bait-and-switch.</p>
       </div>
       <div class="rule-card">
         <div class="t">Don't</div>
-        <p>No pitching, no program details, no pricing in this sequence. Its only jobs: gather context, get them prepped, get them to show up.</p>
+        <p>No pitching, no program details, no pricing from either persona in this sequence. Its only jobs: warm handoff, gather context, get them prepped, get them to show up.</p>
       </div>
     </div>
   </div>
@@ -233,7 +243,7 @@
   <!-- Timeline -->
   <div class="section">
     <div class="section-head"><h2>The Sequence</h2><div class="rule"></div></div>
-    <p class="section-note">Six triggers from booking to call time. Each one is time-delayed off the last, not off the clock — if they reply early, the human takes over and the automation stands down.</p>
+    <p class="section-note">Seven triggers from booking to call time. Each one is time-delayed off the last, not off the clock — if they reply early, a human takes over in-persona and the automation stands down.</p>
 
     <div class="timeline">
 
@@ -241,19 +251,19 @@
       <div class="stage">
         <div class="stage-marker"><div class="stage-dot"></div></div>
         <div class="stage-content">
-          <div class="stage-meta"><span class="stage-time">T+0–3 min</span><span class="stage-tag">auto-trigger: booking webhook</span></div>
-          <h3 class="stage-title">1 · Warm Open</h3>
-          <p class="stage-goal">First thing they see after booking. Establishes who's texting before anything else — no gap where they're left assuming it's Jasmin.</p>
+          <div class="stage-meta"><span class="stage-time">T+0–2 min</span><span class="stage-tag">auto-trigger: booking webhook</span></div>
+          <h3 class="stage-title">1 · Jaz Opens</h3>
+          <p class="stage-goal">Same account they were just DMing, confirming the booking herself. No handoff yet — this part is entirely her.</p>
           <div class="stage-body">
             <div class="thread">
+              <div class="sender-row"><span class="sender-pill jaz">Jaz</span><div class="sender-line"></div></div>
               <div class="bubble-time">Today 8:54 AM</div>
-              <div class="bubble out">hey {{first_name}}, it's jess here — i work closely with jasmin on the coaching side 👋</div>
-              <div class="bubble out">saw you just booked a call with us, wanted to reach out before we hop on</div>
-              <div class="bubble out">i read every message myself, so don't worry about it going into some inbox nobody checks</div>
+              <div class="bubble out">ahh you booked!! so pumped 🎉</div>
+              <div class="bubble out">okay so my coach is gonna reach out in a sec to get you fully ready for our call</div>
             </div>
             <div class="stage-notes">
-              <div class="note-block"><div class="k">Delay between bubbles</div><div class="v">45–75 sec, staggered</div></div>
-              <div class="note-block"><div class="k">Personalization token</div><div class="v">{{first_name}} from booking form</div></div>
+              <div class="note-block"><div class="k">Delay between bubbles</div><div class="v">30–60 sec</div></div>
+              <div class="note-block"><div class="k">Consistency check</div><div class="v">Same voice/tone as the existing incomplete-application "Jaz" flow — same number, same account</div></div>
             </div>
           </div>
         </div>
@@ -263,20 +273,19 @@
       <div class="stage">
         <div class="stage-marker"><div class="stage-dot"></div></div>
         <div class="stage-content">
-          <div class="stage-meta"><span class="stage-time">T+3–5 min</span><span class="stage-tag">auto-trigger: same thread</span></div>
-          <h3 class="stage-title">2 · Context Pull</h3>
-          <p class="stage-goal">The one thing this sequence actually needs from them. Sets the standard early: specific, not small talk.</p>
+          <div class="stage-meta"><span class="stage-time">T+2–3 min</span><span class="stage-tag">auto-trigger: same thread</span></div>
+          <h3 class="stage-title">2 · The Handoff</h3>
+          <p class="stage-goal">Jaz names the closer and vouches for them before she goes quiet. This one line is what makes the switch feel like an introduction instead of a disappearance.</p>
           <div class="stage-body">
             <div class="thread">
-              <div class="bubble-time">8:56 AM</div>
-              <div class="bubble out">before we talk — give me some context on you. where you're at right now, what you've tried, what's actually going on</div>
-              <div class="bubble out">voice memo, long text, whatever's easiest for you. i just want the real picture, not the highlight reel</div>
-              <div class="bubble in">"honestly since my second baby i just feel like i've lost myself. i don't even recognize my own body anymore"</div>
-              <div class="bubble out">okay, that's exactly the kind of thing i want to know before we talk 🤍</div>
+              <div class="sender-row"><span class="sender-pill jaz">Jaz</span><div class="sender-line"></div></div>
+              <div class="bubble-time">8:55 AM</div>
+              <div class="bubble out">she's {{closer_name}} — she's incredible, you're in really good hands</div>
+              <div class="bubble out">talk soon!! 🤍</div>
             </div>
             <div class="stage-notes">
-              <div class="note-block"><div class="k">Grey bubble</div><div class="v">Illustrative reply — not scripted, shows the tone this question is built to surface</div></div>
-              <div class="note-block"><div class="k">If they respond</div><div class="v">Jess (human) replies live within the hour — sequence pauses here</div></div>
+              <div class="note-block"><div class="k">Token</div><div class="v">{{closer_name}} = whoever the call is actually assigned to, not hardcoded to one person</div></div>
+              <div class="note-block"><div class="k">After this bubble</div><div class="v">Jaz doesn't send anything else in this sequence unless the lead replies to her directly before the closer's first message lands</div></div>
             </div>
           </div>
         </div>
@@ -286,11 +295,37 @@
       <div class="stage">
         <div class="stage-marker"><div class="stage-dot"></div></div>
         <div class="stage-content">
+          <div class="stage-meta"><span class="stage-time">T+3–5 min</span><span class="stage-tag">auto-trigger: same thread</span></div>
+          <h3 class="stage-title">3 · Closer Introduces &amp; Pulls Context</h3>
+          <p class="stage-goal">First message from the closer references Jaz by name — confirms the handoff for the lead rather than assuming they tracked it. Then goes straight to the one thing this sequence actually needs.</p>
+          <div class="stage-body">
+            <div class="thread">
+              <div class="sender-row"><span class="sender-pill closer">{{closer_name}}</span><div class="sender-line"></div></div>
+              <div class="bubble-time">8:56 AM</div>
+              <div class="bubble out">hey {{first_name}}, it's jess! jaz looped me in to help get you ready for the call 👋</div>
+              <div class="bubble out">before we talk — give me some context on you. where you're at right now, what you've tried, what's actually going on</div>
+              <div class="bubble out">voice memo, long text, whatever's easiest. i read every word myself, so don't hold back</div>
+              <div class="bubble in">"honestly since my second baby i just feel like i've lost myself. i don't even recognize my own body anymore"</div>
+              <div class="bubble out">okay, that's exactly the kind of thing i want to know before we talk 🤍</div>
+            </div>
+            <div class="stage-notes">
+              <div class="note-block"><div class="k">Grey bubble</div><div class="v">Illustrative reply — not scripted, shows the tone this question is built to surface</div></div>
+              <div class="note-block"><div class="k">If they respond</div><div class="v">Closer (human) replies live within the hour — sequence pauses here</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 4 -->
+      <div class="stage">
+        <div class="stage-marker"><div class="stage-dot"></div></div>
+        <div class="stage-content">
           <div class="stage-meta"><span class="stage-time">T+15 min</span><span class="stage-tag">auto-trigger: no reply yet</span></div>
-          <h3 class="stage-title">3 · Call Prep Link</h3>
+          <h3 class="stage-title">4 · Call Prep Link</h3>
           <p class="stage-goal">Removes friction before it becomes an objection on the call — logistics, what to expect, who they're talking to.</p>
           <div class="stage-body">
             <div class="thread">
+              <div class="sender-row"><span class="sender-pill closer">{{closer_name}}</span><div class="sender-line"></div></div>
               <div class="bubble-time">9:09 AM</div>
               <div class="bubble out">also {{first_name}} — want you walking into this as prepared as possible. check this before we talk if you haven't:</div>
               <div class="bubble out">fitmamacoaching.com/call-confirmed</div>
@@ -309,31 +344,33 @@
         <div class="stage-marker"><div class="stage-dot"></div></div>
         <div class="stage-content">
           <div class="stage-meta"><span class="stage-time">Evening before</span><span class="stage-tag feature">SendBlue video message</span></div>
-          <h3 class="stage-title">4 · Video Reminder</h3>
-          <p class="stage-goal">A face, not just a name. This is the moment the "still feels like her world" promise either holds or breaks.</p>
+          <h3 class="stage-title">5 · Video Reminder</h3>
+          <p class="stage-goal">A face, not just a name. Closer stays on-camera from here on — Jaz already made her introduction, re-appearing now would just be confusing.</p>
           <div class="stage-body">
             <div class="thread">
+              <div class="sender-row"><span class="sender-pill closer">{{closer_name}}</span><div class="sender-line"></div></div>
               <div class="bubble-time">Tomorrow's the call</div>
               <div class="bubble media"><span class="icon">▶</span> Video message (0:14)</div>
               <div class="bubble out">"hey {{first_name}}, jess again — quick reminder we're on for tomorrow at {{call_time}}. excited to actually talk 🤍"</div>
             </div>
             <div class="stage-notes">
               <div class="note-block"><div class="k">Format</div><div class="v">Selfie-style, unscripted, 10–20 sec — record fresh weekly, don't reuse across leads</div></div>
-              <div class="note-block"><div class="k">Why video here</div><div class="v">Confirms Jess is a real person before the call, not a bot with a name</div></div>
+              <div class="note-block"><div class="k">Why video here</div><div class="v">Confirms the closer is a real person before the call, not a bot with a name</div></div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Stage 5 -->
+      <!-- Stage 6 -->
       <div class="stage">
         <div class="stage-marker"><div class="stage-dot"></div></div>
         <div class="stage-content">
           <div class="stage-meta"><span class="stage-time">T-60 min</span><span class="stage-tag feature">SendBlue voice message</span></div>
-          <h3 class="stage-title">5 · Voice Reminder</h3>
+          <h3 class="stage-title">6 · Voice Reminder</h3>
           <p class="stage-goal">Last touch before the call. Short, warm, no ask — just presence.</p>
           <div class="stage-body">
             <div class="thread">
+              <div class="sender-row"><span class="sender-pill closer">{{closer_name}}</span><div class="sender-line"></div></div>
               <div class="bubble-time">{{call_time_minus_1h}}</div>
               <div class="bubble media"><span class="icon">🎙</span> Voice message (0:08)</div>
               <div class="bubble out">"hey it's jess, we're on in about an hour — talk soon!"</div>
@@ -345,15 +382,16 @@
         </div>
       </div>
 
-      <!-- Stage 6 -->
+      <!-- Stage 7 -->
       <div class="stage">
         <div class="stage-marker"><div class="stage-dot"></div></div>
         <div class="stage-content">
           <div class="stage-meta"><span class="stage-time">T-15 min</span><span class="stage-tag">auto-trigger: scheduled</span></div>
-          <h3 class="stage-title">6 · Final Nudge</h3>
+          <h3 class="stage-title">7 · Final Nudge</h3>
           <p class="stage-goal">The only message with zero personality required — pure logistics, sent close enough to matter.</p>
           <div class="stage-body">
             <div class="thread">
+              <div class="sender-row"><span class="sender-pill closer">{{closer_name}}</span><div class="sender-line"></div></div>
               <div class="bubble-time">{{call_time_minus_15m}}</div>
               <div class="bubble out">we're on in 15 — here's the link: {{zoom_link}}</div>
             </div>
@@ -370,12 +408,23 @@
   <!-- Branches -->
   <div class="section">
     <div class="section-head"><h2>Branch Logic</h2><div class="rule"></div></div>
-    <p class="section-note">Three ways the happy path breaks. Each one gets its own short recovery — never silence, never a guilt trip.</p>
+    <p class="section-note">Four ways the happy path breaks. Each one gets its own short recovery — never silence, never a guilt trip.</p>
     <div class="branch-grid">
+      <div class="branch-card">
+        <div class="branch-head"><span class="name">Lead replies to Jaz directly</span><span class="when">Between stage 1 and 2</span></div>
+        <div class="branch-body">
+          <div class="thread">
+            <div class="sender-row"><span class="sender-pill jaz">Jaz</span><div class="sender-line"></div></div>
+            <div class="bubble out">aw i'm so glad!! ok {{closer_name}} is gonna take it from here to get you all set 🤍</div>
+          </div>
+          <p style="font-size:0.8rem;color:var(--ink-muted);margin:0.6rem 0 0;">Whoever monitors the Jaz inbox can send one warm human reply, but the handoff still happens right after — Jaz doesn't run the discovery conversation.</p>
+        </div>
+      </div>
       <div class="branch-card">
         <div class="branch-head"><span class="name">No reply to context ask</span><span class="when">T+24h</span></div>
         <div class="branch-body">
           <div class="thread">
+            <div class="sender-row"><span class="sender-pill closer">{{closer_name}}</span><div class="sender-line"></div></div>
             <div class="bubble out">hey {{first_name}}, no pressure — whenever you get a sec, that context just makes our call way more useful 🙏</div>
           </div>
         </div>
@@ -384,6 +433,7 @@
         <div class="branch-head"><span class="name">No-show</span><span class="when">T+5 min after start</span></div>
         <div class="branch-body">
           <div class="thread">
+            <div class="sender-row"><span class="sender-pill closer">{{closer_name}}</span><div class="sender-line"></div></div>
             <div class="bubble out">hey, just missed you on the call — everything okay?</div>
             <div class="bubble out">totally fine if life happened, here's a link to grab another time: {{reschedule_link}}</div>
           </div>
@@ -393,15 +443,8 @@
         <div class="branch-head"><span class="name">Reschedule request</span><span class="when">Whenever it comes in</span></div>
         <div class="branch-body">
           <div class="thread">
+            <div class="sender-row"><span class="sender-pill closer">{{closer_name}}</span><div class="sender-line"></div></div>
             <div class="bubble out">no worries at all — grab whatever time works here and we'll pick right back up: {{reschedule_link}}</div>
-          </div>
-        </div>
-      </div>
-      <div class="branch-card">
-        <div class="branch-head"><span class="name">Early reply, any stage</span><span class="when">Immediate</span></div>
-        <div class="branch-body">
-          <div class="thread">
-            <div class="bubble out">sequence stands down — Jess replies live, remaining auto-messages for that lead are cancelled</div>
           </div>
         </div>
       </div>
@@ -414,17 +457,19 @@
     <div class="timing-wrap">
       <table class="timing">
         <thead>
-          <tr><th>#</th><th>Trigger</th><th>Delay</th><th>Channel</th><th>Message</th></tr>
+          <tr><th>#</th><th>Sender</th><th>Trigger</th><th>Delay</th><th>Channel</th><th>Message</th></tr>
         </thead>
         <tbody>
-          <tr><td class="num">1</td><td>Booking webhook</td><td class="num">0–3 min</td><td>Text (3 bubbles)</td><td class="msg">Warm open — who's texting</td></tr>
-          <tr><td class="num">2</td><td>Same thread</td><td class="num">3–5 min</td><td>Text (2 bubbles)</td><td class="msg">Context pull</td></tr>
-          <tr><td class="num">3</td><td>No reply yet</td><td class="num">15 min</td><td>Text + link</td><td class="msg">Call prep page</td></tr>
-          <tr><td class="num">4</td><td>Scheduled</td><td class="num">Evening before</td><td>Video message</td><td class="msg">Face + reminder</td></tr>
-          <tr><td class="num">5</td><td>Scheduled</td><td class="num">T-60 min</td><td>Voice message</td><td class="msg">Warm final nudge</td></tr>
-          <tr><td class="num">6</td><td>Scheduled</td><td class="num">T-15 min</td><td>Text + link</td><td class="msg">Join link</td></tr>
-          <tr><td class="num">B1</td><td>No context reply</td><td class="num">T+24h</td><td>Text</td><td class="msg">Soft follow-up</td></tr>
-          <tr><td class="num">B2</td><td>No-show</td><td class="num">T+5 min post-start</td><td>Text</td><td class="msg">Check-in + reschedule</td></tr>
+          <tr><td class="num">1</td><td>Jaz</td><td>Booking webhook</td><td class="num">0–2 min</td><td>Text (2 bubbles)</td><td class="msg">Confirms booking, her own voice</td></tr>
+          <tr><td class="num">2</td><td>Jaz</td><td>Same thread</td><td class="num">2–3 min</td><td>Text (2 bubbles)</td><td class="msg">Names the closer, hands off</td></tr>
+          <tr><td class="num">3</td><td>{{closer_name}}</td><td>Same thread</td><td class="num">3–5 min</td><td>Text (3 bubbles)</td><td class="msg">Introduces self, name-checks Jaz, context pull</td></tr>
+          <tr><td class="num">4</td><td>{{closer_name}}</td><td>No reply yet</td><td class="num">15 min</td><td>Text + link</td><td class="msg">Call prep page</td></tr>
+          <tr><td class="num">5</td><td>{{closer_name}}</td><td>Scheduled</td><td class="num">Evening before</td><td>Video message</td><td class="msg">Face + reminder</td></tr>
+          <tr><td class="num">6</td><td>{{closer_name}}</td><td>Scheduled</td><td class="num">T-60 min</td><td>Voice message</td><td class="msg">Warm final nudge</td></tr>
+          <tr><td class="num">7</td><td>{{closer_name}}</td><td>Scheduled</td><td class="num">T-15 min</td><td>Text + link</td><td class="msg">Join link</td></tr>
+          <tr><td class="num">B1</td><td>Jaz</td><td>Lead replies early</td><td class="num">Immediate</td><td>Text</td><td class="msg">One human reply, then hands off</td></tr>
+          <tr><td class="num">B2</td><td>{{closer_name}}</td><td>No context reply</td><td class="num">T+24h</td><td>Text</td><td class="msg">Soft follow-up</td></tr>
+          <tr><td class="num">B3</td><td>{{closer_name}}</td><td>No-show</td><td class="num">T+5 min post-start</td><td>Text</td><td class="msg">Check-in + reschedule</td></tr>
         </tbody>
       </table>
     </div>
