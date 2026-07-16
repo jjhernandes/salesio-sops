@@ -1,0 +1,461 @@
+
+<title>FitMama Team — Jalen's Setting Framework · Jul 15</title>
+<style>
+  :root {
+    --bg: #090908;
+    --surface: #111110;
+    --surface-2: #1a1916;
+    --accent: #e2cfa8;
+    --accent-soft: #f0e4c8;
+    --accent-dim: rgba(226,207,168,.07);
+    --accent-border: rgba(226,207,168,.14);
+    --text: #f0ece4;
+    --text-muted: #8a8475;
+    --text-faint: #3e3b30;
+    --border: #201f18;
+    --check: #7dcf95;
+    --check-dim: rgba(125,207,149,.08);
+    --warn: #f59e0b;
+    --warn-dim: rgba(245,158,11,.07);
+    --warn-border: rgba(245,158,11,.16);
+    --mono: 'SF Mono','Fira Code','Consolas',monospace;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f2; --surface: #f0ece0; --surface-2: #e4dece;
+      --accent: #8a6d3a; --accent-soft: #6b5228;
+      --accent-dim: rgba(138,109,58,.07); --accent-border: rgba(138,109,58,.2);
+      --text: #1a1914; --text-muted: #6a6450; --text-faint: #c0b898;
+      --border: #ddd8c8; --check: #2a7a45; --check-dim: rgba(42,122,69,.07);
+      --warn: #b45309; --warn-dim: rgba(180,83,9,.07); --warn-border: rgba(180,83,9,.2);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#090908;--surface:#111110;--surface-2:#1a1916;
+    --accent:#e2cfa8;--accent-soft:#f0e4c8;
+    --accent-dim:rgba(226,207,168,.07);--accent-border:rgba(226,207,168,.14);
+    --text:#f0ece4;--text-muted:#8a8475;--text-faint:#3e3b30;
+    --border:#201f18;--check:#7dcf95;--check-dim:rgba(125,207,149,.08);
+    --warn:#f59e0b;--warn-dim:rgba(245,158,11,.07);--warn-border:rgba(245,158,11,.16);
+  }
+  :root[data-theme="light"] {
+    --bg:#faf8f2;--surface:#f0ece0;--surface-2:#e4dece;
+    --accent:#8a6d3a;--accent-soft:#6b5228;
+    --accent-dim:rgba(138,109,58,.07);--accent-border:rgba(138,109,58,.2);
+    --text:#1a1914;--text-muted:#6a6450;--text-faint:#c0b898;
+    --border:#ddd8c8;--check:#2a7a45;--check-dim:rgba(42,122,69,.07);
+    --warn:#b45309;--warn-dim:rgba(180,83,9,.07);--warn-border:rgba(180,83,9,.2);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{font-size:16px;scroll-behavior:smooth;}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    font-size:.9375rem;line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .doc-header{
+    max-width:760px;margin:0 auto;
+    padding:3rem 2rem 2.5rem;
+    border-bottom:1px solid var(--border);
+  }
+  .eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:.875rem;
+  }
+  .doc-title{
+    font-size:1.875rem;font-weight:700;
+    letter-spacing:-.03em;line-height:1.2;
+    color:var(--text);margin-bottom:.25rem;
+  }
+  .doc-sub{font-size:.9375rem;color:var(--text-muted);}
+  .meta-row{
+    display:flex;flex-wrap:wrap;gap:.5rem;
+    margin-top:1.125rem;
+  }
+  .meta-chip{
+    display:flex;align-items:center;gap:.4rem;
+    font-family:var(--mono);font-size:.6875rem;
+    color:var(--text-muted);background:var(--surface);
+    border:1px solid var(--border);border-radius:2px;
+    padding:.25rem .625rem;
+  }
+  .meta-chip-dot{
+    width:4px;height:4px;border-radius:50%;
+    background:var(--accent);flex-shrink:0;
+  }
+
+  main{max-width:760px;margin:0 auto;padding:0 2rem 5rem;}
+
+  .section{padding:2.25rem 0 1.75rem;border-bottom:1px solid var(--border);}
+  .section:last-child{border-bottom:none;}
+  .sec-eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.12em;text-transform:uppercase;
+    color:var(--text-faint);margin-bottom:.75rem;
+  }
+  .sec-title{
+    font-size:1.0625rem;font-weight:650;
+    color:var(--text);letter-spacing:-.015em;margin-bottom:1.25rem;
+  }
+
+  /* ── KPI table ── */
+  .kpi-table-wrap{overflow-x:auto;}
+  .kpi-table{
+    width:100%;border-collapse:collapse;
+    font-size:.875rem;
+  }
+  .kpi-table th{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.1em;text-transform:uppercase;
+    color:var(--text-faint);
+    padding:.625rem 1rem;text-align:left;
+    border-bottom:1px solid var(--border);
+    background:var(--surface-2);
+    font-weight:500;
+  }
+  .kpi-table td{
+    padding:.75rem 1rem;
+    color:var(--text-muted);
+    border-bottom:1px solid var(--border);
+    vertical-align:top;
+  }
+  .kpi-table tr:last-child td{border-bottom:none;}
+  .kpi-table tr:hover td{background:var(--accent-dim);}
+  .name-cell{color:var(--text);font-weight:600;}
+  .role-tag{
+    display:inline-block;
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent);background:var(--accent-dim);
+    border:1px solid var(--accent-border);
+    border-radius:2px;padding:.1rem .4rem;
+    margin-left:.5rem;vertical-align:middle;
+  }
+  .num-bam{
+    font-family:var(--mono);font-size:.8125rem;
+    color:var(--text-muted);font-variant-numeric:tabular-nums;
+  }
+  .num-reach{
+    font-family:var(--mono);font-size:.8125rem;
+    color:var(--check);font-variant-numeric:tabular-nums;
+  }
+
+  /* ── Topic blocks ── */
+  .topic{
+    margin-bottom:.625rem;
+    border:1px solid var(--border);border-radius:3px;overflow:hidden;
+  }
+  .topic-head{
+    display:flex;align-items:flex-start;gap:.875rem;
+    padding:.9375rem 1.125rem;
+    background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+  }
+  .topic-num{
+    font-family:var(--mono);font-size:.625rem;
+    letter-spacing:.08em;color:var(--accent);opacity:.55;
+    flex-shrink:0;margin-top:.15rem;min-width:1.5rem;
+  }
+  .topic-title{
+    font-size:.9375rem;font-weight:650;
+    color:var(--text);letter-spacing:-.01em;line-height:1.3;
+  }
+  .topic-body{
+    padding:.9375rem 1.125rem;background:var(--surface);
+  }
+  .topic-p{
+    font-size:.875rem;color:var(--text-muted);
+    line-height:1.65;margin-bottom:.625rem;
+  }
+  .topic-p:last-child{margin-bottom:0;}
+  .topic-p strong{color:var(--text);font-weight:600;}
+
+  .callout{
+    margin:.75rem 0;
+    padding:.75rem 1rem;
+    background:var(--accent-dim);
+    border:1px solid var(--accent-border);
+    border-radius:2px;
+    font-size:.875rem;color:var(--text-muted);line-height:1.6;
+  }
+  .callout strong{color:var(--accent-soft);}
+
+  .warn-callout{
+    margin:.75rem 0;
+    padding:.75rem 1rem;
+    background:var(--warn-dim);
+    border:1px solid var(--warn-border);
+    border-radius:2px;
+    font-size:.875rem;color:var(--text-muted);line-height:1.6;
+  }
+  .warn-callout strong{color:var(--warn);}
+
+  /* ── Framework steps ── */
+  .step-list{display:flex;flex-direction:column;gap:.5rem;margin-bottom:.625rem;}
+  .step-row{
+    display:flex;align-items:flex-start;gap:.75rem;
+    padding:.75rem .875rem;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:3px;
+  }
+  .step-num{
+    font-family:var(--mono);font-size:.6875rem;
+    color:var(--accent);background:var(--accent-dim);
+    border:1px solid var(--accent-border);
+    border-radius:2px;padding:.1rem .5rem;
+    flex-shrink:0;margin-top:.05rem;
+  }
+  .step-text{font-size:.875rem;color:var(--text-muted);line-height:1.6;}
+  .step-text strong{color:var(--text);font-weight:600;}
+
+  /* ── Action items ── */
+  .action-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:.5rem;
+  }
+  .action-item{
+    display:flex;align-items:flex-start;gap:.75rem;
+    padding:.75rem .875rem;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:3px;
+    font-size:.875rem;color:var(--text-muted);line-height:1.5;
+  }
+  .action-owner{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent);opacity:.7;flex-shrink:0;
+    margin-top:.15rem;min-width:2.75rem;
+  }
+
+  .doc-footer{
+    max-width:760px;margin:0 auto;
+    padding:1.5rem 2rem;border-top:1px solid var(--border);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);
+  }
+
+  @media(max-width:600px){
+    .doc-header,main{padding-left:1.25rem;padding-right:1.25rem;}
+    .doc-title{font-size:1.5rem;}
+    .action-grid{grid-template-columns:1fr;}
+  }
+</style>
+
+<div class="doc-header">
+  <div class="eyebrow">FitMama — Team Meeting Recap</div>
+  <h1 class="doc-title">Jalen's Setting Framework — Deep Dive</h1>
+  <div class="doc-sub">Midweek stat check, DM/phone setter overlap + commission structure, and Jalen Hoxie's full call-setting, triaging, and DM-opening framework</div>
+  <div class="meta-row">
+    <div class="meta-chip"><div class="meta-chip-dot"></div>July 15, 2026</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>~35 min</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>JJ · Khalil · Jess · Micah · Stacy · Justin</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Guest: Jalen Hoxie</div>
+  </div>
+</div>
+
+<main>
+
+  <!-- KPIs -->
+  <div class="section">
+    <div class="sec-eyebrow">Weekly KPIs — Midweek Check</div>
+    <h2 class="sec-title">BAMs and Reaches · Week of Jul 13</h2>
+    <div class="kpi-table-wrap">
+      <table class="kpi-table">
+        <thead>
+          <tr>
+            <th>Person</th>
+            <th>Metric</th>
+            <th>Pace (Wed)</th>
+            <th>Actual</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="name-cell">Micah <span class="role-tag">Setter</span></td>
+            <td>Sets / week (3-a-day BAM)</td>
+            <td><span class="num-bam">9</span></td>
+            <td><span class="num-reach">7</span></td>
+            <td>Slightly behind pace, not concerning — leads funneling through the VSL cleanly, nothing needed from JJ/Khalil right now</td>
+          </tr>
+          <tr>
+            <td class="name-cell">Stacy <span class="role-tag">Setter</span></td>
+            <td>Sets / week</td>
+            <td colspan="2">Reporting in chat</td>
+            <td>Driving during the call — asked to text her number in rather than speak live</td>
+          </tr>
+          <tr>
+            <td class="name-cell">Justin <span class="role-tag">New</span></td>
+            <td>—</td>
+            <td colspan="2">N/A</td>
+            <td>Took his first call today — not counted against the week yet</td>
+          </tr>
+          <tr>
+            <td class="name-cell">Jess <span class="role-tag">Closer</span></td>
+            <td>Call review</td>
+            <td colspan="2">Pending</td>
+            <td>Self-reviewed her own recording before the call, felt good about it; JJ sending his formal review same day. Next call in ~1 hour</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Topics -->
+  <div class="section">
+    <div class="sec-eyebrow">Topics Covered</div>
+    <h2 class="sec-title">What was discussed</h2>
+
+    <div class="topic">
+      <div class="topic-head">
+        <div class="topic-num">01</div>
+        <div class="topic-title">DM setter overlap — coverage without dropped leads</div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-p">Micah and Stacy used to run shifts (Micah mornings, Stacy evenings) but moved to a go-to-goal model, which created a new problem: when both are in the DMs at once, or when Micah works late to hit his daily number, how do they avoid stepping on each other or leaving leads to go cold?</div>
+        <div class="topic-p"><strong>Attempted first:</strong> Instagram lead-labeling (available on business accounts). Khalil's team tried this on Jazz's account, but tagging a lead (e.g. "call booked") triggered an automatic message to that lead asking things like "did you book a call?" — so they turned it off.</div>
+        <div class="topic-p">Jalen will check with another team running lead-labeling successfully to see what's different, and report back to JJ to pass along.</div>
+        <div class="callout">
+          <strong>Jalen's actual fix:</strong> Track <em>meaningful conversations</em> separately from raw volume — only the leads you get 2-3 sentences deep with, not everyone. Log username, name, and date in a shared Google Sheet Micah and Stacy both have access to, so either can pick up where the other left off. Paired with simple verbal communication ("hopping out for 15," "done for the day, grab anything new") — JJ added that this kind of over-communication is what the best teams he's seen (Hormozi's included) do by default, and it resolves ~99% of these handoff issues on its own.
+        </div>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head">
+        <div class="topic-num">02</div>
+        <div class="topic-title">Commission structure for overlapping sets</div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-p">Khalil walked through the history: straight shifts → ManyChat auto-routing by lead (broke down because a setter's leads went cold whenever they logged off) → a commission pool split by percentage of qualified sets (broke down when one setter meaningfully outperformed the other). Open question: if Stacy carries a conversation but logs off and Micah sends the actual booking link, who gets the credit?</div>
+        <div class="topic-p"><strong>Jalen's take:</strong> Confirmed both Micah and Stacy are pure DM setters (not full-cycle). His view — it's not fair to give commission to whoever merely sent the booking link. Credit should go to whoever carried the majority of the conversation. His broader framing: don't chase raw volume, focus on converting the conversations already in motion; a team he currently runs holds an 80% show rate this way.</div>
+        <div class="topic-p">This matches what Khalil's team is already doing informally — Micah confirmed the working rule today is "most meaningful part of the conversation gets the commission, not who books it." Jalen agreed this is the right call.</div>
+        <div class="topic-p"><strong>JJ's addition:</strong> Referencing an earlier, larger DM team he and Jalen ran together (3-4 setters, thousands of messages/day) — separate the <em>timing/response-rate structure</em> from the <em>commission structure</em>. Don't force fixed shifts, but do set a clear response-time expectation (e.g. respond within 10 minutes in your active window). Layer in bonuses for response rate and activity, not just booked links — otherwise whoever is fastest to send a link "cherry-picks" every deal, which is what the current setup is designed to avoid.</div>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head">
+        <div class="topic-num">03</div>
+        <div class="topic-title">Triage vs. phone setting — definitions, from zero</div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-p">Khalil flagged this as the team's biggest open area — they've never run either function and he has no experience coaching it. Jalen drew the line: <strong>phone setting</strong> is calling a lead who came through the funnel but didn't book (or didn't finish the application) to get them on the calendar. <strong>Triage</strong> is calling a lead who already booked, when their intake/LeadFi data raises a flag, to confirm details before they get on with the closer. Clean LeadFi data means no triage call needed — it runs as-is.</div>
+        <div class="topic-p">Jalen's recommendation: it's worth having someone dedicated to phone setting specifically, since speed-to-lead — catching a prospect while their emotion is still high — is, in his view, the single most important lever a setting team has. Open question left for Khalil to decide: whether this is a standalone seat or split across existing DM setters and closers.</div>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head">
+        <div class="topic-num">04</div>
+        <div class="topic-title">Jalen's 4-step setting framework</div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-p">Applies to phone sets, triage calls, and DM sets alike. Phone intro: name the team, then immediately anchor back to what the lead filled the form out for ("you filled out a form with us to help with X") before asking for 5-10 minutes — this consistently gets a yes. Frame the call simply: "I want to see where you're at, where you want to go, and connect you to the right person if we can help."</div>
+        <div class="step-list">
+          <div class="step-row"><div class="step-num">01</div><div class="step-text"><strong>Problem isolation</strong> — "Where are you at right now in your [X] journey that made you want to fill out the form?" Nothing else happens until this is answered.</div></div>
+          <div class="step-row"><div class="step-num">02</div><div class="step-text"><strong>Duration</strong> — "How long has this been an issue?" Longer duration = more frustration = more urgency. (Steps 2 and 3 can flip.)</div></div>
+          <div class="step-row"><div class="step-num">03</div><div class="step-text"><strong>What they've tried</strong> — surfaces whether past attempts failed, reinforcing the case for a different approach now.</div></div>
+          <div class="step-row"><div class="step-num">04</div><div class="step-text"><strong>Why now</strong> — "You've dealt with this for [duration] and tried [X] — why reach out for help now, and not a year ago?" Their answer becomes the buy-in/urgency used to prompt the booking.</div></div>
+        </div>
+        <div class="topic-p">Khalil's follow-up: how deep to probe without stepping on the closer's territory. Jalen's answer — stop once the prospect names where the problem is creating real friction in their life (relationships, day-to-day, etc.) and starts using words like "frustrated," "stuck," "trapped." That's the signal to stop digging and move to booking. He offered to send a full coaching call recording on this specific skill via JJ.</div>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head">
+        <div class="topic-num">05</div>
+        <div class="topic-title">DM opening framework — "nurture and shoot your shot"</div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-p">Jalen's core principle: the prospect has to opt themselves into the sales conversation — starting with "what's your goal?" or "what are you struggling with?" on a cold DM builds on a "muddy foundation" because the prospect doesn't realize they're in a sales conversation yet.</div>
+        <div class="topic-p"><strong>Ad responders</strong> (already opted in): open with authority, not gratitude — skip "thanks for reaching out." Ask a specific, context-dense question tied to the ad: "What are you currently struggling with in your fitness journey that made you reach out based on the ad you saw?"</div>
+        <div class="topic-p"><strong>New followers</strong> (cold, not yet opted in): send a soft, low-pressure message ("saw you followed, glad to have you here, let me know if I can help with anything") and wait. A generic "thanks, excited to be here" reply means they're not in buying mode — let the marketing keep nurturing them instead of forcing a sales conversation. If they instead volunteer a goal or problem unprompted in their reply, that's them opening the door — now shoot your shot.</div>
+        <div class="warn-callout">
+          <strong>Why it matters:</strong> Running a sales-qualifying sequence on every new follower and getting a "no" creates resistance and unfollows, which compounds and damages account health over time. Letting people self-select protects the follower base while still catching the ones who are ready.
+        </div>
+        <div class="topic-p">Khalil's team's current DM opener (ask if they're on a weight-loss journey or just here for content, then ask permission before going deeper) got a green light from Jalen as directionally solid — the account-health framing above is the refinement to layer on top, especially for new followers rather than ad responders.</div>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head">
+        <div class="topic-num">06</div>
+        <div class="topic-title">DM ads — scaling note</div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-p">Jalen flagged that DM ads are currently performing very well across accounts he works with (one fitness offer got 8 sets in a single day off DM ads alone) and recommended Khalil's team lean back into them.</div>
+        <div class="topic-p">Khalil confirmed DM ads were FitMama's bread and butter historically, but hit a wall once spend passed ~$30K — the inbox got overwhelmed (this was the same volume crunch that broke the earlier 3-setter shift system). Proposed fix, which Jalen endorsed: tighten the qualification criteria on the ad itself to raise the barrier to entry and pre-filter volume before it hits the DMs.</div>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-head">
+        <div class="topic-num">07</div>
+        <div class="topic-title">Friday — extended session with Jalen</div>
+      </div>
+      <div class="topic-body">
+        <div class="topic-p">JJ proposed bringing Jalen back Friday for a longer session to go further than today's call allowed. Jalen confirmed he has the availability.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Action items -->
+  <div class="section">
+    <div class="sec-eyebrow">Action Items</div>
+    <h2 class="sec-title">Who's doing what</h2>
+    <div class="action-grid">
+      <div class="action-item">
+        <div class="action-owner">JJ</div>
+        Send Jess her formal call review in chat today
+      </div>
+      <div class="action-item">
+        <div class="action-owner">JJ</div>
+        Send Jalen's simple meaningful-conversations tracker template to Khalil's team
+      </div>
+      <div class="action-item">
+        <div class="action-owner">JJ</div>
+        Get Khalil set up with Jalen's number in Telegram
+      </div>
+      <div class="action-item">
+        <div class="action-owner">JJ</div>
+        Confirm and schedule the longer Friday session with Jalen
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Jalen</div>
+        Check with the other team running Instagram lead-labeling successfully and report back via JJ
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Jalen</div>
+        Send Khalil the full coaching call on discovery depth ("how far to probe without stepping on the closer's territory")
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Khalil</div>
+        Add a "meaningful conversations" column (name, date, username) to the existing KPI tracker sheet for Micah + Stacy to share
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Khalil</div>
+        Decide standalone vs. shared ownership of the phone-setting/triage function
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Khalil</div>
+        Tighten ad-level qualification criteria to pre-filter DM ad volume before scaling spend back up
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Micah / Stacy</div>
+        Use explicit handoff messages ("out for 15," "done for the day, pick up anything new") and the shared tracker going forward
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="doc-footer">
+  <span>FitMama — Team Meeting Recap</span>
+  <span>Jalen's Setting Framework · Jul 15, 2026</span>
+</footer>
