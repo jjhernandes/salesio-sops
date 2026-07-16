@@ -34,4 +34,36 @@ main{max-width:760px;margin:0 auto;padding:0 2rem;}.sec{padding:2.25rem 0 2rem;b
 function toggleTheme(){var h=document.documentElement,n=h.getAttribute('data-theme')==='day'?'night':'day';h.setAttribute('data-theme',n);var l=document.getElementById('toggleLabel');if(l)l.textContent=n==='day'?'Day':'Night';try{localStorage.setItem('af-theme',n);}catch(e){}}
 (function(){var t=document.documentElement.getAttribute('data-theme')||'night';var l=document.getElementById('toggleLabel');if(l)l.textContent=t==='day'?'Day':'Night';})();
 document.querySelectorAll('.scale-row').forEach(function(row){var hid=row.querySelector('.scale-val');row.querySelectorAll('.scale-btn').forEach(function(btn){btn.addEventListener('click',function(){var was=btn.classList.contains('active');row.querySelectorAll('.scale-btn').forEach(function(b){b.classList.remove('active');});if(!was){btn.classList.add('active');if(hid)hid.value=btn.textContent.trim();}else{if(hid)hid.value='';}});});});
-</script></body></html>
+</script>
+<script>
+function submitForm(e, formName) {
+  e.preventDefault();
+  var form = e.target;
+  var data = new FormData(form);
+  var lines = [];
+  data.forEach(function(val, key) {
+    if(key && val && !key.startsWith('_')) {
+      lines.push(key.replace(/_/g,' ') + ': ' + val);
+    }
+  });
+  var btn = form.querySelector('.submit-btn');
+  var orig = btn.textContent;
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+  emailjs.send('service_aerj24u', 'template_7kizwpj', {
+    form_name: formName,
+    message: lines.join('\n')
+  }).then(function() {
+    btn.textContent = 'Sent ✓';
+    setTimeout(function(){
+      window.location.href = 'https://jjhernandes.github.io/salesio-sops/anafit-hub.html';
+    }, 1200);
+  }, function() {
+    btn.textContent = orig;
+    btn.disabled = false;
+    alert('Something went wrong. Please try again.');
+  });
+  return false;
+}
+</script>
+</body></html>
