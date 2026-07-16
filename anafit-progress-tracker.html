@@ -66,6 +66,8 @@ main{max-width:760px;margin:0 auto;padding:0 2rem;}
 .hab-chk{width:22px;height:22px;border:1.5px solid var(--accent-bdr);border-radius:3px;background:var(--accent-dim);margin:0 auto;cursor:pointer;transition:background .15s,border-color .15s,transform .1s;}.hab-chk:hover{transform:scale(1.1);border-color:var(--accent);}
 .hab-chk.checked{background:var(--accent);border-color:var(--accent);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 10'%3E%3Cpath d='M1.5 5l3 3.5 6-7' stroke='%23fff' stroke-width='1.75' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:center;background-size:11px 10px;}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>emailjs.init("4Fut2lLBGcUhxict_");</script>
 </head>
 <body>
 <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
@@ -154,5 +156,37 @@ document.querySelectorAll('.scale-row').forEach(function(row){row.querySelectorA
 document.querySelectorAll('.check-item').forEach(function(item){item.addEventListener('click',function(){var chk=item.querySelector('.chk');if(chk)chk.classList.toggle('checked');item.classList.toggle('item-checked');});});
 document.querySelectorAll('.action-chk').forEach(function(chk){chk.addEventListener('click',function(){chk.classList.toggle('checked');});});
 document.querySelectorAll('.hab-chk').forEach(function(chk){chk.addEventListener('click',function(){chk.classList.toggle('checked');});});
+</script>
+
+<script>
+function submitForm(e, formName) {
+  e.preventDefault();
+  var form = e.target;
+  var data = new FormData(form);
+  var lines = [];
+  data.forEach(function(val, key) {
+    if(key && val && !key.startsWith('_')) {
+      lines.push(key.replace(/_/g,' ') + ': ' + val);
+    }
+  });
+  var btn = form.querySelector('.submit-btn');
+  var orig = btn.textContent;
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+  emailjs.send('service_aerj24u', 'template_7kizwpj', {
+    form_name: formName,
+    message: lines.join('\n')
+  }).then(function() {
+    btn.textContent = 'Sent ✓';
+    setTimeout(function(){
+      window.location.href = 'https://jjhernandes.github.io/salesio-sops/anafit-hub.html';
+    }, 1200);
+  }, function() {
+    btn.textContent = orig;
+    btn.disabled = false;
+    alert('Something went wrong. Please try again.');
+  });
+  return false;
+}
 </script>
 </body></html>
