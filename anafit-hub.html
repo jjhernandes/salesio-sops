@@ -19,12 +19,20 @@
   --accent-dim:rgba(240,100,170,.12);
   --accent-glow:rgba(240,100,170,.22);
   --gold:#c9a96e;
-  --gold-dim:rgba(201,169,110,.08);
+  --p1:#f06ab4;
+  --p2:#b07ad4;
+  --p3:#c9a96e;
+  --p1-dim:rgba(240,100,170,.1);
+  --p2-dim:rgba(176,122,212,.1);
+  --p3-dim:rgba(201,169,110,.1);
+  --p1-bdr:rgba(240,100,170,.25);
+  --p2-bdr:rgba(176,122,212,.25);
+  --p3-bdr:rgba(201,169,110,.25);
   --text:#f5e8f0;
   --text-2:#b890a8;
   --text-3:#5a3a50;
   --mono:'SF Mono','Fira Code',monospace;
-  --r:16px;
+  --r:14px;
 }
 [data-theme="day"]{
   --bg:#fdf4f8;
@@ -37,7 +45,15 @@
   --accent-dim:rgba(194,24,91,.06);
   --accent-glow:rgba(194,24,91,.12);
   --gold:#8d6e3a;
-  --gold-dim:rgba(141,110,58,.07);
+  --p1:#c2185b;
+  --p2:#7c3aed;
+  --p3:#8d6e3a;
+  --p1-dim:rgba(194,24,91,.06);
+  --p2-dim:rgba(124,58,237,.06);
+  --p3-dim:rgba(141,110,58,.06);
+  --p1-bdr:rgba(194,24,91,.18);
+  --p2-bdr:rgba(124,58,237,.18);
+  --p3-bdr:rgba(141,110,58,.18);
   --text:#1f0a14;
   --text-2:#7a4060;
   --text-3:#d4b0c4;
@@ -45,14 +61,7 @@
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{font-size:16px;scroll-behavior:smooth;}
-body{
-  background:var(--bg);color:var(--text);
-  font-family:'Inter','Segoe UI',system-ui,sans-serif;
-  font-size:.9375rem;line-height:1.7;
-  -webkit-font-smoothing:antialiased;
-  min-height:100vh;overflow-x:hidden;
-  transition:background .3s,color .3s;
-}
+body{background:var(--bg);color:var(--text);font-family:'Inter','Segoe UI',system-ui,sans-serif;font-size:.9375rem;line-height:1.7;-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s;}
 a{text-decoration:none;}
 
 /* ── Orbs ── */
@@ -71,17 +80,10 @@ a{text-decoration:none;}
 @keyframes d3{0%,100%{transform:translate(0,0);}50%{transform:translate(70px,-60px) scale(1.12);}}
 
 /* ── Layout ── */
-.wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 2rem 8rem;}
+.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 2rem 8rem;}
 
 /* ── Toggle ── */
-.theme-toggle{
-  position:fixed;top:1.25rem;right:1.25rem;z-index:999;
-  display:flex;align-items:center;gap:.5rem;
-  background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  border:1px solid var(--glass-bdr);border-radius:50px;
-  padding:.375rem .875rem .375rem .625rem;cursor:pointer;
-  transition:border-color .2s,box-shadow .2s;
-}
+.theme-toggle{position:fixed;top:1.25rem;right:1.25rem;z-index:999;display:flex;align-items:center;gap:.5rem;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--glass-bdr);border-radius:50px;padding:.375rem .875rem .375rem .625rem;cursor:pointer;transition:border-color .2s,box-shadow .2s;}
 .theme-toggle:hover{border-color:var(--glass-bdr-hv);box-shadow:0 4px 24px var(--accent-glow);}
 .toggle-track{width:28px;height:16px;background:var(--text-3);border-radius:50px;position:relative;transition:background .25s;flex-shrink:0;}
 [data-theme="day"] .toggle-track{background:var(--accent);}
@@ -90,124 +92,101 @@ a{text-decoration:none;}
 .toggle-lbl{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);}
 
 /* ── Back ── */
-.back{
-  display:inline-flex;align-items:center;gap:.375rem;
-  font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--text-3);padding:2rem 0 0;transition:color .15s;
-}
+.back{display:inline-flex;align-items:center;gap:.375rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);padding:2rem 0 0;transition:color .15s;}
 .back:hover{color:var(--accent);}
 
 /* ── Hero ── */
-.hero{padding:3rem 0 5rem;text-align:center;}
-.hero-eyebrow{
-  font-family:var(--mono);font-size:.65rem;letter-spacing:.24em;text-transform:uppercase;
-  color:var(--accent);margin-bottom:1.75rem;
-  animation:fadeUp .8s ease both;
-}
-.hero-title{
-  font-family:'Playfair Display',Georgia,serif;
-  font-size:clamp(3.25rem,9vw,6rem);
-  line-height:1.0;letter-spacing:-.025em;
-  margin-bottom:.5rem;
-  animation:fadeUp .8s .08s ease both;
-}
-[data-theme="night"] .hero-title{
-  background:linear-gradient(120deg,#f5e8f2 0%,#f06ab4 22%,#f5e8f2 42%,#c9a96e 62%,#f5e8f2 80%,#e0a8cc 100%);
-  background-size:220% auto;
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  animation:fadeUp .8s .08s ease both,shimmer 6s 1s linear infinite;
-}
+.hero{padding:3rem 0 4.5rem;text-align:center;}
+.hero-eyebrow{font-family:var(--mono);font-size:.65rem;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);margin-bottom:1.75rem;animation:fadeUp .8s ease both;}
+.hero-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(3rem,9vw,5.75rem);line-height:1.02;letter-spacing:-.025em;margin-bottom:.5rem;animation:fadeUp .8s .08s ease both;}
+[data-theme="night"] .hero-title{background:linear-gradient(120deg,#f5e8f2 0%,#f06ab4 22%,#f5e8f2 42%,#c9a96e 62%,#f5e8f2 80%,#e0a8cc 100%);background-size:220% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:fadeUp .8s .08s ease both,shimmer 6s 1s linear infinite;}
 [data-theme="day"] .hero-title{color:var(--text);}
 .hero-title em{font-style:italic;font-weight:400;}
-.hero-divider{
-  width:48px;height:1px;margin:1.5rem auto;
-  background:linear-gradient(90deg,transparent,var(--accent),transparent);
-  animation:fadeUp .8s .16s ease both;
-}
-.hero-sub{
-  font-size:.9375rem;color:var(--text-2);max-width:42ch;
-  margin:0 auto 2.25rem;line-height:1.75;font-weight:300;
-  animation:fadeUp .8s .22s ease both;
-}
+.hero-divider{width:48px;height:1px;margin:1.5rem auto;background:linear-gradient(90deg,transparent,var(--accent),transparent);animation:fadeUp .8s .16s ease both;}
+.hero-sub{font-size:.9375rem;color:var(--text-2);max-width:42ch;margin:0 auto 2.25rem;line-height:1.75;font-weight:300;animation:fadeUp .8s .22s ease both;}
 .chips{display:flex;justify-content:center;flex-wrap:wrap;gap:.5rem;animation:fadeUp .8s .3s ease both;}
-.chip{
-  display:flex;align-items:center;gap:.4rem;
-  background:var(--glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  border:1px solid var(--glass-bdr);border-radius:50px;
-  padding:.3rem .9rem;font-size:.75rem;color:var(--text-2);font-weight:500;
-}
+.chip{display:flex;align-items:center;gap:.4rem;background:var(--glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--glass-bdr);border-radius:50px;padding:.3rem .9rem;font-size:.75rem;color:var(--text-2);font-weight:500;}
 .chip-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;animation:blink 2.5s ease-in-out infinite;}
 .chip:nth-child(2) .chip-dot{animation-delay:.8s;}
 .chip:nth-child(3) .chip-dot{animation-delay:1.6s;}
 @keyframes blink{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.35;transform:scale(.7);}}
 
-/* ── Section ── */
-.sec{margin-bottom:3.75rem;}
-.sec-header{margin-bottom:1.375rem;display:flex;align-items:baseline;gap:.75rem;}
+/* ── Section heading ── */
+.sec{margin-bottom:3.5rem;}
+.sec-header{display:flex;align-items:baseline;gap:.75rem;margin-bottom:1.25rem;}
 .sec-num{font-family:var(--mono);font-size:.575rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);flex-shrink:0;}
 .sec-title{font-size:1rem;font-weight:600;color:var(--text);letter-spacing:-.01em;}
 
-/* ── Doc Cards ── */
-.doc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-@media(max-width:580px){.doc-grid{grid-template-columns:1fr;}}
+/* ── Quick access cards ── */
+.doc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;}
+@media(max-width:700px){.doc-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:420px){.doc-grid{grid-template-columns:1fr;}}
 
-.doc-card{
-  position:relative;display:flex;flex-direction:column;
-  background:var(--glass);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
-  border:1px solid var(--glass-bdr);border-radius:var(--r);
-  padding:1.625rem 1.5rem 1.375rem;color:inherit;overflow:hidden;
-  opacity:0;transform:translateY(22px);
-  transition:opacity .55s ease,transform .55s ease,border-color .22s,box-shadow .22s,background .22s;
-}
+.doc-card{position:relative;display:flex;flex-direction:column;background:var(--glass);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--glass-bdr);border-radius:var(--r);padding:1.25rem 1.125rem 1rem;color:inherit;overflow:hidden;opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease,border-color .22s,box-shadow .22s,background .22s;}
 .doc-card.vis{opacity:1;transform:translateY(0);}
-.doc-card:nth-child(2){transition-delay:.08s;}
-.doc-card:hover{
-  border-color:var(--glass-bdr-hv);
-  box-shadow:0 12px 48px var(--accent-glow);
-  background:var(--glass-hv);
-  transform:translateY(-5px) !important;
-}
-/* shimmer overlay on hover */
-.doc-card::after{
-  content:'';position:absolute;inset:0;border-radius:var(--r);
-  background:radial-gradient(ellipse at 20% 20%,var(--accent-dim) 0%,transparent 65%);
-  opacity:0;transition:opacity .3s;pointer-events:none;
-}
+.doc-card:hover{border-color:var(--glass-bdr-hv);box-shadow:0 10px 40px var(--accent-glow);background:var(--glass-hv);transform:translateY(-4px) !important;}
+.doc-card::after{content:'';position:absolute;inset:0;border-radius:var(--r);background:radial-gradient(ellipse at 20% 10%,var(--accent-dim) 0%,transparent 65%);opacity:0;transition:opacity .3s;pointer-events:none;}
 .doc-card:hover::after{opacity:1;}
+.card-icon{font-size:1.25rem;margin-bottom:.625rem;display:block;line-height:1;}
+.card-type{font-family:var(--mono);font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.375rem;}
+.card-title{font-size:.8125rem;font-weight:600;color:var(--text);margin-bottom:.25rem;line-height:1.3;}
+.card-desc{font-size:.725rem;color:var(--text-2);line-height:1.6;flex:1;font-weight:300;}
+.card-arrow{margin-top:.875rem;font-size:.65rem;font-family:var(--mono);letter-spacing:.06em;color:var(--accent);opacity:.55;transition:opacity .15s,transform .15s;}
+.doc-card:hover .card-arrow{opacity:1;transform:translateX(4px);}
 
-.card-icon{font-size:1.5rem;margin-bottom:.875rem;display:block;line-height:1;}
-.card-type{font-family:var(--mono);font-size:.565rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;}
-.card-title{font-size:.9375rem;font-weight:600;color:var(--text);margin-bottom:.4rem;line-height:1.3;}
-.card-desc{font-size:.8125rem;color:var(--text-2);line-height:1.65;flex:1;font-weight:300;}
-.card-arrow{
-  margin-top:1.125rem;font-size:.7rem;font-family:var(--mono);letter-spacing:.06em;
-  color:var(--accent);opacity:.55;
-  display:flex;align-items:center;gap:.375rem;
-  transition:opacity .15s,transform .15s;
-}
-.doc-card:hover .card-arrow{opacity:1;transform:translateX(5px);}
+/* ── Phase block ── */
+.phase-block{margin-bottom:3rem;}
+.phase-divider{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;}
+.phase-divider-line{flex:1;height:1px;}
+.p1 .phase-divider-line{background:linear-gradient(90deg,transparent,var(--p1-bdr),transparent);}
+.p2 .phase-divider-line{background:linear-gradient(90deg,transparent,var(--p2-bdr),transparent);}
+.p3 .phase-divider-line{background:linear-gradient(90deg,transparent,var(--p3-bdr),transparent);}
+.phase-badge{display:flex;align-items:center;gap:.5rem;border-radius:50px;padding:.3rem 1rem;white-space:nowrap;font-size:.7rem;font-weight:600;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;flex-shrink:0;}
+.p1 .phase-badge{background:var(--p1-dim);border:1px solid var(--p1-bdr);color:var(--p1);}
+.p2 .phase-badge{background:var(--p2-dim);border:1px solid var(--p2-bdr);color:var(--p2);}
+.p3 .phase-badge{background:var(--p3-dim);border:1px solid var(--p3-bdr);color:var(--p3);}
+.phase-badge-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.p1 .phase-badge-dot{background:var(--p1);}
+.p2 .phase-badge-dot{background:var(--p2);}
+.p3 .phase-badge-dot{background:var(--p3);}
 
-/* ── Phase cards ── */
-.phases{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;}
-@media(max-width:620px){.phases{grid-template-columns:1fr;}}
-.phase-card{
-  background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  border:1px solid var(--glass-bdr);border-radius:var(--r);
-  padding:1.5rem 1.375rem;position:relative;overflow:hidden;
-  opacity:0;transform:translateY(18px);
-  transition:opacity .5s ease,transform .5s ease;
-}
-.phase-card.vis{opacity:1;transform:translateY(0);}
-.phase-card:nth-child(2){transition-delay:.1s;}
-.phase-card:nth-child(3){transition-delay:.2s;}
-.phase-bg-num{
-  position:absolute;right:-.25rem;bottom:-.75rem;
-  font-family:'Playfair Display',Georgia,serif;font-size:5.5rem;font-weight:700;line-height:1;
-  color:var(--accent);opacity:.06;user-select:none;pointer-events:none;
-}
-.phase-label{font-family:var(--mono);font-size:.565rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:.625rem;}
-.phase-name{font-size:.9375rem;font-weight:600;color:var(--text);margin-bottom:.5rem;}
-.phase-desc{font-size:.775rem;color:var(--text-2);line-height:1.65;font-weight:300;}
+/* ── Week grid ── */
+.weeks-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;}
+@media(max-width:700px){.weeks-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:420px){.weeks-grid{grid-template-columns:1fr;}}
+
+/* ── Week card ── */
+.week-card{position:relative;background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--glass-bdr);border-radius:var(--r);padding:1.25rem 1.125rem 1.125rem;overflow:hidden;opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease,border-color .2s;}
+.week-card.vis{opacity:1;transform:translateY(0);}
+.p1 .week-card:hover{border-color:var(--p1-bdr);box-shadow:0 8px 32px var(--p1-dim);}
+.p2 .week-card:hover{border-color:var(--p2-bdr);box-shadow:0 8px 32px var(--p2-dim);}
+.p3 .week-card:hover{border-color:var(--p3-bdr);box-shadow:0 8px 32px var(--p3-dim);}
+
+.week-bg{position:absolute;right:-.375rem;bottom:-.75rem;font-family:'Playfair Display',Georgia,serif;font-size:4.25rem;font-weight:700;line-height:1;opacity:.06;user-select:none;pointer-events:none;}
+.p1 .week-bg{color:var(--p1);}
+.p2 .week-bg{color:var(--p2);}
+.p3 .week-bg{color:var(--p3);}
+
+.week-num{font-family:var(--mono);font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:.5rem;}
+.p1 .week-num{color:var(--p1);}
+.p2 .week-num{color:var(--p2);}
+.p3 .week-num{color:var(--p3);}
+
+.week-theme{font-size:.875rem;font-weight:600;color:var(--text);margin-bottom:.125rem;line-height:1.3;}
+.week-focus{font-size:.725rem;color:var(--text-2);margin-bottom:.875rem;line-height:1.5;font-weight:300;}
+
+.tasks{display:flex;flex-direction:column;gap:.3rem;}
+.task{display:flex;align-items:center;gap:.5rem;font-size:.72rem;border-radius:6px;padding:.3rem .5rem;transition:background .15s,color .15s;line-height:1.35;}
+.task.link{color:var(--text-2);}
+.p1 .task.link:hover{background:var(--p1-dim);color:var(--p1);}
+.p2 .task.link:hover{background:var(--p2-dim);color:var(--p2);}
+.p3 .task.link:hover{background:var(--p3-dim);color:var(--p3);}
+.task.plain{color:var(--text-3);cursor:default;}
+.task-icon{font-size:.85rem;flex-shrink:0;line-height:1;}
+.task-special{font-size:.62rem;font-family:var(--mono);letter-spacing:.06em;border-radius:4px;padding:.1rem .4rem;margin-left:auto;flex-shrink:0;}
+.p1 .task-special{background:var(--p1-dim);color:var(--p1);}
+.p2 .task-special{background:var(--p2-dim);color:var(--p2);}
+.p3 .task-special{background:var(--p3-dim);color:var(--p3);}
 
 /* ── Animations ── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
@@ -231,6 +210,7 @@ a{text-decoration:none;}
 <div class="wrap">
   <a class="back" href="anafit-vip-programa.html">← Ana Fit VIP</a>
 
+  <!-- Hero -->
   <div class="hero">
     <div class="hero-eyebrow">Ana Fit VIP · 12-Week Transformation</div>
     <h1 class="hero-title">Client<br><em>Hub</em></h1>
@@ -243,118 +223,254 @@ a{text-decoration:none;}
     </div>
   </div>
 
+  <!-- Quick Access -->
   <div class="sec">
     <div class="sec-header">
-      <span class="sec-num">Week 1</span>
-      <span class="sec-title">Start Here</span>
+      <span class="sec-num">Quick Access</span>
+      <span class="sec-title">All Documents</span>
     </div>
     <div class="doc-grid">
       <a class="doc-card" href="anafit-client-intake.html">
         <span class="card-icon">🌸</span>
-        <div class="card-type">Assessment · One Time</div>
-        <div class="card-title">Client Intake Assessment</div>
-        <div class="card-desc">Health history, goals, lifestyle, and self-sabotage patterns. Complete before your first session.</div>
+        <div class="card-type">Week 1 · One Time</div>
+        <div class="card-title">Client Intake</div>
+        <div class="card-desc">Health history, goals, and self-sabotage patterns.</div>
         <div class="card-arrow">Open →</div>
       </a>
       <a class="doc-card" href="anafit-movement-assessment.html">
         <span class="card-icon">⚡</span>
-        <div class="card-type">Evaluation · Week 1</div>
+        <div class="card-type">Week 1 · One Time</div>
         <div class="card-title">Movement Assessment</div>
-        <div class="card-desc">Baseline movement evaluation and form notes used to personalize your training from day one.</div>
+        <div class="card-desc">Baseline movement evaluation to personalize training.</div>
         <div class="card-arrow">Open →</div>
       </a>
-    </div>
-  </div>
-
-  <div class="sec">
-    <div class="sec-header">
-      <span class="sec-num">Weekly</span>
-      <span class="sec-title">Ongoing Check-Ins</span>
-    </div>
-    <div class="doc-grid">
       <a class="doc-card" href="anafit-weekly-checkin.html">
         <span class="card-icon">📋</span>
-        <div class="card-type">Check-In · Every Sunday</div>
-        <div class="card-title">Weekly Check-In Form</div>
-        <div class="card-desc">Training, nutrition, energy, and mindset report. Submit weekly to keep Ana in the loop.</div>
+        <div class="card-type">Every Sunday</div>
+        <div class="card-title">Weekly Check-In</div>
+        <div class="card-desc">Training, nutrition, energy, and mindset report.</div>
         <div class="card-arrow">Open →</div>
       </a>
       <a class="doc-card" href="anafit-habit-tracker.html">
         <span class="card-icon">🌿</span>
-        <div class="card-type">Tracker · Daily</div>
-        <div class="card-title">Daily Habit Tracker</div>
-        <div class="card-desc">Check off your non-negotiable daily habits. Hydration, movement, sleep, nutrition, and mindset.</div>
+        <div class="card-type">Daily</div>
+        <div class="card-title">Habit Tracker</div>
+        <div class="card-desc">Check off your non-negotiable daily habits.</div>
         <div class="card-arrow">Open →</div>
       </a>
-    </div>
-  </div>
-
-  <div class="sec">
-    <div class="sec-header">
-      <span class="sec-num">Biweekly</span>
-      <span class="sec-title">Deep-Dive Sessions</span>
-    </div>
-    <div class="doc-grid">
       <a class="doc-card" href="anafit-biweekly-session.html">
         <span class="card-icon">💬</span>
-        <div class="card-type">Session Notes · Every 2 Weeks</div>
-        <div class="card-title">Strategy Session Notes</div>
-        <div class="card-desc">Notes, adjustments, and action items from your biweekly deep-dive calls with Ana.</div>
+        <div class="card-type">Every 2 Weeks</div>
+        <div class="card-title">Strategy Session</div>
+        <div class="card-desc">Notes and action items from your deep-dive calls.</div>
         <div class="card-arrow">Open →</div>
       </a>
       <a class="doc-card" href="anafit-progress-tracker.html">
         <span class="card-icon">✨</span>
-        <div class="card-type">Measurements · Monthly</div>
+        <div class="card-type">Monthly</div>
         <div class="card-title">Progress Tracker</div>
-        <div class="card-desc">Body measurements, fitness benchmarks, and photo log tracked across all 3 phases.</div>
+        <div class="card-desc">Body measurements and fitness benchmarks.</div>
         <div class="card-arrow">Open →</div>
       </a>
-    </div>
-  </div>
-
-  <div class="sec">
-    <div class="sec-header">
-      <span class="sec-num">Monthly</span>
-      <span class="sec-title">Phase Reviews</span>
-    </div>
-    <div class="doc-grid">
       <a class="doc-card" href="anafit-phase-review.html">
         <span class="card-icon">⭐</span>
-        <div class="card-type">Review · End of Each Phase</div>
-        <div class="card-title">Phase Review Template</div>
-        <div class="card-desc">Monthly review covering metrics, mindset shifts, what worked, and goals for the next phase.</div>
+        <div class="card-type">End of Phase</div>
+        <div class="card-title">Phase Review</div>
+        <div class="card-desc">Monthly review of metrics, mindset, and goals.</div>
         <div class="card-arrow">Open →</div>
       </a>
     </div>
   </div>
 
+  <!-- 12-Week Roadmap -->
   <div class="sec">
     <div class="sec-header">
-      <span class="sec-num">Overview</span>
-      <span class="sec-title">Your 3-Phase Journey</span>
+      <span class="sec-num">Roadmap</span>
+      <span class="sec-title">Your Week by Week</span>
     </div>
-    <div class="phases">
-      <div class="phase-card">
-        <div class="phase-bg-num">1</div>
-        <div class="phase-label">Month 1</div>
-        <div class="phase-name">Foundation</div>
-        <div class="phase-desc">Health assessment · Movement baseline · Nutrition calibration · Identify self-sabotage · Establish daily non-negotiables</div>
-      </div>
-      <div class="phase-card">
-        <div class="phase-bg-num">2</div>
-        <div class="phase-label">Month 2</div>
-        <div class="phase-name">Build</div>
-        <div class="phase-desc">Progressive overload · Refined nutrition · Identity work · Time management systems · First measurable achievements</div>
-      </div>
-      <div class="phase-card">
-        <div class="phase-bg-num">3</div>
-        <div class="phase-label">Month 3</div>
-        <div class="phase-name">Integration</div>
-        <div class="phase-desc">Advanced programming · Nutrition on autopilot · Consolidated identity shift · Graduation or continuation planning</div>
-      </div>
-    </div>
-  </div>
 
+    <!-- Phase 1 -->
+    <div class="phase-block p1">
+      <div class="phase-divider">
+        <div class="phase-divider-line"></div>
+        <div class="phase-badge"><span class="phase-badge-dot"></span>Phase 1 — Foundation · Weeks 1–4</div>
+        <div class="phase-divider-line"></div>
+      </div>
+      <div class="weeks-grid">
+
+        <div class="week-card">
+          <div class="week-bg">1</div>
+          <div class="week-num">Week 1</div>
+          <div class="week-theme">First Steps</div>
+          <div class="week-focus">Complete your assessments before your first call with Ana.</div>
+          <div class="tasks">
+            <a class="task link" href="anafit-client-intake.html"><span class="task-icon">🌸</span>Client Intake Assessment<span class="task-special">Due</span></a>
+            <a class="task link" href="anafit-movement-assessment.html"><span class="task-icon">⚡</span>Movement Assessment<span class="task-special">Due</span></a>
+            <a class="task link" href="anafit-habit-tracker.html"><span class="task-icon">🌿</span>Start Habit Tracker</a>
+          </div>
+        </div>
+
+        <div class="week-card">
+          <div class="week-bg">2</div>
+          <div class="week-num">Week 2</div>
+          <div class="week-theme">Building Baseline</div>
+          <div class="week-focus">First full week of daily habits. Submit your first check-in Sunday.</div>
+          <div class="tasks">
+            <a class="task link" href="anafit-weekly-checkin.html"><span class="task-icon">📋</span>Weekly Check-In<span class="task-special">Sunday</span></a>
+            <a class="task link" href="anafit-habit-tracker.html"><span class="task-icon">🌿</span>Habit Tracker</a>
+            <a class="task link" href="anafit-biweekly-session.html"><span class="task-icon">💬</span>Strategy Session</a>
+          </div>
+        </div>
+
+        <div class="week-card">
+          <div class="week-bg">3</div>
+          <div class="week-num">Week 3</div>
+          <div class="week-theme">Finding Rhythm</div>
+          <div class="week-focus">Habits start to feel more natural. Stay consistent.</div>
+          <div class="tasks">
+            <a class="task link" href="anafit-weekly-checkin.html"><span class="task-icon">📋</span>Weekly Check-In<span class="task-special">Sunday</span></a>
+            <a class="task link" href="anafit-habit-tracker.html"><span class="task-icon">🌿</span>Habit Tracker</a>
+          </div>
+        </div>
+
+        <div class="week-card">
+          <div class="week-bg">4</div>
+          <div class="week-num">Week 4</div>
+          <div class="week-theme">Month 1 Wrap-Up</div>
+          <div class="week-focus">Take your measurements. Reflect on the first phase.</div>
+          <div class="tasks">
+            <a class="task link" href="anafit-weekly-checkin.html"><span class="task-icon">📋</span>Weekly Check-In<span class="task-special">Sunday</span></a>
+            <a class="task link" href="anafit-habit-tracker.html"><span class="task-icon">🌿</span>Habit Tracker</a>
+            <a class="task link" href="anafit-progress-tracker.html"><span class="task-icon">✨</span>Progress Tracker<span class="task-special">Due</span></a>
+            <a class="task link" href="anafit-phase-review.html"><span class="task-icon">⭐</span>Phase 1 Review<span class="task-special">Due</span></a>
+            <a class="task link" href="anafit-biweekly-session.html"><span class="task-icon">💬</span>Strategy Session</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase-block p2">
+      <div class="phase-divider">
+        <div class="phase-divider-line"></div>
+        <div class="phase-badge"><span class="phase-badge-dot"></span>Phase 2 — Build · Weeks 5–8</div>
+        <div class="phase-divider-line"></div>
+      </div>
+      <div class="weeks-grid">
+
+        <div class="week-card">
+          <div class="week-bg">5</div>
+          <div class="week-num">Week 5</div>
+          <div class="week-theme">Stepping Up</div>
+          <div class="week-focus">Training intensity increases. Nutrition gets more precise.</div>
+          <div class="tasks">
+            <a class="task link" href="anafit-weekly-checkin.html"><span class="task-icon">📋</span>Weekly Check-In<span class="task-special">Sunday</span></a>
+            <a class="task link" href="anafit-habit-tracker.html"><span class="task-icon">🌿</span>Habit Tracker</a>
+          </div>
+        </div>
+
+        <div class="week-card">
+          <div class="week-bg">6</div>
+          <div class="week-num">Week 6</div>
+          <div class="week-theme">Going Deeper</div>
+          <div class="week-focus">Identity work begins. This is where real change happens.</div>
+          <div class="tasks">
+            <a class="task link" href="anafit-weekly-checkin.html"><span class="task-icon">📋</span>Weekly Check-In<span class="task-special">Sunday</span></a>
+            <a class="task link" href="anafit-habit-tracker.html"><span class="task-icon">🌿</span>Habit Tracker</a>
+            <a class="task link" href="anafit-biweekly-session.html"><span class="task-icon">💬</span>Strategy Session</a>
+          </div>
+        </div>
+
+        <div class="week-card">
+          <div class="week-bg">7</div>
+          <div class="week-num">Week 7</div>
+          <div class="week-theme">Pushing Through</div>
+          <div class="week-focus">This is the hardest week for most clients. Keep going.</div>
+          <div class="tasks">
+            <a class="task link" href="anafit-weekly-checkin.html"><span class="task-icon">📋</span>Weekly Check-In<span class="task-special">Sunday</span></a>
+            <a class="task link" href="anafit-habit-tracker.html"><span class="task-icon">🌿</span>Habit Tracker</a>
+          </div>
+        </div>
+
+        <div class="week-card">
+          <div class="week-bg">8</div>
+          <div class="week-num">Week 8</div>
+          <div class="week-theme">Month 2 Wrap-Up</div>
+          <div class="week-focus">Your second set of measurements. See how far you've come.</div>
+          <div class="tasks">
+            <a class="task link" href="anafit-weekly-checkin.html"><span class="task-icon">📋</span>Weekly Check-In<span class="task-special">Sunday</span></a>
+            <a class="task link" href="anafit-habit-tracker.html"><span class="task-icon">🌿</span>Habit Tracker</a>
+            <a class="task link" href="anafit-progress-tracker.html"><span class="task-icon">✨</span>Progress Tracker<span class="task-special">Due</span></a>
+            <a class="task link" href="anafit-phase-review.html"><span class="task-icon">⭐</span>Phase 2 Review<span class="task-special">Due</span></a>
+            <a class="task link" href="anafit-biweekly-session.html"><span class="task-icon">💬</span>Strategy Session</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="phase-block p3">
+      <div class="phase-divider">
+        <div class="phase-divider-line"></div>
+        <div class="phase-badge"><span class="phase-badge-dot"></span>Phase 3 — Integration · Weeks 9–12</div>
+        <div class="phase-divider-line"></div>
+      </div>
+      <div class="weeks-grid">
+
+        <div class="week-card">
+          <div class="week-bg">9</div>
+          <div class="week-num">Week 9</div>
+          <div class="week-theme">Making It Stick</div>
+          <div class="week-focus">Advanced programming. The habits are yours now — protect them.</div>
+          <div class="tasks">
+            <a class="task link" href="anafit-weekly-checkin.html"><span class="task-icon">📋</span>Weekly Check-In<span class="task-special">Sunday</span></a>
+            <a class="task link" href="anafit-habit-tracker.html"><span class="task-icon">🌿</span>Habit Tracker</a>
+          </div>
+        </div>
+
+        <div class="week-card">
+          <div class="week-bg">10</div>
+          <div class="week-num">Week 10</div>
+          <div class="week-theme">Autopilot Mode</div>
+          <div class="week-focus">Nutrition feels natural. Training feels like who you are.</div>
+          <div class="tasks">
+            <a class="task link" href="anafit-weekly-checkin.html"><span class="task-icon">📋</span>Weekly Check-In<span class="task-special">Sunday</span></a>
+            <a class="task link" href="anafit-habit-tracker.html"><span class="task-icon">🌿</span>Habit Tracker</a>
+            <a class="task link" href="anafit-biweekly-session.html"><span class="task-icon">💬</span>Strategy Session</a>
+          </div>
+        </div>
+
+        <div class="week-card">
+          <div class="week-bg">11</div>
+          <div class="week-num">Week 11</div>
+          <div class="week-theme">The Final Push</div>
+          <div class="week-focus">Last full week of programming. Finish exactly how you started — all in.</div>
+          <div class="tasks">
+            <a class="task link" href="anafit-weekly-checkin.html"><span class="task-icon">📋</span>Weekly Check-In<span class="task-special">Sunday</span></a>
+            <a class="task link" href="anafit-habit-tracker.html"><span class="task-icon">🌿</span>Habit Tracker</a>
+          </div>
+        </div>
+
+        <div class="week-card">
+          <div class="week-bg">12</div>
+          <div class="week-num">Week 12</div>
+          <div class="week-theme">Graduation 🎉</div>
+          <div class="week-focus">Final measurements. Final review. You did it.</div>
+          <div class="tasks">
+            <a class="task link" href="anafit-weekly-checkin.html"><span class="task-icon">📋</span>Weekly Check-In<span class="task-special">Sunday</span></a>
+            <a class="task link" href="anafit-habit-tracker.html"><span class="task-icon">🌿</span>Habit Tracker</a>
+            <a class="task link" href="anafit-progress-tracker.html"><span class="task-icon">✨</span>Final Progress Tracker<span class="task-special">Due</span></a>
+            <a class="task link" href="anafit-phase-review.html"><span class="task-icon">⭐</span>Phase 3 Review<span class="task-special">Due</span></a>
+            <a class="task link" href="anafit-biweekly-session.html"><span class="task-icon">💬</span>Final Strategy Session</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <script>
@@ -368,14 +484,10 @@ function toggleTheme(){
   var t=document.documentElement.getAttribute('data-theme')||'night';
   var l=document.getElementById('toggleLabel');if(l)l.textContent=t==='day'?'Day':'Night';
 })();
-
-// Entrance animations
 var obs=new IntersectionObserver(function(entries){
-  entries.forEach(function(e){
-    if(e.isIntersecting)e.target.classList.add('vis');
-  });
-},{threshold:.12});
-document.querySelectorAll('.doc-card,.phase-card').forEach(function(el){obs.observe(el);});
+  entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('vis');});
+},{threshold:.1});
+document.querySelectorAll('.doc-card,.week-card').forEach(function(el){obs.observe(el);});
 </script>
 </body>
 </html>
