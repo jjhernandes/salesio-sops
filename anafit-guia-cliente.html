@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="night">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía del Cliente — Ana Fit VIP</title>
+<script>try{var t=localStorage.getItem('af-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root,[data-theme="night"]{
+  --bg:#08040e;
+  --glass:rgba(255,255,255,.035);
+  --glass-hv:rgba(255,255,255,.065);
+  --glass-bdr:rgba(255,255,255,.07);
+  --glass-bdr-hv:rgba(240,100,170,.45);
+  --accent:#f06ab4;
+  --accent-dim:rgba(240,100,170,.12);
+  --accent-glow:rgba(240,100,170,.22);
+  --gold:#c9a96e;
+  --text:#f5e8f0;
+  --text-2:#b890a8;
+  --text-3:#5a3a50;
+  --divider:rgba(255,255,255,.06);
+  --callout-bg:rgba(240,100,170,.07);
+  --callout-bdr:rgba(240,100,170,.2);
+  --tip-bg:rgba(201,169,110,.07);
+  --tip-bdr:rgba(201,169,110,.2);
+  --r:14px;
+}
+[data-theme="day"]{
+  --bg:#fdf4f8;
+  --glass:rgba(255,255,255,.8);
+  --glass-hv:rgba(255,255,255,.97);
+  --glass-bdr:rgba(194,24,91,.1);
+  --glass-bdr-hv:rgba(194,24,91,.32);
+  --accent:#c2185b;
+  --accent-dim:rgba(194,24,91,.06);
+  --accent-glow:rgba(194,24,91,.12);
+  --gold:#8d6e3a;
+  --text:#1f0a14;
+  --text-2:#7a4060;
+  --text-3:#d4b0c4;
+  --divider:rgba(0,0,0,.06);
+  --callout-bg:rgba(194,24,91,.04);
+  --callout-bdr:rgba(194,24,91,.15);
+  --tip-bg:rgba(141,110,58,.04);
+  --tip-bdr:rgba(141,110,58,.15);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter','Segoe UI',system-ui,sans-serif;font-size:.9375rem;line-height:1.75;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s;}
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+/* ── Orb ── */
+.orb{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0;}
+.orb-1{width:500px;height:500px;background:rgba(240,100,170,.1);top:-15%;left:-10%;animation:drift1 26s ease-in-out infinite;}
+.orb-2{width:280px;height:280px;background:rgba(201,169,110,.07);bottom:10%;right:-8%;animation:drift2 20s ease-in-out infinite;}
+[data-theme="day"] .orb-1{background:rgba(240,100,170,.05);}
+[data-theme="day"] .orb-2{background:rgba(201,169,110,.04);}
+@keyframes drift1{0%,100%{transform:translate(0,0);}50%{transform:translate(40px,30px);}}
+@keyframes drift2{0%,100%{transform:translate(0,0);}50%{transform:translate(-30px,-40px);}}
+
+/* ── Layout ── */
+.wrap{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:0 2rem 8rem;}
+
+/* ── Toggle ── */
+.theme-toggle{position:fixed;top:1.25rem;right:1.25rem;z-index:999;display:flex;align-items:center;gap:.5rem;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--glass-bdr);border-radius:50px;padding:.375rem .875rem .375rem .625rem;cursor:pointer;transition:border-color .2s;}
+.theme-toggle:hover{border-color:var(--glass-bdr-hv);}
+.toggle-track{width:28px;height:16px;background:var(--text-3);border-radius:50px;position:relative;transition:background .25s;flex-shrink:0;}
+[data-theme="day"] .toggle-track{background:var(--accent);}
+.toggle-thumb{position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:var(--accent);transition:transform .25s,background .25s;}
+[data-theme="day"] .toggle-thumb{transform:translateX(12px);background:#fff;}
+.toggle-lbl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);font-family:'SF Mono',monospace;}
+
+/* ── Back ── */
+.back{display:inline-flex;align-items:center;gap:.375rem;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);padding:2rem 0 0;transition:color .15s;font-family:'SF Mono',monospace;}
+.back:hover{color:var(--accent);text-decoration:none;}
+
+/* ── Hero ── */
+.hero{padding:3rem 0 4rem;border-bottom:1px solid var(--divider);}
+.eyebrow{font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:1.25rem;font-family:'SF Mono',monospace;}
+.hero-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(2.5rem,8vw,4.5rem);line-height:1.05;letter-spacing:-.02em;margin-bottom:1rem;}
+[data-theme="night"] .hero-title{background:linear-gradient(120deg,#f5e8f2 0%,#f06ab4 30%,#f5e8f2 55%,#c9a96e 78%,#f5e8f2 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 7s 0.5s linear infinite;}
+[data-theme="day"] .hero-title{color:var(--text);}
+.hero-title em{font-style:italic;font-weight:400;}
+@keyframes shimmer{to{background-position:200% center;}}
+.hero-sub{font-size:.9375rem;color:var(--text-2);max-width:52ch;font-weight:300;line-height:1.8;}
+
+/* ── TOC ── */
+.toc{margin:3rem 0;background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--glass-bdr);border-radius:var(--r);padding:1.5rem 1.75rem;}
+.toc-title{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;font-family:'SF Mono',monospace;}
+.toc-list{list-style:none;display:flex;flex-direction:column;gap:.35rem;}
+.toc-list a{color:var(--text-2);font-size:.875rem;transition:color .15s;display:flex;align-items:center;gap:.5rem;}
+.toc-list a:hover{color:var(--accent);text-decoration:none;}
+.toc-list a::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--text-3);flex-shrink:0;transition:background .15s;}
+.toc-list a:hover::before{background:var(--accent);}
+
+/* ── Section ── */
+.section{padding:3rem 0;border-bottom:1px solid var(--divider);}
+.section:last-of-type{border-bottom:none;}
+.section-eyebrow{font-size:.575rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem;font-family:'SF Mono',monospace;}
+.section-title{font-family:'Playfair Display',Georgia,serif;font-size:1.625rem;line-height:1.2;margin-bottom:.875rem;letter-spacing:-.01em;}
+.section-intro{color:var(--text-2);font-size:.9rem;font-weight:300;margin-bottom:2rem;max-width:60ch;}
+
+/* ── Steps ── */
+.steps{display:flex;flex-direction:column;gap:1.25rem;}
+.step{display:flex;gap:1.25rem;align-items:flex-start;}
+.step-num{width:32px;height:32px;border-radius:50%;background:var(--accent-dim);border:1px solid rgba(240,100,170,.25);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:600;color:var(--accent);flex-shrink:0;font-family:'SF Mono',monospace;margin-top:.125rem;}
+[data-theme="day"] .step-num{border-color:rgba(194,24,91,.2);}
+.step-body{flex:1;}
+.step-label{font-size:.9375rem;font-weight:600;color:var(--text);margin-bottom:.25rem;}
+.step-desc{font-size:.875rem;color:var(--text-2);line-height:1.7;font-weight:300;}
+
+/* ── Form card ── */
+.form-card{background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--glass-bdr);border-radius:var(--r);padding:1.5rem 1.75rem;margin-bottom:2.5rem;}
+.form-card-header{display:flex;align-items:center;gap:.875rem;margin-bottom:1.25rem;}
+.form-icon{font-size:1.5rem;line-height:1;flex-shrink:0;}
+.form-meta{}
+.form-name{font-size:1rem;font-weight:600;color:var(--text);margin-bottom:.1rem;}
+.form-freq{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-family:'SF Mono',monospace;}
+.form-divider{height:1px;background:var(--divider);margin:1.125rem 0;}
+
+/* ── Callout ── */
+.callout{background:var(--callout-bg);border:1px solid var(--callout-bdr);border-radius:10px;padding:1rem 1.25rem;margin:1.5rem 0;font-size:.875rem;color:var(--text-2);display:flex;gap:.75rem;align-items:flex-start;}
+.callout-icon{font-size:1rem;flex-shrink:0;margin-top:.1rem;}
+.tip{background:var(--tip-bg);border:1px solid var(--tip-bdr);border-radius:10px;padding:1rem 1.25rem;margin:1.5rem 0;font-size:.875rem;color:var(--text-2);display:flex;gap:.75rem;align-items:flex-start;}
+.tip-icon{font-size:1rem;flex-shrink:0;margin-top:.1rem;}
+
+/* ── Tag ── */
+.tag{display:inline-block;background:var(--accent-dim);border:1px solid rgba(240,100,170,.2);border-radius:4px;padding:.15rem .5rem;font-size:.7rem;font-family:'SF Mono',monospace;color:var(--accent);white-space:nowrap;}
+[data-theme="day"] .tag{border-color:rgba(194,24,91,.15);}
+
+/* ── Table ── */
+.quick-table{width:100%;border-collapse:collapse;font-size:.85rem;margin:1.5rem 0;}
+.quick-table th{text-align:left;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);font-family:'SF Mono',monospace;padding:.5rem .75rem;border-bottom:1px solid var(--divider);}
+.quick-table td{padding:.65rem .75rem;border-bottom:1px solid var(--divider);vertical-align:top;color:var(--text-2);line-height:1.5;}
+.quick-table td:first-child{color:var(--text);font-weight:500;}
+.quick-table tr:last-child td{border-bottom:none;}
+.quick-table td .tag{margin-left:.25rem;}
+
+@media(max-width:540px){
+  .wrap{padding:0 1.25rem 6rem;}
+  .hero-title{font-size:2.5rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar tema">
+  <span class="toggle-track"><span class="toggle-thumb"></span></span>
+  <span class="toggle-lbl" id="toggleLabel">Noche</span>
+</button>
+
+<div class="wrap">
+  <a class="back" href="anafit-hub.html">← Volver al Hub</a>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="eyebrow">Ana Fit VIP · Guía del Cliente</div>
+    <h1 class="hero-title">Cómo usar<br><em>tus formularios</em></h1>
+    <p class="hero-sub">Esta guía te explica paso a paso cómo acceder y completar cada formulario de tu programa de 12 semanas. Léela una vez y tendrás todo claro desde el principio.</p>
+  </div>
+
+  <!-- TOC -->
+  <nav class="toc">
+    <div class="toc-title">Contenido</div>
+    <ul class="toc-list">
+      <li><a href="#acceder">Cómo acceder al Hub</a></li>
+      <li><a href="#resumen">Resumen de formularios</a></li>
+      <li><a href="#semana1">Semana 1 — Los primeros dos formularios</a></li>
+      <li><a href="#semanal">Check-In Semanal (cada domingo)</a></li>
+      <li><a href="#habitos">Rastreador de Hábitos (diario)</a></li>
+      <li><a href="#estrategia">Sesión de Estrategia (cada 2 semanas)</a></li>
+      <li><a href="#progreso">Rastreador de Progreso (mensual)</a></li>
+      <li><a href="#revision">Revisión de Fase (mensual)</a></li>
+      <li><a href="#ayuda">¿Tienes dudas?</a></li>
+    </ul>
+  </nav>
+
+  <!-- Acceder -->
+  <div class="section" id="acceder">
+    <div class="section-eyebrow">Paso 1</div>
+    <h2 class="section-title">Cómo acceder al Hub</h2>
+    <p class="section-intro">Todas tus herramientas están en un solo lugar. No necesitas crear una cuenta ni recordar contraseñas.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-label">Abre tu navegador</div>
+          <div class="step-desc">Puedes usar cualquier navegador: Safari, Chrome, o el que prefieras. Funciona tanto en tu teléfono como en tu computadora.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-label">Ve al enlace que te compartió Ana</div>
+          <div class="step-desc">Ana te enviará el enlace directo a tu Hub personal. Guárdalo en tus favoritos para que siempre lo tengas a mano.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-label">Guarda el enlace en favoritos</div>
+          <div class="step-desc">En tu celular, toca el ícono de compartir y selecciona "Agregar a la pantalla de inicio" — así lo tendrás como una app.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip">
+      <span class="tip-icon">💡</span>
+      <span>En la esquina superior derecha verás un botón para cambiar entre modo <strong>noche</strong> (fondo oscuro) y modo <strong>día</strong> (fondo claro). Elige el que sea más cómodo para tus ojos.</span>
+    </div>
+  </div>
+
+  <!-- Resumen -->
+  <div class="section" id="resumen">
+    <div class="section-eyebrow">Referencia Rápida</div>
+    <h2 class="section-title">Resumen de formularios</h2>
+    <p class="section-intro">Tienes 7 formularios en total. Aquí tienes un vistazo rápido de cuándo usar cada uno.</p>
+
+    <table class="quick-table">
+      <thead>
+        <tr>
+          <th>Formulario</th>
+          <th>Cuándo completarlo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>🌸 Evaluación Inicial</td>
+          <td>Una sola vez — Semana 1 <span class="tag">obligatorio</span></td>
+        </tr>
+        <tr>
+          <td>⚡ Evaluación de Movimiento</td>
+          <td>Una sola vez — Semana 1 <span class="tag">obligatorio</span></td>
+        </tr>
+        <tr>
+          <td>📋 Check-In Semanal</td>
+          <td>Cada domingo (Semanas 2–12)</td>
+        </tr>
+        <tr>
+          <td>🌿 Rastreador de Hábitos</td>
+          <td>Diario — envía cada semana</td>
+        </tr>
+        <tr>
+          <td>💬 Sesión de Estrategia</td>
+          <td>Después de cada llamada con Ana (cada 2 semanas)</td>
+        </tr>
+        <tr>
+          <td>✨ Rastreador de Progreso</td>
+          <td>Una vez al mes — Semanas 4, 8 y 12</td>
+        </tr>
+        <tr>
+          <td>⭐ Revisión de Fase</td>
+          <td>Al final de cada fase — Semanas 4, 8 y 12</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Semana 1 -->
+  <div class="section" id="semana1">
+    <div class="section-eyebrow">Semana 1 · Una sola vez</div>
+    <h2 class="section-title">Los primeros dos formularios</h2>
+    <p class="section-intro">Estos dos formularios solo se completan una vez, al inicio del programa. Son la base de todo tu plan personalizado.</p>
+
+    <div class="form-card">
+      <div class="form-card-header">
+        <span class="form-icon">🌸</span>
+        <div class="form-meta">
+          <div class="form-name">Evaluación Inicial del Cliente</div>
+          <div class="form-freq">Una sola vez — Semana 1</div>
+        </div>
+      </div>
+      <div class="form-divider"></div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-label">Haz clic en "Evaluación Inicial" desde el Hub</div>
+            <div class="step-desc">Aparece en la sección de Acceso Rápido con el ícono 🌸.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-label">Completa tus datos personales</div>
+            <div class="step-desc">Nombre, edad, peso, estatura y cualquier condición de salud que Ana deba saber.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-label">Describe tus objetivos y hábitos actuales</div>
+            <div class="step-desc">Sé lo más honesta posible. No hay respuestas correctas o incorrectas — esta información le permite a Ana diseñar un programa solo para ti.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-label">Haz clic en "Enviar" al final del formulario</div>
+            <div class="step-desc">Verás un mensaje de confirmación y en unos segundos regresarás automáticamente al Hub.</div>
+          </div>
+        </div>
+      </div>
+      <div class="callout">
+        <span class="callout-icon">✅</span>
+        <span>Ana recibirá tus respuestas por correo electrónico. No necesitas hacer nada más después de enviar.</span>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-header">
+        <span class="form-icon">⚡</span>
+        <div class="form-meta">
+          <div class="form-name">Evaluación de Movimiento</div>
+          <div class="form-freq">Una sola vez — Semana 1</div>
+        </div>
+      </div>
+      <div class="form-divider"></div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-label">Haz clic en "Evaluación de Movimiento" desde el Hub</div>
+            <div class="step-desc">Aparece en la sección de Acceso Rápido con el ícono ⚡.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-label">Califica tus patrones de movimiento</div>
+            <div class="step-desc">Para cada ejercicio o movimiento, selecciona cómo te sientes: sin dolor, con incomodidad, o limitado. Si no has hecho el movimiento antes, selecciona "No lo sé" — no hay problema.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-label">Agrega notas sobre lesiones o limitaciones</div>
+            <div class="step-desc">Si tienes alguna lesión anterior, dolor crónico o zona del cuerpo que requiere cuidado especial, menciónalo en el campo de observaciones.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-label">Envía el formulario</div>
+            <div class="step-desc">Igual que el anterior, serás redirigida al Hub automáticamente.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Check-In Semanal -->
+  <div class="section" id="semanal">
+    <div class="section-eyebrow">Cada Domingo · Semanas 2–12</div>
+    <h2 class="section-title">Check-In Semanal</h2>
+    <p class="section-intro">Este es el formulario más importante de tu programa. Le da a Ana una foto clara de cómo vas semana a semana.</p>
+
+    <div class="form-card">
+      <div class="form-card-header">
+        <span class="form-icon">📋</span>
+        <div class="form-meta">
+          <div class="form-name">Check-In Semanal</div>
+          <div class="form-freq">Cada domingo — antes de medianoche</div>
+        </div>
+      </div>
+      <div class="form-divider"></div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-label">Abre el Hub y selecciona "Check-In Semanal"</div>
+            <div class="step-desc">Puedes hacerlo en tu celular — el formulario está optimizado para pantallas pequeñas.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-label">Reporta tu entrenamiento de la semana</div>
+            <div class="step-desc">¿Cuántas sesiones hiciste? ¿Cómo te sentiste durante los entrenamientos? ¿Hubo algo que se sintió difícil o muy bien?</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-label">Reporta tu nutrición</div>
+            <div class="step-desc">¿Seguiste el plan de alimentación? ¿Hubo días difíciles? ¿Cómo estuvo tu hidratación?</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-label">Califica tu energía y mentalidad</div>
+            <div class="step-desc">En una escala del 1 al 10, ¿cómo estuvo tu energía general? ¿Tu mentalidad? ¿Hubo algo emocionalmente relevante esta semana?</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <div class="step-label">Envía antes de medianoche del domingo</div>
+            <div class="step-desc">Esto le permite a Ana revisar tu semana y preparar cualquier ajuste antes de su próxima sesión contigo.</div>
+          </div>
+        </div>
+      </div>
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <span>Tarda menos de 10 minutos. Ponle una alarma los domingos a las 8pm para que no se te olvide.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hábitos -->
+  <div class="section" id="habitos">
+    <div class="section-eyebrow">Diario</div>
+    <h2 class="section-title">Rastreador de Hábitos</h2>
+    <p class="section-intro">Registra tus hábitos clave cada día. La consistencia aquí es lo que hace la diferencia a largo plazo.</p>
+
+    <div class="form-card">
+      <div class="form-card-header">
+        <span class="form-icon">🌿</span>
+        <div class="form-meta">
+          <div class="form-name">Rastreador de Hábitos</div>
+          <div class="form-freq">Diario — envía cada semana</div>
+        </div>
+      </div>
+      <div class="form-divider"></div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-label">Abre el Rastreador de Hábitos desde el Hub</div>
+            <div class="step-desc">Lo encontrarás con el ícono 🌿 en la sección de Acceso Rápido.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-label">Marca los hábitos que completaste hoy</div>
+            <div class="step-desc">Hay casillas para cada hábito (movimiento, nutrición, descanso, mentalidad). Simplemente marca con una palomita los que realizaste.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-label">Agrega observaciones si algo fue diferente</div>
+            <div class="step-desc">¿Dormiste mal? ¿Tuviste un día de estrés alto? Anótalo en el campo de notas — le da contexto a Ana.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-label">Envíalo cada semana junto con tu Check-In</div>
+            <div class="step-desc">Puedes llenarlo todos los días o resumir toda la semana el domingo — como mejor te funcione.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Estrategia -->
+  <div class="section" id="estrategia">
+    <div class="section-eyebrow">Cada 2 Semanas</div>
+    <h2 class="section-title">Sesión de Estrategia</h2>
+    <p class="section-intro">Este formulario se completa después de cada llamada de estrategia con Ana para documentar lo que discutieron.</p>
+
+    <div class="form-card">
+      <div class="form-card-header">
+        <span class="form-icon">💬</span>
+        <div class="form-meta">
+          <div class="form-name">Notas de Sesión de Estrategia</div>
+          <div class="form-freq">Después de cada llamada con Ana</div>
+        </div>
+      </div>
+      <div class="form-divider"></div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-label">Complétalo el mismo día de tu llamada con Ana</div>
+            <div class="step-desc">Hazlo mientras tienes todo fresco en la memoria — idealmente en los 30 minutos después de la llamada.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-label">Escribe los puntos clave que discutieron</div>
+            <div class="step-desc">¿Qué cambios se van a hacer al plan? ¿Qué objetivos establecieron para las próximas dos semanas?</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-label">Lista tus compromisos y pasos de acción</div>
+            <div class="step-desc">¿Qué prometiste trabajar hasta la próxima sesión? Escríbelo aquí para tener un registro claro.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-label">Envía el formulario</div>
+            <div class="step-desc">Ana recibirá el resumen y ambas tendrán un registro de cada sesión.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Progreso -->
+  <div class="section" id="progreso">
+    <div class="section-eyebrow">Mensual · Semanas 4, 8 y 12</div>
+    <h2 class="section-title">Rastreador de Progreso</h2>
+    <p class="section-intro">Una vez al mes tomas tus medidas corporales. Esto muestra el progreso físico real a lo largo del programa.</p>
+
+    <div class="form-card">
+      <div class="form-card-header">
+        <span class="form-icon">✨</span>
+        <div class="form-meta">
+          <div class="form-name">Rastreador de Progreso</div>
+          <div class="form-freq">Semanas 4, 8 y 12</div>
+        </div>
+      </div>
+      <div class="form-divider"></div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-label">Tómate las medidas en ayunas, por la mañana</div>
+            <div class="step-desc">Para que las medidas sean comparables de mes a mes, hazlo siempre a la misma hora, con la misma ropa (o sin ropa), y antes de comer.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-label">Registra peso, medidas corporales y benchmarks</div>
+            <div class="step-desc">El formulario te guía por cada medida: cintura, caderas, muslos, brazos y cualquier otra que Ana haya indicado rastrear.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-label">Agrega notas sobre cómo te sientes físicamente</div>
+            <div class="step-desc">Los números son importantes, pero cómo te sientes en tu cuerpo lo es igual. Escribe una nota breve.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-label">Envía junto con la Revisión de Fase</div>
+            <div class="step-desc">Estos dos formularios siempre van juntos al final de cada mes.</div>
+          </div>
+        </div>
+      </div>
+      <div class="callout">
+        <span class="callout-icon">📸</span>
+        <span>Si quieres llevar un registro visual de tu transformación, tómate fotos de progreso el mismo día que tus medidas. No es obligatorio, pero muchas clientas lo encuentran muy motivador.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Revisión de Fase -->
+  <div class="section" id="revision">
+    <div class="section-eyebrow">Mensual · Semanas 4, 8 y 12</div>
+    <h2 class="section-title">Revisión de Fase</h2>
+    <p class="section-intro">Al final de cada fase (mes) haces una reflexión profunda de lo que funcionó, lo que no, y a dónde vas.</p>
+
+    <div class="form-card">
+      <div class="form-card-header">
+        <span class="form-icon">⭐</span>
+        <div class="form-meta">
+          <div class="form-name">Revisión de Fase</div>
+          <div class="form-freq">Semanas 4, 8 y 12</div>
+        </div>
+      </div>
+      <div class="form-divider"></div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-label">Reserva 15–20 minutos para completarlo</div>
+            <div class="step-desc">Este formulario es más reflexivo que los otros. Tómate tu tiempo — es la oportunidad de procesar el mes.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-label">Evalúa qué funcionó bien este mes</div>
+            <div class="step-desc">¿Qué hábitos se volvieron más naturales? ¿Qué fue tu mayor logro? ¿Qué te sorprendió de ti misma?</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-label">Evalúa los desafíos y áreas de mejora</div>
+            <div class="step-desc">¿Qué fue lo más difícil? ¿Qué hábito todavía se siente forzado? ¿Hubo semanas de mayor dificultad?</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-label">Define tus intenciones para la siguiente fase</div>
+            <div class="step-desc">¿En qué te quieres enfocar el próximo mes? ¿Qué quieres cambiar o mantener? Esta sección le da a Ana lo que necesita para ajustar tu plan.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <div class="step-label">Envíalo junto con el Rastreador de Progreso</div>
+            <div class="step-desc">Ambos formularios van el mismo día — idealmente el último domingo de cada mes.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ayuda -->
+  <div class="section" id="ayuda">
+    <div class="section-eyebrow">Soporte</div>
+    <h2 class="section-title">¿Tienes dudas?</h2>
+    <p class="section-intro">Si algo no funciona o tienes preguntas sobre algún formulario, aquí tienes las respuestas más comunes.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">?</div>
+        <div class="step-body">
+          <div class="step-label">¿Qué pasa si envío un formulario y no aparece confirmación?</div>
+          <div class="step-desc">Intenta enviarlo de nuevo. Si el problema persiste, captura una foto de tus respuestas y envíasela a Ana directamente por WhatsApp.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">?</div>
+        <div class="step-body">
+          <div class="step-label">¿Puedo editar un formulario después de enviarlo?</div>
+          <div class="step-desc">Los formularios no se pueden editar una vez enviados. Si cometiste un error importante, escríbele a Ana por WhatsApp para aclararlo.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">?</div>
+        <div class="step-body">
+          <div class="step-label">¿Se me va a olvidar cuándo completar cada formulario?</div>
+          <div class="step-desc">Regresa a tu Hub y mira la sección "Tu semana a semana" — muestra exactamente qué formulario corresponde a cada semana del programa.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">?</div>
+        <div class="step-body">
+          <div class="step-label">¿Ana realmente ve mis respuestas?</div>
+          <div class="step-desc">Sí. Cada envío le llega por correo electrónico directamente a Ana. Ella revisa todos los formularios para personalizar tu programa.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:2rem;">
+      <span class="callout-icon">💬</span>
+      <span>Para cualquier duda urgente, escríbele a Ana directamente por <strong>WhatsApp</strong>. Siempre es la forma más rápida de comunicarse.</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggleTheme(){
+  var h=document.documentElement,n=h.getAttribute('data-theme')==='day'?'night':'day';
+  h.setAttribute('data-theme',n);
+  var l=document.getElementById('toggleLabel');if(l)l.textContent=n==='day'?'Día':'Noche';
+  try{localStorage.setItem('af-theme',n);}catch(e){}
+}
+(function(){
+  var t=document.documentElement.getAttribute('data-theme')||'night';
+  var l=document.getElementById('toggleLabel');if(l)l.textContent=t==='day'?'Día':'Noche';
+})();
+</script>
+</body>
+</html>
