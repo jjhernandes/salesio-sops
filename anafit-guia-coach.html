@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="night">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ana Fit VIP — Guía del Coach</title>
+<script>try{var t=localStorage.getItem('af-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root,[data-theme="night"]{
+  --bg:#08040e;
+  --glass:rgba(255,255,255,.032);
+  --glass-hv:rgba(255,255,255,.06);
+  --glass-bdr:rgba(255,255,255,.07);
+  --accent:#f06ab4;
+  --accent-dim:rgba(240,100,170,.1);
+  --accent-glow:rgba(240,100,170,.18);
+  --gold:#c9a96e;
+  --gold-dim:rgba(201,169,110,.08);
+  --gold-bdr:rgba(201,169,110,.22);
+  --green:#6ec9a4;
+  --green-dim:rgba(110,201,164,.08);
+  --green-bdr:rgba(110,201,164,.2);
+  --text:#f5e8f0;
+  --text-2:#b890a8;
+  --text-3:#5a3a50;
+  --divider:rgba(255,255,255,.055);
+  --p1:#f06ab4; --p1-dim:rgba(240,100,170,.08); --p1-bdr:rgba(240,100,170,.2);
+  --p2:#b07ad4; --p2-dim:rgba(176,122,212,.08); --p2-bdr:rgba(176,122,212,.2);
+  --p3:#c9a96e; --p3-dim:rgba(201,169,110,.08); --p3-bdr:rgba(201,169,110,.2);
+  --r:14px;
+}
+[data-theme="day"]{
+  --bg:#fdf4f8;
+  --glass:rgba(255,255,255,.82);
+  --glass-hv:rgba(255,255,255,.97);
+  --glass-bdr:rgba(194,24,91,.1);
+  --accent:#c2185b;
+  --accent-dim:rgba(194,24,91,.06);
+  --accent-glow:rgba(194,24,91,.1);
+  --gold:#8d6e3a;
+  --gold-dim:rgba(141,110,58,.06);
+  --gold-bdr:rgba(141,110,58,.2);
+  --green:#2e7d5e;
+  --green-dim:rgba(46,125,94,.06);
+  --green-bdr:rgba(46,125,94,.18);
+  --text:#1f0a14;
+  --text-2:#7a4060;
+  --text-3:#d4b0c4;
+  --divider:rgba(0,0,0,.07);
+  --p1:#c2185b; --p1-dim:rgba(194,24,91,.05); --p1-bdr:rgba(194,24,91,.15);
+  --p2:#7c3aed; --p2-dim:rgba(124,58,237,.05); --p2-bdr:rgba(124,58,237,.15);
+  --p3:#8d6e3a; --p3-dim:rgba(141,110,58,.05); --p3-bdr:rgba(141,110,58,.15);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter','Segoe UI',system-ui,sans-serif;font-size:.9375rem;line-height:1.75;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s;overflow-x:hidden;}
+
+.orb{position:fixed;border-radius:50%;filter:blur(110px);pointer-events:none;z-index:0;}
+.orb-1{width:580px;height:580px;background:rgba(240,100,170,.1);top:-18%;left:-12%;animation:d1 27s ease-in-out infinite;}
+.orb-2{width:300px;height:300px;background:rgba(201,169,110,.07);bottom:8%;right:-6%;animation:d2 22s ease-in-out infinite;}
+[data-theme="day"] .orb-1{background:rgba(240,100,170,.05);}
+[data-theme="day"] .orb-2{background:rgba(201,169,110,.04);}
+@keyframes d1{0%,100%{transform:translate(0,0);}50%{transform:translate(40px,-30px);}}
+@keyframes d2{0%,100%{transform:translate(0,0);}50%{transform:translate(-30px,-35px);}}
+
+.wrap{position:relative;z-index:1;max-width:780px;margin:0 auto;padding:0 2rem 8rem;}
+
+.theme-toggle{position:fixed;top:1.25rem;right:1.25rem;z-index:999;display:flex;align-items:center;gap:.5rem;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--glass-bdr);border-radius:50px;padding:.375rem .875rem .375rem .625rem;cursor:pointer;transition:border-color .2s;}
+.theme-toggle:hover{border-color:var(--accent);}
+.toggle-track{width:28px;height:16px;background:var(--text-3);border-radius:50px;position:relative;transition:background .25s;flex-shrink:0;}
+[data-theme="day"] .toggle-track{background:var(--accent);}
+.toggle-thumb{position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:var(--accent);transition:transform .25s,background .25s;}
+[data-theme="day"] .toggle-thumb{transform:translateX(12px);background:#fff;}
+.toggle-lbl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);font-family:'SF Mono',monospace;}
+
+.back{display:inline-flex;align-items:center;gap:.375rem;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);padding:2rem 0 0;transition:color .15s;text-decoration:none;font-family:'SF Mono',monospace;}
+.back:hover{color:var(--accent);}
+
+.hero{padding:3rem 0 3.5rem;border-bottom:1px solid var(--divider);}
+.hero-eyebrow{font-size:.625rem;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);margin-bottom:1.25rem;font-family:'SF Mono',monospace;}
+.hero-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(2.25rem,7vw,4rem);line-height:1.08;letter-spacing:-.02em;margin-bottom:.875rem;}
+[data-theme="night"] .hero-title{background:linear-gradient(120deg,#f5e8f2 0%,#f06ab4 28%,#f5e8f2 50%,#c9a96e 72%,#f5e8f2 100%);background-size:220% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 7s .5s linear infinite;}
+[data-theme="day"] .hero-title{color:var(--text);}
+.hero-title em{font-style:italic;font-weight:400;}
+@keyframes shimmer{to{background-position:220% center;}}
+.hero-sub{font-size:.9rem;color:var(--text-2);font-weight:300;line-height:1.8;max-width:58ch;}
+
+.toc{background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--glass-bdr);border-radius:var(--r);padding:1.375rem 1.75rem;margin:2.5rem 0;}
+.toc-title{font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-family:'SF Mono',monospace;margin-bottom:.875rem;}
+.toc-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:.3rem .5rem;}
+@media(max-width:540px){.toc-list{grid-template-columns:1fr;}}
+.toc-list a{color:var(--text-2);font-size:.8125rem;transition:color .15s;display:flex;align-items:center;gap:.5rem;text-decoration:none;padding:.15rem 0;}
+.toc-list a:hover{color:var(--accent);}
+.toc-list a::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--text-3);flex-shrink:0;}
+
+.sec{padding:3rem 0;border-bottom:1px solid var(--divider);}
+.sec:last-of-type{border-bottom:none;}
+.sec-eyebrow{font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-family:'SF Mono',monospace;margin-bottom:.625rem;}
+.sec-title{font-family:'Playfair Display',Georgia,serif;font-size:1.625rem;line-height:1.15;letter-spacing:-.01em;margin-bottom:.75rem;}
+.sec-intro{color:var(--text-2);font-size:.875rem;font-weight:300;margin-bottom:2rem;max-width:60ch;line-height:1.8;}
+
+.video-grid{display:flex;flex-direction:column;gap:1.5rem;}
+.video-card{background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--glass-bdr);border-radius:var(--r);overflow:hidden;}
+.video-meta{padding:1.125rem 1.5rem .875rem;}
+.video-num{font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-family:'SF Mono',monospace;margin-bottom:.375rem;}
+.video-title{font-size:.9375rem;font-weight:600;color:var(--text);margin-bottom:.3rem;}
+.video-desc{font-size:.8rem;color:var(--text-2);font-weight:300;line-height:1.6;}
+.video-embed{position:relative;width:100%;padding-bottom:56.25%;background:#000;}
+.video-embed iframe{position:absolute;inset:0;width:100%;height:100%;border:none;}
+.video-recap{padding:.875rem 1.5rem 1.25rem;border-top:1px solid var(--divider);}
+.video-recap-label{font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-3);font-family:'SF Mono',monospace;margin-bottom:.625rem;}
+.recap-list{list-style:none;display:flex;flex-direction:column;gap:.35rem;}
+.recap-list li{font-size:.8125rem;color:var(--text-2);padding-left:1.125rem;position:relative;line-height:1.65;}
+.recap-list li::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:.7rem;}
+
+.callout{border-radius:10px;padding:1rem 1.25rem;margin:1.5rem 0;font-size:.875rem;color:var(--text-2);display:flex;gap:.75rem;align-items:flex-start;line-height:1.65;}
+.callout.pink{background:rgba(240,100,170,.07);border:1px solid rgba(240,100,170,.18);}
+.callout.gold{background:var(--gold-dim);border:1px solid var(--gold-bdr);}
+.callout.green{background:var(--green-dim);border:1px solid var(--green-bdr);}
+[data-theme="day"] .callout.pink{background:rgba(194,24,91,.05);border-color:rgba(194,24,91,.15);}
+.callout-icon{font-size:1rem;flex-shrink:0;margin-top:.1rem;}
+
+.steps{display:flex;flex-direction:column;gap:1rem;}
+.step{display:flex;gap:1.125rem;align-items:flex-start;}
+.step-num{width:30px;height:30px;border-radius:50%;background:var(--accent-dim);border:1px solid rgba(240,100,170,.25);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:600;color:var(--accent);flex-shrink:0;font-family:'SF Mono',monospace;margin-top:.15rem;}
+.step-body{}
+.step-label{font-size:.9rem;font-weight:600;color:var(--text);margin-bottom:.2rem;}
+.step-desc{font-size:.825rem;color:var(--text-2);line-height:1.7;font-weight:300;}
+
+.week-table{width:100%;border-collapse:collapse;font-size:.8rem;margin:1.5rem 0;}
+.week-table th{text-align:left;font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3);font-family:'SF Mono',monospace;padding:.5rem .875rem;border-bottom:1px solid var(--divider);}
+.week-table td{padding:.625rem .875rem;border-bottom:1px solid var(--divider);vertical-align:top;line-height:1.55;}
+.week-table tr:last-child td{border-bottom:none;}
+.week-table tr:hover td{background:var(--glass);}
+.wt-week{color:var(--accent);font-weight:600;white-space:nowrap;font-size:.8rem;}
+.wt-focus{color:var(--text);font-weight:500;}
+.wt-tasks{color:var(--text-2);font-size:.775rem;}
+.wt-tasks span{display:inline-block;margin-right:.4rem;}
+.phase-row td{padding:.4rem .875rem;background:var(--glass);}
+.phase-row .phase-lbl{font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;font-family:'SF Mono',monospace;font-weight:600;}
+.ph1{color:var(--p1);}
+.ph2{color:var(--p2);}
+.ph3{color:var(--p3);}
+
+.cheat-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:1.5rem;}
+@media(max-width:560px){.cheat-grid{grid-template-columns:1fr;}}
+.cheat-card{background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--glass-bdr);border-radius:var(--r);padding:1.25rem;}
+.cheat-icon{font-size:1.25rem;margin-bottom:.5rem;display:block;}
+.cheat-label{font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3);font-family:'SF Mono',monospace;margin-bottom:.375rem;}
+.cheat-title{font-size:.875rem;font-weight:600;color:var(--text);margin-bottom:.3rem;}
+.cheat-body{font-size:.775rem;color:var(--text-2);line-height:1.65;font-weight:300;}
+
+.tag{display:inline-block;border-radius:4px;padding:.1rem .45rem;font-size:.6rem;font-family:'SF Mono',monospace;font-weight:500;white-space:nowrap;}
+.tag-pink{background:var(--accent-dim);color:var(--accent);border:1px solid rgba(240,100,170,.2);}
+.tag-gold{background:var(--gold-dim);color:var(--gold);border:1px solid var(--gold-bdr);}
+.tag-green{background:var(--green-dim);color:var(--green);border:1px solid var(--green-bdr);}
+[data-theme="day"] .tag-pink{border-color:rgba(194,24,91,.15);}
+
+.doc-link{color:var(--accent);text-decoration:none;font-weight:500;font-size:.875rem;border-bottom:1px solid var(--accent-dim);padding-bottom:1px;transition:border-color .15s;}
+.doc-link:hover{border-color:var(--accent);}
+
+@media(max-width:540px){.wrap{padding:0 1.25rem 6rem;}}
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar tema">
+  <span class="toggle-track"><span class="toggle-thumb"></span></span>
+  <span class="toggle-lbl" id="toggleLabel">Noche</span>
+</button>
+
+<div class="wrap">
+  <a class="back" href="anafit-hub.html">← Client Hub</a>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-eyebrow">Ana Fit VIP · Referencia Interna</div>
+    <h1 class="hero-title">Guía del Coach<br><em>& Notas de Capacitación</em></h1>
+    <p class="hero-sub">Todo lo que necesitas para manejar tu programa de 12 semanas con confianza — desde el momento en que un cliente paga hasta el momento en que renueva. Mira los videos y usa esta página como referencia continua.</p>
+  </div>
+
+  <!-- TOC -->
+  <nav class="toc">
+    <div class="toc-title">Ir a</div>
+    <ul class="toc-list">
+      <li><a href="#videos">Videos de Capacitación (3)</a></li>
+      <li><a href="#key-rules">Reglas Clave a Recordar</a></li>
+      <li><a href="#day-one">Día 1 — Qué Hacer</a></li>
+      <li><a href="#weekly">Cadencia Semanal</a></li>
+      <li><a href="#week-by-week">Desglose Semana a Semana</a></li>
+      <li><a href="#renewal">Renovación y Retención</a></li>
+      <li><a href="#links">Todos los Enlaces</a></li>
+    </ul>
+  </nav>
+
+  <!-- Videos -->
+  <div class="sec" id="videos">
+    <div class="sec-eyebrow">Ver Primero</div>
+    <h2 class="sec-title">Videos de Capacitación</h2>
+    <p class="sec-intro">Tres grabaciones que recorren todo el sistema — el hub, cada documento y el desglose semana a semana.</p>
+
+    <div class="video-grid">
+
+      <div class="video-card">
+        <div class="video-meta">
+          <div class="video-num">Video 01</div>
+          <div class="video-title">El Hub, el Documento de Oferta y la Guía del Cliente</div>
+          <div class="video-desc">Resumen de dónde vive todo, cómo usar el documento de oferta para ventas, y la guía del cliente en español.</div>
+        </div>
+        <div class="video-embed">
+          <iframe src="https://www.loom.com/embed/a6a5e13710de4b7fb299829feb382355" allowfullscreen></iframe>
+        </div>
+        <div class="video-recap">
+          <div class="video-recap-label">Puntos Clave</div>
+          <ul class="recap-list">
+            <li>Cada documento vive en el Client Hub — la sección de acceso rápido muestra en qué semana y con qué frecuencia</li>
+            <li>El documento de oferta ($21,450 en valor) es para percepción de valor al firmar clientes — no es un precio real, es una herramienta de ventas</li>
+            <li>Usa la frase: "Normalmente vale $21,000 — para ti solo son $2,000" y siempre dirán que sí</li>
+            <li>Puedes mostrarle el documento de oferta al cliente o solo referenciarlo durante el cierre</li>
+            <li>La guía en español va directamente a clientes hispanohablantes para que naveguen los formularios solos</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-meta">
+          <div class="video-num">Video 02</div>
+          <div class="video-title">Recorrido de Documentos — Cuándo Enviar Cada Cosa</div>
+          <div class="video-desc">Recorrido en vivo de cada formulario, cuándo lo llenan los clientes, y prueba de que EmailJS entrega directamente a tu bandeja.</div>
+        </div>
+        <div class="video-embed">
+          <iframe src="https://www.loom.com/embed/934c8c13a3ef40ccb44fecccb4104231" allowfullscreen></iframe>
+        </div>
+        <div class="video-recap">
+          <div class="video-recap-label">Puntos Clave</div>
+          <ul class="recap-list">
+            <li>Día 1: El cliente llena la Evaluación Inicial Y la Evaluación de Movimiento — ambas el primer día, antes de todo lo demás</li>
+            <li>Cada domingo: Check-In Semanal — mándales un mensaje si no lo han hecho</li>
+            <li>Cada día: Rastreador de Hábitos — lo llenan diariamente para mantenerse responsables</li>
+            <li>Cada 2 semanas: Sesión de Estrategia — esta es tu llamada 1-a-1 por Zoom, NO cada semana</li>
+            <li>Cada mes (Semanas 4, 8, 12): Rastreador de Progreso</li>
+            <li>Al final de cada fase: Revisión de Fase — te dice qué está funcionando y qué no</li>
+            <li>Después de 12 semanas: impulsa la renovación — $2,000 a $6,000 por otra ronda</li>
+            <li>EmailJS está confirmado funcionando — cada envío llega a tu bandeja automáticamente</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-meta">
+          <div class="video-num">Video 03</div>
+          <div class="video-title">Desglose Semana a Semana — Las 12 Semanas</div>
+          <div class="video-desc">Desglose exacto de lo que pasa cada semana en las tres fases, y cómo manejar la graduación y la conversación de renovación.</div>
+        </div>
+        <div class="video-embed">
+          <iframe src="https://www.loom.com/embed/06a8ce868afb4bef8a2f84574db3da65" allowfullscreen></iframe>
+        </div>
+        <div class="video-recap">
+          <div class="video-recap-label">Puntos Clave</div>
+          <ul class="recap-list">
+            <li>Semana 1: Evaluación Inicial + Evaluación de Movimiento + empezar Rastreador de Hábitos — nada más</li>
+            <li>Semana 2: Primer check-in semanal + primera sesión de estrategia (llamada 1-a-1)</li>
+            <li>Semana 3: Solo check-in semanal — sin sesión de estrategia (alternan cada 2 semanas)</li>
+            <li>Semana 4: Check-in semanal + Rastreador de Progreso + Revisión de Fase 1 — semana grande</li>
+            <li>La Fase 2 y 3 siguen exactamente el mismo patrón — solo aumenta la intensidad</li>
+            <li>Graduación (Semana 12): no celebres y cierres — usa esto para vender el próximo programa</li>
+            <li>El pitch de renovación: "Perdiste peso — ahora vamos más lejos. Veamos esos músculos. Alcancemos tu meta de cardio." Dales la próxima visión.</li>
+            <li>3 meses los pone en buena forma. Necesitan más tiempo para llegar a su mejor forma. Ese es tu upsell.</li>
+            <li>Mientras vean progreso y confíen en ti, seguirán pagándote.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Reglas Clave -->
+  <div class="sec" id="key-rules">
+    <div class="sec-eyebrow">Innegociables</div>
+    <h2 class="sec-title">Reglas clave a recordar.</h2>
+    <p class="sec-intro">Todo lo que necesitas para correr este programa con consistencia — no perfectamente, pero con consistencia.</p>
+
+    <div style="display:flex;flex-direction:column;gap:.75rem;margin-bottom:1.5rem;">
+      <div class="callout pink">
+        <span class="callout-icon">📌</span>
+        <span><strong>Las llamadas 1-a-1 son cada 2 semanas, no cada semana.</strong> Tienes 6 en total durante las 12 semanas. No te desgastes ofreciendo llamadas semanales por Zoom — para eso está el check-in semanal.</span>
+      </div>
+      <div class="callout pink">
+        <span class="callout-icon">📌</span>
+        <span><strong>El Día 1 es el Día 1.</strong> La Evaluación Inicial y la Evaluación de Movimiento se envían en el momento en que pagan. No esperes a la primera llamada. Obtén esa información de inmediato.</span>
+      </div>
+      <div class="callout pink">
+        <span class="callout-icon">📌</span>
+        <span><strong>Mándales un mensaje cada domingo.</strong> Si un cliente no ha llenado su check-in semanal, manda un recordatorio. Así los mantienes responsables y dentro del programa.</span>
+      </div>
+      <div class="callout gold">
+        <span class="callout-icon">💡</span>
+        <span><strong>Muéstrales su progreso.</strong> Los clientes necesitan ver que están mejorando — si no lo pueden ver, no renovarán. Usa el rastreador mensual y las revisiones de fase para hacer el progreso visible.</span>
+      </div>
+      <div class="callout green">
+        <span class="callout-icon">💰</span>
+        <span><strong>La Semana 12 es una llamada de ventas, no una despedida.</strong> La graduación es donde vendes la próxima ronda. Ten un próximo objetivo concreto listo — "ahora te llevo aquí" — antes de entrar a la llamada.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Día 1 -->
+  <div class="sec" id="day-one">
+    <div class="sec-eyebrow">Cuando Pagan</div>
+    <h2 class="sec-title">Día 1 — exactamente qué hacer.</h2>
+    <p class="sec-intro">En el momento en que un cliente se registra y paga, esta es tu secuencia exacta.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-label">Envía el enlace del Client Hub</div>
+          <div class="step-desc">Esta es su base de operaciones para todo el programa. Envíalo por WhatsApp o como sea que te comuniques. Si hablan español, envía también el enlace de la Guía del Cliente en español para que sepan cómo navegar todo.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-label">Diles que completen la Evaluación Inicial hoy</div>
+          <div class="step-desc">Historial de salud, objetivos, hábitos actuales, sueño, lesiones. Esta es la base de todo. Necesitas esto antes de poder construir su programa. No empieces a construir hasta tenerlo.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-label">Diles que completen la Evaluación de Movimiento hoy</div>
+          <div class="step-desc">Esto te muestra cómo se mueve su cuerpo, dónde están los riesgos y qué necesita trabajo correctivo. También el Día 1. Ambos formularios — mismo día.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-label">Construye su programa de 12 semanas con lo que recibes</div>
+          <div class="step-desc">Una vez que sus formularios lleguen a tu bandeja, tienes todo lo que necesitas para construir su programa de Fase 1. Entrégalo antes o durante la sesión de estrategia de la Semana 2.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <div class="step-label">Recuérdales: el Rastreador de Hábitos empieza hoy, el Check-In empieza el domingo</div>
+          <div class="step-desc">Deben empezar el Rastreador de Hábitos el mismo día que se registran. El Check-In Semanal comienza el primer domingo después de unirse. Establece esa expectativa el Día 1.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cadencia Semanal -->
+  <div class="sec" id="weekly">
+    <div class="sec-eyebrow">Sistema Continuo</div>
+    <h2 class="sec-title">La cadencia semanal.</h2>
+    <p class="sec-intro">Una vez que el programa está corriendo, este es el ritmo. Cada semana se ve así.</p>
+
+    <div class="cheat-grid">
+      <div class="cheat-card">
+        <span class="cheat-icon">🌿</span>
+        <div class="cheat-label">Diario</div>
+        <div class="cheat-title">Rastreador de Hábitos</div>
+        <div class="cheat-body">El cliente lo llena cada día. Tú lo revisas como parte de su check-in semanal. Es responsabilidad sin que tengas que estar al teléfono a diario.</div>
+      </div>
+      <div class="cheat-card">
+        <span class="cheat-icon">📋</span>
+        <div class="cheat-label">Cada Domingo</div>
+        <div class="cheat-title">Check-In Semanal</div>
+        <div class="cheat-body">Ellos lo envían, tú lo revisas y das retroalimentación escrita. Así te mantienes al tanto sin una llamada. Mándales un mensaje si no lo hacen.</div>
+      </div>
+      <div class="cheat-card">
+        <span class="cheat-icon">🎙</span>
+        <div class="cheat-label">Cada 2 Semanas</div>
+        <div class="cheat-title">Sesión de Estrategia (1-a-1)</div>
+        <div class="cheat-body">Tu llamada por Zoom. 6 en total. Análisis profundo del progreso, obstáculos y próximos pasos. Ajusta el programa en tiempo real según lo que estás viendo.</div>
+      </div>
+      <div class="cheat-card">
+        <span class="cheat-icon">✨</span>
+        <div class="cheat-label">Mensual (Semanas 4, 8, 12)</div>
+        <div class="cheat-title">Rastreador de Progreso + Revisión de Fase</div>
+        <div class="cheat-body">Estos dos siempre van juntos. Medidas + una reflexión completa de la fase. Son los datos que muestran a ambas que la transformación es real.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Semana a Semana -->
+  <div class="sec" id="week-by-week">
+    <div class="sec-eyebrow">Desglose Completo</div>
+    <h2 class="sec-title">Cada semana, explicada.</h2>
+    <p class="sec-intro">Exactamente lo que pasa cada semana. Mantén esto abierto cuando estés incorporando un nuevo cliente.</p>
+
+    <div style="overflow-x:auto;">
+      <table class="week-table">
+        <thead>
+          <tr>
+            <th>Semana</th>
+            <th>Enfoque</th>
+            <th>Qué Hace el Cliente</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="phase-row">
+            <td colspan="3"><span class="phase-lbl ph1">Fase 1 — Fundamentos</span></td>
+          </tr>
+          <tr>
+            <td class="wt-week">Semana 1</td>
+            <td class="wt-focus">Primeros Pasos</td>
+            <td class="wt-tasks">
+              <span>🌸 Evaluación Inicial</span>
+              <span>⚡ Evaluación de Movimiento</span>
+              <span>🌿 Empezar Rastreador de Hábitos</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="wt-week">Semana 2</td>
+            <td class="wt-focus">Construyendo la Base</td>
+            <td class="wt-tasks">
+              <span>📋 Check-In Semanal (domingo)</span>
+              <span>🌿 Rastreador de Hábitos (diario)</span>
+              <span>💬 Sesión de Estrategia <span class="tag tag-pink">1ª llamada</span></span>
+            </td>
+          </tr>
+          <tr>
+            <td class="wt-week">Semana 3</td>
+            <td class="wt-focus">Encontrando el Ritmo</td>
+            <td class="wt-tasks">
+              <span>📋 Check-In Semanal (domingo)</span>
+              <span>🌿 Rastreador de Hábitos (diario)</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="wt-week">Semana 4</td>
+            <td class="wt-focus">Cierre del Mes 1</td>
+            <td class="wt-tasks">
+              <span>📋 Check-In Semanal</span>
+              <span>✨ Rastreador de Progreso <span class="tag tag-gold">mensual</span></span>
+              <span>⭐ Revisión de Fase 1 <span class="tag tag-gold">fin de fase</span></span>
+              <span>💬 Sesión de Estrategia</span>
+            </td>
+          </tr>
+          <tr class="phase-row">
+            <td colspan="3"><span class="phase-lbl ph2">Fase 2 — Construcción</span></td>
+          </tr>
+          <tr>
+            <td class="wt-week">Semana 5</td>
+            <td class="wt-focus">Subiendo el Nivel</td>
+            <td class="wt-tasks">
+              <span>📋 Check-In Semanal</span>
+              <span>🌿 Rastreador de Hábitos</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="wt-week">Semana 6</td>
+            <td class="wt-focus">Profundizando</td>
+            <td class="wt-tasks">
+              <span>📋 Check-In Semanal</span>
+              <span>🌿 Rastreador de Hábitos</span>
+              <span>💬 Sesión de Estrategia</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="wt-week">Semana 7</td>
+            <td class="wt-focus">Empujando Adelante</td>
+            <td class="wt-tasks">
+              <span>📋 Check-In Semanal</span>
+              <span>🌿 Rastreador de Hábitos</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="wt-week">Semana 8</td>
+            <td class="wt-focus">Cierre del Mes 2</td>
+            <td class="wt-tasks">
+              <span>📋 Check-In Semanal</span>
+              <span>✨ Rastreador de Progreso <span class="tag tag-gold">mensual</span></span>
+              <span>⭐ Revisión de Fase 2 <span class="tag tag-gold">fin de fase</span></span>
+              <span>💬 Sesión de Estrategia</span>
+            </td>
+          </tr>
+          <tr class="phase-row">
+            <td colspan="3"><span class="phase-lbl ph3">Fase 3 — Integración</span></td>
+          </tr>
+          <tr>
+            <td class="wt-week">Semana 9</td>
+            <td class="wt-focus">Consolidando Logros</td>
+            <td class="wt-tasks">
+              <span>📋 Check-In Semanal</span>
+              <span>🌿 Rastreador de Hábitos</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="wt-week">Semana 10</td>
+            <td class="wt-focus">Modo Automático</td>
+            <td class="wt-tasks">
+              <span>📋 Check-In Semanal</span>
+              <span>🌿 Rastreador de Hábitos</span>
+              <span>💬 Sesión de Estrategia</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="wt-week">Semana 11</td>
+            <td class="wt-focus">El Empuje Final</td>
+            <td class="wt-tasks">
+              <span>📋 Check-In Semanal</span>
+              <span>🌿 Rastreador de Hábitos</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="wt-week">Semana 12</td>
+            <td class="wt-focus">Graduación 🎉</td>
+            <td class="wt-tasks">
+              <span>📋 Check-In Semanal</span>
+              <span>✨ Rastreador de Progreso Final <span class="tag tag-gold">mensual</span></span>
+              <span>⭐ Revisión de Fase 3 <span class="tag tag-gold">fin de fase</span></span>
+              <span>💬 Sesión Final de Estrategia <span class="tag tag-green">pitch de renovación</span></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Renovación -->
+  <div class="sec" id="renewal">
+    <div class="sec-eyebrow">Mes 3 → Mes 4+</div>
+    <h2 class="sec-title">La conversación de renovación.</h2>
+    <p class="sec-intro">La Semana 12 no es el fin — es el cierre para la próxima ronda. Así es como manejarlo.</p>
+
+    <div class="callout gold" style="margin-bottom:1.5rem;">
+      <span class="callout-icon">🧠</span>
+      <span><strong>La mentalidad:</strong> 3 meses los pone en buena forma — pero no en su mejor forma. Te necesitan para llevarlos más lejos. Tu trabajo en la graduación es hacer que vean el próximo nivel con claridad.</span>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-label">Revisa sus resultados de Fase 3 juntos en la llamada</div>
+          <div class="step-desc">Abre su rastreador de progreso. Muéstrale la comparación del Mes 1 al Mes 3. Haz los resultados reales y visibles — esa es tu prueba social en vivo.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-label">Dale una visión concreta del próximo nivel</div>
+          <div class="step-desc">No le preguntes si quiere continuar. Dile a dónde puede llegar. "Perdiste peso — ahora lleguemos al punto donde puedas ver definición muscular real." Haz que el próximo objetivo se sienta alcanzable y emocionante.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-label">Haz la oferta</div>
+          <div class="step-desc">Otras 12 semanas. $2,000 a $6,000 dependiendo de lo que estés cobrando. Ya confía en ti, ya ha visto resultados, y ya sabe cómo funciona el sistema. El cierre debe ser simple.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-label">Si dice que sí — el Día 1 empieza de inmediato</div>
+          <div class="step-desc">No dejes que el momentum caiga. El mismo sistema reinicia. Ya conoces su cuerpo, sus hábitos y sus patrones. La Fase 4 debe ser el mejor trabajo juntas hasta ahora.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout green" style="margin-top:1.5rem;">
+      <span class="callout-icon">💰</span>
+      <span><strong>Los números:</strong> Una cliente que renueva dos veces vale $6,000–$18,000 en total. La conversación de retención es lo de mayor impacto que haces. Trátala como una llamada de ventas — porque lo es.</span>
+    </div>
+  </div>
+
+  <!-- Enlaces -->
+  <div class="sec" id="links">
+    <div class="sec-eyebrow">Acceso Rápido</div>
+    <h2 class="sec-title">Todos los enlaces de documentos.</h2>
+    <p class="sec-intro">Todo en un solo lugar. Guarda esta página en favoritos.</p>
+
+    <div class="cheat-grid">
+      <div class="cheat-card">
+        <span class="cheat-icon">🏠</span>
+        <div class="cheat-label">Hub</div>
+        <div class="cheat-title">Client Hub</div>
+        <div class="cheat-body" style="margin-top:.5rem;"><a class="doc-link" href="anafit-hub.html">anafit-hub.html</a><br><span style="font-size:.7rem;color:var(--text-3);">Envía esto a cada cliente el Día 1</span></div>
+      </div>
+      <div class="cheat-card">
+        <span class="cheat-icon">💎</span>
+        <div class="cheat-label">Ventas</div>
+        <div class="cheat-title">Documento de Oferta</div>
+        <div class="cheat-body" style="margin-top:.5rem;"><a class="doc-link" href="anafit-offer-doc.html">anafit-offer-doc.html</a><br><span style="font-size:.7rem;color:var(--text-3);">Stack de valor — para cerrar y percepción de valor</span></div>
+      </div>
+      <div class="cheat-card">
+        <span class="cheat-icon">🇪🇸</span>
+        <div class="cheat-label">Español</div>
+        <div class="cheat-title">Guía del Cliente (ES)</div>
+        <div class="cheat-body" style="margin-top:.5rem;"><a class="doc-link" href="anafit-guia-cliente.html">anafit-guia-cliente.html</a><br><span style="font-size:.7rem;color:var(--text-3);">Enviar a clientes hispanohablantes</span></div>
+      </div>
+      <div class="cheat-card">
+        <span class="cheat-icon">🌸</span>
+        <div class="cheat-label">Semana 1</div>
+        <div class="cheat-title">Evaluación Inicial</div>
+        <div class="cheat-body" style="margin-top:.5rem;"><a class="doc-link" href="anafit-client-intake.html">anafit-client-intake.html</a><br><span style="font-size:.7rem;color:var(--text-3);">Día 1 — historial de salud y objetivos</span></div>
+      </div>
+      <div class="cheat-card">
+        <span class="cheat-icon">⚡</span>
+        <div class="cheat-label">Semana 1</div>
+        <div class="cheat-title">Evaluación de Movimiento</div>
+        <div class="cheat-body" style="margin-top:.5rem;"><a class="doc-link" href="anafit-movement-assessment.html">anafit-movement-assessment.html</a><br><span style="font-size:.7rem;color:var(--text-3);">Día 1 — evaluación base de movimiento</span></div>
+      </div>
+      <div class="cheat-card">
+        <span class="cheat-icon">📋</span>
+        <div class="cheat-label">Cada Domingo</div>
+        <div class="cheat-title">Check-In Semanal</div>
+        <div class="cheat-body" style="margin-top:.5rem;"><a class="doc-link" href="anafit-weekly-checkin.html">anafit-weekly-checkin.html</a><br><span style="font-size:.7rem;color:var(--text-3);">Mándales un mensaje si no lo hacen</span></div>
+      </div>
+      <div class="cheat-card">
+        <span class="cheat-icon">🌿</span>
+        <div class="cheat-label">Diario</div>
+        <div class="cheat-title">Rastreador de Hábitos</div>
+        <div class="cheat-body" style="margin-top:.5rem;"><a class="doc-link" href="anafit-habit-tracker.html">anafit-habit-tracker.html</a><br><span style="font-size:.7rem;color:var(--text-3);">Cada día desde la Semana 1</span></div>
+      </div>
+      <div class="cheat-card">
+        <span class="cheat-icon">💬</span>
+        <div class="cheat-label">Cada 2 Semanas</div>
+        <div class="cheat-title">Sesión de Estrategia</div>
+        <div class="cheat-body" style="margin-top:.5rem;"><a class="doc-link" href="anafit-biweekly-session.html">anafit-biweekly-session.html</a><br><span style="font-size:.7rem;color:var(--text-3);">Notas de tu Zoom 1-a-1</span></div>
+      </div>
+      <div class="cheat-card">
+        <span class="cheat-icon">✨</span>
+        <div class="cheat-label">Semanas 4, 8, 12</div>
+        <div class="cheat-title">Rastreador de Progreso</div>
+        <div class="cheat-body" style="margin-top:.5rem;"><a class="doc-link" href="anafit-progress-tracker.html">anafit-progress-tracker.html</a><br><span style="font-size:.7rem;color:var(--text-3);">Medidas mensuales</span></div>
+      </div>
+      <div class="cheat-card">
+        <span class="cheat-icon">⭐</span>
+        <div class="cheat-label">Semanas 4, 8, 12</div>
+        <div class="cheat-title">Revisión de Fase</div>
+        <div class="cheat-body" style="margin-top:.5rem;"><a class="doc-link" href="anafit-phase-review.html">anafit-phase-review.html</a><br><span style="font-size:.7rem;color:var(--text-3);">Reflexión mensual — siempre con el rastreador de progreso</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggleTheme(){
+  var h=document.documentElement,n=h.getAttribute('data-theme')==='day'?'night':'day';
+  h.setAttribute('data-theme',n);
+  var l=document.getElementById('toggleLabel');if(l)l.textContent=n==='day'?'Día':'Noche';
+  try{localStorage.setItem('af-theme',n);}catch(e){}
+}
+(function(){
+  var t=document.documentElement.getAttribute('data-theme')||'night';
+  var l=document.getElementById('toggleLabel');if(l)l.textContent=t==='day'?'Día':'Noche';
+})();
+</script>
+</body>
+</html>
