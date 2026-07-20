@@ -443,6 +443,47 @@ body{
 .calendar-placeholder-title{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:.375rem;}
 .calendar-placeholder-desc{font-size:.75rem;color:var(--t2);max-width:44ch;margin:0 auto;line-height:1.7;font-weight:300;}
 
+/* Tasks */
+.task-add-row{display:flex;gap:.5rem;margin-bottom:.875rem;}
+.task-input{
+  flex:1;background:var(--card);border:1px solid var(--bdr-2);border-radius:8px;
+  padding:.65rem .875rem;font-size:.8rem;color:var(--text);font-family:'Inter',sans-serif;
+  transition:border-color .2s,box-shadow .2s;
+}
+.task-input:focus{outline:none;border-color:rgba(var(--glow-rgb),.55);box-shadow:0 0 18px rgba(var(--glow-rgb),.15);}
+.task-input::placeholder{color:var(--t3);}
+.task-add-btn{
+  background:var(--text);color:var(--bg);border:none;border-radius:8px;
+  padding:.65rem 1.125rem;font-size:.7rem;font-weight:700;cursor:pointer;
+  transition:opacity .15s;font-family:'Inter',sans-serif;flex-shrink:0;
+}
+.task-add-btn:hover{opacity:.85;}
+.task-list{display:flex;flex-direction:column;gap:2px;}
+.task-item{display:flex;align-items:center;gap:.75rem;padding:.5rem .5rem;border-radius:8px;transition:background .15s;}
+.task-item:hover{background:var(--hbg);}
+.task-check{
+  width:17px;height:17px;border-radius:5px;border:1.5px solid var(--bdr-2);
+  background:transparent;cursor:pointer;flex-shrink:0;position:relative;transition:all .15s;
+}
+.task-check.done{background:rgba(var(--glow-rgb),1);border-color:rgba(var(--glow-rgb),1);box-shadow:0 0 10px rgba(var(--glow-rgb),.6);}
+.task-check.done::after{content:'';position:absolute;left:3px;top:0;width:5px;height:9px;border:2px solid var(--bg);border-top:none;border-left:none;transform:rotate(45deg);}
+.task-text{flex:1;font-size:.8rem;color:var(--text);cursor:pointer;}
+.task-text.done{color:var(--t3);text-decoration:line-through;}
+.task-del{background:none;border:none;color:var(--t3);cursor:pointer;font-size:.85rem;padding:.2rem;opacity:0;transition:opacity .15s;flex-shrink:0;}
+.task-item:hover .task-del{opacity:1;}
+.task-del:hover{color:#8a3030;}
+.task-empty{font-size:.75rem;color:var(--t3);padding:.75rem .5rem;font-weight:300;}
+
+/* Dashboard "Today" widgets */
+.dash-widgets{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem;}
+.tasks-mini{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:1.25rem 1.375rem;transition:all .2s;}
+.tasks-mini:hover{border-color:rgba(var(--glow-rgb),.4);box-shadow:0 0 24px rgba(var(--glow-rgb),.15);}
+.calendar-mini-card{background:var(--card);border:1px solid var(--bdr);border-radius:14px;overflow:hidden;transition:all .2s;}
+.calendar-mini-card:hover{border-color:rgba(var(--glow-rgb),.4);box-shadow:0 0 24px rgba(var(--glow-rgb),.15);}
+.calendar-mini-frame{width:100%;height:266px;border:none;display:block;}
+.calendar-mini-placeholder{padding:1.5rem 1.25rem;text-align:center;}
+@media(max-width:700px){.dash-widgets{grid-template-columns:1fr;}}
+
 .notes-wrap{position:relative;}
 .notes-area{
   width:100%;min-height:360px;resize:vertical;
@@ -581,6 +622,26 @@ body{
       <!-- Today's call -->
       <div id="today-call-wrap"></div>
 
+      <!-- Today: tasks + calendar -->
+      <div class="section-label">Today</div>
+      <div class="dash-widgets">
+        <div class="tasks-mini">
+          <div class="task-add-row">
+            <input type="text" id="task-input-mini" class="task-input" placeholder="Add a task..." onkeydown="if(event.key==='Enter')addTask('task-input-mini')">
+            <button class="task-add-btn" onclick="addTask('task-input-mini')">Add</button>
+          </div>
+          <div class="task-list" id="task-list-mini"></div>
+        </div>
+        <div class="calendar-mini-card">
+          <div class="calendar-mini-placeholder" id="calendar-mini-placeholder">
+            <div class="calendar-placeholder-icon">📅</div>
+            <div class="calendar-placeholder-title">Calendar not connected</div>
+            <div class="calendar-placeholder-desc">Connect it from the Brain Dump tab — it'll show up here too.</div>
+          </div>
+          <iframe id="calendar-mini-iframe" class="calendar-mini-frame" style="display:none;" src="" title="Calendar" frameborder="0" scrolling="no"></iframe>
+        </div>
+      </div>
+
       <!-- Stats -->
       <div class="section-label">Live Client Stats</div>
       <div class="stats-row">
@@ -662,6 +723,13 @@ body{
         </div>
         <iframe id="calendar-iframe" class="calendar-frame" style="display:none;" src="" title="Google Calendar" frameborder="0" scrolling="no"></iframe>
       </div>
+
+      <div class="section-label">Tasks</div>
+      <div class="task-add-row">
+        <input type="text" id="task-input-full" class="task-input" placeholder="Add a task..." onkeydown="if(event.key==='Enter')addTask('task-input-full')">
+        <button class="task-add-btn" onclick="addTask('task-input-full')">Add</button>
+      </div>
+      <div class="task-list" id="task-list-full" style="margin-bottom:2.5rem;"></div>
 
       <div class="section-label">Notes</div>
       <div class="notes-wrap">
@@ -969,19 +1037,73 @@ var WEEK_CALLS=[
   }
 })();
 
-/* ── Brain Dump: calendar + notes ── */
-var CALENDAR_EMBED_URL = ''; /* paste Google Calendar embed src here */
+/* ── Brain Dump: calendar + notes + tasks ── */
+var CALENDAR_EMBED_URL = ''; /* paste Google Calendar embed src here — powers both Dashboard and Brain Dump */
 
 (function initCalendar(){
-  var ph=document.getElementById('calendar-placeholder');
-  var frame=document.getElementById('calendar-iframe');
-  if(!ph||!frame)return;
-  if(CALENDAR_EMBED_URL){
-    frame.src=CALENDAR_EMBED_URL;
-    frame.style.display='block';
-    ph.style.display='none';
-  }
+  var targets=[
+    {ph:'calendar-placeholder',frame:'calendar-iframe',extra:''},
+    {ph:'calendar-mini-placeholder',frame:'calendar-mini-iframe',extra:'&mode=AGENDA&showTitle=0&showTabs=0&showCalendars=0&showPrint=0'}
+  ];
+  targets.forEach(function(t){
+    var ph=document.getElementById(t.ph);
+    var frame=document.getElementById(t.frame);
+    if(!ph||!frame)return;
+    if(CALENDAR_EMBED_URL){
+      frame.src=CALENDAR_EMBED_URL+t.extra;
+      frame.style.display='block';
+      ph.style.display='none';
+    }
+  });
 })();
+
+/* ── Tasks (shared between Dashboard mini-widget and Brain Dump full list) ── */
+var TASKS_KEY='salesio_tasks';
+function loadTasks(){try{return JSON.parse(localStorage.getItem(TASKS_KEY)||'[]');}catch(e){return [];}}
+function saveTasksState(tasks){try{localStorage.setItem(TASKS_KEY,JSON.stringify(tasks));}catch(e){}}
+function escapeHtml(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+
+function addTask(inputId){
+  var input=document.getElementById(inputId);
+  if(!input)return;
+  var val=input.value.trim();
+  if(!val)return;
+  var tasks=loadTasks();
+  tasks.push({id:Date.now()+Math.random(),text:val,done:false});
+  saveTasksState(tasks);
+  input.value='';
+  renderTasks();
+}
+function toggleTask(id){
+  var tasks=loadTasks();
+  tasks.forEach(function(t){if(t.id===id)t.done=!t.done;});
+  saveTasksState(tasks);
+  renderTasks();
+}
+function deleteTask(id){
+  saveTasksState(loadTasks().filter(function(t){return t.id!==id;}));
+  renderTasks();
+}
+function taskItemHTML(t){
+  return '<div class="task-item">'+
+    '<div class="task-check'+(t.done?' done':'')+'" onclick="toggleTask('+t.id+')"></div>'+
+    '<div class="task-text'+(t.done?' done':'')+'" onclick="toggleTask('+t.id+')">'+escapeHtml(t.text)+'</div>'+
+    '<button class="task-del" onclick="deleteTask('+t.id+')">✕</button>'+
+  '</div>';
+}
+function renderTasks(){
+  var tasks=loadTasks();
+  var full=document.getElementById('task-list-full');
+  if(full){full.innerHTML = tasks.length ? tasks.map(taskItemHTML).join('') : '<div class="task-empty">No tasks yet. Add one above.</div>';}
+  var mini=document.getElementById('task-list-mini');
+  if(mini){
+    var open=tasks.filter(function(t){return !t.done;});
+    if(tasks.length===0){mini.innerHTML='<div class="task-empty">No tasks yet.</div>';}
+    else if(open.length===0){mini.innerHTML='<div class="task-empty">All caught up. Nice.</div>';}
+    else{mini.innerHTML=open.slice(0,6).map(taskItemHTML).join('');}
+  }
+}
+renderTasks();
 
 (function initNotes(){
   var area=document.getElementById('notes-area');
