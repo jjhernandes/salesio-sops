@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="day">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales.io — Weekly 1-on-1 Check-In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script>try{var s=localStorage.getItem('tb-theme');if(s)document.documentElement.dataset.theme=s;}catch(e){}</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{height:100%;scroll-behavior:smooth;}
+
+:root,[data-theme="day"]{
+  --bg:#EAE4D9;--bg-2:#E0D9CE;
+  --card:#FFFFFF;--card-2:#F5F1EB;--card-3:#EDECE8;
+  --bdr:rgba(10,10,8,.1);--bdr-2:rgba(10,10,8,.2);
+  --text:#0A0A08;
+  --t2:rgba(10,10,8,.55);--t3:rgba(10,10,8,.3);--t4:rgba(10,10,8,.12);
+  --accent:#0A0A08;--hbg:rgba(10,10,8,.04);
+  --shd:rgba(10,10,8,.08);--shd2:rgba(10,10,8,.15);
+  --sb-bg:#0A0A08;--sb-text:#EAE4D9;
+  --sb-t2:rgba(234,228,217,.5);--sb-t3:rgba(234,228,217,.25);
+  --sb-bdr:rgba(234,228,217,.08);--sb-hbg:rgba(234,228,217,.07);
+  --tk:#EAE4D9;--tb:rgba(234,228,217,.25);--tt:#0A0A08;--tl:rgba(234,228,217,.3);
+  --glow-rgb:160,144,112;
+  --good:#3d7a50;--amber:#8a6a20;--bad:#8a3030;
+}
+[data-theme="night"]{
+  --bg:#000;--bg-2:#040402;
+  --card:#0a0a08;--card-2:#0f0f0d;--card-3:#141412;
+  --bdr:rgba(234,228,217,.09);--bdr-2:rgba(234,228,217,.18);
+  --text:#EAE4D9;
+  --t2:rgba(234,228,217,.58);--t3:rgba(234,228,217,.27);--t4:rgba(234,228,217,.1);
+  --accent:#EAE4D9;--hbg:rgba(234,228,217,.03);
+  --shd:rgba(0,0,0,.5);--shd2:rgba(0,0,0,.8);
+  --sb-bg:#060604;--sb-text:#EAE4D9;
+  --sb-t2:rgba(234,228,217,.45);--sb-t3:rgba(234,228,217,.2);
+  --sb-bdr:rgba(234,228,217,.07);--sb-hbg:rgba(234,228,217,.06);
+  --tk:rgba(234,228,217,.12);--tb:rgba(234,228,217,.08);--tt:#EAE4D9;--tl:rgba(234,228,217,.18);
+  --glow-rgb:74,222,128;
+  --good:#4ade80;--amber:#c9a96e;--bad:#e06060;
+}
+
+::selection{background:var(--text);color:var(--bg);}
+body{
+  display:flex;min-height:100vh;color:var(--text);
+  font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;
+  transition:background-color .4s,color .4s;font-size:15px;line-height:1.6;
+  background-color:var(--bg);
+  background-image:
+    radial-gradient(closest-side,rgba(var(--glow-rgb),.20),transparent 70%),
+    radial-gradient(closest-side,rgba(var(--glow-rgb),.14),transparent 70%);
+  background-repeat:no-repeat;background-size:55vw 55vw,45vw 45vw;
+  background-position:-8% -12%,112% 20%;background-attachment:fixed;
+  animation:ambientDrift 30s ease-in-out infinite alternate;
+}
+@keyframes ambientDrift{0%{background-position:-8% -12%,112% 20%;}50%{background-position:10% 0%,90% 40%;}100%{background-position:0% -6%,100% 30%;}}
+@media(prefers-reduced-motion:reduce){body{animation:none;}}
+
+.grain{position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.035;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat:repeat;background-size:300px 300px;}
+[data-theme="night"] .grain{opacity:.055;}
+
+.sidebar{width:250px;flex-shrink:0;background:var(--sb-bg);display:flex;flex-direction:column;
+  height:100vh;position:sticky;top:0;overflow-y:auto;overflow-x:hidden;
+  border-right:1px solid var(--sb-bdr);transition:background .4s,border-color .4s;scrollbar-width:none;}
+.sidebar::-webkit-scrollbar{display:none;}
+.sb-header{padding:1.25rem 1.25rem 1rem;border-bottom:1px solid var(--sb-bdr);flex-shrink:0;}
+.sb-logo{display:flex;align-items:center;gap:.625rem;margin-bottom:.5rem;}
+.sb-logo-mark{width:24px;height:24px;background:var(--sb-text);border-radius:5px;display:flex;align-items:center;justify-content:center;
+  font-size:.575rem;font-weight:900;color:var(--sb-bg);transition:transform .25s cubic-bezier(.2,0,0,1),box-shadow .25s;cursor:default;}
+.sb-logo-mark:hover{transform:rotate(-8deg) scale(1.12);box-shadow:0 0 18px rgba(var(--glow-rgb),.65);}
+.sb-logo-name{font-size:.675rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--sb-text);}
+.sb-badge{font-size:.475rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sb-t3);font-family:'SF Mono',monospace;font-weight:700;}
+
+.sb-nav{flex:1;padding:.75rem 0;}
+.sb-section-label{font-size:.475rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--sb-t3);
+  font-family:'SF Mono',monospace;padding:.875rem 1.25rem .375rem;}
+.nav-item{display:flex;align-items:center;gap:.625rem;padding:.55rem 1.25rem;cursor:pointer;text-decoration:none;
+  font-size:.75rem;font-weight:500;color:var(--sb-t2);transition:all .18s;position:relative;user-select:none;}
+.nav-item::before{content:'';position:absolute;left:0;top:.2rem;bottom:.2rem;width:2px;background:var(--sb-text);
+  transform:scaleY(0);transform-origin:center;transition:transform .2s cubic-bezier(.4,0,.2,1);border-radius:1px;}
+.nav-item:hover{background:var(--sb-hbg);color:var(--sb-text);padding-left:1.375rem;}
+.nav-item.active{background:var(--sb-hbg);color:var(--sb-text);font-weight:600;}
+.nav-item.active::before{transform:scaleY(1);box-shadow:0 0 8px 1px rgba(var(--glow-rgb),.9);}
+.nav-num{width:16px;height:16px;border-radius:50%;background:var(--sb-hbg);border:1px solid var(--sb-bdr);
+  font-size:.55rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--sb-t2);}
+.nav-item.active .nav-num{background:var(--sb-text);color:var(--sb-bg);border-color:var(--sb-text);}
+
+.sb-footer{padding:1rem 1.25rem;border-top:1px solid var(--sb-bdr);flex-shrink:0;}
+.progress-label{display:flex;justify-content:space-between;font-size:.55rem;color:var(--sb-t3);margin-bottom:.5rem;
+  font-family:'SF Mono',monospace;letter-spacing:.05em;text-transform:uppercase;}
+.progress-bar{height:4px;background:var(--sb-hbg);border-radius:2px;overflow:hidden;margin-bottom:.875rem;}
+.progress-fill{height:100%;background:rgba(var(--glow-rgb),1);box-shadow:0 0 8px rgba(var(--glow-rgb),.7);border-radius:2px;transition:width .4s ease;width:0%;}
+.toggle-row{display:flex;align-items:center;gap:.5rem;}
+.toggle-lbl{font-size:.5rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tl);font-family:'SF Mono',monospace;}
+.toggle-switch{width:36px;height:20px;border-radius:10px;background:var(--tk);border:1px solid var(--tb);
+  position:relative;cursor:pointer;transition:all .25s;flex-shrink:0;}
+.toggle-switch:hover{opacity:.9;box-shadow:0 0 10px rgba(var(--glow-rgb),.5);}
+.toggle-thumb{position:absolute;top:3px;left:3px;width:12px;height:12px;border-radius:50%;background:var(--tt);transition:transform .3s cubic-bezier(.4,0,.2,1);}
+[data-theme="night"] .toggle-thumb{transform:translateX(16px);}
+
+.main{flex:1;padding:3.5rem 4rem;max-width:860px;}
+.page-tag{display:inline-block;font-size:.625rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--t3);font-family:'SF Mono',monospace;margin-bottom:1rem;}
+.page-title{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.6vw,2.75rem);font-weight:700;
+  letter-spacing:-.025em;line-height:1.1;color:var(--text);margin-bottom:1rem;}
+.page-desc{font-size:.95rem;color:var(--t2);line-height:1.75;max-width:60ch;font-weight:300;}
+.page-desc strong{color:var(--text);font-weight:600;}
+.page-meta{display:flex;gap:2rem;margin-top:1.75rem;padding-top:1.75rem;border-top:1px solid var(--bdr);flex-wrap:wrap;}
+.meta-item{display:flex;flex-direction:column;gap:.25rem;}
+.meta-label{font-size:.525rem;color:var(--t3);text-transform:uppercase;letter-spacing:.14em;font-weight:800;font-family:'SF Mono',monospace;}
+.meta-value{font-size:.85rem;color:var(--text);font-weight:600;}
+
+.section{margin:3.5rem 0;scroll-margin-top:2rem;}
+.section-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;}
+.section-number{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--bdr-2);color:var(--t3);
+  font-size:.75rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'SF Mono',monospace;}
+.section-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;letter-spacing:-.01em;color:var(--text);}
+.section-divider{height:1px;background:var(--bdr);margin-bottom:1.5rem;}
+
+.card{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:1.375rem 1.5rem;margin-bottom:.75rem;transition:all .2s;}
+.card:hover{border-color:rgba(var(--glow-rgb),.45);box-shadow:0 8px 28px var(--shd),0 0 20px rgba(var(--glow-rgb),.15);}
+.card-title{font-size:.9rem;font-weight:700;margin-bottom:.4rem;color:var(--text);}
+.card-desc{font-size:.8rem;color:var(--t2);line-height:1.7;font-weight:300;}
+.card-desc strong{color:var(--text);font-weight:600;}
+
+.highlight-box{border:1px solid var(--bdr-2);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1rem;
+  display:flex;gap:1rem;align-items:flex-start;background:var(--card-2);}
+.highlight-icon{font-size:1.15rem;flex-shrink:0;margin-top:.1rem;}
+.highlight-text{font-size:.825rem;color:var(--t2);line-height:1.7;font-weight:300;}
+.highlight-text strong{color:var(--text);display:block;margin-bottom:.3rem;font-size:.875rem;font-weight:700;}
+
+.checklist{display:flex;flex-direction:column;gap:2px;}
+.check-item{display:flex;align-items:flex-start;gap:.875rem;padding:.75rem .875rem;border-radius:8px;transition:background .15s;cursor:pointer;}
+.check-item:hover{background:var(--hbg);}
+.check-item input[type="checkbox"]{appearance:none;-webkit-appearance:none;width:18px;height:18px;border:1.5px solid var(--bdr-2);
+  border-radius:5px;background:transparent;cursor:pointer;flex-shrink:0;margin-top:1px;transition:all .15s;position:relative;}
+.check-item input[type="checkbox"]:checked{background:rgba(var(--glow-rgb),1);border-color:rgba(var(--glow-rgb),1);box-shadow:0 0 10px rgba(var(--glow-rgb),.6);}
+.check-item input[type="checkbox"]:checked::after{content:'';position:absolute;left:4px;top:1px;width:5px;height:9px;
+  border:2px solid var(--bg);border-top:none;border-left:none;transform:rotate(45deg);}
+.check-label{font-size:.825rem;color:var(--text);line-height:1.6;flex:1;font-weight:500;}
+.check-label.checked{color:var(--t3);text-decoration:line-through;}
+.check-sub{font-size:.7rem;color:var(--t3);margin-top:.2rem;font-weight:300;}
+
+.accordion{border:1px solid var(--bdr);border-radius:12px;overflow:hidden;margin-bottom:.75rem;}
+.accordion-trigger{width:100%;background:var(--card);border:none;padding:1rem 1.375rem;display:flex;align-items:center;
+  justify-content:space-between;cursor:pointer;color:var(--text);font-family:'Inter',sans-serif;font-size:.85rem;
+  font-weight:700;text-align:left;transition:background .15s;}
+.accordion-trigger:hover{background:var(--hbg);}
+.accordion-icon{width:18px;height:18px;flex-shrink:0;transition:transform .2s;color:var(--t3);}
+.accordion-trigger[aria-expanded="true"] .accordion-icon{transform:rotate(180deg);}
+.accordion-content{display:none;padding:0 1.375rem 1.125rem;background:var(--card);border-top:1px solid var(--bdr);}
+.accordion-content.open{display:block;}
+.accordion-content ul{padding-top:.875rem;padding-left:1.1rem;}
+.accordion-content li{font-size:.8rem;color:var(--t2);line-height:1.8;font-weight:300;}
+
+.data-table{width:100%;border-collapse:collapse;margin-bottom:1rem;}
+.data-table th{text-align:left;font-size:.55rem;font-weight:800;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;
+  padding:.625rem 1rem;border-bottom:1px solid var(--bdr);font-family:'SF Mono',monospace;}
+.data-table td{padding:.75rem 1rem;font-size:.8rem;color:var(--text);border-bottom:1px solid var(--bdr);font-weight:300;}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table tr:hover td{background:var(--hbg);}
+
+.badge{display:inline-block;font-size:.55rem;font-weight:700;padding:.2rem .5rem;border-radius:5px;
+  background:var(--hbg);color:var(--t3);border:1px solid var(--bdr);letter-spacing:.05em;text-transform:uppercase;font-family:'SF Mono',monospace;}
+.badge.good{color:var(--good);}
+.badge.amber{color:var(--amber);}
+.badge.bad{color:var(--bad);}
+
+.form-block{border:1px dashed var(--bdr-2);border-radius:12px;padding:1.75rem;margin-top:1rem;background:var(--card-2);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.25rem;}
+.form-field label{display:block;font-size:.55rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);
+  font-family:'SF Mono',monospace;margin-bottom:.4rem;}
+.form-line{border-bottom:1.5px solid var(--bdr-2);padding-bottom:.5rem;min-height:1.6rem;font-size:.9rem;color:var(--text);}
+.form-area{border:1.5px solid var(--bdr-2);border-radius:8px;padding:.75rem;min-height:4rem;font-size:.85rem;color:var(--text);background:var(--card);}
+
+.score-scale{display:flex;gap:.375rem;margin-top:.4rem;}
+.score-dot{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--bdr-2);display:flex;align-items:center;
+  justify-content:center;font-size:.65rem;font-weight:700;color:var(--t3);font-family:'SF Mono',monospace;}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:.875rem;}
+
+@media(max-width:900px){
+  .sidebar{display:none;}
+  .main{padding:2rem 1.5rem;}
+  .two-col{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<aside class="sidebar">
+  <div class="sb-header">
+    <div class="sb-logo"><div class="sb-logo-mark">S</div><span class="sb-logo-name">Sales.io</span></div>
+    <div class="sb-badge">Weekly Check-In</div>
+  </div>
+
+  <nav class="sb-nav">
+    <div class="sb-section-label">Sections</div>
+    <a class="nav-item active" href="#s1" onclick="setActive(this)"><span class="nav-num">1</span> Purpose &amp; Cadence</a>
+    <a class="nav-item" href="#s2" onclick="setActive(this)"><span class="nav-num">2</span> Pre-Call Prep</a>
+    <a class="nav-item" href="#s3" onclick="setActive(this)"><span class="nav-num">3</span> Call Structure</a>
+    <a class="nav-item" href="#s4" onclick="setActive(this)"><span class="nav-num">4</span> Question Bank</a>
+    <a class="nav-item" href="#s5" onclick="setActive(this)"><span class="nav-num">5</span> Escalation Triggers</a>
+    <a class="nav-item" href="#s6" onclick="setActive(this)"><span class="nav-num">6</span> Fillable Template</a>
+  </nav>
+
+  <div class="sb-footer">
+    <div class="progress-label"><span>Prep Complete</span><span id="progress-pct">0%</span></div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="toggle-row">
+      <span class="toggle-lbl" id="mode-lbl">Day</span>
+      <div class="toggle-switch" onclick="toggleTheme()"><div class="toggle-thumb"></div></div>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+
+  <div class="page-header">
+    <span class="page-tag">Coach SOP — Student Experience</span>
+    <h1 class="page-title">Weekly 1-on-1 Check-In</h1>
+    <p class="page-desc">Every student gets a weekly 1-on-1. This is the standard structure so every coach runs it the same way — consistent enough to spot problems early, flexible enough to actually coach the person in front of you.</p>
+    <div class="page-meta">
+      <div class="meta-item"><span class="meta-label">Frequency</span><span class="meta-value">Weekly, all 12 weeks</span></div>
+      <div class="meta-item"><span class="meta-label">Length</span><span class="meta-value">20-30 min</span></div>
+      <div class="meta-item"><span class="meta-label">Owner</span><span class="meta-value">Assigned coach</span></div>
+      <div class="meta-item"><span class="meta-label">Logged In</span><span class="meta-value">Client Hub</span></div>
+    </div>
+  </div>
+
+  <section class="section" id="s1">
+    <div class="section-header"><div class="section-number">1</div><h2 class="section-title">Purpose &amp; Cadence</h2></div>
+    <div class="section-divider"></div>
+    <div class="card">
+      <div class="card-title">Why this exists</div>
+      <div class="card-desc">Group calls teach the framework. The 1-on-1 is where you find out if it's actually landing for <strong>this specific person</strong> — what's blocking them, what they're avoiding, and whether they're on pace for the guarantees they signed up for.</div>
+    </div>
+    <div class="highlight-box">
+      <div class="highlight-icon">📅</div>
+      <div class="highlight-text"><strong>Cadence</strong>One check-in per student, every week, for all 12 weeks. Same day/time each week where possible — consistency is part of the coaching.</div>
+    </div>
+  </section>
+
+  <section class="section" id="s2">
+    <div class="section-header"><div class="section-number">2</div><h2 class="section-title">Pre-Call Prep</h2></div>
+    <div class="section-divider"></div>
+    <div class="checklist">
+      <label class="check-item"><input type="checkbox" onchange="handleCheck(this)"/><div class="check-label">Pull the student's row in Client Hub<div class="check-sub">Current week, status (active/renewal/at-risk), last check-in notes</div></div></label>
+      <label class="check-item"><input type="checkbox" onchange="handleCheck(this)"/><div class="check-label">Skim their most recent call recording or mock call submission, if any</div></label>
+      <label class="check-item"><input type="checkbox" onchange="handleCheck(this)"/><div class="check-label">Check group call attendance for the week</div></label>
+      <label class="check-item"><input type="checkbox" onchange="handleCheck(this)"/><div class="check-label">Note the curriculum week they're on so you can reference it directly</div></label>
+    </div>
+  </section>
+
+  <section class="section" id="s3">
+    <div class="section-header"><div class="section-number">3</div><h2 class="section-title">Call Structure</h2></div>
+    <div class="section-divider"></div>
+    <table class="data-table">
+      <tr><th>Segment</th><th>Time</th><th>What happens</th></tr>
+      <tr><td><strong>Wins</strong></td><td>3-5 min</td><td>What went well this week — calls, mindset, discipline. Make them say it out loud.</td></tr>
+      <tr><td><strong>Metrics review</strong></td><td>5-8 min</td><td>Call volume, close rate trend vs. baseline, any tracked numbers.</td></tr>
+      <tr><td><strong>Obstacle</strong></td><td>5-8 min</td><td>The one thing actually holding them back this week. Not five things — one.</td></tr>
+      <tr><td><strong>Coaching</strong></td><td>5-8 min</td><td>Direct instruction tied to that obstacle, referencing the framework they're on.</td></tr>
+      <tr><td><strong>This week's focus</strong></td><td>2-3 min</td><td>One clear, specific commitment for the coming week.</td></tr>
+    </table>
+  </section>
+
+  <section class="section" id="s4">
+    <div class="section-header"><div class="section-number">4</div><h2 class="section-title">Question Bank</h2></div>
+    <div class="section-divider"></div>
+
+    <div class="accordion">
+      <button class="accordion-trigger" aria-expanded="true" onclick="toggleAccordion(this)">Performance
+        <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="accordion-content open">
+        <ul>
+          <li>Walk me through your best call this week. What made it work?</li>
+          <li>Where in the call architecture are you losing people — discovery, pitch, or objections?</li>
+          <li>What's your close rate this week vs. your baseline?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <button class="accordion-trigger" aria-expanded="false" onclick="toggleAccordion(this)">Mindset &amp; Identity
+        <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="accordion-content">
+        <ul>
+          <li>Who were you being on your calls this week — is that who you actually want to be?</li>
+          <li>Where did you feel the most certain? The least?</li>
+          <li>What story are you telling yourself about why this isn't working yet?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <button class="accordion-trigger" aria-expanded="false" onclick="toggleAccordion(this)">Roadblocks &amp; Accountability
+        <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="accordion-content">
+        <ul>
+          <li>What did you commit to last week that you didn't follow through on?</li>
+          <li>What's the actual obstacle — skill, mindset, or volume?</li>
+          <li>What do you need from me, from the community, or from the job platform to move faster?</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="s5">
+    <div class="section-header"><div class="section-number">5</div><h2 class="section-title">Escalation Triggers</h2></div>
+    <div class="section-divider"></div>
+    <p style="font-size:.85rem;color:var(--t2);margin-bottom:1rem;font-weight:300;">If any of these show up, update the student's status in Client Hub immediately — don't wait for next week's check-in.</p>
+
+    <div class="card">
+      <div class="card-title">Flag as <span class="badge amber">Renewal Due</span></div>
+      <div class="card-desc">Student has hit Week 10+ and hasn't been sent the renewal doc yet. Trigger the <strong>Renewal SOP</strong>.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Flag as <span class="badge bad">At Risk</span></div>
+      <div class="card-desc">Two or more missed group calls in a row, no check-in commitment follow-through for two consecutive weeks, or the student says anything indicating they're considering quitting. Loop in Cole the same day.</div>
+    </div>
+  </section>
+
+  <section class="section" id="s6">
+    <div class="section-header"><div class="section-number">6</div><h2 class="section-title">Fillable Template</h2></div>
+    <div class="section-divider"></div>
+    <p style="font-size:.85rem;color:var(--t2);margin-bottom:1rem;font-weight:300;">Copy this block into your notes for each session.</p>
+
+    <div class="form-block">
+      <div class="form-row">
+        <div class="form-field"><label>Student</label><div class="form-line">&nbsp;</div></div>
+        <div class="form-field"><label>Week #</label><div class="form-line">&nbsp;</div></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Coach</label><div class="form-line">&nbsp;</div></div>
+        <div class="form-field"><label>Date</label><div class="form-line">&nbsp;</div></div>
+      </div>
+      <div class="form-field" style="margin-bottom:1.25rem;">
+        <label>Effort / Energy Score (1-10)</label>
+        <div class="score-scale">
+          <div class="score-dot">1</div><div class="score-dot">2</div><div class="score-dot">3</div><div class="score-dot">4</div><div class="score-dot">5</div>
+          <div class="score-dot">6</div><div class="score-dot">7</div><div class="score-dot">8</div><div class="score-dot">9</div><div class="score-dot">10</div>
+        </div>
+      </div>
+      <div class="form-field" style="margin-bottom:1.25rem;"><label>Wins This Week</label><div class="form-area">&nbsp;</div></div>
+      <div class="form-field" style="margin-bottom:1.25rem;"><label>Primary Obstacle</label><div class="form-area">&nbsp;</div></div>
+      <div class="form-field" style="margin-bottom:1.25rem;"><label>Coaching Given</label><div class="form-area">&nbsp;</div></div>
+      <div class="form-field"><label>Commitment for Next Week</label><div class="form-area">&nbsp;</div></div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+function toggleTheme(){
+  var h=document.documentElement,n=h.dataset.theme==='day'?'night':'day';
+  h.dataset.theme=n;
+  var l=document.getElementById('mode-lbl');if(l)l.textContent=n==='day'?'Day':'Night';
+  try{localStorage.setItem('tb-theme',n);}catch(e){}
+}
+(function(){try{var s=localStorage.getItem('tb-theme')||document.documentElement.dataset.theme||'day';
+  var l=document.getElementById('mode-lbl');if(l)l.textContent=s==='day'?'Day':'Night';}catch(e){}})();
+
+function setActive(el){document.querySelectorAll('.nav-item').forEach(function(i){i.classList.remove('active');});el.classList.add('active');}
+
+function toggleAccordion(trigger){
+  var content=trigger.nextElementSibling;
+  var isOpen=trigger.getAttribute('aria-expanded')==='true';
+  trigger.setAttribute('aria-expanded',!isOpen);
+  content.classList.toggle('open',!isOpen);
+}
+
+const TOTAL_CHECKS = document.querySelectorAll('.check-item input[type="checkbox"]').length;
+function handleCheck(cb){
+  cb.closest('.check-item').querySelector('.check-label').classList.toggle('checked',cb.checked);
+  updateProgress();
+}
+function updateProgress(){
+  var checked=document.querySelectorAll('.check-item input:checked').length;
+  var pct=TOTAL_CHECKS>0?Math.round((checked/TOTAL_CHECKS)*100):0;
+  document.getElementById('progress-fill').style.width=pct+'%';
+  document.getElementById('progress-pct').textContent=pct+'%';
+}
+
+var sections=document.querySelectorAll('.section');
+var navItems=document.querySelectorAll('.nav-item');
+var observer=new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      navItems.forEach(function(item){item.classList.remove('active');});
+      var idx=Array.from(sections).indexOf(entry.target);
+      if(navItems[idx])navItems[idx].classList.add('active');
+    }
+  });
+},{threshold:0.3});
+sections.forEach(function(s){observer.observe(s);});
+</script>
+</body>
+</html>
