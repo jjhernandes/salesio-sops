@@ -212,13 +212,13 @@ body{
       <div class="seal-bottom">Complete</div>
     </div>
     <div class="hero-tag">Sales.io Mastermind — Graduation</div>
-    <h1 class="hero-title">You did it.</h1>
+    <h1 class="hero-title" id="hero-title">You did it.</h1>
     <p class="hero-desc">Twelve weeks ago you started with a baseline. Today you finish as someone who closes deals <strong>without sounding like a closer</strong>. That's the whole point — and you earned it.</p>
 
     <div class="name-block">
       <div class="name-row">
-        <div class="name-field"><label>Graduate</label><div class="name-line">&nbsp;</div></div>
-        <div class="name-field"><label>Completion Date</label><div class="name-line">&nbsp;</div></div>
+        <div class="name-field"><label>Graduate</label><div class="name-line" id="grad-name">&nbsp;</div></div>
+        <div class="name-field"><label>Completion Date</label><div class="name-line" id="grad-date">&nbsp;</div></div>
       </div>
     </div>
   </div>
@@ -307,6 +307,32 @@ function toggleTheme(){
   var l=document.getElementById('mode-lbl');if(l)l.textContent=s==='day'?'Day':'Night';}catch(e){}})();
 
 function setActive(el){document.querySelectorAll('.nav-item').forEach(function(i){i.classList.remove('active');});el.classList.add('active');}
+
+/* ── Personalization: ?name=&date= in URL, remembered per-browser after that ── */
+(function personalize(){
+  var params=new URLSearchParams(location.search);
+  var nameKey='salesio_student_name', dateKey='salesio_grad_date';
+  var name=params.get('name');
+  var date=params.get('date');
+  try{
+    if(name)localStorage.setItem(nameKey,name);
+    if(date)localStorage.setItem(dateKey,date);
+    if(!name)name=localStorage.getItem(nameKey);
+    if(!date)date=localStorage.getItem(dateKey);
+  }catch(e){}
+
+  var nameEl=document.getElementById('grad-name');
+  var dateEl=document.getElementById('grad-date');
+  var heroEl=document.getElementById('hero-title');
+  if(name){
+    if(nameEl)nameEl.textContent=name;
+    if(heroEl){
+      var first=name.split(' ')[0];
+      heroEl.textContent='You did it, '+first+'.';
+    }
+  }
+  if(date&&dateEl)dateEl.textContent=date;
+})();
 
 var sections=document.querySelectorAll('.section');
 var navItems=document.querySelectorAll('.nav-item');

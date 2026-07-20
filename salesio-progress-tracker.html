@@ -204,7 +204,7 @@ body{
 
   <div class="page-header">
     <span class="page-tag">Sales.io Mastermind — Student Roadmap</span>
-    <h1 class="page-title">Your 12-Week Roadmap</h1>
+    <h1 class="page-title" id="page-title">Your 12-Week Roadmap</h1>
     <p class="page-desc">This is the whole arc, laid out. Three phases, twelve weeks, one outcome: you close deals and you don't sound like a closer doing it. Check off each week as you complete it — track your own progress here alongside your coach.</p>
   </div>
 
@@ -440,6 +440,21 @@ var observer=new IntersectionObserver(function(entries){
 sections.forEach(function(s){observer.observe(s);});
 
 updateHero();
+
+/* ── Personalization: ?name= in URL, remembered per-browser after that ── */
+(function personalize(){
+  var params=new URLSearchParams(location.search);
+  var key='salesio_student_name';
+  var name=params.get('name');
+  try{
+    if(name)localStorage.setItem(key,name);
+    if(!name)name=localStorage.getItem(key);
+  }catch(e){}
+  if(name){
+    var el=document.getElementById('page-title');
+    if(el)el.textContent=name.split(' ')[0]+"'s 12-Week Roadmap";
+  }
+})();
 </script>
 </body>
 </html>

@@ -332,7 +332,7 @@ body{
     <div id="sec-dash" class="section active">
       <div class="dash-header">
         <div class="dash-date" id="dash-date"></div>
-        <div class="dash-greeting">Welcome <em>back.</em></div>
+        <div class="dash-greeting" id="dash-greeting">Welcome <em>back.</em></div>
         <div class="dash-sub">Everything you need for the Sales.io Mastermind — this week's calls, your progress, and every resource — in one place.</div>
       </div>
 
@@ -482,6 +482,18 @@ body{
 </div><!-- /main -->
 
 <script>
+/* ── Personalization: resolve once, use everywhere on this page ── */
+var STUDENT_NAME = (function(){
+  var params=new URLSearchParams(location.search);
+  var key='salesio_student_name';
+  var name=params.get('name');
+  try{
+    if(name)localStorage.setItem(key,name);
+    if(!name)name=localStorage.getItem(key);
+  }catch(e){}
+  return name||'';
+})();
+
 /* ── Theme ── */
 function toggleTheme(){
   var h=document.documentElement,n=h.dataset.theme==='day'?'night':'day';
@@ -574,7 +586,7 @@ function goTo(id){
   if(id==='progress'&&!progressLoaded){
     var iframe=document.getElementById('progress-iframe');
     if(iframe){
-      iframe.src='./salesio-progress-tracker.html';
+      iframe.src='./salesio-progress-tracker.html'+(STUDENT_NAME?'?name='+encodeURIComponent(STUDENT_NAME):'');
       iframe.onload=function(){iframe.classList.add('loaded');};
       progressLoaded=true;
     }
@@ -586,6 +598,11 @@ function goTo(id){
   var h=location.hash.replace('#','');
   if(h&&document.getElementById('sec-'+h))goTo(h);
 })();
+
+if(STUDENT_NAME){
+  var greetEl=document.getElementById('dash-greeting');
+  if(greetEl)greetEl.innerHTML='Welcome back, '+STUDENT_NAME.split(' ')[0]+'<em>.</em>';
+}
 </script>
 </body>
 </html>
