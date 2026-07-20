@@ -224,11 +224,45 @@ body{
 .name-modal-btn:hover{opacity:.88;}
 .name-modal-skip{display:block;margin-top:.875rem;font-size:.7rem;color:var(--t3);cursor:pointer;text-decoration:underline;}
 .name-modal-skip:hover{color:var(--t2);}
+
+/* Lock gate */
+.lock-gate-overlay{
+  position:fixed;inset:0;z-index:25000;display:none;align-items:center;justify-content:center;
+  background:var(--bg);padding:1.5rem;
+}
+.lock-gate-overlay.shown{display:flex;animation:modalFadeIn .3s ease both;}
+.lock-gate{max-width:380px;width:100%;text-align:center;}
+.lock-gate-icon{font-size:2.25rem;margin-bottom:1rem;opacity:.7;}
+.lock-gate-title{font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:700;color:var(--text);margin-bottom:.625rem;}
+.lock-gate-desc{font-size:.875rem;color:var(--t2);line-height:1.7;font-weight:300;margin-bottom:2rem;max-width:36ch;margin-left:auto;margin-right:auto;}
+.lock-gate-count{
+  font-family:'Playfair Display',serif;font-weight:900;font-size:4.5rem;line-height:1;
+  color:var(--text);letter-spacing:-.03em;
+  text-shadow:0 0 40px rgba(var(--glow-rgb),.5);
+}
+.lock-gate-count-label{font-size:.65rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--t3);
+  font-family:'SF Mono',monospace;margin-bottom:2rem;margin-top:.5rem;}
+.lock-gate-btn{
+  display:inline-block;background:var(--text);color:var(--bg);text-decoration:none;
+  border-radius:8px;padding:.75rem 1.5rem;font-size:.8rem;font-weight:700;transition:opacity .15s;
+}
+.lock-gate-btn:hover{opacity:.88;}
 </style>
 </head>
 <body>
 
 <div class="grain" aria-hidden="true"></div>
+
+<div class="lock-gate-overlay" id="lock-gate-overlay">
+  <div class="lock-gate">
+    <div class="lock-gate-icon">🔒</div>
+    <div class="lock-gate-title">Not yet.</div>
+    <div class="lock-gate-desc">Graduation unlocks in Week 10 — once you've actually earned it. Keep showing up.</div>
+    <div class="lock-gate-count" id="lock-weeks-num">10</div>
+    <div class="lock-gate-count-label" id="lock-weeks-label">weeks to go</div>
+    <a class="lock-gate-btn" href="./salesio-student-hq.html" target="_top">Back to Student HQ</a>
+  </div>
+</div>
 
 <div class="name-modal-overlay" id="name-modal-overlay">
   <div class="name-modal">
@@ -360,6 +394,37 @@ body{
 </main>
 
 <script>
+/* ── Week lock: unlocks at Week 10, based on ?start=YYYY-MM-DD ── */
+var UNLOCK_WEEK=10;
+function getCurrentWeek(){
+  var start=null;
+  try{
+    var params=new URLSearchParams(location.search);
+    var s=params.get('start');
+    if(s)localStorage.setItem('salesio_start_date',s);
+    start=s||localStorage.getItem('salesio_start_date');
+  }catch(e){}
+  if(!start)return 0;
+  var startDate=new Date(start+'T00:00:00');
+  if(isNaN(startDate.getTime()))return 0;
+  var diffDays=Math.floor((new Date()-startDate)/86400000);
+  var wk=Math.floor(diffDays/7)+1;
+  return wk<1?1:wk;
+}
+var CURRENT_WEEK=getCurrentWeek();
+var IS_UNLOCKED=CURRENT_WEEK>=UNLOCK_WEEK;
+(function applyLock(){
+  if(IS_UNLOCKED)return;
+  var remaining=Math.max(1,UNLOCK_WEEK-CURRENT_WEEK);
+  var numEl=document.getElementById('lock-weeks-num');
+  var lblEl=document.getElementById('lock-weeks-label');
+  if(numEl)numEl.textContent=remaining;
+  if(lblEl)lblEl.textContent=remaining===1?'week to go':'weeks to go';
+  var gate=document.getElementById('lock-gate-overlay');
+  if(gate)gate.classList.add('shown');
+  document.documentElement.style.overflow='hidden';
+})();
+
 function toggleTheme(){
   var h=document.documentElement,n=h.dataset.theme==='day'?'night':'day';
   h.dataset.theme=n;
@@ -417,6 +482,7 @@ function applyPersonalization(name,date){
     if(!name)name=localStorage.getItem(nameKey);
     if(!date)date=localStorage.getItem(dateKey);
   }catch(e){}
+  if(!IS_UNLOCKED)return; /* don't bother asking for a name behind the lock gate */
   if(name){applyPersonalization(name,date);}else{showNameModal();}
 })();
 

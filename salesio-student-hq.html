@@ -209,6 +209,14 @@ body{
 .launch-card:hover .lc-arr{transform:translateX(3px);}
 .launch-card.primary .lc-arr{color:rgba(234,228,217,.45);}
 
+/* Locked cards */
+.launch-card.locked,.res-card.locked{opacity:.5;filter:grayscale(.5);}
+.launch-card.locked:hover,.res-card.locked:hover{transform:none;box-shadow:none;border-color:var(--bdr);}
+.lock-badge{font-size:.6rem;font-weight:800;letter-spacing:.04em;color:var(--t3);
+  background:var(--hbg);border:1px solid var(--bdr);border-radius:6px;padding:.15rem .5rem;
+  font-family:'SF Mono',monospace;white-space:nowrap;display:inline-block;}
+.launch-card:hover .lock-badge{transform:none;}
+
 .week-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:.5rem;margin-bottom:2rem;}
 .week-day{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:.875rem .75rem;
   text-align:center;transition:all .2s;animation:cardIn .5s cubic-bezier(.16,1,.3,1) both;}
@@ -423,17 +431,17 @@ body{
           <div class="lc-desc">See where you stack up against the room.</div>
           <div class="lc-arr">↗</div>
         </a>
-        <a class="launch-card" href="./salesio-renewal-offer.html" target="_blank">
+        <a class="launch-card" href="./salesio-renewal-offer.html" target="_blank" id="lc-renewal">
           <div class="lc-icon">💰</div>
           <div class="lc-title">Renewal Options</div>
           <div class="lc-desc">Core / Growth / Elite — what's next after Week 12.</div>
-          <div class="lc-arr">↗</div>
+          <div class="lc-arr" id="lc-renewal-arr">↗</div>
         </a>
-        <a class="launch-card" href="./salesio-graduation.html" target="_blank">
+        <a class="launch-card" href="./salesio-graduation.html" target="_blank" id="lc-graduation">
           <div class="lc-icon">🎓</div>
           <div class="lc-title">Graduation</div>
           <div class="lc-desc">What Week 12 completion looks like.</div>
-          <div class="lc-arr">↗</div>
+          <div class="lc-arr" id="lc-graduation-arr">↗</div>
         </a>
       </div>
 
@@ -477,14 +485,14 @@ body{
         <div class="res-grid">
           <a class="res-card" href="./salesio-progress-tracker.html" target="_blank"><div class="res-icon">🗺️</div><div><div class="res-name">Progress Tracker</div><div class="res-desc">Your 12-week roadmap with self-tracking checkpoints.</div></div></a>
           <a class="res-card" href="./community-leaderboard.html" target="_blank"><div class="res-icon">🏆</div><div><div class="res-name">Community Leaderboard</div><div class="res-desc">Performance and engagement rankings.</div></div></a>
-          <a class="res-card" href="./salesio-graduation.html" target="_blank"><div class="res-icon">🎓</div><div><div class="res-name">Graduation</div><div class="res-desc">What completing the 12 weeks looks like.</div></div></a>
+          <a class="res-card" href="./salesio-graduation.html" target="_blank" id="res-graduation"><div class="res-icon">🎓</div><div><div class="res-name">Graduation</div><div class="res-desc" id="res-graduation-desc">What completing the 12 weeks looks like.</div></div></a>
         </div>
       </div>
 
       <div class="res-group">
         <div class="res-group-title">What's Next</div>
         <div class="res-grid">
-          <a class="res-card" href="./salesio-renewal-offer.html" target="_blank"><div class="res-icon">💰</div><div><div class="res-name">Renewal Options</div><div class="res-desc">Core / Growth / Elite tiers after Week 12.</div></div></a>
+          <a class="res-card" href="./salesio-renewal-offer.html" target="_blank" id="res-renewal"><div class="res-icon">💰</div><div><div class="res-name">Renewal Options</div><div class="res-desc" id="res-renewal-desc">Core / Growth / Elite tiers after Week 12.</div></div></a>
           <a class="res-card" href="./salesio-affiliate-apply.html" target="_blank"><div class="res-icon">🤝</div><div><div class="res-name">Become an Affiliate</div><div class="res-desc">Refer students, earn commission.</div></div></a>
         </div>
       </div>
@@ -539,6 +547,49 @@ body{
 </div><!-- /main -->
 
 <script>
+/* ── Week lock: unlocks at Week 10, based on ?start=YYYY-MM-DD ── */
+var UNLOCK_WEEK=10;
+function getCurrentWeek(){
+  var start=null;
+  try{
+    var params=new URLSearchParams(location.search);
+    var s=params.get('start');
+    if(s)localStorage.setItem('salesio_start_date',s);
+    start=s||localStorage.getItem('salesio_start_date');
+  }catch(e){}
+  if(!start)return 0;
+  var startDate=new Date(start+'T00:00:00');
+  if(isNaN(startDate.getTime()))return 0;
+  var diffDays=Math.floor((new Date()-startDate)/86400000);
+  var wk=Math.floor(diffDays/7)+1;
+  return wk<1?1:wk;
+}
+var CURRENT_WEEK=getCurrentWeek();
+var IS_UNLOCKED=CURRENT_WEEK>=UNLOCK_WEEK;
+
+function applyLockBadges(){
+  if(IS_UNLOCKED)return;
+  var remaining=Math.max(1,UNLOCK_WEEK-CURRENT_WEEK);
+  var badgeHtml='<span class="lock-badge">🔒 '+remaining+(remaining===1?' wk':' wks')+'</span>';
+
+  var lcRenewal=document.getElementById('lc-renewal');
+  var lcRenewalArr=document.getElementById('lc-renewal-arr');
+  if(lcRenewal&&lcRenewalArr){lcRenewal.classList.add('locked');lcRenewalArr.innerHTML=badgeHtml;}
+
+  var lcGrad=document.getElementById('lc-graduation');
+  var lcGradArr=document.getElementById('lc-graduation-arr');
+  if(lcGrad&&lcGradArr){lcGrad.classList.add('locked');lcGradArr.innerHTML=badgeHtml;}
+
+  var resRenewal=document.getElementById('res-renewal');
+  var resRenewalDesc=document.getElementById('res-renewal-desc');
+  if(resRenewal&&resRenewalDesc){resRenewal.classList.add('locked');resRenewalDesc.innerHTML='🔒 Unlocks in '+remaining+(remaining===1?' week':' weeks');}
+
+  var resGrad=document.getElementById('res-graduation');
+  var resGradDesc=document.getElementById('res-graduation-desc');
+  if(resGrad&&resGradDesc){resGrad.classList.add('locked');resGradDesc.innerHTML='🔒 Unlocks in '+remaining+(remaining===1?' week':' weeks');}
+}
+applyLockBadges();
+
 /* ── Personalization: resolve once, use everywhere on this page ── */
 var STUDENT_NAME = (function(){
   var params=new URLSearchParams(location.search);
