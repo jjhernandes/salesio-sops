@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="day">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales.io — Team HQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script>try{var s=localStorage.getItem('tb-theme');if(s)document.documentElement.dataset.theme=s;}catch(e){}</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{height:100%;}
+
+:root,[data-theme="day"]{
+  --bg:#EAE4D9;--bg-2:#E0D9CE;
+  --card:#FFFFFF;--card-2:#F5F1EB;--card-3:#EDECE8;
+  --bdr:rgba(10,10,8,.1);--bdr-2:rgba(10,10,8,.2);
+  --text:#0A0A08;
+  --t2:rgba(10,10,8,.55);--t3:rgba(10,10,8,.3);--t4:rgba(10,10,8,.12);
+  --accent:#0A0A08;--hbg:rgba(10,10,8,.04);
+  --shd:rgba(10,10,8,.08);--shd2:rgba(10,10,8,.15);
+  --sb-bg:#0A0A08;--sb-text:#EAE4D9;
+  --sb-t2:rgba(234,228,217,.5);--sb-t3:rgba(234,228,217,.25);
+  --sb-bdr:rgba(234,228,217,.08);--sb-hbg:rgba(234,228,217,.07);
+  --tk:#EAE4D9;--tb:rgba(234,228,217,.25);--tt:#0A0A08;--tl:rgba(234,228,217,.3);
+}
+[data-theme="night"]{
+  --bg:#000;--bg-2:#040402;
+  --card:#0a0a08;--card-2:#0f0f0d;--card-3:#141412;
+  --bdr:rgba(234,228,217,.09);--bdr-2:rgba(234,228,217,.18);
+  --text:#EAE4D9;
+  --t2:rgba(234,228,217,.58);--t3:rgba(234,228,217,.27);--t4:rgba(234,228,217,.1);
+  --accent:#EAE4D9;--hbg:rgba(234,228,217,.03);
+  --shd:rgba(0,0,0,.5);--shd2:rgba(0,0,0,.8);
+  --sb-bg:#060604;--sb-text:#EAE4D9;
+  --sb-t2:rgba(234,228,217,.45);--sb-t3:rgba(234,228,217,.2);
+  --sb-bdr:rgba(234,228,217,.07);--sb-hbg:rgba(234,228,217,.06);
+  --tk:rgba(234,228,217,.12);--tb:rgba(234,228,217,.08);--tt:#EAE4D9;--tl:rgba(234,228,217,.18);
+}
+
+::selection{background:var(--text);color:var(--bg);}
+body{
+  display:flex;height:100vh;overflow:hidden;
+  background:var(--bg);color:var(--text);
+  font-family:'Inter',-apple-system,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  transition:background .4s,color .4s;font-size:14px;
+}
+
+/* ── Grain ── */
+.grain{
+  position:fixed;inset:0;z-index:9998;pointer-events:none;
+  opacity:.035;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat:repeat;background-size:300px 300px;
+}
+[data-theme="night"] .grain{opacity:.055;}
+
+/* ══════════════════════════
+   SIDEBAR
+══════════════════════════ */
+.sidebar{
+  width:224px;flex-shrink:0;
+  background:var(--sb-bg);
+  display:flex;flex-direction:column;
+  height:100vh;overflow-y:auto;overflow-x:hidden;
+  border-right:1px solid var(--sb-bdr);
+  transition:background .4s,border-color .4s;
+  scrollbar-width:none;
+}
+.sidebar::-webkit-scrollbar{display:none;}
+
+.sb-header{
+  padding:1.25rem 1.25rem 1rem;
+  border-bottom:1px solid var(--sb-bdr);
+  flex-shrink:0;
+}
+.sb-logo{display:flex;align-items:center;gap:.625rem;margin-bottom:.5rem;}
+.sb-logo-mark{
+  width:24px;height:24px;background:var(--sb-text);border-radius:5px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.575rem;font-weight:900;color:var(--sb-bg);
+  transition:transform .25s cubic-bezier(.2,0,0,1);cursor:default;
+}
+.sb-logo-mark:hover{transform:rotate(-8deg) scale(1.12);}
+.sb-logo-name{font-size:.675rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--sb-text);transition:color .4s;}
+.sb-badge{
+  font-size:.475rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--sb-t3);font-family:'SF Mono',monospace;font-weight:700;
+}
+
+.sb-nav{flex:1;padding:.75rem 0;}
+.sb-section-label{
+  font-size:.475rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--sb-t3);font-family:'SF Mono',monospace;
+  padding:.875rem 1.25rem .375rem;
+}
+.nav-item{
+  display:flex;align-items:center;gap:.625rem;
+  padding:.6rem 1.25rem;cursor:pointer;
+  font-size:.75rem;font-weight:500;color:var(--sb-t2);
+  transition:all .18s;position:relative;user-select:none;border-radius:0;
+}
+.nav-item::before{
+  content:'';position:absolute;left:0;top:.2rem;bottom:.2rem;
+  width:2px;background:var(--sb-text);
+  transform:scaleY(0);transform-origin:center;
+  transition:transform .2s cubic-bezier(.4,0,.2,1);border-radius:1px;
+}
+.nav-item:hover{background:var(--sb-hbg);color:var(--sb-text);padding-left:1.375rem;}
+.nav-item.active{background:var(--sb-hbg);color:var(--sb-text);font-weight:600;}
+.nav-item.active::before{transform:scaleY(1);}
+.nav-icon{font-size:.9rem;flex-shrink:0;width:18px;text-align:center;}
+
+.sb-divider{height:1px;background:var(--sb-bdr);margin:.5rem 1.25rem;}
+
+.nav-ext{
+  display:flex;align-items:center;gap:.625rem;justify-content:space-between;
+  padding:.6rem 1.25rem;cursor:pointer;
+  font-size:.75rem;font-weight:500;color:var(--sb-t2);
+  transition:all .18s;text-decoration:none;
+}
+.nav-ext:hover{background:var(--sb-hbg);color:var(--sb-text);}
+.ext-arr{font-size:.65rem;opacity:.5;}
+
+.sb-footer{
+  padding:1rem 1.25rem;border-top:1px solid var(--sb-bdr);
+  flex-shrink:0;
+}
+.sb-clock{
+  font-size:.525rem;letter-spacing:.08em;color:var(--sb-t3);
+  font-family:'SF Mono',monospace;margin-bottom:.75rem;
+}
+.toggle-row{display:flex;align-items:center;gap:.5rem;}
+.toggle-lbl{font-size:.5rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tl);font-family:'SF Mono',monospace;transition:color .4s;}
+.toggle-switch{
+  width:36px;height:20px;border-radius:10px;
+  background:var(--tk);border:1px solid var(--tb);
+  position:relative;cursor:pointer;transition:all .25s;flex-shrink:0;
+}
+.toggle-switch:hover{opacity:.75;}
+.toggle-thumb{
+  position:absolute;top:3px;left:3px;width:12px;height:12px;border-radius:50%;
+  background:var(--tt);transition:transform .3s cubic-bezier(.4,0,.2,1),background .25s;
+}
+[data-theme="night"] .toggle-thumb{transform:translateX(16px);}
+
+/* ══════════════════════════
+   MAIN
+══════════════════════════ */
+.main{flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+
+.main-header{
+  height:52px;flex-shrink:0;
+  border-bottom:1px solid var(--bdr);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2rem;background:var(--bg);
+  backdrop-filter:blur(20px);transition:background .4s,border-color .4s;
+}
+.mh-title{font-size:.625rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);}
+.mh-right{display:flex;align-items:center;gap:.875rem;}
+.internal-badge{
+  font-size:.475rem;letter-spacing:.2em;text-transform:uppercase;
+  background:var(--text);color:var(--bg);border-radius:4px;
+  padding:.2rem .55rem;font-family:'SF Mono',monospace;font-weight:900;
+}
+
+.content{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--t4) transparent;}
+.content::-webkit-scrollbar{width:4px;}
+.content::-webkit-scrollbar-thumb{background:var(--t4);border-radius:2px;}
+
+/* ── Sections ── */
+.section{display:none;padding:2.5rem 2rem;min-height:calc(100vh - 52px);}
+.section.active{display:block;animation:secIn .3s cubic-bezier(.16,1,.3,1) both;}
+@keyframes secIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+/* Hub section: no padding, iframe fills */
+#sec-hub{padding:0;display:flex;flex-direction:column;}
+#sec-hub.active{display:flex;}
+.hub-frame{
+  flex:1;width:100%;border:none;display:block;
+  min-height:calc(100vh - 52px);
+  opacity:0;transition:opacity .4s;
+}
+.hub-frame.loaded{opacity:1;}
+
+/* ══════════════════════════
+   DASHBOARD
+══════════════════════════ */
+.dash-header{margin-bottom:2rem;}
+.dash-date{
+  font-size:.525rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--t3);font-family:'SF Mono',monospace;margin-bottom:.5rem;
+}
+.dash-greeting{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.75rem,4vw,2.5rem);font-weight:700;
+  line-height:1.1;letter-spacing:-.025em;color:var(--text);
+}
+.dash-greeting em{font-style:italic;font-weight:400;}
+
+/* Today's call */
+.today-call{
+  background:var(--text);color:var(--bg);
+  border-radius:14px;padding:1.5rem 1.75rem;
+  margin-bottom:2rem;position:relative;overflow:hidden;
+  animation:slideRight .4s cubic-bezier(.16,1,.3,1) .1s both;
+}
+@keyframes slideRight{from{opacity:0;transform:translateX(-12px);}to{opacity:1;transform:translateX(0);}}
+.today-call-pre{
+  font-size:.475rem;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(234,228,217,.45);font-family:'SF Mono',monospace;
+  font-weight:800;margin-bottom:.875rem;
+}
+[data-theme="day"] .today-call-pre{color:rgba(234,228,217,.4);}
+.today-call-inner{display:flex;align-items:center;gap:1.25rem;}
+.today-initials{
+  width:52px;height:52px;border-radius:50%;
+  background:rgba(234,228,217,.12);border:1px solid rgba(234,228,217,.18);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.875rem;font-weight:900;color:var(--bg);letter-spacing:-.02em;
+  flex-shrink:0;font-family:'Playfair Display',serif;
+}
+[data-theme="day"] .today-initials{color:#EAE4D9;}
+.today-info{}
+.today-tag{font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(234,228,217,.5);font-family:'SF Mono',monospace;margin-bottom:.3rem;}
+[data-theme="day"] .today-tag{color:rgba(234,228,217,.4);}
+.today-title{font-size:1.125rem;font-weight:700;color:var(--bg);}
+[data-theme="day"] .today-title{color:#EAE4D9;}
+.today-host{font-size:.75rem;font-weight:300;color:rgba(234,228,217,.55);margin-top:.2rem;}
+[data-theme="day"] .today-host{color:rgba(234,228,217,.45);}
+.today-call-bg{
+  position:absolute;right:-1rem;top:50%;transform:translateY(-50%);
+  font-family:'Playfair Display',serif;font-size:6rem;font-weight:900;
+  color:rgba(234,228,217,.04);pointer-events:none;user-select:none;letter-spacing:-.04em;
+}
+.rest-day{
+  background:var(--card-2);border:1px solid var(--bdr);
+  border-radius:14px;padding:1.5rem 1.75rem;margin-bottom:2rem;
+  font-size:.875rem;color:var(--t2);font-weight:300;
+}
+
+/* Stats */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:2rem;}
+.stat-card{
+  background:var(--card);border:1px solid var(--bdr);border-radius:12px;
+  padding:1.25rem;transition:all .2s;cursor:default;position:relative;overflow:hidden;
+}
+.stat-card::before{content:'';position:absolute;inset:0;background:var(--hbg);opacity:0;transition:opacity .2s;}
+.stat-card:hover::before{opacity:1;}
+.stat-card:hover{border-color:var(--bdr-2);transform:translateY(-2px);box-shadow:0 8px 32px var(--shd);}
+.stat-num{
+  font-family:'Playfair Display',serif;
+  font-size:2rem;font-weight:900;color:var(--text);
+  letter-spacing:-.04em;line-height:1;margin-bottom:.375rem;
+  transition:color .4s;
+}
+.stat-label{font-size:.525rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);font-family:'SF Mono',monospace;}
+.stat-dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:.375rem;vertical-align:middle;}
+.dot-green{background:#3d7a50;}
+.dot-amber{background:#8a6a20;}
+.dot-red{background:#8a3030;}
+[data-theme="night"] .dot-green{background:#4ade80;}
+[data-theme="night"] .dot-amber{background:#c9a96e;}
+[data-theme="night"] .dot-red{background:#e06060;}
+
+/* Quick launch */
+.section-label{
+  font-size:.525rem;font-weight:900;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--t3);font-family:'SF Mono',monospace;margin-bottom:1rem;
+}
+.launch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:2.5rem;}
+.launch-card{
+  background:var(--card);border:1px solid var(--bdr);border-radius:12px;
+  padding:1.25rem;text-decoration:none;color:var(--text);
+  transition:all .2s;display:block;position:relative;overflow:hidden;
+  cursor:pointer;
+}
+.launch-card::before{content:'';position:absolute;inset:0;background:var(--hbg);opacity:0;transition:opacity .2s;}
+.launch-card:hover::before{opacity:1;}
+.launch-card:hover{border-color:var(--bdr-2);transform:translateY(-3px);box-shadow:0 12px 36px var(--shd);}
+.launch-card.primary{background:var(--text);border-color:var(--text);}
+.launch-card.primary:hover{opacity:.9;transform:translateY(-3px);}
+.launch-card.primary::before{background:transparent;}
+.lc-icon{font-size:1.25rem;margin-bottom:.75rem;}
+.lc-title{font-size:.825rem;font-weight:700;color:var(--text);margin-bottom:.25rem;}
+.launch-card.primary .lc-title{color:var(--bg);}
+.lc-desc{font-size:.7rem;color:var(--t2);font-weight:300;line-height:1.6;}
+.launch-card.primary .lc-desc{color:rgba(234,228,217,.55);}
+[data-theme="day"] .launch-card.primary .lc-desc{color:rgba(234,228,217,.5);}
+.lc-arr{font-size:.65rem;color:var(--t3);margin-top:.5rem;transition:transform .2s;}
+.launch-card:hover .lc-arr{transform:translateX(3px);}
+.launch-card.primary .lc-arr{color:rgba(234,228,217,.45);}
+
+/* Weekly at a glance */
+.week-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:.5rem;margin-bottom:2rem;}
+.week-day{
+  background:var(--card);border:1px solid var(--bdr);border-radius:10px;
+  padding:.875rem .75rem;text-align:center;transition:all .2s;
+}
+.week-day.today{background:var(--text);border-color:var(--text);}
+.week-day:hover{border-color:var(--bdr-2);transform:translateY(-2px);}
+.wd-name{font-size:.475rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:.5rem;font-family:'SF Mono',monospace;}
+.week-day.today .wd-name{color:rgba(234,228,217,.5);}
+[data-theme="day"] .week-day.today .wd-name{color:rgba(234,228,217,.45);}
+.wd-title{font-size:.65rem;font-weight:600;color:var(--text);line-height:1.4;}
+.week-day.today .wd-title{color:var(--bg);}
+[data-theme="day"] .week-day.today .wd-title{color:#EAE4D9;}
+.wd-host{font-size:.55rem;color:var(--t3);margin-top:.25rem;font-weight:300;}
+.week-day.today .wd-host{color:rgba(234,228,217,.4);}
+[data-theme="day"] .week-day.today .wd-host{color:rgba(234,228,217,.35);}
+
+/* ══════════════════════════
+   RESOURCES
+══════════════════════════ */
+.res-group{margin-bottom:2.5rem;}
+.res-group-title{
+  font-size:.525rem;font-weight:900;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--t3);font-family:'SF Mono',monospace;
+  padding-bottom:.625rem;border-bottom:1px solid var(--bdr);
+  margin-bottom:1rem;
+}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.625rem;}
+.res-card{
+  display:flex;align-items:flex-start;gap:.75rem;
+  background:var(--card);border:1px solid var(--bdr);border-radius:10px;
+  padding:1rem;text-decoration:none;color:var(--text);
+  transition:all .2s;position:relative;overflow:hidden;
+}
+.res-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--text);transform:scaleY(0);transform-origin:top;transition:transform .22s cubic-bezier(.4,0,.2,1);}
+.res-card:hover::before{transform:scaleY(1);}
+.res-card:hover{background:var(--hbg);border-color:var(--bdr-2);padding-left:calc(1rem + 4px);}
+.res-icon{font-size:1rem;flex-shrink:0;margin-top:.05rem;}
+.res-name{font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:.2rem;transition:color .3s;}
+.res-desc{font-size:.675rem;color:var(--t2);line-height:1.6;font-weight:300;}
+.res-ext{
+  display:inline-block;font-size:.45rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--t3);margin-left:.375rem;vertical-align:middle;
+}
+
+/* ══════════════════════════
+   TEAM
+══════════════════════════ */
+.team-grid{display:flex;flex-direction:column;gap:.625rem;}
+.team-card{
+  display:flex;align-items:flex-start;gap:1.125rem;
+  background:var(--card);border:1px solid var(--bdr);border-radius:12px;
+  padding:1.25rem 1.5rem;transition:all .22s;position:relative;overflow:hidden;
+}
+.team-card::before{content:'';position:absolute;inset:0;background:var(--hbg);opacity:0;transition:opacity .22s;pointer-events:none;}
+.team-card:hover::before{opacity:1;}
+.team-card:hover{border-color:var(--bdr-2);transform:translateX(4px);}
+.team-avatar{
+  width:40px;height:40px;border-radius:50%;background:var(--card-3);
+  border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-size:.875rem;font-weight:700;
+  color:var(--t2);flex-shrink:0;transition:all .22s;
+}
+.team-card:hover .team-avatar{background:var(--text);color:var(--bg);border-color:var(--text);}
+.team-info{flex:1;position:relative;z-index:1;}
+.team-name{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:.2rem;}
+.team-role{font-size:.55rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);font-family:'SF Mono',monospace;margin-bottom:.5rem;}
+.team-focus{font-size:.75rem;color:var(--t2);line-height:1.7;font-weight:300;}
+.team-focus strong{color:var(--text);font-weight:600;}
+.team-tag{
+  display:inline-block;font-size:.45rem;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--hbg);border:1px solid var(--bdr);border-radius:4px;
+  padding:.15rem .4rem;font-family:'SF Mono',monospace;font-weight:700;
+  color:var(--t3);margin-right:.3rem;margin-top:.5rem;
+}
+
+/* ══════════════════════════
+   PLAYBOOKS
+══════════════════════════ */
+.pb-list{display:flex;flex-direction:column;gap:.5rem;}
+.pb-item{
+  display:flex;align-items:center;gap:1rem;
+  background:var(--card);border:1px solid var(--bdr);border-radius:10px;
+  padding:1rem 1.25rem;text-decoration:none;color:var(--text);
+  transition:all .2s;position:relative;overflow:hidden;
+}
+.pb-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--text);transform:scaleY(0);transform-origin:top;transition:transform .22s cubic-bezier(.4,0,.2,1);}
+.pb-item:hover::before{transform:scaleY(1);}
+.pb-item:hover{background:var(--hbg);border-color:var(--bdr-2);padding-left:calc(1.25rem + 5px);}
+.pb-icon{font-size:.9rem;width:20px;text-align:center;flex-shrink:0;}
+.pb-title{font-size:.825rem;font-weight:600;color:var(--text);flex:1;}
+.pb-tag{font-size:.475rem;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);font-family:'SF Mono',monospace;font-weight:700;}
+.pb-arr{font-size:.65rem;color:var(--t4);transition:transform .2s;}
+.pb-item:hover .pb-arr{transform:translateX(3px);}
+
+/* ── Page header shared ── */
+.page-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.5rem,3vw,2rem);font-weight:700;
+  letter-spacing:-.025em;color:var(--text);
+  margin-bottom:.5rem;
+}
+.page-sub{font-size:.85rem;color:var(--t2);line-height:1.7;font-weight:300;max-width:60ch;margin-bottom:2rem;}
+.page-sub strong{color:var(--text);font-weight:600;}
+
+/* ── Mobile ── */
+@media(max-width:700px){
+  .sidebar{display:none;}
+  .stats-row{grid-template-columns:repeat(2,1fr);}
+  .launch-grid{grid-template-columns:1fr 1fr;}
+  .week-grid{grid-template-columns:repeat(3,1fr);}
+  .section{padding:1.5rem 1.25rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ══ SIDEBAR ══ -->
+<nav class="sidebar">
+  <div class="sb-header">
+    <div class="sb-logo">
+      <div class="sb-logo-mark">S</div>
+      <span class="sb-logo-name">Sales.io</span>
+    </div>
+    <div class="sb-badge">Team HQ</div>
+  </div>
+
+  <div class="sb-nav">
+    <div class="sb-section-label">Navigation</div>
+    <div class="nav-item active" data-sec="dash" onclick="goTo('dash')">
+      <span class="nav-icon">🏠</span> Dashboard
+    </div>
+    <div class="nav-item" data-sec="hub" onclick="goTo('hub')">
+      <span class="nav-icon">👥</span> Client Hub
+    </div>
+    <div class="nav-item" data-sec="resources" onclick="goTo('resources')">
+      <span class="nav-icon">📚</span> Resources
+    </div>
+    <div class="nav-item" data-sec="team" onclick="goTo('team')">
+      <span class="nav-icon">🤝</span> Team
+    </div>
+    <div class="nav-item" data-sec="playbooks" onclick="goTo('playbooks')">
+      <span class="nav-icon">📋</span> Playbooks
+    </div>
+
+    <div class="sb-divider" style="margin-top:.75rem;"></div>
+    <div class="sb-section-label" style="margin-top:.25rem;">Quick Open</div>
+
+    <a class="nav-ext" href="./training-bible-master.html" target="_blank">
+      <span style="display:flex;align-items:center;gap:.625rem;"><span class="nav-icon">🎓</span> Training Bible</span>
+      <span class="ext-arr">↗</span>
+    </a>
+    <a class="nav-ext" href="./salesio-affiliate-tracker.html" target="_blank">
+      <span style="display:flex;align-items:center;gap:.625rem;"><span class="nav-icon">🔗</span> Affiliate Tracker</span>
+      <span class="ext-arr">↗</span>
+    </a>
+    <a class="nav-ext" href="./sop-weekly-team-cadence.html" target="_blank">
+      <span style="display:flex;align-items:center;gap:.625rem;"><span class="nav-icon">📅</span> Weekly Cadence</span>
+      <span class="ext-arr">↗</span>
+    </a>
+    <a class="nav-ext" href="./content-bible-june2026.html" target="_blank">
+      <span style="display:flex;align-items:center;gap:.625rem;"><span class="nav-icon">✍️</span> Content Bible</span>
+      <span class="ext-arr">↗</span>
+    </a>
+  </div>
+
+  <div class="sb-footer">
+    <div class="sb-clock" id="clock"></div>
+    <div class="toggle-row">
+      <span class="toggle-lbl" id="mode-lbl">Day</span>
+      <div class="toggle-switch" onclick="toggleTheme()">
+        <div class="toggle-thumb"></div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ MAIN ══ -->
+<div class="main">
+  <div class="main-header">
+    <span class="mh-title" id="mh-title">Dashboard</span>
+    <div class="mh-right">
+      <span class="internal-badge">Internal — Confidential</span>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ── DASHBOARD ── -->
+    <div id="sec-dash" class="section active">
+      <div class="dash-header">
+        <div class="dash-date" id="dash-date"></div>
+        <div class="dash-greeting">Good <em id="greeting-time">morning</em>, JJ.</div>
+      </div>
+
+      <!-- Today's call -->
+      <div id="today-call-wrap"></div>
+
+      <!-- Stats -->
+      <div class="section-label">Live Client Stats</div>
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-num" id="stat-total">—</div>
+          <div class="stat-label">Total Clients</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="stat-active">—</div>
+          <div class="stat-label"><span class="stat-dot dot-green"></span>Active</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="stat-renewal">—</div>
+          <div class="stat-label"><span class="stat-dot dot-amber"></span>Renewal Due</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="stat-risk">—</div>
+          <div class="stat-label"><span class="stat-dot dot-red"></span>At Risk</div>
+        </div>
+      </div>
+
+      <!-- Quick launch -->
+      <div class="section-label">Quick Launch</div>
+      <div class="launch-grid">
+        <div class="launch-card primary" onclick="goTo('hub')">
+          <div class="lc-icon">👥</div>
+          <div class="lc-title">Client Hub</div>
+          <div class="lc-desc">Track students, weeks, renewals, and status in one place.</div>
+          <div class="lc-arr">→</div>
+        </div>
+        <a class="launch-card" href="./salesio-day-one-expectations.html" target="_blank">
+          <div class="lc-icon">📄</div>
+          <div class="lc-title">Day One Doc</div>
+          <div class="lc-desc">Send to every new student on their first day.</div>
+          <div class="lc-arr">↗</div>
+        </a>
+        <a class="launch-card" href="./salesio-renewal-sop.html" target="_blank">
+          <div class="lc-icon">🔄</div>
+          <div class="lc-title">Renewal SOP</div>
+          <div class="lc-desc">Step-by-step playbook for getting students to renew.</div>
+          <div class="lc-arr">↗</div>
+        </a>
+        <a class="launch-card" href="./salesio-renewal-offer.html" target="_blank">
+          <div class="lc-icon">💰</div>
+          <div class="lc-title">Renewal Offer</div>
+          <div class="lc-desc">Core / Growth / Elite tiers — interactive pricing doc.</div>
+          <div class="lc-arr">↗</div>
+        </a>
+        <a class="launch-card" href="./training-bible-master.html" target="_blank">
+          <div class="lc-icon">🎓</div>
+          <div class="lc-title">Training Bible</div>
+          <div class="lc-desc">Every framework, lesson, and concept in the program.</div>
+          <div class="lc-arr">↗</div>
+        </a>
+        <a class="launch-card" href="./jalen-dm-playbook.html" target="_blank">
+          <div class="lc-icon">💬</div>
+          <div class="lc-title">DM Playbook</div>
+          <div class="lc-desc">Jalen's outbound DM sequences and setting framework.</div>
+          <div class="lc-arr">↗</div>
+        </a>
+      </div>
+
+      <!-- Week at a glance -->
+      <div class="section-label">This Week's Calls</div>
+      <div class="week-grid" id="week-grid"></div>
+    </div>
+
+    <!-- ── CLIENT HUB ── -->
+    <div id="sec-hub" class="section">
+      <iframe id="hub-iframe" class="hub-frame" src="" title="Client Hub" allowfullscreen></iframe>
+    </div>
+
+    <!-- ── RESOURCES ── -->
+    <div id="sec-resources" class="section">
+      <div class="page-title">Resources</div>
+      <div class="page-sub">All Sales.io docs, tools, and references — organized by category.</div>
+
+      <div class="res-group">
+        <div class="res-group-title">Core Tools</div>
+        <div class="res-grid">
+          <a class="res-card" href="./salesio-client-hub.html" target="_blank"><div class="res-icon">👥</div><div><div class="res-name">Client Hub</div><div class="res-desc">Active student tracker — weeks, status, renewals, CSV export.</div></div></a>
+          <a class="res-card" href="./training-bible-master.html" target="_blank"><div class="res-icon">🎓</div><div><div class="res-name">Training Bible</div><div class="res-desc">Master reference for every lesson and framework taught.</div></div></a>
+          <a class="res-card" href="./training-bible-index.html" target="_blank"><div class="res-icon">📑</div><div><div class="res-name">Bible Index</div><div class="res-desc">Index view of all training bible sections and lessons.</div></div></a>
+          <a class="res-card" href="./salesio-affiliate-tracker.html" target="_blank"><div class="res-icon">🔗</div><div><div class="res-name">Affiliate Tracker</div><div class="res-desc">Track affiliate referrals and commission payouts.</div></div></a>
+        </div>
+      </div>
+
+      <div class="res-group">
+        <div class="res-group-title">Student-Facing</div>
+        <div class="res-grid">
+          <a class="res-card" href="./salesio-day-one-expectations.html" target="_blank"><div class="res-icon">📄</div><div><div class="res-name">Day One Expectations</div><div class="res-desc">Send on day one — full program overview, schedule, and rules.</div></div></a>
+          <a class="res-card" href="./student-onboarding.html" target="_blank"><div class="res-icon">🚀</div><div><div class="res-name">Student Onboarding</div><div class="res-desc">Onboarding flow and first-week checklist for new students.</div></div></a>
+          <a class="res-card" href="./community-leaderboard.html" target="_blank"><div class="res-icon">🏆</div><div><div class="res-name">Community Leaderboard</div><div class="res-desc">Student performance and engagement leaderboard.</div></div></a>
+        </div>
+      </div>
+
+      <div class="res-group">
+        <div class="res-group-title">Renewals</div>
+        <div class="res-grid">
+          <a class="res-card" href="./salesio-renewal-offer.html" target="_blank"><div class="res-icon">💰</div><div><div class="res-name">Renewal Offer</div><div class="res-desc">Interactive Core / Growth / Elite tier selector for renewals.</div></div></a>
+          <a class="res-card" href="./salesio-renewal-sop.html" target="_blank"><div class="res-icon">🔄</div><div><div class="res-name">Renewal SOP</div><div class="res-desc">6-step playbook: identify → send → call → close → onboard.</div></div></a>
+        </div>
+      </div>
+
+      <div class="res-group">
+        <div class="res-group-title">Sales</div>
+        <div class="res-grid">
+          <a class="res-card" href="./sales-call-script.html" target="_blank"><div class="res-icon">📞</div><div><div class="res-name">Sales Call Script</div><div class="res-desc">Full call script and framework for closers.</div></div></a>
+          <a class="res-card" href="./sales-call-structure.html" target="_blank"><div class="res-icon">🏗️</div><div><div class="res-name">Call Structure</div><div class="res-desc">Call architecture breakdown from open to close.</div></div></a>
+          <a class="res-card" href="./jalen-dm-playbook.html" target="_blank"><div class="res-icon">💬</div><div><div class="res-name">DM Playbook</div><div class="res-desc">Jalen's outbound DM sequences and setting flows.</div></div></a>
+          <a class="res-card" href="./faris-setter-daily-standards.html" target="_blank"><div class="res-icon">📊</div><div><div class="res-name">Setter Daily Standards</div><div class="res-desc">Faris's daily KPIs, standards, and booking process.</div></div></a>
+          <a class="res-card" href="./salesio-affiliate-program.html" target="_blank"><div class="res-icon">🤝</div><div><div class="res-name">Affiliate Program</div><div class="res-desc">Affiliate program overview and commission structure.</div></div></a>
+          <a class="res-card" href="./salesio-affiliate-apply.html" target="_blank"><div class="res-icon">✅</div><div><div class="res-name">Affiliate Application</div><div class="res-desc">Application form and onboarding for new affiliates.</div></div></a>
+        </div>
+      </div>
+
+      <div class="res-group">
+        <div class="res-group-title">Content & Brand</div>
+        <div class="res-grid">
+          <a class="res-card" href="./content-bible-june2026.html" target="_blank"><div class="res-icon">✍️</div><div><div class="res-name">Content Bible</div><div class="res-desc">June 2026 content strategy — topics, formats, and calendar.</div></div></a>
+          <a class="res-card" href="./personal-brand-framework.html" target="_blank"><div class="res-icon">🌟</div><div><div class="res-name">Personal Brand Framework</div><div class="res-desc">JJ's brand voice, pillars, and content positioning.</div></div></a>
+        </div>
+      </div>
+
+      <div class="res-group">
+        <div class="res-group-title">Curriculum Weeks</div>
+        <div class="res-grid">
+          <a class="res-card" href="./curriculum-weeks-8-12.html" target="_blank"><div class="res-icon">📚</div><div><div class="res-name">Weeks 8–12 Curriculum</div><div class="res-desc">Phase 2–3 curriculum content and lesson plans.</div></div></a>
+          <a class="res-card" href="./week7-mastery-test.html" target="_blank"><div class="res-icon">🧪</div><div><div class="res-name">Week 7 Mastery Test</div><div class="res-desc">Student assessment and mastery check for Week 7.</div></div></a>
+          <a class="res-card" href="./week8-decision-architecture.html" target="_blank"><div class="res-icon">🏛️</div><div><div class="res-name">Week 8 Decision Architecture</div><div class="res-desc">Decision-making framework and advanced close architecture.</div></div></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TEAM ── -->
+    <div id="sec-team" class="section">
+      <div class="page-title">The Team</div>
+      <div class="page-sub">Five people. Primary channel is <strong>Slack</strong>. Here's who does what and when to loop them in.</div>
+
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar">JJ</div>
+          <div class="team-info">
+            <div class="team-name">JJ Hernandez</div>
+            <div class="team-role">Founder &amp; CEO</div>
+            <div class="team-focus">Runs <strong>Inner Circle (Friday)</strong> personally. Handles all top-level decisions, high-stakes student conversations, and revenue strategy. Loop in for anything involving the offer, program structure, or major student concerns.</div>
+            <div><span class="team-tag">Friday Inner Circle</span><span class="team-tag">Offer decisions</span><span class="team-tag">Revenue strategy</span></div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">C</div>
+          <div class="team-info">
+            <div class="team-name">Cole Verbeek</div>
+            <div class="team-role">Co-Founder · Head Coach</div>
+            <div class="team-focus">Runs <strong>Sales Psychology (Wednesday)</strong> and <strong>Coffee Chat (Saturday)</strong>. Owns student experience and program delivery. Go-to for coaching decisions, PASE method, and psychology-heavy student situations.</div>
+            <div><span class="team-tag">Wednesday + Saturday</span><span class="team-tag">Coaching decisions</span><span class="team-tag">Student experience</span></div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">J</div>
+          <div class="team-info">
+            <div class="team-name">Josh Mendoza</div>
+            <div class="team-role">CTO</div>
+            <div class="team-focus">Anything tech, systems, or infrastructure. Loop in for platform issues, integrations, automation, or anything that touches how the business runs technically.</div>
+            <div><span class="team-tag">Tech</span><span class="team-tag">Systems</span><span class="team-tag">Infrastructure</span></div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">A</div>
+          <div class="team-info">
+            <div class="team-name">Adamo</div>
+            <div class="team-role">CMO</div>
+            <div class="team-focus">Marketing, content strategy, and campaigns. Loop in for anything that touches how Sales.io shows up publicly — ads, content calendar, brand positioning, lead gen.</div>
+            <div><span class="team-tag">Marketing</span><span class="team-tag">Content</span><span class="team-tag">Campaigns</span></div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">Jl</div>
+          <div class="team-info">
+            <div class="team-name">Jalen</div>
+            <div class="team-role">Head Setting Coach</div>
+            <div class="team-focus">Runs <strong>Mock Call Monday</strong> and <strong>Setter Mastery (Thursday)</strong>. Owns lead qualification, setter performance, and pipeline health. Loop in for anything involving the setting side of the funnel.</div>
+            <div><span class="team-tag">Monday + Thursday</span><span class="team-tag">Setting</span><span class="team-tag">Pipeline</span></div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">F</div>
+          <div class="team-info">
+            <div class="team-name">Faris</div>
+            <div class="team-role">Setter</div>
+            <div class="team-focus">Active setter. Owns lead data entry, stage movement, and booking in <strong>Close CRM</strong>. First point of contact for pipeline visibility and new lead status.</div>
+            <div><span class="team-tag">Close CRM</span><span class="team-tag">Lead data</span><span class="team-tag">Booking</span></div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">Lu</div>
+          <div class="team-info">
+            <div class="team-name">Lu Sarmiento</div>
+            <div class="team-role">Closer</div>
+            <div class="team-focus">Sales calls, closing, and revenue-side execution. Loop in for anything involving the close — call performance, objection patterns, or specific prospect situations.</div>
+            <div><span class="team-tag">Sales calls</span><span class="team-tag">Closing</span><span class="team-tag">Revenue execution</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PLAYBOOKS ── -->
+    <div id="sec-playbooks" class="section">
+      <div class="page-title">Playbooks &amp; SOPs</div>
+      <div class="page-sub">Operational playbooks for every key workflow. When something happens, there's a doc for it.</div>
+
+      <div class="section-label" style="margin-bottom:.75rem;">Core Operations</div>
+      <div class="pb-list" style="margin-bottom:2rem;">
+        <a class="pb-item" href="./sop-weekly-team-cadence.html" target="_blank"><div class="pb-icon">📅</div><div class="pb-title">Weekly Team Cadence</div><span class="pb-tag">Operations</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./salesio-renewal-sop.html" target="_blank"><div class="pb-icon">🔄</div><div class="pb-title">Renewal SOP</div><span class="pb-tag">Renewals</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./student-onboarding.html" target="_blank"><div class="pb-icon">🚀</div><div class="pb-title">Student Onboarding</div><span class="pb-tag">Onboarding</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./sop-community-reengagement-90day.html" target="_blank"><div class="pb-icon">💬</div><div class="pb-title">Community Re-engagement (90 Day)</div><span class="pb-tag">Community</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./sop-follow-up-email-sequence.html" target="_blank"><div class="pb-icon">📧</div><div class="pb-title">Follow-Up Email Sequence</div><span class="pb-tag">Lead nurture</span><span class="pb-arr">↗</span></a>
+      </div>
+
+      <div class="section-label" style="margin-bottom:.75rem;">Hiring</div>
+      <div class="pb-list" style="margin-bottom:2rem;">
+        <a class="pb-item" href="./sop-sales-closer-hiring.html" target="_blank"><div class="pb-icon">🎯</div><div class="pb-title">Sales Closer Hiring SOP</div><span class="pb-tag">Hiring</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./sop-sales-manager-hiring.html" target="_blank"><div class="pb-icon">👔</div><div class="pb-title">Sales Manager Hiring SOP</div><span class="pb-tag">Hiring</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./sop-rep-interview-questions.html" target="_blank"><div class="pb-icon">❓</div><div class="pb-title">Rep Interview Questions</div><span class="pb-tag">Hiring</span><span class="pb-arr">↗</span></a>
+      </div>
+
+      <div class="section-label" style="margin-bottom:.75rem;">Setting</div>
+      <div class="pb-list" style="margin-bottom:2rem;">
+        <a class="pb-item" href="./jalen-dm-playbook.html" target="_blank"><div class="pb-icon">💬</div><div class="pb-title">Jalen's DM Playbook</div><span class="pb-tag">Setting</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./faris-setter-daily-standards.html" target="_blank"><div class="pb-icon">📊</div><div class="pb-title">Faris — Setter Daily Standards</div><span class="pb-tag">Setting</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./sop-pablo-pipeline-outreach.html" target="_blank"><div class="pb-icon">📤</div><div class="pb-title">Pipeline Outreach SOP</div><span class="pb-tag">Pipeline</span><span class="pb-arr">↗</span></a>
+      </div>
+
+      <div class="section-label" style="margin-bottom:.75rem;">Agreements &amp; Contracts</div>
+      <div class="pb-list">
+        <a class="pb-item" href="./evan-coaching-agreement-draft.html" target="_blank"><div class="pb-icon">📝</div><div class="pb-title">Evan Coaching Agreement</div><span class="pb-tag">Contract</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./setter-agreement-draft.html" target="_blank"><div class="pb-icon">📝</div><div class="pb-title">Setter Agreement</div><span class="pb-tag">Contract</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./closer-agreement-draft.html" target="_blank"><div class="pb-icon">📝</div><div class="pb-title">Closer Agreement</div><span class="pb-tag">Contract</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./setter-expectations-commission.html" target="_blank"><div class="pb-icon">💵</div><div class="pb-title">Setter Expectations &amp; Commission</div><span class="pb-tag">Compensation</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./partner-commission-structure.html" target="_blank"><div class="pb-icon">🤝</div><div class="pb-title">Partner Commission Structure</div><span class="pb-tag">Compensation</span><span class="pb-arr">↗</span></a>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<script>
+/* ── Theme ── */
+function toggleTheme(){
+  var h=document.documentElement,n=h.dataset.theme==='day'?'night':'day';
+  h.dataset.theme=n;
+  var l=document.getElementById('mode-lbl');if(l)l.textContent=n==='day'?'Day':'Night';
+  try{localStorage.setItem('tb-theme',n);}catch(e){}
+}
+(function(){
+  try{
+    var s=localStorage.getItem('tb-theme')||document.documentElement.dataset.theme||'day';
+    var l=document.getElementById('mode-lbl');if(l)l.textContent=s==='day'?'Day':'Night';
+  }catch(e){}
+})();
+
+/* ── Clock ── */
+function updateClock(){
+  var d=new Date(),h=d.getHours(),m=d.getMinutes();
+  var ampm=h>=12?'PM':'AM';h=h%12||12;
+  var ms=m<10?'0'+m:m;
+  var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var el=document.getElementById('clock');
+  if(el)el.textContent=days[d.getDay()]+' — '+h+':'+ms+' '+ampm;
+}
+updateClock();setInterval(updateClock,30000);
+
+/* ── Date / greeting / today's call ── */
+var CALLS={
+  1:{initials:'J',host:'Jalen',title:'Mock Call Monday',tag:'Setting & Practice'},
+  2:{initials:'EC',host:'Evan + Cole',title:'Call Review Day',tag:'Call Analysis'},
+  3:{initials:'EC',host:'Evan + Cole',title:'B2B + Sales Psychology',tag:'Two Sessions Today'},
+  4:{initials:'J',host:'Jalen',title:'Setter Mastery',tag:'Setting & Outreach'},
+  5:{initials:'JJ',host:'JJ',title:'Inner Circle',tag:'JJ Live — Priority'},
+  6:{initials:'C',host:'Cole',title:'Coffee Chat',tag:'Open Format'}
+};
+var WEEK_CALLS=[
+  null,
+  {name:'MON',title:'Mock Call Monday',host:'Jalen'},
+  {name:'TUE',title:'Call Review Day',host:'Evan + Cole'},
+  {name:'WED',title:'B2B + Psychology',host:'Evan + Cole'},
+  {name:'THU',title:'Setter Mastery',host:'Jalen'},
+  {name:'FRI',title:'Inner Circle',host:'JJ'},
+  {name:'SAT',title:'Coffee Chat',host:'Cole'}
+];
+
+(function initDash(){
+  var now=new Date();
+  var day=now.getDay();
+  var months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+  /* Date */
+  var dateEl=document.getElementById('dash-date');
+  if(dateEl)dateEl.textContent=days[day]+', '+months[now.getMonth()]+' '+now.getDate()+', '+now.getFullYear();
+
+  /* Greeting time */
+  var hr=now.getHours();
+  var gt=document.getElementById('greeting-time');
+  if(gt)gt.textContent=hr<12?'morning':hr<17?'afternoon':'evening';
+
+  /* Today's call */
+  var callWrap=document.getElementById('today-call-wrap');
+  if(callWrap){
+    if(CALLS[day]){
+      var c=CALLS[day];
+      callWrap.innerHTML='<div class="today-call"><div class="today-call-pre">Today\'s Coaching Call</div><div class="today-call-inner"><div class="today-initials">'+c.initials+'</div><div class="today-info"><div class="today-tag">'+c.tag+'</div><div class="today-title">'+c.title+'</div><div class="today-host">Hosted by '+c.host+'</div></div></div><div class="today-call-bg">'+c.initials+'</div></div>';
+    } else {
+      callWrap.innerHTML='<div class="rest-day">🌿 <strong>Sunday — no calls.</strong> Rest, reset, and prepare for Monday.</div>';
+    }
+  }
+
+  /* Week grid */
+  var wg=document.getElementById('week-grid');
+  if(wg){
+    var html='';
+    for(var i=1;i<=6;i++){
+      var wc=WEEK_CALLS[i];
+      var isToday=i===day;
+      html+='<div class="week-day'+(isToday?' today':'')+'"><div class="wd-name">'+wc.name+'</div><div class="wd-title">'+wc.title+'</div><div class="wd-host">'+wc.host+'</div></div>';
+    }
+    wg.innerHTML=html;
+  }
+
+  /* Stats from localStorage */
+  function countUp(el,val){
+    var start=0,dur=600,step=Math.ceil(dur/Math.max(val,1));
+    if(val===0){el.textContent='0';return;}
+    var t=setInterval(function(){
+      start++;el.textContent=start;
+      if(start>=val)clearInterval(t);
+    },step);
+  }
+  try{
+    var data=JSON.parse(localStorage.getItem('salesio_clients')||'[]');
+    var active=data.filter(function(c){return c.status==='active';}).length;
+    var risk=data.filter(function(c){return c.status==='risk';}).length;
+    var renewal=data.filter(function(c){
+      return parseInt(c.currentWeek||0)>=10&&!c.renewalDocSent&&(c.status==='active'||c.status==='risk');
+    }).length;
+    setTimeout(function(){
+      countUp(document.getElementById('stat-total'),data.length);
+      countUp(document.getElementById('stat-active'),active);
+      countUp(document.getElementById('stat-renewal'),renewal);
+      countUp(document.getElementById('stat-risk'),risk);
+    },300);
+  }catch(e){
+    ['stat-total','stat-active','stat-renewal','stat-risk'].forEach(function(id){
+      var el=document.getElementById(id);if(el)el.textContent='0';
+    });
+  }
+})();
+
+/* ── Section nav ── */
+var SEC_TITLES={dash:'Dashboard',hub:'Client Hub',resources:'Resources',team:'Team',playbooks:'Playbooks'};
+var hubLoaded=false;
+
+function goTo(id){
+  document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active');});
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
+  var sec=document.getElementById('sec-'+id);
+  var nav=document.querySelector('[data-sec="'+id+'"]');
+  if(sec)sec.classList.add('active');
+  if(nav)nav.classList.add('active');
+  var mh=document.getElementById('mh-title');
+  if(mh)mh.textContent=SEC_TITLES[id]||id;
+
+  /* Lazy-load client hub */
+  if(id==='hub'&&!hubLoaded){
+    var iframe=document.getElementById('hub-iframe');
+    if(iframe){
+      iframe.src='./salesio-client-hub.html';
+      iframe.onload=function(){iframe.classList.add('loaded');};
+      hubLoaded=true;
+    }
+  }
+  history.replaceState(null,'','#'+id);
+}
+
+/* Restore section from hash */
+(function(){
+  var h=location.hash.replace('#','');
+  if(h&&document.getElementById('sec-'+h))goTo(h);
+})();
+</script>
+</body>
+</html>
