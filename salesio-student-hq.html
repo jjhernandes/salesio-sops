@@ -323,8 +323,32 @@ body{
 .chat-restart{display:none;margin-left:2.625rem;background:none;border:1px solid var(--bdr);border-radius:8px;
   padding:.5rem 1rem;font-size:.7rem;font-weight:700;color:var(--t3);cursor:pointer;font-family:'Inter',sans-serif;}
 .chat-restart:hover{color:var(--text);border-color:rgba(var(--glow-rgb),.5);}
+
+/* Typing indicator */
+.chat-typing{display:flex;gap:.75rem;align-items:center;margin-bottom:1.125rem;animation:cardIn .3s both;}
+.typing-dots{display:flex;gap:.25rem;background:var(--card);border:1px solid var(--bdr);border-radius:14px;
+  border-top-left-radius:4px;padding:.75rem 1rem;}
+.typing-dots span{width:6px;height:6px;border-radius:50%;background:var(--t3);animation:typingBounce 1.2s infinite ease-in-out;}
+.typing-dots span:nth-child(2){animation-delay:.15s;}
+.typing-dots span:nth-child(3){animation-delay:.3s;}
+@keyframes typingBounce{0%,60%,100%{transform:translateY(0);opacity:.4;}30%{transform:translateY(-4px);opacity:1;}}
+
+/* Free-text input */
+.chat-input-row{display:flex;gap:.5rem;margin-left:2.625rem;margin-bottom:1rem;}
+.chat-input{
+  flex:1;background:var(--card);border:1.5px solid var(--bdr-2);border-radius:10px;
+  padding:.7rem .95rem;font-size:.825rem;color:var(--text);font-family:'Inter',sans-serif;
+  transition:border-color .2s,box-shadow .2s;
+}
+.chat-input:focus{outline:none;border-color:rgba(var(--glow-rgb),.6);box-shadow:0 0 18px rgba(var(--glow-rgb),.2);}
+.chat-input::placeholder{color:var(--t3);}
+.chat-send{background:var(--text);color:var(--bg);border:none;border-radius:10px;padding:.7rem 1.25rem;
+  font-size:.8rem;font-weight:700;cursor:pointer;transition:opacity .15s;font-family:'Inter',sans-serif;flex-shrink:0;}
+.chat-send:hover{opacity:.85;}
+.chat-hint{margin-left:2.625rem;font-size:.65rem;color:var(--t3);font-weight:300;margin-bottom:1.5rem;}
+
 @media(max-width:700px){
-  .chat-options,.rec-card,.chat-restart{margin-left:0;}
+  .chat-options,.rec-card,.chat-restart,.chat-input-row,.chat-hint,.chat-typing{margin-left:0;}
   .chat-bubble{max-width:90%;}
 }
 .page-sub{font-size:.85rem;color:var(--t2);line-height:1.7;font-weight:300;max-width:60ch;margin-bottom:2rem;}
@@ -518,13 +542,18 @@ body{
     <!-- ── GET UNSTUCK ── -->
     <div id="sec-checkin" class="section">
       <div class="page-title">Get Unstuck</div>
-      <div class="page-sub">A quick guided check-in — not a chatbot, just smart enough to point you at the exact lesson, call, or person that actually helps.</div>
+      <div class="page-sub">Type what's actually going on — not a real AI, but it reads for keywords and routes you to the exact lesson, call, or person that helps. Keep talking, it'll keep responding.</div>
 
       <div class="checkin-wrap">
         <div class="chat-thread" id="chat-thread"></div>
         <div class="chat-options" id="chat-options"></div>
+        <div class="chat-input-row">
+          <input type="text" class="chat-input" id="chat-input" placeholder="Tell me what's going on..." onkeydown="if(event.key==='Enter')ciSendMessage()">
+          <button class="chat-send" onclick="ciSendMessage()">Send</button>
+        </div>
+        <div class="chat-hint" id="chat-hint">Or tap one of the options above to get started.</div>
         <button class="chat-restart" id="chat-restart" onclick="restartCheckin()">Start Over</button>
-        <div class="checkin-disclaimer">This runs entirely in your browser — nothing you click here is sent to a coach or saved anywhere but your own device.</div>
+        <div class="checkin-disclaimer">This runs entirely in your browser — nothing you type here is sent to a coach or saved anywhere but your own device.</div>
       </div>
     </div>
 
@@ -929,9 +958,10 @@ function ciShowOptions(stepKey){
 }
 
 function ciSelectOption(opt){
-  ciAddMsg('user',opt.label);
   document.getElementById('chat-options').innerHTML='';
-  setTimeout(function(){
+  document.getElementById('chat-hint').style.display='none';
+  ciAddMsg('user',opt.label);
+  ciThinking(function(){
     if(opt.goto.indexOf('rec:')===0){
       ciShowRecommendation(opt.goto.slice(4));
     }else if(CHECKIN_RECS[opt.goto]){
@@ -940,8 +970,68 @@ function ciSelectOption(opt){
       ciAddMsg('assistant',CHECKIN_STEPS[opt.goto].q);
       ciShowOptions(opt.goto);
     }
-  },300);
+  });
 }
+
+/* ── Keyword routing for free-text messages ── */
+var CI_KEYWORDS={
+  great:['crushing','killing it','doing great','doing well','good week','best week','closed a deal','won a deal','great news','on fire'],
+  lost:['lost','behind','overwhelmed','drowning',"don't know what","dont know what",'confused','giving up','quit','burnt out','burned out','hopeless','no idea',"can't do this",'want to quit'],
+  mindset:['confidence','nervous','scared','anxious','doubt','imposter','belief','mindset','insecure','fear','afraid','self-conscious','not good enough','freeze up','freezing up'],
+  discovery:['discovery','rapport',"open up","won't talk","wont talk",'qualify','qualifying','get them talking'],
+  pitch:['pitch','present','presentation','deliver my pitch','offer','losing them','tiktok pitch','pitching'],
+  objections:['objection','price','expensive','think about it','pushback','hesitant','reject','no money',"can't afford",'cant afford','spouse','talk to my wife','talk to my husband'],
+  frame:['frame','control of the call','pushy','desperate','needy','weak','dominate','respect','walked over','pushover','losing the frame'],
+  setting:['setting','booking','cold call','cold calling',' dm ','outreach','no shows','no-shows','book a call','setter','booking calls'],
+  reps:['practice','reps','volume','just started','new to this','beginner','first time','inexperienced','not enough calls','need more calls']
+};
+
+function ciRouteMessage(text){
+  var lower=' '+text.toLowerCase()+' ';
+  var best=null,bestScore=0;
+  Object.keys(CI_KEYWORDS).forEach(function(topic){
+    var score=0;
+    CI_KEYWORDS[topic].forEach(function(kw){if(lower.indexOf(kw)!==-1)score++;});
+    if(score>bestScore){bestScore=score;best=topic;}
+  });
+  return best;
+}
+
+function ciThinking(cb){
+  var thread=document.getElementById('chat-thread');
+  var el=document.createElement('div');
+  el.className='chat-typing';
+  el.id='chat-typing-indicator';
+  el.innerHTML='<div class="chat-avatar">S</div><div class="typing-dots"><span></span><span></span><span></span></div>';
+  thread.appendChild(el);
+  el.scrollIntoView({behavior:'smooth',block:'nearest'});
+  setTimeout(function(){
+    var t=document.getElementById('chat-typing-indicator');
+    if(t)t.remove();
+    cb();
+  },550+Math.random()*350);
+}
+
+function ciSendMessage(){
+  var input=document.getElementById('chat-input');
+  var text=input.value.trim();
+  if(!text)return;
+  input.value='';
+  document.getElementById('chat-options').innerHTML='';
+  document.getElementById('chat-hint').style.display='none';
+  ciAddMsg('user',esc(text));
+  var topic=ciRouteMessage(text);
+  ciThinking(function(){
+    if(topic&&CHECKIN_RECS[topic]){
+      ciShowRecommendation(topic);
+    }else{
+      ciAddMsg('assistant',"I didn't catch a clear signal on that one — can you point to the actual moment it goes wrong? Or pick whichever's closest:");
+      ciShowOptions('struggle');
+    }
+  });
+}
+
+function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
 
 function ciShowRecommendation(key){
   var rec=CHECKIN_RECS[key];
@@ -964,6 +1054,10 @@ function ciShowRecommendation(key){
   CHECKIN_DONE=true;
   document.getElementById('chat-restart').style.display='inline-block';
   card.scrollIntoView({behavior:'smooth',block:'nearest'});
+  setTimeout(function(){
+    ciAddMsg('assistant','Anything else on your mind? Keep typing — I\'m still here.');
+    document.getElementById('chat-input').focus();
+  },700);
 }
 
 function ciCopyTemplate(btn){
@@ -979,6 +1073,7 @@ function restartCheckin(){
   CHECKIN_DONE=false;
   document.getElementById('chat-thread').innerHTML='';
   document.getElementById('chat-restart').style.display='none';
+  document.getElementById('chat-hint').style.display='block';
   initCheckin();
 }
 
