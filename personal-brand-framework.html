@@ -1,240 +1,301 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="day">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Personal Brand Framework</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.6; padding: 40px 20px; }
-    .container { max-width: 820px; margin: 0 auto; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales.io — Personal Brand Framework</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script>try{var s=localStorage.getItem('tb-theme');if(s)document.documentElement.dataset.theme=s;}catch(e){}</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{height:100%;scroll-behavior:smooth;}
 
-    .header { margin-bottom: 52px; }
-    .label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #555; margin-bottom: 12px; }
-    h1 { font-size: 38px; font-weight: 900; line-height: 1.1; margin-bottom: 10px; }
-    .subtitle { font-size: 15px; color: #666; }
+:root,[data-theme="day"]{
+  --bg:#EAE4D9;--bg-2:#E0D9CE;
+  --card:#FFFFFF;--card-2:#F5F1EB;--card-3:#EDECE8;
+  --bdr:rgba(10,10,8,.1);--bdr-2:rgba(10,10,8,.2);
+  --text:#0A0A08;
+  --t2:rgba(10,10,8,.55);--t3:rgba(10,10,8,.3);--t4:rgba(10,10,8,.12);
+  --hbg:rgba(10,10,8,.04);
+  --shd:rgba(10,10,8,.08);--shd2:rgba(10,10,8,.15);
+  --sb-bg:#0A0A08;--sb-text:#EAE4D9;
+  --sb-t2:rgba(234,228,217,.5);--sb-t3:rgba(234,228,217,.25);
+  --sb-bdr:rgba(234,228,217,.08);--sb-hbg:rgba(234,228,217,.07);
+  --glow-rgb:160,144,112;
+}
+[data-theme="night"]{
+  --bg:#000;--bg-2:#040402;
+  --card:#0a0a08;--card-2:#0f0f0d;--card-3:#141412;
+  --bdr:rgba(234,228,217,.09);--bdr-2:rgba(234,228,217,.18);
+  --text:#EAE4D9;
+  --t2:rgba(234,228,217,.58);--t3:rgba(234,228,217,.27);--t4:rgba(234,228,217,.1);
+  --hbg:rgba(234,228,217,.03);
+  --shd:rgba(0,0,0,.5);--shd2:rgba(0,0,0,.8);
+  --sb-bg:#060604;--sb-text:#EAE4D9;
+  --sb-t2:rgba(234,228,217,.45);--sb-t3:rgba(234,228,217,.2);
+  --sb-bdr:rgba(234,228,217,.07);--sb-hbg:rgba(234,228,217,.06);
+  --glow-rgb:74,222,128;
+}
 
-    section { margin-bottom: 52px; }
-    h2 { font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #555; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #111; }
+::selection{background:var(--text);color:var(--bg);}
+body{
+  display:flex;min-height:100vh;color:var(--text);
+  font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;
+  transition:background-color .4s,color .4s;font-size:15px;line-height:1.6;
+  background-color:var(--bg);
+  background-image:
+    radial-gradient(closest-side,rgba(var(--glow-rgb),.20),transparent 70%),
+    radial-gradient(closest-side,rgba(var(--glow-rgb),.14),transparent 70%);
+  background-repeat:no-repeat;background-size:55vw 55vw,45vw 45vw;
+  background-position:-8% -12%,112% 20%;background-attachment:fixed;
+  animation:ambientDrift 30s ease-in-out infinite alternate;
+}
+@keyframes ambientDrift{0%{background-position:-8% -12%,112% 20%;}50%{background-position:10% 0%,90% 40%;}100%{background-position:0% -6%,100% 30%;}}
+@media(prefers-reduced-motion:reduce){body{animation:none;}}
 
-    .callout { background: #0d0d0d; border: 1px solid #1c1c1c; border-radius: 10px; padding: 24px 28px; margin-bottom: 16px; }
-    .callout p { font-size: 16px; color: #ccc; line-height: 1.7; }
-    .callout strong { color: #fff; }
+.grain{position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.035;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat:repeat;background-size:300px 300px;}
+[data-theme="night"] .grain{opacity:.055;}
 
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
-    .card { background: #0d0d0d; border: 1px solid #1c1c1c; border-radius: 10px; padding: 22px; }
-    .card-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px; }
-    .card h3 { font-size: 17px; font-weight: 800; margin-bottom: 10px; }
-    .card p { font-size: 14px; color: #888; line-height: 1.65; }
-    .card ul { list-style: none; margin-top: 10px; }
-    .card ul li { font-size: 13px; color: #999; padding: 5px 0; border-bottom: 1px solid #111; line-height: 1.5; }
-    .card ul li:last-child { border-bottom: none; }
-    .card ul li::before { content: "— "; color: #444; }
+.sidebar{width:250px;flex-shrink:0;background:var(--sb-bg);display:flex;flex-direction:column;
+  height:100vh;position:sticky;top:0;overflow-y:auto;overflow-x:hidden;
+  border-right:1px solid var(--sb-bdr);transition:background .4s,border-color .4s;scrollbar-width:none;}
+.sidebar::-webkit-scrollbar{display:none;}
+.sb-header{padding:1.25rem 1.25rem 1rem;border-bottom:1px solid var(--sb-bdr);flex-shrink:0;}
+.sb-logo{display:flex;align-items:center;gap:.625rem;margin-bottom:.5rem;}
+.sb-logo-mark{width:24px;height:24px;object-fit:contain;transition:transform .25s cubic-bezier(.2,0,0,1),filter .25s;cursor:default;}
+.sb-logo-mark:hover{transform:rotate(-8deg) scale(1.12);filter:drop-shadow(0 0 10px rgba(var(--glow-rgb),.75));}
+.sb-logo-name{font-size:.675rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--sb-text);}
+.sb-badge{font-size:.475rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sb-t3);font-family:'SF Mono',monospace;font-weight:700;}
 
-    .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+.sb-nav{flex:1;padding:.75rem 0;}
+.sb-section-label{font-size:.475rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--sb-t3);
+  font-family:'SF Mono',monospace;padding:.875rem 1.25rem .375rem;}
+.nav-item{display:flex;align-items:center;gap:.625rem;padding:.55rem 1.25rem;cursor:pointer;text-decoration:none;
+  font-size:.75rem;font-weight:500;color:var(--sb-t2);transition:all .18s;position:relative;user-select:none;}
+.nav-item::before{content:'';position:absolute;left:0;top:.2rem;bottom:.2rem;width:2px;background:var(--sb-text);
+  transform:scaleY(0);transform-origin:center;transition:transform .2s cubic-bezier(.4,0,.2,1);border-radius:1px;}
+.nav-item:hover{background:var(--sb-hbg);color:var(--sb-text);padding-left:1.375rem;}
+.nav-item.active{background:var(--sb-hbg);color:var(--sb-text);font-weight:600;}
+.nav-item.active::before{transform:scaleY(1);box-shadow:0 0 8px 1px rgba(var(--glow-rgb),.9);}
+.nav-num{width:16px;height:16px;border-radius:50%;background:var(--sb-hbg);border:1px solid var(--sb-bdr);
+  font-size:.55rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--sb-t2);}
+.nav-item.active .nav-num{background:var(--sb-text);color:var(--sb-bg);border-color:var(--sb-text);}
 
-    .problem-row { display: flex; flex-direction: column; gap: 12px; }
-    .problem { border-left: 3px solid; padding: 16px 20px; border-radius: 0 8px 8px 0; background: #0a0a0a; }
-    .problem-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
-    .problem h3 { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
-    .problem p { font-size: 14px; color: #999; line-height: 1.6; }
+.sb-footer{padding:1rem 1.25rem;border-top:1px solid var(--sb-bdr);flex-shrink:0;}
+.toggle-row{display:flex;align-items:center;gap:.5rem;}
+.toggle-lbl{font-size:.5rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--sb-t3);font-family:'SF Mono',monospace;}
+.toggle-switch{width:36px;height:20px;border-radius:10px;background:var(--sb-hbg);border:1px solid var(--sb-bdr);
+  position:relative;cursor:pointer;transition:all .25s;flex-shrink:0;}
+.toggle-switch:hover{opacity:.9;box-shadow:0 0 10px rgba(var(--glow-rgb),.5);}
+.toggle-thumb{position:absolute;top:3px;left:3px;width:12px;height:12px;border-radius:50%;background:var(--sb-text);transition:transform .3s cubic-bezier(.4,0,.2,1);}
+[data-theme="night"] .toggle-thumb{transform:translateX(16px);}
 
-    .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .metric { background: #0d0d0d; border: 1px solid #1c1c1c; border-radius: 10px; padding: 20px; }
-    .metric h3 { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
-    .metric .tells { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
-    .metric p { font-size: 13px; color: #888; line-height: 1.6; }
+.main{flex:1;padding:3.5rem 4rem;max-width:900px;}
+.page-tag{display:inline-block;font-size:.625rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;
+  color:rgb(var(--glow-rgb));font-family:'SF Mono',monospace;margin-bottom:1rem;}
+.page-title{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.6vw,2.75rem);font-weight:700;
+  letter-spacing:-.025em;line-height:1.1;color:var(--text);margin-bottom:1rem;}
+.page-desc{font-size:.95rem;color:var(--t2);line-height:1.75;max-width:64ch;font-weight:300;}
+.page-desc strong{color:var(--text);font-weight:600;}
 
-    @media (max-width: 640px) {
-      h1 { font-size: 28px; }
-      .two-col, .three-col, .metric-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+.mission{background:var(--text);color:var(--bg);border-radius:16px;padding:2rem 2.25rem;margin:2rem 0 2.5rem;position:relative;overflow:hidden;}
+.mission-pre{font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(234,228,217,.5);font-family:'SF Mono',monospace;font-weight:800;margin-bottom:.75rem;}
+[data-theme="day"] .mission-pre{color:rgba(234,228,217,.45);}
+.mission-line{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(1.35rem,2.6vw,1.75rem);font-weight:700;color:var(--bg);letter-spacing:-.01em;line-height:1.3;}
+[data-theme="day"] .mission-line{color:#EAE4D9;}
+
+.section{margin:3.5rem 0;scroll-margin-top:2rem;}
+.section-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;}
+.section-number{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--bdr-2);color:var(--t3);
+  font-size:.75rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'SF Mono',monospace;}
+.section-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;letter-spacing:-.01em;color:var(--text);}
+.section-sub{font-size:.8rem;color:var(--t2);margin-bottom:1rem;font-weight:300;}
+.section-divider{height:1px;background:var(--bdr);margin-bottom:1.5rem;}
+
+.pillar-grid{display:grid;grid-template-columns:1fr 1fr;gap:.875rem;}
+.pillar{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:1.375rem 1.5rem;transition:all .2s;}
+.pillar:hover{border-color:rgba(var(--glow-rgb),.45);box-shadow:0 8px 28px var(--shd),0 0 20px rgba(var(--glow-rgb),.15);}
+.pillar-title{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:.5rem;}
+.pillar-desc{font-size:.8rem;color:var(--t2);line-height:1.75;font-weight:300;}
+
+.phrase-list{display:flex;flex-direction:column;gap:.5rem;}
+.phrase{background:var(--card-2);border-left:2px solid rgb(var(--glow-rgb));border-radius:0 8px 8px 0;padding:.875rem 1.125rem;
+  font-size:.875rem;color:var(--text);font-weight:500;font-style:italic;}
+
+.platform-row{display:flex;gap:.875rem;flex-wrap:wrap;}
+.platform{flex:1;min-width:220px;background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:1.25rem 1.375rem;transition:all .2s;}
+.platform:hover{border-color:rgba(var(--glow-rgb),.4);box-shadow:0 4px 20px var(--shd);}
+.platform-name{font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:.4rem;}
+.platform-role{font-size:.55rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:rgb(var(--glow-rgb));font-family:'SF Mono',monospace;margin-bottom:.6rem;}
+.platform-desc{font-size:.78rem;color:var(--t2);line-height:1.7;font-weight:300;}
+
+.card{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:1.375rem 1.5rem;margin-bottom:.75rem;transition:all .2s;}
+.card:hover{border-color:rgba(var(--glow-rgb),.4);box-shadow:0 8px 28px var(--shd);}
+.card-title{font-size:.9rem;font-weight:700;margin-bottom:.5rem;color:var(--text);}
+.card-desc{font-size:.8rem;color:var(--t2);line-height:1.8;font-weight:300;}
+
+.avoid-row{display:flex;gap:.75rem;flex-wrap:wrap;}
+.avoid-pill{font-size:.75rem;font-weight:600;color:var(--t2);background:var(--card-2);border:1px solid var(--bdr-2);border-radius:999px;padding:.4rem .9rem;}
+
+@media(max-width:900px){
+  .sidebar{display:none;}
+  .main{padding:2rem 1.5rem;}
+  .pillar-grid{grid-template-columns:1fr;}
+}
+</style>
 </head>
 <body>
-<div class="container">
 
-  <div class="header">
-    <div class="label">Framework</div>
-    <h1>Personal Brand<br>Cheat Sheet</h1>
-    <div class="subtitle">The system — positioning, content strategy, metrics</div>
+<div class="grain" aria-hidden="true"></div>
+
+<aside class="sidebar">
+  <div class="sb-header">
+    <div class="sb-logo"><img class="sb-logo-mark" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAlPklEQVR4nO1dCbQkVZG98X83SwMyiMgiW9Psi8jSLDrs4AICwlFhFFTOoCKeMzoIyIiOwziDojLLgRlHdJhhc8ENEZAdWYVhX0TZl26QzWZvhP+rYk4UEc0jyapfvyqzMt/LuOfkyf/r16/KfPnuffHiRcQjOKICM48BkIOJqJXz9+UArAFgbQBzAKwJYBUAKwKQvy0DYEkAMwHMkH8BMAlgAsBCAM8BWADgcQDzANyvx33yOxG9kPOd8jmCNhG1R9IQjkJAxXyMY0SkbxERB6/PArA+gC0AbAlgEwCzAawAYLzgy3gZwGMqBLcCuAHATQDuCYWo27U66gkXgJqCmUlJnCX9ugB2ArArgK0BrNblI2QkDglImeedffbc5QwldF5fkffcBeAaABcCuJKIHg2udTywDFwMaggXgJpBR1DKjKobAtgLwJ460i+W+Tcx4e15diPr0JeWOUygQsj04WoAZwH4NRHNy0wT3CqoGVwAakp8Zl4ewN4ADgCwnc7XQ8LbiC7/VxVMDNo5giBicBGA0wCcT0QvB1aB+C/cV1ADuADUg/gwQjDzRgAOBrA/gJVySF/WCF8ETAyQEQOZJpwK4BQieqTzRheCWqCuHamJI/62AD4HYF/10AtsGlBn0ndDaBmYlfI0gNMBnEhEdwdC4D6CihBbp0rGuUdEnXk7M88FcJQS3yB/G0/o+bT1sGmMLDeeAuB4IrrPhCBvWdNRLlLpYFEg7OTMLGv0RwP4uK3rK0liHO37hdxjKxCC58UaAPBtIlqg4ihWkU8LRoRUO1qtoB17TMjPzEsA+AKAIwG8Sd/SKmHdPiYheBjAMUR0cuePzDPMQnKUCxeA0Y76u4jZC2DThhJ/KiG4GMBhRHS7WwOjQZVLSMlDRzIZ9Zdi5n/TDi7kn9TO32TyCygIR25pcNN1zHykOAWF/EGYsaMEuAVQvsm/DYCTNEzXRjMX3nyEFtElAD4tTkKfEpQH74glLO/p6CXkl2W9K5T80oEtTt6Rj05sgLbVLmoNfEjIL+2qwuooEN6gJcz3NUnnuxrFZ9FyTvzBrYHjiOioQGDdL1AQXAAKgpmpzCzpt2cCmJvgev6oYUuj0obnADiQiJ7xmIHi4B2zWPJLdt7PNf9eyO8OrGIwodGRtwPYx/0CxcEFoDjy764j/1K+vFcKTFAl3XgvIrrRRWB4+Ly0GPLvB+BsJb+ZrI5i0UknVuvqEmbeQdverawh4AIwIJh5pnZAcfT9SNvSQnkd5aBTIAXAsgDOk8AqF4Hh4J11cPJPMPPHNN/d1/dHh072IABZafmVi8Bw8A47HPlPCVJe3Z8yOpi1JcVNXQSGgAvANODkrxVcBAqAd9zpO/yc/PWC+V1ekpqJRCQOQl8d6BPeefuARZ+pw8/m/E7+eorAHkR0mUcM9gfvwP2H9+6jQT4e3VdPtIPz+4joYo8YnBruA5gaMvKPaRTarcF6tKNesHwL2bzkT5o45HUGp4CPYtObArxV01Q39lDfWsEiL6WykDgD7/UpQH9wC6APKPnFnHxCi1bcoeR3R1O9yL+rkl+elZO/D7gA9An1A0jHelxF4HcuArUj/z1WhanqC4sFLgCDi8C7AfzeRaB25PdnMQ24D2C4lYFVtM7fBu4TqJz87vEfAC4AxYjApQDWcxEYCXzkLxA+BRh+OiD56bsBkK2ufDpQLpz8BcMtgOIsgVV1iXBdtwRKgZO/BLgAFCsCqwG4DIBs++UiUByc/CXBpwDFTgfmaTlr2fDSIwaLgZO/RLgAFC8CDwUiIB3XO+rgcPKXDJ8ClDcdmK2rA1Im3IuETh9O/hHALYDyLIEH1BJ4MKhl5+gPTv4RoRECIITUjL5Ri8D9KgIyLXAR6A9O/hEieQHQrLCWJvSMWgRmqAjsph3aRaA3nPwjRtICoJ1HiP9XzLypZfWN6vutRp10ZE0gchHoDie/o9gCnno+kF/FfGZeR18b6fq8fZ98PzPP0+sRcXC8vi0equoZOdIk/8e0Y01U3cECEVhfxSjs+E2Gk99RKvllLt6uQ0dzEXgDKn8mjmaQvzYdLhCBDZj50cx1lY22tsmkWkV2TOoRtlXZqPxZOJpF/jqKwEbM/MfMdRUNs34mpvH+CW2/smD3+rCTv1pQQ3fsqdzjHGw0spEWFVmp4IhBztmpWF6bp8FJUtXoRW0j2WxzZY1aXHGKzxgWXszDUcnIX2dLYBNmfjxzXcMgHL3l8y5i5kOZeWNmXqLH9SzLzFsz89HMfH3m84qwCCpvc0dCGIL8dRSBtxckApPB+fsS/5DznWMaHTlDD/n5DdYSM+/MzGfnfPYw1+Xkd9SC/LWZj2ZE4IkByRaudFzJzHMzhJ+h567TPvmbCUPm9T2Y+Q8DXlf4P05+R63IX5sOGojAZsz85DTJZt59wdct5NlIP8Q1iRh05v/M/CZmPjW4rnYsbetICCWQv44isDkzP5W5rn7I/8nQxC/6uvTnrwbX1a57mzoSQonkj1UEQvJ/3Nqol5k/xHVRcG1H6XdO9Gj/ytvSkRBGQP7adNyAaHOZeUFwv1OSv+Tr6lcEKm9DR0IYIfljEYGRk7/LteWJQOVt50gIFZC/jqsDIgLPBGSrjPw9RCCMNnTyO6Imfx0tgW2Y+eng2iojfw8RqA35dbpC6hC1uIfsMRYcnfdXdb2O+pG/lwiMV0S0rbSewEFhG1WJ4Nq+wsz3M/OcUZE/IHgY1DRUkRvO+byUhYESie0vG5XHr2tpMxHA5YjoafsdNUBwbcsS0bNlXZsSUQgu53av72DmpQEsA0DOSwGQEOiZwX4NEwBeBrAQwAsAnpej22fqd5vw9/zumFA7Aagh+XuJwEhJGBCtNuQPCUIkA3Jx16akM9K/gXRK8jV1Y1Y51gawhiY0La8CsOQUpe8YwJ9VBJ7WJClJmLoXwF16PEBEC3Kub4YlTMm9I0JUTapYyJ8VASn5/U4ieqwCEegQDTVEUdemZvxYNjuTmSVjcgsA7wIgoc4bAlil34/Vw0CZcy88pZu/3gjgGgD/p8Vew2sLrYNaPp881IVYMZDfYHv+SUfYIfYRoC4IzPtFbamvbQbgPVpZeXNNXc5ChNnan3L6Ta8+xJmfQ6EIpxwhZOpwu24Gez6A64jopeBeZsQyTagFuSIiv2FC55PfJKIvej57saO9ZjDuC2BvANlsxnbQP/LIWcpl4tXvlHPoCzCINfBrAD8BcJX1BbUKuM5CUDnBIiQ/tCPYdGArIrrBRWAg4lNAluUA7ANA+sF2mXn75IgJPxU4UywlvCaxDH4A4EdE9GDevdYJlTZmpOQ3mABcQUQ71NExFwnxZdlQkpgOAPC2DOk71gHqj3aOGMiqws8B/BcRXSsv2BJlnfpJZUSLnPxZEZBVgUvcCugOW0YzU5+ZxYH3eQAf0WU6gbVdXUb6YcQgjIM4D8C/SB+p29SgkkZOhPwC6czyMM8loj1dAPIRtgszrwXgSACfALB4ph1je/69YFOEUMzET3AsEV0VOAtbVTqQR97gCZFfYA/uFQDrEpHkDfhUQBGavFJQBMDhAD4HQH4WtCIf7ftF9j7PAHCMbhn3OoEcNUY6v0qM/NDrbulI9j59LYY568j2ZVTy7wfgJgBfUfJPqnimNup3g92nLVd+VGIKmPnLzLy4bSRbRcjxyDprguTPQtapBY2OB7C6glryfE1m/pl4xAHMCYg/I6HnPqgQSJTi1wBcy8w7SntZJCVGiJF8WeLktzbcVEc9UfMU7mvaUOKztoHM8W/Q9fxW4BhrZNtk0HECqiC+A8BlzPwtKdmuFtPIsihLfxiJkx9BcIjEk69DRPOb6AcINjr5CwAn6LIeCt7sJEW0Az5IqPHBRHSLrhSUHmFaqgXQAPJD74U122yl4LUmkn8rMWmV/DbfdfL3hjkHJzXP4WpmPjhYNSmVo6V9eEPIb7DRXqLZmjrflxoFl2tWXorLemXD0pRnAfgeM/+Hxk3IlGA8KgFoGPlD2Lp2k5b4ZL7/DQAnqxWUDYJxDOYbOBTABcy8grbxeBQC0GDyC0a2uWiVCHwcUoL8hwC+GHj4fRl0OJAKqCSc7QxAdnla35YKUTAKfVgNJr+143NIHGryW2CPhLjur53VPfzFYqaKqkypLpdNW3WqNaOWAqCOoCaS31YBZP72RPBacrCINWZ+M4ALAewSpEY7yvMLvBWA7PC8U9EiMFawF/iAhpE/JLuQ/9HMaymS/y0ALgawtY5QTv5y0VkO1MChc5l5lyJFYKxA8n8YwGkNI39I9juJaKHOjzlh8l+oVXqsMpKjfHQqJWl9w18x8w5FicBYQeR/rxZBaBr5BUb2K/Q8ljD5L3Ly10IEzmbmLZR7Q60ODLV1tF7AlgB+GnxWk8gvsAdwjp45YfJL2KqTvzqMqU9AHLDnSGq1Pp+BeUxDlqdeTSO/Vglyn5sES/O8BYAIocTBJyEAbvbXGhZefadUp9bVJxok/Hxs0FrtkrigJY9WCYjQRJCWfbKSUNHDyV97jOvz2FBrD3biLwZJQhuEtFa84CQd9Szss2kwi0c2CjlDGz/6akBO/mgwQ5/Le5n521pqbbxUAQicfp8FcGAQANJEmMPzy0T0opa2jtr8d/JHKwJfYOYPDeIUpAE6x2Y67x9vSDmnPBgpLiai3VKoBejkjxZWoly2NttMdiyaTjo6TXPXlpla5GGjBud528i/QEkyf1AHTF3g5I8exsWrAWwfbJ7KRU0BbIT7ZyV/U+f9HJz3JyLZRDLq4h++zp+UU1D2TDxKuTpWiAUQdBBZbrgqUBtqqKklDftRIvqB+UQQKXydPylYGXLhpwQJ3dHPVKCnStiygmT5yVJXl40Xm0b+TyRIfjH7nfxxwzi5mHA12Fq9J6YyE0RBWlrLfZOGmv5Z8p+iac+pkN/N/jSnAn/dTyGRrgqh4YXS8VcG8HsASzdw9O9Gfln+jBJu9iePtp6fArABgGd6Raj2sgBI/+kfNfbYvN9NgZPfEXPSkNQQOFp9AF15nktoK0msoYa3BOv9TREAJ78jhf77iq7aPdBtqbq7Mrw6+v+DdpAmjf5Ofkfs6MQBaJFWiVS1qlW5b+w2+m+i+7lZEFAT4OR3pNaX5VlvDODePCsgl9iqGFLp1cSgCXDyO1K0AmRZ8IhuVgB1yfNfS3ONF8t7X4Jw8jtShHn+F2p14UezVkDWArDfD9FNLiQGwMkfGZz8DoWlqC8F4JNWNyD7hg4kcki3J5bqo3frPnepV/lJnfye2ONoa/+ep1bAn4Np/uvIbRFDeyn5U6/y4+R3NKmOoJTv212Jvyg6MCS4zQtkX/eoC1v0ASe/o2mQ/n5Q8HMHlOP8k7DfmQnP/VMnv8/5HVnYCsBLMg2QNHbjvFkAdv6Aev6jrm7TA05+RxNB2idkT4G9Q86PZcz/fYJ/SA1O/uaBdTCbDI683xnpwzi9b8h5Csz/NQDcpct/XUMHI4WTv1kwC3Y6qevtoI+k1PfzpgHrENEjwv0ZQfbQzsHaf0o5/6mT34t5vAbru9Z/pVDmbQBu11DYJ3UZTHxcywOYrWGybwewQuZzUhMCiwlYUrku+3h2BMDMn3frOSVzqAnkd2//a8/ZiC8W0ekALiWi+VP+M3e2O5ciGvvrHFkCZ5BgHEzI9dPCVQBx/N0DYPWEbtrJ3wy0MvszHktEv7U/ammsXhZtOwyNZea1tQLWIUHd/VTa17j9gK4GTJgASObfrfqmFMweJ38zYPf/hJCWiH4UVLPquzQ2v1b2XiLkOv4DZp4L4AQAWyc2Lbb22JiI7rSRXrb4SmJrKyd/Y2D3f52QVMgv7WRObWmvfndqIiLW93d22tWCr9cD2A7Ad5T8KXADQX6PcH6RqS9ql1JpZCd/2rD7v0AcWkT0oJJWSDxU+jq9Kh62xdYkER0qRTWCgpupYG4oADIFSMH8N1PtU07+ZGH3/2vJWyGihdpOhZKTXpsKiLDIhjhfDXwCMcM4LisfnS2FpeCnhAB3fke8aOkDkp1Sv5cY+b109xvJL1GrE2ryl2Ke06tTiJb2JSmOe6p+f8zTAeP4HGZeWgKBrPTXjARGftm3cBvzZ8S6W6+P/P2Rf1R7MvJrTkKJk7lZAmkCP1OskPbbXG5gTlD4M1aYA/MzOhp0rYNedzj5czFRFfkF1pdkuiF9LIGpMmsw1BwRgLWDF2OEkEPu48dEdIM5gxAh3OzPxYR21krIb9DnIn3rUgBnB3n2McLariMAayJu2BLNcWqqRSlkHt47NfmJ6JWKt2Jn7WPHJpIvM1sEYFXEv6Z5DRHdpp0jOlV2s7+/kb+f3W7LBL3at6SPSezB9ZFbAYJV5QZW1F9iVDMb7X8aRnPFBDf762v2d4H1sTP1HKPFaVxfUW5mucyLsZn/8gB+o46aOnSQvuEpvVGY/VnYdYgv4HX19SKCcf3NIgBSBThG2HZlf9REpqjU2Of8cZj9ObA+JrUzHtM+GE2/y2AZEYBZiBPW6A8Q0UtW1hwRwM3+KEf+DrR0PumSoGTVCWp1jdPArDFt9BinAEZ2sQAQy/zfzf5oR/4Q1tdkpx1BFANPAOP6zLEEOp5UfYlCwNzsz0WdHX7dQJm+FyvGm9zxRgof+ZMhf1IYSyC7aem6m2FO/lxMRkx+zvS9WNESAZioO4GmMMNW1nMtO46Tv36x/QWgredVYpl+ZmBcnxABEG9mjLBGn83MS5p3FjWCkz89s59f20R3llYVjsYBnYOFcuHPI06MqZKtrOmZgtoIgJM/ObMfmT62nm6iG3NOwPNCoqcjnQKEuQA71ikU2MmfpNlvsD62c8R1NI3rC+RmHs+8GBNMeT9Yl1BgJ3+yI7/BrvnDeo5x9DeuPy4CMOXGCRHkAryTmTfVdM3KYrOd/PWq5FM0+NW+JX1say2q2Y40F8AwXwTgQcQNKwd2pFoBlSiykz8Xdv/nxU5+hYWbfynyHADDA2O6Z1qspgyCcmb7MfOWQUnnkcHJP+Wcf5/Yyc9aeZiZZe6/V+Sjv/kx7pMf7gvKasUKS8v8jpJf1mlGImhO/vSW+rKwvqRLf99JYOQnfSYdAXhIt1ZCxDdmZcFkt5NvaI340gno5G8M+ce1GpCQf93I9880jgvnH5SMq+cA3K8vRvmQFLZzy+HMLBuDSEaZZToWDis+6ok98aX0ThPjavr/PYCP6TOO1fQX2LO4j4heMBWT/dNjtgCylsB3mfkgFYHOfnFFfoluFCGdQoKQPJ8/zpTefkVenvNRAI5J5Bkbx6WG5iIzRgocpgALBpJOdzIzH237xcnDHNYvoGIiI5p0blkGutJH/vTM/hzyfz2BkT+L60MBuCHi+mZZkG0NDeCfmPksZp4tD1NjuGcYkfv5MNstNqwKy8yHAbhCN1WxLcmaiiaRnxA/LHZGOP/qDTHzYlpXb/XIHRzdYgSeAXC8TA2I6En7o60YdPnfzpbRwXvlfXsCOBrAVvpySm01CJz8ccH6q5QyW08sWQo82T8EsH+C5qyJADTs+cdSRhzAjVrXrSeYWZI+dgfwUQBbBJ85lkinGBRO/vhg3D6diA7s3G9w0wfJvDlDmFRgeQLhfcny560A7gTwsFoJ8r5Zmuctyz0SXrxhIIjWuZs86guc/HHCuH0gEZ1uAtDx1DLzGlrqePHIUxx7obPd8wAP1gKlmk58gZM/ThinX5L0eSJ6RLhv5JfzQ8FqQLQPcwqQjubmJGzpw7Yj+3tbG07+x8nv5I8Z9oyuNfLLc7NObedfJBIP0A/G9EHPCI7s702f56ea0ts08oec/nnIeSO+PcSzALySoA/AMRxSKebRZPLPUPP/l/pae5EABNOA+3V9G5FWOnEUDx/544dNZS8lonm68veaACjs5/9NuCEcDS3m0WDyG+T+/if4+fU/BNVOZbPQu7XgYdMDXZoMJ38aMA7P00Kmf5YXbR/NReS2MFkikirBpwX/7GgenPzpwJ7ZybKJrmY3LnLyv+7mg5iAtTRAZrG89zmShi/1pQMj+kIN/V20/GdveJ15r+QfV2fgzyIue+wYDE7+tGBl83+g5F/k/DO8oRE0QUbetAmAm4IUW0fDinkkls/fNPKzHnLPG2vtzzeI+RuIrRlw8uBv08CgFDYQdTS7mEfTyB8mrJ1BRJLpm/s8cxsjsAIkEeaWICKuKY3XJLjZn+7oL0F9G2n6b+4zzTXtAyvgdwBO0fe5LyA9JFfDz8n/utH/P9Wf19Wa69ooWkfPNt/8ve6F7lZAOvCRP03Y83sKwAaW5h4u/YXo6tzTjiDK8SiAr7kVkBSc/OkH/nyJiBYEuxnlomfjBDvuynGjrgykWDCkSXDyp4uW3vfVALbTAbznoN1zec+UQ2qHATgkcC40IV04RaRM/iMaTn7Ws/hxDlHuTsnTKdf3tV6gNPI1AP5VQ0R9KhAfUiS/bdohG3Z8s8HkD0f/Y4jojrygnzz0WxrbpgIztZywLC34VCAepBjbb8VsNwfwW+2LTS3g0gpM/+2t4lWvub+BBmhw2QjjuoY3eExIceS31aiZ6ptq8oDEerwgO1TJst90grj6DvENpgISGHRYsBefo75IrpiHwjr44Ur+1HbtGWTN/2Alf1+mv4GGcLqcKuWFE9xHIBXYczkPwD6pkD+IT1lRq1g3OT5lUp/x8UR0uHFzOh8wSJKPWAKitp9Sf4A7Bes950+G/MHoLwLwWQBv0nXvJpP/fCP/IDwcqOGCugGrqj9ANtLw6kH1QHIOP0Own+OSWrVK+h03sN+1dMojNTveCeC5QZ/xQA0X1A2YD2BvAC8GtfYd1SFZ8mdG/50AvK3h5H9M9qokomeHecYDN17gFJRpwAcD8qfS2WJD6uQXmAXw/mC7tyahreSXEf/9gzj9shhKPdUZKCJwPoCPBJ/nkYIV1u1PIauvC2TQITV7m1aopq33K3X99iKiG5V7Q/nfhm7AQATOBHCAfmYT1bkqJFfMIw9WtRrAWwHM0ZepgeTfk4guH8Tjn4dCFDQQgTPUErDPTqoT1pj8Zyds9mf76uoAlkp4A9upyH9JUeRHkSaUisBMIvqhLj1J/XFPIS4HVutNyH86gH0TJ38IsQAEqd9n6eRH0XMoyRrUC5QR6d0AnvSIwcIR7lgsASAHGhkSJ7+N9rJxTRP8TO2yyY8ynCjBdOBKAH8J4A7trC4CxYV9Chn+RgNAOiGw/SR+JIImOP7aoyB/aY2pIiDLE3erCPxCRUBuLOVRqkxYvPsTAN5HRCdo9FdfWV8JwO5RSIGE5//tUZG/VDXVOAERgWeJSOaofx9UF3JroH+YaArZxarahogusE7REPKHkFp3qQpAe5TkL92cUhEgXZb6mvoFHgzyB9wa6I3JQDSPkwg4InrACmGgWTChe0QdnrbcnAraoyb/SOZTMkJp6LDczEUA5qrn2uoJNK0j94NW4OiTadR7iEjq3Uk7TlnnLVEY2eerCISvxY52FeQfqUMl8As8pZ7rDwN4KEglbmKnzoKDWG8xcU8AsBURXajz/dQ9/V2hu1ePa5TjzQkFm7WrIv/IParBlEAe5E8AbKGd3Dp9U52Etq5P2g5S4mp7IhJP/7Nm8jdwvp+FzfsvSMQH0K6S/KiyEa3EmP4s04JjxLud2dV0rCEjvllBYhEdC+B7NuI1yMs/3TR0mRotoX+KUQzaVZO/8oazYqOBEOwJ4O8AbJsJekmt9qDdl5WxehzAiXIQ0TPZdnHk1qaU7ev3jbQiVbsO5EddSKVlnhbNb5lZHuzfagxBnkc8RticNbRsxJl1EoDvEtHjWcvI0VMA3gXgqgiLgbbrQv7aCIAha/Iy824APgNgDwCL6dvMTxBD/ffQURV20lsB/LeshhDR0503akknN/enJQLnAtg9IhFo14n8qCuBcoRgA001/hCAdYK3mhjUaftyM++R6ZRSueV83W35wmDa48QfvDDoeiqmMZSob9eN/Kh5g5kQdOII9PcltBzUBzWoSJxBeevnZmbTiGqyh6N8+J0LdbMGma+eqyXU7N6c+MVYAUforkCWGl1HtOtI/toLQEbxx8IGY+ZltDLMewHsqPXhsx3AyGkkMyuB+miDkJh5eyJ280c8rMt4MtpfRkQPBddsFoF79osVgV9KlZyaikC7ruSPRgBytijrxBRk/iZTg7kqCrJdlPz+ln4/esB2WaihzbcBuFaP24loYXBdJhSFjPZBZZzaYdTXFuwQNAvAbzSupE6rAu06kz86AegiBpTXoMy8HIDZANbVueJaAFbTghLyN7EglugxYrS1qImQ+RmtbfCoEv4e3ZTiXvHkZzu9jvS2P1u7hHXw2pX8MvKP+tqCNllBfCsA3lETEWjXnfxRC0AWwUiLqUZbZp6lO8ospTXmF8+Y868o+V+0o9eDCwjfmXKUMQoGHX05WTmokwgE17asRi42XQTaMZA/aVgWojR8cAwcQ2AhzMFnjevnly6ilgfAzFsx8zxmPkh/r3y+G1zbV5hZylTPCV8f4XV0/CsiAsx8s5gizCwVqkaNlp4XMvMuVbSFoz8ym0DYYYTOHp331oBg2zKzjPyGj1ctAsG1HRVc10Pqj2miCLSc/I4yCLYNMz8TdOhW1SKQQ/7JgGxNFIGWk99RNvmtk7WrFIEc8k/oNZkQ1EkEbhmBCLSc/I5RkZ+rEgGdDvUiP9dUBMq0BFpOfkfZ5DdCcT8iUIbPYhrk5wZZAi09O/kdIxv5e4nAJ/X/O07Noq9Lf/5qQPBu5G+CCLT07OR3VEb+PBH4ui13FrD0OR4Q6E3MfOo0yJ/ydKClZye/o3LyG9oB2a7UKkv2+RYP0TNuIYx1yLy+BzP/IUPo6SAlS6ClZye/ozbkzyObnL/PzJvmfOdYTlDTG4SBmXdm5rNzPpsTEIGbBxABJ7+j1uTPdlQj3kXMfCgzb6wp1d2uZ1m9lqOZ+frM5xVxXTGLQCtF8ieTCxAbLDZcCKepw8sGMeSFfEVQOSmbriwpyo9pngPpd68MYE0AK/bxGcPAqvfIdexKRPeMugxakEa8Qp+5Ax7b74hi5O/lG5iYxvvDaMMyYJbAwxFYAq0UR35HM8jfbbXABMGOyWl69rkh04GWnp38jujJX0fUeXWgpT87+R3Dw8kfnSXQcvI7CoGTPzoRuEOvaecqrmWU8FWA+L39qSBvdWCknnZ+bXVgdQBrENGVqXv7XQBKhJM/ShGgYD+K2pRdKwsuACXByR+1CIxpsdnkt2hzASgBTv74RaAp8A5ZMJz8hWBcRUDm4heLY1DbNFlnXFXwTlk++aUjeztPHy4CI4BPAQqCj/ylwacDJcI7ZwHwkb9UuCVQItwCGBI+8o8MbgmUAO+kQ8DJP1K4JVACvKMOCCd/JXARKBg+BRgATv7KUXlRkVTgHXaacPLX1hKQGH63BKYJ77TTgJO/VvDpQAHwKUCfcPLXFj4dGAIuAH3AssKc/FGIwC5EdG8TMvmKgHfg/jLDpFjFrk7+KKYDlzHzZvrM/BlNAW+gqWH54W9T8kvgiVtO9QOpMK8EYHl9Zv6cpoA30PSmAAcCOFU7mrSdt189ENbt34OIxArwKUAfcAugDyj5xQl4GgDZhrszLdDDUS2ym3Zcps/Kyd8HXAD6hK4AzCQisQBcBOoB37FnSLgATANEJPXiXQTqASd/AXABmCZcBGoBJ39BcAEYXgQODNrR553lw+osLHTyDw/3YhcTHbgfgDN0PdpjBMoP+HkWwN5EdLmTfzi4ABQnArsDOBPAUkFHdRQH2777UQB7EdGNTv7h4SPVkLAEFCI6T8JQtYMK+b1jFocJJf/tALZ38hcHF4BiReA6AO8CcL12WOmg7hwcHKzW1EwA5yj579NkHyd/AXABKFYEpGM+CGBHAKerCAjcOTh9tHSKKtbUcUQkDr9nNMLPM/0KgvsACkYYgsrMnwPwLR3BbA7r6G/Ul7b6E4DPENFPLCnL9u1zFAMXgJI2mBTrSqvUSArxSQA2CSwBt7zyETpPLwHwaTX5fb5fErwjlgAZpaxEFRFdC2BbAP+u7S2H+wbyR/1xDe75IhFJcQ8nf8lwC6BkhNVpmFlWCY4HsKn+uenLhaG5L7gYwGFEdLtaUZKK7f6TEuECMPopwRIAvgDgCK0v0EQhyBJfKvkcQ0Qnd/7oo/7I4AJQnTUwB8DRmXwCiyKkhhD/eQAnAvg2ES3wUX/0SLWj1RbayRetYzPzXABHAdg3eNukWgSpPJ+2HkZ8ieM/RaZDMs+XF7yQZzVIpYNFB13WosAikNWCzwPYB8Bi+jYjRIxWgVk0nemPvva0xkecSER3d97E3Mmf8OW9ahBbp0oOVrgyiB3YCMDBAPbX+nYGq0VYZzEw0iPj07hLR/xTieiRgPiyWuLmfoWoa0dqHHIsgjcD+ACAAwBslwkiMjEIR9cqwJmRPiT9cwAuAiBl1M4nopc7/+DErxVcAGouBPrahpL7LllwALYMpggG85iXaSFw5sgS3kh/NYCzAJxHRPODexABa7mpXy+4ANTcWZglDTOvC2An2QUHwNYAVuvyETLChmTLVjHOPnvuckYPUZHvkLn8NQAuBHAlET0aXKsJhM/xawoXgHisgrEcMZgFYH0AW6hlIOHGswGsUEJcgZjwjwEQr/2tAG4AcBOAezLWSu61OuoJF4DIEBCsE26c8/flAKwBQOIM1gawJoBVAKwIQP62DIAlNUFJzHLWKcSELs+JGb9AyT4PwAMA7lfizyOiF3K+c1HWo8/tERX+H/25Of7n+8rAAAAAAElFTkSuQmCC" alt="Sales.io"><span class="sb-logo-name">Sales.io</span></div>
+    <div class="sb-badge">Personal Brand Framework</div>
   </div>
 
-  <!-- CORE RULE -->
-  <section>
-    <h2>The Core Rule</h2>
-    <div class="callout">
-      <p><strong>Build your brand around you — not your business.</strong> Most people post "value content" for their ideal client and wonder why nothing converts. The people who win build around who they are as a person. People follow you first, then buy what you sell.</p>
+  <nav class="sb-nav">
+    <div class="sb-section-label">Framework</div>
+    <a class="nav-item active" href="#s1" onclick="setActive(this)"><span class="nav-num">1</span> Positioning</a>
+    <a class="nav-item" href="#s2" onclick="setActive(this)"><span class="nav-num">2</span> Brand Voice</a>
+    <a class="nav-item" href="#s3" onclick="setActive(this)"><span class="nav-num">3</span> Key Phrases</a>
+    <a class="nav-item" href="#s4" onclick="setActive(this)"><span class="nav-num">4</span> Content Pillars</a>
+    <a class="nav-item" href="#s5" onclick="setActive(this)"><span class="nav-num">5</span> Platforms</a>
+    <a class="nav-item" href="#s6" onclick="setActive(this)"><span class="nav-num">6</span> Who This Is For</a>
+  </nav>
+
+  <div class="sb-footer">
+    <div class="toggle-row">
+      <span class="toggle-lbl" id="mode-lbl">Day</span>
+      <div class="toggle-switch" onclick="toggleTheme()"><div class="toggle-thumb"></div></div>
     </div>
-    <div class="two-col">
-      <div class="card">
-        <div class="card-label" style="color:#fc8181;">Group A — Commodity Brand</div>
-        <ul>
-          <li>Posts value content for their ideal client</li>
-          <li>Focuses on being informative over authentic</li>
-          <li>No genuine connection with the audience</li>
-          <li>Ends up competing on price</li>
-          <li>Wonders why nobody buys</li>
-        </ul>
-      </div>
-      <div class="card">
-        <div class="card-label" style="color:#68d391;">Group B — Personal Brand</div>
-        <ul>
-          <li>Posts a mix of authentic and authority content</li>
-          <li>Builds the brand around themselves, not the business</li>
-          <li>Audience engages and buys</li>
-          <li>Commands premium pricing</li>
-          <li>Audience follows because of who they are</li>
-        </ul>
+  </div>
+</aside>
+
+<main class="main">
+
+  <div class="page-header">
+    <span class="page-tag">Personal Brand — JJ Hernandez</span>
+    <h1 class="page-title">Personal Brand Framework</h1>
+    <p class="page-desc">The voice, pillars, and positioning behind everything JJ posts. Use this before writing any content — LinkedIn, Instagram, YouTube, all of it. <strong>If it doesn't sound like this, it's not on brand.</strong></p>
+  </div>
+
+  <div class="mission">
+    <div class="mission-pre">The Line</div>
+    <div class="mission-line">"Everyone else teaches you what to say. We teach you how to think."</div>
+  </div>
+
+  <section class="section" id="s1">
+    <div class="section-header"><div class="section-number">1</div><h2 class="section-title">Positioning</h2></div>
+    <div class="section-divider"></div>
+    <div class="card">
+      <div class="card-title">The mission</div>
+      <div class="card-desc">Change the world of sales — how it's taught, how it's practiced, and how it's perceived. Not "get better at closing." Change what people think a salesperson even is.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">The anti-guru stance</div>
+      <div class="card-desc">JJ positions directly against the scripted, tactic-first gurus (Jeremy Miner, Cole Gordon, Andy Elliott). Their content teaches lines to say. JJ's content teaches the psychology underneath — identity, communication, human behavior — so the person never sounds like they're running a script.</div>
+    </div>
+  </section>
+
+  <section class="section" id="s2">
+    <div class="section-header"><div class="section-number">2</div><h2 class="section-title">Brand Voice</h2></div>
+    <div class="section-sub">Four qualities every piece of content should have.</div>
+    <div class="section-divider"></div>
+    <div class="pillar-grid">
+      <div class="pillar"><div class="pillar-title">Raw Authenticity</div><div class="pillar-desc">Conversational, not corporate. Sounds like JJ actually talking, not a brand voice guideline being followed.</div></div>
+      <div class="pillar"><div class="pillar-title">Earned Authority</div><div class="pillar-desc">Certain, backed by real results and real names. Not hype — receipts. $20M+ closed, 2,100+ reps coached, 100% one-on-one success rate.</div></div>
+      <div class="pillar"><div class="pillar-title">Tough Love</div><div class="pillar-desc">Direct care, not hand-holding. "We find out where you suck and make you good" — said with love, not cruelty.</div></div>
+      <div class="pillar"><div class="pillar-title">Anti-Guru</div><div class="pillar-desc">Positioned against the scripted, hype-driven sales influencer space. No fake urgency, no manufactured scarcity, no guru theater.</div></div>
+    </div>
+  </section>
+
+  <section class="section" id="s3">
+    <div class="section-header"><div class="section-number">3</div><h2 class="section-title">Key Phrases</h2></div>
+    <div class="section-sub">Lines that are already "on voice" — pull from these when writing captions, hooks, and video openers.</div>
+    <div class="section-divider"></div>
+    <div class="phrase-list">
+      <div class="phrase">"Who you are off your sales calls is who you are on your sales calls."</div>
+      <div class="phrase">"The best closers don't sound like closers."</div>
+      <div class="phrase">"Sales is human."</div>
+      <div class="phrase">"We find out where you suck and make you good."</div>
+      <div class="phrase">"People buy based on emotions and compensate logically."</div>
+      <div class="phrase">"The person who needs the sale the most will always lose."</div>
+      <div class="phrase">"I'd rather lose the sale than lose the frame."</div>
+      <div class="phrase">"Connection is what people actually buy."</div>
+    </div>
+  </section>
+
+  <section class="section" id="s4">
+    <div class="section-header"><div class="section-number">4</div><h2 class="section-title">Content Pillars</h2></div>
+    <div class="section-sub">What JJ's content is actually about, split four ways.</div>
+    <div class="section-divider"></div>
+    <div class="pillar-grid">
+      <div class="pillar"><div class="pillar-title">Psychology &amp; Identity</div><div class="pillar-desc">The "how to think" content — cognitive dissonance, the Four Wounds, frame control, communication theory. This is the core differentiator, post it most.</div></div>
+      <div class="pillar"><div class="pillar-title">Real Results</div><div class="pillar-desc">Track record content — student wins, income jumps, job placements, call breakdowns. Receipts, not claims.</div></div>
+      <div class="pillar"><div class="pillar-title">Anti-Guru Takes</div><div class="pillar-desc">Direct commentary on why scripted sales training fails, without naming names unnecessarily. Contrarian, backed by reasoning.</div></div>
+      <div class="pillar"><div class="pillar-title">Behind the Coaching</div><div class="pillar-desc">Real coaching moments — call reviews, mock calls, 1-on-1 breakthroughs. Shows the work, not just the outcome.</div></div>
+    </div>
+  </section>
+
+  <section class="section" id="s5">
+    <div class="section-header"><div class="section-number">5</div><h2 class="section-title">Platforms</h2></div>
+    <div class="section-sub">Each platform plays a different role — don't post the same thing everywhere the same way.</div>
+    <div class="section-divider"></div>
+    <div class="platform-row">
+      <div class="platform"><div class="platform-name">YouTube</div><div class="platform-role">Primary Inbound Driver</div><div class="platform-desc">Long-form, coaching recordings, VSL, testimonials. This is the biggest lead source — treat it as the flagship channel, not an afterthought.</div></div>
+      <div class="platform"><div class="platform-name">LinkedIn</div><div class="platform-role">Authority Building</div><div class="platform-desc">Thought leadership, psychology breakdowns, anti-guru takes. This is where the "earned authority" pillar does the most work.</div></div>
+      <div class="platform"><div class="platform-name">Instagram</div><div class="platform-role">Reach &amp; DM Lead Gen</div><div class="platform-desc">Reels and Stories for reach, DMs for direct community and lead conversations. More casual, more raw, faster-moving.</div></div>
+    </div>
+  </section>
+
+  <section class="section" id="s6">
+    <div class="section-header"><div class="section-number">6</div><h2 class="section-title">Who This Is For</h2></div>
+    <div class="section-sub">Content should speak to this person specifically — not "sales professionals" in general.</div>
+    <div class="section-divider"></div>
+    <div class="card">
+      <div class="card-title">The ideal viewer</div>
+      <div class="card-desc">A sales rep already making $5K–$15K/month in commissions, who knows they're capable of more, has tried tactical approaches (scripts, NEPQ, etc.) without a real breakthrough, and is ready to go to $20K–$40K+ months.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Avoid speaking to</div>
+      <div class="avoid-row">
+        <span class="avoid-pill">Generic "entrepreneur" audience</span>
+        <span class="avoid-pill">People who just want scripts</span>
+        <span class="avoid-pill">Get-rich-quick framing</span>
       </div>
     </div>
   </section>
 
-  <!-- 4 PILLARS -->
-  <section>
-    <h2>4 Pillars — Define These Before Posting Anything</h2>
-    <div class="two-col">
-      <div class="card">
-        <div class="card-label" style="color:#a78bfa;">Beliefs</div>
-        <h3>What makes you one of one</h3>
-        <p>Your values. How you see the world. The unique stories and experiences that shape how you think. This is what differentiates you at the core from every other creator online.</p>
-      </div>
-      <div class="card">
-        <div class="card-label" style="color:#a78bfa;">Style</div>
-        <h3>How you show up visually and verbally</h3>
-        <p>How you talk. What you wear. Where you film. Camera quality, editing, captions, colors. All of it needs to be decided at the start.</p>
-      </div>
-    </div>
-    <div class="two-col">
-      <div class="card">
-        <div class="card-label" style="color:#a78bfa;">Mission</div>
-        <h3>Where you're going</h3>
-        <p>If you want to be followed, you need to be going somewhere. What are you building? What are you trying to prove, achieve, or create? What does success look like to you?</p>
-      </div>
-      <div class="card">
-        <div class="card-label" style="color:#a78bfa;">Mechanism</div>
-        <h3>How you make money</h3>
-        <p>What is your offer? What is your business model? What is unique or different about how you get clients results? This is how you monetize the brand you're building.</p>
-      </div>
-    </div>
-  </section>
+</main>
 
-  <!-- DREAM FOLLOWER -->
-  <section>
-    <h2>Dream Follower vs Ideal Client</h2>
-    <div class="callout">
-      <p><strong>Don't make content for your ideal client.</strong> Make it for your dream follower — the larger audience who wants to become a version of who you represent. Your ideal client is a subset of that group: same person, but they also have a specific problem, know they have it, and can pay to solve it.</p>
-    </div>
-    <div class="two-col">
-      <div class="card">
-        <div class="card-label" style="color:#f6ad55;">Dream Follower</div>
-        <h3>Questions to answer</h3>
-        <ul>
-          <li>Who are they and what's their story?</li>
-          <li>What are they passionate about?</li>
-          <li>What are their goals and desires?</li>
-          <li>Who do they want to become?</li>
-          <li>What are their deepest fears?</li>
-          <li>What are their deepest struggles?</li>
-        </ul>
-      </div>
-      <div class="card">
-        <div class="card-label" style="color:#f6c90e;">Content Ideas</div>
-        <h3>The interest overlap</h3>
-        <p>Content ideas live in the overlap between <strong>your interests</strong> and your <strong>dream follower's interests</strong>. The better you define both, the more clarity you have on exactly what to post. That Venn diagram center is where all the best content lives.</p>
-      </div>
-    </div>
-  </section>
+<script>
+function toggleTheme(){
+  var h=document.documentElement,n=h.dataset.theme==='day'?'night':'day';
+  h.dataset.theme=n;
+  var l=document.getElementById('mode-lbl');if(l)l.textContent=n==='day'?'Day':'Night';
+  try{localStorage.setItem('tb-theme',n);}catch(e){}
+}
+(function(){try{var s=localStorage.getItem('tb-theme')||document.documentElement.dataset.theme||'day';
+  var l=document.getElementById('mode-lbl');if(l)l.textContent=s==='day'?'Day':'Night';}catch(e){}})();
 
-  <!-- 3 CONTENT TYPES -->
-  <section>
-    <h2>3 Content Types</h2>
-    <div class="three-col">
-      <div class="card">
-        <div class="card-label" style="color:#63b3ed;">Top of Funnel</div>
-        <h3>Audience Building</h3>
-        <p>Designed to attract, not convert. Grabs attention, sparks emotion, reaches people who have never seen you. Stops the scroll. Creates curiosity. Not meant to sell.</p>
-      </div>
-      <div class="card">
-        <div class="card-label" style="color:#68d391;">Middle of Funnel</div>
-        <h3>Brand Building</h3>
-        <p>For people already following you. Positions you as the expert, deepens trust, shows your personality and values. Turns a casual follower into a loyal fan who believes in your message.</p>
-      </div>
-      <div class="card">
-        <div class="card-label" style="color:#fc8181;">Bottom of Funnel</div>
-        <h3>Client Building</h3>
-        <p>Gets warm audience to take action. Comment a keyword, join your email list, DM you about your offer. This is the content that actually monetizes the brand.</p>
-      </div>
-    </div>
-  </section>
+function setActive(el){document.querySelectorAll('.nav-item').forEach(function(i){i.classList.remove('active');});el.classList.add('active');}
 
-  <!-- 2 THEMES -->
-  <section>
-    <h2>2 Content Themes</h2>
-    <div class="two-col">
-      <div class="card">
-        <div class="card-label" style="color:#f6ad55;">Authenticity</div>
-        <h3>Who you are</h3>
-        <p>Your personality, values, mission, and why. The real, unpolished version of you. The person you are when no one's watching. This builds connection and likability. Lead with this.</p>
-      </div>
-      <div class="card">
-        <div class="card-label" style="color:#a78bfa;">Authority</div>
-        <h3>What you've done</h3>
-        <p>Your experience, results, and lifestyle. Proof of your skill set in action. The money you've made. The outcomes you've created. This builds credibility and demand. Comes after authenticity.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROBLEM DIAGNOSIS -->
-  <section>
-    <h2>Diagnosing Content Problems</h2>
-    <div class="problem-row">
-      <div class="problem" style="border-color:#fc8181;">
-        <div class="problem-tag" style="color:#fc8181;">Problem 1</div>
-        <h3>Low views</h3>
-        <p>Post more audience building content. Test different formats to see what performs best with your audience, then double down on that.</p>
-      </div>
-      <div class="problem" style="border-color:#f6c90e;">
-        <div class="problem-tag" style="color:#f6c90e;">Problem 2</div>
-        <h3>Decent views, low engagement</h3>
-        <p>Post more authenticity-based content that's highly relatable. Make people feel like "this person gets me." Engagement follows emotional connection.</p>
-      </div>
-      <div class="problem" style="border-color:#68d391;">
-        <div class="problem-tag" style="color:#68d391;">Problem 3</div>
-        <h3>Decent engagement, low sales</h3>
-        <p>Post more authority content and more calls to action. Give your audience more opportunities to raise their hand and say they're interested. You're not asking enough.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- METRICS -->
-  <section>
-    <h2>4 Metrics That Actually Matter</h2>
-    <div class="metric-grid">
-      <div class="metric">
-        <div class="tells" style="color:#63b3ed;">Tracks audience building content</div>
-        <h3>Follows per 1K views</h3>
-        <p>More views doesn't mean more follows. Knowing which videos drive the most follows tells you what audience building content to keep making.</p>
-      </div>
-      <div class="metric">
-        <div class="tells" style="color:#68d391;">Tracks brand building content</div>
-        <h3>Genuine comments</h3>
-        <p>Shows which videos created real emotional connection. Use this to dial in brand building content — the videos that make people feel seen.</p>
-      </div>
-      <div class="metric">
-        <div class="tells" style="color:#fc8181;">Tracks client building content</div>
-        <h3>Saves</h3>
-        <p>A save means your audience found it valuable enough to come back to. Post more of these with a CTA at the end and you'll convert more clients.</p>
-      </div>
-      <div class="metric">
-        <div class="tells" style="color:#f6ad55;">Tracks both audience + brand building</div>
-        <h3>Shares</h3>
-        <p>A share means it resonated deeply enough that someone sent it to another person. Great for reach. Signals content worth doubling down on.</p>
-      </div>
-    </div>
-  </section>
-
-</div>
+var sections=document.querySelectorAll('.section');
+var navItems=document.querySelectorAll('.nav-item');
+var observer=new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      navItems.forEach(function(item){item.classList.remove('active');});
+      var idx=Array.from(sections).indexOf(entry.target);
+      if(navItems[idx])navItems[idx].classList.add('active');
+    }
+  });
+},{threshold:0.3});
+sections.forEach(function(s){observer.observe(s);});
+</script>
 </body>
 </html>
