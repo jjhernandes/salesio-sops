@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="day">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales.io — Sales 101</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script>try{var s=localStorage.getItem('tb-theme');if(s)document.documentElement.dataset.theme=s;}catch(e){}</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{height:100%;scroll-behavior:smooth;}
+
+:root,[data-theme="day"]{
+  --bg:#EAE4D9;--bg-2:#E0D9CE;
+  --card:#FFFFFF;--card-2:#F5F1EB;--card-3:#EDECE8;
+  --bdr:rgba(10,10,8,.1);--bdr-2:rgba(10,10,8,.2);
+  --text:#0A0A08;
+  --t2:rgba(10,10,8,.55);--t3:rgba(10,10,8,.3);--t4:rgba(10,10,8,.12);
+  --accent:#0A0A08;--hbg:rgba(10,10,8,.04);
+  --shd:rgba(10,10,8,.08);--shd2:rgba(10,10,8,.15);
+  --sb-bg:#0A0A08;--sb-text:#EAE4D9;
+  --sb-t2:rgba(234,228,217,.5);--sb-t3:rgba(234,228,217,.25);
+  --sb-bdr:rgba(234,228,217,.08);--sb-hbg:rgba(234,228,217,.07);
+  --tk:#EAE4D9;--tb:rgba(234,228,217,.25);--tt:#0A0A08;--tl:rgba(234,228,217,.3);
+  --glow-rgb:160,144,112;
+}
+[data-theme="night"]{
+  --bg:#000;--bg-2:#040402;
+  --card:#0a0a08;--card-2:#0f0f0d;--card-3:#141412;
+  --bdr:rgba(234,228,217,.09);--bdr-2:rgba(234,228,217,.18);
+  --text:#EAE4D9;
+  --t2:rgba(234,228,217,.58);--t3:rgba(234,228,217,.27);--t4:rgba(234,228,217,.1);
+  --accent:#EAE4D9;--hbg:rgba(234,228,217,.03);
+  --shd:rgba(0,0,0,.5);--shd2:rgba(0,0,0,.8);
+  --sb-bg:#060604;--sb-text:#EAE4D9;
+  --sb-t2:rgba(234,228,217,.45);--sb-t3:rgba(234,228,217,.2);
+  --sb-bdr:rgba(234,228,217,.07);--sb-hbg:rgba(234,228,217,.06);
+  --tk:rgba(234,228,217,.12);--tb:rgba(234,228,217,.08);--tt:#EAE4D9;--tl:rgba(234,228,217,.18);
+  --glow-rgb:74,222,128;
+}
+
+::selection{background:var(--text);color:var(--bg);}
+body{
+  display:flex;min-height:100vh;color:var(--text);
+  font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;
+  transition:background-color .4s,color .4s;font-size:15px;line-height:1.7;
+  background-color:var(--bg);
+  background-image:
+    radial-gradient(closest-side,rgba(var(--glow-rgb),.20),transparent 70%),
+    radial-gradient(closest-side,rgba(var(--glow-rgb),.14),transparent 70%);
+  background-repeat:no-repeat;background-size:55vw 55vw,45vw 45vw;
+  background-position:-8% -12%,112% 20%;background-attachment:fixed;
+  animation:ambientDrift 30s ease-in-out infinite alternate;
+}
+@keyframes ambientDrift{0%{background-position:-8% -12%,112% 20%;}50%{background-position:10% 0%,90% 40%;}100%{background-position:0% -6%,100% 30%;}}
+@media(prefers-reduced-motion:reduce){body{animation:none;}}
+
+.grain{position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.035;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat:repeat;background-size:300px 300px;}
+[data-theme="night"] .grain{opacity:.055;}
+
+.sidebar{width:250px;flex-shrink:0;background:var(--sb-bg);display:flex;flex-direction:column;
+  height:100vh;position:sticky;top:0;overflow-y:auto;overflow-x:hidden;
+  border-right:1px solid var(--sb-bdr);transition:background .4s,border-color .4s;scrollbar-width:none;}
+.sidebar::-webkit-scrollbar{display:none;}
+.sb-header{padding:1.25rem 1.25rem 1rem;border-bottom:1px solid var(--sb-bdr);flex-shrink:0;}
+.sb-logo{display:flex;align-items:center;gap:.625rem;margin-bottom:.5rem;}
+.sb-logo-mark{width:24px;height:24px;background:var(--sb-text);border-radius:5px;display:flex;align-items:center;justify-content:center;
+  font-size:.575rem;font-weight:900;color:var(--sb-bg);transition:transform .25s cubic-bezier(.2,0,0,1),box-shadow .25s;cursor:default;}
+.sb-logo-mark:hover{transform:rotate(-8deg) scale(1.12);box-shadow:0 0 18px rgba(var(--glow-rgb),.65);}
+.sb-logo-name{font-size:.675rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--sb-text);}
+.sb-badge{font-size:.475rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sb-t3);font-family:'SF Mono',monospace;font-weight:700;}
+
+.sb-nav{flex:1;padding:.75rem 0;}
+.sb-section-label{font-size:.475rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--sb-t3);
+  font-family:'SF Mono',monospace;padding:.875rem 1.25rem .375rem;}
+.nav-item{display:flex;align-items:center;gap:.625rem;padding:.55rem 1.25rem;cursor:pointer;text-decoration:none;
+  font-size:.75rem;font-weight:500;color:var(--sb-t2);transition:all .18s;position:relative;user-select:none;}
+.nav-item::before{content:'';position:absolute;left:0;top:.2rem;bottom:.2rem;width:2px;background:var(--sb-text);
+  transform:scaleY(0);transform-origin:center;transition:transform .2s cubic-bezier(.4,0,.2,1);border-radius:1px;}
+.nav-item:hover{background:var(--sb-hbg);color:var(--sb-text);padding-left:1.375rem;}
+.nav-item.active{background:var(--sb-hbg);color:var(--sb-text);font-weight:600;}
+.nav-item.active::before{transform:scaleY(1);box-shadow:0 0 8px 1px rgba(var(--glow-rgb),.9);}
+.nav-icon{font-size:.9rem;flex-shrink:0;width:16px;text-align:center;}
+.sb-divider{height:1px;background:var(--sb-bdr);margin:.5rem 1.25rem;}
+
+.sb-footer{padding:1rem 1.25rem;border-top:1px solid var(--sb-bdr);flex-shrink:0;}
+.toggle-row{display:flex;align-items:center;gap:.5rem;}
+.toggle-lbl{font-size:.5rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tl);font-family:'SF Mono',monospace;}
+.toggle-switch{width:36px;height:20px;border-radius:10px;background:var(--tk);border:1px solid var(--tb);
+  position:relative;cursor:pointer;transition:all .25s;flex-shrink:0;}
+.toggle-switch:hover{opacity:.9;box-shadow:0 0 10px rgba(var(--glow-rgb),.5);}
+.toggle-thumb{position:absolute;top:3px;left:3px;width:12px;height:12px;border-radius:50%;background:var(--tt);transition:transform .3s cubic-bezier(.4,0,.2,1);}
+[data-theme="night"] .toggle-thumb{transform:translateX(16px);}
+
+.main{flex:1;padding:3.5rem 4rem;max-width:860px;}
+.page-tag{display:inline-block;font-size:.625rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--t3);font-family:'SF Mono',monospace;margin-bottom:1rem;}
+.page-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,2.9rem);font-weight:700;
+  letter-spacing:-.025em;line-height:1.1;color:var(--text);margin-bottom:1rem;
+  background:linear-gradient(100deg,var(--text) 30%,rgba(var(--glow-rgb),1) 50%,var(--text) 70%);
+  background-size:250% auto;background-position:0% 50%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  animation:shineText 7s ease-in-out .3s infinite;}
+@keyframes shineText{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
+.page-desc{font-size:1rem;color:var(--t2);line-height:1.85;max-width:62ch;font-weight:300;}
+.page-desc strong{color:var(--text);font-weight:600;}
+
+.section{margin:3.5rem 0;scroll-margin-top:2rem;}
+.section-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;}
+.section-number{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--bdr-2);color:var(--t3);
+  font-size:.75rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'SF Mono',monospace;}
+.section-title{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;letter-spacing:-.01em;color:var(--text);}
+.section-divider{height:1px;background:var(--bdr);margin-bottom:1.5rem;}
+.section p{font-size:.9rem;color:var(--t2);line-height:1.85;font-weight:300;margin-bottom:1rem;max-width:62ch;}
+.section p strong{color:var(--text);font-weight:600;}
+.section p em{color:var(--text);font-style:italic;}
+
+.card{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:1.375rem 1.5rem;margin-bottom:.75rem;transition:all .2s;}
+.card:hover{border-color:rgba(var(--glow-rgb),.45);box-shadow:0 8px 28px var(--shd),0 0 20px rgba(var(--glow-rgb),.15);}
+.card-title{font-size:.9rem;font-weight:700;margin-bottom:.4rem;color:var(--text);}
+.card-desc{font-size:.8rem;color:var(--t2);line-height:1.75;font-weight:300;}
+.card-desc strong{color:var(--text);font-weight:600;}
+
+.highlight-box{border:1px solid var(--bdr-2);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1rem;
+  display:flex;gap:1rem;align-items:flex-start;background:var(--card-2);}
+.highlight-icon{font-size:1.15rem;flex-shrink:0;margin-top:.1rem;}
+.highlight-text{font-size:.85rem;color:var(--t2);line-height:1.75;font-weight:300;}
+.highlight-text strong{color:var(--text);display:block;margin-bottom:.3rem;font-size:.9rem;font-weight:700;}
+
+/* Call walkthrough */
+.flow{display:flex;flex-direction:column;gap:0;}
+.flow-step{display:flex;gap:1.125rem;position:relative;padding-bottom:1.875rem;}
+.flow-step:last-child{padding-bottom:0;}
+.flow-step::before{content:'';position:absolute;left:17px;top:36px;bottom:0;width:1.5px;background:var(--bdr-2);}
+.flow-step:last-child::before{display:none;}
+.flow-num{width:36px;height:36px;border-radius:50%;background:var(--card);border:1.5px solid rgba(var(--glow-rgb),.5);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;color:var(--text);font-family:'SF Mono',monospace;z-index:1;}
+.flow-body{padding-top:.4rem;}
+.flow-title{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:.35rem;}
+.flow-desc{font-size:.825rem;color:var(--t2);line-height:1.75;font-weight:300;max-width:56ch;}
+.flow-desc strong{color:var(--text);font-weight:600;}
+
+/* Glossary */
+.gloss-grid{display:flex;flex-direction:column;gap:.625rem;}
+.gloss-item{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:1.125rem 1.375rem;transition:all .2s;}
+.gloss-item:hover{border-color:rgba(var(--glow-rgb),.45);box-shadow:0 0 20px rgba(var(--glow-rgb),.15);}
+.gloss-term{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:.4rem;}
+.gloss-def{font-size:.825rem;color:var(--t2);line-height:1.75;font-weight:300;}
+.gloss-def strong{color:var(--text);font-weight:600;}
+.gloss-ex{font-size:.75rem;color:var(--t3);margin-top:.5rem;font-style:italic;}
+
+.closing-quote{border-left:2px solid rgba(var(--glow-rgb),.7);padding:.25rem 0 .25rem 1.5rem;margin:2rem 0;}
+.closing-quote p{font-family:'Playfair Display',serif;font-style:italic;font-size:1.15rem;color:var(--text);line-height:1.6;font-weight:400;}
+
+@media(max-width:900px){
+  .sidebar{display:none;}
+  .main{padding:2rem 1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<aside class="sidebar">
+  <div class="sb-header">
+    <div class="sb-logo"><div class="sb-logo-mark">S</div><span class="sb-logo-name">Sales.io</span></div>
+    <div class="sb-badge">Sales 101</div>
+  </div>
+
+  <nav class="sb-nav">
+    <a class="nav-item" href="./salesio-student-hq.html" target="_top"><span class="nav-icon">🏠</span> Student HQ</a>
+    <div class="sb-divider"></div>
+    <div class="sb-section-label">Sections</div>
+    <a class="nav-item active" href="#s1" onclick="setActive(this)"><span class="nav-icon">👋</span> Start Here</a>
+    <a class="nav-item" href="#s2" onclick="setActive(this)"><span class="nav-icon">💡</span> What Is Sales?</a>
+    <a class="nav-item" href="#s3" onclick="setActive(this)"><span class="nav-icon">📞</span> A Call, Step by Step</a>
+    <a class="nav-item" href="#s4" onclick="setActive(this)"><span class="nav-icon">📖</span> The Glossary</a>
+    <a class="nav-item" href="#s5" onclick="setActive(this)"><span class="nav-icon">🗺️</span> What's Next</a>
+  </nav>
+
+  <div class="sb-footer">
+    <div class="toggle-row">
+      <span class="toggle-lbl" id="mode-lbl">Day</span>
+      <div class="toggle-switch" onclick="toggleTheme()"><div class="toggle-thumb"></div></div>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+
+  <div class="page-header">
+    <span class="page-tag">Sales.io Mastermind — Start Here</span>
+    <h1 class="page-title">Sales 101</h1>
+    <p class="page-desc">If you're reading this because you have no idea what "discovery" or "closing" or half the words people keep using actually mean? Good. You're exactly where you're supposed to be. Everyone in this room started exactly where you are right now. This doc gets you caught up before Week 1.</p>
+  </div>
+
+  <section class="section" id="s1">
+    <div class="section-header"><div class="section-number">1</div><h2 class="section-title">Start Here</h2></div>
+    <div class="section-divider"></div>
+
+    <p>Somewhere between a third and half of the people in this program had never done a sales call before they joined. If that's you, you are not behind. You are not the exception. You are the <strong>rule</strong>. Some of the best closers to come through here couldn't have told you what "qualifying a lead" meant six months before they were doing it for a living.</p>
+
+    <div class="highlight-box">
+      <div class="highlight-icon">🎯</div>
+      <div class="highlight-text"><strong>What this doc is for</strong>Not to teach you how to sell. That's what the full curriculum is for, and it goes deep. This is just the vocabulary and the shape of a call, so when your coach says "how'd discovery go?" you're not quietly Googling it. Read this once, then move on to the real training.</div>
+    </div>
+  </section>
+
+  <section class="section" id="s2">
+    <div class="section-header"><div class="section-number">2</div><h2 class="section-title">What Is Sales, Really?</h2></div>
+    <div class="section-divider"></div>
+
+    <p>Forget whatever image you have of a sales person. The slick talker, the pushy guy on the phone, the person who won't take no for an answer. That's not what this is, and it's not what works.</p>
+
+    <p><strong>Sales is human.</strong> It's a conversation where someone has a problem, you might have something that solves it, and your job is to figure out honestly whether that's true, then help them make a clear decision. That's it. Nobody's tricking anybody. <strong>The best closers don't sound like closers</strong>. They sound like someone who actually cares whether this is right for you.</p>
+
+    <p>People buy based on emotions and compensate logically. Someone doesn't sign up for a coaching program because of a spreadsheet. They sign up because something in their life isn't working and they can feel it, and then they use logic to justify the decision after the fact. Your job in a sales call is to understand that feeling first. Everything else comes after.</p>
+  </section>
+
+  <section class="section" id="s3">
+    <div class="section-header"><div class="section-number">3</div><h2 class="section-title">A Call, Step by Step</h2></div>
+    <div class="section-divider"></div>
+    <p>Every sales call, no matter what's being sold, moves through roughly the same shape. Here's the plain-English version. The full framework (Section 3 in the Training Bible) breaks this into twelve steps. This is just the map before you get the detail.</p>
+
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <div class="flow-body">
+          <div class="flow-title">The Intro</div>
+          <div class="flow-desc">The first couple minutes. You're setting the tone, building a little rapport, and telling them how the call is going to go.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <div class="flow-body">
+          <div class="flow-title">Discovery</div>
+          <div class="flow-desc"><strong>This is the one everyone asks about.</strong> Discovery just means asking real questions to understand what's actually going on with this person before you say a word about what you're selling. What do they want? What's stopping them? Why does it matter to them? You're not pitching yet. You're listening.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">3</div>
+        <div class="flow-body">
+          <div class="flow-title">The Pitch</div>
+          <div class="flow-desc">Now, and only now, you present the offer, built around exactly what they told you in discovery. A good pitch feels like it was written for that one person, because it was.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">4</div>
+        <div class="flow-body">
+          <div class="flow-title">Objections</div>
+          <div class="flow-desc">They hesitate. "I need to think about it." "It's a lot of money." "Let me talk to my partner." These aren't rejections, they're usually just the real concern showing up late. You work through it together.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">5</div>
+        <div class="flow-body">
+          <div class="flow-title">The Close</div>
+          <div class="flow-desc">You ask for the decision. Directly. Not hinting, not hoping they bring it up first. A "yes" and a signature, or an honest "no." Either one is a clean close.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="s4">
+    <div class="section-header"><div class="section-number">4</div><h2 class="section-title">The Glossary</h2></div>
+    <div class="section-divider"></div>
+    <p>Words you're going to hear constantly starting Week 1. Bookmark this section.</p>
+
+    <div class="gloss-grid">
+      <div class="gloss-item">
+        <div class="gloss-term">Lead</div>
+        <div class="gloss-def">Someone who might be a fit for what you're selling, but hasn't talked to anyone yet. Just a name and some contact info at this stage.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Prospect</div>
+        <div class="gloss-def">A lead who's now actually on a call with you. The moment they pick up, they upgrade from "lead" to "prospect."</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Setter</div>
+        <div class="gloss-def">The person whose job is booking the call: reaching out, qualifying interest, and getting it on the calendar for a closer.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Closer</div>
+        <div class="gloss-def">The person who runs the actual sales call and gets the prospect to a real decision. This is usually the role people mean when they say "sales rep" in a high-ticket setting.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Show / No-Show</div>
+        <div class="gloss-def">Did the prospect actually show up to the call they booked? A lot of booked calls never show. Tracking this is how you know if your setting process is healthy.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Qualifying</div>
+        <div class="gloss-def">Figuring out, usually early in discovery, whether this person is actually a real fit: do they have the budget, the need, and the timing to move forward. Not everyone who shows up is qualified.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Discovery</div>
+        <div class="gloss-def">The part of the call where you ask questions to genuinely understand the prospect before you pitch anything. Covered in full in <strong>Section 4</strong> of the Training Bible.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">The Pitch</div>
+        <div class="gloss-def">Presenting the offer. What it is, what it costs, why it fits what they told you in discovery. Covered in <strong>Section 5</strong>.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Objection</div>
+        <div class="gloss-def">A reason someone gives for not moving forward right now: price, timing, needing to check with someone else. Almost never the real, full reason. Covered in <strong>Section 6</strong>.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Frame</div>
+        <div class="gloss-def">Who's actually in control of the conversation and its energy. Holding your frame means staying grounded and certain even when a prospect pushes back or gets tense. Covered in <strong>Section 9</strong>. You'll hear "hold your frame" a lot.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Close / Closing</div>
+        <div class="gloss-def">Directly asking for the decision and getting a real answer, yes or no. "Closing" the deal means they said yes and it's done.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Won</div>
+        <div class="gloss-def">The deal closed. They said yes and paid (or committed to a payment plan).</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Follow-Up</div>
+        <div class="gloss-def">Reaching back out to a prospect after a call that didn't close on the spot. A huge number of real closes happen on the follow-up, not the first call.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">The Offer</div>
+        <div class="gloss-def">Whatever you're actually selling: the specific product, program, or deal, at a specific price.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Cash Collected (CC)</div>
+        <div class="gloss-def">Money that's actually landed in the account today. Different from the total deal size if someone's on a payment plan.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Revenue Generated</div>
+        <div class="gloss-def">The full value of a deal, even if it's being paid off over time rather than all at once.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Show Rate</div>
+        <div class="gloss-def">The percentage of booked calls where the prospect actually shows up.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Close Rate</div>
+        <div class="gloss-def">The percentage of calls you actually take that turn into a sale. This is the number you'll track constantly, including in your own <strong>Call Tracker</strong>.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="s5">
+    <div class="section-header"><div class="section-number">5</div><h2 class="section-title">What's Next</h2></div>
+    <div class="section-divider"></div>
+    <p>You don't need to memorize any of this. You just needed to see it once so none of it is a surprise in Week 1. Here's where to go from here:</p>
+
+    <div class="card">
+      <div class="card-title">🎓 Start with Section 1</div>
+      <div class="card-desc">The Training Bible's <strong>Identity & Inner Game</strong> section is where everyone starts, regardless of experience. It's not about tactics yet, it's about you.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🗺️ Check Your Progress Tracker</div>
+      <div class="card-desc">Your 12-week roadmap shows exactly what gets covered and when, phase by phase.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">🧭 Use Get Unstuck, Anytime</div>
+      <div class="card-desc">Feeling lost is normal, especially week one. There's a guided check-in on Student HQ built for exactly that moment.</div>
+    </div>
+
+    <div class="closing-quote">
+      <p>"We find out where you suck and make you good." That includes not knowing a single sales term on Day 1. Especially that.</p>
+    </div>
+  </section>
+
+</main>
+
+<script>
+function toggleTheme(){
+  var h=document.documentElement,n=h.dataset.theme==='day'?'night':'day';
+  h.dataset.theme=n;
+  var l=document.getElementById('mode-lbl');if(l)l.textContent=n==='day'?'Day':'Night';
+  try{localStorage.setItem('tb-theme',n);}catch(e){}
+}
+(function(){try{var s=localStorage.getItem('tb-theme')||document.documentElement.dataset.theme||'day';
+  var l=document.getElementById('mode-lbl');if(l)l.textContent=s==='day'?'Day':'Night';}catch(e){}})();
+
+function setActive(el){document.querySelectorAll('.nav-item').forEach(function(i){i.classList.remove('active');});el.classList.add('active');}
+
+var sections=document.querySelectorAll('.section');
+var navItems=document.querySelectorAll('.nav-item[href^="#"]');
+var observer=new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      navItems.forEach(function(item){item.classList.remove('active');});
+      var idx=Array.from(sections).indexOf(entry.target);
+      if(navItems[idx])navItems[idx].classList.add('active');
+    }
+  });
+},{threshold:0.3});
+sections.forEach(function(s){observer.observe(s);});
+</script>
+</body>
+</html>
