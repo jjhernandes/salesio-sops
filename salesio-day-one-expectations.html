@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales.io — Day One Expectations</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:15px;scroll-behavior:smooth;}
+body{background:#0e0c0a;color:#EAE4D9;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased;}
+
+.page{max-width:760px;margin:0 auto;padding:0 2rem 8rem;}
+
+/* Top bar */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:1.5rem 0;border-bottom:1px solid #2a2420;margin-bottom:3.5rem;}
+.topbar-logo{font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:#4a3c30;font-family:'SF Mono',monospace;}
+.topbar-tag{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:#4ade80;background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.15);border-radius:50px;padding:.25rem .75rem;font-family:'SF Mono',monospace;}
+
+/* Hero */
+.hero{padding:3.5rem 0 3rem;border-bottom:1px solid #2a2420;}
+.hero-pre{font-size:.575rem;letter-spacing:.28em;text-transform:uppercase;color:#4a3c30;font-family:'SF Mono',monospace;margin-bottom:1rem;}
+.hero-title{font-size:clamp(2.25rem,8vw,3.75rem);font-weight:800;line-height:1.05;letter-spacing:-.03em;color:#EAE4D9;margin-bottom:1.25rem;}
+.hero-title span{color:#4ade80;}
+.hero-body{font-size:.9375rem;color:#6a5c4e;line-height:1.85;max-width:54ch;}
+.hero-body strong{color:#EAE4D9;font-weight:600;}
+
+/* Section */
+.section{padding:2.75rem 0;border-bottom:1px solid #2a2420;}
+.section:last-of-type{border-bottom:none;}
+.section-eyebrow{font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;color:#4ade80;font-family:'SF Mono',monospace;margin-bottom:.875rem;}
+.section-title{font-size:1.3125rem;font-weight:700;color:#EAE4D9;letter-spacing:-.02em;margin-bottom:.75rem;}
+.section-body{font-size:.875rem;color:#6a5c4e;line-height:1.85;max-width:58ch;}
+.section-body strong{color:#EAE4D9;}
+
+/* Pillars — expectations grid */
+.pillars{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.75rem;}
+.pillar{background:#111009;border:1px solid #2a2420;border-radius:10px;padding:1.25rem 1.375rem;}
+.pillar-icon{font-size:1.125rem;margin-bottom:.75rem;}
+.pillar-title{font-size:.875rem;font-weight:700;color:#EAE4D9;margin-bottom:.375rem;}
+.pillar-body{font-size:.775rem;color:#6a5c4e;line-height:1.75;}
+.pillar-body strong{color:#EAE4D9;}
+
+/* Weekly schedule */
+.schedule{display:flex;flex-direction:column;gap:.75rem;margin-top:1.75rem;}
+.day-card{background:#111009;border:1px solid #2a2420;border-radius:10px;overflow:hidden;display:flex;}
+.day-label{width:100px;flex-shrink:0;padding:1.125rem 1.125rem;display:flex;flex-direction:column;justify-content:center;border-right:1px solid #2a2420;background:#0e0c0a;}
+.day-name{font-size:.625rem;letter-spacing:.16em;text-transform:uppercase;color:#4a3c30;font-family:'SF Mono',monospace;font-weight:700;margin-bottom:.2rem;}
+.day-label.green .day-name{color:#4ade80;}
+.day-abbr{font-size:1.0625rem;font-weight:800;color:#1c1816;letter-spacing:-.02em;}
+.day-label.green .day-abbr{color:#4ade80;}
+.day-sessions{flex:1;padding:1.125rem 1.375rem;display:flex;flex-direction:column;gap:.625rem;}
+.session{display:flex;align-items:flex-start;gap:.875rem;}
+.session-host{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:#4a3c30;font-family:'SF Mono',monospace;white-space:nowrap;margin-top:.175rem;min-width:52px;font-weight:700;}
+.session-body{}
+.session-name{font-size:.875rem;font-weight:600;color:#EAE4D9;}
+.session-desc{font-size:.75rem;color:#4a3c30;line-height:1.6;margin-top:.1rem;}
+.session-divider{border:none;border-top:1px solid #1c1816;margin:.5rem 0;}
+
+/* Sunday */
+.day-card.sunday{border-color:#1a1816;opacity:.55;}
+.day-card.sunday .day-abbr{color:#2a2420;}
+
+/* 1-on-1 block */
+.oneonone-block{background:#111009;border:1px solid #2a2420;border-radius:10px;margin-top:1.75rem;overflow:hidden;}
+.ooo-header{padding:1.25rem 1.5rem;border-bottom:1px solid #2a2420;display:flex;align-items:center;gap:1rem;}
+.ooo-icon{width:36px;height:36px;border-radius:8px;background:#1c1816;border:1px solid #2a2420;display:flex;align-items:center;justify-content:center;font-size:.875rem;flex-shrink:0;}
+.ooo-title{font-size:.9375rem;font-weight:700;color:#EAE4D9;}
+.ooo-sub{font-size:.75rem;color:#4a3c30;margin-top:.15rem;}
+.ooo-body{padding:1.25rem 1.5rem;}
+.ooo-row{display:flex;gap:1.125rem;padding:.625rem 0;border-bottom:1px solid #161210;align-items:flex-start;}
+.ooo-row:last-child{border-bottom:none;}
+.ooo-num{width:20px;height:20px;border-radius:50%;background:#1c1816;border:1px solid #2a2420;display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:800;color:#4a3c30;flex-shrink:0;margin-top:.15rem;}
+.ooo-text{font-size:.8375rem;color:#8a7a6a;line-height:1.7;}
+.ooo-text strong{color:#EAE4D9;}
+
+/* Curriculum block */
+.curriculum-note{background:#111009;border:1px solid #2a2420;border-radius:10px;padding:1.25rem 1.5rem;margin-top:1.75rem;}
+.curr-top{display:flex;align-items:center;gap:.75rem;margin-bottom:.875rem;}
+.curr-icon{font-size:1.125rem;}
+.curr-title{font-size:.875rem;font-weight:700;color:#EAE4D9;}
+.curr-body{font-size:.8125rem;color:#6a5c4e;line-height:1.8;}
+.curr-body strong{color:#EAE4D9;}
+.curr-modules{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:1rem;}
+.module{background:#161210;border:1px solid #2a2420;border-radius:7px;padding:.625rem .875rem;font-size:.7rem;color:#4a3c30;font-weight:500;}
+.module strong{display:block;color:#EAE4D9;font-size:.7875rem;margin-bottom:.125rem;font-weight:700;}
+
+/* Call review */
+.call-review-block{background:#111009;border:1px solid #2a2420;border-radius:10px;padding:1.25rem 1.5rem;margin-top:1.75rem;}
+.cr-top{display:flex;align-items:center;gap:.75rem;margin-bottom:.875rem;}
+.cr-body{font-size:.8125rem;color:#6a5c4e;line-height:1.8;}
+.cr-body strong{color:#EAE4D9;}
+.cr-how{margin-top:1rem;display:flex;flex-direction:column;gap:.5rem;}
+.cr-step{display:flex;gap:.875rem;align-items:flex-start;font-size:.8125rem;color:#6a5c4e;line-height:1.65;}
+.cr-num{font-size:.6rem;font-weight:800;color:#0e0c0a;background:#4ade80;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.15rem;}
+
+/* Rule block */
+.rules{display:flex;flex-direction:column;gap:.625rem;margin-top:1.75rem;}
+.rule{display:flex;gap:1rem;align-items:flex-start;padding:.875rem 1.125rem;background:#111009;border:1px solid #2a2420;border-radius:9px;}
+.rule-num{font-size:.65rem;font-weight:800;color:#4ade80;font-family:'SF Mono',monospace;min-width:24px;margin-top:.1rem;}
+.rule-text{font-size:.84rem;color:#8a7a6a;line-height:1.7;}
+.rule-text strong{color:#EAE4D9;}
+
+/* Quote */
+.pull-quote{border-left:2px solid #4ade80;padding:1.125rem 0 1.125rem 1.625rem;margin-top:2.5rem;}
+.pull-quote-text{font-size:1.0625rem;font-style:italic;color:#EAE4D9;line-height:1.65;font-weight:400;}
+.pull-quote-attr{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:#4a3c30;margin-top:.625rem;font-family:'SF Mono',monospace;}
+
+@media(max-width:560px){
+  .pillars{grid-template-columns:1fr;}
+  .curr-modules{grid-template-columns:1fr 1fr;}
+  .day-card{flex-direction:column;}
+  .day-label{width:100%;flex-direction:row;align-items:center;gap:.75rem;border-right:none;border-bottom:1px solid #2a2420;padding:.875rem 1.125rem;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-logo">Sales.io</div>
+    <div class="topbar-tag">Student Onboarding</div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-pre">Welcome to the program</div>
+    <h1 class="hero-title">Day One.<br><span>Here's what</span><br>to expect.</h1>
+    <p class="hero-body">You just made a serious investment in yourself. Now it's time to show up like it. This doc tells you <strong>exactly what the program looks like</strong>, what's expected of you, and how to get the most out of every week.</p>
+  </div>
+
+  <!-- What this program actually is -->
+  <div class="section">
+    <div class="section-eyebrow">The four pillars</div>
+    <h2 class="section-title">What the program is built on</h2>
+    <p class="section-body">Four things run every week of this program. All four matter. Miss any one of them and you're leaving results on the table.</p>
+
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-icon">📞</div>
+        <div class="pillar-title">Weekly 1-on-1 Coaching</div>
+        <div class="pillar-body">Private session with your coach every week. This is where your specific numbers, your specific calls, and your specific ceiling get addressed. <strong>Show up every week.</strong></div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">🎥</div>
+        <div class="pillar-title">Weekly Call Reviews</div>
+        <div class="pillar-body">Submit a live call recording every week. This is how you get better. Not theory — <strong>real feedback on real calls you're on.</strong></div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">📚</div>
+        <div class="pillar-title">Curriculum</div>
+        <div class="pillar-body">Modules covering identity, PASE, the full call framework, objection psychology, language, frame control, and more. <strong>One module per week minimum.</strong></div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">🗓️</div>
+        <div class="pillar-title">Daily Group Coaching Calls</div>
+        <div class="pillar-body">Six days a week. Different focus every day. These are not optional extras — <strong>they are the program.</strong> Show up live or watch the replay same day.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Weekly schedule -->
+  <div class="section">
+    <div class="section-eyebrow">The weekly schedule</div>
+    <h2 class="section-title">Coaching calls run Monday through Saturday</h2>
+    <p class="section-body">Every session has a specific focus. Attend the ones that match where you're at right now — and over time, attend all of them.</p>
+
+    <div class="schedule">
+
+      <!-- Monday -->
+      <div class="day-card">
+        <div class="day-label green">
+          <div class="day-name">Monday</div>
+          <div class="day-abbr">MON</div>
+        </div>
+        <div class="day-sessions">
+          <div class="session">
+            <div class="session-host">Jalen</div>
+            <div class="session-body">
+              <div class="session-name">Mock Call Monday</div>
+              <div class="session-desc">Live mock calls. Real reps. Real objections. You watch, you get called on, you practice in the moment. The fastest way to close rate improvement.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tuesday -->
+      <div class="day-card">
+        <div class="day-label">
+          <div class="day-name">Tuesday</div>
+          <div class="day-abbr">TUE</div>
+        </div>
+        <div class="day-sessions">
+          <div class="session">
+            <div class="session-host">Evan + Cole</div>
+            <div class="session-body">
+              <div class="session-name">Call Review Day</div>
+              <div class="session-desc">Submitted call recordings get pulled apart on live. Coaches identify the exact moment the frame shifted, the money got left, or the connection broke down. Submit your calls here.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wednesday -->
+      <div class="day-card">
+        <div class="day-label">
+          <div class="day-name">Wednesday</div>
+          <div class="day-abbr">WED</div>
+        </div>
+        <div class="day-sessions">
+          <div class="session">
+            <div class="session-host">Evan</div>
+            <div class="session-body">
+              <div class="session-name">B2B Strategy Call</div>
+              <div class="session-desc">High-ticket B2B deals, longer sales cycles, multi-stakeholder dynamics. If you're closing business owners or enterprise, this is the room to be in.</div>
+            </div>
+          </div>
+          <hr class="session-divider">
+          <div class="session">
+            <div class="session-host">Cole</div>
+            <div class="session-body">
+              <div class="session-name">Sales Psychology</div>
+              <div class="session-desc">The deep stuff — cognitive dissonance, identity theory, behavioral magnetics, how humans actually make buying decisions. This is what separates closers from order-takers.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Thursday -->
+      <div class="day-card">
+        <div class="day-label">
+          <div class="day-name">Thursday</div>
+          <div class="day-abbr">THU</div>
+        </div>
+        <div class="day-sessions">
+          <div class="session">
+            <div class="session-host">Jalen</div>
+            <div class="session-body">
+              <div class="session-name">Setter Mastery Call</div>
+              <div class="session-desc">Cold calling, DM outreach, LinkedIn sequences, qualifying frameworks, tonality. Whether you're setting or want to understand the full funnel — this is where it gets built.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Friday -->
+      <div class="day-card">
+        <div class="day-label green">
+          <div class="day-name">Friday</div>
+          <div class="day-abbr">FRI</div>
+        </div>
+        <div class="day-sessions">
+          <div class="session">
+            <div class="session-host">JJ</div>
+            <div class="session-body">
+              <div class="session-name">Inner Circle</div>
+              <div class="session-desc">JJ runs this one personally. This is the advanced room — identity work, ceiling-breaking conversations, live Q&amp;A, and the unfiltered stuff that doesn't go in the modules. Don't miss Fridays.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Saturday -->
+      <div class="day-card">
+        <div class="day-label">
+          <div class="day-name">Saturday</div>
+          <div class="day-abbr">SAT</div>
+        </div>
+        <div class="day-sessions">
+          <div class="session">
+            <div class="session-host">Cole</div>
+            <div class="session-body">
+              <div class="session-name">Coffee Chat</div>
+              <div class="session-desc">Casual but deep. Open format — bring anything. Questions, situations, mental blocks. The Coffee Chat is where a lot of the real breakthroughs happen because the pressure is off and people are honest.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sunday -->
+      <div class="day-card sunday">
+        <div class="day-label">
+          <div class="day-name">Sunday</div>
+          <div class="day-abbr">SUN</div>
+        </div>
+        <div class="day-sessions">
+          <div class="session">
+            <div class="session-host" style="color:#2a2420;">—</div>
+            <div class="session-body">
+              <div class="session-name" style="color:#3a3028;">Rest Day</div>
+              <div class="session-desc" style="color:#2a2420;">No calls. No sessions. Rest, reset, prepare for Monday. Recovery is part of the process.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 1-on-1s -->
+  <div class="section">
+    <div class="section-eyebrow">Your weekly 1-on-1</div>
+    <h2 class="section-title">Private coaching — every week, no exceptions</h2>
+    <p class="section-body">Your 1-on-1 is the most direct lever in this program. This is not a check-in. It is a working session. Come prepared or you'll waste it.</p>
+
+    <div class="oneonone-block">
+      <div class="ooo-header">
+        <div class="ooo-icon">📞</div>
+        <div>
+          <div class="ooo-title">How to use your 1-on-1</div>
+          <div class="ooo-sub">Every week. Book it, show up, do the work.</div>
+        </div>
+      </div>
+      <div class="ooo-body">
+        <div class="ooo-row">
+          <div class="ooo-num">1</div>
+          <div class="ooo-text"><strong>Book it in advance.</strong> Your slot doesn't hold itself. Use the booking link in Skool to schedule the same time each week. Consistency here matters.</div>
+        </div>
+        <div class="ooo-row">
+          <div class="ooo-num">2</div>
+          <div class="ooo-text"><strong>Come with a real question or a real problem.</strong> "Things are going okay" is not a coaching prompt. What's your close rate right now? Where did you lose the last deal? What objection is killing you? Know before you join.</div>
+        </div>
+        <div class="ooo-row">
+          <div class="ooo-num">3</div>
+          <div class="ooo-text"><strong>Bring your numbers.</strong> Close rate, calls per week, average deal size, income this month. If you don't track it, you can't coach it.</div>
+        </div>
+        <div class="ooo-row">
+          <div class="ooo-num">4</div>
+          <div class="ooo-text"><strong>Submit a call before your 1-on-1.</strong> The most productive sessions happen when your coach has already heard you on a call. Give them something to work with.</div>
+        </div>
+        <div class="ooo-row">
+          <div class="ooo-num">5</div>
+          <div class="ooo-text"><strong>Do the thing that was assigned before the next session.</strong> If your coach tells you to do something — do it. Accountability is not optional inside this program.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Call Reviews -->
+  <div class="section">
+    <div class="section-eyebrow">Call reviews</div>
+    <h2 class="section-title">Submit a call every week</h2>
+    <p class="section-body">Call reviews are how the coaching team sees exactly where your ceiling is. You cannot improve something you're not watching. Submit every week without exception.</p>
+
+    <div class="call-review-block">
+      <div class="cr-top">
+        <div style="font-size:1.125rem;">🎥</div>
+        <div style="font-size:.875rem;font-weight:700;color:#EAE4D9;">How to submit your call</div>
+      </div>
+      <div class="cr-body">Submit your recordings in the <strong>#call-review</strong> WhatsApp channel. One call minimum per week. More is better — the reps who submit the most calls improve the fastest, every time.
+      </div>
+      <div class="cr-how">
+        <div class="cr-step"><div class="cr-num">1</div><span>Record your sales call on Zoom, Loom, or your dialer — any platform works</span></div>
+        <div class="cr-step"><div class="cr-num">2</div><span>Post the link in <strong>#call-review</strong> on WhatsApp with a short note: what went well, where you felt it slip</span></div>
+        <div class="cr-step"><div class="cr-num">3</div><span>Your call gets reviewed on <strong>Tuesday's Call Review session</strong> — live in front of the group</span></div>
+        <div class="cr-step"><div class="cr-num">4</div><span>Implement the feedback <strong>that same week</strong> — not next month, not when it feels right</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Curriculum -->
+  <div class="section">
+    <div class="section-eyebrow">Curriculum</div>
+    <h2 class="section-title">Go through the modules every week</h2>
+    <p class="section-body">The curriculum is not something you binge once and forget. It is designed to layer — what you learn in week 2 rewires how you understood week 1. Go at pace, but go consistently.</p>
+
+    <div class="curriculum-note">
+      <div class="curr-top">
+        <div class="curr-icon">📚</div>
+        <div class="curr-title">What's in the curriculum</div>
+      </div>
+      <div class="curr-body">
+        All modules live in <strong>Skool</strong>. New curriculum drops on an ongoing basis — if you are a current student, you get every new module automatically at no extra cost.
+      </div>
+      <div class="curr-modules">
+        <div class="module"><strong>Section 1</strong>Identity &amp; Who You Are</div>
+        <div class="module"><strong>Section 2</strong>PASE Personality Method</div>
+        <div class="module"><strong>Section 3</strong>The Full Call Framework</div>
+        <div class="module"><strong>Section 4</strong>Discovery &amp; Pain</div>
+        <div class="module"><strong>Section 5</strong>The Pitch</div>
+        <div class="module"><strong>Section 6</strong>Objection Handling</div>
+        <div class="module"><strong>Section 7</strong>Buying Psychology</div>
+        <div class="module"><strong>Section 8</strong>Language &amp; Tonality</div>
+        <div class="module"><strong>Section 9</strong>Frames &amp; Frame Control</div>
+        <div class="module"><strong>Section 10</strong>Setting Mastery</div>
+        <div class="module"><strong>Section 11</strong>Mental Performance</div>
+        <div class="module"><strong>Section 12</strong>Game Tape &amp; Review</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The rules -->
+  <div class="section">
+    <div class="section-eyebrow">Non-negotiables</div>
+    <h2 class="section-title">The expectations are simple</h2>
+    <p class="section-body">You will not get the result if you treat this like a course you bought and forgot about. These are the five things that separate the students who hit $30K months from the ones who don't.</p>
+
+    <div class="rules">
+      <div class="rule">
+        <div class="rule-num">01</div>
+        <div class="rule-text"><strong>Show up to your 1-on-1 every week.</strong> If you need to reschedule, reschedule — don't cancel without rebooking. Every skipped session is a week of your 12 weeks gone.</div>
+      </div>
+      <div class="rule">
+        <div class="rule-num">02</div>
+        <div class="rule-text"><strong>Submit a call recording every week.</strong> It does not have to be a perfect call. In fact, the messy calls are the most valuable. Submit something.</div>
+      </div>
+      <div class="rule">
+        <div class="rule-num">03</div>
+        <div class="rule-text"><strong>Complete at least one module per week.</strong> The curriculum is the foundation everything else is built on. Don't skip it because the group calls feel more urgent.</div>
+      </div>
+      <div class="rule">
+        <div class="rule-num">04</div>
+        <div class="rule-text"><strong>Be active in the community.</strong> Post in WhatsApp. Ask questions. Share wins. The people who hide in the background and consume without contributing fall behind. The community is a tool — use it.</div>
+      </div>
+      <div class="rule">
+        <div class="rule-num">05</div>
+        <div class="rule-text"><strong>Do the assigned work between sessions.</strong> When a coach gives you something to implement — a frame to try, a language pattern to practice, a call structure to run — do it before the next session. Coaching only works if you act on it.</div>
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <div class="pull-quote-text">"Who you are off your sales calls is who you are on your sales calls. The work starts here, not on the call."</div>
+      <div class="pull-quote-attr">— JJ Hernandez, Sales.io</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
