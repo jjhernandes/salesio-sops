@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales.io — Client Hub</title>
+<style>
+:root{
+  --bg:#070a10;
+  --surface:#0d1117;
+  --surface-2:#131a24;
+  --surface-3:#1a2436;
+  --bdr:#1e2d42;
+  --bdr-hv:#2a3f5f;
+  --accent:#e8b86d;
+  --accent-dim:rgba(232,184,109,.1);
+  --accent-bdr:rgba(232,184,109,.22);
+  --text:#e8e8f0;
+  --text-2:#8892a4;
+  --text-3:#3d4f6a;
+  --green:#4caf82;
+  --green-dim:rgba(76,175,130,.1);
+  --green-bdr:rgba(76,175,130,.22);
+  --red:#e05a5a;
+  --red-dim:rgba(224,90,90,.1);
+  --red-bdr:rgba(224,90,90,.22);
+  --orange:#e8834d;
+  --orange-dim:rgba(232,131,77,.1);
+  --orange-bdr:rgba(232,131,77,.22);
+  --blue:#5a9ae8;
+  --blue-dim:rgba(90,154,232,.1);
+  --blue-bdr:rgba(90,154,232,.22);
+  --r:10px;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:15px;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:.9375rem;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;}
+a{color:var(--accent);text-decoration:none;}
+button{cursor:pointer;font-family:inherit;}
+input,select,textarea{font-family:inherit;}
+
+/* ── Header ── */
+.header{background:var(--surface);border-bottom:1px solid var(--bdr);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:58px;position:sticky;top:0;z-index:100;}
+.header-logo{display:flex;align-items:center;gap:.75rem;}
+.logo-mark{width:28px;height:28px;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;color:#000;letter-spacing:-.02em;flex-shrink:0;}
+.logo-text{font-size:.875rem;font-weight:700;letter-spacing:.02em;color:var(--text);}
+.logo-sub{font-size:.65rem;color:var(--text-3);letter-spacing:.08em;text-transform:uppercase;margin-top:-.1rem;}
+.header-actions{display:flex;align-items:center;gap:.75rem;}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1rem;border-radius:7px;font-size:.8125rem;font-weight:600;border:none;transition:all .15s;letter-spacing:.01em;}
+.btn-primary{background:var(--accent);color:#000;}
+.btn-primary:hover{background:#f0c87a;}
+.btn-ghost{background:transparent;color:var(--text-2);border:1px solid var(--bdr);}
+.btn-ghost:hover{border-color:var(--bdr-hv);color:var(--text);background:var(--surface-2);}
+.btn-sm{padding:.35rem .75rem;font-size:.75rem;}
+.btn-icon{width:30px;height:30px;padding:0;justify-content:center;background:transparent;border:1px solid var(--bdr);border-radius:6px;color:var(--text-2);}
+.btn-icon:hover{border-color:var(--bdr-hv);color:var(--text);}
+
+/* ── Layout ── */
+.page{max-width:1280px;margin:0 auto;padding:2rem;}
+
+/* ── Stats ── */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;}
+@media(max-width:800px){.stats-row{grid-template-columns:1fr 1fr;}}
+.stat-card{background:var(--surface);border:1px solid var(--bdr);border-radius:var(--r);padding:1.25rem 1.375rem;}
+.stat-label{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);margin-bottom:.5rem;font-weight:600;}
+.stat-val{font-size:2rem;font-weight:700;line-height:1;color:var(--text);letter-spacing:-.03em;}
+.stat-sub{font-size:.75rem;color:var(--text-3);margin-top:.375rem;}
+.stat-card.accent .stat-val{color:var(--accent);}
+.stat-card.green .stat-val{color:var(--green);}
+.stat-card.red .stat-val{color:var(--red);}
+
+/* ── Toolbar ── */
+.toolbar{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;flex-wrap:wrap;}
+.filter-tabs{display:flex;gap:.25rem;background:var(--surface);border:1px solid var(--bdr);border-radius:8px;padding:.25rem;}
+.filter-tab{padding:.35rem .875rem;border-radius:6px;font-size:.775rem;font-weight:500;color:var(--text-2);background:none;border:none;transition:all .15s;white-space:nowrap;}
+.filter-tab.active{background:var(--surface-3);color:var(--text);box-shadow:inset 0 0 0 1px var(--bdr);}
+.filter-tab:hover:not(.active){color:var(--text);}
+.search-wrap{flex:1;min-width:180px;max-width:280px;position:relative;}
+.search-input{width:100%;background:var(--surface);border:1px solid var(--bdr);border-radius:7px;padding:.45rem .75rem .45rem 2rem;font-size:.8125rem;color:var(--text);outline:none;transition:border-color .15s;}
+.search-input::placeholder{color:var(--text-3);}
+.search-input:focus{border-color:var(--bdr-hv);}
+.search-icon{position:absolute;left:.65rem;top:50%;transform:translateY(-50%);color:var(--text-3);font-size:.8rem;pointer-events:none;}
+.toolbar-right{margin-left:auto;display:flex;gap:.5rem;}
+
+/* ── Table ── */
+.table-wrap{background:var(--surface);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;}
+.table-scroll{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;min-width:760px;}
+thead tr{background:var(--surface-2);}
+th{text-align:left;padding:.75rem 1rem;font-size:.625rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);font-weight:600;white-space:nowrap;border-bottom:1px solid var(--bdr);}
+td{padding:.875rem 1rem;border-bottom:1px solid var(--bdr);vertical-align:middle;}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr{transition:background .1s;}
+tbody tr:hover{background:var(--surface-2);cursor:pointer;}
+
+.client-name{font-weight:600;color:var(--text);font-size:.875rem;}
+.client-email{font-size:.75rem;color:var(--text-3);margin-top:.1rem;}
+
+/* Week progress */
+.week-cell{display:flex;align-items:center;gap:.625rem;}
+.week-bar{width:64px;height:4px;background:var(--surface-3);border-radius:2px;flex-shrink:0;}
+.week-fill{height:100%;border-radius:2px;background:var(--accent);transition:width .3s;}
+.week-text{font-size:.8rem;font-weight:600;color:var(--text);white-space:nowrap;}
+
+/* Badges */
+.badge{display:inline-flex;align-items:center;gap:.35rem;padding:.2rem .6rem;border-radius:50px;font-size:.68rem;font-weight:600;letter-spacing:.02em;white-space:nowrap;}
+.badge::before{content:'';width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.badge-active{background:var(--green-dim);color:var(--green);border:1px solid var(--green-bdr);}
+.badge-active::before{background:var(--green);}
+.badge-risk{background:var(--orange-dim);color:var(--orange);border:1px solid var(--orange-bdr);}
+.badge-risk::before{background:var(--orange);}
+.badge-completed{background:var(--blue-dim);color:var(--blue);border:1px solid var(--blue-bdr);}
+.badge-completed::before{background:var(--blue);}
+.badge-renewed{background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent-bdr);}
+.badge-renewed::before{background:var(--accent);}
+.badge-paused{background:rgba(255,255,255,.04);color:var(--text-3);border:1px solid var(--bdr);}
+.badge-paused::before{background:var(--text-3);}
+
+.checkin-dot{width:8px;height:8px;border-radius:50%;display:inline-block;}
+.dot-yes{background:var(--green);}
+.dot-no{background:var(--red);}
+
+.pay-label{font-size:.75rem;color:var(--text-2);}
+
+.coach-avatar{width:26px;height:26px;border-radius:50%;background:var(--surface-3);border:1px solid var(--bdr);display:inline-flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:var(--text-2);text-transform:uppercase;}
+
+.actions-cell{display:flex;gap:.375rem;justify-content:flex-end;}
+
+/* ── Empty state ── */
+.empty{padding:5rem 2rem;text-align:center;}
+.empty-icon{font-size:2.5rem;margin-bottom:1rem;opacity:.3;}
+.empty-title{font-size:1rem;font-weight:600;margin-bottom:.5rem;}
+.empty-sub{font-size:.875rem;color:var(--text-3);margin-bottom:1.5rem;}
+
+/* ── Modal ── */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .2s;}
+.modal-backdrop.open{opacity:1;pointer-events:all;}
+.modal{background:var(--surface);border:1px solid var(--bdr);border-radius:14px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto;transform:translateY(16px);transition:transform .2s;box-shadow:0 24px 80px rgba(0,0,0,.5);}
+.modal-backdrop.open .modal{transform:translateY(0);}
+.modal-header{padding:1.5rem 1.75rem 0;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--surface);z-index:1;padding-bottom:1rem;border-bottom:1px solid var(--bdr);}
+.modal-title{font-size:1rem;font-weight:700;}
+.modal-close{background:none;border:none;color:var(--text-3);font-size:1.25rem;line-height:1;padding:.25rem;border-radius:4px;transition:color .15s;}
+.modal-close:hover{color:var(--text);}
+.modal-body{padding:1.5rem 1.75rem;}
+.modal-footer{padding:1rem 1.75rem 1.5rem;display:flex;gap:.75rem;justify-content:flex-end;border-top:1px solid var(--bdr);margin-top:.5rem;}
+
+/* ── Form ── */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.form-group{display:flex;flex-direction:column;gap:.375rem;}
+.form-group.full{grid-column:1/-1;}
+label{font-size:.725rem;font-weight:600;color:var(--text-2);letter-spacing:.04em;text-transform:uppercase;}
+.form-input,.form-select,.form-textarea{background:var(--surface-2);border:1px solid var(--bdr);border-radius:7px;padding:.55rem .75rem;font-size:.875rem;color:var(--text);outline:none;transition:border-color .15s;width:100%;}
+.form-input::placeholder,.form-textarea::placeholder{color:var(--text-3);}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim);}
+.form-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238892a4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .75rem center;}
+.form-textarea{resize:vertical;min-height:80px;}
+.form-check{display:flex;align-items:center;gap:.5rem;cursor:pointer;}
+.form-check input{width:16px;height:16px;accent-color:var(--accent);}
+.form-check span{font-size:.8125rem;color:var(--text-2);}
+.section-divider{grid-column:1/-1;border:none;border-top:1px solid var(--bdr);margin:.25rem 0;}
+.section-label{grid-column:1/-1;font-size:.625rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3);font-weight:700;padding-top:.25rem;}
+
+/* ── Detail panel ── */
+.detail-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:flex;align-items:center;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .2s;}
+.detail-backdrop.open{opacity:1;pointer-events:all;}
+.detail-panel{background:var(--surface);border-left:1px solid var(--bdr);width:420px;max-width:100%;height:100%;overflow-y:auto;transform:translateX(420px);transition:transform .25s ease;box-shadow:-24px 0 60px rgba(0,0,0,.4);}
+.detail-backdrop.open .detail-panel{transform:translateX(0);}
+.detail-header{padding:1.5rem;border-bottom:1px solid var(--bdr);display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;position:sticky;top:0;background:var(--surface);z-index:1;}
+.detail-name{font-size:1.125rem;font-weight:700;}
+.detail-body{padding:1.5rem;}
+.detail-section{margin-bottom:1.75rem;}
+.detail-section-title{font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3);font-weight:700;margin-bottom:.875rem;}
+.detail-row{display:flex;justify-content:space-between;align-items:flex-start;padding:.5rem 0;border-bottom:1px solid var(--bdr);gap:1rem;}
+.detail-row:last-child{border-bottom:none;}
+.detail-row-label{font-size:.775rem;color:var(--text-3);}
+.detail-row-val{font-size:.8125rem;color:var(--text);font-weight:500;text-align:right;}
+.detail-notes{background:var(--surface-2);border:1px solid var(--bdr);border-radius:8px;padding:.875rem;font-size:.8125rem;color:var(--text-2);line-height:1.7;min-height:72px;white-space:pre-wrap;}
+.detail-actions{display:flex;gap:.625rem;flex-wrap:wrap;}
+
+/* ── Notification ── */
+.notif{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--surface-2);border:1px solid var(--bdr);border-radius:9px;padding:.75rem 1.125rem;font-size:.8125rem;color:var(--text);box-shadow:0 8px 32px rgba(0,0,0,.4);z-index:999;transform:translateY(20px);opacity:0;transition:all .2s;display:flex;align-items:center;gap:.5rem;}
+.notif.show{transform:translateY(0);opacity:1;}
+.notif-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;}
+
+@media(max-width:640px){
+  .page{padding:1rem;}
+  .stats-row{grid-template-columns:1fr 1fr;}
+  .form-grid{grid-template-columns:1fr;}
+  .detail-panel{width:100%;}
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-logo">
+    <div class="logo-mark">S</div>
+    <div>
+      <div class="logo-text">Sales.io</div>
+      <div class="logo-sub">Client Hub</div>
+    </div>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-ghost btn-sm" onclick="exportCSV()">↓ Export</button>
+    <button class="btn btn-primary" onclick="openAddModal()">+ Add Client</button>
+  </div>
+</header>
+
+<div class="page">
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card accent">
+      <div class="stat-label">Active Clients</div>
+      <div class="stat-val" id="stat-active">0</div>
+      <div class="stat-sub">in program right now</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Total Enrolled</div>
+      <div class="stat-val" id="stat-total">0</div>
+      <div class="stat-sub">all time</div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-label">Checked In</div>
+      <div class="stat-val" id="stat-checkins">0</div>
+      <div class="stat-sub">this week</div>
+    </div>
+    <div class="stat-card red">
+      <div class="stat-label">At Risk</div>
+      <div class="stat-val" id="stat-risk">0</div>
+      <div class="stat-sub">need attention</div>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="filter-tabs">
+      <button class="filter-tab active" data-filter="all" onclick="setFilter('all',this)">All</button>
+      <button class="filter-tab" data-filter="active" onclick="setFilter('active',this)">Active</button>
+      <button class="filter-tab" data-filter="risk" onclick="setFilter('risk',this)">At Risk</button>
+      <button class="filter-tab" data-filter="completed" onclick="setFilter('completed',this)">Completed</button>
+      <button class="filter-tab" data-filter="renewed" onclick="setFilter('renewed',this)">Renewed</button>
+    </div>
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input class="search-input" type="text" placeholder="Search clients..." id="searchInput" oninput="renderTable()">
+    </div>
+    <div class="toolbar-right">
+      <select class="form-select" style="width:auto;padding:.4rem 2rem .4rem .7rem;font-size:.775rem;" onchange="filterCoach=this.value;renderTable()">
+        <option value="">All Coaches</option>
+        <option value="JJ">JJ</option>
+        <option value="Cole">Cole</option>
+        <option value="Lu">Lu</option>
+        <option value="Jalen">Jalen</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrap">
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Client</th>
+            <th>Progress</th>
+            <th>Status</th>
+            <th>Coach</th>
+            <th>Payment</th>
+            <th>Check-In</th>
+            <th>Start Date</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="clientTable"></tbody>
+      </table>
+    </div>
+    <div class="empty" id="emptyState" style="display:none;">
+      <div class="empty-icon">📋</div>
+      <div class="empty-title">No clients yet</div>
+      <div class="empty-sub">Add your first client to get started.</div>
+      <button class="btn btn-primary" onclick="openAddModal()">+ Add Client</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Add/Edit Modal -->
+<div class="modal-backdrop" id="clientModal" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Add Client</div>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="section-label">Contact Info</div>
+        <div class="form-group">
+          <label>First Name</label>
+          <input class="form-input" id="f-first" placeholder="John">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input class="form-input" id="f-last" placeholder="Doe">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input class="form-input" id="f-email" type="email" placeholder="john@email.com">
+        </div>
+        <div class="form-group">
+          <label>Phone / WhatsApp</label>
+          <input class="form-input" id="f-phone" placeholder="+1 555 000 0000">
+        </div>
+
+        <hr class="section-divider">
+        <div class="section-label">Program Details</div>
+
+        <div class="form-group">
+          <label>Start Date</label>
+          <input class="form-input" id="f-start" type="date">
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select class="form-select" id="f-status">
+            <option value="active">Active</option>
+            <option value="risk">At Risk</option>
+            <option value="paused">Paused</option>
+            <option value="completed">Completed</option>
+            <option value="renewed">Renewed</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Assigned Coach</label>
+          <select class="form-select" id="f-coach">
+            <option value="JJ">JJ</option>
+            <option value="Cole">Cole</option>
+            <option value="Lu">Lu</option>
+            <option value="Jalen">Jalen</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Payment Type</label>
+          <select class="form-select" id="f-payment">
+            <option value="full">Paid in Full ($7,500)</option>
+            <option value="split2">Split 2x ($3,750)</option>
+            <option value="split3">Split 3x ($3,333/mo)</option>
+            <option value="klarna">Klarna / Affirm</option>
+          </select>
+        </div>
+
+        <hr class="section-divider">
+        <div class="section-label">Performance</div>
+
+        <div class="form-group">
+          <label>Close Rate — Before (%)</label>
+          <input class="form-input" id="f-close-before" type="number" min="0" max="100" placeholder="e.g. 15">
+        </div>
+        <div class="form-group">
+          <label>Close Rate — After (%)</label>
+          <input class="form-input" id="f-close-after" type="number" min="0" max="100" placeholder="e.g. 30">
+        </div>
+        <div class="form-group full" style="flex-direction:row;align-items:center;gap:.75rem;margin-top:.25rem;">
+          <label class="form-check" style="text-transform:none;letter-spacing:0;font-size:.8125rem;font-weight:400;">
+            <input type="checkbox" id="f-checkin">
+            <span>Checked in this week</span>
+          </label>
+          <label class="form-check" style="text-transform:none;letter-spacing:0;font-size:.8125rem;font-weight:400;">
+            <input type="checkbox" id="f-placed">
+            <span>Job placed</span>
+          </label>
+        </div>
+
+        <hr class="section-divider">
+        <div class="section-label">Notes</div>
+
+        <div class="form-group full">
+          <label>Internal Notes</label>
+          <textarea class="form-textarea" id="f-notes" placeholder="Anything relevant — objections, personality, progress notes..."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModalDirect()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveClient()">Save Client</button>
+    </div>
+  </div>
+</div>
+
+<!-- Detail Panel -->
+<div class="detail-backdrop" id="detailPanel" onclick="closeDetail(event)">
+  <div class="detail-panel" onclick="event.stopPropagation()">
+    <div class="detail-header">
+      <div>
+        <div class="detail-name" id="d-name"></div>
+        <div style="margin-top:.375rem;" id="d-badge"></div>
+      </div>
+      <button class="modal-close" onclick="closeDetailDirect()">✕</button>
+    </div>
+    <div class="detail-body">
+      <div class="detail-section">
+        <div class="detail-section-title">Contact</div>
+        <div class="detail-row"><span class="detail-row-label">Email</span><span class="detail-row-val" id="d-email"></span></div>
+        <div class="detail-row"><span class="detail-row-label">Phone</span><span class="detail-row-val" id="d-phone"></span></div>
+      </div>
+      <div class="detail-section">
+        <div class="detail-section-title">Program</div>
+        <div class="detail-row"><span class="detail-row-label">Start Date</span><span class="detail-row-val" id="d-start"></span></div>
+        <div class="detail-row"><span class="detail-row-label">Current Week</span><span class="detail-row-val" id="d-week"></span></div>
+        <div class="detail-row"><span class="detail-row-label">Coach</span><span class="detail-row-val" id="d-coach"></span></div>
+        <div class="detail-row"><span class="detail-row-label">Payment</span><span class="detail-row-val" id="d-payment"></span></div>
+        <div class="detail-row"><span class="detail-row-label">Job Placed</span><span class="detail-row-val" id="d-placed"></span></div>
+      </div>
+      <div class="detail-section">
+        <div class="detail-section-title">Performance</div>
+        <div class="detail-row"><span class="detail-row-label">Close Rate Before</span><span class="detail-row-val" id="d-before"></span></div>
+        <div class="detail-row"><span class="detail-row-label">Close Rate After</span><span class="detail-row-val" id="d-after"></span></div>
+        <div class="detail-row"><span class="detail-row-label">Checked In This Week</span><span class="detail-row-val" id="d-checkin"></span></div>
+      </div>
+      <div class="detail-section">
+        <div class="detail-section-title">Notes</div>
+        <div class="detail-notes" id="d-notes"></div>
+      </div>
+      <div class="detail-actions" id="d-actions"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Notification -->
+<div class="notif" id="notif">
+  <span class="notif-dot"></span>
+  <span id="notif-text"></span>
+</div>
+
+<script>
+var STORE_KEY = 'salesio_clients';
+var clients = [];
+var currentFilter = 'all';
+var filterCoach = '';
+var editingId = null;
+var viewingId = null;
+
+// ── Storage ──
+function load(){
+  try{ clients = JSON.parse(localStorage.getItem(STORE_KEY)) || []; }
+  catch(e){ clients = []; }
+}
+function save(){
+  localStorage.setItem(STORE_KEY, JSON.stringify(clients));
+}
+
+// ── Helpers ──
+function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+
+function weekNum(startDateStr){
+  if(!startDateStr) return null;
+  var start = new Date(startDateStr);
+  var now = new Date();
+  var days = Math.floor((now - start) / 86400000);
+  var w = Math.floor(days / 7) + 1;
+  return Math.max(1, Math.min(12, w));
+}
+
+function payLabel(p){
+  var map = {full:'Paid in Full',split2:'Split 2x',split3:'Split 3x',klarna:'Klarna/Affirm'};
+  return map[p] || p;
+}
+
+function statusBadge(s){
+  var map = {
+    active:'<span class="badge badge-active">Active</span>',
+    risk:'<span class="badge badge-risk">At Risk</span>',
+    completed:'<span class="badge badge-completed">Completed</span>',
+    renewed:'<span class="badge badge-renewed">Renewed</span>',
+    paused:'<span class="badge badge-paused">Paused</span>'
+  };
+  return map[s] || '';
+}
+
+function fmtDate(d){
+  if(!d) return '—';
+  var dt = new Date(d + 'T12:00:00');
+  return dt.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+}
+
+function avatarInitials(coach){
+  return coach ? coach.slice(0,2).toUpperCase() : '??';
+}
+
+// ── Stats ──
+function updateStats(){
+  var active = clients.filter(function(c){return c.status==='active';}).length;
+  var total = clients.length;
+  var checkins = clients.filter(function(c){return c.checkin && c.status==='active';}).length;
+  var risk = clients.filter(function(c){return c.status==='risk';}).length;
+  document.getElementById('stat-active').textContent = active;
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-checkins').textContent = checkins;
+  document.getElementById('stat-risk').textContent = risk;
+}
+
+// ── Filter & Search ──
+function setFilter(f, el){
+  currentFilter = f;
+  document.querySelectorAll('.filter-tab').forEach(function(t){t.classList.remove('active');});
+  el.classList.add('active');
+  renderTable();
+}
+
+function filtered(){
+  var q = (document.getElementById('searchInput').value || '').toLowerCase();
+  return clients.filter(function(c){
+    var matchFilter = currentFilter==='all' || c.status===currentFilter;
+    var matchCoach = !filterCoach || c.coach===filterCoach;
+    var matchQ = !q || (c.first+' '+c.last).toLowerCase().includes(q) || (c.email||'').toLowerCase().includes(q);
+    return matchFilter && matchCoach && matchQ;
+  });
+}
+
+// ── Render ──
+function renderTable(){
+  updateStats();
+  var list = filtered();
+  var tbody = document.getElementById('clientTable');
+  var empty = document.getElementById('emptyState');
+  if(!list.length){
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  tbody.innerHTML = list.map(function(c){
+    var w = weekNum(c.start);
+    var pct = w ? Math.round((w/12)*100) : 0;
+    var weekDisplay = w ? 'Wk '+w+' / 12' : '—';
+    return '<tr onclick="openDetail(\''+c.id+'\')">' +
+      '<td><div class="client-name">'+esc(c.first)+' '+esc(c.last)+'</div><div class="client-email">'+esc(c.email||'')+'</div></td>' +
+      '<td><div class="week-cell"><div class="week-bar"><div class="week-fill" style="width:'+pct+'%"></div></div><span class="week-text">'+weekDisplay+'</span></div></td>' +
+      '<td>'+statusBadge(c.status)+'</td>' +
+      '<td><span class="coach-avatar" title="'+esc(c.coach||'')+'">'+avatarInitials(c.coach||'')+'</span></td>' +
+      '<td><span class="pay-label">'+payLabel(c.payment)+'</span></td>' +
+      '<td><span class="checkin-dot '+(c.checkin?'dot-yes':'dot-no')+'" title="'+(c.checkin?'Checked in':'Not checked in')+'"></span></td>' +
+      '<td style="font-size:.8rem;color:var(--text-2);">'+fmtDate(c.start)+'</td>' +
+      '<td><div class="actions-cell" onclick="event.stopPropagation()">' +
+        '<button class="btn btn-icon btn-sm" title="Edit" onclick="openEdit(\''+c.id+'\')">✎</button>' +
+        '<button class="btn btn-icon btn-sm" title="Archive" onclick="archiveClient(\''+c.id+'\')">✕</button>' +
+      '</div></td>' +
+    '</tr>';
+  }).join('');
+}
+
+function esc(s){
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Add / Edit ──
+function openAddModal(){
+  editingId = null;
+  document.getElementById('modalTitle').textContent = 'Add Client';
+  clearForm();
+  document.getElementById('f-start').value = new Date().toISOString().slice(0,10);
+  document.getElementById('clientModal').classList.add('open');
+}
+
+function openEdit(id){
+  editingId = id;
+  var c = clients.find(function(x){return x.id===id;});
+  if(!c) return;
+  document.getElementById('modalTitle').textContent = 'Edit Client';
+  document.getElementById('f-first').value = c.first||'';
+  document.getElementById('f-last').value = c.last||'';
+  document.getElementById('f-email').value = c.email||'';
+  document.getElementById('f-phone').value = c.phone||'';
+  document.getElementById('f-start').value = c.start||'';
+  document.getElementById('f-status').value = c.status||'active';
+  document.getElementById('f-coach').value = c.coach||'JJ';
+  document.getElementById('f-payment').value = c.payment||'full';
+  document.getElementById('f-close-before').value = c.closeBefore||'';
+  document.getElementById('f-close-after').value = c.closeAfter||'';
+  document.getElementById('f-checkin').checked = !!c.checkin;
+  document.getElementById('f-placed').checked = !!c.placed;
+  document.getElementById('f-notes').value = c.notes||'';
+  document.getElementById('clientModal').classList.add('open');
+}
+
+function saveClient(){
+  var first = document.getElementById('f-first').value.trim();
+  var last = document.getElementById('f-last').value.trim();
+  if(!first){ alert('First name is required.'); return; }
+  var data = {
+    first:first, last:last,
+    email:document.getElementById('f-email').value.trim(),
+    phone:document.getElementById('f-phone').value.trim(),
+    start:document.getElementById('f-start').value,
+    status:document.getElementById('f-status').value,
+    coach:document.getElementById('f-coach').value,
+    payment:document.getElementById('f-payment').value,
+    closeBefore:document.getElementById('f-close-before').value,
+    closeAfter:document.getElementById('f-close-after').value,
+    checkin:document.getElementById('f-checkin').checked,
+    placed:document.getElementById('f-placed').checked,
+    notes:document.getElementById('f-notes').value.trim()
+  };
+  if(editingId){
+    var idx = clients.findIndex(function(x){return x.id===editingId;});
+    if(idx>-1){ data.id = editingId; clients[idx] = data; }
+  } else {
+    data.id = uid();
+    clients.unshift(data);
+  }
+  save();
+  renderTable();
+  closeModalDirect();
+  notify(editingId ? 'Client updated.' : 'Client added.');
+}
+
+function archiveClient(id){
+  if(!confirm('Remove this client from the hub?')) return;
+  clients = clients.filter(function(c){return c.id!==id;});
+  save();
+  renderTable();
+  notify('Client removed.');
+}
+
+function clearForm(){
+  ['f-first','f-last','f-email','f-phone','f-start','f-close-before','f-close-after','f-notes'].forEach(function(id){
+    document.getElementById(id).value='';
+  });
+  document.getElementById('f-status').value='active';
+  document.getElementById('f-coach').value='JJ';
+  document.getElementById('f-payment').value='full';
+  document.getElementById('f-checkin').checked=false;
+  document.getElementById('f-placed').checked=false;
+}
+
+function closeModal(e){ if(e.target===document.getElementById('clientModal')) closeModalDirect(); }
+function closeModalDirect(){ document.getElementById('clientModal').classList.remove('open'); }
+
+// ── Detail Panel ──
+function openDetail(id){
+  var c = clients.find(function(x){return x.id===id;});
+  if(!c) return;
+  viewingId = id;
+  document.getElementById('d-name').textContent = c.first+' '+c.last;
+  document.getElementById('d-badge').innerHTML = statusBadge(c.status);
+  document.getElementById('d-email').textContent = c.email||'—';
+  document.getElementById('d-phone').textContent = c.phone||'—';
+  document.getElementById('d-start').textContent = fmtDate(c.start);
+  var w = weekNum(c.start);
+  document.getElementById('d-week').textContent = w ? 'Week '+w+' of 12' : '—';
+  document.getElementById('d-coach').textContent = c.coach||'—';
+  document.getElementById('d-payment').textContent = payLabel(c.payment);
+  document.getElementById('d-placed').textContent = c.placed ? '✓ Yes' : 'Not yet';
+  document.getElementById('d-before').textContent = c.closeBefore ? c.closeBefore+'%' : '—';
+  document.getElementById('d-after').textContent = c.closeAfter ? c.closeAfter+'%' : '—';
+  document.getElementById('d-checkin').textContent = c.checkin ? '✓ Yes' : '✗ No';
+  document.getElementById('d-notes').textContent = c.notes||'No notes yet.';
+  document.getElementById('d-actions').innerHTML =
+    '<button class="btn btn-ghost btn-sm" onclick="closeDetailDirect();openEdit(\''+id+'\')">Edit</button>' +
+    '<button class="btn btn-ghost btn-sm" style="color:var(--red);" onclick="archiveClient(\''+id+'\');closeDetailDirect()">Remove</button>';
+  document.getElementById('detailPanel').classList.add('open');
+}
+function closeDetail(e){ if(e.target===document.getElementById('detailPanel')) closeDetailDirect(); }
+function closeDetailDirect(){ document.getElementById('detailPanel').classList.remove('open'); }
+
+// ── Export CSV ──
+function exportCSV(){
+  if(!clients.length){ notify('No clients to export.'); return; }
+  var headers = ['Name','Email','Phone','Start Date','Week','Status','Coach','Payment','Close Before','Close After','Checked In','Job Placed','Notes'];
+  var rows = clients.map(function(c){
+    var w = weekNum(c.start);
+    return [
+      c.first+' '+c.last, c.email||'', c.phone||'', c.start||'',
+      w||'', c.status||'', c.coach||'', payLabel(c.payment),
+      c.closeBefore||'', c.closeAfter||'', c.checkin?'Yes':'No', c.placed?'Yes':'No',
+      (c.notes||'').replace(/"/g,'""')
+    ].map(function(v){ return '"'+v+'"'; }).join(',');
+  });
+  var csv = [headers.join(',')].concat(rows).join('\n');
+  var a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download = 'salesio-clients-'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+  notify('CSV exported.');
+}
+
+// ── Notification ──
+function notify(msg){
+  var el = document.getElementById('notif');
+  document.getElementById('notif-text').textContent = msg;
+  el.classList.add('show');
+  setTimeout(function(){ el.classList.remove('show'); }, 2500);
+}
+
+// ── Init ──
+load();
+renderTable();
+</script>
+</body>
+</html>
+
