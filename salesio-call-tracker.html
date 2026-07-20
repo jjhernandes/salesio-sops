@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="day">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales.io — Call Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script>try{var s=localStorage.getItem('tb-theme');if(s)document.documentElement.dataset.theme=s;}catch(e){}</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{height:100%;}
+
+:root,[data-theme="day"]{
+  --bg:#EAE4D9;--bg-2:#E0D9CE;
+  --card:#FFFFFF;--card-2:#F5F1EB;--card-3:#EDECE8;
+  --bdr:rgba(10,10,8,.1);--bdr-2:rgba(10,10,8,.2);
+  --text:#0A0A08;
+  --t2:rgba(10,10,8,.55);--t3:rgba(10,10,8,.3);--t4:rgba(10,10,8,.12);
+  --accent:#0A0A08;--hbg:rgba(10,10,8,.04);
+  --shd:rgba(10,10,8,.08);--shd2:rgba(10,10,8,.15);
+  --sb-bg:#0A0A08;--sb-text:#EAE4D9;
+  --sb-t2:rgba(234,228,217,.5);--sb-t3:rgba(234,228,217,.25);
+  --sb-bdr:rgba(234,228,217,.08);--sb-hbg:rgba(234,228,217,.07);
+  --tk:#EAE4D9;--tb:rgba(234,228,217,.25);--tt:#0A0A08;--tl:rgba(234,228,217,.3);
+  --glow-rgb:160,144,112;
+  --good:#3d7a50;--bad:#8a3030;
+}
+[data-theme="night"]{
+  --bg:#000;--bg-2:#040402;
+  --card:#0a0a08;--card-2:#0f0f0d;--card-3:#141412;
+  --bdr:rgba(234,228,217,.09);--bdr-2:rgba(234,228,217,.18);
+  --text:#EAE4D9;
+  --t2:rgba(234,228,217,.58);--t3:rgba(234,228,217,.27);--t4:rgba(234,228,217,.1);
+  --accent:#EAE4D9;--hbg:rgba(234,228,217,.03);
+  --shd:rgba(0,0,0,.5);--shd2:rgba(0,0,0,.8);
+  --sb-bg:#060604;--sb-text:#EAE4D9;
+  --sb-t2:rgba(234,228,217,.45);--sb-t3:rgba(234,228,217,.2);
+  --sb-bdr:rgba(234,228,217,.07);--sb-hbg:rgba(234,228,217,.06);
+  --tk:rgba(234,228,217,.12);--tb:rgba(234,228,217,.08);--tt:#EAE4D9;--tl:rgba(234,228,217,.18);
+  --glow-rgb:74,222,128;
+  --good:#4ade80;--bad:#e06060;
+}
+
+::selection{background:var(--text);color:var(--bg);}
+body{
+  display:flex;min-height:100vh;color:var(--text);
+  font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;
+  transition:background-color .4s,color .4s;font-size:14px;line-height:1.6;
+  background-color:var(--bg);
+  background-image:
+    radial-gradient(closest-side,rgba(var(--glow-rgb),.20),transparent 70%),
+    radial-gradient(closest-side,rgba(var(--glow-rgb),.14),transparent 70%);
+  background-repeat:no-repeat;background-size:55vw 55vw,45vw 45vw;
+  background-position:-8% -12%,112% 20%;background-attachment:fixed;
+  animation:ambientDrift 30s ease-in-out infinite alternate;
+}
+@keyframes ambientDrift{0%{background-position:-8% -12%,112% 20%;}50%{background-position:10% 0%,90% 40%;}100%{background-position:0% -6%,100% 30%;}}
+@media(prefers-reduced-motion:reduce){body{animation:none;}}
+
+.grain{position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.035;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat:repeat;background-size:300px 300px;}
+[data-theme="night"] .grain{opacity:.055;}
+
+.sidebar{width:230px;flex-shrink:0;background:var(--sb-bg);display:flex;flex-direction:column;
+  height:100vh;position:sticky;top:0;overflow-y:auto;overflow-x:hidden;
+  border-right:1px solid var(--sb-bdr);transition:background .4s,border-color .4s;scrollbar-width:none;}
+.sidebar::-webkit-scrollbar{display:none;}
+.sb-header{padding:1.25rem 1.25rem 1rem;border-bottom:1px solid var(--sb-bdr);flex-shrink:0;}
+.sb-logo{display:flex;align-items:center;gap:.625rem;margin-bottom:.5rem;}
+.sb-logo-mark{width:24px;height:24px;background:var(--sb-text);border-radius:5px;display:flex;align-items:center;justify-content:center;
+  font-size:.575rem;font-weight:900;color:var(--sb-bg);transition:transform .25s cubic-bezier(.2,0,0,1),box-shadow .25s;cursor:default;}
+.sb-logo-mark:hover{transform:rotate(-8deg) scale(1.12);box-shadow:0 0 18px rgba(var(--glow-rgb),.65);}
+.sb-logo-name{font-size:.675rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--sb-text);}
+.sb-badge{font-size:.475rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sb-t3);font-family:'SF Mono',monospace;font-weight:700;}
+
+.sb-nav{flex:1;padding:.75rem 0;}
+.sb-section-label{font-size:.475rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--sb-t3);
+  font-family:'SF Mono',monospace;padding:.875rem 1.25rem .375rem;}
+.nav-item{display:flex;align-items:center;gap:.625rem;padding:.55rem 1.25rem;cursor:pointer;text-decoration:none;
+  font-size:.75rem;font-weight:500;color:var(--sb-t2);transition:all .18s;position:relative;user-select:none;}
+.nav-item::before{content:'';position:absolute;left:0;top:.2rem;bottom:.2rem;width:2px;background:var(--sb-text);
+  transform:scaleY(0);transform-origin:center;transition:transform .2s cubic-bezier(.4,0,.2,1);border-radius:1px;}
+.nav-item:hover{background:var(--sb-hbg);color:var(--sb-text);padding-left:1.375rem;}
+.nav-icon{font-size:.9rem;flex-shrink:0;width:16px;text-align:center;}
+.sb-divider{height:1px;background:var(--sb-bdr);margin:.5rem 1.25rem;}
+
+.sb-footer{padding:1rem 1.25rem;border-top:1px solid var(--sb-bdr);flex-shrink:0;}
+.toggle-row{display:flex;align-items:center;gap:.5rem;}
+.toggle-lbl{font-size:.5rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tl);font-family:'SF Mono',monospace;}
+.toggle-switch{width:36px;height:20px;border-radius:10px;background:var(--tk);border:1px solid var(--tb);
+  position:relative;cursor:pointer;transition:all .25s;flex-shrink:0;}
+.toggle-switch:hover{opacity:.9;box-shadow:0 0 10px rgba(var(--glow-rgb),.5);}
+.toggle-thumb{position:absolute;top:3px;left:3px;width:12px;height:12px;border-radius:50%;background:var(--tt);transition:transform .3s cubic-bezier(.4,0,.2,1);}
+[data-theme="night"] .toggle-thumb{transform:translateX(16px);}
+
+.main{flex:1;padding:3rem 3rem 5rem;max-width:1180px;}
+.page-tag{display:inline-block;font-size:.625rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--t3);font-family:'SF Mono',monospace;margin-bottom:1rem;}
+.page-title{font-family:'Playfair Display',serif;font-size:clamp(1.75rem,3.4vw,2.5rem);font-weight:700;
+  letter-spacing:-.025em;line-height:1.1;color:var(--text);margin-bottom:.75rem;}
+.page-desc{font-size:.875rem;color:var(--t2);line-height:1.7;max-width:60ch;font-weight:300;margin-bottom:2rem;}
+.page-desc strong{color:var(--text);font-weight:600;}
+
+.section-label{font-size:.525rem;font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:var(--t3);
+  font-family:'SF Mono',monospace;margin-bottom:1rem;}
+.section-label::before{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;
+  background:rgba(var(--glow-rgb),1);box-shadow:0 0 6px 1px rgba(var(--glow-rgb),.8);margin-right:.5rem;
+  vertical-align:middle;animation:dotPulse 2s ease-in-out infinite;}
+@keyframes dotPulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+
+/* Stat rows */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1.75rem;}
+.stat-card{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:1.1rem;transition:all .2s;position:relative;overflow:hidden;}
+.stat-card:hover{border-color:rgba(var(--glow-rgb),.5);transform:translateY(-2px);box-shadow:0 8px 28px var(--shd),0 0 22px rgba(var(--glow-rgb),.2);}
+.stat-num{font-family:'Playfair Display',serif;font-size:1.65rem;font-weight:900;color:var(--text);letter-spacing:-.03em;line-height:1;margin-bottom:.3rem;}
+.stat-label{font-size:.5rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);font-family:'SF Mono',monospace;}
+
+.obj-row{display:grid;grid-template-columns:repeat(5,1fr);gap:.75rem;margin-bottom:2rem;}
+.obj-card{background:var(--card-2);border:1px solid var(--bdr);border-radius:10px;padding:.875rem;text-align:center;}
+.obj-num{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:800;color:var(--text);}
+.obj-label{font-size:.55rem;color:var(--t3);font-weight:700;letter-spacing:.04em;margin-top:.25rem;}
+
+/* Log form */
+.log-form{background:var(--card);border:1px solid rgba(var(--glow-rgb),.35);border-radius:14px;padding:1.5rem;
+  margin-bottom:2rem;box-shadow:0 0 26px rgba(var(--glow-rgb),.12);}
+.log-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:.75rem;margin-bottom:.875rem;}
+.log-field label{display:block;font-size:.55rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--t3);font-family:'SF Mono',monospace;margin-bottom:.35rem;}
+.log-field input,.log-field select{
+  width:100%;background:var(--card-2);border:1.5px solid var(--bdr-2);border-radius:7px;
+  padding:.5rem .6rem;font-size:.75rem;color:var(--text);font-family:'Inter',sans-serif;
+  transition:border-color .2s,box-shadow .2s;
+}
+.log-field input:focus,.log-field select:focus{outline:none;border-color:rgba(var(--glow-rgb),.6);box-shadow:0 0 14px rgba(var(--glow-rgb),.2);}
+.log-check-row{display:flex;gap:1.5rem;align-items:center;margin-bottom:.5rem;}
+.log-check{display:flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:600;cursor:pointer;}
+.log-check input{width:15px;height:15px;accent-color:rgba(var(--glow-rgb),1);cursor:pointer;}
+.log-add-btn{background:var(--text);color:var(--bg);border:none;border-radius:8px;padding:.65rem 1.25rem;
+  font-size:.75rem;font-weight:700;cursor:pointer;transition:opacity .15s;font-family:'Inter',sans-serif;}
+.log-add-btn:hover{opacity:.85;}
+
+/* Table */
+.log-table-wrap{overflow-x:auto;border:1px solid var(--bdr);border-radius:12px;}
+.log-table{width:100%;border-collapse:collapse;min-width:900px;}
+.log-table th{text-align:left;font-size:.55rem;font-weight:800;color:var(--t3);letter-spacing:.06em;text-transform:uppercase;
+  padding:.625rem .75rem;border-bottom:1px solid var(--bdr);font-family:'SF Mono',monospace;background:var(--card-2);white-space:nowrap;}
+.log-table td{padding:.6rem .75rem;font-size:.75rem;color:var(--text);border-bottom:1px solid var(--bdr);font-weight:300;white-space:nowrap;}
+.log-table tr:last-child td{border-bottom:none;}
+.log-table tr:hover td{background:var(--hbg);}
+.pill{display:inline-block;font-size:.6rem;font-weight:700;padding:.15rem .5rem;border-radius:5px;font-family:'SF Mono',monospace;}
+.pill.yes{background:rgba(var(--glow-rgb),.18);color:rgba(var(--glow-rgb),1);}
+.pill.no{background:var(--hbg);color:var(--t3);}
+.row-del{background:none;border:none;color:var(--t3);cursor:pointer;font-size:.85rem;padding:.2rem;}
+.row-del:hover{color:var(--bad);}
+.log-empty{padding:2.5rem;text-align:center;color:var(--t3);font-size:.85rem;font-weight:300;}
+
+@media(max-width:1000px){
+  .sidebar{display:none;}
+  .main{padding:2rem 1.25rem;}
+  .stats-row{grid-template-columns:repeat(2,1fr);}
+  .obj-row{grid-template-columns:repeat(2,1fr);}
+  .log-grid{grid-template-columns:repeat(2,1fr);}
+}
+</style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<aside class="sidebar">
+  <div class="sb-header">
+    <div class="sb-logo"><div class="sb-logo-mark">S</div><span class="sb-logo-name">Sales.io</span></div>
+    <div class="sb-badge">Call Tracker</div>
+  </div>
+  <nav class="sb-nav">
+    <a class="nav-item" href="./salesio-student-hq.html" target="_top"><span class="nav-icon">🏠</span> Student HQ</a>
+    <div class="sb-divider"></div>
+  </nav>
+  <div class="sb-footer">
+    <div class="toggle-row">
+      <span class="toggle-lbl" id="mode-lbl">Day</span>
+      <div class="toggle-switch" onclick="toggleTheme()"><div class="toggle-thumb"></div></div>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+
+  <span class="page-tag">Sales.io Mastermind — Personal Tracking</span>
+  <h1 class="page-title">Call Tracker</h1>
+  <p class="page-desc">Log every real call you take — shows, qualifies, closes, cash collected. Your numbers, tracked over time, are how you actually know if the work is landing. <strong>This stays on your device only</strong> — nothing here is sent anywhere or seen by anyone else.</p>
+
+  <div class="section-label">Your Rates</div>
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num" id="s-show-rate">0%</div><div class="stat-label">Show Rate</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-qshow-rate">0%</div><div class="stat-label">Qualified Show Rate</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-close-rate">0%</div><div class="stat-label">Show → Close Rate</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-qclose-rate">0%</div><div class="stat-label">Qualified Close Rate</div></div>
+  </div>
+
+  <div class="section-label">Volume</div>
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num" id="s-calls">0</div><div class="stat-label">Calls Booked</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-shows">0</div><div class="stat-label">Shows</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-qualified">0</div><div class="stat-label">Qualified</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-won">0</div><div class="stat-label">Won</div></div>
+  </div>
+
+  <div class="section-label">Time &amp; Money</div>
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-num" id="s-time">0 hrs</div><div class="stat-label">Time Spent</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-avg">—</div><div class="stat-label">Avg Call Length</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-cc">$0</div><div class="stat-label">Cash Collected</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-rev">$0</div><div class="stat-label">Revenue Generated</div></div>
+  </div>
+
+  <div class="section-label">Objections Faced</div>
+  <div class="obj-row">
+    <div class="obj-card"><div class="obj-num" id="o-partner">0</div><div class="obj-label">Partner</div></div>
+    <div class="obj-card"><div class="obj-num" id="o-finance">0</div><div class="obj-label">Finance</div></div>
+    <div class="obj-card"><div class="obj-num" id="o-uncertain">0</div><div class="obj-label">Uncertain</div></div>
+    <div class="obj-card"><div class="obj-num" id="o-timing">0</div><div class="obj-label">Timing</div></div>
+    <div class="obj-card"><div class="obj-num" id="o-program">0</div><div class="obj-label">Another Program</div></div>
+  </div>
+
+  <div class="section-label">Log a Call</div>
+  <div class="log-form">
+    <div class="log-grid">
+      <div class="log-field"><label>Date</label><input type="date" id="f-date"></div>
+      <div class="log-field"><label>First Name</label><input type="text" id="f-first" placeholder="Prospect"></div>
+      <div class="log-field"><label>Last Name</label><input type="text" id="f-last"></div>
+      <div class="log-field"><label>Length (min)</label><input type="number" id="f-length" min="0" placeholder="45"></div>
+      <div class="log-field"><label>Setter</label><input type="text" id="f-setter" placeholder="If applicable"></div>
+      <div class="log-field"><label>Objection</label>
+        <select id="f-objection">
+          <option value="">None</option>
+          <option value="partner">Partner</option>
+          <option value="finance">Finance</option>
+          <option value="uncertain">Uncertain / Confused</option>
+          <option value="timing">Timing</option>
+          <option value="program">Another Program</option>
+        </select>
+      </div>
+    </div>
+    <div class="log-grid">
+      <div class="log-field"><label>Cash Collected ($)</label><input type="number" id="f-cc" min="0" placeholder="0"></div>
+      <div class="log-field"><label>Revenue Generated ($)</label><input type="number" id="f-rev" min="0" placeholder="0"></div>
+      <div class="log-field"><label>Follow Up Date</label><input type="date" id="f-followup"></div>
+      <div class="log-field" style="grid-column:span 3;"><label>Notes</label><input type="text" id="f-notes" placeholder="Anything worth remembering about this call"></div>
+    </div>
+    <div class="log-check-row">
+      <label class="log-check"><input type="checkbox" id="f-show"> Showed</label>
+      <label class="log-check"><input type="checkbox" id="f-qualified"> Qualified</label>
+      <label class="log-check"><input type="checkbox" id="f-won"> Won</label>
+    </div>
+    <button class="log-add-btn" onclick="addCall()">+ Add Call</button>
+  </div>
+
+  <div class="section-label">Call Log</div>
+  <div class="log-table-wrap">
+    <table class="log-table">
+      <thead>
+        <tr>
+          <th>Date</th><th>Prospect</th><th>Length</th><th>Show</th><th>Qualified</th><th>Won</th>
+          <th>Objection</th><th>CC</th><th>Revenue</th><th>Follow Up</th><th>Setter</th><th>Notes</th><th></th>
+        </tr>
+      </thead>
+      <tbody id="log-tbody"></tbody>
+    </table>
+    <div class="log-empty" id="log-empty">No calls logged yet — add your first one above.</div>
+  </div>
+
+</main>
+
+<script>
+function toggleTheme(){
+  var h=document.documentElement,n=h.dataset.theme==='day'?'night':'day';
+  h.dataset.theme=n;
+  var l=document.getElementById('mode-lbl');if(l)l.textContent=n==='day'?'Day':'Night';
+  try{localStorage.setItem('tb-theme',n);}catch(e){}
+}
+(function(){try{var s=localStorage.getItem('tb-theme')||document.documentElement.dataset.theme||'day';
+  var l=document.getElementById('mode-lbl');if(l)l.textContent=s==='day'?'Day':'Night';}catch(e){}})();
+
+var STORE_KEY='salesio_call_log';
+var OBJ_LABELS={partner:'Partner',finance:'Finance',uncertain:'Uncertain / Confused',timing:'Timing',program:'Another Program'};
+
+function loadCalls(){try{return JSON.parse(localStorage.getItem(STORE_KEY))||[];}catch(e){return [];}}
+function saveCalls(calls){try{localStorage.setItem(STORE_KEY,JSON.stringify(calls));}catch(e){}}
+function esc(s){var d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
+function fmtDate(d){if(!d)return '—';var dt=new Date(d+'T12:00:00');return dt.toLocaleDateString('en-US',{month:'short',day:'numeric'});}
+function fmtMoney(n){return '$'+Math.round(n).toLocaleString();}
+
+function addCall(){
+  var first=document.getElementById('f-first').value.trim();
+  var date=document.getElementById('f-date').value;
+  if(!date||!first){alert('Date and prospect first name are required.');return;}
+  var calls=loadCalls();
+  calls.unshift({
+    id:Date.now()+Math.random(),
+    date:date,
+    first:first,
+    last:document.getElementById('f-last').value.trim(),
+    length:parseFloat(document.getElementById('f-length').value)||0,
+    setter:document.getElementById('f-setter').value.trim(),
+    objection:document.getElementById('f-objection').value,
+    cc:parseFloat(document.getElementById('f-cc').value)||0,
+    rev:parseFloat(document.getElementById('f-rev').value)||0,
+    followup:document.getElementById('f-followup').value,
+    notes:document.getElementById('f-notes').value.trim(),
+    show:document.getElementById('f-show').checked,
+    qualified:document.getElementById('f-qualified').checked,
+    won:document.getElementById('f-won').checked
+  });
+  saveCalls(calls);
+  ['f-first','f-last','f-length','f-setter','f-cc','f-rev','f-followup','f-notes'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('f-objection').value='';
+  document.getElementById('f-date').value='';
+  ['f-show','f-qualified','f-won'].forEach(function(id){document.getElementById(id).checked=false;});
+  render();
+}
+
+function deleteCall(id){
+  if(!confirm('Delete this call?'))return;
+  saveCalls(loadCalls().filter(function(c){return c.id!==id;}));
+  render();
+}
+
+function pill(val){return '<span class="pill '+(val?'yes':'no')+'">'+(val?'Yes':'No')+'</span>';}
+
+function render(){
+  var calls=loadCalls();
+  var tbody=document.getElementById('log-tbody');
+  var empty=document.getElementById('log-empty');
+  if(!calls.length){
+    tbody.innerHTML='';
+    empty.style.display='block';
+  }else{
+    empty.style.display='none';
+    tbody.innerHTML=calls.map(function(c){
+      return '<tr>'+
+        '<td>'+fmtDate(c.date)+'</td>'+
+        '<td>'+esc(c.first)+' '+esc(c.last)+'</td>'+
+        '<td>'+(c.length?c.length+' min':'—')+'</td>'+
+        '<td>'+pill(c.show)+'</td>'+
+        '<td>'+pill(c.qualified)+'</td>'+
+        '<td>'+pill(c.won)+'</td>'+
+        '<td>'+(c.objection?OBJ_LABELS[c.objection]:'—')+'</td>'+
+        '<td>'+(c.cc?fmtMoney(c.cc):'—')+'</td>'+
+        '<td>'+(c.rev?fmtMoney(c.rev):'—')+'</td>'+
+        '<td>'+(c.followup?fmtDate(c.followup):'—')+'</td>'+
+        '<td>'+esc(c.setter)+'</td>'+
+        '<td>'+esc(c.notes)+'</td>'+
+        '<td><button class="row-del" onclick="deleteCall('+c.id+')">✕</button></td>'+
+      '</tr>';
+    }).join('');
+  }
+
+  var totalCalls=calls.length;
+  var shows=calls.filter(function(c){return c.show;}).length;
+  var qualified=calls.filter(function(c){return c.qualified;}).length;
+  var won=calls.filter(function(c){return c.won;}).length;
+  var totalMin=calls.reduce(function(a,c){return a+(c.length||0);},0);
+  var lengthsLogged=calls.filter(function(c){return c.length>0;});
+  var avgMin=lengthsLogged.length?Math.round(totalMin/lengthsLogged.length):0;
+  var cc=calls.reduce(function(a,c){return a+(c.cc||0);},0);
+  var rev=calls.reduce(function(a,c){return a+(c.rev||0);},0);
+  var pct=function(n,d){return d>0?Math.round((n/d)*100)+'%':'0%';};
+
+  document.getElementById('s-show-rate').textContent=pct(shows,totalCalls);
+  document.getElementById('s-qshow-rate').textContent=pct(qualified,shows);
+  document.getElementById('s-close-rate').textContent=pct(won,shows);
+  document.getElementById('s-qclose-rate').textContent=pct(won,qualified);
+
+  document.getElementById('s-calls').textContent=totalCalls;
+  document.getElementById('s-shows').textContent=shows;
+  document.getElementById('s-qualified').textContent=qualified;
+  document.getElementById('s-won').textContent=won;
+
+  document.getElementById('s-time').textContent=(totalMin/60).toFixed(1)+' hrs';
+  document.getElementById('s-avg').textContent=avgMin?avgMin+' min':'—';
+  document.getElementById('s-cc').textContent=fmtMoney(cc);
+  document.getElementById('s-rev').textContent=fmtMoney(rev);
+
+  var objCounts={partner:0,finance:0,uncertain:0,timing:0,program:0};
+  calls.forEach(function(c){if(c.objection&&objCounts.hasOwnProperty(c.objection))objCounts[c.objection]++;});
+  document.getElementById('o-partner').textContent=objCounts.partner;
+  document.getElementById('o-finance').textContent=objCounts.finance;
+  document.getElementById('o-uncertain').textContent=objCounts.uncertain;
+  document.getElementById('o-timing').textContent=objCounts.timing;
+  document.getElementById('o-program').textContent=objCounts.program;
+}
+
+render();
+</script>
+</body>
+</html>
