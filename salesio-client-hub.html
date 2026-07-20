@@ -94,8 +94,9 @@ input,select,textarea{font-family:inherit;}
 .page{max-width:1280px;margin:0 auto;padding:2rem;}
 
 /* ── Stats ── */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;}
-@media(max-width:800px){.stats-row{grid-template-columns:1fr 1fr;}}
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-bottom:2rem;}
+@media(max-width:900px){.stats-row{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:560px){.stats-row{grid-template-columns:1fr 1fr;}}
 .stat-card{background:var(--surface);border:1px solid var(--bdr);border-radius:var(--r);padding:1.25rem 1.375rem;}
 .stat-label{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);margin-bottom:.5rem;font-weight:600;}
 .stat-val{font-size:2rem;font-weight:700;line-height:1;color:var(--text);letter-spacing:-.03em;}
@@ -103,6 +104,8 @@ input,select,textarea{font-family:inherit;}
 .stat-card.accent .stat-val{color:var(--accent);}
 .stat-card.green .stat-val{color:var(--green);}
 .stat-card.red .stat-val{color:var(--red);}
+.stat-card.orange .stat-val{color:var(--orange);}
+.stat-card.blue .stat-val{color:var(--blue);}
 
 /* ── Toolbar ── */
 .toolbar{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;flex-wrap:wrap;}
@@ -257,15 +260,20 @@ label{font-size:.725rem;font-weight:600;color:var(--text-2);letter-spacing:.04em
       <div class="stat-val" id="stat-total">0</div>
       <div class="stat-sub">all time</div>
     </div>
-    <div class="stat-card green">
-      <div class="stat-label">Checked In</div>
-      <div class="stat-val" id="stat-checkins">0</div>
-      <div class="stat-sub">this week</div>
+    <div class="stat-card orange" style="cursor:pointer;" onclick="setFilter('renewing',document.querySelector('[data-filter=renewing]'))">
+      <div class="stat-label">Renewing Soon</div>
+      <div class="stat-val" id="stat-renewing">0</div>
+      <div class="stat-sub">week 10, 11, or 12</div>
     </div>
     <div class="stat-card red">
       <div class="stat-label">At Risk</div>
       <div class="stat-val" id="stat-risk">0</div>
       <div class="stat-sub">need attention</div>
+    </div>
+    <div class="stat-card blue">
+      <div class="stat-label">Balance Due</div>
+      <div class="stat-val" id="stat-balance">$0</div>
+      <div class="stat-sub">across all clients</div>
     </div>
   </div>
 
@@ -274,6 +282,7 @@ label{font-size:.725rem;font-weight:600;color:var(--text-2);letter-spacing:.04em
     <div class="filter-tabs">
       <button class="filter-tab active" data-filter="all" onclick="setFilter('all',this)">All</button>
       <button class="filter-tab" data-filter="active" onclick="setFilter('active',this)">Active</button>
+      <button class="filter-tab" data-filter="renewing" onclick="setFilter('renewing',this)">Renewing</button>
       <button class="filter-tab" data-filter="risk" onclick="setFilter('risk',this)">At Risk</button>
       <button class="filter-tab" data-filter="completed" onclick="setFilter('completed',this)">Completed</button>
       <button class="filter-tab" data-filter="renewed" onclick="setFilter('renewed',this)">Renewed</button>
@@ -541,16 +550,28 @@ function avatarInitials(coach){
   return coach ? coach.slice(0,2).toUpperCase() : '??';
 }
 
+// ── Renewal check ──
+function renewalWeek(c){
+  if(c.payment==='annual') return null;
+  return weekNum(c.start);
+}
+function isRenewing(c){
+  var w = renewalWeek(c);
+  return w && w >= 10 && (c.status==='active' || c.status==='risk');
+}
+
 // ── Stats ──
 function updateStats(){
   var active = clients.filter(function(c){return c.status==='active';}).length;
   var total = clients.length;
-  var checkins = clients.filter(function(c){return c.checkin && c.status==='active';}).length;
   var risk = clients.filter(function(c){return c.status==='risk';}).length;
+  var renewing = clients.filter(isRenewing).length;
+  var balance = clients.reduce(function(sum,c){ return sum + (parseFloat(c.balance)||0); }, 0);
   document.getElementById('stat-active').textContent = active;
   document.getElementById('stat-total').textContent = total;
-  document.getElementById('stat-checkins').textContent = checkins;
   document.getElementById('stat-risk').textContent = risk;
+  document.getElementById('stat-renewing').textContent = renewing;
+  document.getElementById('stat-balance').textContent = balance ? '$'+balance.toLocaleString() : '$0';
 }
 
 // ── Filter & Search ──
@@ -564,7 +585,7 @@ function setFilter(f, el){
 function filtered(){
   var q = (document.getElementById('searchInput').value || '').toLowerCase();
   return clients.filter(function(c){
-    var matchFilter = currentFilter==='all' || c.status===currentFilter;
+    var matchFilter = currentFilter==='all' || c.status===currentFilter || (currentFilter==='renewing' && isRenewing(c));
     var matchCoach = !filterCoach || c.coach===filterCoach;
     var matchQ = !q || (c.first+' '+c.last).toLowerCase().includes(q) || (c.email||'').toLowerCase().includes(q);
     return matchFilter && matchCoach && matchQ;
@@ -589,9 +610,11 @@ function renderTable(){
     var pct = w ? Math.round((w/12)*100) : 0;
     var weekDisplay = isAnnual ? '<span style="font-size:.7rem;color:var(--accent);font-weight:700;letter-spacing:.06em;">ANNUAL</span>' : (w ? 'Wk '+w+' / 12' : '—');
     var roleTag = c.needsRole ? '<span style="font-size:.6rem;letter-spacing:.06em;padding:.1rem .4rem;border-radius:4px;background:var(--orange-dim);color:var(--orange);border:1px solid var(--orange-bdr);margin-left:.4rem;">'+(c.roleReady?'ROLE ✓':'ROLE')+'</span>' : '';
+    var rw = renewalWeek(c);
+    var renewTag = rw && rw>=10 ? '<span style="font-size:.6rem;letter-spacing:.06em;padding:.1rem .4rem;border-radius:4px;background:var(--blue-dim);color:var(--blue);border:1px solid var(--blue-bdr);margin-left:.4rem;">'+(rw===12?'RENEW NOW':rw===11?'RENEW 1WK':'RENEW 2WK')+'</span>' : '';
     var payDisplay = c.payAmt ? '$'+Number(c.payAmt).toLocaleString() : payLabel(c.payment);
     return '<tr onclick="openDetail(\''+c.id+'\')">' +
-      '<td><div class="client-name">'+esc(c.first)+' '+esc(c.last)+roleTag+'</div><div class="client-email">'+esc(c.email||'')+'</div></td>' +
+      '<td><div class="client-name">'+esc(c.first)+' '+esc(c.last)+renewTag+roleTag+'</div><div class="client-email">'+esc(c.notes ? c.notes.slice(0,48)+(c.notes.length>48?'…':'') : '')+'</div></td>' +
       '<td><div class="week-cell">'+(isAnnual?'':('<div class="week-bar"><div class="week-fill" style="width:'+pct+'%"></div></div>'))+' <span class="week-text">'+weekDisplay+'</span></div></td>' +
       '<td>'+statusBadge(c.status)+'</td>' +
       '<td><span class="coach-avatar" title="'+esc(c.coach||'')+'">'+avatarInitials(c.coach||'')+'</span></td>' +
