@@ -3,344 +3,529 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sales.io — Day One Expectations</title>
-<script>
-try{var s=localStorage.getItem('tb-theme');if(s)document.documentElement.dataset.theme=s;}catch(e){}
-</script>
+<title>Sales.io — Day One</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script>try{var s=localStorage.getItem('tb-theme');if(s)document.documentElement.dataset.theme=s;}catch(e){}</script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{font-size:15px;scroll-behavior:smooth;}
+html{scroll-behavior:smooth;}
 
 :root,[data-theme="day"]{
-  --bg:          #EAE4D9;
-  --card-bg:     #FFFFFF;
-  --card-bdr:    #E2DDD3;
-  --card-bg-2:   #F4F0E8;
-  --card-bg-3:   #F0EBE3;
-  --text-primary:#0A0A08;
-  --text-secondary:#444;
-  --text-muted:  #AAA49A;
-  --text-faint:  #C8C2B8;
-  --accent:      #A09070;
-  --accent-dim:  rgba(160,144,112,.08);
-  --accent-bdr:  rgba(160,144,112,.25);
-  --green:       #A09070;
-  --green-dim:   rgba(160,144,112,.08);
-  --green-bdr:   rgba(160,144,112,.22);
-  --bdr:         #E2DDD3;
-  --bdr-2:       #D5CFBF;
-  --tag-bg:      #F0EBE3;
-  --tag-c:       #B8B2A8;
-  --num-bg:      #F0EBE3;
-  --num-c:       #C8C2B8;
-  --sidebar-bg:  #0e0e0c;
+  --bg:#EAE4D9;
+  --bg-2:#E0D9CE;
+  --card:#FFFFFF;
+  --card-2:#F5F1EB;
+  --card-3:#EFE9E0;
+  --bdr:#D8D2C8;
+  --bdr-2:#C8C2B8;
+  --text:#0A0A08;
+  --text-2:#44403C;
+  --text-3:#AAA49A;
+  --text-4:#C8C2B8;
+  --accent:#5a5a52;
+  --green:#3d6b4a;
+  --green-dim:rgba(61,107,74,.07);
+  --green-bdr:rgba(61,107,74,.18);
+  --gold:#8a7040;
+  --gold-dim:rgba(138,112,64,.07);
+  --gold-bdr:rgba(138,112,64,.2);
   --toggle-track:#1a1a18;
-  --toggle-bdr:  #1a1a18;
+  --toggle-bdr:#1a1a18;
   --toggle-thumb:#252525;
-  --toggle-lbl:  #2a2a2a;
+  --toggle-lbl:#999;
 }
 [data-theme="night"]{
-  --bg:          #000000;
-  --card-bg:     #0a0a0a;
-  --card-bdr:    #161616;
-  --card-bg-2:   #0d0d0d;
-  --card-bg-3:   #0a0a0a;
-  --text-primary:#FFFFFF;
-  --text-secondary:#cccccc;
-  --text-muted:  #555555;
-  --text-faint:  #2a2a2a;
-  --accent:      #4ade80;
-  --accent-dim:  rgba(74,222,128,.06);
-  --accent-bdr:  rgba(74,222,128,.2);
-  --green:       #4ade80;
-  --green-dim:   rgba(74,222,128,.06);
-  --green-bdr:   rgba(74,222,128,.18);
-  --bdr:         #161616;
-  --bdr-2:       #111111;
-  --tag-bg:      #0d0d0d;
-  --tag-c:       #2a2a2a;
-  --num-bg:      #111111;
-  --num-c:       #2a2a2a;
-  --sidebar-bg:  #060606;
+  --bg:#000000;
+  --bg-2:#040402;
+  --card:#0a0a08;
+  --card-2:#0e0e0c;
+  --card-3:#121210;
+  --bdr:#1a1a18;
+  --bdr-2:#222220;
+  --text:#EAE4D9;
+  --text-2:#aaa49a;
+  --text-3:#555550;
+  --text-4:#2a2a28;
+  --accent:#4ade80;
+  --green:#4ade80;
+  --green-dim:rgba(74,222,128,.05);
+  --green-bdr:rgba(74,222,128,.15);
+  --gold:#c9a96e;
+  --gold-dim:rgba(201,169,110,.06);
+  --gold-bdr:rgba(201,169,110,.2);
   --toggle-track:#0d2b1a;
-  --toggle-bdr:  #111111;
+  --toggle-bdr:#111;
   --toggle-thumb:#4ade80;
-  --toggle-lbl:  #333333;
+  --toggle-lbl:#333;
 }
 
 body{
-  background:var(--bg);
-  color:var(--text-primary);
-  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  line-height:1.7;
+  background:var(--bg);color:var(--text);
+  font-family:'Inter',-apple-system,sans-serif;
   -webkit-font-smoothing:antialiased;
   transition:background .3s,color .3s;
+  line-height:1.7;font-size:15px;
 }
 
-.page{max-width:760px;margin:0 auto;padding:0 2rem 8rem;}
+.wrap{max-width:820px;margin:0 auto;padding:0 2.5rem;}
 
-/* ── Top bar ── */
-.topbar{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:1.375rem 0;border-bottom:1px solid var(--bdr);margin-bottom:3.5rem;
-  transition:border-color .3s;
+/* ── Header ── */
+.site-header{
+  position:sticky;top:0;z-index:100;
+  background:var(--bg);border-bottom:1px solid var(--bdr);
+  transition:background .3s,border-color .3s;padding:0 2.5rem;
 }
-.topbar-logo{
-  font-size:.625rem;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--text-muted);font-family:'SF Mono',monospace;
-  transition:color .3s;
+.site-header-inner{
+  max-width:820px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;height:56px;
 }
-.topbar-right{display:flex;align-items:center;gap:.875rem;}
-.topbar-tag{
-  font-size:.575rem;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--accent);background:var(--accent-dim);border:1px solid var(--accent-bdr);
-  border-radius:50px;padding:.25rem .75rem;font-family:'SF Mono',monospace;
+.header-logo{display:flex;align-items:center;gap:.75rem;}
+.logo-mark{
+  width:26px;height:26px;background:var(--accent);border-radius:5px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.6rem;font-weight:900;color:var(--bg);
+  transition:background .3s,color .3s;letter-spacing:-.02em;
+}
+[data-theme="night"] .logo-mark{color:#000;}
+.logo-text{
+  font-size:.7rem;font-weight:800;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--text-3);transition:color .3s;
+}
+.header-right{display:flex;align-items:center;gap:1rem;}
+.header-tag{
+  font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--accent);background:var(--green-dim);
+  border:1px solid var(--green-bdr);border-radius:50px;
+  padding:.25rem .8rem;font-family:'SF Mono',monospace;font-weight:700;
   transition:all .3s;
 }
-
-/* Toggle */
 .toggle-row{display:flex;align-items:center;gap:.5rem;}
 .toggle-lbl{
-  font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--toggle-lbl);transition:color .3s;font-family:'SF Mono',monospace;
+  font-size:.575rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--toggle-lbl);font-family:'SF Mono',monospace;transition:color .3s;
 }
 .toggle-switch{
   width:40px;height:22px;border-radius:11px;
   background:var(--toggle-track);border:1px solid var(--toggle-bdr);
-  position:relative;cursor:pointer;transition:background .25s,border-color .25s;
-  flex-shrink:0;
+  position:relative;cursor:pointer;transition:background .25s,border-color .25s;flex-shrink:0;
 }
 .toggle-thumb{
-  position:absolute;top:3px;left:3px;
-  width:14px;height:14px;border-radius:50%;
-  background:var(--toggle-thumb);
-  transition:transform .25s,background .25s;
+  position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;
+  background:var(--toggle-thumb);transition:transform .25s,background .25s;
 }
 [data-theme="night"] .toggle-thumb{transform:translateX(18px);}
 
 /* ── Hero ── */
-.hero{padding:3.5rem 0 3rem;border-bottom:1px solid var(--bdr);transition:border-color .3s;}
-.eyebrow{
-  font-size:.55rem;letter-spacing:.26em;text-transform:uppercase;
-  color:var(--accent);font-family:'SF Mono',monospace;margin-bottom:1rem;
-  font-weight:800;transition:color .3s;
+.hero{
+  padding:7rem 0 5.5rem;position:relative;overflow:hidden;
+  border-bottom:1px solid var(--bdr);transition:border-color .3s;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(var(--bdr) 1px,transparent 1px),
+    linear-gradient(90deg,var(--bdr) 1px,transparent 1px);
+  background-size:52px 52px;opacity:.4;pointer-events:none;transition:opacity .3s;
+}
+[data-theme="night"] .hero::before{opacity:.18;}
+.hero-eyebrow{
+  font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--accent);font-family:'SF Mono',monospace;
+  font-weight:800;margin-bottom:1.75rem;transition:color .3s;position:relative;z-index:1;
 }
 .hero-title{
-  font-size:clamp(2.25rem,8vw,3.75rem);font-weight:900;line-height:1.04;
-  letter-spacing:-.035em;color:var(--text-primary);margin-bottom:1.25rem;
-  transition:color .3s;
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(4rem,13vw,8rem);
+  font-weight:900;line-height:.9;
+  letter-spacing:-.04em;color:var(--text);
+  margin-bottom:2rem;transition:color .3s;position:relative;z-index:1;
 }
-.hero-body{
-  font-size:.9375rem;color:var(--text-secondary);line-height:1.85;
-  max-width:54ch;transition:color .3s;
+.hero-title em{font-style:italic;font-weight:400;color:var(--accent);transition:color .3s;}
+.hero-deck{
+  font-size:.9375rem;color:var(--text-2);line-height:1.9;
+  max-width:48ch;font-weight:300;transition:color .3s;position:relative;z-index:1;
 }
-.hero-body strong{color:var(--text-primary);}
+.hero-deck strong{color:var(--text);font-weight:600;}
+.hero-ghost{
+  position:absolute;right:-1.5rem;bottom:-2rem;
+  font-family:'Playfair Display',serif;
+  font-size:clamp(10rem,30vw,22rem);font-weight:900;
+  line-height:1;color:var(--text);opacity:.025;
+  pointer-events:none;user-select:none;letter-spacing:-.04em;
+  transition:opacity .3s,color .3s;
+}
 
 /* ── Section ── */
-.section{padding:2.75rem 0;border-bottom:1px solid var(--bdr);transition:border-color .3s;}
-.section:last-of-type{border-bottom:none;}
-.section-title{
-  font-size:1.25rem;font-weight:800;color:var(--text-primary);
-  letter-spacing:-.02em;margin-bottom:.625rem;transition:color .3s;
+.doc-section{
+  padding:4.5rem 0;
+  border-bottom:1px solid var(--bdr);
+  opacity:0;transform:translateY(24px);
+  transition:opacity .55s ease,transform .55s ease,border-color .3s;
 }
-.section-body{
-  font-size:.875rem;color:var(--text-secondary);line-height:1.85;
-  max-width:58ch;transition:color .3s;
+.doc-section.visible{opacity:1;transform:translateY(0);}
+.doc-section:last-of-type{border-bottom:none;}
+.sec-header{margin-bottom:2.5rem;}
+.sec-num{
+  display:block;font-size:.55rem;font-weight:900;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--accent);
+  font-family:'SF Mono',monospace;margin-bottom:.75rem;transition:color .3s;
 }
-.section-body strong{color:var(--text-primary);}
+.sec-title{
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(1.75rem,5vw,2.375rem);
+  font-weight:700;line-height:1.1;letter-spacing:-.025em;
+  color:var(--text);margin-bottom:.75rem;transition:color .3s;
+}
+.sec-body{
+  font-size:.9rem;color:var(--text-2);line-height:1.9;
+  max-width:56ch;font-weight:300;transition:color .3s;
+}
+.sec-body strong{color:var(--text);font-weight:600;}
 
 /* ── Pillars ── */
-.pillars{display:grid;grid-template-columns:1fr 1fr;gap:.875rem;margin-top:1.625rem;}
-.pillar{
-  background:var(--card-bg);border:1px solid var(--card-bdr);
-  border-radius:12px;padding:1.25rem 1.375rem;transition:background .3s,border-color .3s;
+.pillars{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1px;background:var(--bdr);
+  border:1px solid var(--bdr);border-radius:14px;overflow:hidden;
+  margin-top:2.5rem;
 }
-.pillar-icon{font-size:1.125rem;margin-bottom:.75rem;}
+.pillar{background:var(--card);padding:1.875rem;transition:background .3s;}
+.pillar-num{
+  font-size:.55rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text-4);font-family:'SF Mono',monospace;
+  margin-bottom:1.25rem;transition:color .3s;
+}
+.pillar-icon{font-size:1.375rem;margin-bottom:1rem;}
 .pillar-title{
-  font-size:.875rem;font-weight:700;color:var(--text-primary);
-  margin-bottom:.375rem;transition:color .3s;
+  font-size:.9375rem;font-weight:700;color:var(--text);
+  margin-bottom:.5rem;transition:color .3s;
 }
-.pillar-body{font-size:.775rem;color:var(--text-secondary);line-height:1.75;transition:color .3s;}
-.pillar-body strong{color:var(--text-primary);}
+.pillar-body{
+  font-size:.775rem;color:var(--text-2);line-height:1.85;
+  font-weight:300;transition:color .3s;
+}
+.pillar-body strong{color:var(--text);font-weight:600;}
 
 /* ── Schedule ── */
-.schedule{display:flex;flex-direction:column;gap:.75rem;margin-top:1.625rem;}
-.day-card{
-  background:var(--card-bg);border:1px solid var(--card-bdr);
-  border-radius:12px;overflow:hidden;display:flex;
-  transition:background .3s,border-color .3s;
+.schedule{
+  margin-top:2.5rem;display:flex;flex-direction:column;
+  border:1px solid var(--bdr);border-radius:14px;overflow:hidden;
 }
-.day-label{
-  width:92px;flex-shrink:0;padding:1.125rem 1rem;
+.day-row{
+  display:grid;grid-template-columns:88px 1fr;
+  border-bottom:1px solid var(--bdr);transition:border-color .3s;
+}
+.day-row:last-child{border-bottom:none;}
+.day-row.featured{background:var(--green-dim);}
+.day-col{
+  padding:1.875rem 1.375rem;border-right:1px solid var(--bdr);
   display:flex;flex-direction:column;justify-content:center;
-  border-right:1px solid var(--card-bdr);background:var(--card-bg-2);
-  transition:background .3s,border-color .3s;
+  background:var(--card-2);transition:all .3s;
 }
-.day-name{
-  font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--text-muted);font-family:'SF Mono',monospace;
-  font-weight:700;margin-bottom:.2rem;transition:color .3s;
+.day-row.featured .day-col{background:transparent;}
+.day-name-sm{
+  font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;
+  font-family:'SF Mono',monospace;font-weight:800;
+  color:var(--text-4);margin-bottom:.3rem;transition:color .3s;
 }
-.day-abbr{
-  font-size:1rem;font-weight:900;color:var(--text-faint);
-  letter-spacing:-.02em;transition:color .3s;
+.day-abbr-lg{
+  font-family:'Playfair Display',serif;
+  font-size:1.625rem;font-weight:700;color:var(--text-3);
+  line-height:1;letter-spacing:-.02em;transition:color .3s;
 }
-.day-label.green .day-name,.day-label.green .day-abbr{color:var(--accent);}
-.day-sessions{flex:1;padding:1.125rem 1.375rem;display:flex;flex-direction:column;gap:.625rem;}
-.session{display:flex;align-items:flex-start;gap:.875rem;}
-.session-host{
-  font-size:.575rem;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--text-muted);font-family:'SF Mono',monospace;
-  white-space:nowrap;margin-top:.175rem;min-width:52px;font-weight:700;
-  transition:color .3s;
+.day-row.featured .day-name-sm,
+.day-row.featured .day-abbr-lg{color:var(--accent);}
+.sessions-col{
+  padding:1.875rem 2rem;display:flex;flex-direction:column;gap:1.25rem;
+  background:var(--card);transition:background .3s;
 }
-.session-name{
-  font-size:.875rem;font-weight:700;color:var(--text-primary);transition:color .3s;
+.day-row.featured .sessions-col{background:transparent;}
+.session-host-tag{
+  font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text-3);font-family:'SF Mono',monospace;
+  font-weight:700;margin-bottom:.3rem;transition:color .3s;
+}
+.session-title{
+  font-size:.9375rem;font-weight:700;color:var(--text);
+  margin-bottom:.35rem;transition:color .3s;
 }
 .session-desc{
-  font-size:.75rem;color:var(--text-secondary);line-height:1.65;
-  margin-top:.1rem;transition:color .3s;
+  font-size:.775rem;color:var(--text-2);line-height:1.75;
+  font-weight:300;transition:color .3s;
 }
-.session-divider{border:none;border-top:1px solid var(--bdr);margin:.5rem 0;transition:border-color .3s;}
-.day-card.sunday{opacity:.45;}
+.session-sep{border:none;border-top:1px solid var(--bdr);transition:border-color .3s;}
+.day-row.sunday{opacity:.35;}
 
-/* ── 1-on-1 block ── */
-.ooo-block{
-  background:var(--card-bg);border:1px solid var(--card-bdr);
-  border-radius:12px;margin-top:1.625rem;overflow:hidden;
-  transition:background .3s,border-color .3s;
+/* ── Spaces ── */
+.spaces{
+  margin-top:2.5rem;display:flex;flex-direction:column;
+  border:1px solid var(--bdr);border-radius:14px;overflow:hidden;
 }
-.ooo-header{
-  padding:1.125rem 1.375rem;border-bottom:1px solid var(--card-bdr);
-  display:flex;align-items:center;gap:.875rem;
-  background:var(--card-bg-2);transition:background .3s,border-color .3s;
+.space-item{
+  display:flex;align-items:flex-start;gap:1.125rem;
+  padding:1.375rem 1.75rem;border-bottom:1px solid var(--bdr);
+  background:var(--card);transition:all .3s;
 }
-.ooo-icon{
-  width:34px;height:34px;border-radius:8px;background:var(--tag-bg);
-  border:1px solid var(--card-bdr);display:flex;align-items:center;
-  justify-content:center;font-size:.875rem;flex-shrink:0;transition:all .3s;
+.space-item:last-child{border-bottom:none;}
+.space-item:hover{background:var(--card-2);}
+.space-num{
+  font-size:.55rem;font-weight:900;color:var(--text-4);
+  font-family:'SF Mono',monospace;letter-spacing:.06em;
+  min-width:22px;margin-top:.15rem;transition:color .3s;
 }
-.ooo-title{font-size:.875rem;font-weight:700;color:var(--text-primary);transition:color .3s;}
-.ooo-sub{font-size:.725rem;color:var(--text-muted);margin-top:.15rem;transition:color .3s;}
-.ooo-body{padding:1.125rem 1.375rem;}
-.ooo-row{
-  display:flex;gap:1rem;padding:.625rem 0;
-  border-bottom:1px solid var(--bdr);align-items:flex-start;
+.space-icon{font-size:.9375rem;flex-shrink:0;margin-top:.075rem;}
+.space-name{
+  font-size:.9rem;font-weight:700;color:var(--text);
+  margin-bottom:.25rem;transition:color .3s;
+}
+.space-desc{
+  font-size:.775rem;color:var(--text-2);line-height:1.7;
+  font-weight:300;transition:color .3s;
+}
+.space-tag{
+  display:inline-block;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--green-dim);color:var(--accent);
+  border:1px solid var(--green-bdr);border-radius:4px;
+  padding:.1rem .4rem;margin-left:.5rem;
+  font-family:'SF Mono',monospace;font-weight:800;
+  vertical-align:middle;transition:all .3s;
+}
+
+/* ── 1-on-1 flow ── */
+.oneonone-flow{margin-top:2.5rem;display:flex;flex-direction:column;}
+.flow-step{
+  display:grid;grid-template-columns:48px 1fr;
+  padding:1.625rem 0;border-bottom:1px solid var(--bdr);
   transition:border-color .3s;
 }
-.ooo-row:last-child{border-bottom:none;}
-.ooo-num{
-  width:20px;height:20px;border-radius:50%;background:var(--num-bg);
-  border:1px solid var(--card-bdr);display:flex;align-items:center;
-  justify-content:center;font-size:.55rem;font-weight:800;
-  color:var(--num-c);flex-shrink:0;margin-top:.15rem;transition:all .3s;
+.flow-step:last-child{border-bottom:none;}
+.flow-num-wrap{display:flex;flex-direction:column;align-items:center;}
+.flow-num{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--card-2);border:1px solid var(--bdr);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.6rem;font-weight:900;color:var(--accent);
+  font-family:'SF Mono',monospace;flex-shrink:0;transition:all .3s;
 }
-.ooo-text{font-size:.8375rem;color:var(--text-secondary);line-height:1.7;transition:color .3s;}
-.ooo-text strong{color:var(--text-primary);}
+.flow-line{width:1px;flex:1;background:var(--bdr);margin-top:.5rem;transition:background .3s;}
+.flow-step:last-child .flow-line{display:none;}
+.flow-content{padding-left:1.25rem;}
+.flow-title{
+  font-size:.9rem;font-weight:700;color:var(--text);
+  margin-bottom:.375rem;transition:color .3s;
+}
+.flow-body{
+  font-size:.8rem;color:var(--text-2);line-height:1.85;
+  font-weight:300;transition:color .3s;
+}
+.flow-body strong{color:var(--text);font-weight:600;}
 
-/* ── Call review ── */
-.cr-block{
-  background:var(--card-bg);border:1px solid var(--card-bdr);
-  border-radius:12px;padding:1.25rem 1.375rem;margin-top:1.625rem;
-  transition:background .3s,border-color .3s;
+/* ── Call review steps ── */
+.cr-steps-list{margin-top:2.5rem;display:flex;flex-direction:column;}
+.cr-step-item{
+  display:flex;align-items:flex-start;gap:1.125rem;
+  padding:1.25rem 0;border-bottom:1px solid var(--bdr);
+  font-size:.8375rem;color:var(--text-2);line-height:1.7;
+  font-weight:300;transition:all .3s;
 }
-.cr-top{display:flex;align-items:center;gap:.75rem;margin-bottom:.875rem;}
-.cr-title{font-size:.875rem;font-weight:700;color:var(--text-primary);transition:color .3s;}
-.cr-body{font-size:.8125rem;color:var(--text-secondary);line-height:1.8;transition:color .3s;}
-.cr-body strong{color:var(--text-primary);}
-.cr-steps{margin-top:1rem;display:flex;flex-direction:column;gap:.5rem;}
-.cr-step{
-  display:flex;gap:.875rem;align-items:flex-start;
-  font-size:.8125rem;color:var(--text-secondary);line-height:1.65;transition:color .3s;
+.cr-step-item:last-child{border-bottom:none;}
+.cr-step-item strong{color:var(--text);font-weight:600;}
+.cr-n{
+  width:24px;height:24px;border-radius:50%;
+  background:var(--accent);display:flex;align-items:center;
+  justify-content:center;font-size:.575rem;font-weight:900;
+  color:var(--bg);flex-shrink:0;margin-top:.1rem;transition:all .3s;
 }
-.cr-num{
-  font-size:.55rem;font-weight:900;color:var(--bg);background:var(--accent);
-  border-radius:50%;width:18px;height:18px;display:flex;align-items:center;
-  justify-content:center;flex-shrink:0;margin-top:.15rem;transition:all .3s;
+[data-theme="night"] .cr-n{color:#000;}
+
+/* ── Phases ── */
+.phases{margin-top:2.5rem;display:flex;flex-direction:column;gap:1rem;}
+.phase-block{
+  background:var(--card);border:1px solid var(--bdr);
+  border-radius:14px;overflow:hidden;transition:all .3s;
+}
+.phase-hd{
+  display:flex;align-items:center;gap:1.25rem;
+  padding:1.25rem 1.625rem;border-bottom:1px solid var(--bdr);
+  background:var(--card-2);transition:all .3s;
+}
+.phase-tag{
+  font-size:.55rem;font-weight:900;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--accent);font-family:'SF Mono',monospace;transition:color .3s;
+}
+.phase-name{
+  font-size:1rem;font-weight:700;color:var(--text);transition:color .3s;
+}
+.phase-weeks-list{padding:.375rem 0;}
+.phase-wk{
+  display:flex;align-items:baseline;gap:1.125rem;
+  padding:.8125rem 1.625rem;border-bottom:1px solid var(--bdr);
+  font-size:.875rem;color:var(--text-2);
+  font-weight:300;transition:all .3s;
+}
+.phase-wk:last-child{border-bottom:none;}
+.wk-tag{
+  font-size:.575rem;font-weight:900;color:var(--accent);
+  font-family:'SF Mono',monospace;white-space:nowrap;
+  min-width:36px;letter-spacing:.04em;transition:color .3s;
 }
 
-/* ── Curriculum ── */
-.curr-block{
-  background:var(--card-bg);border:1px solid var(--card-bdr);
-  border-radius:12px;padding:1.25rem 1.375rem;margin-top:1.625rem;
-  transition:background .3s,border-color .3s;
+/* Phase 3 — Classified */
+.phase-block.classified{border-color:var(--gold-bdr);}
+.phase-block.classified .phase-hd{
+  background:var(--gold-dim);border-bottom-color:var(--gold-bdr);
 }
-.curr-top{display:flex;align-items:center;gap:.75rem;margin-bottom:.875rem;}
-.curr-title{font-size:.875rem;font-weight:700;color:var(--text-primary);transition:color .3s;}
-.curr-body{font-size:.8125rem;color:var(--text-secondary);line-height:1.8;transition:color .3s;}
-.curr-body strong{color:var(--text-primary);}
-/* Community spaces */
-.spaces{display:flex;flex-direction:column;gap:.5rem;margin-top:1.375rem;}
-.space-row{display:flex;align-items:flex-start;gap:.875rem;padding:.875rem 1.125rem;background:var(--card-bg);border:1px solid var(--card-bdr);border-radius:10px;transition:all .3s;}
-.space-icon{font-size:1rem;flex-shrink:0;margin-top:.075rem;}
-.space-body{}
-.space-name{font-size:.875rem;font-weight:700;color:var(--text-primary);margin-bottom:.2rem;transition:color .3s;}
-.space-items{font-size:.775rem;color:var(--text-secondary);line-height:1.6;transition:color .3s;}
-.space-items strong{color:var(--text-primary);}
-.space-tag{display:inline-block;font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;background:var(--accent-dim);color:var(--accent);border:1px solid var(--accent-bdr);border-radius:4px;padding:.1rem .4rem;margin-left:.5rem;font-family:'SF Mono',monospace;vertical-align:middle;font-weight:700;transition:all .3s;}
-
-/* phases */
-.phases{display:flex;flex-direction:column;gap:.75rem;margin-top:1rem;}
-.phase-block{background:var(--card-bg-3);border:1px solid var(--card-bdr);border-radius:10px;overflow:hidden;transition:all .3s;}
-.phase-header{padding:.75rem 1.125rem;border-bottom:1px solid var(--card-bdr);display:flex;align-items:center;gap:.875rem;background:var(--card-bg-2);transition:all .3s;}
-.phase-tag{font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-family:'SF Mono',monospace;font-weight:800;min-width:120px;transition:color .3s;}
-.phase-name{font-size:.875rem;font-weight:800;color:var(--text-primary);transition:color .3s;}
-.phase-weeks{padding:.625rem 1.125rem;}
-.phase-week{display:flex;align-items:baseline;gap:.75rem;padding:.45rem 0;border-bottom:1px solid var(--bdr);font-size:.8125rem;color:var(--text-secondary);transition:all .3s;}
-.phase-week:last-child{border-bottom:none;}
-.phase-week.dim{color:var(--text-muted);font-style:italic;}
-.wk-num{font-size:.6rem;font-weight:800;color:var(--accent);font-family:'SF Mono',monospace;white-space:nowrap;min-width:32px;letter-spacing:.04em;transition:color .3s;}
+.classified-body{
+  padding:3rem 2rem;text-align:center;position:relative;overflow:hidden;
+}
+.classified-body::before{
+  content:'INFLUENCE';
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-size:clamp(3.5rem,12vw,7rem);
+  font-weight:900;letter-spacing:-.04em;color:var(--gold);
+  opacity:.04;pointer-events:none;user-select:none;
+}
+.classified-lock{font-size:1.625rem;margin-bottom:1rem;opacity:.6;}
+.classified-title{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:1.25rem;font-weight:700;color:var(--gold);
+  margin-bottom:.75rem;transition:color .3s;
+}
+.classified-desc{
+  font-size:.8125rem;color:var(--text-3);line-height:1.9;
+  max-width:34ch;margin:0 auto;font-weight:300;transition:color .3s;
+}
+.classified-stamp{
+  font-size:.5rem;font-weight:900;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--gold-bdr);font-family:'SF Mono',monospace;
+  margin-top:1.75rem;transition:color .3s;
+}
 
 /* ── Rules ── */
-.rules{display:flex;flex-direction:column;gap:.625rem;margin-top:1.625rem;}
-.rule{
-  display:flex;gap:1rem;align-items:flex-start;
-  padding:.875rem 1.125rem;background:var(--card-bg);
-  border:1px solid var(--card-bdr);border-radius:10px;transition:all .3s;
+.rules{
+  margin-top:2.5rem;display:flex;flex-direction:column;
+  border:1px solid var(--bdr);border-radius:14px;overflow:hidden;
 }
-.rule-num{
-  font-size:.6rem;font-weight:800;color:var(--accent);
-  font-family:'SF Mono',monospace;min-width:22px;margin-top:.1rem;transition:color .3s;
+.rule-item{
+  display:flex;align-items:flex-start;gap:1.5rem;
+  padding:1.625rem 1.875rem;border-bottom:1px solid var(--bdr);
+  background:var(--card);transition:all .3s;
 }
-.rule-text{font-size:.84rem;color:var(--text-secondary);line-height:1.7;transition:color .3s;}
-.rule-text strong{color:var(--text-primary);}
+.rule-item:last-child{border-bottom:none;}
+.rule-item:hover{background:var(--card-2);}
+.rule-num-lg{
+  font-family:'Playfair Display',serif;
+  font-size:2.125rem;font-weight:900;color:var(--text-4);
+  line-height:1;letter-spacing:-.04em;flex-shrink:0;
+  margin-top:-.1rem;transition:color .3s;
+}
+.rule-text{
+  font-size:.875rem;color:var(--text-2);line-height:1.85;
+  font-weight:300;transition:color .3s;padding-top:.1rem;
+}
+.rule-text strong{color:var(--text);font-weight:700;}
 
-/* ── Quote ── */
+/* ── Pull quote ── */
 .pull-quote{
   border-left:2px solid var(--accent);
-  padding:1.125rem 0 1.125rem 1.625rem;margin-top:2.5rem;
-  transition:border-color .3s;
+  padding:1.25rem 0 1.25rem 2rem;margin-top:3rem;transition:border-color .3s;
 }
 .pull-quote-text{
-  font-size:1.0625rem;font-style:italic;color:var(--text-primary);
-  line-height:1.65;font-weight:400;transition:color .3s;
+  font-family:'Playfair Display',serif;
+  font-size:1.125rem;font-style:italic;color:var(--text);
+  line-height:1.6;font-weight:400;transition:color .3s;
 }
 .pull-quote-attr{
-  font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--text-muted);margin-top:.625rem;font-family:'SF Mono',monospace;
-  transition:color .3s;
+  font-size:.575rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text-3);margin-top:.75rem;
+  font-family:'SF Mono',monospace;transition:color .3s;
 }
 
-@media(max-width:560px){
+/* ── Training Bible CTA ── */
+.tb-section{
+  padding:4.5rem 0 6rem;
+  opacity:0;transform:translateY(24px);
+  transition:opacity .55s ease,transform .55s ease;
+}
+.tb-section.visible{opacity:1;transform:translateY(0);}
+.tb-label{
+  font-size:.55rem;font-weight:900;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--text-3);font-family:'SF Mono',monospace;
+  margin-bottom:1.375rem;transition:color .3s;
+}
+.tb-card{
+  display:block;text-decoration:none;
+  background:#060604;border:1px solid #1a1a16;
+  border-radius:18px;padding:3.5rem;
+  position:relative;overflow:hidden;
+  transition:border-color .3s,box-shadow .3s;
+}
+.tb-card:hover{
+  border-color:#2d3a28;
+  box-shadow:0 0 80px rgba(74,222,128,.07);
+}
+.tb-card::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(74,222,128,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(74,222,128,.025) 1px,transparent 1px);
+  background-size:40px 40px;pointer-events:none;
+}
+.tb-pre{
+  font-size:.55rem;letter-spacing:.26em;text-transform:uppercase;
+  color:#4ade80;font-family:'SF Mono',monospace;
+  font-weight:900;margin-bottom:1.25rem;position:relative;z-index:1;
+}
+.tb-title{
+  font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(1.875rem,7vw,3.25rem);
+  font-weight:700;font-style:italic;color:#EAE4D9;
+  line-height:1.05;letter-spacing:-.025em;
+  margin-bottom:1rem;position:relative;z-index:1;
+}
+.tb-body{
+  font-size:.875rem;color:#555550;line-height:1.85;
+  max-width:48ch;font-weight:300;
+  margin-bottom:2.25rem;position:relative;z-index:1;
+}
+.tb-cta{
+  display:inline-flex;align-items:center;gap:.875rem;
+  font-size:.725rem;font-weight:700;color:#4ade80;
+  letter-spacing:.08em;text-transform:uppercase;
+  font-family:'SF Mono',monospace;transition:gap .2s;
+  position:relative;z-index:1;
+}
+.tb-card:hover .tb-cta{gap:1.25rem;}
+.tb-ghost{
+  position:absolute;right:1.5rem;bottom:-2rem;
+  font-family:'Playfair Display',serif;
+  font-size:clamp(8rem,22vw,16rem);font-weight:900;
+  color:#EAE4D9;opacity:.018;
+  pointer-events:none;user-select:none;
+  line-height:1;letter-spacing:-.04em;
+}
+
+@media(max-width:620px){
+  .wrap{padding:0 1.25rem;}
+  .site-header{padding:0 1.25rem;}
   .pillars{grid-template-columns:1fr;}
-  .curr-modules{grid-template-columns:1fr 1fr;}
-  .day-card{flex-direction:column;}
-  .day-label{
-    width:100%;flex-direction:row;align-items:center;
-    gap:.75rem;border-right:none;border-bottom:1px solid var(--card-bdr);
-    padding:.875rem 1.125rem;
-  }
+  .day-row{grid-template-columns:64px 1fr;}
+  .header-tag{display:none;}
+  .tb-card{padding:2rem;}
 }
 </style>
 </head>
 <body>
-<div class="page">
 
-  <!-- Top bar -->
-  <div class="topbar">
-    <div class="topbar-logo">Sales.io</div>
-    <div class="topbar-right">
-      <div class="topbar-tag">Student Onboarding</div>
+<header class="site-header">
+  <div class="site-header-inner">
+    <div class="header-logo">
+      <div class="logo-mark">S</div>
+      <span class="logo-text">Sales.io</span>
+    </div>
+    <div class="header-right">
+      <span class="header-tag">Student Onboarding</span>
       <div class="toggle-row">
         <span class="toggle-lbl" id="mode-lbl">Day</span>
         <div class="toggle-switch" onclick="toggleTheme()" title="Toggle day / night">
@@ -349,37 +534,46 @@ body{
       </div>
     </div>
   </div>
+</header>
+
+<div class="wrap">
 
   <!-- Hero -->
   <div class="hero">
-    <div class="eyebrow">Welcome to the program</div>
-    <h1 class="hero-title">Day One.<br>Here's what<br>to expect.</h1>
-    <p class="hero-body">You just made a serious investment in yourself. Now it's time to show up like it. This doc tells you <strong>exactly what the program looks like</strong>, what's expected of you, and how to get the most out of every week.</p>
+    <div class="hero-eyebrow">Sales.io Mastermind — Week One Orientation</div>
+    <h1 class="hero-title">Day<br><em>One.</em></h1>
+    <p class="hero-deck">You just made a serious investment in yourself. This doc tells you <strong>exactly what the program looks like</strong>, what's expected of you, and how to get the most out of every week.</p>
+    <div class="hero-ghost">01</div>
   </div>
 
-  <!-- The four pillars -->
-  <div class="section">
-    <div class="eyebrow">The four pillars</div>
-    <h2 class="section-title">What the program is built on</h2>
-    <p class="section-body">Four things run every week of this program. All four matter. Miss any one of them and you're leaving results on the table.</p>
-
+  <!-- Pillars -->
+  <div class="doc-section">
+    <div class="sec-header">
+      <span class="sec-num">01 — The four pillars</span>
+      <h2 class="sec-title">What the program is built on</h2>
+      <p class="sec-body">Four things run every week of this program. All four matter. Miss any one of them and you're leaving results on the table.</p>
+    </div>
     <div class="pillars">
       <div class="pillar">
+        <div class="pillar-num">Pillar 01</div>
         <div class="pillar-icon">📞</div>
         <div class="pillar-title">Weekly 1-on-1 Coaching</div>
-        <div class="pillar-body">Private session with your coach every week. This is where your specific numbers, your specific calls, and your specific ceiling get addressed. <strong>Show up every week.</strong></div>
+        <div class="pillar-body">Private session with your coach, every week. Built around what happened that week — calls, wins, blocks, insights from the group sessions. <strong>Show up with something real.</strong></div>
       </div>
       <div class="pillar">
+        <div class="pillar-num">Pillar 02</div>
         <div class="pillar-icon">🎥</div>
         <div class="pillar-title">Weekly Call Reviews</div>
-        <div class="pillar-body">Submit a live call recording every week. This is how you get better. Not theory — <strong>real feedback on real calls you're on.</strong></div>
+        <div class="pillar-body">Submit a call recording every week. Not theory — <strong>real feedback on real calls you're actually on.</strong> The reps who submit the most improve the fastest, every time.</div>
       </div>
       <div class="pillar">
+        <div class="pillar-num">Pillar 03</div>
         <div class="pillar-icon">📚</div>
         <div class="pillar-title">Curriculum</div>
-        <div class="pillar-body">Three phases across 12 weeks — all inside Circle. Each week's 1-on-1 is built around that week's module. <strong>One module per week, minimum.</strong></div>
+        <div class="pillar-body">Three phases across 12 weeks, all on Circle. Consume the content for the week, bring it into your group calls, <strong>then bring what came up into your 1-on-1.</strong></div>
       </div>
       <div class="pillar">
+        <div class="pillar-num">Pillar 04</div>
         <div class="pillar-icon">🗓️</div>
         <div class="pillar-title">Daily Group Coaching Calls</div>
         <div class="pillar-body">Six days a week. Different focus every day. These are not optional extras — <strong>they are the program.</strong> Show up live or watch the replay same day.</div>
@@ -387,335 +581,317 @@ body{
     </div>
   </div>
 
-  <!-- Weekly schedule -->
-  <div class="section">
-    <div class="eyebrow">The weekly schedule</div>
-    <h2 class="section-title">Coaching calls run Monday through Saturday</h2>
-    <p class="section-body">Every session has a specific focus. Attend the ones that match where you're at right now — and over time, attend all of them.</p>
-
+  <!-- Schedule -->
+  <div class="doc-section">
+    <div class="sec-header">
+      <span class="sec-num">02 — The weekly schedule</span>
+      <h2 class="sec-title">Coaching calls — Monday through Saturday</h2>
+      <p class="sec-body">Every session has a different focus. What you take from these calls is what you bring into your weekly 1-on-1 to process with your coach.</p>
+    </div>
     <div class="schedule">
-
-      <div class="day-card">
-        <div class="day-label green">
-          <div class="day-name">Monday</div>
-          <div class="day-abbr">MON</div>
+      <div class="day-row featured">
+        <div class="day-col">
+          <div class="day-name-sm">Monday</div>
+          <div class="day-abbr-lg">MON</div>
         </div>
-        <div class="day-sessions">
+        <div class="sessions-col">
           <div class="session">
-            <div class="session-host">Jalen</div>
-            <div class="session-body">
-              <div class="session-name">Mock Call Monday</div>
-              <div class="session-desc">Live mock calls. Real reps. Real objections. You watch, you get called on, you practice in the moment. The fastest way to improve your close rate.</div>
-            </div>
+            <div class="session-host-tag">Jalen</div>
+            <div class="session-title">Mock Call Monday</div>
+            <div class="session-desc">Live mock calls. Real reps. Real objections. You watch, you get called on, you practice in the moment. The fastest way to improve your close rate.</div>
           </div>
         </div>
       </div>
-
-      <div class="day-card">
-        <div class="day-label">
-          <div class="day-name">Tuesday</div>
-          <div class="day-abbr">TUE</div>
+      <div class="day-row">
+        <div class="day-col">
+          <div class="day-name-sm">Tuesday</div>
+          <div class="day-abbr-lg">TUE</div>
         </div>
-        <div class="day-sessions">
+        <div class="sessions-col">
           <div class="session">
-            <div class="session-host">Evan + Cole</div>
-            <div class="session-body">
-              <div class="session-name">Call Review Day</div>
-              <div class="session-desc">Submitted call recordings get pulled apart on live. Coaches identify the exact moment the frame shifted, money got left, or connection broke. Submit your calls here.</div>
-            </div>
+            <div class="session-host-tag">Evan + Cole</div>
+            <div class="session-title">Call Review Day</div>
+            <div class="session-desc">Submitted call recordings pulled apart live. Coaches find the exact moment the frame shifted, money got left on the table, or the connection broke. Submit your calls here.</div>
           </div>
         </div>
       </div>
-
-      <div class="day-card">
-        <div class="day-label">
-          <div class="day-name">Wednesday</div>
-          <div class="day-abbr">WED</div>
+      <div class="day-row">
+        <div class="day-col">
+          <div class="day-name-sm">Wednesday</div>
+          <div class="day-abbr-lg">WED</div>
         </div>
-        <div class="day-sessions">
+        <div class="sessions-col">
           <div class="session">
-            <div class="session-host">Evan</div>
-            <div class="session-body">
-              <div class="session-name">B2B Strategy Call</div>
-              <div class="session-desc">High-ticket B2B, longer sales cycles, multi-stakeholder dynamics. If you're closing business owners or enterprise, this is the room to be in.</div>
-            </div>
+            <div class="session-host-tag">Evan</div>
+            <div class="session-title">B2B Strategy Call</div>
+            <div class="session-desc">High-ticket B2B, longer sales cycles, multi-stakeholder dynamics. If you're closing business owners or enterprise, this is the room to be in.</div>
           </div>
-          <hr class="session-divider">
+          <hr class="session-sep">
           <div class="session">
-            <div class="session-host">Cole</div>
-            <div class="session-body">
-              <div class="session-name">Sales Psychology</div>
-              <div class="session-desc">The deep stuff — cognitive dissonance, identity theory, behavioral magnetics, how humans actually make buying decisions. This is what separates closers from order-takers.</div>
-            </div>
+            <div class="session-host-tag">Cole</div>
+            <div class="session-title">Sales Psychology</div>
+            <div class="session-desc">Cognitive dissonance, identity theory, behavioral magnetics, how humans actually make buying decisions. This is what separates closers from order-takers.</div>
           </div>
         </div>
       </div>
-
-      <div class="day-card">
-        <div class="day-label">
-          <div class="day-name">Thursday</div>
-          <div class="day-abbr">THU</div>
+      <div class="day-row">
+        <div class="day-col">
+          <div class="day-name-sm">Thursday</div>
+          <div class="day-abbr-lg">THU</div>
         </div>
-        <div class="day-sessions">
+        <div class="sessions-col">
           <div class="session">
-            <div class="session-host">Jalen</div>
-            <div class="session-body">
-              <div class="session-name">Setter Mastery Call</div>
-              <div class="session-desc">Cold calling, DM outreach, LinkedIn sequences, qualifying frameworks, tonality. Whether you're setting or want to understand the full funnel — this is where it gets built.</div>
-            </div>
+            <div class="session-host-tag">Jalen</div>
+            <div class="session-title">Setter Mastery Call</div>
+            <div class="session-desc">Cold calling, DM outreach, qualifying frameworks, tonality. Whether you're setting or want to understand the full funnel — this is where it gets built.</div>
           </div>
         </div>
       </div>
-
-      <div class="day-card">
-        <div class="day-label green">
-          <div class="day-name">Friday</div>
-          <div class="day-abbr">FRI</div>
+      <div class="day-row featured">
+        <div class="day-col">
+          <div class="day-name-sm">Friday</div>
+          <div class="day-abbr-lg">FRI</div>
         </div>
-        <div class="day-sessions">
+        <div class="sessions-col">
           <div class="session">
-            <div class="session-host">JJ</div>
-            <div class="session-body">
-              <div class="session-name">Inner Circle</div>
-              <div class="session-desc">JJ runs this one personally. Identity work, ceiling-breaking conversations, live Q&amp;A, and the unfiltered stuff that doesn't go in the modules. Don't miss Fridays.</div>
-            </div>
+            <div class="session-host-tag">JJ</div>
+            <div class="session-title">Inner Circle</div>
+            <div class="session-desc">JJ runs this one personally. Identity work, ceiling-breaking conversations, live Q&amp;A, the unfiltered stuff that doesn't go in the modules. Don't miss Fridays.</div>
           </div>
         </div>
       </div>
-
-      <div class="day-card">
-        <div class="day-label">
-          <div class="day-name">Saturday</div>
-          <div class="day-abbr">SAT</div>
+      <div class="day-row">
+        <div class="day-col">
+          <div class="day-name-sm">Saturday</div>
+          <div class="day-abbr-lg">SAT</div>
         </div>
-        <div class="day-sessions">
+        <div class="sessions-col">
           <div class="session">
-            <div class="session-host">Cole</div>
-            <div class="session-body">
-              <div class="session-name">Coffee Chat</div>
-              <div class="session-desc">Open format. Bring anything — questions, situations, mental blocks. The Coffee Chat is where a lot of the real breakthroughs happen because the pressure is off and people are honest.</div>
-            </div>
+            <div class="session-host-tag">Cole</div>
+            <div class="session-title">Coffee Chat</div>
+            <div class="session-desc">Open format. Bring anything — questions, situations, mental blocks. The Coffee Chat is where a lot of the real breakthroughs happen because the pressure is off and people are honest.</div>
           </div>
         </div>
       </div>
-
-      <div class="day-card sunday">
-        <div class="day-label">
-          <div class="day-name">Sunday</div>
-          <div class="day-abbr">SUN</div>
+      <div class="day-row sunday">
+        <div class="day-col">
+          <div class="day-name-sm">Sunday</div>
+          <div class="day-abbr-lg">SUN</div>
         </div>
-        <div class="day-sessions">
+        <div class="sessions-col">
           <div class="session">
-            <div class="session-host" style="color:var(--text-faint);">—</div>
-            <div class="session-body">
-              <div class="session-name" style="color:var(--text-faint);">Rest Day</div>
-              <div class="session-desc" style="color:var(--text-faint);">No calls. No sessions. Rest, reset, prepare for Monday.</div>
-            </div>
+            <div class="session-title" style="color:var(--text-3);">Rest Day</div>
+            <div class="session-desc" style="color:var(--text-3);">No calls. No sessions. Rest, reset, prepare for Monday.</div>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 
   <!-- Circle community -->
-  <div class="section">
-    <div class="eyebrow">Where everything lives</div>
-    <h2 class="section-title">The community is on Circle</h2>
-    <p class="section-body">salesio.circle.so is your home base. Every resource, every channel, every recording — it's all in there. Here's what's inside and where to find it.</p>
-
+  <div class="doc-section">
+    <div class="sec-header">
+      <span class="sec-num">03 — Where everything lives</span>
+      <h2 class="sec-title">The community is on Circle</h2>
+      <p class="sec-body">salesio.circle.so is your home base. Every resource, every channel, every recording — all in there. Here's the map.</p>
+    </div>
     <div class="spaces">
-      <div class="space-row">
+      <div class="space-item">
+        <span class="space-num">01</span>
         <div class="space-icon">👋</div>
-        <div class="space-body">
-          <div class="space-name">Welcome + Orientation</div>
-          <div class="space-items">How to use Sales.io, the main chat — introduce yourself here on day one.</div>
-        </div>
-      </div>
-      <div class="space-row">
-        <div class="space-icon">📚</div>
-        <div class="space-body">
-          <div class="space-name">12-Week System <span class="space-tag">Curriculum</span></div>
-          <div class="space-items">Phase 1 — Foundations &nbsp;·&nbsp; Phase 2 — Growth &nbsp;·&nbsp; Phase 3 — Influence. This is where the program lives, week by week.</div>
-        </div>
-      </div>
-      <div class="space-row">
-        <div class="space-icon">🎯</div>
-        <div class="space-body">
-          <div class="space-name">Daily Execution</div>
-          <div class="space-items">Call reviews, wins, recordings. Post your calls here. Show up in this space every day.</div>
-        </div>
-      </div>
-      <div class="space-row">
-        <div class="space-icon">🔥</div>
-        <div class="space-body">
-          <div class="space-name">Live Training — Skills &amp; Drills</div>
-          <div class="space-items">Book a Mock Call. Live practice sessions. The reps who drill the most are the ones who close the most.</div>
-        </div>
-      </div>
-      <div class="space-row">
-        <div class="space-icon">📁</div>
-        <div class="space-body">
-          <div class="space-name">Resources</div>
-          <div class="space-items">Tracking sheets, coaching call recordings, and everything else you need to execute.</div>
-        </div>
-      </div>
-      <div class="space-row">
-        <div class="space-icon">💼</div>
-        <div class="space-body">
-          <div class="space-name">Career Hub</div>
-          <div class="space-items">The job board. Vetted offers, updated weekly. This is how students get placed.</div>
-        </div>
-      </div>
-      <div class="space-row">
-        <div class="space-icon">🤝</div>
-        <div class="space-body">
-          <div class="space-name">Our Partnership with Deal Fuel</div>
-          <div class="space-items">Exclusive partner benefits through our Deal Fuel partnership.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 1-on-1s -->
-  <div class="section">
-    <div class="eyebrow">Your weekly 1-on-1</div>
-    <h2 class="section-title">Private coaching — every week, no exceptions</h2>
-    <p class="section-body">Your 1-on-1 is recurring — same time, every week for 12 weeks. What you take from the group coaching calls, the curriculum, and your own calls that week gets brought into the 1-on-1 and worked through with your coach.</p>
-
-    <div class="ooo-block">
-      <div class="ooo-header">
-        <div class="ooo-icon">📞</div>
         <div>
-          <div class="ooo-title">How to use your 1-on-1</div>
-          <div class="ooo-sub">Recurring weekly session — your coach works through what came up that week.</div>
+          <div class="space-name">Welcome + Orientation</div>
+          <div class="space-desc">How to use Sales.io, the main community chat. Introduce yourself here on day one.</div>
         </div>
       </div>
-      <div class="ooo-body">
-        <div class="ooo-row">
-          <div class="ooo-num">1</div>
-          <div class="ooo-text"><strong>Your slot is already booked and recurring.</strong> Same time every week. If you need to reschedule, do it inside Circle — don't just no-show.</div>
+      <div class="space-item">
+        <span class="space-num">02</span>
+        <div class="space-icon">📚</div>
+        <div>
+          <div class="space-name">12-Week System <span class="space-tag">Curriculum</span></div>
+          <div class="space-desc">Phase 1 — Foundations &nbsp;·&nbsp; Phase 2 — Growth &nbsp;·&nbsp; Phase 3 — Influence. This is where the program lives, week by week.</div>
         </div>
-        <div class="ooo-row">
-          <div class="ooo-num">2</div>
-          <div class="ooo-text"><strong>Show up with what came up that week.</strong> What landed from the group calls? What confused you? Where did you lose a deal? What did you try that didn't work? The 1-on-1 is where you process and apply it.</div>
+      </div>
+      <div class="space-item">
+        <span class="space-num">03</span>
+        <div class="space-icon">🎯</div>
+        <div>
+          <div class="space-name">Daily Execution</div>
+          <div class="space-desc">Call reviews, wins, recordings. Post your calls here. Show up in this space every single day.</div>
         </div>
-        <div class="ooo-row">
-          <div class="ooo-num">3</div>
-          <div class="ooo-text"><strong>Bring your numbers.</strong> Close rate, calls per week, average deal size, income this month. If you don't track it, you can't coach it.</div>
+      </div>
+      <div class="space-item">
+        <span class="space-num">04</span>
+        <div class="space-icon">🔥</div>
+        <div>
+          <div class="space-name">Live Training — Skills &amp; Drills</div>
+          <div class="space-desc">Book a Mock Call. Live practice sessions. The reps who drill the most close the most.</div>
         </div>
-        <div class="ooo-row">
-          <div class="ooo-num">4</div>
-          <div class="ooo-text"><strong>Submit a call before your 1-on-1.</strong> The most productive sessions happen when your coach has already heard you on a call. Give them something to work with.</div>
+      </div>
+      <div class="space-item">
+        <span class="space-num">05</span>
+        <div class="space-icon">📁</div>
+        <div>
+          <div class="space-name">Resources</div>
+          <div class="space-desc">Tracking sheets, coaching call recordings, and everything else you need to execute.</div>
         </div>
-        <div class="ooo-row">
-          <div class="ooo-num">5</div>
-          <div class="ooo-text"><strong>Do the assigned work before the next session.</strong> If your coach tells you to do something — do it. Accountability is not optional inside this program.</div>
+      </div>
+      <div class="space-item">
+        <span class="space-num">06</span>
+        <div class="space-icon">💼</div>
+        <div>
+          <div class="space-name">Career Hub</div>
+          <div class="space-desc">The job board. Vetted offers, updated weekly. This is how students get placed.</div>
+        </div>
+      </div>
+      <div class="space-item">
+        <span class="space-num">07</span>
+        <div class="space-icon">🤝</div>
+        <div>
+          <div class="space-name">Our Partnership with Deal Fuel</div>
+          <div class="space-desc">Exclusive partner benefits through our Deal Fuel partnership.</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Call Reviews -->
-  <div class="section">
-    <div class="eyebrow">Call reviews</div>
-    <h2 class="section-title">Submit a call every week</h2>
-    <p class="section-body">Call reviews are how the coaching team sees exactly where your ceiling is. You cannot improve something you're not watching. Submit every week without exception.</p>
+  <!-- 1-on-1 -->
+  <div class="doc-section">
+    <div class="sec-header">
+      <span class="sec-num">04 — Your weekly 1-on-1</span>
+      <h2 class="sec-title">Private coaching, every week</h2>
+      <p class="sec-body">Your 1-on-1 is recurring — same time, every week for 12 weeks. What you consumed and experienced in the group calls that week gets brought into the session and worked through with your coach.</p>
+    </div>
+    <div class="oneonone-flow">
+      <div class="flow-step">
+        <div class="flow-num-wrap"><div class="flow-num">1</div><div class="flow-line"></div></div>
+        <div class="flow-content">
+          <div class="flow-title">Your slot is already booked and recurring</div>
+          <div class="flow-body">Same time every week. If you need to reschedule, do it inside Circle — don't just no-show. Every skipped session is a week of your 12 weeks gone.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num-wrap"><div class="flow-num">2</div><div class="flow-line"></div></div>
+        <div class="flow-content">
+          <div class="flow-title">Show up with what came up that week</div>
+          <div class="flow-body">What landed from the group calls? What confused you? Where did you lose a deal? What did you try that didn't work? The 1-on-1 is where you process and apply it — <strong>not where you hear things for the first time.</strong></div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num-wrap"><div class="flow-num">3</div><div class="flow-line"></div></div>
+        <div class="flow-content">
+          <div class="flow-title">Bring your numbers</div>
+          <div class="flow-body">Close rate, calls per week, average deal size, income this month. <strong>If you don't track it, you can't coach it.</strong></div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num-wrap"><div class="flow-num">4</div><div class="flow-line"></div></div>
+        <div class="flow-content">
+          <div class="flow-title">Submit a call before your session</div>
+          <div class="flow-body">The most productive 1-on-1s happen when your coach has already heard you on a call. Give them something real to work with.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num-wrap"><div class="flow-num">5</div><div class="flow-line"></div></div>
+        <div class="flow-content">
+          <div class="flow-title">Do the assigned work before the next session</div>
+          <div class="flow-body">When your coach tells you to try something — a frame, a language pattern, a call structure — <strong>do it that week.</strong> Accountability is not optional in this program.</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <div class="cr-block">
-      <div class="cr-top">
-        <div style="font-size:1.125rem;">🎥</div>
-        <div class="cr-title">How to submit your call</div>
-      </div>
-      <p class="cr-body">Submit your recordings in <strong>Daily Execution</strong> on Circle. One call minimum per week. The reps who submit the most calls improve the fastest, every time.</p>
-      <div class="cr-steps">
-        <div class="cr-step"><div class="cr-num">1</div><span>Record your sales call on Zoom, Loom, or your dialer — any platform works</span></div>
-        <div class="cr-step"><div class="cr-num">2</div><span>Post the link in <strong>Daily Execution</strong> on Circle with a short note: what went well, where you felt it slip</span></div>
-        <div class="cr-step"><div class="cr-num">3</div><span>Your call gets reviewed on <strong>Tuesday's Call Review session</strong> — live in front of the group</span></div>
-        <div class="cr-step"><div class="cr-num">4</div><span>Implement the feedback <strong>that same week</strong> — not next month, not when it feels right</span></div>
-      </div>
+  <!-- Call reviews -->
+  <div class="doc-section">
+    <div class="sec-header">
+      <span class="sec-num">05 — Call reviews</span>
+      <h2 class="sec-title">Submit a call every week</h2>
+      <p class="sec-body">Call reviews are how the coaching team sees exactly where your ceiling is. You cannot improve something you're not watching. One call minimum, every week, without exception.</p>
+    </div>
+    <div class="cr-steps-list">
+      <div class="cr-step-item"><div class="cr-n">1</div><span>Record your sales call on Zoom, Loom, or your dialer — any platform works</span></div>
+      <div class="cr-step-item"><div class="cr-n">2</div><span>Post the link in <strong>Daily Execution</strong> on Circle with a short note: what went well, where you felt it slip</span></div>
+      <div class="cr-step-item"><div class="cr-n">3</div><span>Your call gets reviewed on <strong>Tuesday's Call Review session</strong> — live in front of the group</span></div>
+      <div class="cr-step-item"><div class="cr-n">4</div><span>Implement the feedback <strong>that same week</strong> — not next month, not when it feels right</span></div>
     </div>
   </div>
 
   <!-- Curriculum -->
-  <div class="section">
-    <div class="eyebrow">Curriculum</div>
-    <h2 class="section-title">Go through the modules every week</h2>
-    <p class="section-body">The curriculum is designed to layer — what you learn in week 2 rewires how you understood week 1. Go at pace, but go consistently.</p>
-
-    <div class="curr-block">
-      <div class="curr-top">
-        <div style="font-size:1.125rem;">📚</div>
-        <div class="curr-title">What's in the curriculum</div>
+  <div class="doc-section">
+    <div class="sec-header">
+      <span class="sec-num">06 — Curriculum</span>
+      <h2 class="sec-title">Twelve weeks. Three phases.</h2>
+      <p class="sec-body">Everything lives in the <strong>12-Week System</strong> space on Circle. Go through the content for your current week, bring it into the group calls, and bring what came up on those calls into your 1-on-1.</p>
+    </div>
+    <div class="phases">
+      <div class="phase-block">
+        <div class="phase-hd">
+          <span class="phase-tag">Phase 1 — Weeks 1–4</span>
+          <span class="phase-name">Foundations</span>
+        </div>
+        <div class="phase-weeks-list">
+          <div class="phase-wk"><span class="wk-tag">WK 1</span> Best Version of Yourself</div>
+          <div class="phase-wk"><span class="wk-tag">WK 2</span> How to Learn</div>
+          <div class="phase-wk"><span class="wk-tag">WK 3</span> Call Foundations</div>
+          <div class="phase-wk"><span class="wk-tag">WK 4</span> Self-System Optimization</div>
+        </div>
       </div>
-      <p class="curr-body">Everything lives in the <strong>12-Week System</strong> space on Circle. Go through the phase for your current week, then bring what you consumed and what came up on the group calls into your 1-on-1.</p>
-      <div class="phases">
-        <div class="phase-block">
-          <div class="phase-header">
-            <div class="phase-tag">Phase 1 — Weeks 1–4</div>
-            <div class="phase-name">Foundations</div>
-          </div>
-          <div class="phase-weeks">
-            <div class="phase-week"><span class="wk-num">WK 1</span> Best Version of Yourself</div>
-            <div class="phase-week"><span class="wk-num">WK 2</span> How to Learn</div>
-            <div class="phase-week"><span class="wk-num">WK 3</span> Call Foundations</div>
-            <div class="phase-week"><span class="wk-num">WK 4</span> Self-System Optimization</div>
-          </div>
+      <div class="phase-block">
+        <div class="phase-hd">
+          <span class="phase-tag">Phase 2 — Weeks 5–8</span>
+          <span class="phase-name">Growth</span>
         </div>
-        <div class="phase-block">
-          <div class="phase-header">
-            <div class="phase-tag">Phase 2 — Weeks 5–8</div>
-            <div class="phase-name">Growth</div>
-          </div>
-          <div class="phase-weeks">
-            <div class="phase-week"><span class="wk-num">WK 5</span> Performance Audit</div>
-            <div class="phase-week"><span class="wk-num">WK 6</span> Psychology of Buying</div>
-            <div class="phase-week"><span class="wk-num">WK 7</span> Reading People</div>
-            <div class="phase-week"><span class="wk-num">WK 8</span> Discovery and the Close</div>
-          </div>
+        <div class="phase-weeks-list">
+          <div class="phase-wk"><span class="wk-tag">WK 5</span> Performance Audit</div>
+          <div class="phase-wk"><span class="wk-tag">WK 6</span> Psychology of Buying</div>
+          <div class="phase-wk"><span class="wk-tag">WK 7</span> Reading People</div>
+          <div class="phase-wk"><span class="wk-tag">WK 8</span> Discovery and the Close</div>
         </div>
-        <div class="phase-block">
-          <div class="phase-header">
-            <div class="phase-tag">Phase 3 — Weeks 9–12</div>
-            <div class="phase-name">Influence</div>
-          </div>
-          <div class="phase-weeks">
-            <div class="phase-week dim"><span class="wk-num">WK 9–12</span> Dropping soon — this phase is being finalized and will be live in Circle.</div>
-          </div>
+      </div>
+      <div class="phase-block classified">
+        <div class="phase-hd">
+          <span class="phase-tag" style="color:var(--gold);">Phase 3 — Weeks 9–12</span>
+          <span class="phase-name">Influence</span>
+        </div>
+        <div class="classified-body">
+          <div class="classified-lock">🔒</div>
+          <div class="classified-title">Earned, not explained.</div>
+          <div class="classified-desc">This phase is not outlined on day one. The work you do in Foundations and Growth will show you exactly why. Finish what comes first.</div>
+          <div class="classified-stamp">Unlocked at Week 9</div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Non-negotiables -->
-  <div class="section">
-    <div class="eyebrow">Non-negotiables</div>
-    <h2 class="section-title">The expectations are simple</h2>
-    <p class="section-body">These are the five things that separate the students who hit $30K months from the ones who don't.</p>
-
+  <div class="doc-section">
+    <div class="sec-header">
+      <span class="sec-num">07 — Non-negotiables</span>
+      <h2 class="sec-title">The five things that actually matter</h2>
+      <p class="sec-body">These separate the students who hit $30K months from the ones who stay stuck.</p>
+    </div>
     <div class="rules">
-      <div class="rule">
-        <div class="rule-num">01</div>
+      <div class="rule-item">
+        <div class="rule-num-lg">01</div>
         <div class="rule-text"><strong>Show up to your 1-on-1 every week.</strong> If you need to reschedule, reschedule — don't cancel without rebooking. Every skipped session is a week of your 12 weeks gone.</div>
       </div>
-      <div class="rule">
-        <div class="rule-num">02</div>
-        <div class="rule-text"><strong>Submit a call recording every week.</strong> It does not have to be a perfect call. In fact, the messy calls are the most valuable. Submit something.</div>
+      <div class="rule-item">
+        <div class="rule-num-lg">02</div>
+        <div class="rule-text"><strong>Submit a call recording every week.</strong> It does not have to be a perfect call. The messy ones are the most valuable. Submit something.</div>
       </div>
-      <div class="rule">
-        <div class="rule-num">03</div>
-        <div class="rule-text"><strong>Complete at least one module per week.</strong> The curriculum is the foundation everything else is built on. Don't skip it because the group calls feel more urgent.</div>
+      <div class="rule-item">
+        <div class="rule-num-lg">03</div>
+        <div class="rule-text"><strong>Stay current with the curriculum.</strong> The content fuels the group calls and your 1-on-1. Skip it and you lose the context your coaching depends on.</div>
       </div>
-      <div class="rule">
-        <div class="rule-num">04</div>
-        <div class="rule-text"><strong>Be active in the community.</strong> Post in Circle. Ask questions. Share wins. The people who hide in the background and consume without contributing fall behind.</div>
+      <div class="rule-item">
+        <div class="rule-num-lg">04</div>
+        <div class="rule-text"><strong>Be active in Circle.</strong> Post wins. Ask questions. Share what's not working. The people who hide in the background and consume without contributing fall behind every time.</div>
       </div>
-      <div class="rule">
-        <div class="rule-num">05</div>
-        <div class="rule-text"><strong>Do the assigned work between sessions.</strong> When a coach gives you something to implement — a frame to try, a language pattern, a call structure — do it before the next session.</div>
+      <div class="rule-item">
+        <div class="rule-num-lg">05</div>
+        <div class="rule-text"><strong>Do the assigned work between sessions.</strong> When your coach tells you to try something — do it before the next session. Coaching only works when you act on it.</div>
       </div>
     </div>
-
     <div class="pull-quote">
       <div class="pull-quote-text">"Who you are off your sales calls is who you are on your sales calls. The work starts here, not on the call."</div>
       <div class="pull-quote-attr">— JJ Hernandez, Sales.io</div>
@@ -724,22 +900,42 @@ body{
 
 </div>
 
+<!-- Training Bible -->
+<div class="wrap">
+  <div class="tb-section">
+    <div class="tb-label">Reference Material</div>
+    <a class="tb-card" href="https://jjhernandes.github.io/salesio-sops/training-bible-master.html#s1" target="_blank">
+      <div class="tb-pre">Sales.io — Complete Reference</div>
+      <div class="tb-title">The Training Bible</div>
+      <div class="tb-body">Every framework, every lesson, every concept taught in this program — fully documented. When something from a group call or your 1-on-1 clicks and you want to go deeper, this is where you go.</div>
+      <div class="tb-cta">Open the Training Bible &nbsp;→</div>
+      <div class="tb-ghost">TB</div>
+    </a>
+  </div>
+</div>
+
 <script>
 function toggleTheme(){
-  var html = document.documentElement;
-  var next = html.dataset.theme === 'day' ? 'night' : 'day';
-  html.dataset.theme = next;
-  var lbl = document.getElementById('mode-lbl');
-  if(lbl) lbl.textContent = next === 'day' ? 'Day' : 'Night';
-  try{ localStorage.setItem('tb-theme', next); }catch(e){}
+  var html=document.documentElement;
+  var next=html.dataset.theme==='day'?'night':'day';
+  html.dataset.theme=next;
+  var lbl=document.getElementById('mode-lbl');
+  if(lbl) lbl.textContent=next==='day'?'Day':'Night';
+  try{localStorage.setItem('tb-theme',next);}catch(e){}
 }
-// Sync label on load
 try{
-  var saved = localStorage.getItem('tb-theme');
-  var theme = saved || document.documentElement.dataset.theme || 'day';
-  var lbl = document.getElementById('mode-lbl');
-  if(lbl) lbl.textContent = theme === 'day' ? 'Day' : 'Night';
+  var saved=localStorage.getItem('tb-theme');
+  var theme=saved||document.documentElement.dataset.theme||'day';
+  var lbl=document.getElementById('mode-lbl');
+  if(lbl) lbl.textContent=theme==='day'?'Day':'Night';
 }catch(e){}
+
+var obs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}
+  });
+},{threshold:0.06});
+document.querySelectorAll('.doc-section,.tb-section').forEach(function(el){obs.observe(el);});
 </script>
 </body>
 </html>
