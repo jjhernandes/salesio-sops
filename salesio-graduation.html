@@ -395,7 +395,15 @@ body{
 
 <script>
 /* ── Week lock: unlocks at Week 10, based on ?start=YYYY-MM-DD ── */
+/* ── Admin bypass: ?preview=1 permanently unlocks this browser (used by Team HQ links) ── */
 var UNLOCK_WEEK=10;
+function isAdminUnlocked(){
+  try{
+    var params=new URLSearchParams(location.search);
+    if(params.get('preview')==='1')localStorage.setItem('salesio_admin_unlock','1');
+    return localStorage.getItem('salesio_admin_unlock')==='1';
+  }catch(e){return false;}
+}
 function getCurrentWeek(){
   var start=null;
   try{
@@ -412,7 +420,7 @@ function getCurrentWeek(){
   return wk<1?1:wk;
 }
 var CURRENT_WEEK=getCurrentWeek();
-var IS_UNLOCKED=CURRENT_WEEK>=UNLOCK_WEEK;
+var IS_UNLOCKED=isAdminUnlocked()||CURRENT_WEEK>=UNLOCK_WEEK;
 (function applyLock(){
   if(IS_UNLOCKED)return;
   var remaining=Math.max(1,UNLOCK_WEEK-CURRENT_WEEK);
