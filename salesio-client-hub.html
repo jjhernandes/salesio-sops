@@ -1,17 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="night">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sales.io — Client Hub</title>
+<script>try{var t=localStorage.getItem('salesio-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
 <style>
-:root{
+/* Night (default) */
+:root,[data-theme="night"]{
   --bg:#000000;
   --surface:#060606;
   --surface-2:#0a0a0a;
   --surface-3:#0d0d0d;
   --bdr:#161616;
-  --bdr-hv:#1e3a24;
+  --bdr-hv:#222222;
   --accent:#4ade80;
   --accent-dim:rgba(74,222,128,.07);
   --accent-bdr:rgba(74,222,128,.2);
@@ -30,6 +32,38 @@
   --blue:#60a5fa;
   --blue-dim:rgba(96,165,250,.07);
   --blue-bdr:rgba(96,165,250,.2);
+  --modal-bg:rgba(0,0,0,.75);
+  --shadow:rgba(0,0,0,.5);
+  --r:10px;
+}
+/* Day */
+[data-theme="day"]{
+  --bg:#EAE4D9;
+  --surface:#ffffff;
+  --surface-2:#f7f4ef;
+  --surface-3:#f0ebe3;
+  --bdr:#E2DDD3;
+  --bdr-hv:rgba(0,0,0,.15);
+  --accent:#5a5a5a;
+  --accent-dim:rgba(0,0,0,.05);
+  --accent-bdr:rgba(0,0,0,.15);
+  --text:#0A0A08;
+  --text-2:#444444;
+  --text-3:#AAA49A;
+  --green:#2e7d4f;
+  --green-dim:rgba(46,125,79,.07);
+  --green-bdr:rgba(46,125,79,.2);
+  --red:#c0392b;
+  --red-dim:rgba(192,57,43,.06);
+  --red-bdr:rgba(192,57,43,.18);
+  --orange:#b5622a;
+  --orange-dim:rgba(181,98,42,.06);
+  --orange-bdr:rgba(181,98,42,.18);
+  --blue:#2d5ea0;
+  --blue-dim:rgba(45,94,160,.06);
+  --blue-bdr:rgba(45,94,160,.18);
+  --modal-bg:rgba(0,0,0,.4);
+  --shadow:rgba(0,0,0,.15);
   --r:10px;
 }
 
@@ -49,7 +83,7 @@ input,select,textarea{font-family:inherit;}
 .header-actions{display:flex;align-items:center;gap:.75rem;}
 .btn{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1rem;border-radius:7px;font-size:.8125rem;font-weight:600;border:none;transition:all .15s;letter-spacing:.01em;}
 .btn-primary{background:var(--accent);color:#000;font-weight:700;}
-.btn-primary:hover{background:#6ee7a0;}
+.btn-primary:hover{filter:brightness(1.1);}
 .btn-ghost{background:transparent;color:var(--text-2);border:1px solid var(--bdr);}
 .btn-ghost:hover{border-color:var(--bdr-hv);color:var(--text);background:var(--surface-2);}
 .btn-sm{padding:.35rem .75rem;font-size:.75rem;}
@@ -134,9 +168,9 @@ tbody tr:hover{background:var(--surface-2);cursor:pointer;}
 .empty-sub{font-size:.875rem;color:var(--text-3);margin-bottom:1.5rem;}
 
 /* ── Modal ── */
-.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .2s;}
+.modal-backdrop{position:fixed;inset:0;background:var(--modal-bg);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .2s;}
 .modal-backdrop.open{opacity:1;pointer-events:all;}
-.modal{background:var(--surface);border:1px solid var(--bdr);border-radius:14px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto;transform:translateY(16px);transition:transform .2s;box-shadow:0 24px 80px rgba(0,0,0,.5);}
+.modal{background:var(--surface);border:1px solid var(--bdr);border-radius:14px;width:100%;max-width:540px;max-height:90vh;overflow-y:auto;transform:translateY(16px);transition:transform .2s;box-shadow:0 24px 80px var(--shadow);}
 .modal-backdrop.open .modal{transform:translateY(0);}
 .modal-header{padding:1.5rem 1.75rem 0;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--surface);z-index:1;padding-bottom:1rem;border-bottom:1px solid var(--bdr);}
 .modal-title{font-size:1rem;font-weight:700;}
@@ -162,9 +196,9 @@ label{font-size:.725rem;font-weight:600;color:var(--text-2);letter-spacing:.04em
 .section-label{grid-column:1/-1;font-size:.625rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3);font-weight:700;padding-top:.25rem;}
 
 /* ── Detail panel ── */
-.detail-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:flex;align-items:center;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .2s;}
+.detail-backdrop{position:fixed;inset:0;background:var(--modal-bg);z-index:200;display:flex;align-items:center;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .2s;}
 .detail-backdrop.open{opacity:1;pointer-events:all;}
-.detail-panel{background:var(--surface);border-left:1px solid var(--bdr);width:420px;max-width:100%;height:100%;overflow-y:auto;transform:translateX(420px);transition:transform .25s ease;box-shadow:-24px 0 60px rgba(0,0,0,.4);}
+.detail-panel{background:var(--surface);border-left:1px solid var(--bdr);width:420px;max-width:100%;height:100%;overflow-y:auto;transform:translateX(420px);transition:transform .25s ease;box-shadow:-24px 0 60px var(--shadow);}
 .detail-backdrop.open .detail-panel{transform:translateX(0);}
 .detail-header{padding:1.5rem;border-bottom:1px solid var(--bdr);display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;position:sticky;top:0;background:var(--surface);z-index:1;}
 .detail-name{font-size:1.125rem;font-weight:700;}
@@ -204,6 +238,7 @@ label{font-size:.725rem;font-weight:600;color:var(--text-2);letter-spacing:.04em
   </div>
   <div class="header-actions">
     <button class="btn btn-ghost btn-sm" onclick="exportCSV()">↓ Export</button>
+    <button class="btn btn-ghost btn-sm" onclick="toggleTheme()" id="themeBtn" style="font-size:.7rem;letter-spacing:.08em;">DAY</button>
     <button class="btn btn-primary" onclick="openAddModal()">+ Add Client</button>
   </div>
 </header>
@@ -692,6 +727,20 @@ function notify(msg){
   el.classList.add('show');
   setTimeout(function(){ el.classList.remove('show'); }, 2500);
 }
+
+// ── Theme ──
+function toggleTheme(){
+  var h=document.documentElement;
+  var n=h.getAttribute('data-theme')==='day'?'night':'day';
+  h.setAttribute('data-theme',n);
+  document.getElementById('themeBtn').textContent=n==='day'?'NIGHT':'DAY';
+  try{localStorage.setItem('salesio-theme',n);}catch(e){}
+}
+(function(){
+  var t=document.documentElement.getAttribute('data-theme')||'night';
+  var btn=document.getElementById('themeBtn');
+  if(btn) btn.textContent=t==='day'?'NIGHT':'DAY';
+})();
 
 // ── Init ──
 load();
