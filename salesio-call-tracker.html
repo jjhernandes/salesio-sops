@@ -190,7 +190,10 @@ body{
 
   <span class="page-tag">Sales.io Mastermind — Personal Tracking</span>
   <h1 class="page-title">Call Tracker</h1>
-  <p class="page-desc">Log every real call you take — shows, qualifies, closes, cash collected. Your numbers, tracked over time, are how you actually know if the work is landing. <strong>This stays on your device only</strong> — nothing here is sent anywhere or seen by anyone else.</p>
+  <p class="page-desc">Log every real call you take — shows, qualifies, closes, cash collected. Your numbers, tracked over time, are how you actually know if the work is landing. <strong>This stays on your device only</strong> — nothing here is sent anywhere unless you send it yourself.</p>
+
+  <button class="log-add-btn" id="send-coach-btn" onclick="sendToCoach()" style="margin-bottom:.5rem;">📤 Send to Coach</button>
+  <div style="font-size:.7rem;color:var(--t3);margin-bottom:1.75rem;font-weight:300;">Copies your current numbers as text — paste it into WhatsApp for your coach.</div>
 
   <div class="section-label">Your Rates</div>
   <div class="stats-row">
@@ -391,6 +394,30 @@ function render(){
   document.getElementById('o-uncertain').textContent=objCounts.uncertain;
   document.getElementById('o-timing').textContent=objCounts.timing;
   document.getElementById('o-program').textContent=objCounts.program;
+}
+
+function sendToCoach(){
+  var name='';
+  try{name=localStorage.getItem('salesio_student_name')||'';}catch(e){}
+  var lines=[];
+  lines.push('📞 Call Tracker Summary'+(name?' — '+name:''));
+  lines.push('');
+  lines.push('Show Rate: '+document.getElementById('s-show-rate').textContent+' · Qualified Show Rate: '+document.getElementById('s-qshow-rate').textContent);
+  lines.push('Close Rate: '+document.getElementById('s-close-rate').textContent+' · Qualified Close Rate: '+document.getElementById('s-qclose-rate').textContent);
+  lines.push('Calls Booked: '+document.getElementById('s-calls').textContent+' · Shows: '+document.getElementById('s-shows').textContent+' · Qualified: '+document.getElementById('s-qualified').textContent+' · Won: '+document.getElementById('s-won').textContent);
+  lines.push('Time Spent: '+document.getElementById('s-time').textContent+' · Avg Call: '+document.getElementById('s-avg').textContent);
+  lines.push('Cash Collected: '+document.getElementById('s-cc').textContent+' · Revenue Generated: '+document.getElementById('s-rev').textContent);
+  lines.push('');
+  lines.push('Top Objections — Partner: '+document.getElementById('o-partner').textContent+', Finance: '+document.getElementById('o-finance').textContent+', Uncertain: '+document.getElementById('o-uncertain').textContent+', Timing: '+document.getElementById('o-timing').textContent+', Another Program: '+document.getElementById('o-program').textContent);
+  var text=lines.join('\n');
+  var btn=document.getElementById('send-coach-btn');
+  navigator.clipboard.writeText(text).then(function(){
+    var orig=btn.textContent;
+    btn.textContent='✓ Copied — paste into WhatsApp';
+    setTimeout(function(){btn.textContent=orig;},2200);
+  }).catch(function(){
+    alert(text);
+  });
 }
 
 render();
