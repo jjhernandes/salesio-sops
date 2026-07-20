@@ -382,6 +382,7 @@ label{font-size:.725rem;font-weight:600;color:var(--text-2);letter-spacing:.04em
             <option value="split2">Split 2x ($3,750)</option>
             <option value="split3">Split 3x ($3,333/mo)</option>
             <option value="klarna">Klarna / Affirm</option>
+            <option value="annual">Annual ($12,500)</option>
           </select>
         </div>
 
@@ -396,7 +397,15 @@ label{font-size:.725rem;font-weight:600;color:var(--text-2);letter-spacing:.04em
           <label>Close Rate — After (%)</label>
           <input class="form-input" id="f-close-after" type="number" min="0" max="100" placeholder="e.g. 30">
         </div>
-        <div class="form-group full" style="flex-direction:row;align-items:center;gap:.75rem;margin-top:.25rem;">
+        <div class="form-group">
+          <label>Actual Amount Paid ($)</label>
+          <input class="form-input" id="f-payamt" type="number" placeholder="e.g. 7500">
+        </div>
+        <div class="form-group">
+          <label>Balance Due ($)</label>
+          <input class="form-input" id="f-balance" type="number" placeholder="e.g. 3750">
+        </div>
+        <div class="form-group full" style="flex-direction:row;align-items:center;gap:1.25rem;margin-top:.25rem;flex-wrap:wrap;">
           <label class="form-check" style="text-transform:none;letter-spacing:0;font-size:.8125rem;font-weight:400;">
             <input type="checkbox" id="f-checkin">
             <span>Checked in this week</span>
@@ -404,6 +413,14 @@ label{font-size:.725rem;font-weight:600;color:var(--text-2);letter-spacing:.04em
           <label class="form-check" style="text-transform:none;letter-spacing:0;font-size:.8125rem;font-weight:400;">
             <input type="checkbox" id="f-placed">
             <span>Job placed</span>
+          </label>
+          <label class="form-check" style="text-transform:none;letter-spacing:0;font-size:.8125rem;font-weight:400;">
+            <input type="checkbox" id="f-needs-role">
+            <span>Needs role</span>
+          </label>
+          <label class="form-check" style="text-transform:none;letter-spacing:0;font-size:.8125rem;font-weight:400;">
+            <input type="checkbox" id="f-role-ready">
+            <span>Role ready</span>
           </label>
         </div>
 
@@ -452,6 +469,7 @@ label{font-size:.725rem;font-weight:600;color:var(--text-2);letter-spacing:.04em
         <div class="detail-row"><span class="detail-row-label">Close Rate Before</span><span class="detail-row-val" id="d-before"></span></div>
         <div class="detail-row"><span class="detail-row-label">Close Rate After</span><span class="detail-row-val" id="d-after"></span></div>
         <div class="detail-row"><span class="detail-row-label">Checked In This Week</span><span class="detail-row-val" id="d-checkin"></span></div>
+        <div class="detail-row"><span class="detail-row-label">Needs Role</span><span class="detail-row-val" id="d-needs-role"></span></div>
       </div>
       <div class="detail-section">
         <div class="detail-section-title">Notes</div>
@@ -498,7 +516,7 @@ function weekNum(startDateStr){
 }
 
 function payLabel(p){
-  var map = {full:'Paid in Full',split2:'Split 2x',split3:'Split 3x',klarna:'Klarna/Affirm'};
+  var map = {full:'Paid in Full',split2:'Split 2x',split3:'Split 3x',klarna:'Klarna/Affirm',annual:'Annual'};
   return map[p] || p;
 }
 
@@ -566,15 +584,18 @@ function renderTable(){
   }
   empty.style.display = 'none';
   tbody.innerHTML = list.map(function(c){
-    var w = weekNum(c.start);
+    var isAnnual = c.payment === 'annual';
+    var w = isAnnual ? null : weekNum(c.start);
     var pct = w ? Math.round((w/12)*100) : 0;
-    var weekDisplay = w ? 'Wk '+w+' / 12' : '—';
+    var weekDisplay = isAnnual ? '<span style="font-size:.7rem;color:var(--accent);font-weight:700;letter-spacing:.06em;">ANNUAL</span>' : (w ? 'Wk '+w+' / 12' : '—');
+    var roleTag = c.needsRole ? '<span style="font-size:.6rem;letter-spacing:.06em;padding:.1rem .4rem;border-radius:4px;background:var(--orange-dim);color:var(--orange);border:1px solid var(--orange-bdr);margin-left:.4rem;">'+(c.roleReady?'ROLE ✓':'ROLE')+'</span>' : '';
+    var payDisplay = c.payAmt ? '$'+Number(c.payAmt).toLocaleString() : payLabel(c.payment);
     return '<tr onclick="openDetail(\''+c.id+'\')">' +
-      '<td><div class="client-name">'+esc(c.first)+' '+esc(c.last)+'</div><div class="client-email">'+esc(c.email||'')+'</div></td>' +
-      '<td><div class="week-cell"><div class="week-bar"><div class="week-fill" style="width:'+pct+'%"></div></div><span class="week-text">'+weekDisplay+'</span></div></td>' +
+      '<td><div class="client-name">'+esc(c.first)+' '+esc(c.last)+roleTag+'</div><div class="client-email">'+esc(c.email||'')+'</div></td>' +
+      '<td><div class="week-cell">'+(isAnnual?'':('<div class="week-bar"><div class="week-fill" style="width:'+pct+'%"></div></div>'))+' <span class="week-text">'+weekDisplay+'</span></div></td>' +
       '<td>'+statusBadge(c.status)+'</td>' +
       '<td><span class="coach-avatar" title="'+esc(c.coach||'')+'">'+avatarInitials(c.coach||'')+'</span></td>' +
-      '<td><span class="pay-label">'+payLabel(c.payment)+'</span></td>' +
+      '<td><span class="pay-label">'+esc(payDisplay)+'</span></td>' +
       '<td><span class="checkin-dot '+(c.checkin?'dot-yes':'dot-no')+'" title="'+(c.checkin?'Checked in':'Not checked in')+'"></span></td>' +
       '<td style="font-size:.8rem;color:var(--text-2);">'+fmtDate(c.start)+'</td>' +
       '<td><div class="actions-cell" onclick="event.stopPropagation()">' +
@@ -615,6 +636,10 @@ function openEdit(id){
   document.getElementById('f-close-after').value = c.closeAfter||'';
   document.getElementById('f-checkin').checked = !!c.checkin;
   document.getElementById('f-placed').checked = !!c.placed;
+  document.getElementById('f-needs-role').checked = !!c.needsRole;
+  document.getElementById('f-role-ready').checked = !!c.roleReady;
+  document.getElementById('f-payamt').value = c.payAmt||'';
+  document.getElementById('f-balance').value = c.balance||'';
   document.getElementById('f-notes').value = c.notes||'';
   document.getElementById('clientModal').classList.add('open');
 }
@@ -635,6 +660,10 @@ function saveClient(){
     closeAfter:document.getElementById('f-close-after').value,
     checkin:document.getElementById('f-checkin').checked,
     placed:document.getElementById('f-placed').checked,
+    needsRole:document.getElementById('f-needs-role').checked,
+    roleReady:document.getElementById('f-role-ready').checked,
+    payAmt:document.getElementById('f-payamt').value,
+    balance:document.getElementById('f-balance').value,
     notes:document.getElementById('f-notes').value.trim()
   };
   if(editingId){
@@ -667,6 +696,10 @@ function clearForm(){
   document.getElementById('f-payment').value='full';
   document.getElementById('f-checkin').checked=false;
   document.getElementById('f-placed').checked=false;
+  document.getElementById('f-needs-role').checked=false;
+  document.getElementById('f-role-ready').checked=false;
+  document.getElementById('f-payamt').value='';
+  document.getElementById('f-balance').value='';
 }
 
 function closeModal(e){ if(e.target===document.getElementById('clientModal')) closeModalDirect(); }
@@ -682,14 +715,17 @@ function openDetail(id){
   document.getElementById('d-email').textContent = c.email||'—';
   document.getElementById('d-phone').textContent = c.phone||'—';
   document.getElementById('d-start').textContent = fmtDate(c.start);
-  var w = weekNum(c.start);
-  document.getElementById('d-week').textContent = w ? 'Week '+w+' of 12' : '—';
+  var isAnnual = c.payment === 'annual';
+  var w = isAnnual ? null : weekNum(c.start);
+  document.getElementById('d-week').textContent = isAnnual ? 'Annual Program' : (w ? 'Week '+w+' of 12' : '—');
   document.getElementById('d-coach').textContent = c.coach||'—';
-  document.getElementById('d-payment').textContent = payLabel(c.payment);
+  var payDisplay = (c.payAmt ? '$'+Number(c.payAmt).toLocaleString()+' paid' : payLabel(c.payment)) + (c.balance ? ' · $'+Number(c.balance).toLocaleString()+' due' : '');
+  document.getElementById('d-payment').textContent = payDisplay;
   document.getElementById('d-placed').textContent = c.placed ? '✓ Yes' : 'Not yet';
   document.getElementById('d-before').textContent = c.closeBefore ? c.closeBefore+'%' : '—';
   document.getElementById('d-after').textContent = c.closeAfter ? c.closeAfter+'%' : '—';
   document.getElementById('d-checkin').textContent = c.checkin ? '✓ Yes' : '✗ No';
+  document.getElementById('d-needs-role').textContent = c.needsRole ? (c.roleReady ? '✓ Ready' : '⚠ Not ready yet') : '—';
   document.getElementById('d-notes').textContent = c.notes||'No notes yet.';
   document.getElementById('d-actions').innerHTML =
     '<button class="btn btn-ghost btn-sm" onclick="closeDetailDirect();openEdit(\''+id+'\')">Edit</button>' +
@@ -728,6 +764,39 @@ function notify(msg){
   setTimeout(function(){ el.classList.remove('show'); }, 2500);
 }
 
+// ── Seed Data ──
+var SEED=[
+  {id:'s01',first:'Chris',last:'Byrd',email:'',phone:'',start:'2026-06-21',status:'active',coach:'JJ',payment:'full',payAmt:'5000',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:false,roleReady:false,notes:'4 weeks in. Not ready for renewal. Paid $5,000.'},
+  {id:'s02',first:'Pablo',last:'Jimenez',email:'',phone:'',start:'2026-05-17',status:'risk',coach:'JJ',payment:'full',payAmt:'',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:false,roleReady:false,notes:'~9 weeks in. Biggest red flag right now. Struggling. Coming up for renewal but is short.'},
+  {id:'s03',first:'Andrew',last:'Tapia',email:'',phone:'',start:'2026-05-03',status:'active',coach:'JJ',payment:'full',payAmt:'',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:false,roleReady:false,notes:'1 week away from renewal. Needs to get ready.'},
+  {id:'s04',first:'Fernando',last:'Belmont',email:'',phone:'',start:'2026-05-03',status:'active',coach:'JJ',payment:'full',payAmt:'',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:false,roleReady:false,notes:'1 week away from renewal.'},
+  {id:'s05',first:'Cara',last:'Emrican',email:'',phone:'',start:'2026-07-12',status:'active',coach:'JJ',payment:'full',payAmt:'',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:false,roleReady:false,notes:'Brand new student. Just started.'},
+  {id:'s06',first:'Luke',last:'McNaughton',email:'',phone:'',start:'2026-07-19',status:'active',coach:'JJ',payment:'annual',payAmt:'12500',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:false,roleReady:false,notes:'Annual client. $1,000/month.'},
+  {id:'s07',first:'Sarah',last:'Fletcher',email:'',phone:'',start:'2026-07-19',status:'active',coach:'JJ',payment:'annual',payAmt:'12500',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:false,roleReady:false,notes:'Annual client.'},
+  {id:'s08',first:'Ryan',last:'Keary',email:'',phone:'',start:'2026-06-07',status:'risk',coach:'JJ',payment:'full',payAmt:'',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:false,roleReady:false,notes:'~6 weeks in. On and off, struggling. Missing a payment. Not up for renewal yet.'},
+  {id:'s09',first:'Matt',last:'Shealy',email:'',phone:'',start:'2026-04-26',status:'active',coach:'JJ',payment:'full',payAmt:'',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:false,roleReady:false,notes:'Renewing this week.'},
+  {id:'s10',first:'Arun',last:'',email:'',phone:'',start:'2026-04-26',status:'active',coach:'JJ',payment:'full',payAmt:'',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:false,roleReady:false,notes:'Needs to renew this week.'},
+  {id:'s11',first:'Tom',last:'Dale',email:'',phone:'',start:'2026-05-03',status:'active',coach:'JJ',payment:'full',payAmt:'',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:false,roleReady:false,notes:'1 week away from renewal.'},
+  {id:'s12',first:'David',last:'Mickelson',email:'',phone:'',start:'2026-05-24',status:'active',coach:'JJ',payment:'full',payAmt:'',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:false,roleReady:false,notes:'~8 weeks in. 2 weeks away from renewal.'},
+  {id:'s13',first:'Aubtin',last:'',email:'',phone:'',start:'2026-06-28',status:'active',coach:'JJ',payment:'full',payAmt:'',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:false,roleReady:false,notes:'3 weeks in. Not up for renewal.'},
+  {id:'s14',first:'Brandon',last:'Williner',email:'',phone:'',start:'2026-06-28',status:'active',coach:'JJ',payment:'full',payAmt:'',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:false,roleReady:false,notes:'Just started. 3 weeks in.'},
+  {id:'s15',first:'Josh',last:'',email:'',phone:'',start:'2026-05-24',status:'active',coach:'JJ',payment:'split3',payAmt:'',balance:'1000',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:false,roleReady:false,notes:'~8 weeks in. $1,000 payment due.'},
+  {id:'s16',first:'Marin',last:'Ocho',email:'',phone:'',start:'2026-07-05',status:'active',coach:'JJ',payment:'full',payAmt:'',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:false,roleReady:false,notes:'Brand new student. 2 weeks in.'},
+  {id:'s17',first:'Malachi',last:'La Chance',email:'',phone:'',start:'2026-06-28',status:'active',coach:'JJ',payment:'split2',payAmt:'',balance:'3750',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:false,roleReady:false,notes:'3 weeks in. $3,750 payment pending.'},
+  {id:'s18',first:'Ann',last:'Al-Anani',email:'',phone:'',start:'2026-05-03',status:'active',coach:'JJ',payment:'full',payAmt:'',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:false,roleReady:false,notes:'Paid extra. Should be renewing.'},
+  {id:'s19',first:'Lucien',last:'Stammate',email:'',phone:'',start:'2026-07-19',status:'active',coach:'JJ',payment:'annual',payAmt:'12500',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:false,roleReady:false,notes:'Annual client. $1,000/month.'},
+  {id:'s20',first:'Yahya',last:'Elbadaway',email:'',phone:'',start:'2026-05-03',status:'active',coach:'JJ',payment:'full',payAmt:'',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:false,roleReady:false,notes:'1 week away from renewal.'},
+  {id:'s21',first:'Sabian',last:'May',email:'',phone:'',start:'2026-05-03',status:'active',coach:'JJ',payment:'full',payAmt:'',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:false,roleReady:false,notes:'1 week away from renewal.'},
+  {id:'s22',first:'Eli',last:'Berry',email:'',phone:'',start:'2026-07-19',status:'active',coach:'JJ',payment:'annual',payAmt:'',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:false,roleReady:false,notes:'Annual client.'},
+  {id:'s23',first:'Peter',last:'Bett',email:'',phone:'',start:'2026-05-10',status:'active',coach:'JJ',payment:'full',payAmt:'',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:false,roleReady:false,notes:'~10 weeks in. 2 weeks away from renewal.'},
+  {id:'s24',first:'Akash',last:'',email:'',phone:'',start:'2026-06-07',status:'active',coach:'JJ',payment:'full',payAmt:'',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:false,roleReady:false,notes:'6 weeks in. Doing solid.'},
+  {id:'s25',first:'William',last:'Ness',email:'',phone:'',start:'2026-05-17',status:'active',coach:'JJ',payment:'klarna',payAmt:'',balance:'100',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:false,roleReady:false,notes:'~9 weeks in. 3 more weeks left. $100 payment pending.'},
+  {id:'s26',first:'Roxana',last:'',email:'',phone:'',start:'2026-05-17',status:'active',coach:'JJ',payment:'full',payAmt:'',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:true,roleReady:false,notes:'3 weeks left. Needs a role. Not ready.'},
+  {id:'s27',first:'David',last:'Lopez',email:'',phone:'',start:'2026-05-17',status:'active',coach:'JJ',payment:'full',payAmt:'',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:true,roleReady:false,notes:'3 weeks left. Needs a role.'},
+  {id:'s28',first:'Ryley',last:'Richards',email:'',phone:'',start:'2026-06-14',status:'active',coach:'JJ',payment:'full',payAmt:'',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:true,roleReady:true,notes:'5 weeks in. Needs a role. Ready.'},
+  {id:'s29',first:'Elliot',last:'Richards',email:'',phone:'',start:'2026-06-21',status:'active',coach:'JJ',payment:'full',payAmt:'',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:true,roleReady:false,notes:'4 weeks in. Needs a role. Not ready.'}
+];
+
 // ── Theme ──
 function toggleTheme(){
   var h=document.documentElement;
@@ -744,6 +813,7 @@ function toggleTheme(){
 
 // ── Init ──
 load();
+if(!clients.length){ clients = SEED; save(); }
 renderTable();
 </script>
 </body>
