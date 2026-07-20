@@ -576,6 +576,13 @@ function avatarInitials(coach){
   return coach ? coach.slice(0,2).toUpperCase() : '??';
 }
 
+function hqLink(c){
+  var name=(c.first+' '+(c.last||'')).trim();
+  var url='https://jjhernandes.github.io/salesio-sops/salesio-student-hq.html?name='+encodeURIComponent(name);
+  if(c.start)url+='&start='+c.start;
+  return url;
+}
+
 // ── Renewal check ──
 function renewalWeek(c){
   if(c.payment==='annual') return null;
@@ -791,6 +798,7 @@ function openDetail(id){
   }
   document.getElementById('d-notes').textContent = c.notes||'No notes yet.';
   document.getElementById('d-actions').innerHTML =
+    '<button class="btn btn-primary btn-sm" onclick="window.open(hqLink(clients.find(function(x){return x.id===\''+id+'\';})),\'_blank\')">🏠 Open Student HQ</button>' +
     '<button class="btn btn-ghost btn-sm" onclick="closeDetailDirect();openEdit(\''+id+'\')">Edit</button>' +
     '<button class="btn btn-ghost btn-sm" style="color:var(--red);" onclick="archiveClient(\''+id+'\');closeDetailDirect()">Remove</button>';
   document.getElementById('detailPanel').classList.add('open');

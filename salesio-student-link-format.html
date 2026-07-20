@@ -147,6 +147,8 @@ body{
 }
 .builder-field input:focus,.builder-field select:focus{outline:none;border-color:rgba(var(--glow-rgb),.6);box-shadow:0 0 18px rgba(var(--glow-rgb),.2);}
 .builder-output{margin-top:1.25rem;}
+.builder-hub-status{font-size:.75rem;color:var(--good);font-weight:600;margin-top:.75rem;min-height:1.1rem;}
+.builder-hub-status strong{font-weight:800;}
 .builder-output label{display:block;font-size:.6rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
   color:var(--t3);font-family:'SF Mono',monospace;margin-bottom:.4rem;}
 .builder-link-row{display:flex;gap:.5rem;}
@@ -221,12 +223,17 @@ body{
           <div class="builder-link" id="b-output">Fill in both fields above</div>
           <button class="builder-copy" id="b-copy" onclick="copyLink()">Copy</button>
         </div>
+        <div class="builder-hub-status" id="b-hub-status"></div>
       </div>
     </div>
 
     <div class="highlight-box" style="margin-top:1.25rem;">
       <div class="highlight-icon">📌</div>
       <div class="highlight-text"><strong>Where the date comes from</strong>Use the <strong>Cohort Start Date</strong> field on the signed Enrollment Agreement — that's the source of truth for when their 12 weeks starts counting.</div>
+    </div>
+    <div class="highlight-box">
+      <div class="highlight-icon">🔗</div>
+      <div class="highlight-text"><strong>Also adds them to Client Hub</strong>Hitting Copy also adds this student to the Client Hub roster (or updates their start date if they're already in there) — so they show up immediately with a status of Active and a coach of Jalen by default. Open their record in <a href="./salesio-client-hub.html" target="_blank" style="color:inherit;">Client Hub</a> to fix the coach, add notes, or click "🏠 Open Student HQ" to see exactly what they see.</div>
     </div>
   </section>
 
@@ -300,14 +307,52 @@ function buildLink(){
   var name=document.getElementById('b-name').value.trim();
   var date=document.getElementById('b-date').value;
   var out=document.getElementById('b-output');
+  var status=document.getElementById('b-hub-status');
+  if(status)status.textContent='';
   if(!name||!date){out.textContent='Fill in both fields above';return;}
   var url='https://jjhernandes.github.io/salesio-sops/salesio-student-hq.html?name='+encodeURIComponent(name)+'&start='+date;
   out.textContent=url;
 }
 
+/* ── Client Hub upsert: same STORE_KEY + schema as salesio-client-hub.html ── */
+var HUB_STORE_KEY='salesio_clients';
+function hubUid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+
+function upsertClientHub(fullName,startDate){
+  var parts=fullName.trim().split(/\s+/);
+  var first=parts.shift()||fullName;
+  var last=parts.join(' ');
+  var clients=[];
+  try{clients=JSON.parse(localStorage.getItem(HUB_STORE_KEY))||[];}catch(e){clients=[];}
+
+  var match=clients.find(function(c){
+    return (c.first||'').toLowerCase()===first.toLowerCase() && (c.last||'').toLowerCase()===last.toLowerCase();
+  });
+
+  if(match){
+    match.start=startDate;
+    var existed=true;
+  }else{
+    clients.unshift({
+      id:hubUid(), first:first, last:last, email:'', phone:'',
+      start:startDate, status:'active', coach:'Jalen', payment:'full',
+      payAmt:'', balance:'', closeBefore:'', closeAfter:'',
+      checkin:false, placed:false, needsRole:false, roleReady:false,
+      renewalDocSent:false, notes:'Added via Student Link Format tool.'
+    });
+    existed=false;
+  }
+
+  try{localStorage.setItem(HUB_STORE_KEY,JSON.stringify(clients));}catch(e){return null;}
+  return existed;
+}
+
 function copyLink(){
   var out=document.getElementById('b-output');
   var btn=document.getElementById('b-copy');
+  var status=document.getElementById('b-hub-status');
+  var name=document.getElementById('b-name').value.trim();
+  var date=document.getElementById('b-date').value;
   var text=out.textContent;
   if(!text||text==='Fill in both fields above')return;
   navigator.clipboard.writeText(text).then(function(){
@@ -315,6 +360,13 @@ function copyLink(){
     btn.classList.add('copied');
     setTimeout(function(){btn.textContent='Copy';btn.classList.remove('copied');},1500);
   }).catch(function(){});
+
+  if(name&&date&&status){
+    var existed=upsertClientHub(name,date);
+    status.innerHTML=existed
+      ? '✅ Updated <strong>'+name+'</strong> in Client Hub'
+      : '✅ Added <strong>'+name+'</strong> to Client Hub';
+  }
 }
 
 var sections=document.querySelectorAll('.section');
