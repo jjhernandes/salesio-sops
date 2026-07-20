@@ -428,6 +428,41 @@ body{
 }
 
 /* ══════════════════════════
+   BRAIN DUMP
+══════════════════════════ */
+.calendar-card{
+  background:var(--card);border:1px solid var(--bdr);border-radius:14px;
+  overflow:hidden;margin-bottom:2.5rem;transition:all .2s;
+}
+.calendar-card:hover{border-color:rgba(var(--glow-rgb),.4);box-shadow:0 0 24px rgba(var(--glow-rgb),.15);}
+.calendar-frame{width:100%;height:480px;border:none;display:block;}
+.calendar-placeholder{
+  padding:2.5rem 2rem;text-align:center;color:var(--t2);
+}
+.calendar-placeholder-icon{font-size:1.75rem;margin-bottom:.75rem;}
+.calendar-placeholder-title{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:.375rem;}
+.calendar-placeholder-desc{font-size:.75rem;color:var(--t2);max-width:44ch;margin:0 auto;line-height:1.7;font-weight:300;}
+
+.notes-wrap{position:relative;}
+.notes-area{
+  width:100%;min-height:360px;resize:vertical;
+  background:var(--card);border:1px solid var(--bdr);border-radius:14px;
+  padding:1.5rem;font-family:'Inter',sans-serif;font-size:.9rem;line-height:1.8;
+  color:var(--text);transition:border-color .2s,box-shadow .2s;
+}
+.notes-area:focus{outline:none;border-color:rgba(var(--glow-rgb),.55);box-shadow:0 0 28px rgba(var(--glow-rgb),.18);}
+.notes-area::placeholder{color:var(--t3);}
+.notes-footer{display:flex;justify-content:space-between;align-items:center;margin-top:.75rem;}
+.notes-status{font-size:.65rem;color:var(--t3);font-family:'SF Mono',monospace;letter-spacing:.04em;}
+.notes-status.saved{color:var(--good,#3d7a50);}
+.notes-clear{
+  font-size:.65rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--t3);background:none;border:1px solid var(--bdr);border-radius:6px;
+  padding:.35rem .7rem;cursor:pointer;font-family:'SF Mono',monospace;transition:all .15s;
+}
+.notes-clear:hover{color:var(--text);border-color:rgba(var(--glow-rgb),.5);}
+
+/* ══════════════════════════
    PLAYBOOKS
 ══════════════════════════ */
 .pb-list{display:flex;flex-direction:column;gap:.5rem;}
@@ -484,6 +519,9 @@ body{
     <div class="sb-section-label">Navigation</div>
     <div class="nav-item active" data-sec="dash" onclick="goTo('dash')">
       <span class="nav-icon">🏠</span> Dashboard
+    </div>
+    <div class="nav-item" data-sec="notes" onclick="goTo('notes')">
+      <span class="nav-icon">🧠</span> Brain Dump
     </div>
     <div class="nav-item" data-sec="hub" onclick="goTo('hub')">
       <span class="nav-icon">👥</span> Client Hub
@@ -608,6 +646,31 @@ body{
       <!-- Week at a glance -->
       <div class="section-label">This Week's Calls</div>
       <div class="week-grid" id="week-grid"></div>
+    </div>
+
+    <!-- ── BRAIN DUMP ── -->
+    <div id="sec-notes" class="section">
+      <div class="page-title">Brain Dump</div>
+      <div class="page-sub">Your calendar and a running scratchpad, in one place. Notes save automatically to this browser.</div>
+
+      <div class="section-label">Your Calendar</div>
+      <div class="calendar-card">
+        <div class="calendar-placeholder" id="calendar-placeholder">
+          <div class="calendar-placeholder-icon">📅</div>
+          <div class="calendar-placeholder-title">Calendar not connected yet</div>
+          <div class="calendar-placeholder-desc">Grab your embed link from Google Calendar → Settings → your calendar → "Integrate calendar" → Public URL, and it'll show up here.</div>
+        </div>
+        <iframe id="calendar-iframe" class="calendar-frame" style="display:none;" src="" title="Google Calendar" frameborder="0" scrolling="no"></iframe>
+      </div>
+
+      <div class="section-label">Notes</div>
+      <div class="notes-wrap">
+        <textarea id="notes-area" class="notes-area" placeholder="Dump it all here — ideas, to-dos, half-formed thoughts. Nothing here is graded."></textarea>
+        <div class="notes-footer">
+          <span class="notes-status" id="notes-status">Not saved yet</span>
+          <button class="notes-clear" onclick="clearNotes()">Clear</button>
+        </div>
+      </div>
     </div>
 
     <!-- ── CLIENT HUB ── -->
@@ -906,8 +969,59 @@ var WEEK_CALLS=[
   }
 })();
 
+/* ── Brain Dump: calendar + notes ── */
+var CALENDAR_EMBED_URL = ''; /* paste Google Calendar embed src here */
+
+(function initCalendar(){
+  var ph=document.getElementById('calendar-placeholder');
+  var frame=document.getElementById('calendar-iframe');
+  if(!ph||!frame)return;
+  if(CALENDAR_EMBED_URL){
+    frame.src=CALENDAR_EMBED_URL;
+    frame.style.display='block';
+    ph.style.display='none';
+  }
+})();
+
+(function initNotes(){
+  var area=document.getElementById('notes-area');
+  var status=document.getElementById('notes-status');
+  if(!area)return;
+  var KEY='salesio_braindump';
+  try{
+    var saved=localStorage.getItem(KEY);
+    if(saved){area.value=saved;status.textContent='Loaded from last visit';}
+  }catch(e){}
+  var timer=null;
+  area.addEventListener('input',function(){
+    status.textContent='Saving…';
+    status.classList.remove('saved');
+    clearTimeout(timer);
+    timer=setTimeout(function(){
+      try{
+        localStorage.setItem(KEY,area.value);
+        var d=new Date();
+        var h=d.getHours(),m=d.getMinutes();
+        var ampm=h>=12?'PM':'AM';h=h%12||12;var ms=m<10?'0'+m:m;
+        status.textContent='Saved '+h+':'+ms+' '+ampm;
+        status.classList.add('saved');
+      }catch(e){status.textContent='Could not save';}
+    },500);
+  });
+})();
+
+function clearNotes(){
+  if(!confirm('Clear all notes? This can\'t be undone.'))return;
+  var area=document.getElementById('notes-area');
+  var status=document.getElementById('notes-status');
+  area.value='';
+  try{localStorage.removeItem('salesio_braindump');}catch(e){}
+  status.textContent='Cleared';
+  status.classList.remove('saved');
+}
+
 /* ── Section nav ── */
-var SEC_TITLES={dash:'Dashboard',hub:'Client Hub',resources:'Resources',team:'Team',playbooks:'Playbooks'};
+var SEC_TITLES={dash:'Dashboard',notes:'Brain Dump',hub:'Client Hub',resources:'Resources',team:'Team',playbooks:'Playbooks'};
 var hubLoaded=false;
 
 function goTo(id){
