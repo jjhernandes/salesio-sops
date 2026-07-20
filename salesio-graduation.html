@@ -87,6 +87,22 @@ body{
 .nav-item.active::before{transform:scaleY(1);box-shadow:0 0 8px 1px rgba(var(--glow-rgb),.9);}
 .nav-num{width:16px;height:16px;border-radius:50%;background:var(--sb-hbg);border:1px solid var(--sb-bdr);
   font-size:.55rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--sb-t2);}
+.nav-icon{font-size:.9rem;flex-shrink:0;width:16px;text-align:center;}
+.sb-divider{height:1px;background:var(--sb-bdr);margin:.5rem 1.25rem;}
+
+/* Viewing-as badge */
+@keyframes dotPulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.viewing-as{
+  display:none;align-items:center;gap:.5rem;
+  background:var(--card-2);border:1px solid rgba(var(--glow-rgb),.45);
+  border-radius:999px;padding:.45rem 1rem;margin:0 auto 1.5rem;width:fit-content;
+  font-size:.8rem;font-weight:600;color:var(--text);
+  box-shadow:0 0 18px rgba(var(--glow-rgb),.25);
+}
+.viewing-as.shown{display:inline-flex;}
+.viewing-as-dot{width:7px;height:7px;border-radius:50%;background:rgba(var(--glow-rgb),1);
+  box-shadow:0 0 9px 1px rgba(var(--glow-rgb),.9);animation:dotPulse 2s ease-in-out infinite;flex-shrink:0;}
+.viewing-as strong{color:rgba(var(--glow-rgb),1);font-weight:800;}
 .nav-item.active .nav-num{background:var(--sb-text);color:var(--sb-bg);border-color:var(--sb-text);}
 
 .sb-footer{padding:1rem 1.25rem;border-top:1px solid var(--sb-bdr);flex-shrink:0;}
@@ -129,7 +145,9 @@ body{
 .name-block{max-width:420px;margin:2rem auto 0;border:1px dashed var(--bdr-2);border-radius:12px;padding:1.25rem 1.5rem;background:var(--card-2);}
 .name-row{display:flex;justify-content:space-between;gap:1.5rem;}
 .name-field label{display:block;font-size:.5rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);font-family:'SF Mono',monospace;margin-bottom:.35rem;}
-.name-line{border-bottom:1.5px solid var(--bdr-2);padding-bottom:.35rem;min-height:1.4rem;font-size:.85rem;color:var(--text);text-align:left;}
+.name-line{border-bottom:1.5px solid var(--bdr-2);padding-bottom:.35rem;min-height:1.4rem;font-size:.85rem;color:var(--text);text-align:left;transition:all .2s;}
+.name-line.filled{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;
+  border-bottom-color:rgba(var(--glow-rgb),.6);text-shadow:0 0 16px rgba(var(--glow-rgb),.35);}
 
 .section{margin:3.5rem 0;scroll-margin-top:2rem;}
 .section-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;}
@@ -188,6 +206,8 @@ body{
   </div>
 
   <nav class="sb-nav">
+    <a class="nav-item" href="./salesio-student-hq.html" target="_top"><span class="nav-icon">🏠</span> Student HQ</a>
+    <div class="sb-divider"></div>
     <div class="sb-section-label">Sections</div>
     <a class="nav-item active" href="#s1" onclick="setActive(this)"><span class="nav-num">1</span> Your Achievement</a>
     <a class="nav-item" href="#s2" onclick="setActive(this)"><span class="nav-num">2</span> The Numbers</a>
@@ -211,6 +231,7 @@ body{
       <div class="seal-num">12/12</div>
       <div class="seal-bottom">Complete</div>
     </div>
+    <div class="viewing-as" id="viewing-as"><span class="viewing-as-dot"></span>Viewing as <strong id="viewing-as-name"></strong></div>
     <div class="hero-tag">Sales.io Mastermind — Graduation</div>
     <h1 class="hero-title" id="hero-title">You did it.</h1>
     <p class="hero-desc">Twelve weeks ago you started with a baseline. Today you finish as someone who closes deals <strong>without sounding like a closer</strong>. That's the whole point — and you earned it.</p>
@@ -324,12 +345,15 @@ function setActive(el){document.querySelectorAll('.nav-item').forEach(function(i
   var nameEl=document.getElementById('grad-name');
   var dateEl=document.getElementById('grad-date');
   var heroEl=document.getElementById('hero-title');
+  var badge=document.getElementById('viewing-as');
+  var badgeName=document.getElementById('viewing-as-name');
   if(name){
-    if(nameEl)nameEl.textContent=name;
+    if(nameEl){nameEl.textContent=name;nameEl.classList.add('filled');}
     if(heroEl){
       var first=name.split(' ')[0];
       heroEl.textContent='You did it, '+first+'.';
     }
+    if(badge&&badgeName){badgeName.textContent=name;badge.classList.add('shown');}
   }
   if(date&&dateEl)dateEl.textContent=date;
 })();

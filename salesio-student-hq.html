@@ -111,6 +111,20 @@ body{
 .internal-badge{font-size:.475rem;letter-spacing:.2em;text-transform:uppercase;background:var(--text);color:var(--bg);
   border-radius:4px;padding:.2rem .55rem;font-family:'SF Mono',monospace;font-weight:900;}
 
+/* Viewing-as badge (persistent, top bar) */
+@keyframes dotPulseHdr{0%,100%{opacity:1;}50%{opacity:.4;}}
+.viewing-as{
+  display:none;align-items:center;gap:.45rem;
+  background:var(--card-2);border:1px solid rgba(var(--glow-rgb),.45);
+  border-radius:999px;padding:.3rem .75rem;
+  font-size:.7rem;font-weight:600;color:var(--text);
+  box-shadow:0 0 14px rgba(var(--glow-rgb),.22);
+}
+.viewing-as.shown{display:inline-flex;}
+.viewing-as-dot{width:6px;height:6px;border-radius:50%;background:rgba(var(--glow-rgb),1);
+  box-shadow:0 0 8px 1px rgba(var(--glow-rgb),.9);animation:dotPulseHdr 2s ease-in-out infinite;flex-shrink:0;}
+.viewing-as strong{color:rgba(var(--glow-rgb),1);font-weight:800;}
+
 .content{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--t4) transparent;}
 .content::-webkit-scrollbar{width:4px;}
 .content::-webkit-scrollbar-thumb{background:var(--t4);border-radius:2px;}
@@ -271,7 +285,7 @@ body{
 <!-- ══ SIDEBAR ══ -->
 <nav class="sidebar">
   <div class="sb-header">
-    <div class="sb-logo">
+    <div class="sb-logo" onclick="goTo('dash')" style="cursor:pointer;" title="Home">
       <div class="sb-logo-mark">S</div>
       <span class="sb-logo-name">Sales.io</span>
     </div>
@@ -322,6 +336,7 @@ body{
   <div class="main-header">
     <span class="mh-title" id="mh-title">Dashboard</span>
     <div class="mh-right">
+      <div class="viewing-as" id="viewing-as"><span class="viewing-as-dot"></span>Viewing as <strong id="viewing-as-name"></strong></div>
       <span class="internal-badge">Sales.io Mastermind</span>
     </div>
   </div>
@@ -602,6 +617,9 @@ function goTo(id){
 if(STUDENT_NAME){
   var greetEl=document.getElementById('dash-greeting');
   if(greetEl)greetEl.innerHTML='Welcome back, '+STUDENT_NAME.split(' ')[0]+'<em>.</em>';
+  var vaBadge=document.getElementById('viewing-as');
+  var vaName=document.getElementById('viewing-as-name');
+  if(vaBadge&&vaName){vaName.textContent=STUDENT_NAME;vaBadge.classList.add('shown');}
 }
 </script>
 </body>
