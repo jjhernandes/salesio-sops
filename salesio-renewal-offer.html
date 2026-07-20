@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales.io — Year Two</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;scroll-behavior:smooth;}
+body{
+  background:#0e0c0a;
+  color:#EAE4D9;
+  font-family:'Inter','Segoe UI',system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  line-height:1.7;
+}
+
+/* ── Layout ── */
+.page{max-width:680px;margin:0 auto;padding:0 1.75rem 8rem;}
+
+/* ── Top bar ── */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:1.5rem 0;border-bottom:1px solid #2a2420;margin-bottom:4rem;}
+.topbar-logo{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:#6a5c4e;font-family:'SF Mono',monospace;}
+.topbar-tag{font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:#c9a96e;font-family:'SF Mono',monospace;border:1px solid rgba(201,169,110,.3);border-radius:50px;padding:.25rem .75rem;}
+
+/* ── Hero ── */
+.hero{padding:4.5rem 0 4rem;border-bottom:1px solid #2a2420;}
+.hero-pre{font-size:.625rem;letter-spacing:.3em;text-transform:uppercase;color:#6a5c4e;font-family:'SF Mono',monospace;margin-bottom:1.5rem;}
+.hero-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(2.75rem,9vw,5rem);line-height:1.04;letter-spacing:-.025em;font-weight:900;color:#EAE4D9;margin-bottom:1.5rem;}
+.hero-title em{font-style:italic;font-weight:400;color:#c9a96e;}
+.hero-body{font-size:1rem;color:#a09080;font-weight:300;max-width:52ch;line-height:1.85;}
+.hero-body strong{color:#EAE4D9;font-weight:500;}
+
+/* ── Price block ── */
+.price-block{padding:3.5rem 0;border-bottom:1px solid #2a2420;display:flex;align-items:flex-end;gap:2rem;flex-wrap:wrap;}
+.price-main{}
+.price-label{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#6a5c4e;font-family:'SF Mono',monospace;margin-bottom:.625rem;}
+.price-num{font-family:'Playfair Display',Georgia,serif;font-size:clamp(4rem,14vw,7.5rem);font-weight:900;line-height:.95;letter-spacing:-.04em;color:#c9a96e;}
+.price-per{font-size:.875rem;color:#6a5c4e;margin-top:.5rem;font-weight:300;}
+.price-divider{width:1px;height:80px;background:#2a2420;flex-shrink:0;}
+.price-splits{}
+.price-splits-label{font-size:.575rem;letter-spacing:.16em;text-transform:uppercase;color:#6a5c4e;font-family:'SF Mono',monospace;margin-bottom:.75rem;}
+.price-split-option{display:flex;align-items:center;gap:.75rem;padding:.5rem 0;border-bottom:1px solid #1c1816;}
+.price-split-option:last-child{border-bottom:none;}
+.split-amt{font-size:1.125rem;font-weight:600;color:#EAE4D9;font-variant-numeric:tabular-nums;}
+.split-desc{font-size:.75rem;color:#6a5c4e;font-weight:300;}
+
+/* ── Section header ── */
+.section{padding:3.5rem 0;border-bottom:1px solid #2a2420;}
+.section:last-of-type{border-bottom:none;}
+.section-eyebrow{font-size:.575rem;letter-spacing:.24em;text-transform:uppercase;color:#c9a96e;font-family:'SF Mono',monospace;margin-bottom:1.25rem;}
+.section-title{font-family:'Playfair Display',Georgia,serif;font-size:1.75rem;font-weight:700;line-height:1.2;letter-spacing:-.015em;color:#EAE4D9;margin-bottom:.75rem;}
+.section-sub{font-size:.875rem;color:#6a5c4e;font-weight:300;max-width:52ch;line-height:1.8;}
+
+/* ── Value stack ── */
+.value-stack{display:flex;flex-direction:column;gap:0;margin-top:2rem;}
+.value-item{display:flex;align-items:flex-start;gap:1.25rem;padding:1.25rem 0;border-bottom:1px solid #1c1816;opacity:0;transform:translateY(18px);transition:opacity .45s ease, transform .45s ease;}
+.value-item.visible{opacity:1;transform:translateY(0);}
+.value-item:last-child{border-bottom:none;}
+.value-icon{width:36px;height:36px;border-radius:8px;background:#1c1816;border:1px solid #2a2420;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;margin-top:.1rem;}
+.value-body{flex:1;}
+.value-name{font-size:.9375rem;font-weight:600;color:#EAE4D9;margin-bottom:.2rem;line-height:1.35;}
+.value-desc{font-size:.8rem;color:#6a5c4e;line-height:1.7;font-weight:300;}
+.value-price{font-size:.875rem;font-weight:600;color:#c9a96e;white-space:nowrap;font-variant-numeric:tabular-nums;margin-top:.1rem;}
+
+/* ── Value total reveal ── */
+.value-total{margin-top:2rem;background:#1c1816;border:1px solid #2a2420;border-radius:12px;padding:1.75rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;}
+.vt-left{}
+.vt-label{font-size:.575rem;letter-spacing:.2em;text-transform:uppercase;color:#6a5c4e;font-family:'SF Mono',monospace;margin-bottom:.375rem;}
+.vt-num{font-family:'Playfair Display',Georgia,serif;font-size:2.25rem;font-weight:700;color:#6a5c4e;letter-spacing:-.02em;text-decoration:line-through;text-decoration-color:#3a3028;}
+.vt-right{text-align:right;}
+.vt-right .vt-label{text-align:right;}
+.vt-your{font-family:'Playfair Display',Georgia,serif;font-size:2.25rem;font-weight:700;color:#c9a96e;letter-spacing:-.02em;}
+.vt-savings{font-size:.75rem;color:#6a5c4e;margin-top:.25rem;font-weight:300;}
+
+/* ── Who this is for ── */
+.check-list{display:flex;flex-direction:column;gap:.75rem;margin-top:1.75rem;}
+.check-item{display:flex;align-items:flex-start;gap:.875rem;font-size:.9rem;color:#a09080;font-weight:300;line-height:1.65;}
+.check-mark{width:18px;height:18px;border-radius:50%;background:rgba(201,169,110,.12);border:1px solid rgba(201,169,110,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.2rem;font-size:.6rem;color:#c9a96e;}
+
+/* ── Quote ── */
+.pull-quote{border-left:2px solid #c9a96e;padding:1.25rem 0 1.25rem 1.75rem;margin:2.5rem 0;}
+.pull-quote-text{font-family:'Playfair Display',Georgia,serif;font-size:1.25rem;font-style:italic;color:#EAE4D9;line-height:1.55;font-weight:400;}
+.pull-quote-attr{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#6a5c4e;margin-top:.75rem;font-family:'SF Mono',monospace;}
+
+/* ── CTA ── */
+.cta-block{padding:4rem 0 2rem;text-align:center;}
+.cta-title{font-family:'Playfair Display',Georgia,serif;font-size:1.625rem;font-weight:700;color:#EAE4D9;margin-bottom:.75rem;}
+.cta-sub{font-size:.875rem;color:#6a5c4e;margin-bottom:2rem;font-weight:300;}
+.cta-price-line{font-size:1rem;color:#EAE4D9;margin-bottom:.375rem;}
+.cta-price-line strong{color:#c9a96e;}
+.guarantee{margin-top:2.5rem;font-size:.775rem;color:#6a5c4e;font-weight:300;line-height:1.7;max-width:42ch;margin-left:auto;margin-right:auto;}
+
+@media(max-width:500px){
+  .price-divider{display:none;}
+  .price-block{gap:1.5rem;}
+  .value-total{flex-direction:column;gap:1rem;}
+  .vt-right{text-align:left;}
+  .vt-right .vt-label{text-align:left;}
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="topbar-logo">Sales.io</div>
+    <div class="topbar-tag">Alumni Renewal</div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-pre">For graduates of the 12-week mastermind</div>
+    <h1 class="hero-title">You proved<br>you belong.<br><em>Stay in.</em></h1>
+    <p class="hero-body">
+      Most people leave after 12 weeks and try to apply what they learned on their own.
+      <strong>A few stay.</strong> Those are the ones who hit $30K, $40K, $50K months —
+      because they kept the coaching, kept the community, and kept compounding.
+      This is what staying looks like.
+    </p>
+  </div>
+
+  <!-- Price -->
+  <div class="price-block">
+    <div class="price-main">
+      <div class="price-label">Your investment</div>
+      <div class="price-num">$5,000</div>
+      <div class="price-per">for 12 months of full access</div>
+    </div>
+    <div class="price-divider"></div>
+    <div class="price-splits">
+      <div class="price-splits-label">Payment options</div>
+      <div class="price-split-option">
+        <div>
+          <div class="split-amt">$5,000</div>
+          <div class="split-desc">Paid in full — best value</div>
+        </div>
+      </div>
+      <div class="price-split-option">
+        <div>
+          <div class="split-amt">$2,750 × 2</div>
+          <div class="split-desc">Two payments, 60 days apart</div>
+        </div>
+      </div>
+      <div class="price-split-option">
+        <div>
+          <div class="split-amt">$500/mo</div>
+          <div class="split-desc">Monthly — 12 payments</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- What's included -->
+  <div class="section">
+    <div class="section-eyebrow">What's included</div>
+    <h2 class="section-title">Everything you had. Plus more.</h2>
+    <p class="section-sub">Year Two is built for people who already know how to close. The goal now is consistency, income ceiling, and identity.</p>
+
+    <div class="value-stack" id="valueStack">
+
+      <div class="value-item">
+        <div class="value-icon">📞</div>
+        <div class="value-body">
+          <div class="value-name">Bi-Weekly 1-on-1 Coaching with JJ</div>
+          <div class="value-desc">26 private sessions per year. Real-time feedback on your calls, your numbers, your income plateau. Not group coaching — yours.</div>
+        </div>
+        <div class="value-price">$13,000</div>
+      </div>
+
+      <div class="value-item">
+        <div class="value-icon">🎓</div>
+        <div class="value-body">
+          <div class="value-name">All New Curriculum — Forever</div>
+          <div class="value-desc">Every new module, framework, and training released this year is yours automatically. You never pay for an update.</div>
+        </div>
+        <div class="value-price">$2,500</div>
+      </div>
+
+      <div class="value-item">
+        <div class="value-icon">📼</div>
+        <div class="value-body">
+          <div class="value-name">Monthly Game Tape Session</div>
+          <div class="value-desc">Submit a live call recording each month. JJ pulls it apart, identifies the exact moment you lost the frame — or won it. This is where income changes.</div>
+        </div>
+        <div class="value-price">$1,800</div>
+      </div>
+
+      <div class="value-item">
+        <div class="value-icon">🏟️</div>
+        <div class="value-body">
+          <div class="value-name">Quarterly In-Person Masterminds</div>
+          <div class="value-desc">Two live events per year in Orlando. The room you're in changes what you think is possible. Alumni-only sessions go deeper than anything in the 12-week program.</div>
+        </div>
+        <div class="value-price">$2,000</div>
+      </div>
+
+      <div class="value-item">
+        <div class="value-icon">💬</div>
+        <div class="value-body">
+          <div class="value-name">WhatsApp Community — All Channels</div>
+          <div class="value-desc">Full access to every community channel: Mock Call Monday, Setting Mastery, Coffee Chat, Inner Circle, and the Alumni-only thread.</div>
+        </div>
+        <div class="value-price">$1,200</div>
+      </div>
+
+      <div class="value-item">
+        <div class="value-icon">💼</div>
+        <div class="value-body">
+          <div class="value-name">Proprietary Job Board</div>
+          <div class="value-desc">60-80+ new vetted offers posted weekly. $100K-$1M+/month companies only. Placement guaranteed — or your money back.</div>
+        </div>
+        <div class="value-price">$1,800</div>
+      </div>
+
+      <div class="value-item">
+        <div class="value-icon">⚡</div>
+        <div class="value-body">
+          <div class="value-name">Priority 1-on-1 Booking</div>
+          <div class="value-desc">Alumni book before new students. You never get bumped for a prime slot. When you need to talk, you get the time.</div>
+        </div>
+        <div class="value-price">$800</div>
+      </div>
+
+      <div class="value-item">
+        <div class="value-icon">🔒</div>
+        <div class="value-body">
+          <div class="value-name">Alumni Inner Circle Access</div>
+          <div class="value-desc">Private channel for graduates only. Advanced psychology, identity work, and the conversations that don't happen in the general community.</div>
+        </div>
+        <div class="value-price">$1,500</div>
+      </div>
+
+    </div>
+
+    <!-- Value total -->
+    <div class="value-total">
+      <div class="vt-left">
+        <div class="vt-label">Total value</div>
+        <div class="vt-num">$24,600</div>
+      </div>
+      <div class="vt-right">
+        <div class="vt-label">Your price</div>
+        <div class="vt-your">$5,000</div>
+        <div class="vt-savings">You save $19,600 as an alumni</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pull quote -->
+  <div class="pull-quote">
+    <div class="pull-quote-text">"The best closers in this program aren't the ones who were naturally gifted. They're the ones who stayed long enough for the identity to catch up with the skill."</div>
+    <div class="pull-quote-attr">— JJ Hernandez, Founder, Sales.io</div>
+  </div>
+
+  <!-- Who it's for -->
+  <div class="section">
+    <div class="section-eyebrow">Is this for you?</div>
+    <h2 class="section-title">Say yes if this is true.</h2>
+    <div class="check-list">
+      <div class="check-item"><div class="check-mark">✓</div><span>You've had wins in the last 12 weeks and want to keep compounding them</span></div>
+      <div class="check-item"><div class="check-mark">✓</div><span>You know your close rate improved — and you know there's still a ceiling to break</span></div>
+      <div class="check-item"><div class="check-mark">✓</div><span>You've seen what happens when people leave the program and go it alone</span></div>
+      <div class="check-item"><div class="check-mark">✓</div><span>You want access to in-person events, not just Zoom calls</span></div>
+      <div class="check-item"><div class="check-mark">✓</div><span>You want 1-on-1 access to JJ for another 12 months — not a course, not a group</span></div>
+      <div class="check-item"><div class="check-mark">✓</div><span>You understand that identity work doesn't end at week 12</span></div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-block">
+    <div class="cta-title">Your next 12 months start now.</div>
+    <div class="cta-sub">Lock in your alumni rate before it changes.</div>
+    <div class="cta-price-line">Pay in full: <strong>$5,000</strong></div>
+    <div class="cta-price-line" style="color:#6a5c4e;font-size:.8rem;">or split: $2,750 × 2 &nbsp;·&nbsp; $500/month</div>
+    <div class="guarantee">
+      Same guarantee as year one: if you show up, do the work, and don't see measurable improvement in your close rate within 90 days — full refund. No arguments.
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Scroll-triggered entrance on value items
+var items = document.querySelectorAll('.value-item');
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); }
+  });
+},{threshold:0.15});
+items.forEach(function(el){ observer.observe(el); });
+</script>
+</body>
+</html>
