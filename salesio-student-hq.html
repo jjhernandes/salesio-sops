@@ -276,6 +276,57 @@ body{
 
 .page-title{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:700;
   letter-spacing:-.025em;color:var(--text);margin-bottom:.5rem;}
+
+/* ══ GET UNSTUCK (guided check-in) ══ */
+.checkin-wrap{max-width:640px;}
+.checkin-disclaimer{font-size:.65rem;color:var(--t3);font-weight:300;margin-bottom:2rem;font-style:italic;}
+.chat-thread{display:flex;flex-direction:column;gap:1.125rem;margin-bottom:1.5rem;}
+.chat-msg{display:flex;gap:.75rem;align-items:flex-start;animation:cardIn .4s cubic-bezier(.16,1,.3,1) both;}
+.chat-avatar{width:30px;height:30px;border-radius:50%;background:var(--text);color:var(--bg);
+  display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;
+  font-size:.75rem;font-weight:900;flex-shrink:0;}
+.chat-bubble{background:var(--card);border:1px solid var(--bdr);border-radius:14px;border-top-left-radius:4px;
+  padding:.875rem 1.125rem;font-size:.85rem;color:var(--text);line-height:1.65;max-width:80%;}
+.chat-msg.user{flex-direction:row-reverse;}
+.chat-msg.user .chat-bubble{background:var(--text);color:var(--bg);border-top-left-radius:14px;border-top-right-radius:4px;border:none;font-weight:600;}
+.chat-msg.user .chat-avatar{background:var(--card-2);color:var(--text);border:1px solid var(--bdr);}
+
+.chat-options{display:flex;flex-direction:column;gap:.5rem;margin-left:2.625rem;margin-bottom:2rem;}
+.chat-opt-btn{
+  text-align:left;background:var(--card);border:1.5px solid var(--bdr-2);border-radius:10px;
+  padding:.7rem 1rem;font-size:.825rem;color:var(--text);font-weight:600;cursor:pointer;
+  transition:all .18s;font-family:'Inter',sans-serif;
+}
+.chat-opt-btn:hover{border-color:rgba(var(--glow-rgb),.6);background:var(--hbg);box-shadow:0 0 18px rgba(var(--glow-rgb),.18);transform:translateX(3px);}
+
+.rec-card{background:var(--card);border:1px solid rgba(var(--glow-rgb),.4);border-radius:14px;
+  padding:1.375rem 1.5rem;margin-bottom:.875rem;margin-left:2.625rem;box-shadow:0 0 26px rgba(var(--glow-rgb),.14);
+  animation:cardIn .45s cubic-bezier(.16,1,.3,1) both;max-width:calc(100% - 2.625rem);}
+.rec-tag{font-size:.55rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(var(--glow-rgb),1);
+  font-family:'SF Mono',monospace;margin-bottom:.5rem;}
+.rec-title{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:.4rem;}
+.rec-desc{font-size:.8rem;color:var(--t2);line-height:1.7;font-weight:300;margin-bottom:.875rem;}
+.rec-desc strong{color:var(--text);font-weight:600;}
+.rec-links{display:flex;gap:.625rem;flex-wrap:wrap;}
+.rec-link{display:inline-flex;align-items:center;gap:.35rem;font-size:.75rem;font-weight:700;color:var(--text);
+  text-decoration:none;border:1.5px solid var(--bdr-2);border-radius:8px;padding:.5rem .875rem;transition:all .18s;}
+.rec-link:hover{border-color:rgba(var(--glow-rgb),.6);box-shadow:0 0 16px rgba(var(--glow-rgb),.18);}
+.rec-link.primary{background:var(--text);color:var(--bg);border-color:var(--text);}
+.rec-link.primary:hover{opacity:.9;}
+
+.msg-template{background:var(--card-2);border:1px dashed var(--bdr-2);border-radius:10px;padding:.875rem 1rem;
+  font-size:.775rem;color:var(--t2);line-height:1.6;font-style:italic;margin-top:.75rem;position:relative;}
+.msg-template-copy{position:absolute;top:.5rem;right:.5rem;background:none;border:1px solid var(--bdr);border-radius:6px;
+  font-size:.6rem;font-weight:700;color:var(--t3);padding:.25rem .5rem;cursor:pointer;font-family:'SF Mono',monospace;}
+.msg-template-copy:hover{color:var(--text);border-color:rgba(var(--glow-rgb),.5);}
+
+.chat-restart{display:none;margin-left:2.625rem;background:none;border:1px solid var(--bdr);border-radius:8px;
+  padding:.5rem 1rem;font-size:.7rem;font-weight:700;color:var(--t3);cursor:pointer;font-family:'Inter',sans-serif;}
+.chat-restart:hover{color:var(--text);border-color:rgba(var(--glow-rgb),.5);}
+@media(max-width:700px){
+  .chat-options,.rec-card,.chat-restart{margin-left:0;}
+  .chat-bubble{max-width:90%;}
+}
 .page-sub{font-size:.85rem;color:var(--t2);line-height:1.7;font-weight:300;max-width:60ch;margin-bottom:2rem;}
 .page-sub strong{color:var(--text);font-weight:600;}
 
@@ -347,6 +398,9 @@ body{
     <div class="sb-section-label">Navigation</div>
     <div class="nav-item active" data-sec="dash" onclick="goTo('dash')">
       <span class="nav-icon">🏠</span> Dashboard
+    </div>
+    <div class="nav-item" data-sec="checkin" onclick="goTo('checkin')">
+      <span class="nav-icon">🧭</span> Get Unstuck
     </div>
     <div class="nav-item" data-sec="progress" onclick="goTo('progress')">
       <span class="nav-icon">🗺️</span> Your Progress
@@ -459,6 +513,19 @@ body{
       <!-- Week at a glance -->
       <div class="section-label">This Week's Calls</div>
       <div class="week-grid" id="week-grid"></div>
+    </div>
+
+    <!-- ── GET UNSTUCK ── -->
+    <div id="sec-checkin" class="section">
+      <div class="page-title">Get Unstuck</div>
+      <div class="page-sub">A quick guided check-in — not a chatbot, just smart enough to point you at the exact lesson, call, or person that actually helps.</div>
+
+      <div class="checkin-wrap">
+        <div class="chat-thread" id="chat-thread"></div>
+        <div class="chat-options" id="chat-options"></div>
+        <button class="chat-restart" id="chat-restart" onclick="restartCheckin()">Start Over</button>
+        <div class="checkin-disclaimer">This runs entirely in your browser — nothing you click here is sent to a coach or saved anywhere but your own device.</div>
+      </div>
     </div>
 
     <!-- ── YOUR PROGRESS ── -->
@@ -707,7 +774,7 @@ var WEEK_CALLS=[
 })();
 
 /* ── Section nav ── */
-var SEC_TITLES={dash:'Dashboard',progress:'Your Progress',resources:'Resources',coaches:'Your Coaches'};
+var SEC_TITLES={dash:'Dashboard',checkin:'Get Unstuck',progress:'Your Progress',resources:'Resources',coaches:'Your Coaches'};
 var progressLoaded=false;
 
 function goTo(id){
@@ -746,6 +813,182 @@ function applyPersonalization(name){
 }
 
 if(STUDENT_NAME){applyPersonalization(STUDENT_NAME);}else{showNameModal();}
+
+/* ══════════════════════════
+   GET UNSTUCK — guided check-in
+══════════════════════════ */
+var BIBLE='./training-bible-master.html';
+var CHECKIN_HISTORY=[];
+var CHECKIN_DONE=false;
+
+var CHECKIN_STEPS={
+  mood:{
+    q:"How's it going right now?",
+    opts:[
+      {label:'😤 Crushing it',goto:'great'},
+      {label:'💪 Solid, just grinding',goto:'struggle'},
+      {label:'😕 Stuck on something specific',goto:'struggle'},
+      {label:'😰 Honestly? Feeling lost.',goto:'lost'}
+    ]
+  },
+  struggle:{
+    q:"What's actually getting in the way?",
+    opts:[
+      {label:'Mindset / confidence on calls',goto:'rec:mindset'},
+      {label:"Discovery — can't get them to open up",goto:'rec:discovery'},
+      {label:'The pitch — losing them there',goto:'rec:pitch'},
+      {label:"Objections — don't know what to say",goto:'rec:objections'},
+      {label:'Holding my frame under pressure',goto:'rec:frame'},
+      {label:'Setting / booking calls',goto:'rec:setting'},
+      {label:'Just not enough reps yet',goto:'rec:reps'}
+    ]
+  }
+};
+
+var CHECKIN_RECS={
+  great:{
+    tag:'Keep Going',
+    title:"Good. Don't get comfortable.",
+    desc:'The reps that matter most are the ones after you already feel good — that\'s where the real gains hide. Log everything in <strong>Call Tracker</strong> so the trend is visible, not just the vibe. If it keeps going well, bring a win to Coffee Chat — people learn as much from what\'s working as what isn\'t.',
+    links:[{label:'📞 Log it in Call Tracker',href:'./salesio-call-tracker.html',primary:true},{label:'🏆 See the Leaderboard',href:'./community-leaderboard.html'}]
+  },
+  lost:{
+    tag:'This One First',
+    title:"That's normal. Don't sit with it alone.",
+    desc:'Feeling lost usually means you\'re missing context a coach can give you in five minutes — not that something\'s wrong with you. Don\'t try to think your way out of it solo. Message your coach today, or bring it straight to <strong>Inner Circle</strong> (Friday, JJ) — that call exists exactly for this.',
+    links:[{label:'🤝 See Your Coaches',href:'#',onclick:"goTo('coaches');return false;",primary:true},{label:'🎓 Open Training Bible',href:BIBLE}],
+    template:"Hey — I'm on Week {{WEEK}} and honestly feeling stuck / a little lost right now. Not tied to one specific thing yet. Could use a gut check when you have a few minutes."
+  },
+  mindset:{
+    tag:'Identity, Not Tactics',
+    title:'This is inner-game work.',
+    desc:'Confidence on calls isn\'t a script problem — it\'s an identity problem. <strong>Section 1: Identity & Inner Game</strong> is where this actually gets solved. Bring it to Inner Circle (Fri, JJ) or Coffee Chat (Sat, Cole) — this is exactly what those calls are built for.',
+    links:[{label:'🎓 Section 1: Identity & Inner Game',href:BIBLE+'#s1',primary:true},{label:'🤝 See Your Coaches',href:'#',onclick:"goTo('coaches');return false;"}],
+    template:"Hey — struggling with confidence/mindset on calls lately, not a specific skill gap. Could I get some time to talk it through?"
+  },
+  discovery:{
+    tag:'Get It Reviewed',
+    title:'Discovery is a listening problem, not a question problem.',
+    desc:'<strong>Section 4: Discovery Mastery</strong> and <strong>Section 2: PASE</strong> cover this directly. But reading about it only goes so far — submit your next call for review. Call Review Day (Tue, Evan + Cole) exists specifically to break discovery down call by call.',
+    links:[{label:'🎓 Section 4: Discovery Mastery',href:BIBLE+'#s4',primary:true},{label:'📞 Log calls to review',href:'./salesio-call-tracker.html'}]
+  },
+  pitch:{
+    tag:'Get Reps In',
+    title:'You fix a pitch by pitching, not by planning it.',
+    desc:'<strong>Section 5: The Pitch</strong> is the framework. Mock Call Monday (Jalen) is where you actually drill it live, with someone watching who can tell you exactly where it drops. Don\'t wait for the "right" call to try it on — bring it to a mock call this week.',
+    links:[{label:'🎓 Section 5: The Pitch',href:BIBLE+'#s5',primary:true},{label:'📞 Log it in Call Tracker',href:'./salesio-call-tracker.html'}]
+  },
+  objections:{
+    tag:'Watch The Tape',
+    title:'Objections almost always trace back to something earlier in the call.',
+    desc:'<strong>Section 6: Objection Handling</strong> covers the responses — but the real fix is usually upstream. Submit the exact call where it happened for Game Tape review. Watching it beats guessing what went wrong.',
+    links:[{label:'🎓 Section 6: Objection Handling',href:BIBLE+'#s6',primary:true},{label:'📞 Log it in Call Tracker',href:'./salesio-call-tracker.html'}]
+  },
+  frame:{
+    tag:'Identity, Not Tactics',
+    title:"Frame isn't a line you say. It's who you are on the call.",
+    desc:'<strong>Section 9: Frame Mastery</strong> and <strong>Section 7: Sales Psychology</strong> get into this deep. This is a conversation, not a reading assignment — bring it to Coffee Chat (Sat, Cole) or Inner Circle (Fri, JJ).',
+    links:[{label:'🎓 Section 9: Frame Mastery',href:BIBLE+'#s9',primary:true},{label:'🤝 See Your Coaches',href:'#',onclick:"goTo('coaches');return false;"}]
+  },
+  setting:{
+    tag:'Built For This',
+    title:'Setting is its own skill — treat it like one.',
+    desc:'<strong>Section 10: The Setting System</strong> covers cold calling, DM setting, and tonality. Setter Mastery (Thu, Jalen) is the weekly call built exactly for this — show up with your actual booking numbers and get them looked at.',
+    links:[{label:'🎓 Section 10: The Setting System',href:BIBLE+'#s10',primary:true}]
+  },
+  reps:{
+    tag:'Volume Fixes This',
+    title:'This one has a simple answer: more calls, tracked properly.',
+    desc:'No framework replaces reps. Use Mock Call Monday for extra volume in a low-stakes setting, and log every single call — real or mock — in <strong>Call Tracker</strong> so you can actually see the trend instead of guessing at it.',
+    links:[{label:'📞 Open Call Tracker',href:'./salesio-call-tracker.html',primary:true},{label:'🎓 Section 3: Call Framework',href:BIBLE+'#s3'}]
+  }
+};
+
+function ciAddMsg(who,html){
+  var thread=document.getElementById('chat-thread');
+  if(!thread)return;
+  var el=document.createElement('div');
+  el.className='chat-msg'+(who==='user'?' user':'');
+  el.innerHTML='<div class="chat-avatar">'+(who==='user'?(STUDENT_NAME?STUDENT_NAME.charAt(0).toUpperCase():'Y'):'S')+'</div><div class="chat-bubble">'+html+'</div>';
+  thread.appendChild(el);
+  CHECKIN_HISTORY.push({who:who,html:html});
+}
+
+function ciShowOptions(stepKey){
+  var step=CHECKIN_STEPS[stepKey];
+  var wrap=document.getElementById('chat-options');
+  if(!wrap||!step)return;
+  wrap.innerHTML='';
+  step.opts.forEach(function(o){
+    var btn=document.createElement('button');
+    btn.className='chat-opt-btn';
+    btn.textContent=o.label;
+    btn.onclick=function(){ciSelectOption(o);};
+    wrap.appendChild(btn);
+  });
+}
+
+function ciSelectOption(opt){
+  ciAddMsg('user',opt.label);
+  document.getElementById('chat-options').innerHTML='';
+  setTimeout(function(){
+    if(opt.goto.indexOf('rec:')===0){
+      ciShowRecommendation(opt.goto.slice(4));
+    }else if(CHECKIN_RECS[opt.goto]){
+      ciShowRecommendation(opt.goto);
+    }else{
+      ciAddMsg('assistant',CHECKIN_STEPS[opt.goto].q);
+      ciShowOptions(opt.goto);
+    }
+  },300);
+}
+
+function ciShowRecommendation(key){
+  var rec=CHECKIN_RECS[key];
+  if(!rec)return;
+  var thread=document.getElementById('chat-thread');
+  var card=document.createElement('div');
+  card.className='rec-card';
+  var linksHtml=rec.links.map(function(l){
+    var attrs=l.onclick?' onclick="'+l.onclick+'"':' target="_blank"';
+    return '<a class="rec-link'+(l.primary?' primary':'')+'" href="'+l.href+'"'+attrs+'>'+l.label+'</a>';
+  }).join('');
+  var templateHtml='';
+  if(rec.template){
+    var msg=rec.template.replace('{{WEEK}}',CURRENT_WEEK>0?CURRENT_WEEK:'—');
+    templateHtml='<div class="msg-template" id="ci-template">"'+msg+'"<button class="msg-template-copy" onclick="ciCopyTemplate(this)">Copy</button></div>';
+  }
+  card.innerHTML='<div class="rec-tag">'+rec.tag+'</div><div class="rec-title">'+rec.title+'</div>'+
+    '<div class="rec-desc">'+rec.desc+'</div><div class="rec-links">'+linksHtml+'</div>'+templateHtml;
+  thread.appendChild(card);
+  CHECKIN_DONE=true;
+  document.getElementById('chat-restart').style.display='inline-block';
+  card.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function ciCopyTemplate(btn){
+  var text=btn.parentElement.textContent.replace('Copy','').trim().replace(/^"|"$/g,'');
+  navigator.clipboard.writeText(text).then(function(){
+    btn.textContent='Copied';
+    setTimeout(function(){btn.textContent='Copy';},1500);
+  }).catch(function(){});
+}
+
+function restartCheckin(){
+  CHECKIN_HISTORY=[];
+  CHECKIN_DONE=false;
+  document.getElementById('chat-thread').innerHTML='';
+  document.getElementById('chat-restart').style.display='none';
+  initCheckin();
+}
+
+function initCheckin(){
+  var greet=STUDENT_NAME?('Hey '+STUDENT_NAME.split(' ')[0]+'.'):'Hey.';
+  ciAddMsg('assistant',greet+' '+CHECKIN_STEPS.mood.q);
+  ciShowOptions('mood');
+}
+
+if(document.getElementById('chat-thread'))initCheckin();
 </script>
 </body>
 </html>
