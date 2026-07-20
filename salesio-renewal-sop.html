@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales.io — Renewal SOP</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:15px;scroll-behavior:smooth;}
+body{background:#0e0c0a;color:#EAE4D9;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased;}
+
+/* Layout */
+.layout{display:flex;min-height:100vh;}
+.sidebar{width:220px;flex-shrink:0;background:#111009;border-right:1px solid #2a2420;position:sticky;top:0;height:100vh;overflow-y:auto;padding:1.5rem 0;}
+.sidebar-logo{padding:0 1.25rem 1.25rem;border-bottom:1px solid #2a2420;margin-bottom:1rem;}
+.sidebar-logo-mark{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:#4a3c30;font-family:'SF Mono',monospace;}
+.sidebar-title{font-size:.875rem;font-weight:700;color:#EAE4D9;margin-top:.25rem;}
+.nav-section{padding:.25rem 0;}
+.nav-label{font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:#3a3028;padding:.75rem 1.25rem .25rem;font-family:'SF Mono',monospace;font-weight:700;}
+.nav-link{display:flex;align-items:center;gap:.625rem;padding:.45rem 1.25rem;font-size:.78rem;color:#6a5c4e;text-decoration:none;transition:color .15s,background .15s;cursor:pointer;}
+.nav-link:hover,.nav-link.active{color:#EAE4D9;background:rgba(255,255,255,.04);}
+.nav-link .step-num{width:20px;height:20px;border-radius:50%;background:#1c1816;border:1px solid #2a2420;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#4a3c30;flex-shrink:0;}
+.nav-link.active .step-num{background:#c9a96e;border-color:#c9a96e;color:#0e0c0a;}
+
+.main{flex:1;padding:3rem 3.5rem;max-width:820px;}
+
+/* Header */
+.page-header{margin-bottom:3.5rem;padding-bottom:2rem;border-bottom:1px solid #2a2420;}
+.page-eyebrow{font-size:.575rem;letter-spacing:.24em;text-transform:uppercase;color:#c9a96e;font-family:'SF Mono',monospace;margin-bottom:.75rem;}
+.page-title{font-size:2rem;font-weight:800;color:#EAE4D9;letter-spacing:-.025em;line-height:1.15;margin-bottom:.625rem;}
+.page-sub{font-size:.9rem;color:#6a5c4e;line-height:1.8;max-width:56ch;}
+
+/* Timeline indicator */
+.timeline{display:flex;align-items:center;gap:0;margin-bottom:3.5rem;background:#111009;border:1px solid #2a2420;border-radius:10px;overflow:hidden;}
+.tl-item{flex:1;padding:.875rem .75rem;text-align:center;border-right:1px solid #2a2420;position:relative;}
+.tl-item:last-child{border-right:none;}
+.tl-item.active{background:rgba(201,169,110,.06);}
+.tl-week{font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;color:#4a3c30;font-family:'SF Mono',monospace;margin-bottom:.25rem;}
+.tl-label{font-size:.725rem;font-weight:600;color:#4a3c30;line-height:1.3;}
+.tl-item.active .tl-week{color:#c9a96e;}
+.tl-item.active .tl-label{color:#EAE4D9;}
+
+/* Step sections */
+.step-section{margin-bottom:3rem;padding-top:1rem;scroll-margin-top:2rem;}
+.step-header{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.5rem;}
+.step-num-lg{width:36px;height:36px;border-radius:50%;background:#1c1816;border:1px solid #c9a96e;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;color:#c9a96e;flex-shrink:0;margin-top:.1rem;}
+.step-meta{}
+.step-tag{font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:#c9a96e;font-family:'SF Mono',monospace;margin-bottom:.25rem;}
+.step-title{font-size:1.1875rem;font-weight:700;color:#EAE4D9;letter-spacing:-.015em;}
+.step-when{font-size:.75rem;color:#4a3c30;margin-top:.2rem;}
+
+.step-body{margin-left:52px;}
+.step-desc{font-size:.875rem;color:#8a7a6a;line-height:1.85;margin-bottom:1.25rem;}
+.step-desc strong{color:#EAE4D9;font-weight:600;}
+
+/* Cards */
+.card{background:#161210;border:1px solid #2a2420;border-radius:10px;padding:1.25rem 1.375rem;margin-bottom:1rem;}
+.card-label{font-size:.575rem;letter-spacing:.18em;text-transform:uppercase;color:#6a5c4e;font-family:'SF Mono',monospace;margin-bottom:.75rem;font-weight:700;}
+.card-body{font-size:.8375rem;color:#AAA49A;line-height:1.85;}
+.card-body p{margin-bottom:.75rem;}
+.card-body p:last-child{margin-bottom:0;}
+.card.highlight{border-color:rgba(201,169,110,.25);background:rgba(201,169,110,.04);}
+
+/* Checklist */
+.checklist{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1rem;}
+.check-item{display:flex;align-items:flex-start;gap:.75rem;font-size:.84rem;color:#8a7a6a;line-height:1.6;}
+.check-box{width:18px;height:18px;border:1px solid #3a3028;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.15rem;cursor:pointer;transition:all .15s;background:#1c1816;}
+.check-box.done{background:#c9a96e;border-color:#c9a96e;color:#0e0c0a;font-size:.6rem;font-weight:700;}
+.check-item.done-item span{color:#4a3c30;text-decoration:line-through;}
+
+/* Script bubble */
+.script{background:#0a0806;border:1px solid #3a3028;border-left:2px solid #c9a96e;border-radius:0 8px 8px 0;padding:1rem 1.25rem;font-size:.8375rem;color:#a09080;line-height:1.85;font-style:italic;margin-bottom:.875rem;position:relative;}
+.script::before{content:'SCRIPT';position:absolute;top:.5rem;right:.75rem;font-size:.5rem;letter-spacing:.16em;color:#3a3028;font-family:'SF Mono',monospace;font-style:normal;}
+
+/* Objection / response */
+.obj-block{background:#161210;border:1px solid #2a2420;border-radius:10px;overflow:hidden;margin-bottom:.875rem;}
+.obj-q{padding:.875rem 1.125rem;background:#1c1816;font-size:.8125rem;font-weight:600;color:#EAE4D9;border-bottom:1px solid #2a2420;}
+.obj-q::before{content:'OBJECTION ';font-size:.55rem;letter-spacing:.14em;color:#f87171;font-family:'SF Mono',monospace;margin-right:.375rem;}
+.obj-a{padding:.875rem 1.125rem;font-size:.8125rem;color:#8a7a6a;line-height:1.8;}
+.obj-a strong{color:#EAE4D9;}
+
+/* Warning / tip */
+.tip{display:flex;gap:.75rem;align-items:flex-start;background:rgba(74,222,128,.04);border:1px solid rgba(74,222,128,.15);border-radius:8px;padding:.875rem 1rem;margin-bottom:1rem;font-size:.8125rem;color:#6a9a7a;line-height:1.7;}
+.tip-icon{font-size:1rem;flex-shrink:0;margin-top:.1rem;}
+.warn{background:rgba(248,113,113,.04);border-color:rgba(248,113,113,.15);color:#9a6a6a;}
+
+/* Divider */
+.step-divider{border:none;border-top:1px solid #1c1816;margin:2.5rem 0;}
+
+/* CTA at bottom */
+.bottom-cta{background:#161210;border:1px solid #c9a96e;border-radius:12px;padding:1.75rem;margin-top:3rem;display:flex;align-items:flex-start;gap:1.25rem;}
+.bottom-cta-icon{font-size:1.5rem;flex-shrink:0;}
+.bottom-cta-title{font-size:.9375rem;font-weight:700;color:#EAE4D9;margin-bottom:.375rem;}
+.bottom-cta-body{font-size:.8125rem;color:#6a5c4e;line-height:1.7;}
+
+@media(max-width:720px){
+  .sidebar{display:none;}
+  .main{padding:2rem 1.25rem;}
+  .timeline{flex-wrap:wrap;}
+  .step-body{margin-left:0;}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- Sidebar nav -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-mark">Sales.io</div>
+      <div class="sidebar-title">Renewal SOP</div>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Process</div>
+      <a class="nav-link active" onclick="scrollTo('s1')"><div class="step-num">1</div> Identify &amp; Prep</a>
+      <a class="nav-link" onclick="scrollTo('s2')"><div class="step-num">2</div> Send the Offer</a>
+      <a class="nav-link" onclick="scrollTo('s3')"><div class="step-num">3</div> Follow-Up Call</a>
+      <a class="nav-link" onclick="scrollTo('s4')"><div class="step-num">4</div> Handle Objections</a>
+      <a class="nav-link" onclick="scrollTo('s5')"><div class="step-num">5</div> Close It</a>
+      <a class="nav-link" onclick="scrollTo('s6')"><div class="step-num">6</div> After They Say Yes</a>
+    </div>
+    <div class="nav-section" style="margin-top:1.5rem;">
+      <div class="nav-label">Reference</div>
+      <a class="nav-link" href="salesio-renewal-offer.html" target="_blank"><div class="step-num">↗</div> Renewal Offer Doc</a>
+      <a class="nav-link" href="salesio-client-hub.html" target="_blank"><div class="step-num">↗</div> Client Hub</a>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <main class="main">
+
+    <div class="page-header">
+      <div class="page-eyebrow">Internal SOP — JJ + Jalen</div>
+      <h1 class="page-title">Renewal Process</h1>
+      <p class="page-sub">Step-by-step on how to get a student to renew. This starts at Week 10, and it is not a pitch — it is a conversation with someone who already knows what the program does.</p>
+    </div>
+
+    <!-- Timeline -->
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-week">Week 10</div>
+        <div class="tl-label">Identify + Send Doc</div>
+      </div>
+      <div class="tl-item active">
+        <div class="tl-week">Week 11</div>
+        <div class="tl-label">Follow-Up Call</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-week">Week 12</div>
+        <div class="tl-label">Close or Decide</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-week">After</div>
+        <div class="tl-label">Onboard Into Year 2</div>
+      </div>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="step-section" id="s1">
+      <div class="step-header">
+        <div class="step-num-lg">1</div>
+        <div class="step-meta">
+          <div class="step-tag">Week 10</div>
+          <div class="step-title">Identify &amp; Prep</div>
+          <div class="step-when">Pull the renewal list from the Client Hub every Monday</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <p class="step-desc">At week 10, the student enters the renewal window. Before you send anything or say anything, do a 60-second review of their file so you go in knowing what to say.</p>
+
+        <div class="card-label" style="font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:#6a5c4e;font-family:'SF Mono',monospace;font-weight:700;margin-bottom:.625rem;">Before you reach out — know this</div>
+        <div class="checklist" id="prep-checklist">
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span>What week are they on? (Hub shows this)</span></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span>What are their wins? Close rate improvement, income increase, calls landed</span></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span>What are their struggles? Where are they still stuck?</span></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span>Have they landed a role or are they still looking?</span></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span>What is their payment status? Any balance due?</span></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span>What tier makes sense for them? Core, Growth, or Elite?</span></div>
+        </div>
+
+        <div class="tip">
+          <div class="tip-icon">💡</div>
+          <div>The renewal conversation is won <strong>before</strong> you send the doc. If you know what they care about and what's still unresolved, you already know how to position it.</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="step-divider">
+
+    <!-- Step 2 -->
+    <div class="step-section" id="s2">
+      <div class="step-header">
+        <div class="step-num-lg">2</div>
+        <div class="step-meta">
+          <div class="step-tag">Week 10 — same day as identification</div>
+          <div class="step-title">Send the Renewal Offer Doc</div>
+          <div class="step-when">WhatsApp DM only. No Slack. No email.</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <p class="step-desc">Send the renewal offer link with a short, personal message. The doc does the heavy lifting — your job is just to make it feel like a natural next step, not a sales pitch.</p>
+
+        <div class="card-label" style="font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:#6a5c4e;font-family:'SF Mono',monospace;font-weight:700;margin-bottom:.625rem;">What to send</div>
+
+        <div class="script">
+          Hey [name], we're coming up on week 10 — wanted to loop you in on what Year Two looks like for people who stay in. Pulled this together so you can look at the options. No pressure, just want you to have it before the end of the program. [link to salesio-renewal-offer.html]
+        </div>
+
+        <div class="tip">
+          <div class="tip-icon">✓</div>
+          <div>Short. Personal. No hype language. They already know what the program does — this is not a cold pitch. It is a door you're opening.</div>
+        </div>
+
+        <div class="tip warn">
+          <div class="tip-icon">✕</div>
+          <div>Don't say "expires soon" or "limited spots" unless it's true. This student has been with you — they'll know if it's fake urgency and it will kill trust.</div>
+        </div>
+
+        <div class="card highlight" style="margin-top:1rem;">
+          <div class="card-label">After sending</div>
+          <div class="card-body">
+            <p>Go to the Client Hub and mark their renewal doc as sent (the ✉ DOC? tag in the table). This keeps the pop-up tracker accurate.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="step-divider">
+
+    <!-- Step 3 -->
+    <div class="step-section" id="s3">
+      <div class="step-header">
+        <div class="step-num-lg">3</div>
+        <div class="step-meta">
+          <div class="step-tag">Week 11 — 2 to 3 days after sending the doc</div>
+          <div class="step-title">Follow-Up Call</div>
+          <div class="step-when">If no response, follow up via WhatsApp. If they responded, book a call.</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <p class="step-desc">The follow-up is a <strong>check-in, not a chase</strong>. Most people who are renewing already know they want to. They just need the conversation to make it real.</p>
+
+        <div class="card-label" style="font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:#6a5c4e;font-family:'SF Mono',monospace;font-weight:700;margin-bottom:.625rem;">If no reply yet — follow-up message</div>
+        <div class="script">
+          Hey [name] — wanted to check in on that Year Two doc. Take a look when you get a chance and let me know if you have questions. Happy to hop on a call and walk through which option makes sense for where you're at.
+        </div>
+
+        <div class="card-label" style="font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:#6a5c4e;font-family:'SF Mono',monospace;font-weight:700;margin-bottom:.625rem;margin-top:1.25rem;">On the call — what to cover</div>
+
+        <div class="checklist">
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span><strong>Acknowledge where they are</strong> — "You've come a long way since week 1. What's the one thing that changed the most for you?"</span></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span><strong>Name what's unresolved</strong> — "What's still the thing you want to crack before the end of the program?"</span></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span><strong>Ask about the future</strong> — "Where do you want to be income-wise in the next 12 months?"</span></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span><strong>Bridge to renewal</strong> — "This is exactly what Year Two is for. You're not starting over — you're compounding what you already built."</span></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span><strong>Walk through the right tier</strong> — based on their goals and finances, which one fits?</span></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span><strong>Ask for the decision</strong> — "Does this make sense for where you're going?" Let them close themselves.</span></div>
+        </div>
+
+        <div class="tip">
+          <div class="tip-icon">💡</div>
+          <div>The best renewals happen when the student talks themselves into it. Ask more than you say. The person who needs the sale will always lose — approach this with no attachment to the outcome.</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="step-divider">
+
+    <!-- Step 4 -->
+    <div class="step-section" id="s4">
+      <div class="step-header">
+        <div class="step-num-lg">4</div>
+        <div class="step-meta">
+          <div class="step-tag">On the call or over WhatsApp</div>
+          <div class="step-title">Handle Objections</div>
+          <div class="step-when">These are the five that come up every time</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <p class="step-desc">These aren't objections — they're questions. Treat them that way and the conversation stays collaborative instead of defensive.</p>
+
+        <div class="obj-block">
+          <div class="obj-q">"I need to think about it."</div>
+          <div class="obj-a">"Of course. What's the part you're thinking through — is it the investment, the timing, or are you unsure if it makes sense for where you're at right now?" <strong>Get specific. Vague objections live in silence.</strong></div>
+        </div>
+
+        <div class="obj-block">
+          <div class="obj-q">"I can't afford it right now."</div>
+          <div class="obj-a">"Tell me more — is that a cash flow thing or is the investment not feeling worth it based on what you've seen so far?" <strong>If it's cash flow</strong>, walk them through the $500/month option. <strong>If it's value</strong>, that's a different conversation — go back to what's unresolved for them.</div>
+        </div>
+
+        <div class="obj-block">
+          <div class="obj-q">"I think I can do it on my own from here."</div>
+          <div class="obj-a">"That's great — it means you've built real confidence. The question I'd ask is: what's the cost of going slower on your own versus compounding at the pace you've been on?" <strong>Don't push. Plant the seed and let them sit with it.</strong></div>
+        </div>
+
+        <div class="obj-block">
+          <div class="obj-q">"What's different about Year Two vs. what I already went through?"</div>
+          <div class="obj-a">"Year One built the foundation — how you think, how you communicate, how you show up on calls. Year Two is the application. We go deeper on identity under pressure, frame control at higher price points, and the consistency piece that takes people from $10K months to $30K months. Plus you're in the room with people who've already done it."</div>
+        </div>
+
+        <div class="obj-block">
+          <div class="obj-q">"Can I just do month-to-month or pay as I go?"</div>
+          <div class="obj-a">"We don't do month-to-month — the reason is that the people who get the best results are the ones who commit to the full year. A 30-day mentality produces 30-day results. The three tiers have payment options, but they're all 12-month commitments." <strong>Hold the frame. Don't negotiate the structure.</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="step-divider">
+
+    <!-- Step 5 -->
+    <div class="step-section" id="s5">
+      <div class="step-header">
+        <div class="step-num-lg">5</div>
+        <div class="step-meta">
+          <div class="step-tag">Week 11 or 12</div>
+          <div class="step-title">Close It</div>
+          <div class="step-when">One clear ask. No chasing after this.</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <p class="step-desc">When the conversation has covered their goals, their unresolved pieces, and the right tier — ask once, directly. Then stop talking.</p>
+
+        <div class="script">
+          Based on everything we just talked about, it sounds like [Growth / Elite] makes the most sense for you. Do you want to lock in the alumni rate and keep the momentum going?
+        </div>
+
+        <div class="tip">
+          <div class="tip-icon">✓</div>
+          <div><strong>After you ask — be quiet.</strong> The next person to speak loses. Let them answer. Do not fill the silence.</div>
+        </div>
+
+        <div class="card" style="margin-top:1rem;">
+          <div class="card-label">If they say no or not now</div>
+          <div class="card-body">
+            <p>"Totally fine. You know where to find us. If it ever makes sense in the future, the door's open."</p>
+            <p>That's it. No guilt, no follow-up pressure. Update their status in the Hub to "Completed." If they change their mind later, they'll come back. The ones you push out of the frame don't come back.</p>
+          </div>
+        </div>
+
+        <div class="card highlight" style="margin-top:.875rem;">
+          <div class="card-label">If they say yes</div>
+          <div class="card-body">
+            <p>Get the payment processed before the call ends. Don't end the call on "I'll send the link." Open the checkout, walk them through it, and confirm payment received. Verbal yes + closed payment = done deal. Verbal yes alone closes at ~40%.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="step-divider">
+
+    <!-- Step 6 -->
+    <div class="step-section" id="s6">
+      <div class="step-header">
+        <div class="step-num-lg">6</div>
+        <div class="step-meta">
+          <div class="step-tag">Immediately after payment</div>
+          <div class="step-title">After They Say Yes</div>
+          <div class="step-when">Confirm, update the hub, welcome them back properly</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <p class="step-desc">The handoff matters. How you treat the 10 minutes after they pay sets the tone for the next 12 months.</p>
+
+        <div class="checklist">
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span>Confirm payment received and send receipt</span></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span>Update Client Hub: status → Renewed, new start date, payment type and amount</span></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span>Send a personal WhatsApp message (not a template — actually personal)</span></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span>Book their first Year Two 1-on-1 before the call ends</span></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span>Add them to any Elite/Year Two channels if tier changed</span></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span>Log the renewal in the decision log if anything notable happened</span></div>
+        </div>
+
+        <div class="script" style="margin-top:1rem;">
+          [Name] — pumped to have you in for Year Two. We're going to build on everything you've already done and push to a new ceiling. Your next call is booked — see you [date].
+        </div>
+
+        <div class="tip">
+          <div class="tip-icon">💡</div>
+          <div>The welcome message should feel like the start of something, not the end of a sales process. One sentence that connects to where they're going — not a recap of what they bought.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-cta">
+      <div class="bottom-cta-icon">📋</div>
+      <div>
+        <div class="bottom-cta-title">Renewal tracker is in the Client Hub</div>
+        <div class="bottom-cta-body">The hub shows week progress, renewal badges, and tracks whether the doc was sent for each client. At week 10, the pop-up fires automatically so nothing slips through.</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+function scrollTo(id){
+  document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});
+  document.querySelectorAll('.nav-link').forEach(function(l){l.classList.remove('active');});
+  event.currentTarget.classList.add('active');
+}
+
+function toggleCheck(el){
+  var box = el.querySelector('.check-box');
+  var isDone = box.classList.contains('done');
+  if(isDone){
+    box.classList.remove('done');
+    box.textContent = '';
+    el.classList.remove('done-item');
+  } else {
+    box.classList.add('done');
+    box.textContent = '✓';
+    el.classList.add('done-item');
+  }
+}
+</script>
+</body>
+</html>

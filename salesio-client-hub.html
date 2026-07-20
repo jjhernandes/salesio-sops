@@ -220,6 +220,16 @@ label{font-size:.725rem;font-weight:600;color:var(--text-2);letter-spacing:.04em
 .notif.show{transform:translateY(0);opacity:1;}
 .notif-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;}
 
+/* ── Renewal check list ── */
+.rc-row{display:flex;align-items:center;gap:.875rem;padding:.75rem 0;border-bottom:1px solid var(--bdr);}
+.rc-row:last-child{border-bottom:none;}
+.rc-label{display:flex;align-items:center;gap:.75rem;cursor:pointer;flex:1;}
+.rc-label input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent);flex-shrink:0;}
+.rc-name{font-size:.875rem;font-weight:600;color:var(--text);}
+.rc-week{font-size:.725rem;color:var(--text-2);margin-left:.5rem;}
+.rc-urgency{font-size:.6rem;font-weight:700;letter-spacing:.08em;color:var(--orange);white-space:nowrap;}
+.rc-intro{font-size:.8125rem;color:var(--text-2);line-height:1.7;margin-bottom:1.25rem;}
+
 @media(max-width:640px){
   .page{padding:1rem;}
   .stats-row{grid-template-columns:1fr 1fr;}
@@ -425,6 +435,10 @@ label{font-size:.725rem;font-weight:600;color:var(--text-2);letter-spacing:.04em
             <input type="checkbox" id="f-role-ready">
             <span>Role ready</span>
           </label>
+          <label class="form-check" style="text-transform:none;letter-spacing:0;font-size:.8125rem;font-weight:400;">
+            <input type="checkbox" id="f-renewal-sent">
+            <span>Renewal doc sent</span>
+          </label>
         </div>
 
         <hr class="section-divider">
@@ -473,12 +487,30 @@ label{font-size:.725rem;font-weight:600;color:var(--text-2);letter-spacing:.04em
         <div class="detail-row"><span class="detail-row-label">Close Rate After</span><span class="detail-row-val" id="d-after"></span></div>
         <div class="detail-row"><span class="detail-row-label">Checked In This Week</span><span class="detail-row-val" id="d-checkin"></span></div>
         <div class="detail-row"><span class="detail-row-label">Needs Role</span><span class="detail-row-val" id="d-needs-role"></span></div>
+        <div class="detail-row"><span class="detail-row-label">Renewal Doc Sent</span><span class="detail-row-val" id="d-renewal-sent"></span></div>
       </div>
       <div class="detail-section">
         <div class="detail-section-title">Notes</div>
         <div class="detail-notes" id="d-notes"></div>
       </div>
       <div class="detail-actions" id="d-actions"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Renewal Doc Check Modal -->
+<div class="modal-backdrop" id="renewalCheckModal" onclick="closeRenewalCheck(event)">
+  <div class="modal" onclick="event.stopPropagation()" style="max-width:480px;">
+    <div class="modal-header">
+      <div class="modal-title">🔔 Renewal Docs</div>
+      <button class="modal-close" onclick="closeRenewalCheckDirect()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="rc-intro">These clients are at <strong>Week 10 or later</strong>. Check off who has received the renewal offer doc.</p>
+      <div id="renewalCheckList"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" onclick="closeRenewalCheckDirect()">Done</button>
     </div>
   </div>
 </div>
@@ -605,7 +637,9 @@ function renderTable(){
     var weekDisplay = isAnnual ? '<span style="font-size:.7rem;color:var(--accent);font-weight:700;letter-spacing:.06em;">ANNUAL</span>' : (w ? 'Wk '+w+' / 12' : '—');
     var roleTag = c.needsRole ? '<span style="font-size:.6rem;letter-spacing:.06em;padding:.1rem .4rem;border-radius:4px;background:var(--orange-dim);color:var(--orange);border:1px solid var(--orange-bdr);margin-left:.4rem;">'+(c.roleReady?'ROLE ✓':'ROLE')+'</span>' : '';
     var rw = renewalWeek(c);
-    var renewTag = rw && rw>=10 ? '<span style="font-size:.6rem;letter-spacing:.06em;padding:.1rem .4rem;border-radius:4px;background:var(--blue-dim);color:var(--blue);border:1px solid var(--blue-bdr);margin-left:.4rem;">'+(rw===12?'RENEW NOW':rw===11?'RENEW 1WK':'RENEW 2WK')+'</span>' : '';
+    var renewBadge = rw && rw>=10 ? '<span style="font-size:.6rem;letter-spacing:.06em;padding:.1rem .4rem;border-radius:4px;background:var(--blue-dim);color:var(--blue);border:1px solid var(--blue-bdr);margin-left:.4rem;">'+(rw===12?'RENEW NOW':rw===11?'RENEW 1WK':'RENEW 2WK')+'</span>' : '';
+    var docBadge = rw && rw>=10 ? (c.renewalDocSent ? '<span style="font-size:.6rem;letter-spacing:.06em;padding:.1rem .4rem;border-radius:4px;background:var(--green-dim);color:var(--green);border:1px solid var(--green-bdr);margin-left:.3rem;cursor:pointer;" title="Doc sent — click to undo" onclick="event.stopPropagation();quickDocToggle(\''+c.id+'\',false)">✓ DOC</span>' : '<span style="font-size:.6rem;letter-spacing:.06em;padding:.1rem .4rem;border-radius:4px;background:var(--orange-dim);color:var(--orange);border:1px solid var(--orange-bdr);margin-left:.3rem;cursor:pointer;" title="Click to mark doc sent" onclick="event.stopPropagation();quickDocToggle(\''+c.id+'\',true)">✉ DOC?</span>') : '';
+    var renewTag = renewBadge + docBadge;
     var payDisplay = c.payAmt ? '$'+Number(c.payAmt).toLocaleString() : payLabel(c.payment);
     return '<tr onclick="openDetail(\''+c.id+'\')">' +
       '<td><div class="client-name">'+esc(c.first)+' '+esc(c.last)+renewTag+roleTag+'</div><div class="client-email">'+esc(c.notes ? c.notes.slice(0,48)+(c.notes.length>48?'…':'') : '')+'</div></td>' +
@@ -655,6 +689,7 @@ function openEdit(id){
   document.getElementById('f-placed').checked = !!c.placed;
   document.getElementById('f-needs-role').checked = !!c.needsRole;
   document.getElementById('f-role-ready').checked = !!c.roleReady;
+  document.getElementById('f-renewal-sent').checked = !!c.renewalDocSent;
   document.getElementById('f-payamt').value = c.payAmt||'';
   document.getElementById('f-balance').value = c.balance||'';
   document.getElementById('f-notes').value = c.notes||'';
@@ -679,6 +714,7 @@ function saveClient(){
     placed:document.getElementById('f-placed').checked,
     needsRole:document.getElementById('f-needs-role').checked,
     roleReady:document.getElementById('f-role-ready').checked,
+    renewalDocSent:document.getElementById('f-renewal-sent').checked,
     payAmt:document.getElementById('f-payamt').value,
     balance:document.getElementById('f-balance').value,
     notes:document.getElementById('f-notes').value.trim()
@@ -715,6 +751,7 @@ function clearForm(){
   document.getElementById('f-placed').checked=false;
   document.getElementById('f-needs-role').checked=false;
   document.getElementById('f-role-ready').checked=false;
+  document.getElementById('f-renewal-sent').checked=false;
   document.getElementById('f-payamt').value='';
   document.getElementById('f-balance').value='';
 }
@@ -743,6 +780,15 @@ function openDetail(id){
   document.getElementById('d-after').textContent = c.closeAfter ? c.closeAfter+'%' : '—';
   document.getElementById('d-checkin').textContent = c.checkin ? '✓ Yes' : '✗ No';
   document.getElementById('d-needs-role').textContent = c.needsRole ? (c.roleReady ? '✓ Ready' : '⚠ Not ready yet') : '—';
+  var drSent = document.getElementById('d-renewal-sent');
+  var drw = renewalWeek(c);
+  if(drw && drw >= 10){
+    drSent.innerHTML = c.renewalDocSent ?
+      '<span style="color:var(--green);">✓ Sent</span>' :
+      '<span style="color:var(--orange);cursor:pointer;" onclick="quickDocToggle(\''+c.id+'\',true);openDetail(\''+c.id+'\')">Not sent — mark as sent</span>';
+  } else {
+    drSent.textContent = drw ? 'Not at week 10 yet' : '—';
+  }
   document.getElementById('d-notes').textContent = c.notes||'No notes yet.';
   document.getElementById('d-actions').innerHTML =
     '<button class="btn btn-ghost btn-sm" onclick="closeDetailDirect();openEdit(\''+id+'\')">Edit</button>' +
@@ -755,13 +801,13 @@ function closeDetailDirect(){ document.getElementById('detailPanel').classList.r
 // ── Export CSV ──
 function exportCSV(){
   if(!clients.length){ notify('No clients to export.'); return; }
-  var headers = ['Name','Email','Phone','Start Date','Week','Status','Coach','Payment','Close Before','Close After','Checked In','Job Placed','Notes'];
+  var headers = ['Name','Email','Phone','Start Date','Week','Status','Coach','Payment','Close Before','Close After','Checked In','Job Placed','Renewal Doc Sent','Notes'];
   var rows = clients.map(function(c){
     var w = weekNum(c.start);
     return [
       c.first+' '+c.last, c.email||'', c.phone||'', c.start||'',
       w||'', c.status||'', c.coach||'', payLabel(c.payment),
-      c.closeBefore||'', c.closeAfter||'', c.checkin?'Yes':'No', c.placed?'Yes':'No',
+      c.closeBefore||'', c.closeAfter||'', c.checkin?'Yes':'No', c.placed?'Yes':'No', c.renewalDocSent?'Yes':'No',
       (c.notes||'').replace(/"/g,'""')
     ].map(function(v){ return '"'+v+'"'; }).join(',');
   });
@@ -814,6 +860,49 @@ var SEED=[
   {id:'s29',first:'Elliot',last:'Richards',email:'',phone:'',start:'2026-06-21',status:'active',coach:'Jalen',payment:'full',payAmt:'',balance:'',closeBefore:'',closeAfter:'',checkin:false,placed:false,needsRole:true,roleReady:false,notes:'4 weeks in. Needs a role. Not ready.'}
 ];
 
+// ── Renewal Doc Popup ──
+function checkRenewalPopup(){
+  var renewing = clients.filter(isRenewing);
+  if(!renewing.length) return;
+  var pending = renewing.filter(function(c){ return !c.renewalDocSent; });
+  if(!pending.length) return;
+
+  var list = document.getElementById('renewalCheckList');
+  list.innerHTML = renewing.map(function(c){
+    var w = renewalWeek(c);
+    var urgency = w===12 ? 'RENEW NOW' : w===11 ? '1 WK LEFT' : '2 WKS LEFT';
+    return '<div class="rc-row">' +
+      '<label class="rc-label">' +
+        '<input type="checkbox" onchange="toggleRenewalSent(\''+c.id+'\',this.checked)" '+(c.renewalDocSent?'checked':'')+' />' +
+        '<span class="rc-name">'+esc(c.first)+' '+esc(c.last)+'<span class="rc-week">Week '+w+'</span></span>' +
+      '</label>' +
+      '<span class="rc-urgency">'+urgency+'</span>' +
+    '</div>';
+  }).join('');
+
+  document.getElementById('renewalCheckModal').classList.add('open');
+}
+
+function toggleRenewalSent(id, sent){
+  var c = clients.find(function(x){return x.id===id;});
+  if(!c) return;
+  c.renewalDocSent = sent;
+  save();
+  renderTable();
+}
+
+function quickDocToggle(id, sent){
+  toggleRenewalSent(id, sent);
+  notify(sent ? 'Renewal doc marked as sent.' : 'Renewal doc unmarked.');
+}
+
+function closeRenewalCheck(e){
+  if(e.target===document.getElementById('renewalCheckModal')) closeRenewalCheckDirect();
+}
+function closeRenewalCheckDirect(){
+  document.getElementById('renewalCheckModal').classList.remove('open');
+}
+
 // ── Theme ──
 function toggleTheme(){
   var h=document.documentElement;
@@ -832,6 +921,7 @@ function toggleTheme(){
 load();
 if(!clients.length){ clients = SEED; save(); }
 renderTable();
+checkRenewalPopup();
 </script>
 </body>
 </html>
