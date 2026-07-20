@@ -442,6 +442,30 @@ label{font-size:.725rem;font-weight:600;color:var(--text-2);letter-spacing:.04em
         </div>
 
         <hr class="section-divider">
+        <div class="section-label">Participation (Agreement Section 3)</div>
+
+        <div class="form-group">
+          <label>1-on-1 Sessions Scheduled</label>
+          <input class="form-input" id="f-1on1-scheduled" type="number" min="0" placeholder="e.g. 12">
+        </div>
+        <div class="form-group">
+          <label>1-on-1 Sessions Attended</label>
+          <input class="form-input" id="f-1on1-attended" type="number" min="0" placeholder="e.g. 10">
+        </div>
+        <div class="form-group">
+          <label>Group Calls Scheduled</label>
+          <input class="form-input" id="f-group-scheduled" type="number" min="0" placeholder="e.g. 12">
+        </div>
+        <div class="form-group">
+          <label>Group Calls Attended</label>
+          <input class="form-input" id="f-group-attended" type="number" min="0" placeholder="e.g. 10">
+        </div>
+        <div class="form-group full">
+          <label>Job Applications Submitted (Week 9+, cumulative)</label>
+          <input class="form-input" id="f-applications" type="number" min="0" placeholder="e.g. 20">
+        </div>
+
+        <hr class="section-divider">
         <div class="section-label">Notes</div>
 
         <div class="form-group full">
@@ -488,6 +512,13 @@ label{font-size:.725rem;font-weight:600;color:var(--text-2);letter-spacing:.04em
         <div class="detail-row"><span class="detail-row-label">Checked In This Week</span><span class="detail-row-val" id="d-checkin"></span></div>
         <div class="detail-row"><span class="detail-row-label">Needs Role</span><span class="detail-row-val" id="d-needs-role"></span></div>
         <div class="detail-row"><span class="detail-row-label">Renewal Doc Sent</span><span class="detail-row-val" id="d-renewal-sent"></span></div>
+      </div>
+      <div class="detail-section">
+        <div class="detail-section-title">Participation (Agreement Section 3)</div>
+        <div class="detail-row"><span class="detail-row-label">1-on-1 Attendance</span><span class="detail-row-val" id="d-1on1"></span></div>
+        <div class="detail-row"><span class="detail-row-label">Group Call Attendance</span><span class="detail-row-val" id="d-group"></span></div>
+        <div class="detail-row"><span class="detail-row-label">Applications Submitted</span><span class="detail-row-val" id="d-applications"></span></div>
+        <div class="detail-row"><span class="detail-row-label">Meets Refund Threshold</span><span class="detail-row-val" id="d-eligible"></span></div>
       </div>
       <div class="detail-section">
         <div class="detail-section-title">Notes</div>
@@ -699,6 +730,11 @@ function openEdit(id){
   document.getElementById('f-renewal-sent').checked = !!c.renewalDocSent;
   document.getElementById('f-payamt').value = c.payAmt||'';
   document.getElementById('f-balance').value = c.balance||'';
+  document.getElementById('f-1on1-scheduled').value = c.oneOnOneScheduled||'';
+  document.getElementById('f-1on1-attended').value = c.oneOnOneAttended||'';
+  document.getElementById('f-group-scheduled').value = c.groupScheduled||'';
+  document.getElementById('f-group-attended').value = c.groupAttended||'';
+  document.getElementById('f-applications').value = c.applications||'';
   document.getElementById('f-notes').value = c.notes||'';
   document.getElementById('clientModal').classList.add('open');
 }
@@ -724,6 +760,11 @@ function saveClient(){
     renewalDocSent:document.getElementById('f-renewal-sent').checked,
     payAmt:document.getElementById('f-payamt').value,
     balance:document.getElementById('f-balance').value,
+    oneOnOneScheduled:document.getElementById('f-1on1-scheduled').value,
+    oneOnOneAttended:document.getElementById('f-1on1-attended').value,
+    groupScheduled:document.getElementById('f-group-scheduled').value,
+    groupAttended:document.getElementById('f-group-attended').value,
+    applications:document.getElementById('f-applications').value,
     notes:document.getElementById('f-notes').value.trim()
   };
   if(editingId){
@@ -748,7 +789,7 @@ function archiveClient(id){
 }
 
 function clearForm(){
-  ['f-first','f-last','f-email','f-phone','f-start','f-close-before','f-close-after','f-notes'].forEach(function(id){
+  ['f-first','f-last','f-email','f-phone','f-start','f-close-before','f-close-after','f-1on1-scheduled','f-1on1-attended','f-group-scheduled','f-group-attended','f-applications','f-notes'].forEach(function(id){
     document.getElementById(id).value='';
   });
   document.getElementById('f-status').value='active';
@@ -796,6 +837,26 @@ function openDetail(id){
   } else {
     drSent.textContent = drw ? 'Not at week 10 yet' : '—';
   }
+  var pct1 = (c.oneOnOneScheduled && Number(c.oneOnOneScheduled)>0) ? Math.round((Number(c.oneOnOneAttended)||0)/Number(c.oneOnOneScheduled)*100) : null;
+  var pctg = (c.groupScheduled && Number(c.groupScheduled)>0) ? Math.round((Number(c.groupAttended)||0)/Number(c.groupScheduled)*100) : null;
+  document.getElementById('d-1on1').textContent = pct1!==null ? (c.oneOnOneAttended+'/'+c.oneOnOneScheduled+' ('+pct1+'%)') : '—';
+  document.getElementById('d-group').textContent = pctg!==null ? (c.groupAttended+'/'+c.groupScheduled+' ('+pctg+'%)') : '—';
+  var apps = Number(c.applications)||0;
+  document.getElementById('d-applications').textContent = c.applications ? apps+' submitted' : '—';
+
+  var meetsAttendance = (pct1===null||pct1>=80) && (pctg===null||pctg>=80);
+  var appsExpected = (w && w>8) ? (w-8)*5 : 0;
+  var meetsApps = apps >= appsExpected;
+  var hasAnyData = pct1!==null || pctg!==null || !!c.applications;
+  var elEligible = document.getElementById('d-eligible');
+  if(!hasAnyData){
+    elEligible.innerHTML = '<span style="color:var(--text-3);">No data logged yet</span>';
+  }else if(meetsAttendance && meetsApps){
+    elEligible.innerHTML = '<span style="color:var(--green);">✓ Meets thresholds</span>';
+  }else{
+    elEligible.innerHTML = '<span style="color:var(--red);">✗ Below threshold</span>';
+  }
+
   document.getElementById('d-notes').textContent = c.notes||'No notes yet.';
   document.getElementById('d-actions').innerHTML =
     '<button class="btn btn-primary btn-sm" onclick="window.open(hqLink(clients.find(function(x){return x.id===\''+id+'\';})),\'_blank\')">🏠 Open Student HQ</button>' +
@@ -809,13 +870,14 @@ function closeDetailDirect(){ document.getElementById('detailPanel').classList.r
 // ── Export CSV ──
 function exportCSV(){
   if(!clients.length){ notify('No clients to export.'); return; }
-  var headers = ['Name','Email','Phone','Start Date','Week','Status','Coach','Payment','Close Before','Close After','Checked In','Job Placed','Renewal Doc Sent','Notes'];
+  var headers = ['Name','Email','Phone','Start Date','Week','Status','Coach','Payment','Close Before','Close After','Checked In','Job Placed','Renewal Doc Sent','1-on-1 Scheduled','1-on-1 Attended','Group Scheduled','Group Attended','Applications Submitted','Notes'];
   var rows = clients.map(function(c){
     var w = weekNum(c.start);
     return [
       c.first+' '+c.last, c.email||'', c.phone||'', c.start||'',
       w||'', c.status||'', c.coach||'', payLabel(c.payment),
       c.closeBefore||'', c.closeAfter||'', c.checkin?'Yes':'No', c.placed?'Yes':'No', c.renewalDocSent?'Yes':'No',
+      c.oneOnOneScheduled||'', c.oneOnOneAttended||'', c.groupScheduled||'', c.groupAttended||'', c.applications||'',
       (c.notes||'').replace(/"/g,'""')
     ].map(function(v){ return '"'+v+'"'; }).join(',');
   });
