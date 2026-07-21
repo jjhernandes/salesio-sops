@@ -1,261 +1,212 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="day">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Affiliate Tracker — Sales.io</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales.io — Affiliate Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script>try{var s=localStorage.getItem('tb-theme');if(s)document.documentElement.dataset.theme=s;}catch(e){}</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{height:100%;}
 
-    :root {
-      --black: #000;
-      --white: #fff;
-      --gray-400: #999;
-      --gray-600: #555;
-      --gray-800: #1a1a1a;
-      --gray-900: #111;
-      --gold: #f5c518;
-      --green: #38a169;
-      --red: #e53e3e;
-      --blue: #4299e1;
-      --sidebar-width: 240px;
-    }
+:root,[data-theme="day"]{
+  --bg:#EAE4D9;--bg-2:#E0D9CE;
+  --card:#FFFFFF;--card-2:#F5F1EB;--card-3:#EDECE8;
+  --bdr:rgba(10,10,8,.1);--bdr-2:rgba(10,10,8,.2);
+  --text:#0A0A08;
+  --t2:rgba(10,10,8,.55);--t3:rgba(10,10,8,.3);--t4:rgba(10,10,8,.12);
+  --hbg:rgba(10,10,8,.04);
+  --shd:rgba(10,10,8,.08);
+  --sb-bg:#0A0A08;--sb-text:#EAE4D9;
+  --sb-t2:rgba(234,228,217,.5);--sb-t3:rgba(234,228,217,.25);
+  --sb-bdr:rgba(234,228,217,.08);--sb-hbg:rgba(234,228,217,.07);
+  --glow-rgb:160,144,112;
+  --gold:#a06010;--gold-bg:rgba(160,96,16,.08);
+  --green:#3d7a50;--green-bg:rgba(61,122,80,.08);
+  --red:#c0453f;--red-bg:rgba(192,69,63,.08);
+  --bronze:#a3652f;--silver:#7a7a7a;--platinum:#6a5fbf;
+}
+[data-theme="night"]{
+  --bg:#000;--bg-2:#040402;
+  --card:#0a0a08;--card-2:#0f0f0d;--card-3:#141412;
+  --bdr:rgba(234,228,217,.09);--bdr-2:rgba(234,228,217,.18);
+  --text:#EAE4D9;
+  --t2:rgba(234,228,217,.58);--t3:rgba(234,228,217,.27);--t4:rgba(234,228,217,.1);
+  --hbg:rgba(234,228,217,.03);
+  --shd:rgba(0,0,0,.5);
+  --sb-bg:#060604;--sb-text:#EAE4D9;
+  --sb-t2:rgba(234,228,217,.45);--sb-t3:rgba(234,228,217,.2);
+  --sb-bdr:rgba(234,228,217,.07);--sb-hbg:rgba(234,228,217,.06);
+  --glow-rgb:74,222,128;
+  --gold:#f5c518;--gold-bg:rgba(245,197,24,.1);
+  --green:#4ade80;--green-bg:rgba(74,222,128,.1);
+  --red:#f87171;--red-bg:rgba(248,113,113,.1);
+  --bronze:#cd7f32;--silver:#c0c0c0;--platinum:#c0c0ff;
+}
 
-    html { scroll-behavior: smooth; }
+::selection{background:var(--text);color:var(--bg);}
+body{
+  display:flex;min-height:100vh;color:var(--text);
+  font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;
+  transition:background-color .4s,color .4s;font-size:14px;line-height:1.5;
+  background-color:var(--bg);
+  background-image:
+    radial-gradient(closest-side,rgba(var(--glow-rgb),.18),transparent 70%),
+    radial-gradient(closest-side,rgba(var(--glow-rgb),.13),transparent 70%);
+  background-repeat:no-repeat;background-size:55vw 55vw,45vw 45vw;
+  background-position:-8% -12%,112% 20%;background-attachment:fixed;
+}
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--black);
-      color: var(--white);
-      display: flex;
-      min-height: 100vh;
-      font-size: 14px;
-      line-height: 1.5;
-    }
+/* ── SIDEBAR ── */
+.sidebar{width:230px;flex-shrink:0;background:var(--sb-bg);display:flex;flex-direction:column;
+  height:100vh;position:sticky;top:0;overflow-y:auto;overflow-x:hidden;
+  border-right:1px solid var(--sb-bdr);transition:background .4s,border-color .4s;scrollbar-width:none;}
+.sidebar::-webkit-scrollbar{display:none;}
+.sb-header{padding:1.25rem 1.25rem 1rem;border-bottom:1px solid var(--sb-bdr);}
+.sb-logo{display:flex;align-items:center;gap:.625rem;margin-bottom:.5rem;}
+.sb-logo-mark{width:24px;height:24px;object-fit:contain;transition:transform .25s cubic-bezier(.2,0,0,1),filter .25s;}
+.sb-logo-mark:hover{transform:rotate(-8deg) scale(1.12);filter:drop-shadow(0 0 10px rgba(var(--glow-rgb),.75));}
+.sb-logo-name{font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--sb-text);}
+.sb-badge{font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sb-t3);font-family:'SF Mono',monospace;font-weight:700;}
 
-    /* ── SIDEBAR ── */
-    .sidebar {
-      width: var(--sidebar-width);
-      min-height: 100vh;
-      background: var(--gray-900);
-      border-right: 1px solid #222;
-      position: fixed;
-      top: 0; left: 0;
-      display: flex;
-      flex-direction: column;
-      z-index: 100;
-    }
+.sidebar-nav{padding:.75rem 0;flex:1;}
+.nav-item{
+  display:flex;align-items:center;gap:10px;padding:.6rem 1.25rem;
+  color:var(--sb-t2);font-size:13px;font-weight:500;cursor:pointer;
+  border-left:2px solid transparent;transition:all .15s;user-select:none;position:relative;
+}
+.nav-item:hover{color:var(--sb-text);background:var(--sb-hbg);}
+.nav-item.active{color:var(--sb-text);border-left-color:rgb(var(--glow-rgb));background:var(--sb-hbg);}
+.nav-icon{font-size:14px;width:18px;text-align:center;flex-shrink:0;}
 
-    .sidebar-logo { padding: 22px 20px; border-bottom: 1px solid #222; }
-    .logo-text { font-size: 15px; font-weight: 800; letter-spacing: -0.3px; }
-    .logo-sub  { font-size: 10px; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+.sidebar-footer{padding:.875rem 1.25rem;border-top:1px solid var(--sb-bdr);}
+.sf-note{font-size:.65rem;color:var(--sb-t3);line-height:1.6;margin-bottom:.75rem;}
+.toggle-row{display:flex;align-items:center;gap:.5rem;}
+.toggle-lbl{font-size:.5rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--sb-t3);font-family:'SF Mono',monospace;}
+.toggle-switch{width:36px;height:20px;border-radius:10px;background:var(--sb-hbg);border:1px solid var(--sb-bdr);position:relative;cursor:pointer;transition:all .25s;flex-shrink:0;}
+.toggle-switch:hover{box-shadow:0 0 10px rgba(var(--glow-rgb),.5);}
+.toggle-thumb{position:absolute;top:3px;left:3px;width:12px;height:12px;border-radius:50%;background:var(--sb-text);transition:transform .3s cubic-bezier(.4,0,.2,1);}
+[data-theme="night"] .toggle-thumb{transform:translateX(16px);}
 
-    .sidebar-nav { padding: 12px 0; flex: 1; }
+/* ── MAIN ── */
+.main{flex:1;padding:2.5rem 3rem;}
 
-    .nav-item {
-      display: flex; align-items: center; gap: 10px;
-      padding: 9px 20px;
-      color: var(--gray-400);
-      font-size: 13px; font-weight: 500;
-      cursor: pointer;
-      border-left: 2px solid transparent;
-      transition: all 0.15s;
-      user-select: none;
-    }
-    .nav-item:hover  { color: var(--white); background: #1a1a1a; }
-    .nav-item.active { color: var(--white); border-left-color: var(--white); background: #1a1a1a; }
-    .nav-icon { font-size: 14px; width: 18px; text-align: center; flex-shrink: 0; }
+/* ── VIEWS ── */
+.view{display:none;}
+.view.active{display:block;}
 
-    .sidebar-footer { padding: 14px 20px; border-top: 1px solid #222; font-size: 11px; color: var(--gray-600); line-height: 1.6; }
+.page-hdr{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:2rem;flex-wrap:wrap;}
+.page-hdr h1{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.25rem;color:var(--text);}
+.page-hdr p{font-size:.8rem;color:var(--t2);}
+.page-hdr-actions{display:flex;gap:.5rem;flex-shrink:0;}
 
-    /* ── MAIN ── */
-    .main { margin-left: var(--sidebar-width); flex: 1; padding: 40px 48px; }
+/* ── STATS ── */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.75rem;}
+.stat-card{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:18px 20px;transition:all .2s;}
+.stat-card:hover{border-color:rgba(var(--glow-rgb),.45);transform:translateY(-2px);box-shadow:0 8px 24px var(--shd);}
+.sc-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);margin-bottom:6px;font-family:'SF Mono',monospace;}
+.sc-num{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;letter-spacing:-.03em;line-height:1;color:var(--text);}
+.sc-sub{font-size:11px;color:var(--t3);margin-top:4px;}
 
-    /* ── VIEWS ── */
-    .view { display: none; }
-    .view.active { display: block; }
+/* ── SECTION ── */
+.section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.section-hdr h2{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--text);}
 
-    /* ── PAGE HEADER ── */
-    .page-hdr { margin-bottom: 32px; }
-    .page-hdr h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.8px; margin-bottom: 4px; }
-    .page-hdr p  { font-size: 13px; color: var(--gray-400); }
+/* ── BUTTON ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s;font-family:'Inter',sans-serif;}
+.btn:hover{opacity:.88;}
+.btn-primary{background:var(--text);color:var(--bg);}
+.btn-ghost{background:transparent;color:var(--t2);border:1px solid var(--bdr-2);}
+.btn-ghost:hover{opacity:1;border-color:rgba(var(--glow-rgb),.5);color:var(--text);}
+.btn-sm{padding:5px 10px;font-size:12px;border-radius:6px;}
+.btn-green{background:var(--green-bg);color:var(--green);border:1px solid rgba(74,222,128,.25);}
+.btn-danger{background:var(--red-bg);color:var(--red);border:1px solid rgba(248,113,113,.25);}
 
-    /* ── STATS ROW ── */
-    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px; }
+/* ── TABLE ── */
+.table-wrap{background:var(--card);border:1px solid var(--bdr);border-radius:12px;overflow:hidden;overflow-x:auto;margin-bottom:1.75rem;}
+table{width:100%;border-collapse:collapse;}
+thead th{padding:11px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);border-bottom:1px solid var(--bdr);text-align:left;font-family:'SF Mono',monospace;white-space:nowrap;}
+tbody td{padding:13px 16px;font-size:13px;border-bottom:1px solid var(--bdr);vertical-align:middle;color:var(--text);}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover td{background:var(--hbg);}
+.empty-row td{text-align:center;color:var(--t3);padding:32px;}
 
-    .stat-card {
-      background: var(--gray-900);
-      border: 1px solid #222;
-      border-radius: 12px;
-      padding: 18px 20px;
-    }
-    .stat-card .sc-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--gray-600); margin-bottom: 6px; }
-    .stat-card .sc-num   { font-size: 28px; font-weight: 900; letter-spacing: -1px; line-height: 1; }
-    .stat-card .sc-sub   { font-size: 11px; color: var(--gray-600); margin-top: 4px; }
+/* ── TIER BADGE ── */
+.tier-badge{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:3px 10px;border-radius:20px;}
+.tier-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.tier-none{background:var(--card-2);color:var(--t3);border:1px solid var(--bdr-2);}
+.tier-bronze{background:rgba(163,101,47,.1);color:var(--bronze);border:1px solid rgba(163,101,47,.3);}
+.tier-silver{background:rgba(122,122,122,.1);color:var(--silver);border:1px solid rgba(122,122,122,.3);}
+.tier-gold{background:var(--gold-bg);color:var(--gold);border:1px solid rgba(160,96,16,.3);}
+.tier-platinum{background:rgba(106,95,191,.1);color:var(--platinum);border:1px solid rgba(106,95,191,.3);}
+.dot-bronze{background:var(--bronze);}
+.dot-silver{background:var(--silver);}
+.dot-gold{background:var(--gold);}
+.dot-platinum{background:var(--platinum);}
 
-    /* ── SECTION ── */
-    .section-hdr {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 16px;
-    }
-    .section-hdr h2 { font-size: 16px; font-weight: 700; }
+/* ── STATUS BADGE ── */
+.status-badge{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:2px 8px;border-radius:10px;}
+.status-owed{background:var(--gold-bg);color:var(--gold);border:1px solid rgba(160,96,16,.3);}
+.status-paid{background:var(--green-bg);color:var(--green);border:1px solid rgba(74,222,128,.25);}
 
-    /* ── BUTTON ── */
-    .btn {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 13px; font-weight: 600;
-      cursor: pointer;
-      border: none;
-      transition: opacity 0.15s;
-    }
-    .btn:hover { opacity: 0.85; }
-    .btn-primary { background: var(--white); color: var(--black); }
-    .btn-ghost   { background: transparent; color: var(--gray-400); border: 1px solid #333; }
-    .btn-sm      { padding: 5px 10px; font-size: 12px; border-radius: 6px; }
-    .btn-green   { background: #0a1a0f; color: #68d391; border: 1px solid #1a3a20; }
-    .btn-red     { background: #1a0808; color: #fc8181; border: 1px solid #3a1a1a; }
-    .btn-danger  { background: #1a0808; color: #fc8181; border: 1px solid #3a1a1a; }
+/* ── MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center;padding:1rem;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--card);border:1px solid var(--bdr-2);border-radius:16px;padding:32px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+.modal h3{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;margin-bottom:20px;color:var(--text);}
 
-    /* ── TABLE ── */
-    .table-wrap { background: var(--gray-900); border: 1px solid #222; border-radius: 12px; overflow: hidden; margin-bottom: 28px; }
+.form-group{margin-bottom:16px;}
+.form-group label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);margin-bottom:6px;font-family:'SF Mono',monospace;}
+.form-group input,.form-group select,.form-group textarea{
+  width:100%;background:var(--card-2);border:1.5px solid var(--bdr-2);border-radius:8px;color:var(--text);
+  font-size:14px;font-family:'Inter',sans-serif;padding:10px 14px;outline:none;transition:border-color .15s;
+}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:rgba(var(--glow-rgb),.6);}
+.form-group select option{background:var(--card-2);}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:24px;}
 
-    table { width: 100%; border-collapse: collapse; }
-    thead th {
-      padding: 11px 16px;
-      font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px;
-      color: var(--gray-600);
-      border-bottom: 1px solid #1a1a1a;
-      text-align: left;
-    }
-    tbody td { padding: 13px 16px; font-size: 13px; border-bottom: 1px solid #111; vertical-align: middle; }
-    tbody tr:last-child td { border-bottom: none; }
-    tbody tr:hover td { background: #0d0d0d; }
+/* ── SYNC MODAL ── */
+.sync-intro{font-size:.8rem;color:var(--t2);line-height:1.7;margin-bottom:1.25rem;}
+.sync-label{font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--t2);display:block;margin-bottom:.5rem;font-family:'SF Mono',monospace;}
 
-    .empty-row td { text-align: center; color: var(--gray-600); padding: 32px; }
+/* ── MISC ── */
+.aff-name{font-weight:600;color:var(--text);}
+.aff-email{font-size:11px;color:var(--t3);margin-top:1px;}
+.progress-wrap{background:var(--card-3);border-radius:4px;height:4px;margin-top:6px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:4px;transition:width .4s;}
+.callout{background:var(--card-2);border:1px solid var(--bdr);border-left:3px solid rgb(var(--glow-rgb));border-radius:0 10px 10px 0;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--t2);line-height:1.6;}
+.callout strong{color:var(--text);}
+.sync-status{font-size:.75rem;color:rgb(var(--glow-rgb));margin-top:.5rem;min-height:1rem;}
 
-    /* ── TIER BADGE ── */
-    .tier-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
-      padding: 3px 10px; border-radius: 20px;
-    }
-    .tier-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-    .tier-none     { background: #1a1a1a; color: var(--gray-600); border: 1px solid #2a2a2a; }
-    .tier-bronze   { background: #1a0e00; color: #cd7f32; border: 1px solid #3a2000; }
-    .tier-silver   { background: #141414; color: #aaa;    border: 1px solid #2a2a2a; }
-    .tier-gold     { background: #1a1200; color: #f5c518; border: 1px solid #3a2a00; }
-    .tier-platinum { background: #0f0f1a; color: #c0c0ff; border: 1px solid #2a2a40; }
-    .dot-bronze   { background: #cd7f32; }
-    .dot-silver   { background: #aaa; }
-    .dot-gold     { background: #f5c518; }
-    .dot-platinum { background: #c0c0ff; }
-
-    /* ── STATUS BADGE ── */
-    .status-badge {
-      display: inline-block;
-      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px;
-      padding: 2px 8px; border-radius: 10px;
-    }
-    .status-owed { background: #1a1200; color: #f5c518; border: 1px solid #3a2a00; }
-    .status-paid { background: #0a1a0f; color: #68d391; border: 1px solid #1a3a20; }
-
-    /* ── MODAL ── */
-    .modal-overlay {
-      display: none;
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.8);
-      z-index: 200;
-      align-items: center;
-      justify-content: center;
-    }
-    .modal-overlay.open { display: flex; }
-
-    .modal {
-      background: #111;
-      border: 1px solid #333;
-      border-radius: 16px;
-      padding: 32px;
-      width: 100%;
-      max-width: 480px;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .modal h3 { font-size: 18px; font-weight: 700; margin-bottom: 20px; letter-spacing: -0.3px; }
-
-    .form-group { margin-bottom: 16px; }
-    .form-group label { display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; color: var(--gray-600); margin-bottom: 6px; }
-    .form-group input,
-    .form-group select {
-      width: 100%;
-      background: #000;
-      border: 1px solid #333;
-      border-radius: 8px;
-      color: var(--white);
-      font-size: 14px;
-      font-family: 'Inter', sans-serif;
-      padding: 10px 14px;
-      outline: none;
-      transition: border-color 0.15s;
-    }
-    .form-group input:focus,
-    .form-group select:focus { border-color: #555; }
-    .form-group select option { background: #111; }
-
-    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; }
-
-    /* ── AFFILIATE NAME CHIP ── */
-    .aff-name { font-weight: 600; color: var(--white); }
-    .aff-email { font-size: 11px; color: var(--gray-600); margin-top: 1px; }
-
-    /* ── PROGRESS BAR ── */
-    .progress-wrap { background: #1a1a1a; border-radius: 4px; height: 4px; margin-top: 6px; overflow: hidden; }
-    .progress-fill { height: 100%; border-radius: 4px; transition: width 0.4s; }
-
-    /* ── CALLOUT ── */
-    .callout {
-      background: #0d0d0d; border: 1px solid #222; border-left: 3px solid #333;
-      border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 16px;
-      font-size: 13px; color: var(--gray-400); line-height: 1.6;
-    }
-    .callout strong { color: var(--white); }
-    .callout.gold { border-left-color: var(--gold); background: #0d0d00; }
-
-    /* ── MOBILE ── */
-    @media (max-width: 768px) {
-      .sidebar { display: none; }
-      .main { margin-left: 0; padding: 24px 16px; }
-      .stats-row { grid-template-columns: 1fr 1fr; }
-    }
-  </style>
+@media (max-width: 900px) {
+  .sidebar{display:none;}
+  .main{padding:1.5rem 1rem;}
+  .stats-row{grid-template-columns:1fr 1fr;}
+}
+</style>
 </head>
 <body>
 
 <!-- SIDEBAR -->
 <aside class="sidebar">
-  <div class="sidebar-logo">
-    <div class="logo-text">Sales.io</div>
-    <div class="logo-sub">Affiliate Tracker</div>
+  <div class="sb-header">
+    <div class="sb-logo"><img class="sb-logo-mark" src="data:image/png;base64,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" alt="Sales.io"><span class="sb-logo-name">Sales.io</span></div>
+    <div class="sb-badge">Affiliate Tracker</div>
   </div>
   <nav class="sidebar-nav">
-    <div class="nav-item active" onclick="showView('dashboard')">
-      <span class="nav-icon">📊</span> Dashboard
-    </div>
-    <div class="nav-item" onclick="showView('affiliates')">
-      <span class="nav-icon">👥</span> Affiliates
-    </div>
-    <div class="nav-item" onclick="showView('deals')">
-      <span class="nav-icon">💰</span> Deal Log
-    </div>
-    <div class="nav-item" onclick="showView('payouts')">
-      <span class="nav-icon">💳</span> Payouts
-    </div>
+    <div class="nav-item active" onclick="showView('dashboard')"><span class="nav-icon">📊</span> Dashboard</div>
+    <div class="nav-item" onclick="showView('affiliates')"><span class="nav-icon">👥</span> Affiliates</div>
+    <div class="nav-item" onclick="showView('deals')"><span class="nav-icon">💰</span> Deal Log</div>
+    <div class="nav-item" onclick="showView('payouts')"><span class="nav-icon">💳</span> Payouts</div>
   </nav>
   <div class="sidebar-footer">
-    Data stored locally in your browser.<br>Use the same browser to access records.
+    <div class="sf-note">Data lives in this browser only. Use ⇅ Sync to move it to another device.</div>
+    <div class="toggle-row">
+      <span class="toggle-lbl" id="mode-lbl">Day</span>
+      <div class="toggle-switch" onclick="toggleTheme()"><div class="toggle-thumb"></div></div>
+    </div>
   </div>
 </aside>
 
@@ -265,8 +216,14 @@
   <!-- ── DASHBOARD ── -->
   <div class="view active" id="view-dashboard">
     <div class="page-hdr">
-      <h1>Dashboard</h1>
-      <p>Affiliate program overview — all partners, all deals</p>
+      <div>
+        <h1>Dashboard</h1>
+        <p>Affiliate program overview — all partners, all deals</p>
+      </div>
+      <div class="page-hdr-actions">
+        <button class="btn btn-ghost" onclick="openSyncModal()" title="Move your data between devices">⇅ Sync</button>
+        <button class="btn btn-ghost" onclick="exportCSV()">↓ Export</button>
+      </div>
     </div>
 
     <div class="stats-row">
@@ -282,34 +239,27 @@
       </div>
       <div class="stat-card">
         <div class="sc-label">Commission Owed</div>
-        <div class="sc-num" id="stat-owed" style="color:#f5c518;">$0</div>
+        <div class="sc-num" id="stat-owed" style="color:var(--gold);">$0</div>
         <div class="sc-sub">Not yet paid out</div>
       </div>
       <div class="stat-card">
         <div class="sc-label">Total Paid Out</div>
-        <div class="sc-num" id="stat-paid" style="color:#68d391;">$0</div>
+        <div class="sc-num" id="stat-paid" style="color:var(--green);">$0</div>
         <div class="sc-sub">Commission paid to date</div>
       </div>
     </div>
 
-    <div class="callout gold">
+    <div class="callout">
       <strong>Tier structure (rolling 12 months):</strong> Bronze 1–3 deals = 10% · Silver 4–7 = 15% · Gold 8–12 = 20% · Platinum 13+ = 25% · Based on closed deals in the last 365 days per partner.
     </div>
 
-    <div class="section-hdr">
-      <h2>Partner Leaderboard</h2>
-    </div>
+    <div class="section-hdr"><h2>Partner Leaderboard</h2></div>
     <div class="table-wrap">
       <table>
         <thead>
           <tr>
-            <th>Partner</th>
-            <th>Tier</th>
-            <th>Deals (12 mo)</th>
-            <th>All-Time Deals</th>
-            <th>Commission Rate</th>
-            <th>Owed</th>
-            <th>Paid</th>
+            <th>Partner</th><th>Tier</th><th>Deals (12 mo)</th><th>All-Time Deals</th>
+            <th>Commission Rate</th><th>Owed</th><th>Paid</th>
           </tr>
         </thead>
         <tbody id="leaderboard-body">
@@ -322,26 +272,21 @@
   <!-- ── AFFILIATES ── -->
   <div class="view" id="view-affiliates">
     <div class="page-hdr">
-      <h1>Affiliates</h1>
-      <p>Manage your referral partners</p>
-    </div>
-
-    <div class="section-hdr">
-      <h2>All Partners</h2>
-      <button class="btn btn-primary" onclick="openAddAffiliate()">+ Add Partner</button>
+      <div>
+        <h1>Affiliates</h1>
+        <p>Manage your referral partners</p>
+      </div>
+      <div class="page-hdr-actions">
+        <button class="btn btn-primary" onclick="openAddAffiliate()">+ Add Partner</button>
+      </div>
     </div>
 
     <div class="table-wrap">
       <table>
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Joined</th>
-            <th>Tier</th>
-            <th>Rate</th>
-            <th>Deals (12 mo)</th>
-            <th>Progress to Next</th>
-            <th>Actions</th>
+            <th>Name</th><th>Joined</th><th>Tier</th><th>Rate</th>
+            <th>Deals (12 mo)</th><th>Progress to Next</th><th>Actions</th>
           </tr>
         </thead>
         <tbody id="affiliates-body">
@@ -354,27 +299,21 @@
   <!-- ── DEALS ── -->
   <div class="view" id="view-deals">
     <div class="page-hdr">
-      <h1>Deal Log</h1>
-      <p>Every deal attributed to an affiliate partner</p>
-    </div>
-
-    <div class="section-hdr">
-      <h2>All Deals</h2>
-      <button class="btn btn-primary" onclick="openLogDeal()">+ Log Deal</button>
+      <div>
+        <h1>Deal Log</h1>
+        <p>Every deal attributed to an affiliate partner</p>
+      </div>
+      <div class="page-hdr-actions">
+        <button class="btn btn-primary" onclick="openLogDeal()">+ Log Deal</button>
+      </div>
     </div>
 
     <div class="table-wrap">
       <table>
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Affiliate</th>
-            <th>Student / Prospect</th>
-            <th>Deal Value</th>
-            <th>Payment Type</th>
-            <th>Commission</th>
-            <th>Status</th>
-            <th>Actions</th>
+            <th>Date</th><th>Affiliate</th><th>Student / Prospect</th><th>Deal Value</th>
+            <th>Payment Type</th><th>Commission</th><th>Status</th><th>Actions</th>
           </tr>
         </thead>
         <tbody id="deals-body">
@@ -387,37 +326,30 @@
   <!-- ── PAYOUTS ── -->
   <div class="view" id="view-payouts">
     <div class="page-hdr">
-      <h1>Payouts</h1>
-      <p>Outstanding and completed commission payments</p>
+      <div>
+        <h1>Payouts</h1>
+        <p>Outstanding and completed commission payments</p>
+      </div>
     </div>
 
-    <div class="stats-row" style="grid-template-columns: repeat(2,1fr);">
+    <div class="stats-row" style="grid-template-columns: repeat(2,1fr);max-width:520px;">
       <div class="stat-card">
         <div class="sc-label">Total Owed</div>
-        <div class="sc-num" id="payout-owed" style="color:#f5c518;">$0</div>
+        <div class="sc-num" id="payout-owed" style="color:var(--gold);">$0</div>
         <div class="sc-sub">Commissions not yet paid</div>
       </div>
       <div class="stat-card">
         <div class="sc-label">Total Paid</div>
-        <div class="sc-num" id="payout-paid" style="color:#68d391;">$0</div>
+        <div class="sc-num" id="payout-paid" style="color:var(--green);">$0</div>
         <div class="sc-sub">Commissions paid out</div>
       </div>
     </div>
 
-    <div class="section-hdr">
-      <h2>Outstanding Commissions</h2>
-    </div>
+    <div class="section-hdr"><h2>Outstanding Commissions</h2></div>
     <div class="table-wrap">
       <table>
         <thead>
-          <tr>
-            <th>Date</th>
-            <th>Affiliate</th>
-            <th>Student</th>
-            <th>Deal Value</th>
-            <th>Commission</th>
-            <th>Action</th>
-          </tr>
+          <tr><th>Date</th><th>Affiliate</th><th>Student</th><th>Deal Value</th><th>Commission</th><th>Action</th></tr>
         </thead>
         <tbody id="owed-body">
           <tr class="empty-row"><td colspan="6">No outstanding commissions.</td></tr>
@@ -425,19 +357,11 @@
       </table>
     </div>
 
-    <div class="section-hdr">
-      <h2>Paid Commissions</h2>
-    </div>
+    <div class="section-hdr"><h2>Paid Commissions</h2></div>
     <div class="table-wrap">
       <table>
         <thead>
-          <tr>
-            <th>Date Paid</th>
-            <th>Affiliate</th>
-            <th>Student</th>
-            <th>Deal Value</th>
-            <th>Commission Paid</th>
-          </tr>
+          <tr><th>Date Paid</th><th>Affiliate</th><th>Student</th><th>Deal Value</th><th>Commission Paid</th></tr>
         </thead>
         <tbody id="paid-body">
           <tr class="empty-row"><td colspan="5">No paid commissions yet.</td></tr>
@@ -448,10 +372,10 @@
 
 </main>
 
-<!-- ── MODAL: ADD AFFILIATE ── -->
+<!-- ── MODAL: ADD/EDIT AFFILIATE ── -->
 <div class="modal-overlay" id="modal-affiliate">
   <div class="modal">
-    <h3>Add Affiliate Partner</h3>
+    <h3 id="affiliate-modal-title">Add Affiliate Partner</h3>
     <div class="form-group">
       <label>Full Name</label>
       <input type="text" id="aff-name" placeholder="e.g. Alex Johnson"/>
@@ -470,15 +394,15 @@
     </div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-affiliate')">Cancel</button>
-      <button class="btn btn-primary" onclick="saveAffiliate()">Add Partner</button>
+      <button class="btn btn-primary" id="affiliate-save-btn" onclick="saveAffiliate()">Add Partner</button>
     </div>
   </div>
 </div>
 
-<!-- ── MODAL: LOG DEAL ── -->
+<!-- ── MODAL: LOG/EDIT DEAL ── -->
 <div class="modal-overlay" id="modal-deal">
   <div class="modal">
-    <h3>Log a Deal</h3>
+    <h3 id="deal-modal-title">Log a Deal</h3>
     <div class="form-group">
       <label>Affiliate Partner</label>
       <select id="deal-affiliate">
@@ -518,7 +442,30 @@
     </div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-deal')">Cancel</button>
-      <button class="btn btn-primary" onclick="saveDeal()">Log Deal</button>
+      <button class="btn btn-primary" id="deal-save-btn" onclick="saveDeal()">Log Deal</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL: SYNC ── -->
+<div class="modal-overlay" id="modal-sync">
+  <div class="modal" style="max-width:560px;">
+    <h3>⇅ Sync Between Devices</h3>
+    <p class="sync-intro">This data lives in this browser only — it doesn't sync automatically between computers. Use this to move it manually.</p>
+
+    <div style="margin-bottom:1.25rem;">
+      <label class="sync-label">1. On the device with your real data</label>
+      <button class="btn btn-primary" onclick="copySyncData()" style="width:100%;">Copy My Data</button>
+      <div id="sync-copy-status" class="sync-status"></div>
+    </div>
+
+    <div>
+      <label class="sync-label">2. On this device, paste it here</label>
+      <textarea id="sync-paste-area" placeholder="Paste the copied data here..." style="min-height:100px;font-family:monospace;font-size:.75rem;"></textarea>
+      <button class="btn btn-primary" onclick="importSyncData()" style="width:100%;margin-top:.625rem;">Import — Replace This Device's Data</button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-sync')">Close</button>
     </div>
   </div>
 </div>
@@ -527,7 +474,7 @@
 <div class="modal-overlay" id="modal-confirm">
   <div class="modal" style="max-width:360px;">
     <h3 id="confirm-title">Are you sure?</h3>
-    <p id="confirm-msg" style="font-size:13px;color:#999;margin-bottom:24px;"></p>
+    <p id="confirm-msg" style="font-size:13px;color:var(--t2);margin-bottom:24px;"></p>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal('modal-confirm')">Cancel</button>
       <button class="btn btn-danger" id="confirm-action">Delete</button>
@@ -536,267 +483,309 @@
 </div>
 
 <script>
-  // ── DATA ──
-  const TIERS = [
-    { name: 'Platinum', min: 13, max: Infinity, rate: 25, dotClass: 'dot-platinum', badgeClass: 'tier-platinum' },
-    { name: 'Gold',     min: 8,  max: 12,       rate: 20, dotClass: 'dot-gold',     badgeClass: 'tier-gold'     },
-    { name: 'Silver',   min: 4,  max: 7,         rate: 15, dotClass: 'dot-silver',   badgeClass: 'tier-silver'   },
-    { name: 'Bronze',   min: 1,  max: 3,         rate: 10, dotClass: 'dot-bronze',   badgeClass: 'tier-bronze'   },
-    { name: '—',        min: 0,  max: 0,         rate: 10, dotClass: '',             badgeClass: 'tier-none'     },
-  ];
+function toggleTheme(){
+  var h=document.documentElement,n=h.dataset.theme==='day'?'night':'day';
+  h.dataset.theme=n;
+  var l=document.getElementById('mode-lbl');if(l)l.textContent=n==='day'?'Day':'Night';
+  try{localStorage.setItem('tb-theme',n);}catch(e){}
+}
+(function(){try{var s=localStorage.getItem('tb-theme')||document.documentElement.dataset.theme||'day';
+  var l=document.getElementById('mode-lbl');if(l)l.textContent=s==='day'?'Day':'Night';}catch(e){}})();
 
-  function load(key, def) {
-    try { return JSON.parse(localStorage.getItem('sio_aff_' + key)) || def; } catch { return def; }
-  }
-  function save(key, val) { localStorage.setItem('sio_aff_' + key, JSON.stringify(val)); }
+// ── DATA ──
+const TIERS = [
+  { name: 'Platinum', min: 13, max: Infinity, rate: 25, dotClass: 'dot-platinum', badgeClass: 'tier-platinum' },
+  { name: 'Gold',     min: 8,  max: 12,       rate: 20, dotClass: 'dot-gold',     badgeClass: 'tier-gold'     },
+  { name: 'Silver',   min: 4,  max: 7,         rate: 15, dotClass: 'dot-silver',   badgeClass: 'tier-silver'   },
+  { name: 'Bronze',   min: 1,  max: 3,         rate: 10, dotClass: 'dot-bronze',   badgeClass: 'tier-bronze'   },
+  { name: '—',        min: 0,  max: 0,         rate: 10, dotClass: '',             badgeClass: 'tier-none'     },
+];
 
-  function getAffiliates() { return load('affiliates', []); }
-  function getDeals()      { return load('deals', []); }
-  function setAffiliates(a){ save('affiliates', a); }
-  function setDeals(d)     { save('deals', d); }
+function load(key, def) {
+  try { return JSON.parse(localStorage.getItem('sio_aff_' + key)) || def; } catch (e) { return def; }
+}
+function save(key, val) { localStorage.setItem('sio_aff_' + key, JSON.stringify(val)); }
 
-  function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+function getAffiliates() { return load('affiliates', []); }
+function getDeals()      { return load('deals', []); }
+function setAffiliates(a){ save('affiliates', a); }
+function setDeals(d)     { save('deals', d); }
 
-  // ── TIER LOGIC ──
-  function getTierForCount(n) {
-    return TIERS.find(t => n >= t.min && n <= t.max) || TIERS[TIERS.length - 1];
-  }
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
 
-  function getDealsLast12Months(affiliateId) {
-    const cutoff = new Date();
-    cutoff.setFullYear(cutoff.getFullYear() - 1);
-    return getDeals().filter(d => d.affiliateId === affiliateId && new Date(d.date) >= cutoff);
-  }
+// ── TIER LOGIC ──
+function getTierForCount(n) {
+  return TIERS.find(t => n >= t.min && n <= t.max) || TIERS[TIERS.length - 1];
+}
 
-  function getTierForAffiliate(affiliateId) {
-    const n = getDealsLast12Months(affiliateId).length;
-    return getTierForCount(n);
-  }
+function getDealsLast12Months(affiliateId) {
+  const cutoff = new Date();
+  cutoff.setFullYear(cutoff.getFullYear() - 1);
+  return getDeals().filter(d => d.affiliateId === affiliateId && new Date(d.date) >= cutoff);
+}
 
-  function getRateForAffiliate(affiliateId) {
-    return getTierForAffiliate(affiliateId).rate;
-  }
+function getTierForAffiliate(affiliateId) {
+  const n = getDealsLast12Months(affiliateId).length;
+  return getTierForCount(n);
+}
 
-  // ── NEXT TIER PROGRESS ──
-  function nextTierProgress(n) {
-    const currentTier = getTierForCount(n);
-    if (currentTier.name === 'Platinum') return { label: 'Max tier reached', pct: 100, next: null };
-    const tiers = [...TIERS].reverse();
-    const nextIdx = tiers.findIndex(t => t.name === currentTier.name) + 1;
-    const next = tiers[nextIdx];
-    if (!next || next.name === 'Platinum') {
-      const needed = 13;
-      const pct = Math.min(100, Math.round((n / needed) * 100));
-      return { label: `${needed - n} more to Platinum`, pct, next: 'Platinum' };
-    }
-    const needed = next.min;
+function getRateForAffiliate(affiliateId) {
+  return getTierForAffiliate(affiliateId).rate;
+}
+
+// ── NEXT TIER PROGRESS ──
+function nextTierProgress(n) {
+  const currentTier = getTierForCount(n);
+  if (currentTier.name === 'Platinum') return { label: 'Max tier reached', pct: 100, next: null };
+  const tiers = [...TIERS].reverse();
+  const nextIdx = tiers.findIndex(t => t.name === currentTier.name) + 1;
+  const next = tiers[nextIdx];
+  if (!next || next.name === 'Platinum') {
+    const needed = 13;
     const pct = Math.min(100, Math.round((n / needed) * 100));
-    return { label: `${Math.max(0, needed - n)} more to ${next.name}`, pct, next: next.name };
+    return { label: `${needed - n} more to Platinum`, pct, next: 'Platinum' };
+  }
+  const needed = next.min;
+  const pct = Math.min(100, Math.round((n / needed) * 100));
+  return { label: `${Math.max(0, needed - n)} more to ${next.name}`, pct, next: next.name };
+}
+
+// ── FORMAT ──
+function fmtMoney(n) {
+  if (n >= 1000) return '$' + (n / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+  return '$' + n.toLocaleString();
+}
+function fmtDate(d) {
+  if (!d) return '—';
+  const dt = new Date(d + 'T12:00:00');
+  return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+function esc(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+
+function tierBadge(tier) {
+  const dot = tier.dotClass ? `<span class="tier-dot ${tier.dotClass}"></span>` : '';
+  return `<span class="tier-badge ${tier.badgeClass}">${dot}${tier.name}</span>`;
+}
+function tierDotColor(next) {
+  return next === 'Platinum' ? 'var(--platinum)' : next === 'Gold' ? 'var(--gold)' : next === 'Silver' ? 'var(--silver)' : 'var(--bronze)';
+}
+function statusBadge(status) {
+  return status === 'paid'
+    ? '<span class="status-badge status-paid">Paid</span>'
+    : '<span class="status-badge status-owed">Owed</span>';
+}
+
+// ── VIEWS ──
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  document.querySelector(`[onclick="showView('${name}')"]`).classList.add('active');
+  renderAll();
+}
+
+// ── RENDER ──
+function renderAll() {
+  renderDashboard();
+  renderAffiliates();
+  renderDeals();
+  renderPayouts();
+}
+
+function renderDashboard() {
+  const affiliates = getAffiliates();
+  const deals = getDeals();
+  const owed = deals.filter(d => d.status === 'owed').reduce((s, d) => s + d.commissionAmount, 0);
+  const paid = deals.filter(d => d.status === 'paid').reduce((s, d) => s + d.commissionAmount, 0);
+
+  document.getElementById('stat-partners').textContent = affiliates.length;
+  document.getElementById('stat-deals').textContent = deals.length;
+  document.getElementById('stat-owed').textContent = fmtMoney(owed);
+  document.getElementById('stat-paid').textContent = fmtMoney(paid);
+
+  const tbody = document.getElementById('leaderboard-body');
+  if (!affiliates.length) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="7">No affiliates yet. Add your first partner.</td></tr>';
+    return;
   }
 
-  // ── FORMAT ──
-  function fmtMoney(n) {
-    if (n >= 1000) return '$' + (n / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
-    return '$' + n.toLocaleString();
-  }
-
-  function fmtDate(d) {
-    if (!d) return '—';
-    const dt = new Date(d + 'T12:00:00');
-    return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  }
-
-  function tierBadge(tier) {
-    const dot = tier.dotClass ? `<span class="tier-dot ${tier.dotClass}"></span>` : '';
-    return `<span class="tier-badge ${tier.badgeClass}">${dot}${tier.name}</span>`;
-  }
-
-  function statusBadge(status) {
-    return status === 'paid'
-      ? '<span class="status-badge status-paid">Paid</span>'
-      : '<span class="status-badge status-owed">Owed</span>';
-  }
-
-  // ── VIEWS ──
-  function showView(name) {
-    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.getElementById('view-' + name).classList.add('active');
-    document.querySelector(`[onclick="showView('${name}')"]`).classList.add('active');
-    renderAll();
-  }
-
-  // ── RENDER ──
-  function renderAll() {
-    renderDashboard();
-    renderAffiliates();
-    renderDeals();
-    renderPayouts();
-  }
-
-  function renderDashboard() {
-    const affiliates = getAffiliates();
-    const deals = getDeals();
-    const owed = deals.filter(d => d.status === 'owed').reduce((s, d) => s + d.commissionAmount, 0);
-    const paid = deals.filter(d => d.status === 'paid').reduce((s, d) => s + d.commissionAmount, 0);
-
-    document.getElementById('stat-partners').textContent = affiliates.length;
-    document.getElementById('stat-deals').textContent = deals.length;
-    document.getElementById('stat-owed').textContent = fmtMoney(owed);
-    document.getElementById('stat-paid').textContent = fmtMoney(paid);
-
-    const tbody = document.getElementById('leaderboard-body');
-    if (!affiliates.length) {
-      tbody.innerHTML = '<tr class="empty-row"><td colspan="7">No affiliates yet. Add your first partner.</td></tr>';
-      return;
-    }
-
-    const rows = affiliates.map(a => {
-      const tier = getTierForAffiliate(a.id);
-      const all12 = getDealsLast12Months(a.id).length;
-      const allTime = deals.filter(d => d.affiliateId === a.id).length;
-      const aOwed = deals.filter(d => d.affiliateId === a.id && d.status === 'owed').reduce((s, d) => s + d.commissionAmount, 0);
-      const aPaid = deals.filter(d => d.affiliateId === a.id && d.status === 'paid').reduce((s, d) => s + d.commissionAmount, 0);
-      return `<tr>
-        <td><div class="aff-name">${a.name}</div><div class="aff-email">${a.platform || ''}</div></td>
-        <td>${tierBadge(tier)}</td>
-        <td><strong>${all12}</strong></td>
-        <td>${allTime}</td>
-        <td style="font-weight:700;">${tier.rate}%</td>
-        <td style="color:#f5c518;font-weight:600;">${fmtMoney(aOwed)}</td>
-        <td style="color:#68d391;font-weight:600;">${fmtMoney(aPaid)}</td>
-      </tr>`;
-    });
-
-    tbody.innerHTML = rows.join('');
-  }
-
-  function renderAffiliates() {
-    const affiliates = getAffiliates();
-    const deals = getDeals();
-    const tbody = document.getElementById('affiliates-body');
-
-    if (!affiliates.length) {
-      tbody.innerHTML = '<tr class="empty-row"><td colspan="7">No affiliates yet. Add your first partner.</td></tr>';
-      return;
-    }
-
-    const rows = affiliates.map(a => {
-      const tier = getTierForAffiliate(a.id);
-      const n12 = getDealsLast12Months(a.id).length;
-      const prog = nextTierProgress(n12);
-      const progressBar = `<div style="font-size:11px;color:#666;margin-bottom:4px;">${prog.label}</div>
-        <div class="progress-wrap"><div class="progress-fill" style="width:${prog.pct}%;background:${prog.next === 'Platinum' ? '#c0c0ff' : prog.next === 'Gold' ? '#f5c518' : prog.next === 'Silver' ? '#aaa' : '#cd7f32'}"></div></div>`;
-
-      return `<tr>
-        <td><div class="aff-name">${a.name}</div><div class="aff-email">${a.email || ''}</div></td>
-        <td>${fmtDate(a.dateJoined)}</td>
-        <td>${tierBadge(tier)}</td>
-        <td style="font-weight:700;">${tier.rate}%</td>
-        <td><strong>${n12}</strong></td>
-        <td style="min-width:160px;">${progressBar}</td>
-        <td>
-          <button class="btn btn-sm btn-ghost" onclick="openLogDealFor('${a.id}')">+ Deal</button>
-          <button class="btn btn-sm btn-danger" onclick="confirmDelete('affiliate','${a.id}','${a.name}')" style="margin-left:4px;">✕</button>
-        </td>
-      </tr>`;
-    });
-
-    tbody.innerHTML = rows.join('');
-  }
-
-  function renderDeals() {
-    const deals = getDeals().slice().sort((a, b) => new Date(b.date) - new Date(a.date));
-    const affiliates = getAffiliates();
-    const tbody = document.getElementById('deals-body');
-
-    if (!deals.length) {
-      tbody.innerHTML = '<tr class="empty-row"><td colspan="8">No deals logged yet.</td></tr>';
-      return;
-    }
-
-    const rows = deals.map(d => {
-      const aff = affiliates.find(a => a.id === d.affiliateId);
-      return `<tr>
-        <td>${fmtDate(d.date)}</td>
-        <td><div class="aff-name">${aff ? aff.name : '—'}</div></td>
-        <td>${d.student || '—'}</td>
-        <td style="font-weight:600;">${fmtMoney(d.dealValue)}</td>
-        <td style="color:#999;">${d.paymentLabel || '—'}</td>
-        <td style="font-weight:600;color:#f5c518;">${fmtMoney(d.commissionAmount)} <span style="font-size:11px;color:#555;">(${d.commissionRate}%)</span></td>
-        <td>${statusBadge(d.status)}</td>
-        <td>
-          ${d.status === 'owed' ? `<button class="btn btn-sm btn-green" onclick="markPaid('${d.id}')">Mark Paid</button>` : '<span style="font-size:11px;color:#555;">✓ Done</span>'}
-          <button class="btn btn-sm btn-danger" onclick="confirmDelete('deal','${d.id}','')" style="margin-left:4px;">✕</button>
-        </td>
-      </tr>`;
-    });
-
-    tbody.innerHTML = rows.join('');
-  }
-
-  function renderPayouts() {
-    const deals = getDeals().slice().sort((a, b) => new Date(b.date) - new Date(a.date));
-    const affiliates = getAffiliates();
-
-    const owed = deals.filter(d => d.status === 'owed').reduce((s, d) => s + d.commissionAmount, 0);
-    const paid = deals.filter(d => d.status === 'paid').reduce((s, d) => s + d.commissionAmount, 0);
-    document.getElementById('payout-owed').textContent = fmtMoney(owed);
-    document.getElementById('payout-paid').textContent = fmtMoney(paid);
-
-    const owedDeals = deals.filter(d => d.status === 'owed');
-    const paidDeals = deals.filter(d => d.status === 'paid');
-
-    const owedBody = document.getElementById('owed-body');
-    owedBody.innerHTML = owedDeals.length
-      ? owedDeals.map(d => {
-          const aff = affiliates.find(a => a.id === d.affiliateId);
-          return `<tr>
-            <td>${fmtDate(d.date)}</td>
-            <td><div class="aff-name">${aff ? aff.name : '—'}</div></td>
-            <td>${d.student || '—'}</td>
-            <td style="font-weight:600;">${fmtMoney(d.dealValue)}</td>
-            <td style="font-weight:700;color:#f5c518;">${fmtMoney(d.commissionAmount)}</td>
-            <td><button class="btn btn-sm btn-green" onclick="markPaid('${d.id}')">Mark Paid</button></td>
-          </tr>`;
-        }).join('')
-      : '<tr class="empty-row"><td colspan="6">No outstanding commissions.</td></tr>';
-
-    const paidBody = document.getElementById('paid-body');
-    paidBody.innerHTML = paidDeals.length
-      ? paidDeals.map(d => {
-          const aff = affiliates.find(a => a.id === d.affiliateId);
-          return `<tr>
-            <td>${fmtDate(d.datePaid || d.date)}</td>
-            <td><div class="aff-name">${aff ? aff.name : '—'}</div></td>
-            <td>${d.student || '—'}</td>
-            <td style="font-weight:600;">${fmtMoney(d.dealValue)}</td>
-            <td style="font-weight:700;color:#68d391;">${fmtMoney(d.commissionAmount)}</td>
-          </tr>`;
-        }).join('')
-      : '<tr class="empty-row"><td colspan="5">No paid commissions yet.</td></tr>';
-  }
-
-  // ── MODALS ──
-  function openModal(id)  { document.getElementById(id).classList.add('open'); }
-  function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-
-  document.querySelectorAll('.modal-overlay').forEach(m => {
-    m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+  const sorted = affiliates.slice().sort((a, b) => getDealsLast12Months(b.id).length - getDealsLast12Months(a.id).length);
+  const rows = sorted.map(a => {
+    const tier = getTierForAffiliate(a.id);
+    const all12 = getDealsLast12Months(a.id).length;
+    const allTime = deals.filter(d => d.affiliateId === a.id).length;
+    const aOwed = deals.filter(d => d.affiliateId === a.id && d.status === 'owed').reduce((s, d) => s + d.commissionAmount, 0);
+    const aPaid = deals.filter(d => d.affiliateId === a.id && d.status === 'paid').reduce((s, d) => s + d.commissionAmount, 0);
+    return `<tr>
+      <td><div class="aff-name">${esc(a.name)}</div><div class="aff-email">${esc(a.platform || '')}</div></td>
+      <td>${tierBadge(tier)}</td>
+      <td><strong>${all12}</strong></td>
+      <td>${allTime}</td>
+      <td style="font-weight:700;">${tier.rate}%</td>
+      <td style="color:var(--gold);font-weight:600;">${fmtMoney(aOwed)}</td>
+      <td style="color:var(--green);font-weight:600;">${fmtMoney(aPaid)}</td>
+    </tr>`;
   });
 
-  function openAddAffiliate() {
-    document.getElementById('aff-name').value = '';
-    document.getElementById('aff-email').value = '';
-    document.getElementById('aff-platform').value = '';
-    document.getElementById('aff-date').value = new Date().toISOString().split('T')[0];
-    openModal('modal-affiliate');
+  tbody.innerHTML = rows.join('');
+}
+
+function renderAffiliates() {
+  const affiliates = getAffiliates();
+  const tbody = document.getElementById('affiliates-body');
+
+  if (!affiliates.length) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="7">No affiliates yet. Add your first partner.</td></tr>';
+    return;
   }
 
-  function saveAffiliate() {
-    const name = document.getElementById('aff-name').value.trim();
-    if (!name) { alert('Name is required.'); return; }
-    const affiliates = getAffiliates();
+  const rows = affiliates.map(a => {
+    const tier = getTierForAffiliate(a.id);
+    const n12 = getDealsLast12Months(a.id).length;
+    const prog = nextTierProgress(n12);
+    const progressBar = `<div style="font-size:11px;color:var(--t3);margin-bottom:4px;">${prog.label}</div>
+      <div class="progress-wrap"><div class="progress-fill" style="width:${prog.pct}%;background:${tierDotColor(prog.next)}"></div></div>`;
+
+    return `<tr>
+      <td><div class="aff-name">${esc(a.name)}</div><div class="aff-email">${esc(a.email || '')}</div></td>
+      <td>${fmtDate(a.dateJoined)}</td>
+      <td>${tierBadge(tier)}</td>
+      <td style="font-weight:700;">${tier.rate}%</td>
+      <td><strong>${n12}</strong></td>
+      <td style="min-width:160px;">${progressBar}</td>
+      <td>
+        <button class="btn btn-sm btn-ghost" onclick="openLogDealFor('${a.id}')">+ Deal</button>
+        <button class="btn btn-sm btn-ghost" onclick="openEditAffiliate('${a.id}')" style="margin-left:4px;">Edit</button>
+        <button class="btn btn-sm btn-danger" onclick="confirmDelete('affiliate','${a.id}','${esc(a.name)}')" style="margin-left:4px;">✕</button>
+      </td>
+    </tr>`;
+  });
+
+  tbody.innerHTML = rows.join('');
+}
+
+function renderDeals() {
+  const deals = getDeals().slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+  const affiliates = getAffiliates();
+  const tbody = document.getElementById('deals-body');
+
+  if (!deals.length) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="8">No deals logged yet.</td></tr>';
+    return;
+  }
+
+  const rows = deals.map(d => {
+    const aff = affiliates.find(a => a.id === d.affiliateId);
+    return `<tr>
+      <td>${fmtDate(d.date)}</td>
+      <td><div class="aff-name">${aff ? esc(aff.name) : '—'}</div></td>
+      <td>${esc(d.student) || '—'}</td>
+      <td style="font-weight:600;">${fmtMoney(d.dealValue)}</td>
+      <td style="color:var(--t3);">${esc(d.paymentLabel) || '—'}</td>
+      <td style="font-weight:600;color:var(--gold);">${fmtMoney(d.commissionAmount)} <span style="font-size:11px;color:var(--t3);">(${d.commissionRate}%)</span></td>
+      <td>${statusBadge(d.status)}</td>
+      <td>
+        ${d.status === 'owed' ? `<button class="btn btn-sm btn-green" onclick="markPaid('${d.id}')">Mark Paid</button>` : '<span style="font-size:11px;color:var(--t3);">✓ Done</span>'}
+        <button class="btn btn-sm btn-ghost" onclick="openEditDeal('${d.id}')" style="margin-left:4px;">Edit</button>
+        <button class="btn btn-sm btn-danger" onclick="confirmDelete('deal','${d.id}','')" style="margin-left:4px;">✕</button>
+      </td>
+    </tr>`;
+  });
+
+  tbody.innerHTML = rows.join('');
+}
+
+function renderPayouts() {
+  const deals = getDeals().slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+  const affiliates = getAffiliates();
+
+  const owed = deals.filter(d => d.status === 'owed').reduce((s, d) => s + d.commissionAmount, 0);
+  const paid = deals.filter(d => d.status === 'paid').reduce((s, d) => s + d.commissionAmount, 0);
+  document.getElementById('payout-owed').textContent = fmtMoney(owed);
+  document.getElementById('payout-paid').textContent = fmtMoney(paid);
+
+  const owedDeals = deals.filter(d => d.status === 'owed');
+  const paidDeals = deals.filter(d => d.status === 'paid');
+
+  const owedBody = document.getElementById('owed-body');
+  owedBody.innerHTML = owedDeals.length
+    ? owedDeals.map(d => {
+        const aff = affiliates.find(a => a.id === d.affiliateId);
+        return `<tr>
+          <td>${fmtDate(d.date)}</td>
+          <td><div class="aff-name">${aff ? esc(aff.name) : '—'}</div></td>
+          <td>${esc(d.student) || '—'}</td>
+          <td style="font-weight:600;">${fmtMoney(d.dealValue)}</td>
+          <td style="font-weight:700;color:var(--gold);">${fmtMoney(d.commissionAmount)}</td>
+          <td><button class="btn btn-sm btn-green" onclick="markPaid('${d.id}')">Mark Paid</button></td>
+        </tr>`;
+      }).join('')
+    : '<tr class="empty-row"><td colspan="6">No outstanding commissions.</td></tr>';
+
+  const paidBody = document.getElementById('paid-body');
+  paidBody.innerHTML = paidDeals.length
+    ? paidDeals.map(d => {
+        const aff = affiliates.find(a => a.id === d.affiliateId);
+        return `<tr>
+          <td>${fmtDate(d.datePaid || d.date)}</td>
+          <td><div class="aff-name">${aff ? esc(aff.name) : '—'}</div></td>
+          <td>${esc(d.student) || '—'}</td>
+          <td style="font-weight:600;">${fmtMoney(d.dealValue)}</td>
+          <td style="font-weight:700;color:var(--green);">${fmtMoney(d.commissionAmount)}</td>
+        </tr>`;
+      }).join('')
+    : '<tr class="empty-row"><td colspan="5">No paid commissions yet.</td></tr>';
+}
+
+// ── MODALS ──
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+});
+
+// ── ADD / EDIT AFFILIATE ──
+let editingAffiliateId = null;
+
+function openAddAffiliate() {
+  editingAffiliateId = null;
+  document.getElementById('affiliate-modal-title').textContent = 'Add Affiliate Partner';
+  document.getElementById('affiliate-save-btn').textContent = 'Add Partner';
+  document.getElementById('aff-name').value = '';
+  document.getElementById('aff-email').value = '';
+  document.getElementById('aff-platform').value = '';
+  document.getElementById('aff-date').value = new Date().toISOString().split('T')[0];
+  openModal('modal-affiliate');
+}
+
+function openEditAffiliate(id) {
+  const a = getAffiliates().find(x => x.id === id);
+  if (!a) return;
+  editingAffiliateId = id;
+  document.getElementById('affiliate-modal-title').textContent = 'Edit Affiliate Partner';
+  document.getElementById('affiliate-save-btn').textContent = 'Save Changes';
+  document.getElementById('aff-name').value = a.name || '';
+  document.getElementById('aff-email').value = a.email || '';
+  document.getElementById('aff-platform').value = a.platform || '';
+  document.getElementById('aff-date').value = a.dateJoined || '';
+  openModal('modal-affiliate');
+}
+
+function saveAffiliate() {
+  const name = document.getElementById('aff-name').value.trim();
+  if (!name) { alert('Name is required.'); return; }
+  const affiliates = getAffiliates();
+
+  if (editingAffiliateId) {
+    const a = affiliates.find(x => x.id === editingAffiliateId);
+    if (a) {
+      a.name = name;
+      a.email = document.getElementById('aff-email').value.trim();
+      a.platform = document.getElementById('aff-platform').value.trim();
+      a.dateJoined = document.getElementById('aff-date').value;
+    }
+  } else {
     affiliates.push({
       id: uid(),
       name,
@@ -804,71 +793,113 @@
       platform: document.getElementById('aff-platform').value.trim(),
       dateJoined: document.getElementById('aff-date').value,
     });
-    setAffiliates(affiliates);
-    closeModal('modal-affiliate');
-    renderAll();
   }
 
-  function populateAffiliateSelect(preselect) {
-    const sel = document.getElementById('deal-affiliate');
-    const affiliates = getAffiliates();
-    sel.innerHTML = '<option value="">Select partner...</option>' +
-      affiliates.map(a => `<option value="${a.id}" ${a.id === preselect ? 'selected' : ''}>${a.name}</option>`).join('');
+  setAffiliates(affiliates);
+  editingAffiliateId = null;
+  closeModal('modal-affiliate');
+  renderAll();
+}
+
+function populateAffiliateSelect(preselect) {
+  const sel = document.getElementById('deal-affiliate');
+  const affiliates = getAffiliates();
+  sel.innerHTML = '<option value="">Select partner...</option>' +
+    affiliates.map(a => `<option value="${a.id}" ${a.id === preselect ? 'selected' : ''}>${esc(a.name)}</option>`).join('');
+}
+
+// ── LOG / EDIT DEAL ──
+let editingDealId = null;
+
+function openLogDeal() {
+  editingDealId = null;
+  document.getElementById('deal-modal-title').textContent = 'Log a Deal';
+  document.getElementById('deal-save-btn').textContent = 'Log Deal';
+  populateAffiliateSelect(null);
+  document.getElementById('deal-student').value = '';
+  document.getElementById('deal-date').value = new Date().toISOString().split('T')[0];
+  document.getElementById('deal-payment').value = '7500';
+  document.getElementById('deal-commission-override').value = 'auto';
+  document.getElementById('deal-custom-group').style.display = 'none';
+  openModal('modal-deal');
+}
+
+function openLogDealFor(affiliateId) {
+  openLogDeal();
+  populateAffiliateSelect(affiliateId);
+}
+
+function openEditDeal(id) {
+  const d = getDeals().find(x => x.id === id);
+  if (!d) return;
+  editingDealId = id;
+  document.getElementById('deal-modal-title').textContent = 'Edit Deal';
+  document.getElementById('deal-save-btn').textContent = 'Save Changes';
+  populateAffiliateSelect(d.affiliateId);
+  document.getElementById('deal-student').value = d.student || '';
+  document.getElementById('deal-date').value = d.date || '';
+
+  if (d.paymentLabel === '3-Way Split') document.getElementById('deal-payment').value = '10000';
+  else if (d.paymentLabel === '2-Way Split') document.getElementById('deal-payment').value = '7500-2way';
+  else if (d.paymentLabel === 'Custom') document.getElementById('deal-payment').value = 'custom';
+  else document.getElementById('deal-payment').value = '7500';
+  updateDealValue();
+  document.getElementById('deal-custom-value').value = d.paymentLabel === 'Custom' ? d.dealValue : '';
+
+  document.getElementById('deal-commission-override').value = String(d.commissionRate);
+  openModal('modal-deal');
+}
+
+function updateDealValue() {
+  const val = document.getElementById('deal-payment').value;
+  document.getElementById('deal-custom-group').style.display = val === 'custom' ? 'block' : 'none';
+}
+
+function saveDeal() {
+  const affiliateId = document.getElementById('deal-affiliate').value;
+  const student     = document.getElementById('deal-student').value.trim();
+  const date        = document.getElementById('deal-date').value;
+  const payType     = document.getElementById('deal-payment').value;
+  const override    = document.getElementById('deal-commission-override').value;
+
+  if (!affiliateId) { alert('Select an affiliate partner.'); return; }
+  if (!student)     { alert('Enter the student name.'); return; }
+  if (!date)        { alert('Enter a date.'); return; }
+
+  let dealValue, paymentLabel;
+  if (payType === 'custom') {
+    dealValue = parseFloat(document.getElementById('deal-custom-value').value) || 7500;
+    paymentLabel = 'Custom';
+  } else if (payType === '10000') {
+    dealValue = 10000; paymentLabel = '3-Way Split';
+  } else if (payType === '7500-2way') {
+    dealValue = 7500; paymentLabel = '2-Way Split';
+  } else {
+    dealValue = 7500; paymentLabel = 'Pay in Full';
   }
 
-  function openLogDeal() {
-    populateAffiliateSelect(null);
-    document.getElementById('deal-student').value = '';
-    document.getElementById('deal-date').value = new Date().toISOString().split('T')[0];
-    document.getElementById('deal-payment').value = '7500';
-    document.getElementById('deal-commission-override').value = 'auto';
-    document.getElementById('deal-custom-group').style.display = 'none';
-    openModal('modal-deal');
+  let commissionRate;
+  if (override === 'auto') {
+    commissionRate = getRateForAffiliate(affiliateId);
+  } else {
+    commissionRate = parseInt(override);
   }
 
-  function openLogDealFor(affiliateId) {
-    openLogDeal();
-    populateAffiliateSelect(affiliateId);
-  }
+  const commissionAmount = Math.round(dealValue * commissionRate / 100);
+  const deals = getDeals();
 
-  function updateDealValue() {
-    const val = document.getElementById('deal-payment').value;
-    document.getElementById('deal-custom-group').style.display = val === 'custom' ? 'block' : 'none';
-  }
-
-  function saveDeal() {
-    const affiliateId = document.getElementById('deal-affiliate').value;
-    const student     = document.getElementById('deal-student').value.trim();
-    const date        = document.getElementById('deal-date').value;
-    const payType     = document.getElementById('deal-payment').value;
-    const override    = document.getElementById('deal-commission-override').value;
-
-    if (!affiliateId) { alert('Select an affiliate partner.'); return; }
-    if (!student)     { alert('Enter the student name.'); return; }
-    if (!date)        { alert('Enter a date.'); return; }
-
-    let dealValue, paymentLabel;
-    if (payType === 'custom') {
-      dealValue = parseFloat(document.getElementById('deal-custom-value').value) || 7500;
-      paymentLabel = 'Custom';
-    } else if (payType === '10000') {
-      dealValue = 10000; paymentLabel = '3-Way Split';
-    } else if (payType === '7500-2way') {
-      dealValue = 7500; paymentLabel = '2-Way Split';
-    } else {
-      dealValue = 7500; paymentLabel = 'Pay in Full';
+  if (editingDealId) {
+    const d = deals.find(x => x.id === editingDealId);
+    if (d) {
+      d.affiliateId = affiliateId;
+      d.student = student;
+      d.date = date;
+      d.dealValue = dealValue;
+      d.paymentLabel = paymentLabel;
+      d.commissionRate = commissionRate;
+      d.commissionAmount = commissionAmount;
     }
-
-    let commissionRate;
-    if (override === 'auto') {
-      commissionRate = getRateForAffiliate(affiliateId);
-    } else {
-      commissionRate = parseInt(override);
-    }
-
-    const commissionAmount = Math.round(dealValue * commissionRate / 100);
-    const deals = getDeals();
-
+  } else {
     deals.push({
       id: uid(),
       affiliateId,
@@ -880,45 +911,105 @@
       commissionAmount,
       status: 'owed',
     });
-
-    setDeals(deals);
-    closeModal('modal-deal');
-    renderAll();
   }
 
-  function markPaid(dealId) {
-    const deals = getDeals();
-    const d = deals.find(x => x.id === dealId);
-    if (d) { d.status = 'paid'; d.datePaid = new Date().toISOString().split('T')[0]; }
-    setDeals(deals);
-    renderAll();
-  }
-
-  // ── DELETE ──
-  let _deleteAction = null;
-
-  function confirmDelete(type, id, name) {
-    const msg = type === 'affiliate'
-      ? `Remove "${name}" and all their associated deals?`
-      : 'Delete this deal record permanently?';
-    document.getElementById('confirm-title').textContent = type === 'affiliate' ? 'Remove Partner?' : 'Delete Deal?';
-    document.getElementById('confirm-msg').textContent = msg;
-    _deleteAction = () => {
-      if (type === 'affiliate') {
-        setAffiliates(getAffiliates().filter(a => a.id !== id));
-        setDeals(getDeals().filter(d => d.affiliateId !== id));
-      } else {
-        setDeals(getDeals().filter(d => d.id !== id));
-      }
-      closeModal('modal-confirm');
-      renderAll();
-    };
-    document.getElementById('confirm-action').onclick = _deleteAction;
-    openModal('modal-confirm');
-  }
-
-  // ── INIT ──
+  setDeals(deals);
+  editingDealId = null;
+  closeModal('modal-deal');
   renderAll();
+}
+
+function markPaid(dealId) {
+  const deals = getDeals();
+  const d = deals.find(x => x.id === dealId);
+  if (d) { d.status = 'paid'; d.datePaid = new Date().toISOString().split('T')[0]; }
+  setDeals(deals);
+  renderAll();
+}
+
+// ── DELETE ──
+let _deleteAction = null;
+
+function confirmDelete(type, id, name) {
+  const msg = type === 'affiliate'
+    ? `Remove "${name}" and all their associated deals?`
+    : 'Delete this deal record permanently?';
+  document.getElementById('confirm-title').textContent = type === 'affiliate' ? 'Remove Partner?' : 'Delete Deal?';
+  document.getElementById('confirm-msg').textContent = msg;
+  _deleteAction = () => {
+    if (type === 'affiliate') {
+      setAffiliates(getAffiliates().filter(a => a.id !== id));
+      setDeals(getDeals().filter(d => d.affiliateId !== id));
+    } else {
+      setDeals(getDeals().filter(d => d.id !== id));
+    }
+    closeModal('modal-confirm');
+    renderAll();
+  };
+  document.getElementById('confirm-action').onclick = _deleteAction;
+  openModal('modal-confirm');
+}
+
+// ── SYNC ──
+function openSyncModal() {
+  document.getElementById('sync-copy-status').textContent = '';
+  document.getElementById('sync-paste-area').value = '';
+  openModal('modal-sync');
+}
+
+function copySyncData() {
+  const bundle = { affiliates: getAffiliates(), deals: getDeals() };
+  const json = JSON.stringify(bundle);
+  navigator.clipboard.writeText(json).then(function () {
+    document.getElementById('sync-copy-status').textContent =
+      'Copied ' + bundle.affiliates.length + ' affiliate(s) and ' + bundle.deals.length + ' deal(s) — now paste it into Affiliate Tracker on the other device.';
+  }).catch(function () {
+    document.getElementById('sync-copy-status').textContent = 'Could not copy automatically — select and copy this instead:';
+    const ta = document.getElementById('sync-paste-area');
+    ta.value = json;
+    ta.select();
+  });
+}
+
+function importSyncData() {
+  const raw = document.getElementById('sync-paste-area').value.trim();
+  if (!raw) { alert('Paste your data first.'); return; }
+  let incoming;
+  try { incoming = JSON.parse(raw); } catch (e) { alert("That doesn't look like valid synced data."); return; }
+  if (!incoming || !Array.isArray(incoming.affiliates) || !Array.isArray(incoming.deals)) {
+    alert("That doesn't look like valid synced data.");
+    return;
+  }
+  const current = getAffiliates();
+  if (current.length && !confirm('This replaces the ' + current.length + ' partner(s) currently on this device with ' + incoming.affiliates.length + ' from the pasted data. Continue?')) return;
+  setAffiliates(incoming.affiliates);
+  setDeals(incoming.deals);
+  closeModal('modal-sync');
+  renderAll();
+}
+
+// ── EXPORT CSV ──
+function exportCSV() {
+  const deals = getDeals();
+  if (!deals.length) { alert('No deals to export.'); return; }
+  const affiliates = getAffiliates();
+  const headers = ['Date', 'Affiliate', 'Student', 'Deal Value', 'Payment Type', 'Commission Rate', 'Commission Amount', 'Status', 'Date Paid'];
+  const rows = deals.map(d => {
+    const aff = affiliates.find(a => a.id === d.affiliateId);
+    return [
+      d.date || '', aff ? aff.name : '', d.student || '', d.dealValue || 0,
+      d.paymentLabel || '', d.commissionRate + '%', d.commissionAmount || 0, d.status || '', d.datePaid || ''
+    ].map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',');
+  });
+  const csv = [headers.join(',')].concat(rows).join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'salesio-affiliate-deals-' + new Date().toISOString().slice(0, 10) + '.csv';
+  a.click();
+}
+
+// ── INIT ──
+renderAll();
 </script>
 
 </body>
