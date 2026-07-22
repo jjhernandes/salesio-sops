@@ -572,6 +572,7 @@ body{
         <div class="res-grid">
           <a class="res-card" href="./salesio-sales-101.html" target="_blank"><div class="res-icon">👋</div><div><div class="res-name">Sales 101</div><div class="res-desc">Brand new to sales? Start here — plain-language glossary and call walkthrough.</div></div></a>
           <a class="res-card" href="./salesio-day-one-expectations.html" target="_blank"><div class="res-icon">📄</div><div><div class="res-name">Day One Expectations</div><div class="res-desc">Full program overview, schedule, and rules.</div></div></a>
+          <a class="res-card" href="./student-onboarding.html" target="_blank"><div class="res-icon">🚀</div><div><div class="res-name">Student Onboarding</div><div class="res-desc">Your first-week checklist.</div></div></a>
           <a class="res-card" href="./salesio-enrollment-agreement.html" target="_blank"><div class="res-icon">✍️</div><div><div class="res-name">Enrollment Agreement</div><div class="res-desc">Program terms — your reference copy.</div></div></a>
         </div>
       </div>
@@ -580,7 +581,10 @@ body{
         <div class="res-group-title">Curriculum</div>
         <div class="res-grid">
           <a class="res-card" href="./training-bible-master.html" target="_blank"><div class="res-icon">🎓</div><div><div class="res-name">Training Bible</div><div class="res-desc">Master reference for every lesson and framework.</div></div></a>
+          <a class="res-card" href="./training-bible-index.html" target="_blank"><div class="res-icon">📑</div><div><div class="res-name">Bible Index</div><div class="res-desc">Index view of every section and lesson.</div></div></a>
+          <a class="res-card" href="./curriculum-weeks-8-12.html" target="_blank"><div class="res-icon">📚</div><div><div class="res-name">Weeks 8–12 Curriculum</div><div class="res-desc">Phase 2–3 lesson plans.</div></div></a>
           <a class="res-card" href="./week7-mastery-test.html" target="_blank"><div class="res-icon">🧪</div><div><div class="res-name">Week 7 Mastery Test</div><div class="res-desc">Your Week 7 checkpoint.</div></div></a>
+          <a class="res-card" href="./week8-decision-architecture.html" target="_blank"><div class="res-icon">🏛️</div><div><div class="res-name">Week 8 Decision Architecture</div><div class="res-desc">Advanced close framework.</div></div></a>
         </div>
       </div>
 
@@ -943,7 +947,7 @@ var CHECKIN_RECS={
   }
 };
 
-var CI_HISTORY_KEY='salesio_checkin_history';
+var CI_HISTORY_KEY='salesio_checkin_history_'+(STUDENT_NAME?STUDENT_NAME.toLowerCase().replace(/[^a-z0-9]+/g,'-'):'anon');
 function ciSaveHistory(){
   try{
     var trimmed=CHECKIN_HISTORY.slice(-60);
@@ -1126,7 +1130,7 @@ function ciRestoreHistory(saved){
   document.getElementById('chat-options').innerHTML='';
   document.getElementById('chat-hint').style.display='none';
   if(hasRec)document.getElementById('chat-restart').style.display='inline-block';
-  ciAddMsg('assistant',"Picking up where we left off. Keep typing, or hit Start Over for a clean slate.");
+  thread.appendChild(ciRenderMsg('assistant',"Picking up where we left off. Keep typing, or hit Start Over for a clean slate."));
   thread.scrollTop=thread.scrollHeight;
 }
 
