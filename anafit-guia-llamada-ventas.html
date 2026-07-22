@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="night">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ana Fit — Marco de la Llamada de Ventas</title>
+<script>try{var t=localStorage.getItem('af-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root,[data-theme="night"]{
+  --bg:#08040e; --glass:rgba(255,255,255,.032); --glass-hv:rgba(255,255,255,.06); --glass-bdr:rgba(255,255,255,.07);
+  --accent:#f06ab4; --accent-dim:rgba(240,100,170,.1); --accent-glow:rgba(240,100,170,.18);
+  --gold:#c9a96e; --gold-dim:rgba(201,169,110,.08); --gold-bdr:rgba(201,169,110,.22);
+  --green:#6ec9a4; --green-dim:rgba(110,201,164,.08); --green-bdr:rgba(110,201,164,.22);
+  --red:#e05a7a; --red-dim:rgba(224,90,122,.08); --red-bdr:rgba(224,90,122,.2);
+  --text:#f5e8f0; --text-2:#b890a8; --text-3:#5a3a50; --divider:rgba(255,255,255,.06); --r:14px;
+}
+[data-theme="day"]{
+  --bg:#fdf4f8; --glass:rgba(255,255,255,.82); --glass-hv:rgba(255,255,255,.97); --glass-bdr:rgba(194,24,91,.1);
+  --accent:#c2185b; --accent-dim:rgba(194,24,91,.06); --accent-glow:rgba(194,24,91,.1);
+  --gold:#8d6e3a; --gold-dim:rgba(141,110,58,.06); --gold-bdr:rgba(141,110,58,.2);
+  --green:#2e7d5e; --green-dim:rgba(46,125,94,.06); --green-bdr:rgba(46,125,94,.18);
+  --red:#c2185b; --red-dim:rgba(194,24,91,.05); --red-bdr:rgba(194,24,91,.15);
+  --text:#1f0a14; --text-2:#7a4060; --text-3:#d4b0c4; --divider:rgba(0,0,0,.07);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter','Segoe UI',system-ui,sans-serif;font-size:.9375rem;line-height:1.75;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s;overflow-x:hidden;}
+
+.orb{position:fixed;border-radius:50%;filter:blur(110px);pointer-events:none;z-index:0;}
+.orb-1{width:550px;height:550px;background:rgba(240,100,170,.1);top:-15%;left:-10%;animation:d1 26s ease-in-out infinite;}
+.orb-2{width:280px;height:280px;background:rgba(201,169,110,.07);bottom:10%;right:-6%;animation:d2 21s ease-in-out infinite;}
+[data-theme="day"] .orb-1{background:rgba(240,100,170,.05);}
+[data-theme="day"] .orb-2{background:rgba(201,169,110,.04);}
+@keyframes d1{0%,100%{transform:translate(0,0);}50%{transform:translate(40px,-30px);}}
+@keyframes d2{0%,100%{transform:translate(0,0);}50%{transform:translate(-30px,-35px);}}
+
+.wrap{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:0 2rem 6rem;}
+
+.theme-toggle{position:fixed;top:1.25rem;right:1.25rem;z-index:999;display:flex;align-items:center;gap:.5rem;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--glass-bdr);border-radius:50px;padding:.375rem .875rem .375rem .625rem;cursor:pointer;transition:border-color .2s;}
+.theme-toggle:hover{border-color:var(--accent);}
+.toggle-track{width:28px;height:16px;background:var(--text-3);border-radius:50px;position:relative;transition:background .25s;flex-shrink:0;}
+[data-theme="day"] .toggle-track{background:var(--accent);}
+.toggle-thumb{position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:var(--accent);transition:transform .25s,background .25s;}
+[data-theme="day"] .toggle-thumb{transform:translateX(12px);background:#fff;}
+.toggle-lbl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);font-family:'SF Mono',monospace;}
+
+.back{display:inline-flex;align-items:center;gap:.375rem;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);padding:2rem 0 0;transition:color .15s;text-decoration:none;font-family:'SF Mono',monospace;}
+.back:hover{color:var(--accent);}
+
+.hero{padding:2rem 0 2.5rem;border-bottom:1px solid var(--divider);}
+.hero-eyebrow{font-size:.625rem;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);margin-bottom:1.25rem;font-family:'SF Mono',monospace;}
+.hero-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(2rem,6vw,3rem);line-height:1.1;letter-spacing:-.02em;margin-bottom:.875rem;color:var(--text);}
+.hero-title em{font-style:italic;font-weight:400;color:var(--accent);}
+.hero-sub{font-size:.875rem;color:var(--text-2);font-weight:300;line-height:1.8;max-width:56ch;}
+.hero-meta{display:flex;gap:1.5rem;margin-top:1.5rem;flex-wrap:wrap;}
+.meta-pill{display:flex;align-items:center;gap:.4rem;font-size:.725rem;color:var(--text-3);}
+.meta-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+
+.section{padding:2.25rem 0;border-bottom:1px solid var(--divider);}
+.section:last-of-type{border-bottom:none;}
+.step-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;}
+.step-num{width:32px;height:32px;border-radius:50%;background:var(--glass);border:1.5px solid var(--accent);display:flex;align-items:center;justify-content:center;font-family:'SF Mono',monospace;font-size:.8rem;color:var(--accent);flex-shrink:0;font-weight:700;}
+.step-title{font-family:'Playfair Display',Georgia,serif;font-size:1.25rem;color:var(--text);letter-spacing:-.01em;}
+.step-time{font-size:.65rem;color:var(--text-3);font-family:'SF Mono',monospace;letter-spacing:.06em;margin-left:auto;white-space:nowrap;}
+.step-desc{font-size:.85rem;color:var(--text-2);font-weight:300;line-height:1.8;margin-bottom:1rem;max-width:58ch;}
+.step-desc strong{color:var(--text);font-weight:500;}
+
+.script{background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--glass-bdr);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:1rem 1.25rem;margin-bottom:.75rem;}
+.script-label{font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-family:'SF Mono',monospace;margin-bottom:.55rem;}
+
+.talk-list{display:flex;flex-direction:column;gap:.5rem;}
+.talk-item{display:flex;gap:.6rem;font-size:.85rem;color:var(--text);line-height:1.55;}
+.talk-item::before{content:'—';color:var(--accent);flex-shrink:0;font-weight:700;}
+
+.obj-block{background:var(--glass);border:1px solid var(--glass-bdr);border-radius:10px;overflow:hidden;margin-bottom:.625rem;}
+.obj-q{padding:.7rem 1rem;background:rgba(255,255,255,.03);font-size:.8rem;font-weight:600;color:var(--text);border-bottom:1px solid var(--divider);}
+[data-theme="day"] .obj-q{background:rgba(0,0,0,.02);}
+.obj-a{padding:.75rem 1rem;font-size:.8rem;color:var(--text-2);line-height:1.7;}
+
+.callout{border-radius:10px;padding:1rem 1.25rem;margin-bottom:.75rem;font-size:.8125rem;color:var(--text-2);display:flex;gap:.75rem;align-items:flex-start;line-height:1.7;}
+.callout.pink{background:rgba(240,100,170,.07);border:1px solid rgba(240,100,170,.18);}
+.callout.gold{background:var(--gold-dim);border:1px solid var(--gold-bdr);}
+.callout.red{background:var(--red-dim);border:1px solid var(--red-bdr);}
+[data-theme="day"] .callout.pink{background:rgba(194,24,91,.04);border-color:rgba(194,24,91,.13);}
+.callout-icon{font-size:1rem;flex-shrink:0;margin-top:.1rem;}
+.callout strong{color:var(--text);}
+
+@media(max-width:540px){.wrap{padding:0 1.25rem 5rem;}}
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="Cambiar tema">
+  <span class="toggle-track"><span class="toggle-thumb"></span></span>
+  <span class="toggle-lbl" id="toggleLabel">Noche</span>
+</button>
+
+<div class="wrap">
+  <a class="back" href="anafit-hub.html">← Client Hub</a>
+
+  <div class="hero">
+    <div class="hero-eyebrow">Ana Fit VIP · Marco de Llamada de Ventas</div>
+    <h1 class="hero-title">Tu Llamada de Ventas, <em>de Principio a Fin</em></h1>
+    <p class="hero-sub">La forma de esta llamada se mantiene igual cada vez. Lo que cambia es quién tienes enfrente — usa lo que realmente te comparta a medida que avanzas.</p>
+    <div class="hero-meta">
+      <div class="meta-pill"><span class="meta-dot"></span>~30–40 minutos</div>
+      <div class="meta-pill"><span class="meta-dot"></span>Funciona para cualquier prospecto</div>
+      <div class="meta-pill"><span class="meta-dot"></span>Escucha más de lo que hablas</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="step-header"><div class="step-num">1</div><div class="step-title">Abre con Calidez</div><div class="step-time">~3 min</div></div>
+    <div class="step-desc">Marca el tono antes de que pase cualquier otra cosa.</div>
+    <div class="script">
+      <div class="script-label">Decir</div>
+      <div class="talk-list">
+        <div class="talk-item">"¡Hola [Nombre]! Qué alegría que por fin estemos hablando."</div>
+        <div class="talk-item">"Antes de entrar en materia — ¿cómo va tu día?"</div>
+        <div class="talk-item">"Quiero que esto sea una conversación real, no una venta. ¿Te parece?"</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="step-header"><div class="step-num">2</div><div class="step-title">Entiende Dónde Está Ahora</div><div class="step-time">~7 min</div></div>
+    <div class="step-desc">Consigue el panorama completo antes de decir una palabra sobre el programa.</div>
+    <div class="script">
+      <div class="script-label">Decir</div>
+      <div class="talk-list">
+        <div class="talk-item">"Cuéntame dónde estás ahora mismo con tu condición física y tu salud."</div>
+        <div class="talk-item">"¿Qué has intentado antes?"</div>
+        <div class="talk-item">"¿Qué está funcionando, qué no?"</div>
+      </div>
+    </div>
+    <div class="callout pink">
+      <div class="callout-icon">💗</div>
+      <div>Escucha más de lo que hablas aquí. El resto de la llamada se construye con lo que te comparta ahora.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="step-header"><div class="step-num">3</div><div class="step-title">Encuentra el Problema Real</div><div class="step-time">~5 min</div></div>
+    <div class="step-desc">La primera respuesta casi nunca es la real — profundiza un nivel más.</div>
+    <div class="script">
+      <div class="script-label">Decir</div>
+      <div class="talk-list">
+        <div class="talk-item">"¿Qué crees que realmente se ha interpuesto en el camino?"</div>
+        <div class="talk-item">"¿Cuánto tiempo lleva pasando esto?"</div>
+        <div class="talk-item">"¿Qué te está costando — energía, confianza, tiempo con tu familia?"</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="step-header"><div class="step-num">4</div><div class="step-title">Pinta el Futuro</div><div class="step-time">~5 min</div></div>
+    <div class="step-desc">Deja que ella describa la victoria con sus propias palabras — no se la describas tú.</div>
+    <div class="script">
+      <div class="script-label">Decir</div>
+      <div class="talk-list">
+        <div class="talk-item">"Si esto realmente funcionara, ¿qué sería diferente?"</div>
+        <div class="talk-item">"¿Cómo te sentirías al entrar a un lugar?"</div>
+        <div class="talk-item">"¿Qué podrías hacer que no puedes hacer ahora?"</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="step-header"><div class="step-num">5</div><div class="step-title">Conecta con el Programa</div><div class="step-time">~3 min</div></div>
+    <div class="step-desc">Resume lo que escuchaste, y luego pide permiso antes de presentar algo.</div>
+    <div class="script">
+      <div class="script-label">Decir</div>
+      <div class="talk-list">
+        <div class="talk-item">"Con base en todo lo que me acabas de contar, esto es lo que estoy escuchando..."</div>
+        <div class="talk-item">[Refleja su meta y su problema en una sola frase]</div>
+        <div class="talk-item">"¿Puedo mostrarte exactamente cómo te ayudaría a lograrlo?"</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="step-header"><div class="step-num">6</div><div class="step-title">Presenta el Programa</div><div class="step-time">~7 min</div></div>
+    <div class="step-desc">Conecta cada parte con algo que ella realmente dijo — nunca enumeres características en el vacío.</div>
+    <div class="script">
+      <div class="script-label">Decir</div>
+      <div class="talk-list">
+        <div class="talk-item">"Este es un programa de 12 semanas, construido completamente alrededor de ti — no una plantilla."</div>
+        <div class="talk-item">"Recibes un plan de entrenamiento y nutrición personalizado, llamadas 1 a 1 quincenales conmigo, check-ins semanales que yo misma leo, y acceso directo a mí durante todo el proceso."</div>
+        <div class="talk-item">"Empezamos con una evaluación de movimiento completa para saber exactamente en qué punto está tu cuerpo antes de cualquier otra cosa."</div>
+      </div>
+    </div>
+    <div class="callout gold">
+      <div class="callout-icon">🌸</div>
+      <div><strong>Referencia:</strong> el desglose completo del programa está en el documento de oferta — usa las piezas específicas que coincidan con lo que esta persona te contó en los pasos 2–4, no recites toda la lista.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="step-header"><div class="step-num">7</div><div class="step-title">Confirma que Encaja</div><div class="step-time">~2 min</div></div>
+    <div class="step-desc">Haz que diga que sí antes de mencionar un número.</div>
+    <div class="script">
+      <div class="script-label">Decir</div>
+      <div class="talk-list">
+        <div class="talk-item">"¿Sientes que esto encaja con lo que estás tratando de resolver?"</div>
+        <div class="talk-item">"¿Qué es lo que más te llama la atención?"</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="step-header"><div class="step-num">8</div><div class="step-title">Comparte la Inversión</div><div class="step-time">~3 min</div></div>
+    <div class="step-desc">Dilo con claridad. No lo minimices, no lo sobreexpliques, no te disculpes por ello.</div>
+    <div class="script">
+      <div class="script-label">Decir</div>
+      <div class="talk-list">
+        <div class="talk-item">"El programa es de [$X]."</div>
+        <div class="talk-item">"¿Es algo que puedes hacer funcionar?"</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="step-header"><div class="step-num">9</div><div class="step-title">Maneja las Objeciones</div><div class="step-time">~5 min</div></div>
+    <div class="step-desc">Estas no son rechazos — son el inicio de la conversación real.</div>
+
+    <div class="obj-block">
+      <div class="obj-q">"Es mucho dinero."</div>
+      <div class="obj-a">"¿Es que no es posible, o que todavía no estás segura de si vale la pena?"</div>
+    </div>
+    <div class="obj-block">
+      <div class="obj-q">"No tengo tiempo."</div>
+      <div class="obj-a">"¿Qué tendría que ser cierto para que esto realmente encajara en tu horario?"</div>
+    </div>
+    <div class="obj-block">
+      <div class="obj-q">"He probado programas antes y no funcionaron."</div>
+      <div class="obj-a">"¿Qué fue diferente en esos? Este está construido alrededor de tu cuerpo y tu vida, no de una plantilla — normalmente ahí está la diferencia."</div>
+    </div>
+    <div class="obj-block">
+      <div class="obj-q">"Necesito pensarlo."</div>
+      <div class="obj-a">"Claro que sí — ¿qué es específicamente lo que quieres pensar?"</div>
+    </div>
+
+    <div class="callout red">
+      <div class="callout-icon">⚠️</div>
+      <div><strong>No discutas.</strong> Muestra curiosidad, no te pongas a la defensiva. La etapa de objeciones debe sentirse tranquila, no como un debate que estás tratando de ganar.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="step-header"><div class="step-num">10</div><div class="step-title">Cierra</div><div class="step-time">~3 min</div></div>
+    <div class="step-desc">Pregunta directamente. Luego deja de hablar.</div>
+    <div class="script">
+      <div class="script-label">Decir</div>
+      <div class="talk-list">
+        <div class="talk-item">"Con base en todo lo que hablamos — ¿estás lista para empezar?"</div>
+        <div class="talk-item">[Espera. Deja que responda. No llenes el silencio.]</div>
+      </div>
+    </div>
+    <div class="callout gold">
+      <div class="callout-icon">✅</div>
+      <div><strong>Si dice que sí:</strong> confirma el pago y agenda su primera sesión antes de que termine la llamada — no te quedes en "te envío el link".</div>
+    </div>
+    <div class="callout pink">
+      <div class="callout-icon">🌸</div>
+      <div><strong>Si dice que no, o que todavía no:</strong> "Está totalmente bien — la puerta sigue abierta cuando sea el momento correcto." Sin presión, sin culpa. Haz seguimiento con calidez en una semana.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggleTheme(){
+  var h=document.documentElement,n=h.getAttribute('data-theme')==='day'?'night':'day';
+  h.setAttribute('data-theme',n);
+  var l=document.getElementById('toggleLabel');if(l)l.textContent=n==='day'?'Día':'Noche';
+  try{localStorage.setItem('af-theme',n);}catch(e){}
+}
+(function(){var t=document.documentElement.getAttribute('data-theme')||'night';var l=document.getElementById('toggleLabel');if(l)l.textContent=t==='day'?'Día':'Noche';})();
+</script>
+</body>
+</html>
