@@ -576,6 +576,9 @@ body{
     <div class="nav-item" data-sec="team" onclick="goTo('team')">
       <span class="nav-icon">🤝</span> Team
     </div>
+    <div class="nav-item" data-sec="content" onclick="goTo('content')">
+      <span class="nav-icon">✍️</span> Content
+    </div>
     <div class="nav-item" data-sec="playbooks" onclick="goTo('playbooks')">
       <span class="nav-icon">📋</span> Playbooks
     </div>
@@ -888,6 +891,59 @@ body{
       </div>
     </div>
 
+    <!-- ── CONTENT ── -->
+    <div id="sec-content" class="section">
+      <div class="page-title">Content</div>
+      <div class="page-sub">Everything for working with your editor and brand director in one place — the docs they need, and a running scratchpad for your own notes and to-dos.</div>
+
+      <div class="section-label">Who's Involved</div>
+      <div class="team-grid" style="margin-bottom:2rem;">
+        <div class="team-card">
+          <div class="team-avatar">Ed</div>
+          <div class="team-info">
+            <div class="team-name">Editor — Name Pending</div>
+            <div class="team-role">Video Editor</div>
+            <div class="team-focus">Send over their name and how you two work together (turnaround time, where raw footage lives, review process) and this card gets filled in.</div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">BD</div>
+          <div class="team-info">
+            <div class="team-name">Brand Director — Name Pending</div>
+            <div class="team-role">Brand Director</div>
+            <div class="team-focus">Same here — name and what they own (positioning, visual direction, content review) and this card is ready to go.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="highlight amber" style="margin-bottom:2rem;">
+        <h3>⚠️ Real-Time Communication Still Happens in Slack</h3>
+        <p>The tasks and notes below save to <strong>this browser only</strong> — they're your personal scratchpad, not something your editor or brand director can see live. For actual back-and-forth, keep using Slack. If you want a truly shared task list or doc between all three of you, say the word and this can point to a real shared tool instead.</p>
+      </div>
+
+      <div class="section-label">Documents</div>
+      <div class="res-grid" style="margin-bottom:2rem;">
+        <a class="res-card" href="./content-bible-june2026.html" target="_blank"><div class="res-icon">✍️</div><div><div class="res-name">Content Bible</div><div class="res-desc">Signature stories, hot takes, audience language, 100 questions, 100 video ideas, and hooks — straight from JJ.</div></div></a>
+        <a class="res-card" href="./personal-brand-framework.html" target="_blank"><div class="res-icon">🌟</div><div><div class="res-name">Personal Brand Framework</div><div class="res-desc">JJ's voice in his own words, plus the pillars, funnel, and metrics behind the brand.</div></div></a>
+      </div>
+
+      <div class="section-label">Your To-Dos</div>
+      <div class="task-add-row">
+        <input type="text" id="content-task-input" class="task-input" placeholder="Add a task..." onkeydown="if(event.key==='Enter')contentAddTask()">
+        <button class="task-add-btn" onclick="contentAddTask()">Add</button>
+      </div>
+      <div class="task-list" id="content-task-list" style="margin-bottom:2rem;"></div>
+
+      <div class="section-label">Notes</div>
+      <div class="notes-wrap">
+        <textarea id="content-notes-area" class="notes-area" placeholder="Ideas for the editor, brand direction notes, things to bring up with either of them — dump it here."></textarea>
+        <div class="notes-footer">
+          <span class="notes-status" id="content-notes-status">Not saved yet</span>
+          <button class="notes-clear" onclick="clearContentNotes()">Clear</button>
+        </div>
+      </div>
+    </div>
+
     <!-- ── PLAYBOOKS ── -->
     <div id="sec-playbooks" class="section">
       <div class="page-title">Playbooks &amp; SOPs</div>
@@ -1149,8 +1205,85 @@ function clearNotes(){
   status.classList.remove('saved');
 }
 
+/* ── Content section: personal tasks + notes (separate from Brain Dump) ── */
+var CONTENT_TASKS_KEY='salesio_content_tasks';
+function loadContentTasks(){try{return JSON.parse(localStorage.getItem(CONTENT_TASKS_KEY)||'[]');}catch(e){return [];}}
+function saveContentTasks(tasks){try{localStorage.setItem(CONTENT_TASKS_KEY,JSON.stringify(tasks));}catch(e){}}
+
+function contentAddTask(){
+  var input=document.getElementById('content-task-input');
+  if(!input)return;
+  var val=input.value.trim();
+  if(!val)return;
+  var tasks=loadContentTasks();
+  tasks.push({id:Date.now()+Math.random(),text:val,done:false});
+  saveContentTasks(tasks);
+  input.value='';
+  renderContentTasks();
+}
+function contentToggleTask(id){
+  var tasks=loadContentTasks();
+  tasks.forEach(function(t){if(t.id===id)t.done=!t.done;});
+  saveContentTasks(tasks);
+  renderContentTasks();
+}
+function contentDeleteTask(id){
+  saveContentTasks(loadContentTasks().filter(function(t){return t.id!==id;}));
+  renderContentTasks();
+}
+function contentTaskItemHTML(t){
+  return '<div class="task-item">'+
+    '<div class="task-check'+(t.done?' done':'')+'" onclick="contentToggleTask('+t.id+')"></div>'+
+    '<div class="task-text'+(t.done?' done':'')+'" onclick="contentToggleTask('+t.id+')">'+escapeHtml(t.text)+'</div>'+
+    '<button class="task-del" onclick="contentDeleteTask('+t.id+')">✕</button>'+
+  '</div>';
+}
+function renderContentTasks(){
+  var tasks=loadContentTasks();
+  var list=document.getElementById('content-task-list');
+  if(list){list.innerHTML = tasks.length ? tasks.map(contentTaskItemHTML).join('') : '<div class="task-empty">No tasks yet. Add one above.</div>';}
+}
+renderContentTasks();
+
+(function initContentNotes(){
+  var area=document.getElementById('content-notes-area');
+  var status=document.getElementById('content-notes-status');
+  if(!area)return;
+  var KEY='salesio_content_notes';
+  try{
+    var saved=localStorage.getItem(KEY);
+    if(saved){area.value=saved;status.textContent='Loaded from last visit';}
+  }catch(e){}
+  var timer=null;
+  area.addEventListener('input',function(){
+    status.textContent='Saving…';
+    status.classList.remove('saved');
+    clearTimeout(timer);
+    timer=setTimeout(function(){
+      try{
+        localStorage.setItem(KEY,area.value);
+        var d=new Date();
+        var h=d.getHours(),m=d.getMinutes();
+        var ampm=h>=12?'PM':'AM';h=h%12||12;var ms=m<10?'0'+m:m;
+        status.textContent='Saved '+h+':'+ms+' '+ampm;
+        status.classList.add('saved');
+      }catch(e){status.textContent='Could not save';}
+    },500);
+  });
+})();
+
+function clearContentNotes(){
+  if(!confirm('Clear all notes? This can\'t be undone.'))return;
+  var area=document.getElementById('content-notes-area');
+  var status=document.getElementById('content-notes-status');
+  area.value='';
+  try{localStorage.removeItem('salesio_content_notes');}catch(e){}
+  status.textContent='Cleared';
+  status.classList.remove('saved');
+}
+
 /* ── Section nav ── */
-var SEC_TITLES={dash:'Dashboard',notes:'Brain Dump',hub:'Client Hub',resources:'Resources',team:'Team',playbooks:'Playbooks'};
+var SEC_TITLES={dash:'Dashboard',notes:'Brain Dump',hub:'Client Hub',resources:'Resources',team:'Team',content:'Content',playbooks:'Playbooks'};
 var hubLoaded=false;
 
 function goTo(id){
