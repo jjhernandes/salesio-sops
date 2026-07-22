@@ -1,294 +1,506 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="day">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Personal Brand Framework</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #000; color: #fff; font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.6; padding: 40px 20px; }
-    .container { max-width: 820px; margin: 0 auto; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JJ Hernandez — Personal Brand Framework</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script>try{var s=localStorage.getItem('pbf-theme');if(s)document.documentElement.dataset.theme=s;}catch(e){}</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{height:100%;}
 
-    .header { margin-bottom: 52px; }
-    .label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #555; margin-bottom: 12px; }
-    h1 { font-size: 38px; font-weight: 900; line-height: 1.1; margin-bottom: 10px; }
-    .subtitle { font-size: 15px; color: #666; }
+:root,[data-theme="day"]{
+  --bg:#EAE4D9;--bg-2:#E0D9CE;
+  --card:#FFFFFF;--card-2:#F5F1EB;--card-3:#EDECE8;
+  --bdr:rgba(10,10,8,.1);--bdr-2:rgba(10,10,8,.2);
+  --text:#0A0A08;
+  --t2:rgba(10,10,8,.55);--t3:rgba(10,10,8,.3);--t4:rgba(10,10,8,.12);
+  --accent:#0A0A08;--hbg:rgba(10,10,8,.04);
+  --shd:rgba(10,10,8,.08);--shd2:rgba(10,10,8,.15);
+  --sb-bg:#0A0A08;--sb-text:#EAE4D9;
+  --sb-t2:rgba(234,228,217,.5);--sb-t3:rgba(234,228,217,.25);
+  --sb-bdr:rgba(234,228,217,.08);--sb-hbg:rgba(234,228,217,.07);
+  --tk:#EAE4D9;--tb:rgba(234,228,217,.25);--tt:#0A0A08;--tl:rgba(234,228,217,.3);
+  --glow-rgb:160,144,112;
+  --red:#b3564a;--green:#3d7a50;--blue:#4a6a8a;--gold:#8a6a20;--purple:#6a5a8a;
+}
+[data-theme="night"]{
+  --bg:#000;--bg-2:#040402;
+  --card:#0a0a08;--card-2:#0f0f0d;--card-3:#141412;
+  --bdr:rgba(234,228,217,.09);--bdr-2:rgba(234,228,217,.18);
+  --text:#EAE4D9;
+  --t2:rgba(234,228,217,.58);--t3:rgba(234,228,217,.27);--t4:rgba(234,228,217,.1);
+  --accent:#EAE4D9;--hbg:rgba(234,228,217,.03);
+  --shd:rgba(0,0,0,.5);--shd2:rgba(0,0,0,.8);
+  --sb-bg:#060604;--sb-text:#EAE4D9;
+  --sb-t2:rgba(234,228,217,.45);--sb-t3:rgba(234,228,217,.2);
+  --sb-bdr:rgba(234,228,217,.07);--sb-hbg:rgba(234,228,217,.06);
+  --tk:rgba(234,228,217,.12);--tb:rgba(234,228,217,.08);--tt:#EAE4D9;--tl:rgba(234,228,217,.18);
+  --glow-rgb:74,222,128;
+  --red:#e06060;--green:#4ade80;--blue:#7ea8d8;--gold:#c9a96e;--purple:#a78bfa;
+}
 
-    section { margin-bottom: 52px; }
-    h2 { font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #555; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #111; }
+::selection{background:var(--text);color:var(--bg);}
+body{
+  display:flex;height:100vh;overflow:hidden;
+  color:var(--text);
+  font-family:'Inter',-apple-system,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  transition:background-color .4s,color .4s;font-size:14px;
+  background-color:var(--bg);
+  background-image:
+    radial-gradient(closest-side,rgba(var(--glow-rgb),.22),transparent 70%),
+    radial-gradient(closest-side,rgba(var(--glow-rgb),.16),transparent 70%);
+  background-repeat:no-repeat;
+  background-size:58vw 58vw,46vw 46vw;
+  background-position:-8% -12%,112% 108%;
+  animation:ambientDrift 28s ease-in-out infinite alternate;
+}
+@keyframes ambientDrift{
+  0%{background-position:-8% -12%,112% 108%;}
+  50%{background-position:14% 4%,86% 88%;}
+  100%{background-position:2% -6%,96% 100%;}
+}
+@media(prefers-reduced-motion:reduce){body{animation:none;}}
 
-    .callout { background: #0d0d0d; border: 1px solid #1c1c1c; border-radius: 10px; padding: 24px 28px; margin-bottom: 16px; }
-    .callout p { font-size: 16px; color: #ccc; line-height: 1.7; }
-    .callout strong { color: #fff; }
+.grain{position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.035;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;background-size:300px 300px;}
+[data-theme="night"] .grain{opacity:.055;}
 
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
-    .card { background: #0d0d0d; border: 1px solid #1c1c1c; border-radius: 10px; padding: 22px; }
-    .card-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px; }
-    .card h3 { font-size: 17px; font-weight: 800; margin-bottom: 10px; }
-    .card p { font-size: 14px; color: #888; line-height: 1.65; }
-    .card ul { list-style: none; margin-top: 10px; }
-    .card ul li { font-size: 13px; color: #999; padding: 5px 0; border-bottom: 1px solid #111; line-height: 1.5; }
-    .card ul li:last-child { border-bottom: none; }
-    .card ul li::before { content: "— "; color: #444; }
+/* ══ SIDEBAR ══ */
+.sidebar{width:224px;flex-shrink:0;background:var(--sb-bg);display:flex;flex-direction:column;height:100vh;overflow-y:auto;overflow-x:hidden;border-right:1px solid var(--sb-bdr);transition:background .4s,border-color .4s;scrollbar-width:none;}
+.sidebar::-webkit-scrollbar{display:none;}
+.sb-header{padding:1.25rem 1.25rem 1rem;border-bottom:1px solid var(--sb-bdr);flex-shrink:0;}
+.sb-logo{display:flex;align-items:center;gap:.625rem;margin-bottom:.5rem;}
+.sb-logo-mark{width:24px;height:24px;background:var(--sb-text);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:.575rem;font-weight:900;color:var(--sb-bg);transition:transform .25s cubic-bezier(.2,0,0,1);cursor:default;}
+.sb-logo-mark:hover{transform:rotate(-8deg) scale(1.12);box-shadow:0 0 18px rgba(var(--glow-rgb),.65);}
+.sb-logo-name{font-size:.675rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--sb-text);transition:color .4s;}
+.sb-badge{font-size:.475rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sb-t3);font-family:'SF Mono',monospace;font-weight:700;}
+.sb-nav{flex:1;padding:.75rem 0;}
+.sb-section-label{font-size:.475rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--sb-t3);font-family:'SF Mono',monospace;padding:.875rem 1.25rem .375rem;}
+.nav-item{display:flex;align-items:center;gap:.625rem;padding:.6rem 1.25rem;cursor:pointer;font-size:.75rem;font-weight:500;color:var(--sb-t2);transition:all .18s;position:relative;user-select:none;}
+.nav-item::before{content:'';position:absolute;left:0;top:.2rem;bottom:.2rem;width:2px;background:var(--sb-text);transform:scaleY(0);transform-origin:center;transition:transform .2s cubic-bezier(.4,0,.2,1);border-radius:1px;}
+.nav-item:hover{background:var(--sb-hbg);color:var(--sb-text);padding-left:1.375rem;}
+.nav-item.active{background:var(--sb-hbg);color:var(--sb-text);font-weight:600;}
+.nav-item.active::before{transform:scaleY(1);box-shadow:0 0 8px 1px rgba(var(--glow-rgb),.9);}
+.nav-icon{font-size:.9rem;flex-shrink:0;width:18px;text-align:center;}
+.sb-footer{padding:1rem 1.25rem;border-top:1px solid var(--sb-bdr);flex-shrink:0;}
+.toggle-row{display:flex;align-items:center;gap:.5rem;}
+.toggle-lbl{font-size:.5rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tl);font-family:'SF Mono',monospace;transition:color .4s;}
+.toggle-switch{width:36px;height:20px;border-radius:10px;background:var(--tk);border:1px solid var(--tb);position:relative;cursor:pointer;transition:all .25s;flex-shrink:0;}
+.toggle-switch:hover{opacity:.9;box-shadow:0 0 10px rgba(var(--glow-rgb),.5);}
+.toggle-thumb{position:absolute;top:3px;left:3px;width:12px;height:12px;border-radius:50%;background:var(--tt);transition:transform .3s cubic-bezier(.4,0,.2,1),background .25s;}
+[data-theme="night"] .toggle-thumb{transform:translateX(16px);}
 
-    .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+/* ══ MAIN ══ */
+.main{flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+.main-header{height:52px;flex-shrink:0;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;background:var(--bg);backdrop-filter:blur(20px);transition:background .4s,border-color .4s;}
+.mh-title{font-size:.625rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);}
+.internal-badge{font-size:.475rem;letter-spacing:.2em;text-transform:uppercase;background:var(--text);color:var(--bg);border-radius:4px;padding:.2rem .55rem;font-family:'SF Mono',monospace;font-weight:900;}
+.content{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--t4) transparent;}
+.content::-webkit-scrollbar{width:4px;}
+.content::-webkit-scrollbar-thumb{background:var(--t4);border-radius:2px;}
+.section{display:none;padding:2.5rem 2rem;min-height:calc(100vh - 52px);}
+.section.active{display:block;animation:secIn .3s cubic-bezier(.16,1,.3,1) both;}
+@keyframes secIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
 
-    .problem-row { display: flex; flex-direction: column; gap: 12px; }
-    .problem { border-left: 3px solid; padding: 16px 20px; border-radius: 0 8px 8px 0; background: #0a0a0a; }
-    .problem-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
-    .problem h3 { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
-    .problem p { font-size: 14px; color: #999; line-height: 1.6; }
+.page-title{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3vw,2.25rem);font-weight:700;letter-spacing:-.025em;color:var(--text);margin-bottom:.5rem;}
+.page-sub{font-size:.85rem;color:var(--t2);line-height:1.7;font-weight:300;max-width:66ch;margin-bottom:2rem;}
+.page-sub strong{color:var(--text);font-weight:600;}
+.section-label{font-size:.525rem;font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:var(--t3);font-family:'SF Mono',monospace;margin-bottom:1rem;margin-top:2rem;}
+.section-label:first-of-type{margin-top:0;}
+.section-label::before{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;background:rgba(var(--glow-rgb),1);box-shadow:0 0 6px 1px rgba(var(--glow-rgb),.8);margin-right:.5rem;vertical-align:middle;animation:dotPulse 2s ease-in-out infinite;}
+@keyframes dotPulse{0%,100%{opacity:1;}50%{opacity:.35;}}
 
-    .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .metric { background: #0d0d0d; border: 1px solid #1c1c1c; border-radius: 10px; padding: 20px; }
-    .metric h3 { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
-    .metric .tells { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
-    .metric p { font-size: 13px; color: #888; line-height: 1.6; }
+/* Hero / callout */
+.hero-card{background:var(--text);color:var(--bg);border-radius:14px;padding:2rem 2.25rem;margin-bottom:2rem;position:relative;overflow:hidden;animation:pulseGlow 3.5s ease-in-out infinite;}
+@keyframes pulseGlow{0%,100%{box-shadow:0 8px 32px var(--shd),0 0 0 0 rgba(var(--glow-rgb),0);}50%{box-shadow:0 8px 32px var(--shd),0 0 36px 4px rgba(var(--glow-rgb),.3);}}
+.hero-card-pre{font-size:.475rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(234,228,217,.45);font-family:'SF Mono',monospace;font-weight:800;margin-bottom:.875rem;}
+[data-theme="day"] .hero-card-pre{color:rgba(234,228,217,.42);}
+.hero-card h2{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--bg);margin-bottom:.5rem;line-height:1.3;}
+[data-theme="day"] .hero-card h2{color:#EAE4D9;}
+.hero-card p{font-size:.85rem;color:rgba(234,228,217,.65);line-height:1.7;font-weight:300;max-width:64ch;}
+[data-theme="day"] .hero-card p{color:rgba(234,228,217,.6);}
+.hero-card strong{color:var(--bg);font-weight:700;}
+[data-theme="day"] .hero-card strong{color:#EAE4D9;}
 
-    /* Voice — beliefs, stories, language */
-    .belief-quote { background: #050f08; border: 1px solid #123a20; border-left: 3px solid #4ade80; border-radius: 0 10px 10px 0; padding: 18px 22px; margin-bottom: 10px; font-size: 15px; color: #d0f0d8; font-style: italic; line-height: 1.65; }
-    .voice-story { background: #0d0d0d; border: 1px solid #1c1c1c; border-radius: 10px; padding: 18px 22px; margin-bottom: 10px; }
-    .voice-story-title { font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 8px; }
-    .voice-story p { font-size: 13.5px; color: #999; line-height: 1.7; }
-    .voice-story strong { color: #ccc; }
-    .voice-lang-grid { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
-    .voice-lang-item { background: #0d0d0d; border: 1px solid #1c1c1c; border-radius: 8px; padding: 12px 16px; font-size: 13.5px; color: #ccc; font-style: italic; line-height: 1.6; }
-    .voice-lang-item .tag { display: block; font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #555; font-style: normal; margin-bottom: 4px; }
+.callout{background:var(--card);border:1px solid var(--bdr);border-left:3px solid rgba(var(--glow-rgb),1);border-radius:0 12px 12px 0;padding:1.25rem 1.5rem;margin-bottom:1.25rem;}
+.callout p{font-size:.85rem;color:var(--t2);line-height:1.75;font-weight:300;}
+.callout strong{color:var(--text);font-weight:600;}
 
-    @media (max-width: 640px) {
-      h1 { font-size: 28px; }
-      .two-col, .three-col, .metric-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+/* Two/three col cards */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem;}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;margin-bottom:1rem;}
+.card{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:1.375rem 1.5rem;transition:all .2s;}
+.card:hover{border-color:rgba(var(--glow-rgb),.5);box-shadow:0 8px 28px var(--shd),0 0 20px rgba(var(--glow-rgb),.15);}
+.card-label{font-size:.6rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem;font-family:'SF Mono',monospace;}
+.card h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:.5rem;}
+.card p{font-size:.8rem;color:var(--t2);line-height:1.7;font-weight:300;}
+.card ul{list-style:none;margin-top:.625rem;}
+.card ul li{font-size:.78rem;color:var(--t2);padding:.4rem 0;border-bottom:1px solid var(--bdr);line-height:1.55;font-weight:300;}
+.card ul li:last-child{border-bottom:none;}
+.card ul li::before{content:"— ";color:var(--t3);}
+
+/* Problem rows */
+.problem-row{display:flex;flex-direction:column;gap:.625rem;margin-bottom:1rem;}
+.problem{background:var(--card);border:1px solid var(--bdr);border-left:3px solid;padding:1rem 1.25rem;border-radius:0 10px 10px 0;}
+.problem-tag{font-size:.6rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.375rem;font-family:'SF Mono',monospace;}
+.problem h3{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:.375rem;}
+.problem p{font-size:.8rem;color:var(--t2);line-height:1.65;font-weight:300;}
+
+/* Metric grid */
+.metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+.metric{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:1.25rem;transition:all .2s;}
+.metric:hover{border-color:rgba(var(--glow-rgb),.5);box-shadow:0 8px 28px var(--shd),0 0 20px rgba(var(--glow-rgb),.15);}
+.metric .tells{font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.625rem;font-family:'SF Mono',monospace;}
+.metric h3{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:.375rem;}
+.metric p{font-size:.78rem;color:var(--t2);line-height:1.65;font-weight:300;}
+
+/* Voice — stories, quotes, language */
+.belief-quote{background:var(--text);color:var(--bg);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:.75rem;font-size:.95rem;font-style:italic;line-height:1.65;font-weight:500;}
+[data-theme="day"] .belief-quote{color:#EAE4D9;}
+.voice-story{background:var(--card);border:1px solid var(--bdr);border-left:3px solid rgba(var(--glow-rgb),1);border-radius:0 12px 12px 0;padding:1.25rem 1.5rem;margin-bottom:.75rem;}
+.voice-story-title{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:.5rem;line-height:1.4;}
+.voice-story p{font-size:.8rem;color:var(--t2);line-height:1.75;font-weight:300;}
+.voice-story strong{color:var(--text);font-weight:600;}
+.voice-lang-item{background:var(--card);border:1px solid var(--bdr);border-radius:9px;padding:.9rem 1.125rem;margin-bottom:.5rem;font-size:.8rem;color:var(--text);font-style:italic;line-height:1.65;}
+.voice-lang-item .tag{display:block;font-size:.5rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);font-style:normal;margin-bottom:.375rem;font-family:'SF Mono',monospace;}
+
+/* Launch grid for overview */
+.launch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1rem;}
+.launch-card{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:1.25rem;text-decoration:none;color:var(--text);transition:all .2s;display:block;cursor:pointer;}
+.launch-card:hover{border-color:rgba(var(--glow-rgb),.55);transform:translateY(-3px);box-shadow:0 12px 36px var(--shd),0 0 30px rgba(var(--glow-rgb),.25);}
+.lc-icon{font-size:1.1rem;margin-bottom:.75rem;}
+.lc-title{font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:.25rem;}
+.lc-desc{font-size:.68rem;color:var(--t2);font-weight:300;line-height:1.6;}
+
+@media(max-width:900px){
+  .sidebar{display:none;}
+  .two-col,.three-col,.metric-grid,.launch-grid{grid-template-columns:1fr;}
+  .section{padding:1.5rem 1.25rem;}
+}
+</style>
 </head>
 <body>
-<div class="container">
 
-  <div class="header">
-    <div class="label">Framework</div>
-    <h1>Personal Brand<br>Cheat Sheet</h1>
-    <div class="subtitle">The system — positioning, content strategy, metrics</div>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ══ SIDEBAR ══ -->
+<nav class="sidebar">
+  <div class="sb-header">
+    <div class="sb-logo">
+      <div class="sb-logo-mark">JJ</div>
+      <span class="sb-logo-name">Sales.io</span>
+    </div>
+    <div class="sb-badge">Brand Framework</div>
   </div>
 
-  <!-- CORE RULE -->
-  <section>
-    <h2>The Core Rule</h2>
-    <div class="callout">
-      <p><strong>Build your brand around you — not your business.</strong> Most people post "value content" for their ideal client and wonder why nothing converts. The people who win build around who they are as a person. People follow you first, then buy what you sell.</p>
+  <div class="sb-nav">
+    <div class="sb-section-label">Foundation</div>
+    <div class="nav-item active" data-sec="core" onclick="goTo('core')"><span class="nav-icon">⚡</span> The Core Rule</div>
+    <div class="nav-item" data-sec="voice" onclick="goTo('voice')"><span class="nav-icon">🎙️</span> JJ's Voice</div>
+    <div class="nav-item" data-sec="pillars" onclick="goTo('pillars')"><span class="nav-icon">🏛️</span> 4 Pillars</div>
+
+    <div class="sb-section-label">Strategy</div>
+    <div class="nav-item" data-sec="follower" onclick="goTo('follower')"><span class="nav-icon">🎯</span> Dream Follower</div>
+    <div class="nav-item" data-sec="types" onclick="goTo('types')"><span class="nav-icon">📊</span> 3 Content Types</div>
+    <div class="nav-item" data-sec="themes" onclick="goTo('themes')"><span class="nav-icon">🎭</span> 2 Themes</div>
+
+    <div class="sb-section-label">Diagnostics</div>
+    <div class="nav-item" data-sec="diagnosis" onclick="goTo('diagnosis')"><span class="nav-icon">🩺</span> Diagnosing Problems</div>
+    <div class="nav-item" data-sec="metrics" onclick="goTo('metrics')"><span class="nav-icon">📈</span> 4 Metrics</div>
+  </div>
+
+  <div class="sb-footer">
+    <div class="toggle-row">
+      <span class="toggle-lbl" id="mode-lbl">Day</span>
+      <div class="toggle-switch" onclick="toggleTheme()"><div class="toggle-thumb"></div></div>
     </div>
-    <div class="two-col">
-      <div class="card">
-        <div class="card-label" style="color:#fc8181;">Group A — Commodity Brand</div>
-        <ul>
-          <li>Posts value content for their ideal client</li>
-          <li>Focuses on being informative over authentic</li>
-          <li>No genuine connection with the audience</li>
-          <li>Ends up competing on price</li>
-          <li>Wonders why nobody buys</li>
-        </ul>
+  </div>
+</nav>
+
+<!-- ══ MAIN ══ -->
+<div class="main">
+  <div class="main-header">
+    <span class="mh-title" id="mh-title">The Core Rule</span>
+    <span class="internal-badge">Internal — Confidential</span>
+  </div>
+
+  <div class="content">
+
+    <!-- ── CORE RULE ── -->
+    <div id="sec-core" class="section active">
+      <div class="page-title">Personal Brand Framework</div>
+      <div class="page-sub">The system — positioning, content strategy, and metrics. Start here, then check <strong>JJ's Voice</strong> whenever you need the concrete, in-his-own-words version of any of this.</div>
+
+      <div class="hero-card">
+        <div class="hero-card-pre">The Core Rule</div>
+        <h2>Build your brand around you — not your business</h2>
+        <p>Most people post "value content" for their ideal client and wonder why nothing converts. The people who win build around who they are as a person. <strong>People follow you first, then buy what you sell.</strong></p>
       </div>
-      <div class="card">
-        <div class="card-label" style="color:#68d391;">Group B — Personal Brand</div>
-        <ul>
-          <li>Posts a mix of authentic and authority content</li>
-          <li>Builds the brand around themselves, not the business</li>
-          <li>Audience engages and buys</li>
-          <li>Commands premium pricing</li>
-          <li>Audience follows because of who they are</li>
-        </ul>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-label" style="color:var(--red);">Group A — Commodity Brand</div>
+          <ul>
+            <li>Posts value content for their ideal client</li>
+            <li>Focuses on being informative over authentic</li>
+            <li>No genuine connection with the audience</li>
+            <li>Ends up competing on price</li>
+            <li>Wonders why nobody buys</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-label" style="color:var(--green);">Group B — Personal Brand</div>
+          <ul>
+            <li>Posts a mix of authentic and authority content</li>
+            <li>Builds the brand around themselves, not the business</li>
+            <li>Audience engages and buys</li>
+            <li>Commands premium pricing</li>
+            <li>Audience follows because of who they are</li>
+          </ul>
+        </div>
       </div>
-    </div>
-  </section>
 
-  <!-- JJ'S VOICE — FROM HIS OWN WORDS -->
-  <section>
-    <h2>JJ's Voice — In His Own Words</h2>
-    <div class="callout">
-      <p>Pulled directly from a long-form interview. This is the concrete version of "Beliefs" below — not abstract values, but JJ's actual stories and language. When in doubt about tone, come back to this section.</p>
-    </div>
-
-    <div class="belief-quote">"The less you try to close, the more you close."</div>
-    <div class="belief-quote">"I'd rather lose the sale than lose the frame. The person who needs the sale the most will always lose."</div>
-    <div class="belief-quote">"Every decision is rooted in clarity. If they just knew this is the problem and this is how it's going to be solved — yes, take my money."</div>
-
-    <div class="voice-story">
-      <div class="voice-story-title">The $36,000 sale he lost by going back to the script</div>
-      <p>She was open, emotional, giving him everything in the first ten minutes without him even asking. He got tactical instead of trusting it — pulled her back into her head, and felt the sale slip in real time. <strong>"The process is a floor, not a ceiling. When someone is already above it and you drag them back down, you've just de-sold them."</strong></p>
-    </div>
-    <div class="voice-story">
-      <div class="voice-story-title">Kevin — never once mentioned commission</div>
-      <p>Older student, first calls on a new offer. Asked what brings him down after a rough one, and money never came up — he looked at a bad call the way a mechanic looks at a broken engine. <strong>Curiosity instead of shame.</strong></p>
-    </div>
-    <div class="voice-story">
-      <div class="voice-story-title">Why the training industry bothers him</div>
-      <p>Most people selling sales training got a few clips from one or two real high-ticket calls and built an entire brand on it. Scripts train reps to listen for triggers instead of listening to people — great at pattern recognition, bad at actual conversation. <strong>Nobody wants to sell identity work because it doesn't fit in a module with a clever name, so they sell activity instead.</strong></p>
-    </div>
-
-    <div class="two-col">
-      <div class="card">
-        <div class="card-label" style="color:#4ade80;">The Objection Reframe</div>
-        <h3>"I can't afford it"</h3>
-        <p>The word underneath it is <strong>afford</strong> — said like a fact, but it's a decision disguised as a math problem. What they usually mean: <em>"I don't fully believe the gap between where I am and where I could be is real enough to justify this."</em> The money usually exists. The certainty doesn't.</p>
-      </div>
-      <div class="card">
-        <div class="card-label" style="color:#68d391;">What Landing Sounds Like</div>
-        <h3>Proof it's working</h3>
-        <p>Not "that was valuable." People quote it back word for word — <em>"the person who needs the sale the most"</em> — or bring their own story to it: <strong>"I had a call exactly like that last week."</strong> That's when it actually got in.</p>
+      <div class="section-label">Jump In</div>
+      <div class="launch-grid">
+        <div class="launch-card" onclick="goTo('voice')"><div class="lc-icon">🎙️</div><div class="lc-title">JJ's Voice</div><div class="lc-desc">Real stories and quotes — the concrete version of "Beliefs."</div></div>
+        <div class="launch-card" onclick="goTo('pillars')"><div class="lc-icon">🏛️</div><div class="lc-title">4 Pillars</div><div class="lc-desc">Beliefs, Style, Mission, Mechanism — define before posting.</div></div>
+        <div class="launch-card" onclick="goTo('diagnosis')"><div class="lc-icon">🩺</div><div class="lc-title">Diagnosing Problems</div><div class="lc-desc">Low views? Low engagement? Low sales? Start here.</div></div>
       </div>
     </div>
 
-    <div class="voice-lang-grid" style="margin-top:16px;">
+    <!-- ── JJ'S VOICE ── -->
+    <div id="sec-voice" class="section">
+      <div class="page-title">JJ's Voice — In His Own Words</div>
+      <div class="page-sub">Pulled directly from a long-form interview. This is the concrete version of the "Beliefs" pillar — not abstract values, but JJ's actual stories and language. When in doubt about tone, come back here.</div>
+
+      <div class="section-label">Core Beliefs</div>
+      <div class="belief-quote">"The less you try to close, the more you close."</div>
+      <div class="belief-quote">"I'd rather lose the sale than lose the frame. The person who needs the sale the most will always lose."</div>
+      <div class="belief-quote">"Every decision is rooted in clarity. If they just knew this is the problem and this is how it's going to be solved — yes, take my money."</div>
+
+      <div class="section-label">Signature Stories</div>
+      <div class="voice-story">
+        <div class="voice-story-title">The $36,000 sale he lost by going back to the script</div>
+        <p>She was open, emotional, giving him everything in the first ten minutes without him even asking. He got tactical instead of trusting it — pulled her back into her head, and felt the sale slip in real time. <strong>"The process is a floor, not a ceiling. When someone is already above it and you drag them back down, you've just de-sold them."</strong></p>
+      </div>
+      <div class="voice-story">
+        <div class="voice-story-title">Kevin — never once mentioned commission</div>
+        <p>Older student, first calls on a new offer. Asked what brings him down after a rough one, and money never came up — he looked at a bad call the way a mechanic looks at a broken engine. <strong>Curiosity instead of shame.</strong></p>
+      </div>
+      <div class="voice-story">
+        <div class="voice-story-title">Why the training industry bothers him</div>
+        <p>Most people selling sales training got a few clips from one or two real high-ticket calls and built an entire brand on it. Scripts train reps to listen for triggers instead of listening to people — great at pattern recognition, bad at actual conversation. <strong>Nobody wants to sell identity work because it doesn't fit in a module with a clever name, so they sell activity instead.</strong></p>
+      </div>
+
+      <div class="section-label">The Objection Reframe &amp; What Landing Sounds Like</div>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-label" style="color:rgba(var(--glow-rgb),1);">The Objection Reframe</div>
+          <h3>"I can't afford it"</h3>
+          <p>The word underneath it is <strong>afford</strong> — said like a fact, but it's a decision disguised as a math problem. What they usually mean: <em>"I don't fully believe the gap between where I am and where I could be is real enough to justify this."</em> The money usually exists. The certainty doesn't.</p>
+        </div>
+        <div class="card">
+          <div class="card-label" style="color:var(--green);">What Landing Sounds Like</div>
+          <h3>Proof it's working</h3>
+          <p>Not "that was valuable." People quote it back word for word — <em>"the person who needs the sale the most"</em> — or bring their own story to it: <strong>"I had a call exactly like that last week."</strong> That's when it actually got in.</p>
+        </div>
+      </div>
+
+      <div class="section-label">Audience's Real Words</div>
       <div class="voice-lang-item"><span class="tag">Audience's real words</span>"I feel like I'm saying the right things but nothing is landing."</div>
       <div class="voice-lang-item"><span class="tag">Audience's real words</span>"I sounded like a robot the whole call and I could hear myself doing it and I couldn't stop." — the rare, honest one</div>
       <div class="voice-lang-item"><span class="tag">DM pattern</span>"I've been doing [X method], it worked for a little while, then I plateaued — what am I missing?"</div>
     </div>
-  </section>
 
-  <!-- 4 PILLARS -->
-  <section>
-    <h2>4 Pillars — Define These Before Posting Anything</h2>
-    <div class="two-col">
-      <div class="card">
-        <div class="card-label" style="color:#a78bfa;">Beliefs</div>
-        <h3>What makes you one of one</h3>
-        <p>Your values. How you see the world. The unique stories and experiences that shape how you think. This is what differentiates you at the core from every other creator online.</p>
+    <!-- ── 4 PILLARS ── -->
+    <div id="sec-pillars" class="section">
+      <div class="page-title">4 Pillars</div>
+      <div class="page-sub">Define these before posting anything.</div>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-label" style="color:var(--purple);">Beliefs</div>
+          <h3>What makes you one of one</h3>
+          <p>Your values. How you see the world. The unique stories and experiences that shape how you think. This is what differentiates you at the core from every other creator online. See <strong>JJ's Voice</strong> for the concrete version.</p>
+        </div>
+        <div class="card">
+          <div class="card-label" style="color:var(--purple);">Style</div>
+          <h3>How you show up visually and verbally</h3>
+          <p>How you talk. What you wear. Where you film. Camera quality, editing, captions, colors. All of it needs to be decided at the start.</p>
+        </div>
       </div>
-      <div class="card">
-        <div class="card-label" style="color:#a78bfa;">Style</div>
-        <h3>How you show up visually and verbally</h3>
-        <p>How you talk. What you wear. Where you film. Camera quality, editing, captions, colors. All of it needs to be decided at the start.</p>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-label" style="color:var(--purple);">Mission</div>
+          <h3>Where you're going</h3>
+          <p>If you want to be followed, you need to be going somewhere. What are you building? What are you trying to prove, achieve, or create? What does success look like to you?</p>
+        </div>
+        <div class="card">
+          <div class="card-label" style="color:var(--purple);">Mechanism</div>
+          <h3>How you make money</h3>
+          <p>What is your offer? What is your business model? What is unique or different about how you get clients results? This is how you monetize the brand you're building.</p>
+        </div>
       </div>
     </div>
-    <div class="two-col">
-      <div class="card">
-        <div class="card-label" style="color:#a78bfa;">Mission</div>
-        <h3>Where you're going</h3>
-        <p>If you want to be followed, you need to be going somewhere. What are you building? What are you trying to prove, achieve, or create? What does success look like to you?</p>
-      </div>
-      <div class="card">
-        <div class="card-label" style="color:#a78bfa;">Mechanism</div>
-        <h3>How you make money</h3>
-        <p>What is your offer? What is your business model? What is unique or different about how you get clients results? This is how you monetize the brand you're building.</p>
-      </div>
-    </div>
-  </section>
 
-  <!-- DREAM FOLLOWER -->
-  <section>
-    <h2>Dream Follower vs Ideal Client</h2>
-    <div class="callout">
-      <p><strong>Don't make content for your ideal client.</strong> Make it for your dream follower — the larger audience who wants to become a version of who you represent. Your ideal client is a subset of that group: same person, but they also have a specific problem, know they have it, and can pay to solve it.</p>
-    </div>
-    <div class="two-col">
-      <div class="card">
-        <div class="card-label" style="color:#f6ad55;">Dream Follower</div>
-        <h3>Questions to answer</h3>
-        <ul>
-          <li>Who are they and what's their story?</li>
-          <li>What are they passionate about?</li>
-          <li>What are their goals and desires?</li>
-          <li>Who do they want to become?</li>
-          <li>What are their deepest fears?</li>
-          <li>What are their deepest struggles?</li>
-        </ul>
+    <!-- ── DREAM FOLLOWER ── -->
+    <div id="sec-follower" class="section">
+      <div class="page-title">Dream Follower vs. Ideal Client</div>
+      <div class="page-sub">Two different targets — know which one your content is for.</div>
+      <div class="callout">
+        <p><strong>Don't make content for your ideal client.</strong> Make it for your dream follower — the larger audience who wants to become a version of who you represent. Your ideal client is a subset of that group: same person, but they also have a specific problem, know they have it, and can pay to solve it.</p>
       </div>
-      <div class="card">
-        <div class="card-label" style="color:#f6c90e;">Content Ideas</div>
-        <h3>The interest overlap</h3>
-        <p>Content ideas live in the overlap between <strong>your interests</strong> and your <strong>dream follower's interests</strong>. The better you define both, the more clarity you have on exactly what to post. That Venn diagram center is where all the best content lives.</p>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-label" style="color:var(--gold);">Dream Follower</div>
+          <h3>Questions to answer</h3>
+          <ul>
+            <li>Who are they and what's their story?</li>
+            <li>What are they passionate about?</li>
+            <li>What are their goals and desires?</li>
+            <li>Who do they want to become?</li>
+            <li>What are their deepest fears?</li>
+            <li>What are their deepest struggles?</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-label" style="color:var(--gold);">Content Ideas</div>
+          <h3>The interest overlap</h3>
+          <p>Content ideas live in the overlap between <strong>your interests</strong> and your <strong>dream follower's interests</strong>. The better you define both, the more clarity you have on exactly what to post. That Venn diagram center is where all the best content lives.</p>
+        </div>
       </div>
     </div>
-  </section>
 
-  <!-- 3 CONTENT TYPES -->
-  <section>
-    <h2>3 Content Types</h2>
-    <div class="three-col">
-      <div class="card">
-        <div class="card-label" style="color:#63b3ed;">Top of Funnel</div>
-        <h3>Audience Building</h3>
-        <p>Designed to attract, not convert. Grabs attention, sparks emotion, reaches people who have never seen you. Stops the scroll. Creates curiosity. Not meant to sell.</p>
-      </div>
-      <div class="card">
-        <div class="card-label" style="color:#68d391;">Middle of Funnel</div>
-        <h3>Brand Building</h3>
-        <p>For people already following you. Positions you as the expert, deepens trust, shows your personality and values. Turns a casual follower into a loyal fan who believes in your message.</p>
-      </div>
-      <div class="card">
-        <div class="card-label" style="color:#fc8181;">Bottom of Funnel</div>
-        <h3>Client Building</h3>
-        <p>Gets warm audience to take action. Comment a keyword, join your email list, DM you about your offer. This is the content that actually monetizes the brand.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 2 THEMES -->
-  <section>
-    <h2>2 Content Themes</h2>
-    <div class="two-col">
-      <div class="card">
-        <div class="card-label" style="color:#f6ad55;">Authenticity</div>
-        <h3>Who you are</h3>
-        <p>Your personality, values, mission, and why. The real, unpolished version of you. The person you are when no one's watching. This builds connection and likability. Lead with this.</p>
-      </div>
-      <div class="card">
-        <div class="card-label" style="color:#a78bfa;">Authority</div>
-        <h3>What you've done</h3>
-        <p>Your experience, results, and lifestyle. Proof of your skill set in action. The money you've made. The outcomes you've created. This builds credibility and demand. Comes after authenticity.</p>
+    <!-- ── 3 CONTENT TYPES ── -->
+    <div id="sec-types" class="section">
+      <div class="page-title">3 Content Types</div>
+      <div class="page-sub">Every piece of content is doing one of three jobs.</div>
+      <div class="three-col">
+        <div class="card">
+          <div class="card-label" style="color:var(--blue);">Top of Funnel</div>
+          <h3>Audience Building</h3>
+          <p>Designed to attract, not convert. Grabs attention, sparks emotion, reaches people who have never seen you. Stops the scroll. Creates curiosity. Not meant to sell.</p>
+        </div>
+        <div class="card">
+          <div class="card-label" style="color:var(--green);">Middle of Funnel</div>
+          <h3>Brand Building</h3>
+          <p>For people already following you. Positions you as the expert, deepens trust, shows your personality and values. Turns a casual follower into a loyal fan who believes in your message.</p>
+        </div>
+        <div class="card">
+          <div class="card-label" style="color:var(--red);">Bottom of Funnel</div>
+          <h3>Client Building</h3>
+          <p>Gets warm audience to take action. Comment a keyword, join your email list, DM you about your offer. This is the content that actually monetizes the brand.</p>
+        </div>
       </div>
     </div>
-  </section>
 
-  <!-- PROBLEM DIAGNOSIS -->
-  <section>
-    <h2>Diagnosing Content Problems</h2>
-    <div class="problem-row">
-      <div class="problem" style="border-color:#fc8181;">
-        <div class="problem-tag" style="color:#fc8181;">Problem 1</div>
-        <h3>Low views</h3>
-        <p>Post more audience building content. Test different formats to see what performs best with your audience, then double down on that.</p>
-      </div>
-      <div class="problem" style="border-color:#f6c90e;">
-        <div class="problem-tag" style="color:#f6c90e;">Problem 2</div>
-        <h3>Decent views, low engagement</h3>
-        <p>Post more authenticity-based content that's highly relatable. Make people feel like "this person gets me." Engagement follows emotional connection.</p>
-      </div>
-      <div class="problem" style="border-color:#68d391;">
-        <div class="problem-tag" style="color:#68d391;">Problem 3</div>
-        <h3>Decent engagement, low sales</h3>
-        <p>Post more authority content and more calls to action. Give your audience more opportunities to raise their hand and say they're interested. You're not asking enough.</p>
+    <!-- ── 2 THEMES ── -->
+    <div id="sec-themes" class="section">
+      <div class="page-title">2 Content Themes</div>
+      <div class="page-sub">Everything you post is either authenticity or authority.</div>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-label" style="color:var(--gold);">Authenticity</div>
+          <h3>Who you are</h3>
+          <p>Your personality, values, mission, and why. The real, unpolished version of you. The person you are when no one's watching. This builds connection and likability. Lead with this.</p>
+        </div>
+        <div class="card">
+          <div class="card-label" style="color:var(--purple);">Authority</div>
+          <h3>What you've done</h3>
+          <p>Your experience, results, and lifestyle. Proof of your skill set in action. The money you've made. The outcomes you've created. This builds credibility and demand. Comes after authenticity.</p>
+        </div>
       </div>
     </div>
-  </section>
 
-  <!-- METRICS -->
-  <section>
-    <h2>4 Metrics That Actually Matter</h2>
-    <div class="metric-grid">
-      <div class="metric">
-        <div class="tells" style="color:#63b3ed;">Tracks audience building content</div>
-        <h3>Follows per 1K views</h3>
-        <p>More views doesn't mean more follows. Knowing which videos drive the most follows tells you what audience building content to keep making.</p>
-      </div>
-      <div class="metric">
-        <div class="tells" style="color:#68d391;">Tracks brand building content</div>
-        <h3>Genuine comments</h3>
-        <p>Shows which videos created real emotional connection. Use this to dial in brand building content — the videos that make people feel seen.</p>
-      </div>
-      <div class="metric">
-        <div class="tells" style="color:#fc8181;">Tracks client building content</div>
-        <h3>Saves</h3>
-        <p>A save means your audience found it valuable enough to come back to. Post more of these with a CTA at the end and you'll convert more clients.</p>
-      </div>
-      <div class="metric">
-        <div class="tells" style="color:#f6ad55;">Tracks both audience + brand building</div>
-        <h3>Shares</h3>
-        <p>A share means it resonated deeply enough that someone sent it to another person. Great for reach. Signals content worth doubling down on.</p>
+    <!-- ── DIAGNOSIS ── -->
+    <div id="sec-diagnosis" class="section">
+      <div class="page-title">Diagnosing Content Problems</div>
+      <div class="page-sub">Match the symptom to the fix.</div>
+      <div class="problem-row">
+        <div class="problem" style="border-color:var(--red);">
+          <div class="problem-tag" style="color:var(--red);">Problem 1</div>
+          <h3>Low views</h3>
+          <p>Post more audience building content. Test different formats to see what performs best with your audience, then double down on that.</p>
+        </div>
+        <div class="problem" style="border-color:var(--gold);">
+          <div class="problem-tag" style="color:var(--gold);">Problem 2</div>
+          <h3>Decent views, low engagement</h3>
+          <p>Post more authenticity-based content that's highly relatable. Make people feel like "this person gets me." Engagement follows emotional connection.</p>
+        </div>
+        <div class="problem" style="border-color:var(--green);">
+          <div class="problem-tag" style="color:var(--green);">Problem 3</div>
+          <h3>Decent engagement, low sales</h3>
+          <p>Post more authority content and more calls to action. Give your audience more opportunities to raise their hand and say they're interested. You're not asking enough.</p>
+        </div>
       </div>
     </div>
-  </section>
 
-</div>
+    <!-- ── METRICS ── -->
+    <div id="sec-metrics" class="section">
+      <div class="page-title">4 Metrics That Actually Matter</div>
+      <div class="page-sub">Track these, not vanity views.</div>
+      <div class="metric-grid">
+        <div class="metric">
+          <div class="tells" style="color:var(--blue);">Tracks audience building content</div>
+          <h3>Follows per 1K views</h3>
+          <p>More views doesn't mean more follows. Knowing which videos drive the most follows tells you what audience building content to keep making.</p>
+        </div>
+        <div class="metric">
+          <div class="tells" style="color:var(--green);">Tracks brand building content</div>
+          <h3>Genuine comments</h3>
+          <p>Shows which videos created real emotional connection. Use this to dial in brand building content — the videos that make people feel seen.</p>
+        </div>
+        <div class="metric">
+          <div class="tells" style="color:var(--red);">Tracks client building content</div>
+          <h3>Saves</h3>
+          <p>A save means your audience found it valuable enough to come back to. Post more of these with a CTA at the end and you'll convert more clients.</p>
+        </div>
+        <div class="metric">
+          <div class="tells" style="color:var(--gold);">Tracks both audience + brand building</div>
+          <h3>Shares</h3>
+          <p>A share means it resonated deeply enough that someone sent it to another person. Great for reach. Signals content worth doubling down on.</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<script>
+function toggleTheme(){
+  var h=document.documentElement,n=h.dataset.theme==='day'?'night':'day';
+  h.dataset.theme=n;
+  var l=document.getElementById('mode-lbl');if(l)l.textContent=n==='day'?'Day':'Night';
+  try{localStorage.setItem('pbf-theme',n);}catch(e){}
+}
+(function(){
+  try{
+    var s=localStorage.getItem('pbf-theme')||document.documentElement.dataset.theme||'day';
+    var l=document.getElementById('mode-lbl');if(l)l.textContent=s==='day'?'Day':'Night';
+  }catch(e){}
+})();
+
+var SEC_TITLES={core:'The Core Rule',voice:"JJ's Voice",pillars:'4 Pillars',follower:'Dream Follower',types:'3 Content Types',themes:'2 Themes',diagnosis:'Diagnosing Problems',metrics:'4 Metrics'};
+
+function goTo(id){
+  document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active');});
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
+  var sec=document.getElementById('sec-'+id);
+  var nav=document.querySelector('[data-sec="'+id+'"]');
+  if(sec)sec.classList.add('active');
+  if(nav)nav.classList.add('active');
+  var mh=document.getElementById('mh-title');
+  if(mh)mh.textContent=SEC_TITLES[id]||id;
+  document.querySelector('.content').scrollTop=0;
+  history.replaceState(null,'','#'+id);
+}
+
+(function(){
+  var h=location.hash.replace('#','');
+  if(h&&document.getElementById('sec-'+h))goTo(h);
+})();
+</script>
 </body>
 </html>
