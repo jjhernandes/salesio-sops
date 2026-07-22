@@ -988,8 +988,13 @@ body{
       <div class="page-sub">Track docs waiting on your review, or ones you've sent Jack or Josh to look over. Paste a link to where the actual file lives (Google Drive, Dropbox, wherever) — this just tracks status and notes.</div>
 
       <div class="highlight amber" style="margin-bottom:1.5rem;">
-        <h3>⚠️ Drive Is Connected — the Queue Itself Isn't Shared Yet</h3>
-        <p>The "Browse Drive" button is a live connection — it opens your actual Drive and links straight to the real file, no uploading or copying involved. What's still local is the <strong>review queue itself</strong> (the statuses and notes below) — that list saves to this browser only, so it won't show up for Jack or Josh unless you tell them what's on it. If you want the queue itself to be something all three of you can see and update together, that needs a real shared backend — say the word.</p>
+        <h3>✅ Shared — Sign In to Add or Edit</h3>
+        <p>This queue is now backed by a shared database — anything added here shows up live for you, Jack, and Josh, on any device. You need to be signed in with an approved Google account to add or change anything; browsing the list doesn't require signing in.</p>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;">
+        <button class="review-add-btn" id="review-auth-btn" onclick="reviewSignIn()">Sign In With Google</button>
+        <span class="review-item-meta" id="review-auth-status">Not signed in — sign in to add or edit docs</span>
       </div>
 
       <div class="review-add">
@@ -1353,70 +1358,6 @@ function clearContentNotes(){
   status.classList.remove('saved');
 }
 
-/* ── Doc Review queue (link + status tracker, browser-local) ── */
-var REVIEW_KEY='salesio_doc_review';
-function loadReviewDocs(){try{return JSON.parse(localStorage.getItem(REVIEW_KEY)||'[]');}catch(e){return [];}}
-function saveReviewDocs(docs){try{localStorage.setItem(REVIEW_KEY,JSON.stringify(docs));}catch(e){}}
-
-function addReviewDoc(){
-  var titleEl=document.getElementById('review-title-input');
-  var linkEl=document.getElementById('review-link-input');
-  var statusEl=document.getElementById('review-status-input');
-  var notesEl=document.getElementById('review-notes-input');
-  var title=titleEl.value.trim();
-  if(!title)return;
-  var docs=loadReviewDocs();
-  docs.unshift({
-    id:Date.now()+Math.random(),
-    title:title,
-    link:linkEl.value.trim(),
-    status:statusEl.value,
-    notes:notesEl.value.trim(),
-    added:Date.now()
-  });
-  saveReviewDocs(docs);
-  titleEl.value='';linkEl.value='';notesEl.value='';statusEl.value='pending';
-  renderReviewDocs();
-}
-function setReviewStatus(id,status){
-  var docs=loadReviewDocs();
-  docs.forEach(function(d){if(d.id===id)d.status=status;});
-  saveReviewDocs(docs);
-  renderReviewDocs();
-}
-function deleteReviewDoc(id){
-  saveReviewDocs(loadReviewDocs().filter(function(d){return d.id!==id;}));
-  renderReviewDocs();
-}
-var REVIEW_STATUS_LABEL={pending:'Pending Review',approved:'Approved',changes:'Needs Changes'};
-function reviewItemHTML(d){
-  var titleHtml = d.link
-    ? '<a class="review-item-title" href="'+escapeHtml(d.link)+'" target="_blank" rel="noopener">'+escapeHtml(d.title)+'</a>'
-    : '<span class="review-item-title no-link">'+escapeHtml(d.title)+'</span>';
-  var dateStr = new Date(d.added).toLocaleDateString('en-US',{month:'short',day:'numeric'});
-  return '<div class="review-item">'+
-    '<div class="review-item-head">'+titleHtml+
-      '<select class="review-select" onchange="setReviewStatus('+d.id+',this.value)" style="padding:.3rem .5rem;">'+
-        '<option value="pending"'+(d.status==='pending'?' selected':'')+'>Pending Review</option>'+
-        '<option value="approved"'+(d.status==='approved'?' selected':'')+'>Approved</option>'+
-        '<option value="changes"'+(d.status==='changes'?' selected':'')+'>Needs Changes</option>'+
-      '</select>'+
-    '</div>'+
-    (d.notes ? '<div class="review-item-notes">'+escapeHtml(d.notes)+'</div>' : '')+
-    '<div class="review-item-foot">'+
-      '<span class="review-badge '+d.status+'">'+REVIEW_STATUS_LABEL[d.status]+'</span>'+
-      '<span class="review-item-meta">Added '+dateStr+'</span>'+
-      '<button class="review-item-del" onclick="deleteReviewDoc('+d.id+')">Remove</button>'+
-    '</div>'+
-  '</div>';
-}
-function renderReviewDocs(){
-  var docs=loadReviewDocs();
-  var list=document.getElementById('review-list');
-  if(list){list.innerHTML = docs.length ? docs.map(reviewItemHTML).join('') : '<div class="task-empty">Nothing in the queue yet. Add a doc above.</div>';}
-}
-renderReviewDocs();
-
 /* ── Google Drive Picker (Doc Review "Browse Drive" button) ── */
 var GDRIVE_CLIENT_ID='416074607032-6lnimpi7nmtdq97h4rl1pp42d5jg808c.apps.googleusercontent.com';
 var GDRIVE_API_KEY='AIzaSyCw23O_RtgVSSVCVotAitPzHkjuJAKqh3A';
@@ -1497,6 +1438,134 @@ function goTo(id){
   var h=location.hash.replace('#','');
   if(h&&document.getElementById('sec-'+h))goTo(h);
 })();
+</script>
+
+<!-- ── Firestore-backed shared Doc Review queue ── -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDXQvH7qV1DYKoNAfArpP1rcKYT0Oysuq0",
+  authDomain: "salesio-hq.firebaseapp.com",
+  projectId: "salesio-hq",
+  storageBucket: "salesio-hq.firebasestorage.app",
+  messagingSenderId: "716901464242",
+  appId: "1:716901464242:web:df06550318e111f3d571ab"
+};
+
+const fbApp = initializeApp(firebaseConfig);
+const db = getFirestore(fbApp);
+const auth = getAuth(fbApp);
+const provider = new GoogleAuthProvider();
+const reviewCol = collection(db, 'reviewQueue');
+
+let currentUser = null;
+const REVIEW_STATUS_LABEL = {pending:'Pending Review',approved:'Approved',changes:'Needs Changes'};
+
+function reviewItemHTML(d){
+  var titleHtml = d.link
+    ? '<a class="review-item-title" href="'+escapeHtml(d.link)+'" target="_blank" rel="noopener">'+escapeHtml(d.title)+'</a>'
+    : '<span class="review-item-title no-link">'+escapeHtml(d.title)+'</span>';
+  var dateStr = d.added ? new Date(d.added).toLocaleDateString('en-US',{month:'short',day:'numeric'}) : '';
+  var addedBy = d.addedBy ? ' · '+escapeHtml(d.addedBy) : '';
+  return '<div class="review-item">'+
+    '<div class="review-item-head">'+titleHtml+
+      '<select class="review-select" onchange="setReviewStatus(\''+d.id+'\',this.value)" style="padding:.3rem .5rem;">'+
+        '<option value="pending"'+(d.status==='pending'?' selected':'')+'>Pending Review</option>'+
+        '<option value="approved"'+(d.status==='approved'?' selected':'')+'>Approved</option>'+
+        '<option value="changes"'+(d.status==='changes'?' selected':'')+'>Needs Changes</option>'+
+      '</select>'+
+    '</div>'+
+    (d.notes ? '<div class="review-item-notes">'+escapeHtml(d.notes)+'</div>' : '')+
+    '<div class="review-item-foot">'+
+      '<span class="review-badge '+d.status+'">'+REVIEW_STATUS_LABEL[d.status]+'</span>'+
+      '<span class="review-item-meta">Added '+dateStr+addedBy+'</span>'+
+      '<button class="review-item-del" onclick="deleteReviewDoc(\''+d.id+'\')">Remove</button>'+
+    '</div>'+
+  '</div>';
+}
+
+function renderReviewDocsLive(docsArr){
+  var list=document.getElementById('review-list');
+  if(!list)return;
+  list.innerHTML = docsArr.length ? docsArr.map(reviewItemHTML).join('') : '<div class="task-empty">Nothing in the queue yet. Add a doc above.</div>';
+}
+
+onSnapshot(query(reviewCol, orderBy('added','desc')), function(snap){
+  var docsArr=[];
+  snap.forEach(function(d){ docsArr.push(Object.assign({id:d.id}, d.data())); });
+  renderReviewDocsLive(docsArr);
+}, function(err){
+  var list=document.getElementById('review-list');
+  if(list)list.innerHTML='<div class="task-empty">Could not load the shared queue — check the Firestore rules and console.</div>';
+});
+
+window.addReviewDoc = async function(){
+  if(!currentUser){ alert('Sign in with Google first (button above the form) so your addition is tied to your account.'); return; }
+  var titleEl=document.getElementById('review-title-input');
+  var linkEl=document.getElementById('review-link-input');
+  var statusEl=document.getElementById('review-status-input');
+  var notesEl=document.getElementById('review-notes-input');
+  var title=titleEl.value.trim();
+  if(!title)return;
+  try{
+    await addDoc(reviewCol, {
+      title: title,
+      link: linkEl.value.trim(),
+      status: statusEl.value,
+      notes: notesEl.value.trim(),
+      added: Date.now(),
+      addedBy: currentUser.email
+    });
+    titleEl.value='';linkEl.value='';notesEl.value='';statusEl.value='pending';
+  }catch(e){
+    alert('Could not add — you may not be on the approved list yet, or Firestore rules need updating.');
+  }
+};
+
+window.setReviewStatus = async function(id, status){
+  if(!currentUser){ alert('Sign in with Google first to change a status.'); return; }
+  try{ await updateDoc(doc(db,'reviewQueue',id), { status: status }); }
+  catch(e){ alert('Could not update — check you\'re signed in and on the approved list.'); }
+};
+
+window.deleteReviewDoc = async function(id){
+  if(!currentUser){ alert('Sign in with Google first to remove an item.'); return; }
+  try{ await deleteDoc(doc(db,'reviewQueue',id)); }
+  catch(e){ alert('Could not remove — check you\'re signed in and on the approved list.'); }
+};
+
+function updateReviewAuthUI(){
+  var btn=document.getElementById('review-auth-btn');
+  var status=document.getElementById('review-auth-status');
+  if(!btn||!status)return;
+  if(currentUser){
+    btn.textContent='Sign Out';
+    btn.onclick=function(){ signOut(auth); };
+    status.textContent='Signed in as '+currentUser.email;
+  } else {
+    btn.textContent='Sign In With Google';
+    btn.onclick=window.reviewSignIn;
+    status.textContent='Not signed in — sign in to add or edit docs';
+  }
+}
+
+window.reviewSignIn = async function(){
+  try{
+    var result = await signInWithPopup(auth, provider);
+    currentUser = result.user;
+    updateReviewAuthUI();
+  }catch(e){
+    alert('Sign-in failed or was cancelled.');
+  }
+};
+
+onAuthStateChanged(auth, function(user){
+  currentUser = user;
+  updateReviewAuthUI();
+});
 </script>
 </body>
 </html>
