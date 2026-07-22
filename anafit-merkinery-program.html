@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ana Fit — Merkinery's Phase 1 Program</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script>try{var t=localStorage.getItem('af-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<style>
+:root,[data-theme="night"]{
+  --bg:#08040e; --surface:#0f0718; --glass:rgba(255,255,255,.032); --glass-hv:rgba(255,255,255,.06);
+  --glass-bdr:rgba(255,255,255,.07); --accent:#f06ab4; --accent-soft:#fbb8da; --accent-dim:rgba(240,100,170,.1);
+  --gold:#c9a96e; --gold-dim:rgba(201,169,110,.1); --gold-bdr:rgba(201,169,110,.22);
+  --text:#f5e8f0; --text-2:#b890a8; --text-3:#5a3a50; --divider:rgba(255,255,255,.055);
+  --check:rgba(240,100,170,.15); --check-bdr:rgba(240,100,170,.3); --total-bg:rgba(240,100,170,.06); --total-bdr:rgba(240,100,170,.18);
+  --r:14px;
+}
+[data-theme="day"]{
+  --bg:#fdf4f8; --surface:#f5e6f0; --glass:rgba(255,255,255,.82); --glass-hv:rgba(255,255,255,.97);
+  --glass-bdr:rgba(194,24,91,.1); --accent:#c2185b; --accent-soft:#e91e8c; --accent-dim:rgba(194,24,91,.06);
+  --gold:#8d6e3a; --gold-dim:rgba(141,110,58,.07); --gold-bdr:rgba(141,110,58,.2);
+  --text:#1f0a14; --text-2:#7a4060; --text-3:#d4b0c4; --divider:rgba(0,0,0,.07);
+  --check:rgba(194,24,91,.06); --check-bdr:rgba(194,24,91,.18); --total-bg:rgba(194,24,91,.05); --total-bdr:rgba(194,24,91,.15);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:.9375rem;line-height:1.75;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s;overflow-x:hidden;}
+
+.orb{position:fixed;border-radius:50%;filter:blur(110px);pointer-events:none;z-index:0;}
+.orb-1{width:640px;height:640px;background:rgba(240,100,170,.11);top:-18%;left:-14%;animation:d1 26s ease-in-out infinite;}
+.orb-2{width:340px;height:340px;background:rgba(201,169,110,.08);bottom:5%;right:-8%;animation:d2 21s ease-in-out infinite;}
+.orb-3{width:260px;height:260px;background:rgba(160,100,220,.08);top:40%;right:12%;animation:d1 33s ease-in-out infinite reverse;}
+[data-theme="day"] .orb-1{background:rgba(240,100,170,.05);}
+[data-theme="day"] .orb-2{background:rgba(201,169,110,.04);}
+[data-theme="day"] .orb-3{background:rgba(160,100,220,.03);}
+@keyframes d1{0%,100%{transform:translate(0,0) scale(1);}45%{transform:translate(45px,-30px) scale(1.06);}75%{transform:translate(-20px,40px) scale(.96);}}
+@keyframes d2{0%,100%{transform:translate(0,0);}50%{transform:translate(-40px,-35px) scale(1.08);}}
+
+.wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:0 2rem 8rem;}
+
+.theme-toggle{position:fixed;top:1.25rem;right:1.25rem;z-index:999;display:flex;align-items:center;gap:.5rem;
+  background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--glass-bdr);
+  border-radius:50px;padding:.375rem .875rem .375rem .625rem;cursor:pointer;transition:border-color .2s;font-size:.7rem;color:var(--text-2);}
+.theme-toggle:hover{border-color:var(--accent);}
+
+.hero{padding:5rem 0 3rem;}
+.eyebrow{font-size:.65rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);font-family:'SF Mono',monospace;margin-bottom:1.25rem;}
+.hero h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(2.25rem,7vw,3.5rem);font-weight:900;letter-spacing:-.02em;line-height:1.05;margin-bottom:1.25rem;}
+.hero h1 em{font-style:italic;font-weight:400;color:var(--accent);}
+.hero p{font-size:1rem;color:var(--text-2);font-weight:300;max-width:52ch;line-height:1.85;}
+.hero p strong{color:var(--text);font-weight:500;}
+
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin:2.5rem 0;}
+@media(max-width:600px){.stat-row{grid-template-columns:repeat(2,1fr);}}
+.stat-card{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--glass-bdr);border-radius:var(--r);padding:1.125rem;text-align:center;}
+.stat-val{font-family:'Playfair Display',Georgia,serif;font-size:1.4rem;color:var(--accent);letter-spacing:-.02em;}
+.stat-lbl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);font-family:'SF Mono',monospace;margin-top:.25rem;}
+
+.section{padding:3rem 0;border-top:1px solid var(--divider);}
+.section-eyebrow{font-size:.575rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);font-family:'SF Mono',monospace;margin-bottom:1rem;}
+.section-title{font-family:'Playfair Display',Georgia,serif;font-size:1.75rem;font-weight:700;letter-spacing:-.015em;margin-bottom:.75rem;}
+.section-sub{font-size:.875rem;color:var(--text-2);font-weight:300;max-width:56ch;line-height:1.8;margin-bottom:2rem;}
+.section-sub strong{color:var(--text);font-weight:500;}
+
+/* Day cards */
+.day-card{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--glass-bdr);border-radius:var(--r);padding:1.75rem;margin-bottom:1.25rem;}
+.day-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.5rem;}
+.day-num{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-family:'SF Mono',monospace;}
+.day-title{font-family:'Playfair Display',Georgia,serif;font-size:1.25rem;color:var(--text);}
+.day-focus{font-size:.7rem;color:var(--text-3);font-style:italic;}
+.ex-list{display:flex;flex-direction:column;gap:.5rem;}
+.ex-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.7rem .875rem;background:var(--surface);border-radius:9px;border:1px solid var(--divider);}
+.ex-name{font-size:.85rem;color:var(--text);font-weight:500;}
+.ex-sets{font-size:.75rem;color:var(--accent);font-family:'SF Mono',monospace;white-space:nowrap;}
+.day-note{font-size:.75rem;color:var(--text-3);margin-top:1rem;line-height:1.7;font-style:italic;}
+
+.macro-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.5rem;}
+@media(max-width:600px){.macro-row{grid-template-columns:1fr;}}
+.macro-card{background:var(--total-bg);border:1px solid var(--total-bdr);border-radius:var(--r);padding:1.25rem;text-align:center;}
+.macro-val{font-family:'Playfair Display',Georgia,serif;font-size:1.6rem;color:var(--accent);letter-spacing:-.02em;}
+.macro-lbl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2);font-family:'SF Mono',monospace;margin-top:.35rem;}
+
+.check-list{display:flex;flex-direction:column;gap:.75rem;margin-top:1.75rem;}
+.check-item{display:flex;align-items:flex-start;gap:.875rem;font-size:.875rem;color:var(--text-2);font-weight:300;line-height:1.65;}
+.check-mark{width:18px;height:18px;border-radius:50%;background:var(--check);border:1px solid var(--check-bdr);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.2rem;font-size:.6rem;color:var(--accent);}
+.check-item strong{color:var(--text);font-weight:500;}
+
+.timing-bar{background:var(--glass);border:1px solid var(--glass-bdr);border-radius:var(--r);padding:1.25rem 1.5rem;margin-bottom:1.5rem;font-size:.85rem;color:var(--text-2);}
+.timing-bar strong{color:var(--text);}
+
+.note-box{background:var(--accent-dim);border-left:2px solid var(--accent);border-radius:0 10px 10px 0;padding:1.125rem 1.375rem;font-size:.85rem;color:var(--text-2);line-height:1.75;margin-top:1.5rem;}
+.note-box strong{color:var(--text);}
+
+.closing{padding:3.5rem 0 2rem;text-align:center;border-top:1px solid var(--divider);}
+.closing p{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:1.15rem;color:var(--text);max-width:48ch;margin:0 auto 1rem;line-height:1.6;}
+.closing .sign{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);font-family:'SF Mono',monospace;}
+</style>
+</head>
+<body>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+  <span id="toggleLabel">Night</span>
+</button>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">Ana Fit VIP · Phase 1, Weeks 1–4</div>
+    <h1>Merky's Plan.<br><em>Legs first, built to last.</em></h1>
+    <p>Strength back in your legs. Waking up without the pain. Eventually, five days a week back in the gym. This is built to actually get you there — starting from where you are right now, not where you wish you were, so it holds this time.</p>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-val">2x</div><div class="stat-lbl">Days / Week</div></div>
+    <div class="stat-card"><div class="stat-val">40–45</div><div class="stat-lbl">Min / Session</div></div>
+    <div class="stat-card"><div class="stat-val">Squats</div><div class="stat-lbl">Phase 1 Anchor</div></div>
+    <div class="stat-card"><div class="stat-val">1 / 3</div><div class="stat-lbl">Phase</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-eyebrow">Why We're Starting Here</div>
+    <div class="section-title">Two Days, On Purpose</div>
+    <div class="section-sub">You're at one day a week right now, and the goal is five. Jumping straight there is exactly how last time went — pain and low energy from the Vitamin D and B12 deficiency built up faster than the program did. Two days a week is the pace that actually holds while your body catches up, and we add a third once these two feel easy, not effortful.</div>
+
+    <div class="note-box">
+      <strong>Built around your assessment.</strong> Squats, hip hinge, core, and overhead mobility all came back strong — that's the foundation we're building on. Push strength and single-leg stability need more time, so they're trained carefully rather than pushed hard.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-eyebrow">Training Structure</div>
+    <div class="section-title">Your Two Days</div>
+    <div class="section-sub">Gym access plus some home equipment, ideally after work. Every session opens with a slow warm-up and closes with a few minutes of stretching for your legs and thighs — that tightness gets tended to every single time, not just when it's bothering you.</div>
+
+    <div class="day-card">
+      <div class="day-head">
+        <div><div class="day-num">Day 1</div><div class="day-title">Squat Foundation + Core</div></div>
+        <div class="day-focus">~40 min</div>
+      </div>
+      <div class="ex-list">
+        <div class="ex-row"><span class="ex-name">Bodyweight Squat (to parallel)</span><span class="ex-sets">3 × 10</span></div>
+        <div class="ex-row"><span class="ex-name">Glute Bridge</span><span class="ex-sets">3 × 12</span></div>
+        <div class="ex-row"><span class="ex-name">Seated or Band Row</span><span class="ex-sets">3 × 10</span></div>
+        <div class="ex-row"><span class="ex-name">Bird Dog</span><span class="ex-sets">3 × 8 each side</span></div>
+        <div class="ex-row"><span class="ex-name">Plank</span><span class="ex-sets">3 × 20–30 sec</span></div>
+      </div>
+      <div class="day-note">Squats are the priority movement of this entire program — take the time to get the depth and back position right before adding any weight. Bird Dog is here specifically to start rebuilding single-leg stability without loading the knee the way a lunge would.</div>
+    </div>
+
+    <div class="day-card">
+      <div class="day-head">
+        <div><div class="day-num">Day 2</div><div class="day-title">Push Rebuild + Full Body</div></div>
+        <div class="day-focus">~40 min</div>
+      </div>
+      <div class="ex-list">
+        <div class="ex-row"><span class="ex-name">Incline or Wall Push-Up</span><span class="ex-sets">3 × max reps</span></div>
+        <div class="ex-row"><span class="ex-name">Goblet Squat (light) or Bodyweight Squat</span><span class="ex-sets">3 × 10</span></div>
+        <div class="ex-row"><span class="ex-name">Band Pull-Apart</span><span class="ex-sets">3 × 12</span></div>
+        <div class="ex-row"><span class="ex-name">Dead Bug</span><span class="ex-sets">3 × 10 each side</span></div>
+        <div class="ex-row"><span class="ex-name">Side Plank</span><span class="ex-sets">2 × 15–20 sec each side</span></div>
+      </div>
+      <div class="day-note">Push-ups start from wherever you actually land that day — 1, 2, 5, it doesn't matter, the number moving up over the coming weeks is the entire point. Incline (hands elevated on a bench or step) makes it achievable without forcing bad form.</div>
+    </div>
+
+    <div class="note-box">
+      <strong>Not doing right now: single-leg lunges.</strong> Given the shakiness and knee discomfort, they're paused until balance and strength are built underneath the pattern. If any exercise ever feels sharp, wrong, or aggravates your back or hips, stop and message Ana before continuing.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-eyebrow">Nutrition</div>
+    <div class="section-title">One Focus, Not a Rulebook</div>
+    <div class="section-sub">Nothing here is about restriction — no macros, no calorie targets, no tracking. You've never tracked before, and that's not where we're starting. There's exactly one focus area, because it's the one you already named as the thing that could make you quit.</div>
+
+    <div class="macro-row">
+      <div class="macro-card"><div class="macro-val">3+</div><div class="macro-lbl">Water / day — already great</div></div>
+      <div class="macro-card"><div class="macro-val">1–2x</div><div class="macro-lbl">Alcohol / month — no change needed</div></div>
+      <div class="macro-card"><div class="macro-val">1</div><div class="macro-lbl">Real focus: late snacking</div></div>
+    </div>
+
+    <div class="timing-bar">
+      <strong>On the late snacking.</strong> This isn't about cutting it out cold — that's more likely to backfire. It's worth a real conversation with Ana about what's actually happening in those moments, especially the ones tied to stress or a hard day, so the plan works with real life instead of against it.
+    </div>
+
+    <div class="check-list">
+      <div class="check-item"><div class="check-mark">✓</div><span><strong>Keep the morning routine.</strong> Oatmeal, cereal, or peanut butter is working fine — no need to change breakfast.</span></div>
+      <div class="check-item"><div class="check-mark">✓</div><span><strong>No dietary restrictions to work around</strong> — one less thing to manage.</span></div>
+      <div class="check-item"><div class="check-mark">✓</div><span><strong>Water and alcohol are already dialed in.</strong> Nothing to change there.</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-eyebrow">Habits &amp; Accountability</div>
+    <div class="section-title">Making This One Stick</div>
+    <div class="section-sub">Overwhelm — especially anything involving her son — is the real trigger behind hard days, more than anything physical. That's built into how support works here, on purpose.</div>
+
+    <div class="check-list">
+      <div class="check-item"><div class="check-mark">✓</div><span><strong>Sunday check-ins.</strong> Submit yours every week in the Hub — Ana reads every one and adjusts the plan based on how you're actually responding, not just what's written on paper.</span></div>
+      <div class="check-item"><div class="check-mark">✓</div><span><strong>Message Ana before you skip, not after.</strong> On a hard day, especially one triggered by something with your son, reach out before the day gets away from you.</span></div>
+      <div class="check-item"><div class="check-mark">✓</div><span><strong>Form coaching, every session.</strong> You asked for this directly — back position on lifts, leg position, rep counts. Expect Ana to call it out in real time, not just at check-ins.</span></div>
+      <div class="check-item"><div class="check-mark">✓</div><span><strong>Full Phase 1 review, Week 4.</strong> Push strength, lunge stability, and squat depth all get re-assessed, and Phase 2 gets built around exactly where you land — including adding that third day once two feels easy.</span></div>
+    </div>
+  </div>
+
+  <div class="closing">
+    <p>"There will be better days. Soon I will get back to the gym." You already believe it — this is just the plan to prove it true.</p>
+    <div class="sign">— Ana</div>
+  </div>
+
+</div>
+
+<script>
+function toggleTheme(){
+  var h=document.documentElement,n=h.getAttribute('data-theme')==='day'?'night':'day';
+  h.setAttribute('data-theme',n);
+  var l=document.getElementById('toggleLabel');if(l)l.textContent=n==='day'?'Day':'Night';
+  try{localStorage.setItem('af-theme',n);}catch(e){}
+}
+(function(){
+  var t=document.documentElement.getAttribute('data-theme')||'night';
+  var l=document.getElementById('toggleLabel');if(l)l.textContent=t==='day'?'Day':'Night';
+})();
+</script>
+</body>
+</html>
