@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ana Fit — Merkinery's Movement Assessment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script>try{var t=localStorage.getItem('af-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<style>
+:root,[data-theme="night"]{
+  --bg:#08040e; --surface:#0f0718; --glass:rgba(255,255,255,.032); --glass-hv:rgba(255,255,255,.06);
+  --glass-bdr:rgba(255,255,255,.07); --accent:#f06ab4; --accent-soft:#fbb8da; --accent-dim:rgba(240,100,170,.1);
+  --gold:#c9a96e; --gold-dim:rgba(201,169,110,.1); --gold-bdr:rgba(201,169,110,.22);
+  --text:#f5e8f0; --text-2:#b890a8; --text-3:#5a3a50; --divider:rgba(255,255,255,.055);
+  --check:rgba(240,100,170,.15); --check-bdr:rgba(240,100,170,.3); --total-bg:rgba(240,100,170,.06); --total-bdr:rgba(240,100,170,.18);
+  --good:#7dd8a8; --good-bg:rgba(125,216,168,.09); --good-bdr:rgba(125,216,168,.22);
+  --watch:#f4c86a; --watch-bg:rgba(244,200,106,.09); --watch-bdr:rgba(244,200,106,.22);
+  --focus:#f06ab4; --focus-bg:rgba(240,100,170,.09); --focus-bdr:rgba(240,100,170,.25);
+  --r:14px;
+}
+[data-theme="day"]{
+  --bg:#fdf4f8; --surface:#f5e6f0; --glass:rgba(255,255,255,.82); --glass-hv:rgba(255,255,255,.97);
+  --glass-bdr:rgba(194,24,91,.1); --accent:#c2185b; --accent-soft:#e91e8c; --accent-dim:rgba(194,24,91,.06);
+  --gold:#8d6e3a; --gold-dim:rgba(141,110,58,.07); --gold-bdr:rgba(141,110,58,.2);
+  --text:#1f0a14; --text-2:#7a4060; --text-3:#d4b0c4; --divider:rgba(0,0,0,.07);
+  --check:rgba(194,24,91,.06); --check-bdr:rgba(194,24,91,.18); --total-bg:rgba(194,24,91,.05); --total-bdr:rgba(194,24,91,.15);
+  --good:#2f9860; --good-bg:rgba(47,152,96,.07); --good-bdr:rgba(47,152,96,.22);
+  --watch:#a3760f; --watch-bg:rgba(163,118,15,.07); --watch-bdr:rgba(163,118,15,.22);
+  --focus:#c2185b; --focus-bg:rgba(194,24,91,.06); --focus-bdr:rgba(194,24,91,.2);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:.9375rem;line-height:1.75;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s;overflow-x:hidden;}
+
+.orb{position:fixed;border-radius:50%;filter:blur(110px);pointer-events:none;z-index:0;}
+.orb-1{width:640px;height:640px;background:rgba(240,100,170,.11);top:-18%;left:-14%;animation:d1 26s ease-in-out infinite;}
+.orb-2{width:340px;height:340px;background:rgba(201,169,110,.08);bottom:5%;right:-8%;animation:d2 21s ease-in-out infinite;}
+.orb-3{width:260px;height:260px;background:rgba(160,100,220,.08);top:40%;right:12%;animation:d1 33s ease-in-out infinite reverse;}
+[data-theme="day"] .orb-1{background:rgba(240,100,170,.05);}
+[data-theme="day"] .orb-2{background:rgba(201,169,110,.04);}
+[data-theme="day"] .orb-3{background:rgba(160,100,220,.03);}
+@keyframes d1{0%,100%{transform:translate(0,0) scale(1);}45%{transform:translate(45px,-30px) scale(1.06);}75%{transform:translate(-20px,40px) scale(.96);}}
+@keyframes d2{0%,100%{transform:translate(0,0);}50%{transform:translate(-40px,-35px) scale(1.08);}}
+
+.wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:0 2rem 8rem;}
+
+.theme-toggle{position:fixed;top:1.25rem;right:1.25rem;z-index:999;display:flex;align-items:center;gap:.5rem;
+  background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--glass-bdr);
+  border-radius:50px;padding:.375rem .875rem .375rem .625rem;cursor:pointer;transition:border-color .2s;font-size:.7rem;color:var(--text-2);}
+.theme-toggle:hover{border-color:var(--accent);}
+
+.hero{padding:5rem 0 3rem;}
+.eyebrow{font-size:.65rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);font-family:'SF Mono',monospace;margin-bottom:1.25rem;}
+.hero h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(2.25rem,7vw,3.5rem);font-weight:900;letter-spacing:-.02em;line-height:1.05;margin-bottom:1.25rem;}
+.hero h1 em{font-style:italic;font-weight:400;color:var(--accent);}
+.hero p{font-size:1rem;color:var(--text-2);font-weight:300;max-width:52ch;line-height:1.85;}
+.hero p strong{color:var(--text);font-weight:500;}
+
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin:2.5rem 0;}
+@media(max-width:600px){.stat-row{grid-template-columns:repeat(2,1fr);}}
+.stat-card{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--glass-bdr);border-radius:var(--r);padding:1.125rem;text-align:center;}
+.stat-val{font-family:'Playfair Display',Georgia,serif;font-size:1.4rem;color:var(--accent);letter-spacing:-.02em;}
+.stat-lbl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);font-family:'SF Mono',monospace;margin-top:.25rem;}
+
+.section{padding:3rem 0;border-top:1px solid var(--divider);}
+.section-eyebrow{font-size:.575rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);font-family:'SF Mono',monospace;margin-bottom:1rem;}
+.section-title{font-family:'Playfair Display',Georgia,serif;font-size:1.75rem;font-weight:700;letter-spacing:-.015em;margin-bottom:.75rem;}
+.section-sub{font-size:.875rem;color:var(--text-2);font-weight:300;max-width:56ch;line-height:1.8;margin-bottom:2rem;}
+.section-sub strong{color:var(--text);font-weight:500;}
+
+/* Pattern assessment cards */
+.pattern-grid{display:flex;flex-direction:column;gap:.625rem;}
+.pattern-card{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--glass-bdr);border-radius:var(--r);padding:1.125rem 1.375rem;}
+.pattern-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem;}
+.pattern-name{font-size:.9375rem;font-weight:600;color:var(--text);}
+.pattern-rating{display:inline-flex;align-items:center;gap:.375rem;font-size:.7rem;font-weight:700;letter-spacing:.03em;padding:.25rem .75rem;border-radius:50px;font-family:'SF Mono',monospace;white-space:nowrap;}
+.pattern-rating.good{background:var(--good-bg);border:1px solid var(--good-bdr);color:var(--good);}
+.pattern-rating.watch{background:var(--watch-bg);border:1px solid var(--watch-bdr);color:var(--watch);}
+.pattern-rating.focus{background:var(--focus-bg);border:1px solid var(--focus-bdr);color:var(--focus);}
+.pattern-note{font-size:.825rem;color:var(--text-2);font-weight:300;line-height:1.7;}
+.pattern-note strong{color:var(--text);font-weight:500;}
+
+.legend-row{display:flex;gap:1.25rem;flex-wrap:wrap;margin-top:1.25rem;font-size:.7rem;color:var(--text-3);font-family:'SF Mono',monospace;}
+.legend-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:.4rem;}
+.legend-dot.good{background:var(--good);}
+.legend-dot.watch{background:var(--watch);}
+.legend-dot.focus{background:var(--focus);}
+
+.check-list{display:flex;flex-direction:column;gap:.75rem;margin-top:1.75rem;}
+.check-item{display:flex;align-items:flex-start;gap:.875rem;font-size:.875rem;color:var(--text-2);font-weight:300;line-height:1.65;}
+.check-mark{width:18px;height:18px;border-radius:50%;background:var(--check);border:1px solid var(--check-bdr);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.2rem;font-size:.6rem;color:var(--accent);}
+.check-item strong{color:var(--text);font-weight:500;}
+
+.note-box{background:var(--accent-dim);border-left:2px solid var(--accent);border-radius:0 10px 10px 0;padding:1.125rem 1.375rem;font-size:.85rem;color:var(--text-2);line-height:1.75;margin-top:1.5rem;}
+.note-box strong{color:var(--text);}
+.note-box.watch-box{background:var(--watch-bg);border-left-color:var(--watch);}
+
+.closing{padding:3.5rem 0 2rem;text-align:center;border-top:1px solid var(--divider);}
+.closing p{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:1.15rem;color:var(--text);max-width:48ch;margin:0 auto 1rem;line-height:1.6;}
+.closing .sign{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);font-family:'SF Mono',monospace;}
+</style>
+</head>
+<body>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+  <span id="toggleLabel">Night</span>
+</button>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">Ana Fit VIP · Movement Assessment · July 21, 2026</div>
+    <h1>Welcome, Merkinery.<br><em>Here's where we start.</em></h1>
+    <p>You just completed your baseline movement assessment — the map Ana uses to build a program that actually fits your body, not a generic template. Here's what it showed, and exactly what Phase 1 is going to focus on.</p>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-val">1–2</div><div class="stat-lbl">Push-Ups (Max)</div></div>
+    <div class="stat-card"><div class="stat-val">15–30s</div><div class="stat-lbl">Plank Hold</div></div>
+    <div class="stat-card"><div class="stat-val">Parallel</div><div class="stat-lbl">Squat Depth</div></div>
+    <div class="stat-card"><div class="stat-val">1–2s</div><div class="stat-lbl">Single-Leg Balance</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-eyebrow">Assessment Results</div>
+    <div class="section-title">How Your Body Moves Right Now</div>
+    <div class="section-sub">Self-reported assessment, rated on a 1–5 scale for each pattern. This isn't a grade — it's a starting point, and it tells us exactly where to put the work.</div>
+
+    <div class="pattern-grid">
+      <div class="pattern-card">
+        <div class="pattern-head"><div class="pattern-name">Squat</div><div class="pattern-rating good">4 · Minor compensation</div></div>
+        <div class="pattern-note">This is <strong>already a strength</strong> — close to clean. It's the reason squats are the anchor of your Phase 1 training.</div>
+      </div>
+      <div class="pattern-card">
+        <div class="pattern-head"><div class="pattern-name">Hip Hinge</div><div class="pattern-rating good">4 · Minor compensation</div></div>
+        <div class="pattern-note">Solid. Another pattern we can build on with confidence.</div>
+      </div>
+      <div class="pattern-card">
+        <div class="pattern-head"><div class="pattern-name">Push</div><div class="pattern-rating focus">2 · Significant limitation</div></div>
+        <div class="pattern-note"><strong>Reported as weak.</strong> This is a real priority — we'll build pushing strength gradually, starting from wherever you actually are today (1–2 reps is a completely normal starting point).</div>
+      </div>
+      <div class="pattern-card">
+        <div class="pattern-head"><div class="pattern-name">Pull</div><div class="pattern-rating watch">3 · Moderate limitation</div></div>
+        <div class="pattern-note">A secondary focus area — not urgent, but something we'll layer in as your other patterns strengthen.</div>
+      </div>
+      <div class="pattern-card">
+        <div class="pattern-head"><div class="pattern-name">Lunge / Single-Leg</div><div class="pattern-rating focus">2 · Significant limitation</div></div>
+        <div class="pattern-note"><strong>Reported as very shaky, with knee discomfort.</strong> This one gets handled carefully — see below. We're not avoiding it forever, just building the stability to get there safely.</div>
+      </div>
+      <div class="pattern-card">
+        <div class="pattern-head"><div class="pattern-name">Core Stability</div><div class="pattern-rating good">4 · Minor compensation</div></div>
+        <div class="pattern-note">Strong foundation here. This is a big part of why planks and core work are part of your Phase 1 plan — you're already good at this, and it directly supports fixing the lunge and push patterns.</div>
+      </div>
+      <div class="pattern-card">
+        <div class="pattern-head"><div class="pattern-name">Overhead Mobility</div><div class="pattern-rating good">4 · Minor compensation</div></div>
+        <div class="pattern-note">Another solid pattern. Nothing urgent needed here right now.</div>
+      </div>
+    </div>
+
+    <div class="legend-row">
+      <span><span class="legend-dot good"></span>Strength — build on it</span>
+      <span><span class="legend-dot watch"></span>Moderate — layer in over time</span>
+      <span><span class="legend-dot focus"></span>Priority focus area</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-eyebrow">Injuries &amp; Care</div>
+    <div class="section-title">What We're Working Around</div>
+    <div class="section-sub">Nothing here is a wall — it's just information Ana uses to program around your body instead of against it.</div>
+
+    <div class="check-list">
+      <div class="check-item"><div class="check-mark">!</div><span><strong>Active: lower back, and sometimes the hips.</strong> Any movement that aggravates this gets modified or swapped immediately — always tell Ana if something feels sharp or off.</span></div>
+      <div class="check-item"><div class="check-mark">!</div><span><strong>Chronic tightness: legs and thighs.</strong> Trained around, not through — expect mobility and warm-up work built in for this.</span></div>
+    </div>
+
+    <div class="note-box watch-box">
+      <strong>Exercise to avoid: single-leg lunge.</strong> Given the shakiness and knee discomfort on this pattern, single-leg lunges are off the table for now. Squats and other stable, two-footed lower-body work take their place while we build the balance and strength to reintroduce single-leg movement safely later on.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-eyebrow">Your Program</div>
+    <div class="section-title">Phase 1 Focus</div>
+    <div class="section-sub">Built directly from what the assessment showed — playing to your strengths (squat, core) while carefully building up the areas that need it (push, lunge stability).</div>
+
+    <div class="check-list">
+      <div class="check-item"><div class="check-mark">✓</div><span><strong>Squats as the anchor.</strong> Your strongest, cleanest pattern — this is where Phase 1 training centers, and where you'll build confidence early.</span></div>
+      <div class="check-item"><div class="check-mark">✓</div><span><strong>Corrective work: squats, planks, and core exercises.</strong> This directly reinforces your already-solid core rating while building the stability your lunge pattern needs before it's reintroduced.</span></div>
+      <div class="check-item"><div class="check-mark">✓</div><span><strong>Push strength, built from your real starting point.</strong> 1–2 reps today is the baseline, not a limitation — every session moving that number up is real progress.</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-eyebrow">Staying On Track</div>
+    <div class="section-title">What's Next</div>
+    <div class="section-sub">This assessment isn't a one-time snapshot — it's the baseline everything else gets measured against.</div>
+
+    <div class="check-list">
+      <div class="check-item"><div class="check-mark">✓</div><span><strong>Weekly check-ins.</strong> Submit yours every week in the Hub — Ana reads every one and adjusts your plan based on how you're actually responding.</span></div>
+      <div class="check-item"><div class="check-mark">✓</div><span><strong>Direct access to Ana.</strong> If the lower back or hips flare up, or anything feels wrong during a session, message her before pushing through it.</span></div>
+      <div class="check-item"><div class="check-mark">✓</div><span><strong>Re-assessment as you progress.</strong> Push strength, lunge stability, and squat depth will all get revisited as Phase 1 moves forward, so you can see the numbers move.</span></div>
+    </div>
+  </div>
+
+  <div class="closing">
+    <p>Every number on this page is just where you're starting — not where you'll stay. Let's get to work.</p>
+    <div class="sign">— Ana</div>
+  </div>
+
+</div>
+
+<script>
+function toggleTheme(){
+  var h=document.documentElement,n=h.getAttribute('data-theme')==='day'?'night':'day';
+  h.setAttribute('data-theme',n);
+  var l=document.getElementById('toggleLabel');if(l)l.textContent=n==='day'?'Day':'Night';
+  try{localStorage.setItem('af-theme',n);}catch(e){}
+}
+(function(){
+  var t=document.documentElement.getAttribute('data-theme')||'night';
+  var l=document.getElementById('toggleLabel');if(l)l.textContent=t==='day'?'Day':'Night';
+})();
+</script>
+</body>
+</html>
