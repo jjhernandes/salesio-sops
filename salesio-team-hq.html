@@ -7,6 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script>try{var s=localStorage.getItem('tb-theme');if(s)document.documentElement.dataset.theme=s;}catch(e){}</script>
+<script src="https://apis.google.com/js/api.js" onload="gdriveOnApiLoad()" async defer></script>
+<script src="https://accounts.google.com/gsi/client" onload="gdriveOnGisLoad()" async defer></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{height:100%;}
@@ -1003,7 +1005,8 @@ body{
         <div class="review-add-row">
           <textarea id="review-notes-input" class="review-textarea" placeholder="Notes — what needs a look, who sent it, feedback..."></textarea>
         </div>
-        <div class="review-add-row" style="justify-content:flex-end;">
+        <div class="review-add-row" style="justify-content:space-between;">
+          <button class="review-add-btn" onclick="browseDrive()" style="background:var(--card-2);color:var(--text);border:1px solid var(--bdr-2);">📁 Browse Drive</button>
           <button class="review-add-btn" onclick="addReviewDoc()">Add to Review Queue</button>
         </div>
       </div>
@@ -1413,6 +1416,55 @@ function renderReviewDocs(){
   if(list){list.innerHTML = docs.length ? docs.map(reviewItemHTML).join('') : '<div class="task-empty">Nothing in the queue yet. Add a doc above.</div>';}
 }
 renderReviewDocs();
+
+/* ── Google Drive Picker (Doc Review "Browse Drive" button) ── */
+var GDRIVE_CLIENT_ID='416074607032-6lnimpi7nmtdq97h4rl1pp42d5jg808c.apps.googleusercontent.com';
+var GDRIVE_API_KEY='AIzaSyCw23O_RtgVSSVCVotAitPzHkjuJAKqh3A';
+var gdrivePickerLoaded=false;
+var gdriveTokenClient=null;
+var gdriveAccessToken=null;
+
+function gdriveOnApiLoad(){
+  gapi.load('picker',function(){gdrivePickerLoaded=true;});
+}
+function gdriveOnGisLoad(){
+  gdriveTokenClient=google.accounts.oauth2.initTokenClient({
+    client_id:GDRIVE_CLIENT_ID,
+    scope:'https://www.googleapis.com/auth/drive.readonly',
+    callback:''
+  });
+}
+function browseDrive(){
+  if(!gdriveTokenClient||!gdrivePickerLoaded){
+    alert('Still loading Google Drive — give it a second and try again.');
+    return;
+  }
+  gdriveTokenClient.callback=function(resp){
+    if(resp.error){alert('Google sign-in was cancelled or failed.');return;}
+    gdriveAccessToken=resp.access_token;
+    gdriveCreatePicker();
+  };
+  gdriveTokenClient.requestAccessToken({prompt:gdriveAccessToken?'':'consent'});
+}
+function gdriveCreatePicker(){
+  var view=new google.picker.DocsView(google.picker.ViewId.DOCS).setIncludeFolders(true);
+  var picker=new google.picker.PickerBuilder()
+    .addView(view)
+    .setOAuthToken(gdriveAccessToken)
+    .setDeveloperKey(GDRIVE_API_KEY)
+    .setCallback(gdrivePickerCallback)
+    .build();
+  picker.setVisible(true);
+}
+function gdrivePickerCallback(data){
+  if(data.action===google.picker.Action.PICKED){
+    var file=data.docs[0];
+    var titleEl=document.getElementById('review-title-input');
+    var linkEl=document.getElementById('review-link-input');
+    if(titleEl)titleEl.value=file.name;
+    if(linkEl)linkEl.value=file.url;
+  }
+}
 
 /* ── Section nav ── */
 var SEC_TITLES={dash:'Dashboard',notes:'Brain Dump',hub:'Client Hub',resources:'Resources',team:'Team',content:'Content',review:'Doc Review',playbooks:'Playbooks'};
