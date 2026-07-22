@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="night">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ana Fit — Today's Call With Merkinery</title>
+<script>try{var t=localStorage.getItem('af-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root,[data-theme="night"]{
+  --bg:#08040e; --glass:rgba(255,255,255,.032); --glass-hv:rgba(255,255,255,.06); --glass-bdr:rgba(255,255,255,.07);
+  --accent:#f06ab4; --accent-dim:rgba(240,100,170,.1); --accent-glow:rgba(240,100,170,.18);
+  --gold:#c9a96e; --gold-dim:rgba(201,169,110,.08); --gold-bdr:rgba(201,169,110,.22);
+  --green:#6ec9a4; --green-dim:rgba(110,201,164,.08); --green-bdr:rgba(110,201,164,.22);
+  --red:#e05a7a; --red-dim:rgba(224,90,122,.08); --red-bdr:rgba(224,90,122,.2);
+  --text:#f5e8f0; --text-2:#b890a8; --text-3:#5a3a50; --divider:rgba(255,255,255,.06); --r:14px;
+}
+[data-theme="day"]{
+  --bg:#fdf4f8; --glass:rgba(255,255,255,.82); --glass-hv:rgba(255,255,255,.97); --glass-bdr:rgba(194,24,91,.1);
+  --accent:#c2185b; --accent-dim:rgba(194,24,91,.06); --accent-glow:rgba(194,24,91,.1);
+  --gold:#8d6e3a; --gold-dim:rgba(141,110,58,.06); --gold-bdr:rgba(141,110,58,.2);
+  --green:#2e7d5e; --green-dim:rgba(46,125,94,.06); --green-bdr:rgba(46,125,94,.18);
+  --red:#c2185b; --red-dim:rgba(194,24,91,.05); --red-bdr:rgba(194,24,91,.15);
+  --text:#1f0a14; --text-2:#7a4060; --text-3:#d4b0c4; --divider:rgba(0,0,0,.07);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter','Segoe UI',system-ui,sans-serif;font-size:.9375rem;line-height:1.75;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s;overflow-x:hidden;}
+
+.orb{position:fixed;border-radius:50%;filter:blur(110px);pointer-events:none;z-index:0;}
+.orb-1{width:550px;height:550px;background:rgba(240,100,170,.1);top:-15%;left:-10%;animation:d1 26s ease-in-out infinite;}
+.orb-2{width:280px;height:280px;background:rgba(201,169,110,.07);bottom:10%;right:-6%;animation:d2 21s ease-in-out infinite;}
+[data-theme="day"] .orb-1{background:rgba(240,100,170,.05);}
+[data-theme="day"] .orb-2{background:rgba(201,169,110,.04);}
+@keyframes d1{0%,100%{transform:translate(0,0);}50%{transform:translate(40px,-30px);}}
+@keyframes d2{0%,100%{transform:translate(0,0);}50%{transform:translate(-30px,-35px);}}
+
+.wrap{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:0 2rem 6rem;}
+
+.theme-toggle{position:fixed;top:1.25rem;right:1.25rem;z-index:999;display:flex;align-items:center;gap:.5rem;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--glass-bdr);border-radius:50px;padding:.375rem .875rem .375rem .625rem;cursor:pointer;transition:border-color .2s;}
+.theme-toggle:hover{border-color:var(--accent);}
+.toggle-track{width:28px;height:16px;background:var(--text-3);border-radius:50px;position:relative;transition:background .25s;flex-shrink:0;}
+[data-theme="day"] .toggle-track{background:var(--accent);}
+.toggle-thumb{position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:var(--accent);transition:transform .25s,background .25s;}
+[data-theme="day"] .toggle-thumb{transform:translateX(12px);background:#fff;}
+.toggle-lbl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);font-family:'SF Mono',monospace;}
+
+.hero{padding:3rem 0 2.5rem;border-bottom:1px solid var(--divider);}
+.hero-eyebrow{font-size:.625rem;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);margin-bottom:1.25rem;font-family:'SF Mono',monospace;}
+.hero-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(2rem,6vw,3rem);line-height:1.1;letter-spacing:-.02em;margin-bottom:.875rem;color:var(--text);}
+.hero-title em{font-style:italic;font-weight:400;color:var(--accent);}
+.hero-sub{font-size:.875rem;color:var(--text-2);font-weight:300;line-height:1.8;max-width:56ch;}
+.hero-meta{display:flex;gap:1.5rem;margin-top:1.5rem;flex-wrap:wrap;}
+.meta-pill{display:flex;align-items:center;gap:.4rem;font-size:.725rem;color:var(--text-3);}
+.meta-dot{width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+
+.section{padding:2.25rem 0;border-bottom:1px solid var(--divider);}
+.section:last-of-type{border-bottom:none;}
+.step-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;}
+.step-num{width:32px;height:32px;border-radius:50%;background:var(--glass);border:1.5px solid var(--accent);display:flex;align-items:center;justify-content:center;font-family:'SF Mono',monospace;font-size:.8rem;color:var(--accent);flex-shrink:0;font-weight:700;}
+.step-title{font-family:'Playfair Display',Georgia,serif;font-size:1.25rem;color:var(--text);letter-spacing:-.01em;}
+.step-time{font-size:.65rem;color:var(--text-3);font-family:'SF Mono',monospace;letter-spacing:.06em;margin-left:auto;white-space:nowrap;}
+.step-desc{font-size:.85rem;color:var(--text-2);font-weight:300;line-height:1.8;margin-bottom:1rem;max-width:58ch;}
+.step-desc strong{color:var(--text);font-weight:500;}
+
+.script{background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--glass-bdr);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;padding:1rem 1.25rem;margin-bottom:.75rem;}
+.script-label{font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-family:'SF Mono',monospace;margin-bottom:.4rem;}
+.script-text{font-size:.825rem;color:var(--text-2);line-height:1.75;font-style:italic;}
+.script-text strong{color:var(--text);font-style:normal;font-weight:600;}
+
+.callout{border-radius:10px;padding:1rem 1.25rem;margin-bottom:.75rem;font-size:.8125rem;color:var(--text-2);display:flex;gap:.75rem;align-items:flex-start;line-height:1.7;}
+.callout.pink{background:rgba(240,100,170,.07);border:1px solid rgba(240,100,170,.18);}
+.callout.gold{background:var(--gold-dim);border:1px solid var(--gold-bdr);}
+.callout.red{background:var(--red-dim);border:1px solid var(--red-bdr);}
+[data-theme="day"] .callout.pink{background:rgba(194,24,91,.04);border-color:rgba(194,24,91,.13);}
+.callout-icon{font-size:1rem;flex-shrink:0;margin-top:.1rem;}
+.callout strong{color:var(--text);}
+
+.q-list{display:flex;flex-direction:column;gap:.5rem;margin-bottom:.75rem;}
+.q-item{display:flex;gap:.6rem;font-size:.8125rem;color:var(--text-2);line-height:1.65;}
+.q-item::before{content:'"';color:var(--accent);font-family:'Playfair Display',serif;font-size:1.1rem;flex-shrink:0;margin-top:-.1rem;}
+
+@media(max-width:540px){.wrap{padding:0 1.25rem 5rem;}}
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+  <span class="toggle-track"><span class="toggle-thumb"></span></span>
+  <span class="toggle-lbl" id="toggleLabel">Night</span>
+</button>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="hero-eyebrow">Ana Fit VIP · Today's Call · Merkinery Bonner</div>
+    <h1 class="hero-title">Today's Call, <em>Start to Finish</em></h1>
+    <p class="hero-sub">Everything from the assessment and intake is already known — this call is where it becomes a real conversation. Follow it top to bottom, but let it breathe. This is Merkinery, not a checklist.</p>
+    <div class="hero-meta">
+      <div class="meta-pill"><span class="meta-dot"></span>~30–40 minutes</div>
+      <div class="meta-pill"><span class="meta-dot"></span>Text is her preferred contact — confirm call method</div>
+      <div class="meta-pill"><span class="meta-dot"></span>Assessment + intake already reviewed</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="step-header"><div class="step-num">1</div><div class="step-title">Open Warm</div><div class="step-time">~3 min</div></div>
+    <div class="step-desc">Light and human first. She's 50, works full days as a paralegal, then goes home to her son — she's not looking for a lecture, she's looking for someone in her corner.</div>
+    <div class="script">
+      <div class="script-label">Say</div>
+      <div class="script-text">"Hi Merkinery! So happy to finally get to talk. I read through everything you sent — your assessment, your goals, all of it. I want today to just be a real conversation, not a formal thing. Sound good?"</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="step-header"><div class="step-num">2</div><div class="step-title">Reflect Her Goal Back</div><div class="step-time">~5 min</div></div>
+    <div class="step-desc">Show her she was heard before anything else happens. Her goal is specific — legs, strength, the pain, and getting back to the gym 5 days a week eventually.</div>
+    <div class="script">
+      <div class="script-label">Say</div>
+      <div class="script-text">"What stood out most to me is you said you wake up in pain a lot, and you want your leg strength back. That's real, and that's exactly what we're going to build toward. Tell me a little more — what does a bad pain day actually look like for you?"</div>
+    </div>
+    <div class="callout pink">
+      <div class="callout-icon">💗</div>
+      <div>Let her talk here. This is the moment she feels actually seen, not processed.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="step-header"><div class="step-num">3</div><div class="step-title">Walk Through the Assessment</div><div class="step-time">~7 min</div></div>
+    <div class="step-desc">Keep it collaborative, not a report card. Lead with what's strong — it builds confidence before naming what needs work.</div>
+    <div class="script">
+      <div class="script-label">Say</div>
+      <div class="script-text">"Good news first — your squat, hip hinge, core, and overhead mobility are all solid. That's a real foundation, and it's not nothing after time off. Two spots need more attention: your push strength, and single-leg balance felt shaky with some knee discomfort. Does that match how it felt to you?"</div>
+    </div>
+    <div class="q-list">
+      <div class="q-item">"When your knee feels off on that lunge motion, is it sharp, or more like it doesn't feel stable?"</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="step-header"><div class="step-num">4</div><div class="step-title">Name the Health Context, Gently</div><div class="step-time">~5 min</div></div>
+    <div class="step-desc">This is the most important moment of the call. Her last attempt stopped because of real pain while her Vitamin D and B12 were very low — not because she gave up. Naming that out loud removes shame from the room.</div>
+    <div class="script">
+      <div class="script-label">Say</div>
+      <div class="script-text">"I saw you mentioned your Vitamin D and B12 were really low last time you tried this, and your back and legs were hurting a lot — that's not you failing, that's your body not having what it needed. That's exactly why we're not going to rush the pace this time."</div>
+    </div>
+    <div class="callout gold">
+      <div class="callout-icon">⚕️</div>
+      <div><strong>Stay in your lane here.</strong> Acknowledge the deficiencies and the bulged disc as real context for pacing — don't diagnose or give medical advice. She's already on Vitamin D, B12, and regular vitamins for this.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="step-header"><div class="step-num">5</div><div class="step-title">Explain the Lunge Call</div><div class="step-time">~3 min</div></div>
+    <div class="step-desc">She specifically asked to be taught correct form — leg position on lunges, back position, rep counts. This is where you show her that request is already being taken seriously.</div>
+    <div class="script">
+      <div class="script-label">Say</div>
+      <div class="script-text">"You told me you want to make sure your form is right, especially on lunges — so for now, we're going to leave single-leg lunges out completely and build the stability and strength underneath that pattern first. It's not off the table forever, it's just not where we start."</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="step-header"><div class="step-num">6</div><div class="step-title">Present Phase 1</div><div class="step-time">~5 min</div></div>
+    <div class="step-desc">She's currently training once a week. Her 3-month vision is five days. Naming the honest bridge between those two numbers now prevents disappointment later — and protects her from the exact crash that derailed her before.</div>
+    <div class="script">
+      <div class="script-label">Say</div>
+      <div class="script-text">"I know the goal is five days a week eventually, and we'll absolutely get there. But you're at one day right now, and the fastest way to lose momentum is to jump too far too fast — that's kind of what happened last time. So Phase 1 starts at two sessions a week, built around squats, planks, and core, and we build up from a base that actually holds."</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="step-header"><div class="step-num">7</div><div class="step-title">Talk Nutrition — Light Touch</div><div class="step-time">~5 min</div></div>
+    <div class="step-desc">She's never tracked before, and a binge-restrict pattern is present — so this is not the moment to hand her a rulebook. Name the one real challenge she already identified herself: late snacking.</div>
+    <div class="script">
+      <div class="script-label">Say</div>
+      <div class="script-text">"Nothing about your eating needs a big overhaul right now. Your water intake is already great, alcohol's barely a factor. The one thing you flagged yourself is the late-night snacking — and you actually said that's the thing that would make you want to quit. So let's talk about that specifically, not as a rule to follow, just what's actually happening in those moments."</div>
+    </div>
+    <div class="callout red">
+      <div class="callout-icon">⚠️</div>
+      <div><strong>Do not prescribe restriction here.</strong> Given the binge-restrict pattern, framing this as "cut out snacking" risks triggering the exact cycle she's trying to break. Keep it structural and curious, not punitive.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="step-header"><div class="step-num">8</div><div class="step-title">Name the Emotional Pattern, Carefully</div><div class="step-time">~5 min</div></div>
+    <div class="step-desc">She already told you the trigger — anxiety from a call about her son, then eating and staying home. This isn't a therapy session, but naming it builds trust and shapes how you support her.</div>
+    <div class="script">
+      <div class="script-label">Say</div>
+      <div class="script-text">"You mentioned that when you get overwhelmed — especially if something happens with your son — that's when eating and staying home take over. I'm not here to fix that in one conversation, but I want you to know: on those days, message me. Before you skip, not after."</div>
+    </div>
+    <div class="callout pink">
+      <div class="callout-icon">💗</div>
+      <div>Her own words on the hard days: <em>"There will be better days. Soon I will get back to the gym."</em> If the conversation gets heavy, this is a good line to reflect back to her — she already believes it.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="step-header"><div class="step-num">9</div><div class="step-title">Confirm Logistics</div><div class="step-time">~3 min</div></div>
+    <div class="step-desc">She works 9–5 as a paralegal, then home to her son with no outside childcare. Confirm the realistic training window out loud so it's a shared plan, not an assumption.</div>
+    <div class="script">
+      <div class="script-label">Say</div>
+      <div class="script-text">"You mentioned maybe after work — does that still feel realistic with your son's schedule, or is there a better window we should build around instead?"</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="step-header"><div class="step-num">10</div><div class="step-title">Close &amp; Confirm Commitment</div><div class="step-time">~3 min</div></div>
+    <div class="step-desc">She rated her commitment 10/10 on intake. Close by handing that back to her as a shared agreement, not a test.</div>
+    <div class="script">
+      <div class="script-label">Say</div>
+      <div class="script-text">"You told me your commitment is a 10 out of 10 — I believe you, and I'm matching that. Your program's ready to go. Weekly check-ins in the Hub, and text me directly anytime, especially on the hard days. Sound good?"</div>
+    </div>
+    <div class="callout gold">
+      <div class="callout-icon">📋</div>
+      <div><strong>Send after the call:</strong> her Phase 1 program, and confirm her first session day/time before you hang up.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggleTheme(){
+  var h=document.documentElement,n=h.getAttribute('data-theme')==='day'?'night':'day';
+  h.setAttribute('data-theme',n);
+  var l=document.getElementById('toggleLabel');if(l)l.textContent=n==='day'?'Day':'Night';
+  try{localStorage.setItem('af-theme',n);}catch(e){}
+}
+(function(){var t=document.documentElement.getAttribute('data-theme')||'night';var l=document.getElementById('toggleLabel');if(l)l.textContent=t==='day'?'Day':'Night';})();
+</script>
+</body>
+</html>
