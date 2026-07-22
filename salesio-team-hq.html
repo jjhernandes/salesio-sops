@@ -955,8 +955,13 @@ body{
       </div>
 
       <div class="highlight amber" style="margin-bottom:2rem;">
-        <h3>⚠️ Real-Time Communication Still Happens in Slack</h3>
-        <p>The tasks and notes below save to <strong>this browser only</strong> — they're your personal scratchpad, not something your editor or brand director can see live. For actual back-and-forth, keep using Slack. If you want a truly shared task list or doc between all three of you, say the word and this can point to a real shared tool instead.</p>
+        <h3>✅ Shared — Sign In to Add or Edit</h3>
+        <p>The to-dos and notes below are now backed by the same shared database as Doc Review — anything added here shows up live for you, Jack, and Josh. Sign in with an approved Google account to add or change anything; viewing doesn't require signing in.</p>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;">
+        <button class="review-add-btn" id="content-auth-btn" onclick="reviewSignIn()">Sign In With Google</button>
+        <span class="review-item-meta" id="content-auth-status">Not signed in — sign in to add or edit</span>
       </div>
 
       <div class="section-label">Documents</div>
@@ -965,18 +970,18 @@ body{
         <a class="res-card" href="./personal-brand-framework.html" target="_blank"><div class="res-icon">🌟</div><div><div class="res-name">Personal Brand Framework</div><div class="res-desc">JJ's voice in his own words, plus the pillars, funnel, and metrics behind the brand.</div></div></a>
       </div>
 
-      <div class="section-label">Your To-Dos</div>
+      <div class="section-label">Shared To-Dos</div>
       <div class="task-add-row">
         <input type="text" id="content-task-input" class="task-input" placeholder="Add a task..." onkeydown="if(event.key==='Enter')contentAddTask()">
         <button class="task-add-btn" onclick="contentAddTask()">Add</button>
       </div>
       <div class="task-list" id="content-task-list" style="margin-bottom:2rem;"></div>
 
-      <div class="section-label">Notes</div>
+      <div class="section-label">Shared Notes</div>
       <div class="notes-wrap">
-        <textarea id="content-notes-area" class="notes-area" placeholder="Ideas for the editor, brand direction notes, things to bring up with either of them — dump it here."></textarea>
+        <textarea id="content-notes-area" class="notes-area" placeholder="Ideas for the editor, brand direction notes, things to bring up with either of them — dump it here. Shared live with Jack and Josh."></textarea>
         <div class="notes-footer">
-          <span class="notes-status" id="content-notes-status">Not saved yet</span>
+          <span class="notes-status" id="content-notes-status">Not signed in — viewing only</span>
           <button class="notes-clear" onclick="clearContentNotes()">Clear</button>
         </div>
       </div>
@@ -1281,83 +1286,6 @@ function clearNotes(){
   status.classList.remove('saved');
 }
 
-/* ── Content section: personal tasks + notes (separate from Brain Dump) ── */
-var CONTENT_TASKS_KEY='salesio_content_tasks';
-function loadContentTasks(){try{return JSON.parse(localStorage.getItem(CONTENT_TASKS_KEY)||'[]');}catch(e){return [];}}
-function saveContentTasks(tasks){try{localStorage.setItem(CONTENT_TASKS_KEY,JSON.stringify(tasks));}catch(e){}}
-
-function contentAddTask(){
-  var input=document.getElementById('content-task-input');
-  if(!input)return;
-  var val=input.value.trim();
-  if(!val)return;
-  var tasks=loadContentTasks();
-  tasks.push({id:Date.now()+Math.random(),text:val,done:false});
-  saveContentTasks(tasks);
-  input.value='';
-  renderContentTasks();
-}
-function contentToggleTask(id){
-  var tasks=loadContentTasks();
-  tasks.forEach(function(t){if(t.id===id)t.done=!t.done;});
-  saveContentTasks(tasks);
-  renderContentTasks();
-}
-function contentDeleteTask(id){
-  saveContentTasks(loadContentTasks().filter(function(t){return t.id!==id;}));
-  renderContentTasks();
-}
-function contentTaskItemHTML(t){
-  return '<div class="task-item">'+
-    '<div class="task-check'+(t.done?' done':'')+'" onclick="contentToggleTask('+t.id+')"></div>'+
-    '<div class="task-text'+(t.done?' done':'')+'" onclick="contentToggleTask('+t.id+')">'+escapeHtml(t.text)+'</div>'+
-    '<button class="task-del" onclick="contentDeleteTask('+t.id+')">✕</button>'+
-  '</div>';
-}
-function renderContentTasks(){
-  var tasks=loadContentTasks();
-  var list=document.getElementById('content-task-list');
-  if(list){list.innerHTML = tasks.length ? tasks.map(contentTaskItemHTML).join('') : '<div class="task-empty">No tasks yet. Add one above.</div>';}
-}
-renderContentTasks();
-
-(function initContentNotes(){
-  var area=document.getElementById('content-notes-area');
-  var status=document.getElementById('content-notes-status');
-  if(!area)return;
-  var KEY='salesio_content_notes';
-  try{
-    var saved=localStorage.getItem(KEY);
-    if(saved){area.value=saved;status.textContent='Loaded from last visit';}
-  }catch(e){}
-  var timer=null;
-  area.addEventListener('input',function(){
-    status.textContent='Saving…';
-    status.classList.remove('saved');
-    clearTimeout(timer);
-    timer=setTimeout(function(){
-      try{
-        localStorage.setItem(KEY,area.value);
-        var d=new Date();
-        var h=d.getHours(),m=d.getMinutes();
-        var ampm=h>=12?'PM':'AM';h=h%12||12;var ms=m<10?'0'+m:m;
-        status.textContent='Saved '+h+':'+ms+' '+ampm;
-        status.classList.add('saved');
-      }catch(e){status.textContent='Could not save';}
-    },500);
-  });
-})();
-
-function clearContentNotes(){
-  if(!confirm('Clear all notes? This can\'t be undone.'))return;
-  var area=document.getElementById('content-notes-area');
-  var status=document.getElementById('content-notes-status');
-  area.value='';
-  try{localStorage.removeItem('salesio_content_notes');}catch(e){}
-  status.textContent='Cleared';
-  status.classList.remove('saved');
-}
-
 /* ── Google Drive Picker (Doc Review "Browse Drive" button) ── */
 var GDRIVE_CLIENT_ID='416074607032-6lnimpi7nmtdq97h4rl1pp42d5jg808c.apps.googleusercontent.com';
 var GDRIVE_API_KEY='AIzaSyCw23O_RtgVSSVCVotAitPzHkjuJAKqh3A';
@@ -1443,7 +1371,7 @@ function goTo(id){
 <!-- ── Firestore-backed shared Doc Review queue ── -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, doc, setDoc, updateDoc, deleteDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -1460,6 +1388,8 @@ const db = getFirestore(fbApp);
 const auth = getAuth(fbApp);
 const provider = new GoogleAuthProvider();
 const reviewCol = collection(db, 'reviewQueue');
+const contentTasksCol = collection(db, 'contentTasks');
+const contentNotesRef = doc(db, 'contentNotes', 'shared');
 
 let currentUser = null;
 const REVIEW_STATUS_LABEL = {pending:'Pending Review',approved:'Approved',changes:'Needs Changes'};
@@ -1537,19 +1467,117 @@ window.deleteReviewDoc = async function(id){
   catch(e){ alert('Could not remove — check you\'re signed in and on the approved list.'); }
 };
 
-function updateReviewAuthUI(){
-  var btn=document.getElementById('review-auth-btn');
-  var status=document.getElementById('review-auth-status');
-  if(!btn||!status)return;
-  if(currentUser){
-    btn.textContent='Sign Out';
-    btn.onclick=function(){ signOut(auth); };
-    status.textContent='Signed in as '+currentUser.email;
-  } else {
-    btn.textContent='Sign In With Google';
-    btn.onclick=window.reviewSignIn;
-    status.textContent='Not signed in — sign in to add or edit docs';
+/* ── Content section: shared to-dos (Firestore) ── */
+function contentTaskItemHTML(t){
+  return '<div class="task-item">'+
+    '<div class="task-check'+(t.done?' done':'')+'" onclick="contentToggleTask(\''+t.id+'\')"></div>'+
+    '<div class="task-text'+(t.done?' done':'')+'" onclick="contentToggleTask(\''+t.id+'\')">'+escapeHtml(t.text)+'</div>'+
+    '<button class="task-del" onclick="contentDeleteTask(\''+t.id+'\')">✕</button>'+
+  '</div>';
+}
+onSnapshot(query(contentTasksCol, orderBy('added','desc')), function(snap){
+  var tasks=[];
+  snap.forEach(function(d){ tasks.push(Object.assign({id:d.id}, d.data())); });
+  var list=document.getElementById('content-task-list');
+  if(list){list.innerHTML = tasks.length ? tasks.map(contentTaskItemHTML).join('') : '<div class="task-empty">No tasks yet. Add one above.</div>';}
+}, function(err){
+  var list=document.getElementById('content-task-list');
+  if(list)list.innerHTML='<div class="task-empty">Could not load shared tasks — check Firestore rules.</div>';
+});
+
+window.contentAddTask = async function(){
+  if(!currentUser){ alert('Sign in with Google first (button above) to add a task.'); return; }
+  var input=document.getElementById('content-task-input');
+  if(!input)return;
+  var val=input.value.trim();
+  if(!val)return;
+  try{
+    await addDoc(contentTasksCol, { text: val, done: false, added: Date.now(), addedBy: currentUser.email });
+    input.value='';
+  }catch(e){
+    alert('Could not add — you may not be on the approved list yet.');
   }
+};
+window.contentToggleTask = async function(id){
+  if(!currentUser){ alert('Sign in with Google first to update a task.'); return; }
+  try{
+    var snap=null;
+    // read current done state via the DOM class to avoid an extra fetch
+    var el=document.querySelector('[onclick="contentToggleTask(\''+id+'\')"]');
+    var nowDone = el ? !el.classList.contains('done') : true;
+    await updateDoc(doc(db,'contentTasks',id), { done: nowDone });
+  }catch(e){
+    alert('Could not update — check you\'re signed in and on the approved list.');
+  }
+};
+window.contentDeleteTask = async function(id){
+  if(!currentUser){ alert('Sign in with Google first to remove a task.'); return; }
+  try{ await deleteDoc(doc(db,'contentTasks',id)); }
+  catch(e){ alert('Could not remove — check you\'re signed in and on the approved list.'); }
+};
+
+/* ── Content section: shared notes (Firestore, single doc) ── */
+var contentNotesTimer=null;
+var contentNotesLocalEdit=false;
+onSnapshot(contentNotesRef, function(snap){
+  var area=document.getElementById('content-notes-area');
+  var status=document.getElementById('content-notes-status');
+  if(!area)return;
+  if(contentNotesLocalEdit)return; // don't clobber what the user is actively typing
+  var data=snap.exists()?snap.data():null;
+  area.value = data&&data.text ? data.text : '';
+  if(status)status.textContent = data&&data.updatedBy ? 'Last saved by '+data.updatedBy : (currentUser?'Not saved yet':'Not signed in — viewing only');
+}, function(err){
+  var status=document.getElementById('content-notes-status');
+  if(status)status.textContent='Could not load shared notes — check Firestore rules.';
+});
+
+(function initContentNotes(){
+  var area=document.getElementById('content-notes-area');
+  var status=document.getElementById('content-notes-status');
+  if(!area)return;
+  area.addEventListener('focus',function(){ contentNotesLocalEdit=true; });
+  area.addEventListener('blur',function(){ contentNotesLocalEdit=false; });
+  area.addEventListener('input',function(){
+    if(!currentUser){ status.textContent='Sign in with Google above to save notes'; return; }
+    status.textContent='Saving…';
+    status.classList.remove('saved');
+    clearTimeout(contentNotesTimer);
+    contentNotesTimer=setTimeout(async function(){
+      try{
+        await setDoc(contentNotesRef, { text: area.value, updatedBy: currentUser.email, updatedAt: Date.now() });
+        var d=new Date();
+        var h=d.getHours(),m=d.getMinutes();
+        var ampm=h>=12?'PM':'AM';h=h%12||12;var ms=m<10?'0'+m:m;
+        status.textContent='Saved '+h+':'+ms+' '+ampm+' by '+currentUser.email;
+        status.classList.add('saved');
+      }catch(e){status.textContent='Could not save — check sign-in and approved list.';}
+    },600);
+  });
+})();
+
+window.clearContentNotes = async function(){
+  if(!currentUser){ alert('Sign in with Google first to clear notes.'); return; }
+  if(!confirm('Clear the shared notes for everyone? This can\'t be undone.'))return;
+  try{ await setDoc(contentNotesRef, { text: '', updatedBy: currentUser.email, updatedAt: Date.now() }); }
+  catch(e){ alert('Could not clear — check you\'re signed in and on the approved list.'); }
+};
+
+function updateReviewAuthUI(){
+  [['review-auth-btn','review-auth-status'],['content-auth-btn','content-auth-status']].forEach(function(pair){
+    var btn=document.getElementById(pair[0]);
+    var status=document.getElementById(pair[1]);
+    if(!btn||!status)return;
+    if(currentUser){
+      btn.textContent='Sign Out';
+      btn.onclick=function(){ signOut(auth); };
+      status.textContent='Signed in as '+currentUser.email;
+    } else {
+      btn.textContent='Sign In With Google';
+      btn.onclick=window.reviewSignIn;
+      status.textContent='Not signed in — sign in to add or edit';
+    }
+  });
 }
 
 window.reviewSignIn = async function(){
