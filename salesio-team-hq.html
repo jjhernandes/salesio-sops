@@ -7,6 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script>try{var s=localStorage.getItem('tb-theme');if(s)document.documentElement.dataset.theme=s;}catch(e){}</script>
+<script src="https://apis.google.com/js/api.js" onload="gdriveOnApiLoad()" async defer></script>
+<script src="https://accounts.google.com/gsi/client" onload="gdriveOnGisLoad()" async defer></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{height:100%;}
@@ -477,6 +479,39 @@ body{
 .task-del:hover{color:#8a3030;}
 .task-empty{font-size:.75rem;color:var(--t3);padding:.75rem .5rem;font-weight:300;}
 
+/* Doc review tracker */
+.review-add{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:1.25rem 1.375rem;margin-bottom:1.5rem;}
+.review-add-row{display:flex;gap:.5rem;margin-bottom:.5rem;}
+.review-add-row:last-child{margin-bottom:0;}
+.review-input{flex:1;background:var(--card-2);border:1px solid var(--bdr-2);border-radius:8px;padding:.6rem .8rem;font-size:.8rem;color:var(--text);font-family:'Inter',sans-serif;}
+.review-input:focus{outline:none;border-color:rgba(var(--glow-rgb),.55);box-shadow:0 0 18px rgba(var(--glow-rgb),.15);}
+.review-input::placeholder{color:var(--t3);}
+.review-select{background:var(--card-2);border:1px solid var(--bdr-2);border-radius:8px;padding:.6rem .7rem;font-size:.75rem;color:var(--text);font-family:'Inter',sans-serif;flex-shrink:0;}
+.review-textarea{width:100%;background:var(--card-2);border:1px solid var(--bdr-2);border-radius:8px;padding:.6rem .8rem;font-size:.78rem;color:var(--text);font-family:'Inter',sans-serif;resize:vertical;min-height:2.25rem;}
+.review-textarea:focus{outline:none;border-color:rgba(var(--glow-rgb),.55);}
+.review-textarea::placeholder{color:var(--t3);}
+.review-add-btn{background:var(--text);color:var(--bg);border:none;border-radius:8px;padding:.6rem 1.125rem;font-size:.7rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;flex-shrink:0;}
+.review-add-btn:hover{opacity:.85;}
+.review-list{display:flex;flex-direction:column;gap:.625rem;}
+.review-item{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:1rem 1.25rem;transition:all .2s;}
+.review-item:hover{border-color:rgba(var(--glow-rgb),.4);box-shadow:0 0 18px rgba(var(--glow-rgb),.15);}
+.review-item-head{display:flex;align-items:center;justify-content:space-between;gap:.75rem;margin-bottom:.4rem;}
+.review-item-title{font-size:.85rem;font-weight:700;color:var(--text);text-decoration:none;}
+.review-item-title:hover{text-decoration:underline;}
+.review-item-title.no-link{cursor:default;}
+.review-badge{display:inline-flex;align-items:center;font-size:.6rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:.25rem .6rem;border-radius:6px;font-family:'SF Mono',monospace;flex-shrink:0;}
+.review-badge.pending{background:rgba(138,106,32,.14);color:#8a6a20;}
+.review-badge.approved{background:rgba(61,122,80,.14);color:#3d7a50;}
+.review-badge.changes{background:rgba(138,48,48,.14);color:#8a3030;}
+[data-theme="night"] .review-badge.pending{background:rgba(201,169,110,.14);color:#c9a96e;}
+[data-theme="night"] .review-badge.approved{background:rgba(74,222,128,.14);color:#4ade80;}
+[data-theme="night"] .review-badge.changes{background:rgba(224,96,96,.14);color:#e06060;}
+.review-item-notes{font-size:.75rem;color:var(--t2);line-height:1.6;font-weight:300;margin-bottom:.5rem;}
+.review-item-foot{display:flex;align-items:center;justify-content:space-between;gap:.5rem;}
+.review-item-meta{font-size:.6rem;color:var(--t3);font-family:'SF Mono',monospace;}
+.review-item-del{background:none;border:none;color:var(--t3);cursor:pointer;font-size:.7rem;font-family:'SF Mono',monospace;text-transform:uppercase;letter-spacing:.05em;}
+.review-item-del:hover{color:#8a3030;}
+
 /* Dashboard "Today" widgets */
 .dash-widgets{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem;}
 .tasks-mini{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:1.25rem 1.375rem;transition:all .2s;}
@@ -575,6 +610,15 @@ body{
     </div>
     <div class="nav-item" data-sec="team" onclick="goTo('team')">
       <span class="nav-icon">🤝</span> Team
+    </div>
+    <div class="nav-item" data-sec="content" onclick="goTo('content')">
+      <span class="nav-icon">✍️</span> Content
+    </div>
+    <div class="nav-item" data-sec="review" onclick="goTo('review')">
+      <span class="nav-icon">📥</span> Doc Review
+    </div>
+    <div class="nav-item" data-sec="playbooks" onclick="goTo('playbooks')">
+      <span class="nav-icon">📋</span> Playbooks
     </div>
 
     <div class="sb-divider" style="margin-top:.75rem;"></div>
@@ -684,7 +728,7 @@ body{
           <div class="lc-desc">Step-by-step playbook for getting students to renew.</div>
           <div class="lc-arr">↗</div>
         </a>
-        <a class="launch-card" href="./salesio-renewal-offer.html?preview=1" target="_blank">
+        <a class="launch-card" href="./salesio-renewal-offer.html" target="_blank">
           <div class="lc-icon">💰</div>
           <div class="lc-title">Renewal Offer</div>
           <div class="lc-desc">Core / Growth / Elite tiers — interactive pricing doc.</div>
@@ -756,29 +800,30 @@ body{
         <div class="res-grid">
           <a class="res-card" href="./salesio-client-hub.html" target="_blank"><div class="res-icon">👥</div><div><div class="res-name">Client Hub</div><div class="res-desc">Active student tracker — weeks, status, renewals, CSV export.</div></div></a>
           <a class="res-card" href="./training-bible-master.html" target="_blank"><div class="res-icon">🎓</div><div><div class="res-name">Training Bible</div><div class="res-desc">Master reference for every lesson and framework taught.</div></div></a>
+          <a class="res-card" href="./training-bible-index.html" target="_blank"><div class="res-icon">📑</div><div><div class="res-name">Bible Index</div><div class="res-desc">Index view of all training bible sections and lessons.</div></div></a>
           <a class="res-card" href="./salesio-affiliate-tracker.html" target="_blank"><div class="res-icon">🔗</div><div><div class="res-name">Affiliate Tracker</div><div class="res-desc">Track affiliate referrals and commission payouts.</div></div></a>
+          <a class="res-card" href="./salesio-student-link-format.html" target="_blank"><div class="res-icon">🪪</div><div><div class="res-name">Student Link Format</div><div class="res-desc">Build a student's personalized HQ link — name + start date.</div></div></a>
         </div>
       </div>
 
       <div class="res-group">
         <div class="res-group-title">Student-Facing</div>
         <div class="res-grid">
-          <a class="res-card" href="./salesio-student-hq.html?name=Sarah%20Cohen&start=2026-07-20" target="_blank"><div class="res-icon">🏠</div><div><div class="res-name">Student HQ (Example — Sarah Cohen)</div><div class="res-desc">Standalone example of what a student actually sees. Use this to preview the experience.</div></div></a>
-          <a class="res-card" href="./salesio-student-link-format.html" target="_blank"><div class="res-icon">🪪</div><div><div class="res-name">Send This to Student Day One</div><div class="res-desc">Build a student's personalized HQ link — name + start date.</div></div></a>
           <a class="res-card" href="./salesio-sales-101.html" target="_blank"><div class="res-icon">👋</div><div><div class="res-name">Sales 101</div><div class="res-desc">Send to total beginners before Day One — plain-language glossary and call walkthrough.</div></div></a>
           <a class="res-card" href="./salesio-day-one-expectations.html" target="_blank"><div class="res-icon">📄</div><div><div class="res-name">Day One Expectations</div><div class="res-desc">Send on day one — full program overview, schedule, and rules.</div></div></a>
+          <a class="res-card" href="./student-onboarding.html" target="_blank"><div class="res-icon">🚀</div><div><div class="res-name">Student Onboarding</div><div class="res-desc">Onboarding flow and first-week checklist for new students.</div></div></a>
           <a class="res-card" href="./salesio-enrollment-agreement.html" target="_blank"><div class="res-icon">✍️</div><div><div class="res-name">Enrollment Agreement</div><div class="res-desc">Program terms and signature block for new students.</div></div></a>
           <a class="res-card" href="./salesio-progress-tracker.html" target="_blank"><div class="res-icon">🗺️</div><div><div class="res-name">Progress Tracker</div><div class="res-desc">Student-facing 12-week roadmap with self-tracking checkpoints.</div></div></a>
-          <a class="res-card" href="./salesio-call-tracker.html" target="_blank"><div class="res-icon">📞</div><div><div class="res-name">Call Tracker</div><div class="res-desc">Student self-tracking tool — shows, closes, cash collected. Has a "Send to Coach" button to WhatsApp their numbers to you.</div></div></a>
+          <a class="res-card" href="./salesio-call-tracker.html" target="_blank"><div class="res-icon">📞</div><div><div class="res-name">Call Tracker</div><div class="res-desc">Student self-tracking tool — shows, closes, cash collected. Local to their device.</div></div></a>
           <a class="res-card" href="./community-leaderboard.html" target="_blank"><div class="res-icon">🏆</div><div><div class="res-name">Community Leaderboard</div><div class="res-desc">Student performance and engagement leaderboard.</div></div></a>
-          <a class="res-card" href="./salesio-graduation.html?preview=1" target="_blank"><div class="res-icon">🎓</div><div><div class="res-name">Graduation</div><div class="res-desc">Program completion doc — recap, next steps, renewal and affiliate options.</div></div></a>
+          <a class="res-card" href="./salesio-graduation.html" target="_blank"><div class="res-icon">🎓</div><div><div class="res-name">Graduation</div><div class="res-desc">Program completion doc — recap, next steps, renewal and affiliate options.</div></div></a>
         </div>
       </div>
 
       <div class="res-group">
         <div class="res-group-title">Renewals</div>
         <div class="res-grid">
-          <a class="res-card" href="./salesio-renewal-offer.html?preview=1" target="_blank"><div class="res-icon">💰</div><div><div class="res-name">Renewal Offer</div><div class="res-desc">Interactive Core / Growth / Elite tier selector for renewals.</div></div></a>
+          <a class="res-card" href="./salesio-renewal-offer.html" target="_blank"><div class="res-icon">💰</div><div><div class="res-name">Renewal Offer</div><div class="res-desc">Interactive Core / Growth / Elite tier selector for renewals.</div></div></a>
           <a class="res-card" href="./salesio-renewal-sop.html" target="_blank"><div class="res-icon">🔄</div><div><div class="res-name">Renewal SOP</div><div class="res-desc">6-step playbook: identify → send → call → close → onboard.</div></div></a>
         </div>
       </div>
@@ -788,6 +833,7 @@ body{
         <div class="res-grid">
           <a class="res-card" href="./sales-call-script.html" target="_blank"><div class="res-icon">📞</div><div><div class="res-name">Sales Call Script</div><div class="res-desc">Full call script and framework for closers.</div></div></a>
           <a class="res-card" href="./salesio-financial-discovery-framework.html" target="_blank"><div class="res-icon">💰</div><div><div class="res-name">Financial Discovery Framework</div><div class="res-desc">How to run the numbers portion of discovery — broken down from a real call.</div></div></a>
+          <a class="res-card" href="./sales-call-structure.html" target="_blank"><div class="res-icon">🏗️</div><div><div class="res-name">Call Structure</div><div class="res-desc">Call architecture breakdown from open to close.</div></div></a>
           <a class="res-card" href="./faris-setter-daily-standards.html" target="_blank"><div class="res-icon">📊</div><div><div class="res-name">Setter Daily Standards</div><div class="res-desc">Faris's daily KPIs, standards, and booking process.</div></div></a>
           <a class="res-card" href="./salesio-affiliate-program.html" target="_blank"><div class="res-icon">🤝</div><div><div class="res-name">Affiliate Program</div><div class="res-desc">Affiliate program overview and commission structure.</div></div></a>
           <a class="res-card" href="./salesio-affiliate-apply.html" target="_blank"><div class="res-icon">✅</div><div><div class="res-name">Affiliate Application</div><div class="res-desc">Application form and onboarding for new affiliates.</div></div></a>
@@ -797,14 +843,15 @@ body{
       <div class="res-group">
         <div class="res-group-title">Content & Brand</div>
         <div class="res-grid">
-          <a class="res-card" href="./content-bible-june2026.html" target="_blank"><div class="res-icon">✍️</div><div><div class="res-name">Content Bible</div><div class="res-desc">June 2026 content strategy — topics, formats, and calendar.</div></div></a>
-          <a class="res-card" href="./personal-brand-framework.html" target="_blank"><div class="res-icon">🌟</div><div><div class="res-name">Personal Brand Framework</div><div class="res-desc">JJ's brand voice, pillars, and content positioning.</div></div></a>
+          <a class="res-card" href="./content-bible-june2026.html" target="_blank"><div class="res-icon">✍️</div><div><div class="res-name">Content Bible</div><div class="res-desc">Signature stories, hot takes, audience language, 100 questions, 100 video ideas, and hooks — straight from JJ.</div></div></a>
+          <a class="res-card" href="./personal-brand-framework.html" target="_blank"><div class="res-icon">🌟</div><div><div class="res-name">Personal Brand Framework</div><div class="res-desc">JJ's voice in his own words, plus the pillars, funnel, and metrics behind the brand.</div></div></a>
         </div>
       </div>
 
       <div class="res-group">
         <div class="res-group-title">Curriculum Weeks</div>
         <div class="res-grid">
+          <a class="res-card" href="./curriculum-weeks-8-12.html" target="_blank"><div class="res-icon">📚</div><div><div class="res-name">Weeks 8–12 Curriculum</div><div class="res-desc">Phase 2–3 curriculum content and lesson plans.</div></div></a>
           <a class="res-card" href="./week7-mastery-test.html" target="_blank"><div class="res-icon">🧪</div><div><div class="res-name">Week 7 Mastery Test</div><div class="res-desc">Student assessment and mastery check for Week 7.</div></div></a>
           <a class="res-card" href="./week8-decision-architecture.html" target="_blank"><div class="res-icon">🏛️</div><div><div class="res-name">Week 8 Decision Architecture</div><div class="res-desc">Decision-making framework and advanced close architecture.</div></div></a>
         </div>
@@ -883,6 +930,142 @@ body{
       </div>
     </div>
 
+    <!-- ── CONTENT ── -->
+    <div id="sec-content" class="section">
+      <div class="page-title">Content</div>
+      <div class="page-sub">Everything for working with your editor and brand director in one place — the docs they need, and a running scratchpad for your own notes and to-dos.</div>
+
+      <div class="section-label">Who's Involved</div>
+      <div class="team-grid" style="margin-bottom:2rem;">
+        <div class="team-card">
+          <div class="team-avatar">Ja</div>
+          <div class="team-info">
+            <div class="team-name">Jack</div>
+            <div class="team-role">Video Editor</div>
+            <div class="team-focus">Owns editing on raw footage into finished content. Loop in on turnaround time, where footage lives, and the review process once that's nailed down.</div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">Jo</div>
+          <div class="team-info">
+            <div class="team-name">Josh</div>
+            <div class="team-role">Brand Director</div>
+            <div class="team-focus">Owns brand direction — positioning, visual direction, and content review. Loop in before anything ships that shapes how the brand shows up.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="highlight amber" style="margin-bottom:2rem;">
+        <h3>✅ Shared — Sign In to Add or Edit</h3>
+        <p>The to-dos and notes below are now backed by the same shared database as Doc Review — anything added here shows up live for you, Jack, and Josh. Sign in with an approved Google account to add or change anything; viewing doesn't require signing in.</p>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;">
+        <button class="review-add-btn" id="content-auth-btn" onclick="reviewSignIn()">Sign In With Google</button>
+        <span class="review-item-meta" id="content-auth-status">Not signed in — sign in to add or edit</span>
+      </div>
+
+      <div class="section-label">Documents</div>
+      <div class="res-grid" style="margin-bottom:2rem;">
+        <a class="res-card" href="./content-bible-june2026.html" target="_blank"><div class="res-icon">✍️</div><div><div class="res-name">Content Bible</div><div class="res-desc">Signature stories, hot takes, audience language, 100 questions, 100 video ideas, and hooks — straight from JJ.</div></div></a>
+        <a class="res-card" href="./personal-brand-framework.html" target="_blank"><div class="res-icon">🌟</div><div><div class="res-name">Personal Brand Framework</div><div class="res-desc">JJ's voice in his own words, plus the pillars, funnel, and metrics behind the brand.</div></div></a>
+      </div>
+
+      <div class="section-label">Shared To-Dos</div>
+      <div class="task-add-row">
+        <input type="text" id="content-task-input" class="task-input" placeholder="Add a task..." onkeydown="if(event.key==='Enter')contentAddTask()">
+        <button class="task-add-btn" onclick="contentAddTask()">Add</button>
+      </div>
+      <div class="task-list" id="content-task-list" style="margin-bottom:2rem;"></div>
+
+      <div class="section-label">Shared Notes</div>
+      <div class="notes-wrap">
+        <textarea id="content-notes-area" class="notes-area" placeholder="Ideas for the editor, brand direction notes, things to bring up with either of them — dump it here. Shared live with Jack and Josh."></textarea>
+        <div class="notes-footer">
+          <span class="notes-status" id="content-notes-status">Not signed in — viewing only</span>
+          <button class="notes-clear" onclick="clearContentNotes()">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── DOC REVIEW ── -->
+    <div id="sec-review" class="section">
+      <div class="page-title">Doc Review</div>
+      <div class="page-sub">Track docs waiting on your review, or ones you've sent Jack or Josh to look over. Paste a link to where the actual file lives (Google Drive, Dropbox, wherever) — this just tracks status and notes.</div>
+
+      <div class="highlight amber" style="margin-bottom:1.5rem;">
+        <h3>✅ Shared — Sign In to Add or Edit</h3>
+        <p>This queue is now backed by a shared database — anything added here shows up live for you, Jack, and Josh, on any device. You need to be signed in with an approved Google account to add or change anything; browsing the list doesn't require signing in.</p>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;">
+        <button class="review-add-btn" id="review-auth-btn" onclick="reviewSignIn()">Sign In With Google</button>
+        <span class="review-item-meta" id="review-auth-status">Not signed in — sign in to add or edit docs</span>
+      </div>
+
+      <div class="review-add">
+        <div class="review-add-row">
+          <input type="text" id="review-title-input" class="review-input" placeholder="Doc title (e.g. 'Q3 Brand Deck')">
+          <input type="text" id="review-link-input" class="review-input" placeholder="Link (Google Drive, Dropbox...)">
+          <select id="review-status-input" class="review-select">
+            <option value="pending">Pending Review</option>
+            <option value="approved">Approved</option>
+            <option value="changes">Needs Changes</option>
+          </select>
+        </div>
+        <div class="review-add-row">
+          <textarea id="review-notes-input" class="review-textarea" placeholder="Notes — what needs a look, who sent it, feedback..."></textarea>
+        </div>
+        <div class="review-add-row" style="justify-content:space-between;">
+          <button class="review-add-btn" onclick="browseDrive()" style="background:var(--card-2);color:var(--text);border:1px solid var(--bdr-2);">📁 Browse Drive</button>
+          <button class="review-add-btn" onclick="addReviewDoc()">Add to Review Queue</button>
+        </div>
+      </div>
+
+      <div class="section-label">Review Queue</div>
+      <div class="review-list" id="review-list"></div>
+    </div>
+
+    <!-- ── PLAYBOOKS ── -->
+    <div id="sec-playbooks" class="section">
+      <div class="page-title">Playbooks &amp; SOPs</div>
+      <div class="page-sub">Operational playbooks for every key workflow. When something happens, there's a doc for it.</div>
+
+      <div class="section-label" style="margin-bottom:.75rem;">Core Operations</div>
+      <div class="pb-list" style="margin-bottom:2rem;">
+        <a class="pb-item" href="./sop-weekly-team-cadence.html" target="_blank"><div class="pb-icon">📅</div><div class="pb-title">Weekly Team Cadence</div><span class="pb-tag">Operations</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./salesio-weekly-checkin.html" target="_blank"><div class="pb-icon">🗒️</div><div class="pb-title">Weekly 1-on-1 Check-In</div><span class="pb-tag">Coaching</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./salesio-student-link-format.html" target="_blank"><div class="pb-icon">🔗</div><div class="pb-title">Student Link Format</div><span class="pb-tag">Onboarding</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./salesio-renewal-sop.html" target="_blank"><div class="pb-icon">🔄</div><div class="pb-title">Renewal SOP</div><span class="pb-tag">Renewals</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./student-onboarding.html" target="_blank"><div class="pb-icon">🚀</div><div class="pb-title">Student Onboarding</div><span class="pb-tag">Onboarding</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./sop-community-reengagement-90day.html" target="_blank"><div class="pb-icon">💬</div><div class="pb-title">Community Re-engagement (90 Day)</div><span class="pb-tag">Community</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./sop-follow-up-email-sequence.html" target="_blank"><div class="pb-icon">📧</div><div class="pb-title">Follow-Up Email Sequence</div><span class="pb-tag">Lead nurture</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./salesio-graduation.html" target="_blank"><div class="pb-icon">🎓</div><div class="pb-title">Graduation</div><span class="pb-tag">Completion</span><span class="pb-arr">↗</span></a>
+      </div>
+
+      <div class="section-label" style="margin-bottom:.75rem;">Hiring</div>
+      <div class="pb-list" style="margin-bottom:2rem;">
+        <a class="pb-item" href="./sop-sales-closer-hiring.html" target="_blank"><div class="pb-icon">🎯</div><div class="pb-title">Sales Closer Hiring SOP</div><span class="pb-tag">Hiring</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./sop-sales-manager-hiring.html" target="_blank"><div class="pb-icon">👔</div><div class="pb-title">Sales Manager Hiring SOP</div><span class="pb-tag">Hiring</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./sop-rep-interview-questions.html" target="_blank"><div class="pb-icon">❓</div><div class="pb-title">Rep Interview Questions</div><span class="pb-tag">Hiring</span><span class="pb-arr">↗</span></a>
+      </div>
+
+      <div class="section-label" style="margin-bottom:.75rem;">Setting</div>
+      <div class="pb-list" style="margin-bottom:2rem;">
+        <a class="pb-item" href="./faris-setter-daily-standards.html" target="_blank"><div class="pb-icon">📊</div><div class="pb-title">Faris — Setter Daily Standards</div><span class="pb-tag">Setting</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./sop-pablo-pipeline-outreach.html" target="_blank"><div class="pb-icon">📤</div><div class="pb-title">Pipeline Outreach SOP</div><span class="pb-tag">Pipeline</span><span class="pb-arr">↗</span></a>
+      </div>
+
+      <div class="section-label" style="margin-bottom:.75rem;">Agreements &amp; Contracts</div>
+      <div class="pb-list">
+        <a class="pb-item" href="./salesio-enrollment-agreement.html" target="_blank"><div class="pb-icon">✍️</div><div class="pb-title">Mastermind Enrollment Agreement</div><span class="pb-tag">Contract</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./evan-coaching-agreement-draft.html" target="_blank"><div class="pb-icon">📝</div><div class="pb-title">Evan Coaching Agreement</div><span class="pb-tag">Contract</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./setter-agreement-draft.html" target="_blank"><div class="pb-icon">📝</div><div class="pb-title">Setter Agreement</div><span class="pb-tag">Contract</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./closer-agreement-draft.html" target="_blank"><div class="pb-icon">📝</div><div class="pb-title">Closer Agreement</div><span class="pb-tag">Contract</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./setter-expectations-commission.html" target="_blank"><div class="pb-icon">💵</div><div class="pb-title">Setter Expectations &amp; Commission</div><span class="pb-tag">Compensation</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./partner-commission-structure.html" target="_blank"><div class="pb-icon">🤝</div><div class="pb-title">Partner Commission Structure</div><span class="pb-tag">Compensation</span><span class="pb-arr">↗</span></a>
+      </div>
+    </div>
 
   </div><!-- /content -->
 </div><!-- /main -->
@@ -1104,8 +1287,57 @@ function clearNotes(){
   status.classList.remove('saved');
 }
 
+/* ── Google Drive Picker (Doc Review "Browse Drive" button) ── */
+var GDRIVE_CLIENT_ID='416074607032-6lnimpi7nmtdq97h4rl1pp42d5jg808c.apps.googleusercontent.com';
+var GDRIVE_API_KEY='AIzaSyCw23O_RtgVSSVCVotAitPzHkjuJAKqh3A';
+var gdrivePickerLoaded=false;
+var gdriveTokenClient=null;
+var gdriveAccessToken=null;
+
+function gdriveOnApiLoad(){
+  gapi.load('picker',function(){gdrivePickerLoaded=true;});
+}
+function gdriveOnGisLoad(){
+  gdriveTokenClient=google.accounts.oauth2.initTokenClient({
+    client_id:GDRIVE_CLIENT_ID,
+    scope:'https://www.googleapis.com/auth/drive.readonly',
+    callback:''
+  });
+}
+function browseDrive(){
+  if(!gdriveTokenClient||!gdrivePickerLoaded){
+    alert('Still loading Google Drive — give it a second and try again.');
+    return;
+  }
+  gdriveTokenClient.callback=function(resp){
+    if(resp.error){alert('Google sign-in was cancelled or failed.');return;}
+    gdriveAccessToken=resp.access_token;
+    gdriveCreatePicker();
+  };
+  gdriveTokenClient.requestAccessToken({prompt:gdriveAccessToken?'':'consent'});
+}
+function gdriveCreatePicker(){
+  var view=new google.picker.DocsView(google.picker.ViewId.DOCS).setIncludeFolders(true);
+  var picker=new google.picker.PickerBuilder()
+    .addView(view)
+    .setOAuthToken(gdriveAccessToken)
+    .setDeveloperKey(GDRIVE_API_KEY)
+    .setCallback(gdrivePickerCallback)
+    .build();
+  picker.setVisible(true);
+}
+function gdrivePickerCallback(data){
+  if(data.action===google.picker.Action.PICKED){
+    var file=data.docs[0];
+    var titleEl=document.getElementById('review-title-input');
+    var linkEl=document.getElementById('review-link-input');
+    if(titleEl)titleEl.value=file.name;
+    if(linkEl)linkEl.value=file.url;
+  }
+}
+
 /* ── Section nav ── */
-var SEC_TITLES={dash:'Dashboard',notes:'Brain Dump',hub:'Client Hub',resources:'Resources',team:'Team'};
+var SEC_TITLES={dash:'Dashboard',notes:'Brain Dump',hub:'Client Hub',resources:'Resources',team:'Team',content:'Content',review:'Doc Review',playbooks:'Playbooks'};
 var hubLoaded=false;
 
 function goTo(id){
@@ -1135,6 +1367,234 @@ function goTo(id){
   var h=location.hash.replace('#','');
   if(h&&document.getElementById('sec-'+h))goTo(h);
 })();
+</script>
+
+<!-- ── Firestore-backed shared Doc Review queue ── -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import { getFirestore, collection, addDoc, doc, setDoc, updateDoc, deleteDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDXQvH7qV1DYKoNAfArpP1rcKYT0Oysuq0",
+  authDomain: "salesio-hq.firebaseapp.com",
+  projectId: "salesio-hq",
+  storageBucket: "salesio-hq.firebasestorage.app",
+  messagingSenderId: "716901464242",
+  appId: "1:716901464242:web:df06550318e111f3d571ab"
+};
+
+const fbApp = initializeApp(firebaseConfig);
+const db = getFirestore(fbApp);
+const auth = getAuth(fbApp);
+const provider = new GoogleAuthProvider();
+const reviewCol = collection(db, 'reviewQueue');
+const contentTasksCol = collection(db, 'contentTasks');
+const contentNotesRef = doc(db, 'contentNotes', 'shared');
+
+let currentUser = null;
+const REVIEW_STATUS_LABEL = {pending:'Pending Review',approved:'Approved',changes:'Needs Changes'};
+
+function reviewItemHTML(d){
+  var titleHtml = d.link
+    ? '<a class="review-item-title" href="'+escapeHtml(d.link)+'" target="_blank" rel="noopener">'+escapeHtml(d.title)+'</a>'
+    : '<span class="review-item-title no-link">'+escapeHtml(d.title)+'</span>';
+  var dateStr = d.added ? new Date(d.added).toLocaleDateString('en-US',{month:'short',day:'numeric'}) : '';
+  var addedBy = d.addedBy ? ' · '+escapeHtml(d.addedBy) : '';
+  return '<div class="review-item">'+
+    '<div class="review-item-head">'+titleHtml+
+      '<select class="review-select" onchange="setReviewStatus(\''+d.id+'\',this.value)" style="padding:.3rem .5rem;">'+
+        '<option value="pending"'+(d.status==='pending'?' selected':'')+'>Pending Review</option>'+
+        '<option value="approved"'+(d.status==='approved'?' selected':'')+'>Approved</option>'+
+        '<option value="changes"'+(d.status==='changes'?' selected':'')+'>Needs Changes</option>'+
+      '</select>'+
+    '</div>'+
+    (d.notes ? '<div class="review-item-notes">'+escapeHtml(d.notes)+'</div>' : '')+
+    '<div class="review-item-foot">'+
+      '<span class="review-badge '+d.status+'">'+REVIEW_STATUS_LABEL[d.status]+'</span>'+
+      '<span class="review-item-meta">Added '+dateStr+addedBy+'</span>'+
+      '<button class="review-item-del" onclick="deleteReviewDoc(\''+d.id+'\')">Remove</button>'+
+    '</div>'+
+  '</div>';
+}
+
+function renderReviewDocsLive(docsArr){
+  var list=document.getElementById('review-list');
+  if(!list)return;
+  list.innerHTML = docsArr.length ? docsArr.map(reviewItemHTML).join('') : '<div class="task-empty">Nothing in the queue yet. Add a doc above.</div>';
+}
+
+onSnapshot(query(reviewCol, orderBy('added','desc')), function(snap){
+  var docsArr=[];
+  snap.forEach(function(d){ docsArr.push(Object.assign({id:d.id}, d.data())); });
+  renderReviewDocsLive(docsArr);
+}, function(err){
+  var list=document.getElementById('review-list');
+  if(list)list.innerHTML='<div class="task-empty">Could not load the shared queue — check the Firestore rules and console.</div>';
+});
+
+window.addReviewDoc = async function(){
+  if(!currentUser){ alert('Sign in with Google first (button above the form) so your addition is tied to your account.'); return; }
+  var titleEl=document.getElementById('review-title-input');
+  var linkEl=document.getElementById('review-link-input');
+  var statusEl=document.getElementById('review-status-input');
+  var notesEl=document.getElementById('review-notes-input');
+  var title=titleEl.value.trim();
+  if(!title)return;
+  try{
+    await addDoc(reviewCol, {
+      title: title,
+      link: linkEl.value.trim(),
+      status: statusEl.value,
+      notes: notesEl.value.trim(),
+      added: Date.now(),
+      addedBy: currentUser.email
+    });
+    titleEl.value='';linkEl.value='';notesEl.value='';statusEl.value='pending';
+  }catch(e){
+    alert('Could not add — you may not be on the approved list yet, or Firestore rules need updating.');
+  }
+};
+
+window.setReviewStatus = async function(id, status){
+  if(!currentUser){ alert('Sign in with Google first to change a status.'); return; }
+  try{ await updateDoc(doc(db,'reviewQueue',id), { status: status }); }
+  catch(e){ alert('Could not update — check you\'re signed in and on the approved list.'); }
+};
+
+window.deleteReviewDoc = async function(id){
+  if(!currentUser){ alert('Sign in with Google first to remove an item.'); return; }
+  try{ await deleteDoc(doc(db,'reviewQueue',id)); }
+  catch(e){ alert('Could not remove — check you\'re signed in and on the approved list.'); }
+};
+
+/* ── Content section: shared to-dos (Firestore) ── */
+function contentTaskItemHTML(t){
+  return '<div class="task-item">'+
+    '<div class="task-check'+(t.done?' done':'')+'" onclick="contentToggleTask(\''+t.id+'\')"></div>'+
+    '<div class="task-text'+(t.done?' done':'')+'" onclick="contentToggleTask(\''+t.id+'\')">'+escapeHtml(t.text)+'</div>'+
+    '<button class="task-del" onclick="contentDeleteTask(\''+t.id+'\')">✕</button>'+
+  '</div>';
+}
+onSnapshot(query(contentTasksCol, orderBy('added','desc')), function(snap){
+  var tasks=[];
+  snap.forEach(function(d){ tasks.push(Object.assign({id:d.id}, d.data())); });
+  var list=document.getElementById('content-task-list');
+  if(list){list.innerHTML = tasks.length ? tasks.map(contentTaskItemHTML).join('') : '<div class="task-empty">No tasks yet. Add one above.</div>';}
+}, function(err){
+  var list=document.getElementById('content-task-list');
+  if(list)list.innerHTML='<div class="task-empty">Could not load shared tasks — check Firestore rules.</div>';
+});
+
+window.contentAddTask = async function(){
+  if(!currentUser){ alert('Sign in with Google first (button above) to add a task.'); return; }
+  var input=document.getElementById('content-task-input');
+  if(!input)return;
+  var val=input.value.trim();
+  if(!val)return;
+  try{
+    await addDoc(contentTasksCol, { text: val, done: false, added: Date.now(), addedBy: currentUser.email });
+    input.value='';
+  }catch(e){
+    alert('Could not add — you may not be on the approved list yet.');
+  }
+};
+window.contentToggleTask = async function(id){
+  if(!currentUser){ alert('Sign in with Google first to update a task.'); return; }
+  try{
+    var snap=null;
+    // read current done state via the DOM class to avoid an extra fetch
+    var el=document.querySelector('[onclick="contentToggleTask(\''+id+'\')"]');
+    var nowDone = el ? !el.classList.contains('done') : true;
+    await updateDoc(doc(db,'contentTasks',id), { done: nowDone });
+  }catch(e){
+    alert('Could not update — check you\'re signed in and on the approved list.');
+  }
+};
+window.contentDeleteTask = async function(id){
+  if(!currentUser){ alert('Sign in with Google first to remove a task.'); return; }
+  try{ await deleteDoc(doc(db,'contentTasks',id)); }
+  catch(e){ alert('Could not remove — check you\'re signed in and on the approved list.'); }
+};
+
+/* ── Content section: shared notes (Firestore, single doc) ── */
+var contentNotesTimer=null;
+var contentNotesLocalEdit=false;
+onSnapshot(contentNotesRef, function(snap){
+  var area=document.getElementById('content-notes-area');
+  var status=document.getElementById('content-notes-status');
+  if(!area)return;
+  if(contentNotesLocalEdit)return; // don't clobber what the user is actively typing
+  var data=snap.exists()?snap.data():null;
+  area.value = data&&data.text ? data.text : '';
+  if(status)status.textContent = data&&data.updatedBy ? 'Last saved by '+data.updatedBy : (currentUser?'Not saved yet':'Not signed in — viewing only');
+}, function(err){
+  var status=document.getElementById('content-notes-status');
+  if(status)status.textContent='Could not load shared notes — check Firestore rules.';
+});
+
+(function initContentNotes(){
+  var area=document.getElementById('content-notes-area');
+  var status=document.getElementById('content-notes-status');
+  if(!area)return;
+  area.addEventListener('focus',function(){ contentNotesLocalEdit=true; });
+  area.addEventListener('blur',function(){ contentNotesLocalEdit=false; });
+  area.addEventListener('input',function(){
+    if(!currentUser){ status.textContent='Sign in with Google above to save notes'; return; }
+    status.textContent='Saving…';
+    status.classList.remove('saved');
+    clearTimeout(contentNotesTimer);
+    contentNotesTimer=setTimeout(async function(){
+      try{
+        await setDoc(contentNotesRef, { text: area.value, updatedBy: currentUser.email, updatedAt: Date.now() });
+        var d=new Date();
+        var h=d.getHours(),m=d.getMinutes();
+        var ampm=h>=12?'PM':'AM';h=h%12||12;var ms=m<10?'0'+m:m;
+        status.textContent='Saved '+h+':'+ms+' '+ampm+' by '+currentUser.email;
+        status.classList.add('saved');
+      }catch(e){status.textContent='Could not save — check sign-in and approved list.';}
+    },600);
+  });
+})();
+
+window.clearContentNotes = async function(){
+  if(!currentUser){ alert('Sign in with Google first to clear notes.'); return; }
+  if(!confirm('Clear the shared notes for everyone? This can\'t be undone.'))return;
+  try{ await setDoc(contentNotesRef, { text: '', updatedBy: currentUser.email, updatedAt: Date.now() }); }
+  catch(e){ alert('Could not clear — check you\'re signed in and on the approved list.'); }
+};
+
+function updateReviewAuthUI(){
+  [['review-auth-btn','review-auth-status'],['content-auth-btn','content-auth-status']].forEach(function(pair){
+    var btn=document.getElementById(pair[0]);
+    var status=document.getElementById(pair[1]);
+    if(!btn||!status)return;
+    if(currentUser){
+      btn.textContent='Sign Out';
+      btn.onclick=function(){ signOut(auth); };
+      status.textContent='Signed in as '+currentUser.email;
+    } else {
+      btn.textContent='Sign In With Google';
+      btn.onclick=window.reviewSignIn;
+      status.textContent='Not signed in — sign in to add or edit';
+    }
+  });
+}
+
+window.reviewSignIn = async function(){
+  try{
+    var result = await signInWithPopup(auth, provider);
+    currentUser = result.user;
+    updateReviewAuthUI();
+  }catch(e){
+    alert('Sign-in failed or was cancelled.');
+  }
+};
+
+onAuthStateChanged(auth, function(user){
+  currentUser = user;
+  updateReviewAuthUI();
+});
 </script>
 </body>
 </html>
