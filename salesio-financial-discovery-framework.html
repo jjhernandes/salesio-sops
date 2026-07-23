@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="day">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales.io — Financial Discovery Framework</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script>try{var s=localStorage.getItem('tb-theme');if(s)document.documentElement.dataset.theme=s;}catch(e){}</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{height:100%;scroll-behavior:smooth;}
+
+:root,[data-theme="day"]{
+  --bg:#EAE4D9;--bg-2:#E0D9CE;
+  --card:#FFFFFF;--card-2:#F5F1EB;--card-3:#EDECE8;
+  --bdr:rgba(10,10,8,.1);--bdr-2:rgba(10,10,8,.2);
+  --text:#0A0A08;
+  --t2:rgba(10,10,8,.55);--t3:rgba(10,10,8,.3);--t4:rgba(10,10,8,.12);
+  --hbg:rgba(10,10,8,.04);
+  --shd:rgba(10,10,8,.08);
+  --sb-bg:#0A0A08;--sb-text:#EAE4D9;
+  --sb-t2:rgba(234,228,217,.5);--sb-t3:rgba(234,228,217,.25);
+  --sb-bdr:rgba(234,228,217,.08);--sb-hbg:rgba(234,228,217,.07);
+  --glow-rgb:160,144,112;
+}
+[data-theme="night"]{
+  --bg:#000;--bg-2:#040402;
+  --card:#0a0a08;--card-2:#0f0f0d;--card-3:#141412;
+  --bdr:rgba(234,228,217,.09);--bdr-2:rgba(234,228,217,.18);
+  --text:#EAE4D9;
+  --t2:rgba(234,228,217,.58);--t3:rgba(234,228,217,.27);--t4:rgba(234,228,217,.1);
+  --hbg:rgba(234,228,217,.03);
+  --shd:rgba(0,0,0,.5);
+  --sb-bg:#060604;--sb-text:#EAE4D9;
+  --sb-t2:rgba(234,228,217,.45);--sb-t3:rgba(234,228,217,.2);
+  --sb-bdr:rgba(234,228,217,.07);--sb-hbg:rgba(234,228,217,.06);
+  --glow-rgb:74,222,128;
+}
+
+::selection{background:var(--text);color:var(--bg);}
+body{
+  display:flex;min-height:100vh;color:var(--text);
+  font-family:'Inter',-apple-system,sans-serif;-webkit-font-smoothing:antialiased;
+  transition:background-color .4s,color .4s;font-size:15px;line-height:1.7;
+  background-color:var(--bg);
+  background-image:
+    radial-gradient(closest-side,rgba(var(--glow-rgb),.20),transparent 70%),
+    radial-gradient(closest-side,rgba(var(--glow-rgb),.14),transparent 70%);
+  background-repeat:no-repeat;background-size:55vw 55vw,45vw 45vw;
+  background-position:-8% -12%,112% 20%;background-attachment:fixed;
+  animation:ambientDrift 30s ease-in-out infinite alternate;
+}
+@keyframes ambientDrift{0%{background-position:-8% -12%,112% 20%;}50%{background-position:10% 0%,90% 40%;}100%{background-position:0% -6%,100% 30%;}}
+@media(prefers-reduced-motion:reduce){body{animation:none;}}
+
+.grain{position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.035;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat:repeat;background-size:300px 300px;}
+[data-theme="night"] .grain{opacity:.055;}
+
+.sidebar{width:250px;flex-shrink:0;background:var(--sb-bg);display:flex;flex-direction:column;
+  height:100vh;position:sticky;top:0;overflow-y:auto;overflow-x:hidden;
+  border-right:1px solid var(--sb-bdr);transition:background .4s,border-color .4s;scrollbar-width:none;}
+.sidebar::-webkit-scrollbar{display:none;}
+.sb-header{padding:1.25rem 1.25rem 1rem;border-bottom:1px solid var(--sb-bdr);flex-shrink:0;}
+.sb-logo{display:flex;align-items:center;gap:.625rem;margin-bottom:.5rem;}
+.sb-logo-mark{width:24px;height:24px;object-fit:contain;transition:transform .25s cubic-bezier(.2,0,0,1),filter .25s;cursor:default;}
+.sb-logo-mark:hover{transform:rotate(-8deg) scale(1.12);filter:drop-shadow(0 0 10px rgba(var(--glow-rgb),.75));}
+.sb-logo-name{font-size:.675rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--sb-text);}
+.sb-badge{font-size:.475rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sb-t3);font-family:'SF Mono',monospace;font-weight:700;}
+
+.sb-nav{flex:1;padding:.75rem 0;overflow-y:auto;}
+.sb-section-label{font-size:.475rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--sb-t3);
+  font-family:'SF Mono',monospace;padding:.875rem 1.25rem .375rem;}
+.nav-link{display:flex;align-items:center;gap:.625rem;padding:.5rem 1.25rem;cursor:pointer;text-decoration:none;
+  font-size:.72rem;font-weight:500;color:var(--sb-t2);transition:all .18s;position:relative;user-select:none;}
+.nav-link::before{content:'';position:absolute;left:0;top:.2rem;bottom:.2rem;width:2px;background:var(--sb-text);
+  transform:scaleY(0);transform-origin:center;transition:transform .2s cubic-bezier(.4,0,.2,1);border-radius:1px;}
+.nav-link:hover{background:var(--sb-hbg);color:var(--sb-text);padding-left:1.375rem;}
+.nav-link.active{background:var(--sb-hbg);color:var(--sb-text);font-weight:600;}
+.nav-link.active::before{transform:scaleY(1);box-shadow:0 0 8px 1px rgba(var(--glow-rgb),.9);}
+.step-num{width:18px;height:18px;border-radius:50%;background:var(--sb-hbg);border:1px solid var(--sb-bdr);
+  font-size:.55rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--sb-t2);}
+.nav-link.active .step-num{background:var(--sb-text);color:var(--sb-bg);border-color:var(--sb-text);}
+
+.sb-footer{padding:1rem 1.25rem;border-top:1px solid var(--sb-bdr);flex-shrink:0;}
+.toggle-row{display:flex;align-items:center;gap:.5rem;}
+.toggle-lbl{font-size:.5rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--sb-t3);font-family:'SF Mono',monospace;}
+.toggle-switch{width:36px;height:20px;border-radius:10px;background:var(--sb-hbg);border:1px solid var(--sb-bdr);
+  position:relative;cursor:pointer;transition:all .25s;flex-shrink:0;}
+.toggle-switch:hover{box-shadow:0 0 10px rgba(var(--glow-rgb),.5);}
+.toggle-thumb{position:absolute;top:3px;left:3px;width:12px;height:12px;border-radius:50%;background:var(--sb-text);transition:transform .3s cubic-bezier(.4,0,.2,1);}
+[data-theme="night"] .toggle-thumb{transform:translateX(16px);}
+
+.main{flex:1;padding:3rem 3.5rem;max-width:880px;}
+
+.page-header{margin-bottom:2.5rem;padding-bottom:2rem;border-bottom:1px solid var(--bdr);transition:border-color .4s;}
+.page-eyebrow{font-size:.575rem;letter-spacing:.24em;text-transform:uppercase;color:rgb(var(--glow-rgb));font-family:'SF Mono',monospace;margin-bottom:.75rem;font-weight:800;}
+.page-title{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.6vw,2.5rem);font-weight:700;letter-spacing:-.025em;line-height:1.15;color:var(--text);margin-bottom:.875rem;}
+.page-sub{font-size:.9rem;color:var(--t2);line-height:1.8;max-width:64ch;font-weight:300;}
+
+.source-note{background:var(--card-2);border:1px solid var(--bdr);border-radius:10px;padding:1rem 1.25rem;margin-top:1.25rem;font-size:.8rem;color:var(--t2);line-height:1.7;}
+.source-note strong{color:var(--text);}
+
+.section{margin:3rem 0;scroll-margin-top:2rem;}
+.section-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;}
+.section-number{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--bdr-2);color:var(--t3);
+  font-size:.75rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'SF Mono',monospace;}
+.section-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;letter-spacing:-.01em;color:var(--text);}
+.section-sub{font-size:.85rem;color:var(--t2);margin-bottom:1.5rem;font-weight:300;line-height:1.75;}
+
+.tactic{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:.875rem;transition:border-color .2s;}
+.tactic:hover{border-color:rgba(var(--glow-rgb),.35);}
+.tactic-num{font-size:.6rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgb(var(--glow-rgb));font-family:'SF Mono',monospace;margin-bottom:.4rem;}
+.tactic-title{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:.5rem;}
+.tactic-desc{font-size:.825rem;color:var(--t2);line-height:1.75;font-weight:300;}
+.tactic-desc strong{color:var(--text);font-weight:600;}
+.tactic-quote{background:var(--card-2);border-left:2px solid rgb(var(--glow-rgb));border-radius:0 8px 8px 0;padding:.75rem 1rem;margin-top:.75rem;font-size:.8rem;color:var(--t2);font-style:italic;line-height:1.7;}
+
+/* Framework stages */
+.stage{background:var(--card);border:1px solid var(--bdr);border-radius:14px;margin-bottom:1.25rem;overflow:hidden;scroll-margin-top:2rem;transition:border-color .2s,box-shadow .2s;}
+.stage:hover{border-color:rgba(var(--glow-rgb),.35);}
+.stage-head{display:flex;align-items:flex-start;gap:1rem;padding:1.25rem 1.5rem 1.125rem;border-bottom:1px solid var(--bdr);}
+.stage-num{width:34px;height:34px;border-radius:50%;background:var(--card-2);border:1.5px solid rgba(var(--glow-rgb),.55);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;color:rgb(var(--glow-rgb));flex-shrink:0;font-family:'SF Mono',monospace;}
+.stage-meta{flex:1;}
+.stage-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:.2rem;}
+.stage-purpose{font-size:.775rem;color:var(--t3);font-weight:500;}
+.stage-body{padding:1.125rem 1.5rem 1.375rem;}
+.stage-body p{font-size:.825rem;color:var(--t2);line-height:1.8;font-weight:300;margin-bottom:.75rem;}
+.stage-body p:last-child{margin-bottom:0;}
+.stage-body strong{color:var(--text);font-weight:600;}
+
+.key-principle{display:flex;gap:.75rem;align-items:flex-start;background:rgba(var(--glow-rgb),.05);border:1px solid rgba(var(--glow-rgb),.2);border-radius:8px;padding:.875rem 1rem;margin-top:.875rem;font-size:.8125rem;color:var(--t2);line-height:1.7;font-weight:300;}
+.key-principle-icon{font-size:1rem;flex-shrink:0;margin-top:.1rem;}
+.key-principle strong{color:var(--text);font-weight:600;}
+
+.divider{border:none;border-top:1px solid var(--bdr);margin:2.5rem 0;}
+
+.callout-warn{background:rgba(192,69,63,.06);border:1px solid rgba(192,69,63,.25);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.825rem;color:var(--t2);line-height:1.75;display:flex;gap:.75rem;}
+[data-theme="night"] .callout-warn{background:rgba(248,113,113,.08);border-color:rgba(248,113,113,.25);}
+.callout-warn strong{color:var(--text);}
+
+@media(max-width:900px){
+  .sidebar{display:none;}
+  .main{padding:2rem 1.25rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<aside class="sidebar">
+  <div class="sb-header">
+    <div class="sb-logo"><img class="sb-logo-mark" src="data:image/png;base64,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" alt="Sales.io"><span class="sb-logo-name">Sales.io</span></div>
+    <div class="sb-badge">Financial Discovery</div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-section-label">Analysis</div>
+    <a class="nav-link active" onclick="scrollTo('s1',this)"><div class="step-num">1</div> The Numbers Technique</a>
+    <a class="nav-link" onclick="scrollTo('s2',this)"><div class="step-num">2</div> The Psychology Layer</a>
+    <div class="sb-section-label">The Framework</div>
+    <a class="nav-link" onclick="scrollTo('s3',this)"><div class="step-num">3</div> 10-Stage Process</a>
+  </nav>
+  <div class="sb-footer">
+    <div class="toggle-row">
+      <span class="toggle-lbl" id="mode-lbl">Day</span>
+      <div class="toggle-switch" onclick="toggleTheme()"><div class="toggle-thumb"></div></div>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+
+  <div class="page-header">
+    <div class="page-eyebrow">Sales.io — Call Breakdown &amp; Framework</div>
+    <h1 class="page-title">Financial Discovery Framework</h1>
+    <p class="page-sub">Built by reverse-engineering a real financial coaching sales call (Kyle Padilla, automatedrev.com — "Brent Bomer's Financial Freedom Application"). This is one of the most skilled numbers-discovery processes on record — worth studying line by line.</p>
+    <div class="source-note">
+      <strong>What I had to work with:</strong> the transcript covers roughly the first 50 minutes of a 122-minute call — the full numbers discovery and most of the psychological discovery phase, but not the price reveal, objection handling, or close. Everything below is built only from what's actually in the transcript. Send the rest and I'll complete the close mechanics.
+    </div>
+  </div>
+
+  <!-- SECTION 1: NUMBERS TECHNIQUE -->
+  <section class="section" id="s1">
+    <div class="section-header"><div class="section-number">1</div><h2 class="section-title">The Numbers Technique</h2></div>
+    <div class="section-sub">This is the part you specifically asked about. Kyle doesn't just ask "what's your income and debt" — he builds a full P&amp;L with the prospect, live, catching bad data as it comes in.</div>
+
+    <div class="tactic">
+      <div class="tactic-num">Tactic 1</div>
+      <div class="tactic-title">Never trust the first number — separate revenue from take-home</div>
+      <div class="tactic-desc">Brent opens with "$360,000" as his income. That's business revenue, not personal cash flow. Kyle doesn't build on it until he's stripped out business expenses and taxes to get the real number.</div>
+      <div class="tactic-quote">"What's the actual take-home?" → then walks through $2,000/mo expenses + $1,600/mo taxes held out → lands on ~$21–26K/month real.</div>
+    </div>
+
+    <div class="tactic">
+      <div class="tactic-num">Tactic 2</div>
+      <div class="tactic-title">Necessities get isolated from debt service — as their own bucket, in a specific order</div>
+      <div class="tactic-desc">He explicitly defines the boundary: <strong>"necessities before any of the debt payback, the minimums there."</strong> This isolates the true cost of living from what's being consumed by debt — which is the number that reveals how much surplus actually exists to attack the problem.</div>
+    </div>
+
+    <div class="tactic">
+      <div class="tactic-num">Tactic 3</div>
+      <div class="tactic-title">Build the total out loud, line by line, with a running subtotal</div>
+      <div class="tactic-desc">Mortgage → utilities → auto → groceries — each one gets its own question, and after each answer he restates the running total ("okay, that's $9,100... let's round to $10,000"). The prospect is doing the math <strong>with</strong> him, not just answering into a form. This is also how he catches bad data — Brent's utilities number initially included life insurance, and walking through it line by line surfaced that.</div>
+    </div>
+
+    <div class="tactic">
+      <div class="tactic-num">Tactic 4</div>
+      <div class="tactic-title">Debts are itemized by total balance, by category — never by monthly payment</div>
+      <div class="tactic-desc">When Brent starts answering with a monthly payment, Kyle stops him immediately: <strong>"No, the total of the balances."</strong> Monthly payment tells you cash flow. Total balance tells you the real size of the problem and how long payoff actually takes. Credit cards, student loans (split from a loan co-signed for their daughter), personal loans, auto, mortgages — each gets counted separately.</div>
+    </div>
+
+    <div class="tactic">
+      <div class="tactic-num">Tactic 5</div>
+      <div class="tactic-title">Assets get the same category-by-category treatment — and he asks why, not just how much</div>
+      <div class="tactic-desc">Liquid savings, retirement accounts, and other investments are each asked as distinct line items. He also probes the reasoning behind their allocation (why options trading vs. an ETF) — this isn't just data collection, it's understanding their actual relationship to risk and money.</div>
+    </div>
+
+    <div class="tactic">
+      <div class="tactic-num">Tactic 6</div>
+      <div class="tactic-title">The math does the diagnosing — not his opinion</div>
+      <div class="tactic-desc">Once the numbers are laid out, Kyle never says "you're bad with money." He does the subtraction out loud ($25K in, ~$10K necessities, the rest going to debt and lifestyle) and lets the gap speak for itself. The prospect arrives at "we don't have a structured plan" on their own.</div>
+    </div>
+
+    <div class="callout-warn">
+      <div>⚠️</div>
+      <div><strong>Why this matters for a $7,500 sale:</strong> this same discipline — real take-home vs. headline income, true cost of living isolated from debt service, actual liquid capacity — is exactly what determines whether someone can do pay-in-full, a 2-way split, or needs financing. Getting it wrong either kills a real deal or sets up a payment plan that collapses in month two.</div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- SECTION 2: PSYCHOLOGY -->
+  <section class="section" id="s2">
+    <div class="section-header"><div class="section-number">2</div><h2 class="section-title">The Psychology Layer</h2></div>
+    <div class="section-sub">The numbers build the case. These techniques are what make the prospect feel the case, in their own words, before any pitch happens.</div>
+
+    <div class="tactic">
+      <div class="tactic-num">Tactic 7</div>
+      <div class="tactic-title">Ask for the pattern before the point-in-time number</div>
+      <div class="tactic-desc">Before any dollar figure, Kyle asks <strong>"how long has that been going on?"</strong> Learning this is a 30-year cycle — not a one-time setback — raises the emotional stakes far more than any single number could.</div>
+    </div>
+
+    <div class="tactic">
+      <div class="tactic-num">Tactic 8</div>
+      <div class="tactic-title">Reflect their own soft language back at them</div>
+      <div class="tactic-desc">When Dawn says she "makes it work," Kyle doesn't let it pass — he names what it actually means: <strong>"making it work... mostly means just surviving."</strong> This uses the prospect's own words to gently dismantle their own excuse, instead of arguing with them.</div>
+    </div>
+
+    <div class="tactic">
+      <div class="tactic-num">Tactic 9</div>
+      <div class="tactic-title">Let them name the root cause — never say it first</div>
+      <div class="tactic-desc"><strong>"What do you think has been missing?"</strong> — Brent arrives at "discipline" himself. Kyle never introduces the word. A diagnosis someone gives themselves is one they'll defend; a diagnosis you hand them is one they'll argue with.</div>
+    </div>
+
+    <div class="tactic">
+      <div class="tactic-num">Tactic 10</div>
+      <div class="tactic-title">Use an analogy to make them pitch themselves</div>
+      <div class="tactic-desc">The "friend who's 300 pounds and needs to lose weight" analogy is the single best move in the call. Kyle asks what that friend should do — the prospects answer <strong>"get a trainer"</strong> and <strong>"accountability"</strong> unprompted. He then just draws the parallel to coaching. He never pitches the offer directly; they describe the solution before he's said a word about his program.</div>
+    </div>
+
+    <div class="tactic">
+      <div class="tactic-num">Tactic 11</div>
+      <div class="tactic-title">Future-pace before any mention of next steps</div>
+      <div class="tactic-desc">Only after the pattern, the real numbers, the emotional cost ("beholden to financial institutions"), and a vivid picture of the win (the round-the-world cruise, the RV, "freedom of choice") does anything resembling a next step get mentioned. The vision gets fully built before the ask.</div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- SECTION 3: FRAMEWORK -->
+  <section class="section" id="s3">
+    <div class="section-header"><div class="section-number">3</div><h2 class="section-title">The Framework — 10 Stages</h2></div>
+    <div class="section-sub">Generalized from what's above. Use this as a numbers-discovery layer inside your existing call — it slots naturally into Current Reality and Problem Awareness on the standard Sales Call Script.</div>
+
+    <div class="stage">
+      <div class="stage-head">
+        <div class="stage-num">1</div>
+        <div class="stage-meta">
+          <div class="stage-title">Set the Diagnostic Frame</div>
+          <div class="stage-purpose">Remove the sales pressure before asking for real numbers</div>
+        </div>
+      </div>
+      <div class="stage-body">
+        <p>Tell them plainly this part of the call is about understanding their real situation — not a lead-in to a pitch. People give inflated or defensive numbers when they think they're being evaluated for a sale. They give real numbers when they think they're being helped.</p>
+        <div class="key-principle"><div class="key-principle-icon">💡</div><div>Say something close to: "I want to understand your real situation first. Either way, my goal is to leave you better off than when we started this call."</div></div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-head">
+        <div class="stage-num">2</div>
+        <div class="stage-meta">
+          <div class="stage-title">Establish the Pattern, Not Just the Snapshot</div>
+          <div class="stage-purpose">Ask how long, before you ask how much</div>
+        </div>
+      </div>
+      <div class="stage-body">
+        <p>"How long has this been the reality?" surfaces whether you're dealing with a one-time setback or a decades-long cycle — and it does more to build urgency than any number that comes later.</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-head">
+        <div class="stage-num">3</div>
+        <div class="stage-meta">
+          <div class="stage-title">Get Real Income, Not Headline Income</div>
+          <div class="stage-purpose">Strip revenue down to actual take-home before building anything on top of it</div>
+        </div>
+      </div>
+      <div class="stage-body">
+        <p>If they lead with a business or gross figure, don't build on it. Ask what actually lands in their hands after expenses and taxes. This is the number every other calculation depends on — get it wrong and the whole picture is wrong.</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-head">
+        <div class="stage-num">4</div>
+        <div class="stage-meta">
+          <div class="stage-title">Separate Necessities From Everything Else</div>
+          <div class="stage-purpose">Build the true cost of living, with debt service explicitly excluded</div>
+        </div>
+      </div>
+      <div class="stage-body">
+        <p>Ask for housing, utilities, transportation, food — one at a time, out loud — and explicitly exclude any debt payments from this number. State the running total after each answer so they're following the math with you, not just answering questions into a void.</p>
+        <div class="key-principle"><div class="key-principle-icon">💡</div><div>This number is what reveals real surplus — the actual capacity available to solve the problem, separate from what's currently being eaten by debt.</div></div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-head">
+        <div class="stage-num">5</div>
+        <div class="stage-meta">
+          <div class="stage-title">Itemize Debt by Total Balance, By Category</div>
+          <div class="stage-purpose">Never accept a monthly payment when you asked for a balance</div>
+        </div>
+      </div>
+      <div class="stage-body">
+        <p>Credit cards, personal loans, student loans, auto, mortgage — each as its own line, each as a total balance. If they answer with a payment amount, stop and clarify immediately. Confusing the two produces a completely wrong picture of the actual problem size.</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-head">
+        <div class="stage-num">6</div>
+        <div class="stage-meta">
+          <div class="stage-title">Inventory Assets — and Ask Why</div>
+          <div class="stage-purpose">Understand their existing relationship to money, not just the balances</div>
+        </div>
+      </div>
+      <div class="stage-body">
+        <p>Liquid savings, retirement, other investments — each as its own category. Then ask why it's allocated the way it is. The reasoning tells you more about how they'll behave in a program than the number does.</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-head">
+        <div class="stage-num">7</div>
+        <div class="stage-meta">
+          <div class="stage-title">Do the Math Out Loud, Together</div>
+          <div class="stage-purpose">Let the gap diagnose the problem — don't diagnose it yourself</div>
+        </div>
+      </div>
+      <div class="stage-body">
+        <p>Income minus necessities minus debt service. Say it out loud. Don't editorialize. The size of the gap (or the size of what's leaking to undisciplined spending) makes the case without you having to make it.</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-head">
+        <div class="stage-num">8</div>
+        <div class="stage-meta">
+          <div class="stage-title">Let Them Name the Real Problem</div>
+          <div class="stage-purpose">Ask, don't tell</div>
+        </div>
+      </div>
+      <div class="stage-body">
+        <p>"What do you think has actually gotten in the way?" A self-given diagnosis gets defended. A diagnosis you hand them gets argued with.</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-head">
+        <div class="stage-num">9</div>
+        <div class="stage-meta">
+          <div class="stage-title">Use an Analogy to Let Them Pitch Themselves</div>
+          <div class="stage-purpose">Get them to describe the solution before you introduce it</div>
+        </div>
+      </div>
+      <div class="stage-body">
+        <p>Find an analogy adjacent to their actual problem — physical health, a skill they already respect experts in — and ask what that person in the analogy should do. Let them say "get a coach" or "get accountability" themselves. Then draw the parallel. This is far more persuasive than any pitch line.</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-head">
+        <div class="stage-num">10</div>
+        <div class="stage-meta">
+          <div class="stage-title">Future-Pace the Vision Before Any Offer Talk</div>
+          <div class="stage-purpose">Build the win in vivid, personal detail before transitioning to the program</div>
+        </div>
+      </div>
+      <div class="stage-body">
+        <p>Ask what their life actually looks like once this is solved — not abstractly, specifically. What they'd do, how they'd feel, what they'd stop being beholden to. Only once this picture is fully built does it make sense to move toward presenting how you'd get them there.</p>
+        <div class="key-principle"><div class="key-principle-icon">💡</div><div>This is where this transcript runs out. From here, the natural next steps mirror the existing Sales Call Script: Transition to Pitch → Pitch → Confirm Fit → Price Reveal → Objection Handling → Close.</div></div>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+function toggleTheme(){
+  var h=document.documentElement,n=h.dataset.theme==='day'?'night':'day';
+  h.dataset.theme=n;
+  var l=document.getElementById('mode-lbl');if(l)l.textContent=n==='day'?'Day':'Night';
+  try{localStorage.setItem('tb-theme',n);}catch(e){}
+}
+(function(){try{var s=localStorage.getItem('tb-theme')||document.documentElement.dataset.theme||'day';
+  var l=document.getElementById('mode-lbl');if(l)l.textContent=s==='day'?'Day':'Night';}catch(e){}})();
+
+function scrollTo(id,el){
+  document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});
+  document.querySelectorAll('.nav-link').forEach(function(l){l.classList.remove('active');});
+  el.classList.add('active');
+}
+
+var sections=document.querySelectorAll('.section');
+var navLinks=document.querySelectorAll('.nav-link');
+var observer=new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      navLinks.forEach(function(l){l.classList.remove('active');});
+      var idx=Array.from(sections).indexOf(entry.target);
+      if(navLinks[idx])navLinks[idx].classList.add('active');
+    }
+  });
+},{threshold:0.3});
+sections.forEach(function(s){observer.observe(s);});
+</script>
+</body>
+</html>
