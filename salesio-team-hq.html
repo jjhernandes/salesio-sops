@@ -479,6 +479,28 @@ body{
 .task-del:hover{color:#8a3030;}
 .task-empty{font-size:.75rem;color:var(--t3);padding:.75rem .5rem;font-weight:300;}
 
+.sync-link{background:none;border:1px solid var(--bdr-2);border-radius:6px;color:var(--t2);font-size:.55rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;font-family:'SF Mono',monospace;padding:.3rem .55rem;cursor:pointer;transition:all .15s;}
+.sync-link:hover{border-color:rgba(var(--glow-rgb),.55);color:var(--text);}
+.section-label-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
+.section-label-row .section-label{margin-bottom:0;}
+
+/* Sync modal */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;display:none;align-items:center;justify-content:center;padding:1.5rem;}
+.modal-backdrop.open{display:flex;}
+.modal{background:var(--card);border:1px solid var(--bdr);border-radius:16px;max-width:520px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.4);}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--bdr);}
+.modal-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--text);}
+.modal-close{background:none;border:none;color:var(--t2);font-size:1rem;cursor:pointer;padding:.25rem;}
+.modal-close:hover{color:var(--text);}
+.modal-body{padding:1.5rem;}
+.modal-body p{font-size:.8rem;color:var(--t2);line-height:1.7;margin-bottom:1.25rem;font-weight:300;}
+.modal-step-label{font-size:.65rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);font-family:'SF Mono',monospace;display:block;margin-bottom:.5rem;}
+.modal-textarea{width:100%;background:var(--card-2);border:1px solid var(--bdr-2);border-radius:8px;padding:.75rem;font-size:.75rem;color:var(--text);font-family:'SF Mono',monospace;min-height:100px;resize:vertical;}
+.modal-textarea:focus{outline:none;border-color:rgba(var(--glow-rgb),.55);}
+.modal-btn{width:100%;background:var(--text);color:var(--bg);border:none;border-radius:8px;padding:.75rem 1.125rem;font-size:.75rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:opacity .15s;}
+.modal-btn:hover{opacity:.85;}
+.modal-status{font-size:.75rem;color:rgb(var(--glow-rgb));margin-top:.5rem;min-height:1rem;font-weight:500;}
+
 /* Doc review tracker */
 .review-add{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:1.25rem 1.375rem;margin-bottom:1.5rem;}
 .review-add-row{display:flex;gap:.5rem;margin-bottom:.5rem;}
@@ -667,7 +689,10 @@ body{
       <div id="today-call-wrap"></div>
 
       <!-- Today: tasks + calendar -->
-      <div class="section-label">Today</div>
+      <div class="section-label-row">
+        <div class="section-label">Today</div>
+        <button class="sync-link" onclick="openSyncModal()" title="Tasks live in this browser only — move them between devices">⇅ Sync Tasks</button>
+      </div>
       <div class="dash-widgets">
         <div class="tasks-mini">
           <div class="task-add-row">
@@ -768,7 +793,10 @@ body{
         <iframe id="calendar-iframe" class="calendar-frame" style="display:none;" src="" title="Google Calendar" frameborder="0" scrolling="no"></iframe>
       </div>
 
-      <div class="section-label">Tasks</div>
+      <div class="section-label-row">
+        <div class="section-label">Tasks</div>
+        <button class="sync-link" onclick="openSyncModal()" title="Tasks live in this browser only — move them between devices">⇅ Sync Tasks</button>
+      </div>
       <div class="task-add-row">
         <input type="text" id="task-input-full" class="task-input" placeholder="Add a task..." onkeydown="if(event.key==='Enter')addTask('task-input-full')">
         <button class="task-add-btn" onclick="addTask('task-input-full')">Add</button>
@@ -1070,6 +1098,32 @@ body{
   </div><!-- /content -->
 </div><!-- /main -->
 
+<!-- Sync Modal (Tasks) -->
+<div class="modal-backdrop" id="syncModal" onclick="closeSyncModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title">⇅ Sync Tasks Between Devices</div>
+      <button class="modal-close" onclick="closeSyncModalDirect()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p>Tasks live in this browser only — they don't sync automatically between computers or devices. Use this to move them manually so nothing gets lost when you switch machines.</p>
+
+      <div style="margin-bottom:1.25rem;">
+        <span class="modal-step-label">1. On the device with your current tasks</span>
+        <button class="modal-btn" onclick="copySyncData()">Copy My Tasks</button>
+        <div id="syncCopyStatus" class="modal-status"></div>
+      </div>
+
+      <div>
+        <span class="modal-step-label">2. On this device, paste it here</span>
+        <textarea id="syncPasteArea" class="modal-textarea" placeholder="Paste the copied data here..."></textarea>
+        <button class="modal-btn" onclick="importSyncData()" style="margin-top:.625rem;">Import — Replace This Device's Tasks</button>
+        <div id="syncImportStatus" class="modal-status"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 /* ── Theme ── */
 function toggleTheme(){
@@ -1249,6 +1303,45 @@ function renderTasks(){
   }
 }
 renderTasks();
+
+/* ── Sync tasks between devices ── */
+function openSyncModal(){
+  document.getElementById('syncCopyStatus').textContent='';
+  document.getElementById('syncImportStatus').textContent='';
+  document.getElementById('syncPasteArea').value='';
+  document.getElementById('syncModal').classList.add('open');
+}
+function closeSyncModal(e){ if(e.target===document.getElementById('syncModal')) closeSyncModalDirect(); }
+function closeSyncModalDirect(){ document.getElementById('syncModal').classList.remove('open'); }
+
+function copySyncData(){
+  var tasks=loadTasks();
+  var json=JSON.stringify(tasks);
+  navigator.clipboard.writeText(json).then(function(){
+    document.getElementById('syncCopyStatus').textContent='Copied '+tasks.length+' task'+(tasks.length===1?'':'s')+' — now paste it into Team HQ on the other device.';
+  }).catch(function(){
+    var ta=document.getElementById('syncPasteArea');
+    ta.value=json;
+    ta.select();
+    document.getElementById('syncCopyStatus').textContent='Could not copy automatically — select and copy the text below instead.';
+  });
+}
+
+function importSyncData(){
+  var raw=document.getElementById('syncPasteArea').value.trim();
+  var status=document.getElementById('syncImportStatus');
+  if(!raw){ status.textContent='Paste your data first.'; return; }
+  var incoming;
+  try{ incoming=JSON.parse(raw); }
+  catch(e){ status.textContent="That doesn't look like valid synced data."; return; }
+  if(!Array.isArray(incoming)){ status.textContent="That doesn't look like valid synced data."; return; }
+  var current=loadTasks();
+  if(current.length && !confirm('This replaces the '+current.length+' task(s) currently on this device with '+incoming.length+' from the pasted data. Continue?')) return;
+  saveTasksState(incoming);
+  renderTasks();
+  status.textContent='Synced. '+incoming.length+' task'+(incoming.length===1?'':'s')+' loaded.';
+  setTimeout(closeSyncModalDirect, 900);
+}
 
 (function initNotes(){
   var area=document.getElementById('notes-area');
