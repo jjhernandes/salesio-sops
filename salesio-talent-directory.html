@@ -166,6 +166,32 @@ body{
 
 footer{max-width:1240px;margin:0 auto;padding:2rem 2.5rem 3rem;border-top:1px solid var(--bdr);font-size:.7rem;color:var(--t3);font-family:'SF Mono',monospace;letter-spacing:.04em;text-transform:uppercase;}
 
+/* Gate */
+#gate{position:fixed;inset:0;z-index:5000;background:var(--bg);display:none;align-items:center;justify-content:center;padding:1.5rem;}
+#gate.show{display:flex;}
+.gate-card{max-width:420px;width:100%;text-align:center;}
+.gate-logo{width:40px;height:40px;object-fit:contain;margin-bottom:1.5rem;}
+.gate-title{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--text);margin-bottom:.75rem;}
+.gate-sub{font-size:.875rem;color:var(--t2);line-height:1.75;margin-bottom:1.75rem;font-weight:300;}
+.gate-signin-btn{background:var(--text);color:var(--bg);border:none;border-radius:8px;padding:.8rem 1.5rem;font-size:.85rem;font-weight:800;cursor:pointer;font-family:'Inter',sans-serif;margin-bottom:1rem;}
+.gate-signin-btn:hover{opacity:.85;}
+.gate-apply-link{background:none;border:none;color:var(--t2);font-size:.78rem;font-weight:600;text-decoration:underline;cursor:pointer;font-family:'Inter',sans-serif;}
+.gate-apply-link:hover{color:var(--text);}
+.gate-email{font-family:'SF Mono',monospace;color:var(--text);font-weight:700;}
+.gate-signout{margin-top:1.25rem;background:none;border:none;color:var(--t3);font-size:.72rem;text-decoration:underline;cursor:pointer;font-family:'Inter',sans-serif;}
+
+/* Admin panel */
+#adminPanel{display:none;max-width:1240px;margin:0 auto;padding:1.5rem 2.5rem 0;}
+.admin-box{background:rgba(var(--glow-rgb),.06);border:1px solid rgba(var(--glow-rgb),.3);border-radius:14px;padding:1.25rem 1.5rem;}
+.admin-title{font-family:'SF Mono',monospace;font-size:.65rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:rgb(var(--glow-rgb));margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;}
+.admin-seed-btn{background:none;border:1px solid rgba(var(--glow-rgb),.5);color:var(--text);border-radius:6px;padding:.4rem .75rem;font-size:.62rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;}
+.admin-req{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.75rem 0;border-bottom:1px solid var(--bdr);font-size:.8rem;}
+.admin-req:last-child{border-bottom:none;}
+.admin-req-meta{font-size:.7rem;color:var(--t3);}
+.admin-req-status{font-family:'SF Mono',monospace;font-size:.62rem;text-transform:uppercase;color:var(--t3);font-weight:700;}
+.admin-approve-btn{background:var(--text);color:var(--bg);border:none;border-radius:6px;padding:.4rem .75rem;font-size:.68rem;font-weight:800;cursor:pointer;font-family:'Inter',sans-serif;flex-shrink:0;}
+.admin-empty{font-size:.78rem;color:var(--t3);}
+
 @media(max-width:640px){
   .topbar-inner,.hero,.controls,.grid-wrap,footer{padding-left:1.25rem;padding-right:1.25rem;}
   .talent-grid{grid-template-columns:1fr;}
@@ -176,6 +202,31 @@ footer{max-width:1240px;margin:0 auto;padding:2rem 2.5rem 3rem;border-top:1px so
 <body>
 
 <div class="grain" aria-hidden="true"></div>
+
+<!-- Access Gate -->
+<div id="gate">
+  <div class="gate-card">
+    <div class="gate-title">Sales.io Talent Directory</div>
+    <div id="gate-signed-out">
+      <div class="gate-sub">This directory is verified access only. Sign in with Google, and if your account isn't approved yet, you can request access right after.</div>
+      <button class="gate-signin-btn" onclick="gateSignIn()">Sign In With Google</button>
+    </div>
+    <div id="gate-pending" style="display:none;">
+      <div class="gate-sub">You're signed in as <span class="gate-email" id="gate-email"></span>. Your access hasn't been approved yet.</div>
+      <button class="gate-apply-link" onclick="openApplyModal()">Request Access</button>
+      <br><button class="gate-signout" onclick="gateSignOut()">Sign out</button>
+    </div>
+  </div>
+</div>
+
+<div id="mainContent" style="display:none;">
+
+<div id="adminPanel">
+  <div class="admin-box">
+    <div class="admin-title"><span>Admin — Pending Access Requests</span><button class="admin-seed-btn" onclick="seedClosers()">Seed Existing Profiles (one-time)</button></div>
+    <div id="adminRequestsList"><div class="admin-empty">Loading...</div></div>
+  </div>
+</div>
 
 <div class="topbar">
   <div class="topbar-inner">
@@ -221,170 +272,17 @@ footer{max-width:1240px;margin:0 auto;padding:2rem 2.5rem 3rem;border-top:1px so
 
 <div class="grid-wrap">
   <div class="talent-grid" id="talentGrid">
-
-    <div class="tcard" data-name="Anan Al-Anani" data-tags="B2B,Financial Services,High Ticket">
-      <div class="tcard-video" onclick="playVideo(this,'b3f7bdc18a054ecca058fd0735ff8aae')">
-        <img src="https://cdn.loom.com/sessions/thumbnails/b3f7bdc18a054ecca058fd0735ff8aae-90e4a385a9af59ff.gif" alt="Anan Al-Anani intro video" loading="lazy" onerror="this.style.display='none'">
-        <div class="play-btn"><div class="play-circle"></div></div>
-        <div class="video-badge">Loom &middot; Intro</div>
-      </div>
-      <div class="tcard-body">
-        <div class="tcard-name">Anan Al-Anani</div>
-        <div class="tcard-headline">B2B Closer &middot; Financial Services Background</div>
-        <p class="tcard-bio">5+ years in B2B sales, built on four years in financial services accounting and advisory, including a year in business operations, technology risk, AI, and automation. $30M+ collected across his career. Trained through Sales.io and transitioning into remote, high-ticket sales, looking for a team and culture he can go all in on outside his traditional industry.</p>
-        <div class="tcard-tags">
-          <span class="tcard-tag">B2B</span>
-          <span class="tcard-tag">Financial Services</span>
-          <span class="tcard-tag">High Ticket</span>
-        </div>
-        <div class="tcard-footer">
-          <div class="tcard-stat"><strong>$30M+</strong> collected</div>
-          <div class="tcard-btns">
-            <a class="text-btn" href="sms:+15153859390">Text</a>
-            <a class="whatsapp-btn" href="https://wa.me/15153859390" target="_blank" rel="noopener">WhatsApp</a>
-            <a class="intro-btn" href="mailto:alanani619@gmail.com?subject=Interested%20in%20connecting%20(via%20Sales.io%20Talent)" target="_blank" rel="noopener">Email</a>
-          </div>
-        </div>
-      </div>
+    <div class="tcard-empty" id="loadingCard">
+      <div class="tcard-empty-icon">⏳</div>
+      <div class="tcard-empty-title">Loading profiles...</div>
     </div>
-
-    <div class="tcard" data-name="Mike" data-tags="B2B,High Ticket">
-      <div class="tcard-video" onclick="playVideo(this,'b1af772e387d42988f304edb4f0e8041')">
-        <img src="https://cdn.loom.com/sessions/thumbnails/b1af772e387d42988f304edb4f0e8041-6a47a8e46a917765.gif" alt="Mike intro video" loading="lazy" onerror="this.style.display='none'">
-        <div class="play-btn"><div class="play-circle"></div></div>
-        <div class="video-badge">Loom &middot; Intro</div>
-      </div>
-      <div class="tcard-body">
-        <div class="tcard-name">Mike</div>
-        <div class="tcard-headline">B2B Closer &middot; Multi-Industry Top Performer</div>
-        <p class="tcard-bio">4 years in sales, $3M+ generated across B2B tech sales, real estate, cybersecurity, business coaching, career coaching, credit repair, and dating. Top performer everywhere he's landed: $110K cash collected at a 36% close rate at DevLaunch, and $200K in a single month as a top setter, while closing part-time, at a 44% close rate at a 7-figure MSP. Self-starter who creates his own opportunities instead of waiting on leads, based in New York.</p>
-        <div class="tcard-tags">
-          <span class="tcard-tag">B2B</span>
-          <span class="tcard-tag">High Ticket</span>
-        </div>
-        <div class="tcard-footer">
-          <div class="tcard-stat"><strong>$3M+</strong> generated</div>
-          <div class="tcard-btns">
-            <a class="text-btn" href="sms:+5521988475958">Text</a>
-            <a class="whatsapp-btn" href="https://wa.me/5521988475958" target="_blank" rel="noopener">WhatsApp</a>
-            <a class="intro-btn" href="mailto:michaelmorel49@gmail.com?subject=Interested%20in%20connecting%20(via%20Sales.io%20Talent)" target="_blank" rel="noopener">Email</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="tcard" data-name="Yahya" data-tags="E-Commerce,High Ticket">
-      <div class="tcard-video" onclick="playVideo(this,'b1ba8107d9cd4e0fbfc9637e50ae5753')">
-        <img src="https://cdn.loom.com/sessions/thumbnails/b1ba8107d9cd4e0fbfc9637e50ae5753-2026f1b0f0f649ab.gif" alt="Yahya intro video" loading="lazy" onerror="this.style.display='none'">
-        <div class="play-btn"><div class="play-circle"></div></div>
-        <div class="video-badge">Loom &middot; Intro</div>
-      </div>
-      <div class="tcard-body">
-        <div class="tcard-name">Yahya</div>
-        <div class="tcard-headline">E-Commerce Closer &middot; Consistent $10K Months</div>
-        <p class="tcard-bio">1 year in sales, started as a setter and moved quickly into closing. Since January, closing on an e-commerce offer, consistently hitting $10K months since April. Looking to move into a more structured business with real systems and operations, and to work with more sophisticated prospects. Trained with JJ since January. Strengths: trustworthy, reliable, professional, and increasingly focused on pipeline management, not just the calls in front of him.</p>
-        <div class="tcard-tags">
-          <span class="tcard-tag">E-Commerce</span>
-          <span class="tcard-tag">High Ticket</span>
-        </div>
-        <div class="tcard-footer">
-          <div class="tcard-stat"><strong>$10K+</strong>/mo consistent</div>
-          <div class="tcard-btns">
-            <a class="text-btn" href="sms:+14389795721">Text</a>
-            <a class="whatsapp-btn" href="https://wa.me/14389795721" target="_blank" rel="noopener">WhatsApp</a>
-            <a class="intro-btn" href="mailto:Yahiaelbattawy@gmail.com?subject=Interested%20in%20connecting%20(via%20Sales.io%20Talent)" target="_blank" rel="noopener">Email</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="tcard" data-name="Shawn Singh" data-tags="B2C,High Ticket">
-      <div class="tcard-video" onclick="playVideo(this,'586c1393ec6b4a8bbf03baf2b0bdb48b')">
-        <img src="https://cdn.loom.com/sessions/thumbnails/586c1393ec6b4a8bbf03baf2b0bdb48b-0ffd29b9047e0149.gif" alt="Shawn Singh intro video" loading="lazy" onerror="this.style.display='none'">
-        <div class="play-btn"><div class="play-circle"></div></div>
-        <div class="video-badge">Loom &middot; Intro</div>
-      </div>
-      <div class="tcard-body">
-        <div class="tcard-name">Shawn Singh</div>
-        <div class="tcard-headline">B2C Closer &middot; Trading, Biz-Opp &amp; Coaching Offers</div>
-        <p class="tcard-bio">2.5 years in sales, $1.4M cash collected across B2C offers: trading, biz-opp, personal branding, fitness, mobility, and real estate. Built on two things: radical ownership, staying on top of every lead and follow-up while constantly upskilling, and leading from service, guiding prospects to the right decision and holding them accountable for it.</p>
-        <div class="tcard-tags">
-          <span class="tcard-tag">B2C</span>
-          <span class="tcard-tag">High Ticket</span>
-        </div>
-        <div class="tcard-footer">
-          <div class="tcard-stat"><strong>$1.4M</strong> cash collected</div>
-          <div class="tcard-btns">
-            <a class="text-btn" href="sms:+916393788470">Text</a>
-            <a class="whatsapp-btn" href="https://wa.me/916393788470" target="_blank" rel="noopener">WhatsApp</a>
-            <a class="intro-btn" href="mailto:shubiksingh@gmail.com?subject=Interested%20in%20connecting%20(via%20Sales.io%20Talent)" target="_blank" rel="noopener">Email</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="tcard" data-name="Stathis Tsigkas" data-tags="Real Estate,High Ticket">
-      <div class="tcard-video" onclick="playVideo(this,'d8f1b630cbd24afd8a96946b4749fdba')">
-        <img src="https://cdn.loom.com/sessions/thumbnails/d8f1b630cbd24afd8a96946b4749fdba-bd30a912d520becb.gif" alt="Stathis Tsigkas intro video" loading="lazy" onerror="this.style.display='none'">
-        <div class="play-btn"><div class="play-circle"></div></div>
-        <div class="video-badge">Loom &middot; Intro</div>
-      </div>
-      <div class="tcard-body">
-        <div class="tcard-name">Stathis Tsigkas</div>
-        <div class="tcard-headline">High Ticket Closer &middot; Real Estate Investment &amp; Coaching</div>
-        <p class="tcard-bio">1+ year in high-ticket sales, $630K cash collected combined between setting and closing. Sold real estate investment offers and coaching offers. Started as a setter through heavy outbound before moving into closing, including real estate investment tickets up to $90K. Known for consistency, staying through the highs and lows of an offer instead of churning, and can produce revenue from day one.</p>
-        <div class="tcard-tags">
-          <span class="tcard-tag">Real Estate</span>
-          <span class="tcard-tag">High Ticket</span>
-        </div>
-        <div class="tcard-footer">
-          <div class="tcard-stat"><strong>$630K</strong> cash collected</div>
-          <div class="tcard-btns">
-            <a class="text-btn" href="sms:+306980689148">Text</a>
-            <a class="whatsapp-btn" href="https://wa.me/306980689148" target="_blank" rel="noopener">WhatsApp</a>
-            <a class="intro-btn" href="mailto:stathistsigkas98@gmail.com?subject=Interested%20in%20connecting%20(via%20Sales.io%20Talent)" target="_blank" rel="noopener">Email</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="tcard" data-name="Josh Nguyen" data-tags="B2B,B2C,High Ticket">
-      <div class="tcard-video" onclick="playVideo(this,'01891f10f4eb4758a88bd91ddf8ee12f')">
-        <img src="https://cdn.loom.com/sessions/thumbnails/01891f10f4eb4758a88bd91ddf8ee12f-b13dcb494568d20f.gif" alt="Josh Nguyen intro video" loading="lazy" onerror="this.style.display='none'">
-        <div class="play-btn"><div class="play-circle"></div></div>
-        <div class="video-badge">Loom &middot; Intro</div>
-      </div>
-      <div class="tcard-body">
-        <div class="tcard-name">Josh Nguyen</div>
-        <div class="tcard-headline">B2B/B2C Closer &middot; High Ticket $7K&ndash;$15K Programs</div>
-        <p class="tcard-bio">1.5 years in sales: first year setting for B2C, last six months full cycle (setting and closing) in B2B. $100K+ collected across high-ticket programs from $7K to $15K, spanning real estate, business startup, an exotic car rental business, trading, and lead-gen. Consistently maintains 200 dials a day and a 60% show rate. Mentored by JJ Hernandez within Sales.io.</p>
-        <div class="tcard-tags">
-          <span class="tcard-tag">B2B</span>
-          <span class="tcard-tag">B2C</span>
-          <span class="tcard-tag">High Ticket</span>
-        </div>
-        <div class="tcard-footer">
-          <div class="tcard-stat"><strong>$100K+</strong> collected</div>
-          <div class="tcard-btns">
-            <a class="text-btn" href="sms:+18189131962">Text</a>
-            <a class="whatsapp-btn" href="https://wa.me/18189131962" target="_blank" rel="noopener">WhatsApp</a>
-            <a class="intro-btn" href="mailto:joshnguyen25@gmail.com?subject=Interested%20in%20connecting%20(via%20Sales.io%20Talent)" target="_blank" rel="noopener">Email</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="tcard-empty">
-      <div class="tcard-empty-icon">＋</div>
-      <div class="tcard-empty-title">More closers added weekly</div>
-      <div class="tcard-empty-sub">Every profile here is trained and vetted through the Sales.io program.</div>
-    </div>
-
   </div>
   <div class="empty-state" id="emptyState">No closers match that search.</div>
 </div>
 
 <footer>Sales.io &middot; Talent Directory</footer>
+
+</div><!-- /mainContent -->
 
 <!-- Apply for Access Modal -->
 <div class="modal-backdrop" id="applyModal" onclick="closeApplyModal(event)">
@@ -408,40 +306,6 @@ footer{max-width:1240px;margin:0 auto;padding:2rem 2.5rem 3rem;border-top:1px so
 </div>
 
 <script>
-function openApplyModal(){
-  document.getElementById('apply-status').textContent='';
-  document.getElementById('applyModal').classList.add('open');
-}
-function closeApplyModal(e){ if(e.target===document.getElementById('applyModal')) closeApplyModalDirect(); }
-function closeApplyModalDirect(){ document.getElementById('applyModal').classList.remove('open'); }
-
-function submitApply(){
-  var name=document.getElementById('apply-name').value.trim();
-  var company=document.getElementById('apply-company').value.trim();
-  var email=document.getElementById('apply-email').value.trim();
-  var phone=document.getElementById('apply-phone').value.trim();
-  var status=document.getElementById('apply-status');
-
-  if(!name||!company||!email||!phone){
-    status.textContent='Please fill in every field.';
-    return;
-  }
-
-  var subject=encodeURIComponent('Talent Directory access request — '+company);
-  var body=encodeURIComponent(
-    'New access request for the Sales.io Talent Directory:\n\n'+
-    'Name: '+name+'\n'+
-    'Company: '+company+'\n'+
-    'Email: '+email+'\n'+
-    'Phone: '+phone+'\n'
-  );
-  window.location.href='mailto:jj@psycho-sales.com?subject='+subject+'&body='+body;
-  status.textContent='Opening your email client to send this for review...';
-  setTimeout(closeApplyModalDirect, 1200);
-}
-</script>
-
-<script>
 function toggleTheme(){
   var h=document.documentElement,n=h.dataset.theme==='day'?'night':'day';
   h.dataset.theme=n;
@@ -454,6 +318,13 @@ function toggleTheme(){
 function playVideo(el,videoId){
   el.innerHTML='<iframe src="https://www.loom.com/embed/'+videoId+'?autoplay=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>';
 }
+
+function openApplyModal(){
+  document.getElementById('apply-status').textContent='';
+  document.getElementById('applyModal').classList.add('open');
+}
+function closeApplyModal(e){ if(e.target===document.getElementById('applyModal')) closeApplyModalDirect(); }
+function closeApplyModalDirect(){ document.getElementById('applyModal').classList.remove('open'); }
 
 var activeTag='all';
 function setTagFilter(tag,btn){
@@ -477,12 +348,229 @@ function filterTalent(){
     c.style.display = show ? '' : 'none';
     if(show) visible++;
   });
-  document.getElementById('emptyState').classList.toggle('show', visible===0 && q!=='');
-  var placeholder=document.querySelector('.tcard-empty');
+  document.getElementById('emptyState').classList.toggle('show', visible===0 && (q!=='' || activeTag!=='all'));
+  var placeholder=document.getElementById('trailingCard');
   if(placeholder) placeholder.style.display = (activeTag==='all' && !q) ? '' : 'none';
 }
+</script>
 
-document.getElementById('stat-count').textContent = document.querySelectorAll('.tcard[data-name]').length;
+<!-- ── Firestore-backed gated directory ── -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import { getFirestore, collection, doc, getDoc, setDoc, addDoc, updateDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDXQvH7qV1DYKoNAfArpP1rcKYT0Oysuq0",
+  authDomain: "salesio-hq.firebaseapp.com",
+  projectId: "salesio-hq",
+  storageBucket: "salesio-hq.firebasestorage.app",
+  messagingSenderId: "716901464242",
+  appId: "1:716901464242:web:df06550318e111f3d571ab"
+};
+
+const fbApp = initializeApp(firebaseConfig);
+const db = getFirestore(fbApp);
+const auth = getAuth(fbApp);
+const provider = new GoogleAuthProvider();
+
+const ADMIN_EMAIL = 'jj@psycho-sales.com';
+const closersCol = collection(db, 'talentClosers');
+const requestsCol = collection(db, 'talentRequests');
+
+let currentUser = null;
+let closersLoaded = false;
+
+// One-time seed data — migrates the profiles that were previously static HTML into Firestore.
+// Click "Seed Existing Profiles" once while signed in as the admin; safe to ignore after that.
+const SEED_CLOSERS = [
+  {id:'anan-al-anani', order:1, name:'Anan Al-Anani', headline:'B2B Closer · Financial Services Background', bio:"5+ years in B2B sales, built on four years in financial services accounting and advisory, including a year in business operations, technology risk, AI, and automation. $30M+ collected across his career. Trained through Sales.io and transitioning into remote, high-ticket sales, looking for a team and culture he can go all in on outside his traditional industry.", tags:['B2B','Financial Services','High Ticket'], stat:'$30M+ collected', videoId:'b3f7bdc18a054ecca058fd0735ff8aae', thumb:'https://cdn.loom.com/sessions/thumbnails/b3f7bdc18a054ecca058fd0735ff8aae-90e4a385a9af59ff.gif', phone:'+15153859390', email:'alanani619@gmail.com'},
+  {id:'mike', order:2, name:'Mike', headline:'B2B Closer · Multi-Industry Top Performer', bio:"4 years in sales, $3M+ generated across B2B tech sales, real estate, cybersecurity, business coaching, career coaching, credit repair, and dating. Top performer everywhere he's landed: $110K cash collected at a 36% close rate at DevLaunch, and $200K in a single month as a top setter, while closing part-time, at a 44% close rate at a 7-figure MSP. Self-starter who creates his own opportunities instead of waiting on leads, based in New York.", tags:['B2B','High Ticket'], stat:'$3M+ generated', videoId:'b1af772e387d42988f304edb4f0e8041', thumb:'https://cdn.loom.com/sessions/thumbnails/b1af772e387d42988f304edb4f0e8041-6a47a8e46a917765.gif', phone:'+5521988475958', email:'michaelmorel49@gmail.com'},
+  {id:'yahya', order:3, name:'Yahya', headline:'E-Commerce Closer · Consistent $10K Months', bio:"1 year in sales, started as a setter and moved quickly into closing. Since January, closing on an e-commerce offer, consistently hitting $10K months since April. Looking to move into a more structured business with real systems and operations, and to work with more sophisticated prospects. Trained with JJ since January. Strengths: trustworthy, reliable, professional, and increasingly focused on pipeline management, not just the calls in front of him.", tags:['E-Commerce','High Ticket'], stat:'$10K+/mo consistent', videoId:'b1ba8107d9cd4e0fbfc9637e50ae5753', thumb:'https://cdn.loom.com/sessions/thumbnails/b1ba8107d9cd4e0fbfc9637e50ae5753-2026f1b0f0f649ab.gif', phone:'+14389795721', email:'Yahiaelbattawy@gmail.com'},
+  {id:'shawn-singh', order:4, name:'Shawn Singh', headline:'B2C Closer · Trading, Biz-Opp & Coaching Offers', bio:"2.5 years in sales, $1.4M cash collected across B2C offers: trading, biz-opp, personal branding, fitness, mobility, and real estate. Built on two things: radical ownership, staying on top of every lead and follow-up while constantly upskilling, and leading from service, guiding prospects to the right decision and holding them accountable for it.", tags:['B2C','High Ticket'], stat:'$1.4M cash collected', videoId:'586c1393ec6b4a8bbf03baf2b0bdb48b', thumb:'https://cdn.loom.com/sessions/thumbnails/586c1393ec6b4a8bbf03baf2b0bdb48b-0ffd29b9047e0149.gif', phone:'+916393788470', email:'shubiksingh@gmail.com'},
+  {id:'stathis-tsigkas', order:5, name:'Stathis Tsigkas', headline:'High Ticket Closer · Real Estate Investment & Coaching', bio:"1+ year in high-ticket sales, $630K cash collected combined between setting and closing. Sold real estate investment offers and coaching offers. Started as a setter through heavy outbound before moving into closing, including real estate investment tickets up to $90K. Known for consistency, staying through the highs and lows of an offer instead of churning, and can produce revenue from day one.", tags:['Real Estate','High Ticket'], stat:'$630K cash collected', videoId:'d8f1b630cbd24afd8a96946b4749fdba', thumb:'https://cdn.loom.com/sessions/thumbnails/d8f1b630cbd24afd8a96946b4749fdba-bd30a912d520becb.gif', phone:'+306980689148', email:'stathistsigkas98@gmail.com'},
+  {id:'josh-nguyen', order:6, name:'Josh Nguyen', headline:'B2B/B2C Closer · High Ticket $7K–$15K Programs', bio:"1.5 years in sales: first year setting for B2C, last six months full cycle (setting and closing) in B2B. $100K+ collected across high-ticket programs from $7K to $15K, spanning real estate, business startup, an exotic car rental business, trading, and lead-gen. Consistently maintains 200 dials a day and a 60% show rate. Mentored by JJ Hernandez within Sales.io.", tags:['B2B','B2C','High Ticket'], stat:'$100K+ collected', videoId:'01891f10f4eb4758a88bd91ddf8ee12f', thumb:'https://cdn.loom.com/sessions/thumbnails/01891f10f4eb4758a88bd91ddf8ee12f-b13dcb494568d20f.gif', phone:'+18189131962', email:'joshnguyen25@gmail.com'}
+];
+
+function escapeHtml(s){ var d=document.createElement('div'); d.textContent=s||''; return d.innerHTML; }
+
+function closerCardHTML(c){
+  var tagsAttr = (c.tags||[]).join(',');
+  var tagsHtml = (c.tags||[]).map(function(t){return '<span class="tcard-tag">'+escapeHtml(t)+'</span>';}).join('');
+  return '<div class="tcard" data-name="'+escapeHtml(c.name)+'" data-tags="'+escapeHtml(tagsAttr)+'">'+
+    '<div class="tcard-video" onclick="playVideo(this,\''+c.videoId+'\')">'+
+      '<img src="'+c.thumb+'" alt="'+escapeHtml(c.name)+' intro video" loading="lazy" onerror="this.style.display=\'none\'">'+
+      '<div class="play-btn"><div class="play-circle"></div></div>'+
+      '<div class="video-badge">Loom · Intro</div>'+
+    '</div>'+
+    '<div class="tcard-body">'+
+      '<div class="tcard-name">'+escapeHtml(c.name)+'</div>'+
+      '<div class="tcard-headline">'+escapeHtml(c.headline)+'</div>'+
+      '<p class="tcard-bio">'+escapeHtml(c.bio)+'</p>'+
+      '<div class="tcard-tags">'+tagsHtml+'</div>'+
+      '<div class="tcard-footer">'+
+        '<div class="tcard-stat">'+escapeHtml(c.stat)+'</div>'+
+        '<div class="tcard-btns">'+
+          '<a class="text-btn" href="sms:'+c.phone+'">Text</a>'+
+          '<a class="whatsapp-btn" href="https://wa.me/'+c.phone.replace('+','')+'" target="_blank" rel="noopener">WhatsApp</a>'+
+          '<a class="intro-btn" href="mailto:'+c.email+'?subject=Interested%20in%20connecting%20(via%20Sales.io%20Talent)" target="_blank" rel="noopener">Email</a>'+
+        '</div>'+
+      '</div>'+
+    '</div>'+
+  '</div>';
+}
+
+function renderClosers(arr){
+  var grid=document.getElementById('talentGrid');
+  var html = arr.map(closerCardHTML).join('');
+  html += '<div class="tcard-empty" id="trailingCard"><div class="tcard-empty-icon">＋</div><div class="tcard-empty-title">More closers added weekly</div><div class="tcard-empty-sub">Every profile here is trained and vetted through the Sales.io program.</div></div>';
+  grid.innerHTML = html;
+  document.getElementById('stat-count').textContent = arr.length;
+  filterTalent();
+}
+
+function startClosersListener(){
+  if(closersLoaded) return;
+  closersLoaded = true;
+  onSnapshot(query(closersCol, orderBy('order','asc')), function(snap){
+    var arr=[]; snap.forEach(function(d){ arr.push(Object.assign({id:d.id}, d.data())); });
+    renderClosers(arr);
+  }, function(err){
+    document.getElementById('talentGrid').innerHTML = '<div class="tcard-empty"><div class="tcard-empty-icon">⚠️</div><div class="tcard-empty-title">Could not load profiles</div><div class="tcard-empty-sub">Check Firestore rules and your approval status.</div></div>';
+  });
+}
+
+window.seedClosers = async function(){
+  if(!currentUser || currentUser.email!==ADMIN_EMAIL){ alert('Admin only.'); return; }
+  if(!confirm('Seed the '+SEED_CLOSERS.length+' existing closer profiles into Firestore? Safe to run more than once — it just overwrites the same 6 IDs.')) return;
+  try{
+    for(var i=0;i<SEED_CLOSERS.length;i++){
+      var c=SEED_CLOSERS[i];
+      await setDoc(doc(db,'talentClosers', c.id), c);
+    }
+    alert('Seeded '+SEED_CLOSERS.length+' profiles.');
+  }catch(e){ alert('Seed failed: '+e.message); }
+};
+
+// ── Access requests + admin approval ──
+window.submitApply = async function(){
+  var name=document.getElementById('apply-name').value.trim();
+  var company=document.getElementById('apply-company').value.trim();
+  var email=document.getElementById('apply-email').value.trim();
+  var phone=document.getElementById('apply-phone').value.trim();
+  var status=document.getElementById('apply-status');
+
+  if(!name||!company||!email||!phone){
+    status.textContent='Please fill in every field.';
+    return;
+  }
+
+  try{
+    await addDoc(requestsCol, {name:name, company:company, email:email, phone:phone, submittedAt:Date.now(), status:'pending'});
+  }catch(e){ /* Firestore write may fail before rules are deployed — email fallback below still works */ }
+
+  var subject=encodeURIComponent('Talent Directory access request — '+company);
+  var body=encodeURIComponent(
+    'New access request for the Sales.io Talent Directory:\n\n'+
+    'Name: '+name+'\n'+
+    'Company: '+company+'\n'+
+    'Email: '+email+'\n'+
+    'Phone: '+phone+'\n'
+  );
+  window.location.href='mailto:jj@psycho-sales.com?subject='+subject+'&body='+body;
+  status.textContent='Submitted. Opening your email client as well...';
+  setTimeout(closeApplyModalDirect, 1200);
+};
+
+function renderRequests(arr){
+  var list=document.getElementById('adminRequestsList');
+  if(!list) return;
+  if(!arr.length){ list.innerHTML='<div class="admin-empty">No requests yet.</div>'; return; }
+  list.innerHTML = arr.map(function(r){
+    var approveBtn = r.status==='approved'
+      ? ''
+      : '<button class="admin-approve-btn" onclick="approveRequest(\''+r.id+'\',\''+escapeHtml(r.email)+'\')">Approve</button>';
+    return '<div class="admin-req">'+
+      '<div><strong>'+escapeHtml(r.name)+'</strong> — '+escapeHtml(r.company)+'<br><span class="admin-req-meta">'+escapeHtml(r.email)+' · '+escapeHtml(r.phone)+'</span></div>'+
+      '<div class="admin-req-status">'+(r.status||'pending')+'</div>'+
+      approveBtn+
+    '</div>';
+  }).join('');
+}
+
+let adminListenerStarted=false;
+function startAdminListeners(){
+  if(adminListenerStarted) return;
+  adminListenerStarted=true;
+  onSnapshot(query(requestsCol, orderBy('submittedAt','desc')), function(snap){
+    var arr=[]; snap.forEach(function(d){ arr.push(Object.assign({id:d.id}, d.data())); });
+    renderRequests(arr);
+  }, function(err){
+    document.getElementById('adminRequestsList').innerHTML='<div class="admin-empty">Could not load requests — check Firestore rules.</div>';
+  });
+}
+
+window.approveRequest = async function(reqId, email){
+  if(!currentUser || currentUser.email!==ADMIN_EMAIL){ alert('Admin only.'); return; }
+  try{
+    await setDoc(doc(db,'talentApproved', email), {email:email, approvedAt:Date.now(), approvedBy:currentUser.email});
+    await updateDoc(doc(db,'talentRequests', reqId), {status:'approved'});
+  }catch(e){ alert('Could not approve: '+e.message); }
+};
+
+// ── Gate ──
+window.gateSignIn = async function(){
+  try{ await signInWithPopup(auth, provider); }
+  catch(e){ alert('Sign-in failed: '+e.message); }
+};
+window.gateSignOut = function(){ signOut(auth); };
+
+onAuthStateChanged(auth, async function(user){
+  currentUser = user;
+  var gate=document.getElementById('gate');
+  var content=document.getElementById('mainContent');
+  var adminPanel=document.getElementById('adminPanel');
+
+  if(!user){
+    gate.classList.add('show');
+    content.style.display='none';
+    document.getElementById('gate-signed-out').style.display='';
+    document.getElementById('gate-pending').style.display='none';
+    adminPanel.style.display='none';
+    return;
+  }
+
+  if(user.email===ADMIN_EMAIL){
+    gate.classList.remove('show');
+    content.style.display='';
+    adminPanel.style.display='';
+    startAdminListeners();
+    startClosersListener();
+    return;
+  }
+
+  try{
+    var approvedDoc = await getDoc(doc(db,'talentApproved', user.email));
+    if(approvedDoc.exists()){
+      gate.classList.remove('show');
+      content.style.display='';
+      adminPanel.style.display='none';
+      startClosersListener();
+    } else {
+      gate.classList.add('show');
+      content.style.display='none';
+      document.getElementById('gate-signed-out').style.display='none';
+      document.getElementById('gate-pending').style.display='';
+      document.getElementById('gate-email').textContent=user.email;
+    }
+  }catch(e){
+    gate.classList.add('show');
+    content.style.display='none';
+    document.getElementById('gate-signed-out').style.display='none';
+    document.getElementById('gate-pending').style.display='';
+    document.getElementById('gate-email').textContent=user.email;
+  }
+});
 </script>
 </body>
 </html>
