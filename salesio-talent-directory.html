@@ -63,6 +63,26 @@ body{
 .tb-logo-name{font-size:.75rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--text);}
 .tb-badge{font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:rgb(var(--glow-rgb));font-family:'SF Mono',monospace;font-weight:800;margin-left:.5rem;padding:.2rem .5rem;border:1px solid rgba(var(--glow-rgb),.35);border-radius:5px;}
 .tb-actions{display:flex;align-items:center;gap:.75rem;}
+.apply-btn{background:var(--text);color:var(--bg);border:none;border-radius:8px;padding:.55rem 1rem;font-size:.72rem;font-weight:800;letter-spacing:.02em;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap;transition:opacity .15s;}
+.apply-btn:hover{opacity:.85;}
+
+/* Apply modal */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;display:none;align-items:center;justify-content:center;padding:1.5rem;}
+.modal-backdrop.open{display:flex;}
+.modal{background:var(--card);border:1px solid var(--bdr);border-radius:16px;max-width:480px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.4);}
+.modal-header{display:flex;align-items:flex-start;justify-content:space-between;padding:1.375rem 1.5rem 1rem;}
+.modal-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:.375rem;}
+.modal-sub{font-size:.8rem;color:var(--t2);line-height:1.6;font-weight:300;max-width:38ch;}
+.modal-close{background:none;border:none;color:var(--t2);font-size:1rem;cursor:pointer;padding:.25rem;flex-shrink:0;}
+.modal-close:hover{color:var(--text);}
+.modal-body{padding:0 1.5rem 1.5rem;}
+.modal-field{margin-bottom:.875rem;}
+.modal-field label{display:block;font-size:.62rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--t3);font-family:'SF Mono',monospace;margin-bottom:.4rem;}
+.modal-field input{width:100%;background:var(--card-2);border:1px solid var(--bdr-2);border-radius:8px;padding:.65rem .8rem;font-size:.85rem;color:var(--text);font-family:'Inter',sans-serif;}
+.modal-field input:focus{outline:none;border-color:rgba(var(--glow-rgb),.6);}
+.modal-submit{width:100%;background:var(--text);color:var(--bg);border:none;border-radius:8px;padding:.75rem;font-size:.8rem;font-weight:800;cursor:pointer;font-family:'Inter',sans-serif;margin-top:.25rem;}
+.modal-submit:hover{opacity:.85;}
+.modal-status{font-size:.75rem;color:rgb(var(--glow-rgb));margin-top:.625rem;text-align:center;min-height:1rem;}
 .tb-nav{display:flex;align-items:center;gap:.25rem;background:var(--hbg);border:1px solid var(--bdr);border-radius:8px;padding:.25rem;}
 .tb-nav-link{font-size:.7rem;font-weight:700;letter-spacing:.02em;color:var(--t2);text-decoration:none;padding:.4rem .8rem;border-radius:6px;transition:all .15s;}
 .tb-nav-link:hover{color:var(--text);}
@@ -169,6 +189,7 @@ footer{max-width:1240px;margin:0 auto;padding:2rem 2.5rem 3rem;border-top:1px so
         <a class="tb-nav-link active" href="./salesio-talent-directory.html">Closers</a>
         <a class="tb-nav-link" href="./salesio-talent-directory-setters.html">Setters</a>
       </div>
+      <button class="apply-btn" onclick="openApplyModal()">Are you hiring? Apply for Access</button>
       <div class="toggle-row">
         <span class="toggle-lbl" id="mode-lbl">Day</span>
         <div class="toggle-switch" onclick="toggleTheme()"><div class="toggle-thumb"></div></div>
@@ -364,6 +385,61 @@ footer{max-width:1240px;margin:0 auto;padding:2rem 2.5rem 3rem;border-top:1px so
 </div>
 
 <footer>Sales.io &middot; Talent Directory</footer>
+
+<!-- Apply for Access Modal -->
+<div class="modal-backdrop" id="applyModal" onclick="closeApplyModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">Apply for Access</div>
+        <div class="modal-sub">Tell us who you are and we'll verify your company before you get full access to the directory.</div>
+      </div>
+      <button class="modal-close" onclick="closeApplyModalDirect()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-field"><label>Your Name</label><input type="text" id="apply-name" placeholder="Jane Smith"></div>
+      <div class="modal-field"><label>Company</label><input type="text" id="apply-company" placeholder="Acme Inc."></div>
+      <div class="modal-field"><label>Email</label><input type="email" id="apply-email" placeholder="jane@acme.com"></div>
+      <div class="modal-field"><label>Phone</label><input type="tel" id="apply-phone" placeholder="+1 555 123 4567"></div>
+      <button class="modal-submit" onclick="submitApply()">Submit for Verification</button>
+      <div class="modal-status" id="apply-status"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function openApplyModal(){
+  document.getElementById('apply-status').textContent='';
+  document.getElementById('applyModal').classList.add('open');
+}
+function closeApplyModal(e){ if(e.target===document.getElementById('applyModal')) closeApplyModalDirect(); }
+function closeApplyModalDirect(){ document.getElementById('applyModal').classList.remove('open'); }
+
+function submitApply(){
+  var name=document.getElementById('apply-name').value.trim();
+  var company=document.getElementById('apply-company').value.trim();
+  var email=document.getElementById('apply-email').value.trim();
+  var phone=document.getElementById('apply-phone').value.trim();
+  var status=document.getElementById('apply-status');
+
+  if(!name||!company||!email||!phone){
+    status.textContent='Please fill in every field.';
+    return;
+  }
+
+  var subject=encodeURIComponent('Talent Directory access request — '+company);
+  var body=encodeURIComponent(
+    'New access request for the Sales.io Talent Directory:\n\n'+
+    'Name: '+name+'\n'+
+    'Company: '+company+'\n'+
+    'Email: '+email+'\n'+
+    'Phone: '+phone+'\n'
+  );
+  window.location.href='mailto:jj@psycho-sales.com?subject='+subject+'&body='+body;
+  status.textContent='Opening your email client to send this for review...';
+  setTimeout(closeApplyModalDirect, 1200);
+}
+</script>
 
 <script>
 function toggleTheme(){
