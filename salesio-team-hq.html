@@ -178,7 +178,12 @@ body{
   backdrop-filter:blur(20px);transition:background .4s,border-color .4s;
 }
 .mh-title{font-size:.625rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);}
+.mh-left{display:flex;align-items:center;gap:.875rem;}
+.mh-menu-btn{display:none;background:none;border:none;color:var(--text);cursor:pointer;padding:.25rem;flex-shrink:0;}
+.mh-menu-btn svg{width:20px;height:20px;display:block;}
 .mh-right{display:flex;align-items:center;gap:.875rem;}
+.sidebar-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:999;}
+.sidebar-backdrop.show{display:block;}
 .internal-badge{
   font-size:.475rem;letter-spacing:.2em;text-transform:uppercase;
   background:var(--text);color:var(--bg);border-radius:4px;
@@ -479,28 +484,6 @@ body{
 .task-del:hover{color:#8a3030;}
 .task-empty{font-size:.75rem;color:var(--t3);padding:.75rem .5rem;font-weight:300;}
 
-.sync-link{background:none;border:1px solid var(--bdr-2);border-radius:6px;color:var(--t2);font-size:.55rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;font-family:'SF Mono',monospace;padding:.3rem .55rem;cursor:pointer;transition:all .15s;}
-.sync-link:hover{border-color:rgba(var(--glow-rgb),.55);color:var(--text);}
-.section-label-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
-.section-label-row .section-label{margin-bottom:0;}
-
-/* Sync modal */
-.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;display:none;align-items:center;justify-content:center;padding:1.5rem;}
-.modal-backdrop.open{display:flex;}
-.modal{background:var(--card);border:1px solid var(--bdr);border-radius:16px;max-width:520px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.4);}
-.modal-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--bdr);}
-.modal-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--text);}
-.modal-close{background:none;border:none;color:var(--t2);font-size:1rem;cursor:pointer;padding:.25rem;}
-.modal-close:hover{color:var(--text);}
-.modal-body{padding:1.5rem;}
-.modal-body p{font-size:.8rem;color:var(--t2);line-height:1.7;margin-bottom:1.25rem;font-weight:300;}
-.modal-step-label{font-size:.65rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);font-family:'SF Mono',monospace;display:block;margin-bottom:.5rem;}
-.modal-textarea{width:100%;background:var(--card-2);border:1px solid var(--bdr-2);border-radius:8px;padding:.75rem;font-size:.75rem;color:var(--text);font-family:'SF Mono',monospace;min-height:100px;resize:vertical;}
-.modal-textarea:focus{outline:none;border-color:rgba(var(--glow-rgb),.55);}
-.modal-btn{width:100%;background:var(--text);color:var(--bg);border:none;border-radius:8px;padding:.75rem 1.125rem;font-size:.75rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:opacity .15s;}
-.modal-btn:hover{opacity:.85;}
-.modal-status{font-size:.75rem;color:rgb(var(--glow-rgb));margin-top:.5rem;min-height:1rem;font-weight:500;}
-
 /* Doc review tracker */
 .review-add{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:1.25rem 1.375rem;margin-bottom:1.5rem;}
 .review-add-row{display:flex;gap:.5rem;margin-bottom:.5rem;}
@@ -594,7 +577,13 @@ body{
 
 /* ── Mobile ── */
 @media(max-width:700px){
-  .sidebar{display:none;}
+  .sidebar{
+    position:fixed;left:0;top:0;bottom:0;z-index:1000;
+    transform:translateX(-100%);transition:transform .25s cubic-bezier(.4,0,.2,1);
+    box-shadow:0 0 40px rgba(0,0,0,.4);
+  }
+  .sidebar.open{transform:translateX(0);}
+  .mh-menu-btn{display:flex;align-items:center;justify-content:center;}
   .stats-row{grid-template-columns:repeat(2,1fr);}
   .launch-grid{grid-template-columns:1fr 1fr;}
   .week-grid{grid-template-columns:repeat(3,1fr);}
@@ -606,8 +595,10 @@ body{
 
 <div class="grain" aria-hidden="true"></div>
 
+<div class="sidebar-backdrop" id="sidebar-backdrop" onclick="closeSidebar()"></div>
+
 <!-- ══ SIDEBAR ══ -->
-<nav class="sidebar">
+<nav class="sidebar" id="sidebar">
   <div class="sb-header">
     <div class="sb-logo">
       <div class="sb-logo-mark">S</div>
@@ -654,6 +645,10 @@ body{
       <span style="display:flex;align-items:center;gap:.625rem;"><span class="nav-icon">🔗</span> Affiliate Tracker</span>
       <span class="ext-arr">↗</span>
     </a>
+    <a class="nav-ext" href="./salesio-setter-tracker.html" target="_blank">
+      <span style="display:flex;align-items:center;gap:.625rem;"><span class="nav-icon">📋</span> Setter Tracker</span>
+      <span class="ext-arr">↗</span>
+    </a>
   </div>
 
   <div class="sb-footer">
@@ -670,7 +665,12 @@ body{
 <!-- ══ MAIN ══ -->
 <div class="main">
   <div class="main-header">
-    <span class="mh-title" id="mh-title">Dashboard</span>
+    <div class="mh-left">
+      <button class="mh-menu-btn" onclick="openSidebar()" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+      <span class="mh-title" id="mh-title">Dashboard</span>
+    </div>
     <div class="mh-right">
       <span class="internal-badge">Internal — Confidential</span>
     </div>
@@ -689,10 +689,7 @@ body{
       <div id="today-call-wrap"></div>
 
       <!-- Today: tasks + calendar -->
-      <div class="section-label-row">
-        <div class="section-label">Today</div>
-        <button class="sync-link" onclick="openSyncModal()" title="Tasks live in this browser only — move them between devices">⇅ Sync Tasks</button>
-      </div>
+      <div class="section-label">Today</div>
       <div class="dash-widgets">
         <div class="tasks-mini">
           <div class="task-add-row">
@@ -793,10 +790,7 @@ body{
         <iframe id="calendar-iframe" class="calendar-frame" style="display:none;" src="" title="Google Calendar" frameborder="0" scrolling="no"></iframe>
       </div>
 
-      <div class="section-label-row">
-        <div class="section-label">Tasks</div>
-        <button class="sync-link" onclick="openSyncModal()" title="Tasks live in this browser only — move them between devices">⇅ Sync Tasks</button>
-      </div>
+      <div class="section-label">Tasks</div>
       <div class="task-add-row">
         <input type="text" id="task-input-full" class="task-input" placeholder="Add a task..." onkeydown="if(event.key==='Enter')addTask('task-input-full')">
         <button class="task-add-btn" onclick="addTask('task-input-full')">Add</button>
@@ -828,6 +822,7 @@ body{
         <div class="res-grid">
           <a class="res-card" href="./salesio-client-hub.html" target="_blank"><div class="res-icon">👥</div><div><div class="res-name">Client Hub</div><div class="res-desc">Active student tracker — weeks, status, renewals, CSV export.</div></div></a>
           <a class="res-card" href="./training-bible-master.html" target="_blank"><div class="res-icon">🎓</div><div><div class="res-name">Training Bible</div><div class="res-desc">Master reference for every lesson and framework taught.</div></div></a>
+          <a class="res-card" href="./training-bible-index.html" target="_blank"><div class="res-icon">📑</div><div><div class="res-name">Bible Index</div><div class="res-desc">Index view of all training bible sections and lessons.</div></div></a>
           <a class="res-card" href="./salesio-affiliate-tracker.html" target="_blank"><div class="res-icon">🔗</div><div><div class="res-name">Affiliate Tracker</div><div class="res-desc">Track affiliate referrals and commission payouts.</div></div></a>
           <a class="res-card" href="./salesio-student-link-format.html" target="_blank"><div class="res-icon">🪪</div><div><div class="res-name">Student Link Format</div><div class="res-desc">Build a student's personalized HQ link — name + start date.</div></div></a>
         </div>
@@ -838,6 +833,7 @@ body{
         <div class="res-grid">
           <a class="res-card" href="./salesio-sales-101.html" target="_blank"><div class="res-icon">👋</div><div><div class="res-name">Sales 101</div><div class="res-desc">Send to total beginners before Day One — plain-language glossary and call walkthrough.</div></div></a>
           <a class="res-card" href="./salesio-day-one-expectations.html" target="_blank"><div class="res-icon">📄</div><div><div class="res-name">Day One Expectations</div><div class="res-desc">Send on day one — full program overview, schedule, and rules.</div></div></a>
+          <a class="res-card" href="./student-onboarding.html" target="_blank"><div class="res-icon">🚀</div><div><div class="res-name">Student Onboarding</div><div class="res-desc">Onboarding flow and first-week checklist for new students.</div></div></a>
           <a class="res-card" href="./salesio-enrollment-agreement.html" target="_blank"><div class="res-icon">✍️</div><div><div class="res-name">Enrollment Agreement</div><div class="res-desc">Program terms and signature block for new students.</div></div></a>
           <a class="res-card" href="./salesio-progress-tracker.html" target="_blank"><div class="res-icon">🗺️</div><div><div class="res-name">Progress Tracker</div><div class="res-desc">Student-facing 12-week roadmap with self-tracking checkpoints.</div></div></a>
           <a class="res-card" href="./salesio-call-tracker.html" target="_blank"><div class="res-icon">📞</div><div><div class="res-name">Call Tracker</div><div class="res-desc">Student self-tracking tool — shows, closes, cash collected. Local to their device.</div></div></a>
@@ -858,12 +854,11 @@ body{
         <div class="res-group-title">Sales</div>
         <div class="res-grid">
           <a class="res-card" href="./sales-call-script.html" target="_blank"><div class="res-icon">📞</div><div><div class="res-name">Sales Call Script</div><div class="res-desc">Full call script and framework for closers.</div></div></a>
-          <a class="res-card" href="./salesio-financial-discovery-framework.html" target="_blank"><div class="res-icon">💰</div><div><div class="res-name">Financial Discovery Framework</div><div class="res-desc">How to run the numbers portion of discovery — broken down from a real call.</div></div></a>
+          <a class="res-card" href="./sales-call-structure.html" target="_blank"><div class="res-icon">🏗️</div><div><div class="res-name">Call Structure</div><div class="res-desc">Call architecture breakdown from open to close.</div></div></a>
           <a class="res-card" href="./faris-setter-daily-standards.html" target="_blank"><div class="res-icon">📊</div><div><div class="res-name">Setter Daily Standards</div><div class="res-desc">Faris's daily KPIs, standards, and booking process.</div></div></a>
+          <a class="res-card" href="./salesio-setter-tracker.html" target="_blank"><div class="res-icon">📋</div><div><div class="res-name">Setter Tracker</div><div class="res-desc">Single daily-entry log per setter, rolling up into a team comparison view for Tom.</div></div></a>
           <a class="res-card" href="./salesio-affiliate-program.html" target="_blank"><div class="res-icon">🤝</div><div><div class="res-name">Affiliate Program</div><div class="res-desc">Affiliate program overview and commission structure.</div></div></a>
           <a class="res-card" href="./salesio-affiliate-apply.html" target="_blank"><div class="res-icon">✅</div><div><div class="res-name">Affiliate Application</div><div class="res-desc">Application form and onboarding for new affiliates.</div></div></a>
-          <a class="res-card" href="./salesio-talent-directory.html" target="_blank"><div class="res-icon">🎥</div><div><div class="res-name">Talent Directory — Closers</div><div class="res-desc">Vetted closer profiles with Loom intros — companies connect directly.</div></div></a>
-          <a class="res-card" href="./salesio-talent-directory-setters.html" target="_blank"><div class="res-icon">📋</div><div><div class="res-name">Talent Directory — Setters</div><div class="res-desc">Vetted setter profiles with Loom intros — companies connect directly.</div></div></a>
         </div>
       </div>
 
@@ -878,6 +873,7 @@ body{
       <div class="res-group">
         <div class="res-group-title">Curriculum Weeks</div>
         <div class="res-grid">
+          <a class="res-card" href="./curriculum-weeks-8-12.html" target="_blank"><div class="res-icon">📚</div><div><div class="res-name">Weeks 8–12 Curriculum</div><div class="res-desc">Phase 2–3 curriculum content and lesson plans.</div></div></a>
           <a class="res-card" href="./week7-mastery-test.html" target="_blank"><div class="res-icon">🧪</div><div><div class="res-name">Week 7 Mastery Test</div><div class="res-desc">Student assessment and mastery check for Week 7.</div></div></a>
           <a class="res-card" href="./week8-decision-architecture.html" target="_blank"><div class="res-icon">🏛️</div><div><div class="res-name">Week 8 Decision Architecture</div><div class="res-desc">Decision-making framework and advanced close architecture.</div></div></a>
         </div>
@@ -1063,6 +1059,7 @@ body{
         <a class="pb-item" href="./salesio-weekly-checkin.html" target="_blank"><div class="pb-icon">🗒️</div><div class="pb-title">Weekly 1-on-1 Check-In</div><span class="pb-tag">Coaching</span><span class="pb-arr">↗</span></a>
         <a class="pb-item" href="./salesio-student-link-format.html" target="_blank"><div class="pb-icon">🔗</div><div class="pb-title">Student Link Format</div><span class="pb-tag">Onboarding</span><span class="pb-arr">↗</span></a>
         <a class="pb-item" href="./salesio-renewal-sop.html" target="_blank"><div class="pb-icon">🔄</div><div class="pb-title">Renewal SOP</div><span class="pb-tag">Renewals</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./student-onboarding.html" target="_blank"><div class="pb-icon">🚀</div><div class="pb-title">Student Onboarding</div><span class="pb-tag">Onboarding</span><span class="pb-arr">↗</span></a>
         <a class="pb-item" href="./sop-community-reengagement-90day.html" target="_blank"><div class="pb-icon">💬</div><div class="pb-title">Community Re-engagement (90 Day)</div><span class="pb-tag">Community</span><span class="pb-arr">↗</span></a>
         <a class="pb-item" href="./sop-follow-up-email-sequence.html" target="_blank"><div class="pb-icon">📧</div><div class="pb-title">Follow-Up Email Sequence</div><span class="pb-tag">Lead nurture</span><span class="pb-arr">↗</span></a>
         <a class="pb-item" href="./salesio-graduation.html" target="_blank"><div class="pb-icon">🎓</div><div class="pb-title">Graduation</div><span class="pb-tag">Completion</span><span class="pb-arr">↗</span></a>
@@ -1094,32 +1091,6 @@ body{
 
   </div><!-- /content -->
 </div><!-- /main -->
-
-<!-- Sync Modal (Tasks) -->
-<div class="modal-backdrop" id="syncModal" onclick="closeSyncModal(event)">
-  <div class="modal" onclick="event.stopPropagation()">
-    <div class="modal-header">
-      <div class="modal-title">⇅ Sync Tasks Between Devices</div>
-      <button class="modal-close" onclick="closeSyncModalDirect()">✕</button>
-    </div>
-    <div class="modal-body">
-      <p>Tasks live in this browser only — they don't sync automatically between computers or devices. Use this to move them manually so nothing gets lost when you switch machines.</p>
-
-      <div style="margin-bottom:1.25rem;">
-        <span class="modal-step-label">1. On the device with your current tasks</span>
-        <button class="modal-btn" onclick="copySyncData()">Copy My Tasks</button>
-        <div id="syncCopyStatus" class="modal-status"></div>
-      </div>
-
-      <div>
-        <span class="modal-step-label">2. On this device, paste it here</span>
-        <textarea id="syncPasteArea" class="modal-textarea" placeholder="Paste the copied data here..."></textarea>
-        <button class="modal-btn" onclick="importSyncData()" style="margin-top:.625rem;">Import — Replace This Device's Tasks</button>
-        <div id="syncImportStatus" class="modal-status"></div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <script>
 /* ── Theme ── */
@@ -1301,45 +1272,6 @@ function renderTasks(){
 }
 renderTasks();
 
-/* ── Sync tasks between devices ── */
-function openSyncModal(){
-  document.getElementById('syncCopyStatus').textContent='';
-  document.getElementById('syncImportStatus').textContent='';
-  document.getElementById('syncPasteArea').value='';
-  document.getElementById('syncModal').classList.add('open');
-}
-function closeSyncModal(e){ if(e.target===document.getElementById('syncModal')) closeSyncModalDirect(); }
-function closeSyncModalDirect(){ document.getElementById('syncModal').classList.remove('open'); }
-
-function copySyncData(){
-  var tasks=loadTasks();
-  var json=JSON.stringify(tasks);
-  navigator.clipboard.writeText(json).then(function(){
-    document.getElementById('syncCopyStatus').textContent='Copied '+tasks.length+' task'+(tasks.length===1?'':'s')+' — now paste it into Team HQ on the other device.';
-  }).catch(function(){
-    var ta=document.getElementById('syncPasteArea');
-    ta.value=json;
-    ta.select();
-    document.getElementById('syncCopyStatus').textContent='Could not copy automatically — select and copy the text below instead.';
-  });
-}
-
-function importSyncData(){
-  var raw=document.getElementById('syncPasteArea').value.trim();
-  var status=document.getElementById('syncImportStatus');
-  if(!raw){ status.textContent='Paste your data first.'; return; }
-  var incoming;
-  try{ incoming=JSON.parse(raw); }
-  catch(e){ status.textContent="That doesn't look like valid synced data."; return; }
-  if(!Array.isArray(incoming)){ status.textContent="That doesn't look like valid synced data."; return; }
-  var current=loadTasks();
-  if(current.length && !confirm('This replaces the '+current.length+' task(s) currently on this device with '+incoming.length+' from the pasted data. Continue?')) return;
-  saveTasksState(incoming);
-  renderTasks();
-  status.textContent='Synced. '+incoming.length+' task'+(incoming.length===1?'':'s')+' loaded.';
-  setTimeout(closeSyncModalDirect, 900);
-}
-
 (function initNotes(){
   var area=document.getElementById('notes-area');
   var status=document.getElementById('notes-status');
@@ -1430,7 +1362,19 @@ function gdrivePickerCallback(data){
 var SEC_TITLES={dash:'Dashboard',notes:'Brain Dump',hub:'Client Hub',resources:'Resources',team:'Team',content:'Content',review:'Doc Review',playbooks:'Playbooks'};
 var hubLoaded=false;
 
+function openSidebar(){
+  var sb=document.getElementById('sidebar'),bd=document.getElementById('sidebar-backdrop');
+  if(sb)sb.classList.add('open');
+  if(bd)bd.classList.add('show');
+}
+function closeSidebar(){
+  var sb=document.getElementById('sidebar'),bd=document.getElementById('sidebar-backdrop');
+  if(sb)sb.classList.remove('open');
+  if(bd)bd.classList.remove('show');
+}
+
 function goTo(id){
+  closeSidebar();
   document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active');});
   document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
   var sec=document.getElementById('sec-'+id);
