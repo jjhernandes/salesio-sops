@@ -224,6 +224,7 @@ footer{max-width:1240px;margin:0 auto;padding:2rem 2.5rem 3rem;border-top:1px so
 <div id="adminPanel">
   <div class="admin-box">
     <div class="admin-title"><span>Admin — Pending Access Requests</span><button class="admin-seed-btn" onclick="seedClosers()">Seed Existing Profiles (one-time)</button></div>
+    <div id="adminSeedStatus" style="font-size:.72rem;color:var(--t2);margin-bottom:.75rem;"></div>
     <div id="adminRequestsList"><div class="admin-empty">Loading...</div></div>
   </div>
 </div>
@@ -408,20 +409,22 @@ function startClosersListener(){
     var arr=[]; snap.forEach(function(d){ arr.push(Object.assign({id:d.id}, d.data())); });
     renderClosers(arr);
   }, function(err){
-    document.getElementById('talentGrid').innerHTML = '<div class="tcard-empty"><div class="tcard-empty-icon">⚠️</div><div class="tcard-empty-title">Could not load profiles</div><div class="tcard-empty-sub">Check Firestore rules and your approval status.</div></div>';
+    document.getElementById('talentGrid').innerHTML = '<div class="tcard-empty"><div class="tcard-empty-icon">⚠️</div><div class="tcard-empty-title">Could not load profiles</div><div class="tcard-empty-sub">'+escapeHtml(err.message)+'</div></div>';
   });
 }
 
 window.seedClosers = async function(){
-  if(!currentUser || currentUser.email!==ADMIN_EMAIL){ alert('Admin only.'); return; }
-  if(!confirm('Seed the '+SEED_CLOSERS.length+' existing closer profiles into Firestore? Safe to run more than once — it just overwrites the same 6 IDs.')) return;
+  var status=document.getElementById('adminSeedStatus');
+  if(!currentUser || currentUser.email!==ADMIN_EMAIL){ status.textContent='Admin only — signed in as: '+(currentUser?currentUser.email:'nobody'); return; }
+  status.textContent='Seeding...';
   try{
     for(var i=0;i<SEED_CLOSERS.length;i++){
       var c=SEED_CLOSERS[i];
       await setDoc(doc(db,'talentClosers', c.id), c);
+      status.textContent='Seeding... '+(i+1)+'/'+SEED_CLOSERS.length;
     }
-    alert('Seeded '+SEED_CLOSERS.length+' profiles.');
-  }catch(e){ alert('Seed failed: '+e.message); }
+    status.textContent='Done — seeded '+SEED_CLOSERS.length+' profiles. They should appear below now.';
+  }catch(e){ status.textContent='Seed failed: '+e.message; }
 };
 
 // ── Access requests: name/phone/email → email-link sign-in ──
