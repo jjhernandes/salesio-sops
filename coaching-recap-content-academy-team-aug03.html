@@ -123,6 +123,33 @@
   .video-meta a{color:var(--accent);text-decoration:none;font-family:var(--mono);font-size:.7rem;}
   .video-meta a:hover{text-decoration:underline;}
 
+  /* Video card (no embeddable thumbnail available) */
+  .video-card{
+    display:block;text-decoration:none;color:inherit;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:6px;overflow:hidden;transition:border-color .15s,background .15s;
+  }
+  .video-card:hover{border-color:var(--accent-border);background:var(--surface-2);}
+  .video-poster{
+    aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;
+    background:
+      radial-gradient(circle at 30% 20%, var(--accent-dim), transparent 60%),
+      var(--surface-2);
+    position:relative;
+  }
+  .play-circle{
+    width:56px;height:56px;border-radius:50%;
+    background:var(--accent);display:flex;align-items:center;justify-content:center;
+    box-shadow:0 4px 18px var(--accent-dim);flex-shrink:0;
+    transition:transform .15s;
+  }
+  .video-card:hover .play-circle{transform:scale(1.06);}
+  .play-circle svg{width:18px;height:18px;margin-left:3px;fill:var(--bg);}
+  .video-card-meta{padding:.875rem 1rem;border-top:1px solid var(--border);}
+  .video-card-title{font-size:.875rem;font-weight:650;color:var(--text);margin-bottom:.25rem;}
+  .video-card-sub{display:flex;justify-content:space-between;align-items:center;gap:.75rem;flex-wrap:wrap;font-size:.75rem;color:var(--text-muted);}
+  .video-card-sub .link{color:var(--accent);font-family:var(--mono);font-size:.7rem;}
+
   /* Moments */
   .moment{
     margin-bottom:.625rem;
@@ -220,13 +247,18 @@
   <div class="section">
     <div class="sec-eyebrow">Recording</div>
     <h2 class="sec-title">Session video</h2>
-    <div class="video-wrap">
-      <iframe src="https://fathom.video/share/1Tvv2MyG588TSzuFVXfxzVEXWWsyRsqV" title="Sales Team Sync: Content Academy, August 3" allowfullscreen loading="lazy"></iframe>
-      <div class="video-meta">
-        <span>Recorded session &middot; ~31 min</span>
-        <a href="https://fathom.video/share/1Tvv2MyG588TSzuFVXfxzVEXWWsyRsqV" target="_blank" rel="noopener">Open in Fathom &rarr;</a>
+    <a class="video-card" href="https://fathom.video/share/1Tvv2MyG588TSzuFVXfxzVEXWWsyRsqV" target="_blank" rel="noopener">
+      <div class="video-poster">
+        <div class="play-circle"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
       </div>
-    </div>
+      <div class="video-card-meta">
+        <div class="video-card-title">Sales Team Sync: Content Academy, August 3</div>
+        <div class="video-card-sub">
+          <span>Recorded session &middot; ~31 min</span>
+          <span class="link">Watch on Fathom &rarr;</span>
+        </div>
+      </div>
+    </a>
   </div>
 
   <!-- Snapshot -->
