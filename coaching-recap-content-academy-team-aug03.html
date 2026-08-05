@@ -1,0 +1,412 @@
+
+<title>Sales Team Sync: Content Academy, August 3</title>
+<style>
+  :root {
+    --bg: #090908;
+    --surface: #111110;
+    --surface-2: #1a1916;
+    --accent: #e2cfa8;
+    --accent-soft: #f0e4c8;
+    --accent-dim: rgba(226,207,168,.07);
+    --accent-border: rgba(226,207,168,.14);
+    --text: #f0ece4;
+    --text-muted: #8a8475;
+    --text-faint: #3e3b30;
+    --border: #201f18;
+    --check: #7dcf95;
+    --check-dim: rgba(125,207,149,.08);
+    --mono: 'SF Mono','Fira Code','Consolas',monospace;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f2; --surface: #f0ece0; --surface-2: #e4dece;
+      --accent: #8a6d3a; --accent-soft: #6b5228;
+      --accent-dim: rgba(138,109,58,.07); --accent-border: rgba(138,109,58,.2);
+      --text: #1a1914; --text-muted: #6a6450; --text-faint: #c0b898;
+      --border: #ddd8c8; --check: #2a7a45; --check-dim: rgba(42,122,69,.07);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#090908;--surface:#111110;--surface-2:#1a1916;
+    --accent:#e2cfa8;--accent-soft:#f0e4c8;
+    --accent-dim:rgba(226,207,168,.07);--accent-border:rgba(226,207,168,.14);
+    --text:#f0ece4;--text-muted:#8a8475;--text-faint:#3e3b30;
+    --border:#201f18;--check:#7dcf95;--check-dim:rgba(125,207,149,.08);
+  }
+  :root[data-theme="light"] {
+    --bg:#faf8f2;--surface:#f0ece0;--surface-2:#e4dece;
+    --accent:#8a6d3a;--accent-soft:#6b5228;
+    --accent-dim:rgba(138,109,58,.07);--accent-border:rgba(138,109,58,.2);
+    --text:#1a1914;--text-muted:#6a6450;--text-faint:#c0b898;
+    --border:#ddd8c8;--check:#2a7a45;--check-dim:rgba(42,122,69,.07);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{font-size:16px;scroll-behavior:smooth;}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    font-size:.9375rem;line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .doc-header{
+    max-width:760px;margin:0 auto;
+    padding:3rem 2rem 2.5rem;
+    border-bottom:1px solid var(--border);
+  }
+  .eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:.875rem;
+  }
+  .doc-title{
+    font-size:1.75rem;font-weight:700;
+    letter-spacing:-.03em;line-height:1.2;
+    color:var(--text);margin-bottom:.25rem;
+  }
+  .doc-sub{color:var(--text-muted);font-size:.9375rem;margin-top:.25rem;}
+  .meta-row{
+    display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.125rem;
+  }
+  .meta-chip{
+    display:flex;align-items:center;gap:.4rem;
+    font-family:var(--mono);font-size:.6875rem;
+    color:var(--text-muted);background:var(--surface);
+    border:1px solid var(--border);border-radius:2px;padding:.25rem .625rem;
+  }
+  .meta-chip-dot{
+    width:4px;height:4px;border-radius:50%;
+    background:var(--accent);flex-shrink:0;
+  }
+
+  main{max-width:760px;margin:0 auto;padding:0 2rem 5rem;}
+
+  .section{padding:2.25rem 0 1.75rem;border-bottom:1px solid var(--border);}
+  .section:last-child{border-bottom:none;}
+  .sec-eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.12em;text-transform:uppercase;
+    color:var(--text-faint);margin-bottom:.75rem;
+  }
+  .sec-title{
+    font-size:1.0625rem;font-weight:650;
+    color:var(--text);letter-spacing:-.015em;margin-bottom:1.25rem;
+  }
+
+  /* Snapshot cards */
+  .snap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;}
+  .snap-card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:3px;overflow:hidden;
+  }
+  .snap-head{
+    padding:.5rem .75rem;background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--text-faint);
+  }
+  .snap-val{
+    padding:.625rem .75rem;font-size:.875rem;color:var(--text-muted);
+    line-height:1.5;
+  }
+  .snap-val strong{color:var(--text);font-weight:600;}
+
+  /* Video embed */
+  .video-wrap{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:6px;overflow:hidden;
+  }
+  .video-wrap iframe{width:100%;aspect-ratio:16/9;display:block;border:none;}
+  .video-meta{padding:.75rem 1rem;font-size:.75rem;color:var(--text-muted);border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:.75rem;flex-wrap:wrap;}
+  .video-meta a{color:var(--accent);text-decoration:none;font-family:var(--mono);font-size:.7rem;}
+  .video-meta a:hover{text-decoration:underline;}
+
+  /* Moments */
+  .moment{
+    margin-bottom:.625rem;
+    border:1px solid var(--border);border-radius:3px;overflow:hidden;
+  }
+  .moment-head{
+    display:flex;align-items:flex-start;gap:.875rem;
+    padding:.9375rem 1.125rem;background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+  }
+  .moment-num{
+    font-family:var(--mono);font-size:.625rem;
+    letter-spacing:.08em;color:var(--accent);opacity:.55;
+    flex-shrink:0;margin-top:.15rem;min-width:1.5rem;
+  }
+  .moment-title{
+    font-size:.9375rem;font-weight:650;
+    color:var(--text);letter-spacing:-.01em;line-height:1.3;
+  }
+  .moment-body{
+    padding:.9375rem 1.125rem;background:var(--surface);
+  }
+  .moment-p{
+    font-size:.875rem;color:var(--text-muted);
+    line-height:1.65;margin-bottom:.625rem;
+  }
+  .moment-p:last-child{margin-bottom:0;}
+  .moment-p strong{color:var(--text);font-weight:600;}
+
+  .quote-block{
+    margin:.75rem 0;padding:.75rem 1rem;
+    background:var(--accent-dim);border-left:2px solid var(--accent);
+    border-radius:0 2px 2px 0;
+    font-size:.875rem;color:var(--accent-soft);
+    line-height:1.6;font-style:italic;
+  }
+  .quote-attr{
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--text-faint);margin-top:.35rem;font-style:normal;
+  }
+
+  .callout{
+    padding:.75rem 1rem;
+    background:var(--accent-dim);border:1px solid var(--accent-border);
+    border-radius:2px;font-size:.875rem;color:var(--text-muted);line-height:1.6;
+    margin-top:.875rem;
+  }
+  .callout strong{color:var(--accent-soft);}
+
+  /* Action items */
+  .action-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+  .action-item{
+    display:flex;align-items:flex-start;gap:.75rem;
+    padding:.75rem .875rem;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:3px;font-size:.875rem;color:var(--text-muted);line-height:1.5;
+  }
+  .action-owner{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent);opacity:.7;flex-shrink:0;
+    margin-top:.15rem;min-width:3.5rem;
+  }
+
+  .doc-footer{
+    max-width:760px;margin:0 auto;
+    padding:1.5rem 2rem;border-top:1px solid var(--border);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);
+  }
+
+  @media(max-width:600px){
+    .doc-header,main{padding-left:1.25rem;padding-right:1.25rem;}
+    .doc-title{font-size:1.4rem;}
+    .snap-grid,.action-grid{grid-template-columns:1fr;}
+  }
+</style>
+
+<div class="doc-header">
+  <div class="eyebrow">Sales.io &times; Content Academy, Team Sync</div>
+  <h1 class="doc-title">Sales Team Sync</h1>
+  <div class="doc-sub">JJ's first team sync with Mino, Justin, Omar, and Allan: cadence structure, the awareness scale, and how the call framework should actually run</div>
+  <div class="meta-row">
+    <div class="meta-chip"><div class="meta-chip-dot"></div>~31 min</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Team sync / cadence kickoff</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Awareness-based selling framework</div>
+  </div>
+</div>
+
+<main>
+
+  <!-- Session recording -->
+  <div class="section">
+    <div class="sec-eyebrow">Recording</div>
+    <h2 class="sec-title">Session video</h2>
+    <div class="video-wrap">
+      <iframe src="https://fathom.video/share/1Tvv2MyG588TSzuFVXfxzVEXWWsyRsqV" title="Sales Team Sync: Content Academy, August 3" allowfullscreen loading="lazy"></iframe>
+      <div class="video-meta">
+        <span>Recorded session &middot; ~31 min</span>
+        <a href="https://fathom.video/share/1Tvv2MyG588TSzuFVXfxzVEXWWsyRsqV" target="_blank" rel="noopener">Open in Fathom &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Snapshot -->
+  <div class="section">
+    <div class="sec-eyebrow">Context</div>
+    <h2 class="sec-title">What this session is</h2>
+    <div class="snap-grid">
+      <div class="snap-card">
+        <div class="snap-head">Who's on it</div>
+        <div class="snap-val">JJ's first sync with the full Content Academy sales team: <strong>Mino</strong>, <strong>Justin</strong>, <strong>Omar</strong>, and <strong>Allan</strong>, setting up the weekly cadence and coaching relationship going forward.</div>
+      </div>
+      <div class="snap-card">
+        <div class="snap-head">Opening context</div>
+        <div class="snap-val">The team just closed a <strong>$200K month</strong>, jumping from $165K to $200K in the final two days on a team-wide push, everyone closing, including Prosper (a coach) jumping on calls and Mino closing an upsell.</div>
+      </div>
+      <div class="snap-card">
+        <div class="snap-head">Core lesson</div>
+        <div class="snap-val">Selling on this offer is about <strong>awareness</strong>, not sales muscle. Know where you are in the process, and know where the prospect is on the awareness scale, problem-aware vs. solution-aware, so you never pitch too early or too late.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Framework walkthrough -->
+  <div class="section">
+    <div class="sec-eyebrow">Walkthrough</div>
+    <h2 class="sec-title">What was covered</h2>
+
+    <div class="moment">
+      <div class="moment-head">
+        <div class="moment-num">01</div>
+        <div class="moment-title">JJ's role: ancillary help, not a takeover</div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">JJ frames the engagement clearly upfront: he's not here to run the team, he's here to make an already-working team better. He references his background (Iman Gadzhi, Alex Cattoni-adjacent names, Daniel Isles, Ashton Hall, and coaching top reps for teams like Dan Martell's) to establish credibility, then pivots straight into the actual point.</div>
+        <div class="quote-block">
+          "A team with no goals is a team with no results... this is not me taking over anything, it's me coming in here and being able to be like an ancillary help to what you guys are already doing."
+          <div class="quote-attr">JJ Hernandez</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head">
+        <div class="moment-num">02</div>
+        <div class="moment-title">The weekly cadence: Monday, Wednesday, Friday</div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p"><strong>Mondays, BAM &amp; Reach.</strong> BAM is the bare-minimum cash-collected number each rep puts their name on for the week. Reach is the stretch number they're chasing on top of it, for themselves. Setting it live as a team creates external urgency and healthy competitiveness that wouldn't exist otherwise.</div>
+        <div class="moment-p"><strong>Wednesdays, midweek stat check.</strong> Where's everyone against their BAM, what do they need to close the gap, then get tactical, a call review or a roleplay depending on what's needed.</div>
+        <div class="moment-p"><strong>Fridays, culture day, with teeth.</strong> Wins and shoutouts, but also whichever of call review or roleplay didn't happen on Wednesday. If Wednesday was a roleplay, Friday is a call review, and vice versa, so the team is always sharpening something.</div>
+        <div class="moment-p"><strong>Tuesdays/Thursdays, send calls for review.</strong> JJ reviews calls sent to him on Discord and turns them around the same day.</div>
+        <div class="callout">
+          <strong>Send your worst calls, not your best:</strong> "I don't need to be impressed by you guys... let's get you better by sending me your worst calls." Praise gets saved for Fridays, not handed out on request.
+        </div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head">
+        <div class="moment-num">03</div>
+        <div class="moment-title">The awareness scale, and why "unaware" barely exists on this offer</div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">Unaware &rarr; problem aware &rarr; solution aware &rarr; product aware &rarr; decision ready. JJ's point: because prospects come in through a full webinar they opted into and watched, true "unaware" is a near-impossible anomaly, under 5% of calls. Everyone booking a call already knows something, the job is figuring out what.</div>
+        <div class="quote-block">
+          "There's two sides of awareness: your own awareness, and your awareness of the prospect... if you can understand both, then you guys are always in sync, and you never pitch too early or too late."
+          <div class="quote-attr">JJ Hernandez</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head">
+        <div class="moment-num">04</div>
+        <div class="moment-title">Omar's question: does prospect sophistication change the approach?</div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">Omar noted this ICP (20s-30s) feels more sophisticated than past offers he's sold (mostly 18-23), and that he doesn't need to make them "feel bad" about their situation, they already know they have a problem, the job is being solution-aware and selling the right program as the fix.</div>
+        <div class="moment-p">JJ's read: it's not really about age. It's about the prospect's <strong>perceived authority</strong> and how certain they sound, which can subconsciously shift a rep's frame (he used his own early career going from 18-year-olds to Myron Golden and Russell Brunson's team as the extreme version of this). The fix isn't a different sales approach, it's staying aware of when that shift is happening in your own head and not letting it change how you operate.</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head">
+        <div class="moment-num">05</div>
+        <div class="moment-title">The call structure, kept simple on purpose</div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">JJ was explicit this isn't a new process, it's the same one, taught with the "why" underneath it: Intro (respect first, likability later) &rarr; Current Reality &rarr; Problem Awareness &rarr; Solution Awareness &rarr; brief Future Pace/Consequence (only if the emotion isn't already there) &rarr; Pitch.</div>
+        <div class="moment-p">If they're already certain about their problem, don't keep interrogating them on it, move to solution awareness. If they're unsure, go deeper before moving on. The pitch itself should stay short.</div>
+        <div class="quote-block">
+          "I call it a TikTok pitch. Under five minutes, pitch under five minutes on results only... they will assume in the positive with the less that they know."
+          <div class="quote-attr">JJ Hernandez</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head">
+        <div class="moment-num">06</div>
+        <div class="moment-title">De-selling: the risk of over-qualifying a ready buyer</div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">Because most prospects come off the webinar already fairly clear, extra unnecessary questions can create confusion instead of buy-in. JJ's own example: he closed people through DMs in 2023 for $2K deals because they were already that ready to go, no heavy process needed.</div>
+        <div class="quote-block">
+          "Every decision is rooted in clarity... if you make them feel like they're more confused, then they're going to be like, well, I can't decide now."
+          <div class="quote-attr">JJ Hernandez</div>
+        </div>
+        <div class="callout">
+          Allan's own admission fit this exactly: he's been going deep on current-state logistics rather than the actual problem, a habit he flagged on the spot as something to correct.
+        </div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head">
+        <div class="moment-num">07</div>
+        <div class="moment-title">Identity-first coaching: belief, identity, action</div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">JJ's closing point reframes what he's actually building with the team: not just a script, but who each rep is being while running it.</div>
+        <div class="quote-block">
+          "Belief dictates identity, and identity dictates action... the vessel of who you are is so much more important than anything else I can teach you. If you're operating out of a place of shame, you're never going to perform."
+          <div class="quote-attr">JJ Hernandez</div>
+        </div>
+        <div class="moment-p">Not framed as "woo-woo," but as the actual foundation everything else, cadence, awareness, call structure, sits on top of.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Admin / next steps -->
+  <div class="section">
+    <div class="sec-eyebrow">Operational Wrap-Up</div>
+    <h2 class="sec-title">What was set up on this call</h2>
+    <div class="moment">
+      <div class="moment-body">
+        <div class="moment-p"><strong>BAM/Reach targets:</strong> JJ is meeting with Mino and Justin separately first to align on the team's monthly targets, then BAMs and Reach numbers get set with Omar and Allan starting next Monday.</div>
+        <div class="moment-p"><strong>Call reviews:</strong> Omar and Allan send their worst calls to JJ on Discord today, turnaround same day.</div>
+        <div class="moment-p"><strong>Documents:</strong> JJ is building out the weekly structure and sales process docs (awareness scale, call framework) to hand to the whole team, plus SOPs going into the Team HQ.</div>
+        <div class="moment-p"><strong>Curriculum access:</strong> JJ is sending a Discord invite link so Omar and Allan can go through his identity-first curriculum and join the weekly coaching calls.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action items -->
+  <div class="section">
+    <div class="sec-eyebrow">Next Steps</div>
+    <h2 class="sec-title">Action items</h2>
+    <div class="action-grid">
+      <div class="action-item">
+        <div class="action-owner">JJ</div>
+        Send the weekly structure + sales process docs to Mino, Justin, Omar, and Allan
+      </div>
+      <div class="action-item">
+        <div class="action-owner">JJ</div>
+        Send BAM/Reach targets for this week to Omar and Allan
+      </div>
+      <div class="action-item">
+        <div class="action-owner">JJ</div>
+        Review worst-call Fathom links from Omar/Allan on Discord today
+      </div>
+      <div class="action-item">
+        <div class="action-owner">JJ</div>
+        Post the curriculum invite link in Discord for the whole team
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Omar / Allan</div>
+        Send worst-call Fathom links to JJ on Discord today
+      </div>
+      <div class="action-item">
+        <div class="action-owner">Mino / Justin</div>
+        Meet with JJ separately to align on this month's team targets before Monday's BAM/Reach setting
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="doc-footer">
+  <span>Sales.io, Team Sync Recap</span>
+  <span>Content Academy &middot; August 3</span>
+</footer>
