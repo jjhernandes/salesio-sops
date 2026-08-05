@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="night">
+<head><script>try{var t=localStorage.getItem("tb-theme");if(t)document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Belief, Identity, Action — JJ Hernandez</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    /* ── Sales.io Training Bible token palette ── */
+    :root,[data-theme="night"]{
+      --bg:#000000;
+      --card-bg:#0a0a0a;
+      --card-bdr:#161616;
+      --card-bdr-hv:#1e3a24;
+      --text-primary:#ffffff;
+      --text-secondary:#ccc;
+      --text-muted:#555;
+      --text-faint:#2a2a2a;
+      --eyebrow-c:#4ade80;
+      --glow-rgb:74,222,128;
+
+      --highlight-bg:#050f08;
+      --highlight-bdr:#0d2b1a;
+      --danger-bg:#0f0505;
+      --danger-bdr:#2b0a0a;
+      --danger-strong:#f87171;
+
+      --amber:#f59e0b;   --amber-bg:#0f0a00;  --amber-bdr:#2b1e00;
+      --blue:#60a5fa;    --blue-bg:#06080f;   --blue-bdr:#0d1a2b;
+      --green:#4ade80;   --green-bg:#050f08;  --green-bdr:#0d2b1a;
+      --red:#f87171;     --red-bg:#0f0505;    --red-bdr:#2b0a0a;
+    }
+    [data-theme="day"]{
+      --bg:#EAE4D9;
+      --card-bg:#ffffff;
+      --card-bdr:#E2DDD3;
+      --card-bdr-hv:rgba(0,0,0,.15);
+      --text-primary:#0A0A08;
+      --text-secondary:#444;
+      --text-muted:#888;
+      --text-faint:#C8C2B8;
+      --eyebrow-c:#A09070;
+      --glow-rgb:160,144,112;
+
+      --highlight-bg:#ffffff;
+      --highlight-bdr:#E2DDD3;
+      --danger-bg:#ffffff;
+      --danger-bdr:#E2DDD3;
+      --danger-strong:#666;
+
+      --amber:#8a6010;   --amber-bg:#ffffff;  --amber-bdr:#E2DDD3;
+      --blue:#4a6aaa;    --blue-bg:#ffffff;   --blue-bdr:#E2DDD3;
+      --green:#5a7a3a;   --green-bg:#ffffff;  --green-bdr:#E2DDD3;
+      --red:#b03030;     --red-bg:#ffffff;    --red-bdr:#E2DDD3;
+    }
+
+    body { background: var(--bg); color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.6; padding: 48px 24px; transition: background .3s, color .3s; position: relative; overflow-x: hidden; }
+    .container { max-width: 740px; margin: 0 auto; position: relative; z-index: 1; }
+
+    /* ── Ambient drifting glow ── */
+    .ambient-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+    .ambient-glow span { position: absolute; border-radius: 50%; filter: blur(10px); background: radial-gradient(circle, rgba(var(--glow-rgb),.35), transparent 70%); animation: driftBlob ease-in-out infinite alternate; opacity: .5; }
+    .ambient-glow span:nth-child(1) { width: 480px; height: 480px; top: -160px; left: 8%; animation-duration: 27s; }
+    .ambient-glow span:nth-child(2) { width: 380px; height: 380px; top: 30%; right: -140px; animation-duration: 22s; animation-delay: -6s; }
+    .ambient-glow span:nth-child(3) { width: 320px; height: 320px; top: 72%; left: 30%; animation-duration: 31s; animation-delay: -15s; opacity: .3; }
+    @keyframes driftBlob { from { transform: translate(0,0) scale(1); } to { transform: translate(55px,-45px) scale(1.2); } }
+    @media (prefers-reduced-motion: reduce) { .ambient-glow span { animation: none; } }
+
+    /* ── Cursor-tracked spotlight ── */
+    .cursor-spot { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(600px circle at var(--mx,50%) var(--my,20%), rgba(var(--glow-rgb),.06), transparent 72%); transition: background .1s; }
+
+    .header { margin-bottom: 64px; }
+    .label { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--eyebrow-c); margin-bottom: 14px; transition: color .3s; display: flex; align-items: center; gap: 8px; }
+    .label .pulse-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(var(--glow-rgb),1); box-shadow: 0 0 8px 1px rgba(var(--glow-rgb),.9); animation: dotPulse 2s ease-in-out infinite; }
+    @keyframes dotPulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+    h1 { font-size: 52px; font-weight: 900; line-height: 1.02; margin-bottom: 18px; letter-spacing: -1.5px; background: linear-gradient(100deg, var(--text-primary) 30%, rgba(var(--glow-rgb),1) 50%, var(--text-primary) 70%); background-size: 220% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: shineText 7s ease-in-out infinite; }
+    @keyframes shineText { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+    .meta { font-size: 15px; color: var(--text-muted); transition: color .3s; max-width: 58ch; line-height: 1.7; }
+
+    section { margin-bottom: 76px; position: relative; }
+    .sec-header { position: relative; margin-bottom: 26px; padding-bottom: 16px; border-bottom: 1px solid var(--card-bdr); overflow: hidden; transition: border-color .3s; }
+    .sec-ghost { position: absolute; right: -6px; top: -30px; font-size: 100px; font-weight: 900; letter-spacing: -4px; line-height: 1; color: var(--card-bdr); opacity: .5; pointer-events: none; user-select: none; transition: color .3s; }
+    h2 { font-size: 24px; font-weight: 900; letter-spacing: -.5px; line-height: 1.1; color: var(--text-primary); margin-bottom: 6px; transition: color .3s; }
+    .sec-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; max-width: 56ch; transition: color .3s; }
+
+    /* Glow-hover mixin applied to card-like elements */
+    .glowable { transition: transform .25s, box-shadow .25s, border-color .2s, background .3s; }
+    .glowable:hover { transform: translateY(-2px); border-color: var(--card-bdr-hv); box-shadow: 0 10px 32px rgba(0,0,0,.25), 0 0 24px rgba(var(--glow-rgb),.14); }
+
+    /* Blocks */
+    .block { background: var(--card-bg); border: 1px solid var(--card-bdr); border-radius: 12px; padding: 22px 24px; margin-bottom: 14px; }
+    .block-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 10px; }
+    .block p { font-size: 14px; color: var(--text-secondary); line-height: 1.8; }
+    .block p + p { margin-top: 10px; }
+
+    /* Highlight */
+    .highlight { background: var(--highlight-bg); border: 1px solid var(--highlight-bdr); border-radius: 12px; padding: 22px 24px; margin-bottom: 16px; }
+    .highlight p { font-size: 15px; color: var(--text-secondary); line-height: 1.8; }
+    .highlight strong { color: var(--eyebrow-c); }
+
+    /* Danger / ethical line */
+    .danger { background: var(--danger-bg); border: 1px solid var(--danger-bdr); border-radius: 12px; padding: 20px 24px; margin-bottom: 14px; }
+    .danger p { font-size: 14px; color: var(--text-secondary); line-height: 1.8; }
+    .danger strong { color: var(--danger-strong); }
+
+    /* Quote */
+    .quote { border-left: 3px solid rgba(var(--glow-rgb),.6); padding: 16px 24px; margin: 20px 0; background: var(--card-bg); border-radius: 0 12px 12px 0; box-shadow: -8px 0 24px -12px rgba(var(--glow-rgb),.25); }
+    .quote p { font-size: 18px; color: var(--text-secondary); font-style: italic; line-height: 1.8; font-weight: 500; }
+    .quote .attribution { font-size: 12px; color: var(--text-muted); font-style: normal; margin-top: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+
+    /* Chain stack (Belief / Identity / Action) */
+    .chain-stack { margin-bottom: 16px; }
+    .chain-row { display: flex; align-items: center; gap: 0; margin-bottom: 3px; }
+    .chain-tag { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; width: 110px; flex-shrink: 0; }
+    .chain-bar { flex: 1; padding: 14px 18px; border-radius: 10px; }
+    .chain-bar p { font-size: 13px; line-height: 1.5; }
+    .chain-belief .chain-tag { color: var(--amber); }
+    .chain-belief .chain-bar { background: var(--amber-bg); border: 1px solid var(--amber-bdr); }
+    .chain-belief .chain-bar p { color: var(--amber); }
+    .chain-identity .chain-tag { color: var(--blue); }
+    .chain-identity .chain-bar { background: var(--blue-bg); border: 1px solid var(--blue-bdr); }
+    .chain-identity .chain-bar p { color: var(--blue); }
+    .chain-action .chain-tag { color: var(--green); }
+    .chain-action .chain-bar { background: var(--green-bg); border: 1px solid var(--green-bdr); }
+    .chain-action .chain-bar p { color: var(--green); }
+    .chain-arrow { text-align: center; color: var(--text-faint); font-size: 14px; padding: 2px 0; }
+
+    /* Belief-stack layers (three layers of resistance) */
+    .layer-stack { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+    .layer { background: var(--card-bg); border: 1px solid var(--card-bdr); border-radius: 12px; padding: 18px 22px; position: relative; padding-left: 26px; }
+    .layer::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; border-radius: 12px 0 0 12px; }
+    .layer.layer-1::before { background: var(--text-faint); }
+    .layer.layer-2::before { background: var(--amber); }
+    .layer.layer-3::before { background: var(--blue); }
+    .layer-tag { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+    .layer.layer-1 .layer-tag { color: var(--text-muted); }
+    .layer.layer-2 .layer-tag { color: var(--amber); }
+    .layer.layer-3 .layer-tag { color: var(--blue); }
+    .layer-title { font-size: 15px; font-weight: 800; color: var(--text-primary); margin-bottom: 6px; }
+    .layer p { font-size: 13.5px; color: var(--text-secondary); line-height: 1.7; }
+    .layer .layer-quote { font-size: 13px; color: var(--text-muted); font-style: italic; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--card-bdr); }
+
+    /* PCP model cards */
+    .pcp-row { display: flex; gap: 10px; margin-top: 16px; }
+    .pcp-card { flex: 1; border-radius: 12px; padding: 20px 18px; }
+    .pcp-letter { font-size: 26px; font-weight: 900; line-height: 1; margin-bottom: 4px; }
+    .pcp-word { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+    .pcp-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.65; }
+    .pcp-unlocks { font-size: 11px; font-weight: 700; letter-spacing: .04em; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--card-bdr); }
+    .pcp-perception { background: var(--amber-bg); border: 1px solid var(--amber-bdr); }
+    .pcp-perception .pcp-letter, .pcp-perception .pcp-word, .pcp-perception .pcp-unlocks { color: var(--amber); }
+    .pcp-context { background: var(--blue-bg); border: 1px solid var(--blue-bdr); }
+    .pcp-context .pcp-letter, .pcp-context .pcp-word, .pcp-context .pcp-unlocks { color: var(--blue); }
+    .pcp-permission { background: var(--green-bg); border: 1px solid var(--green-bdr); }
+    .pcp-permission .pcp-letter, .pcp-permission .pcp-word, .pcp-permission .pcp-unlocks { color: var(--green); }
+    .pcp-opener { font-size: 13px; font-style: italic; color: var(--text-secondary); padding: 8px 12px; background: var(--card-bg); border: 1px solid var(--card-bdr); border-radius: 6px; margin-top: 10px; }
+
+    /* Numbered execution steps */
+    .exec-list { display: flex; flex-direction: column; }
+    .exec-step { display: flex; gap: 18px; padding: 18px 0; border-bottom: 1px solid var(--card-bdr); }
+    .exec-step:last-child { border-bottom: none; }
+    .exec-num { width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--eyebrow-c); color: var(--eyebrow-c); font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .exec-body { flex: 1; }
+    .exec-title { font-size: 15px; font-weight: 800; color: var(--text-primary); margin-bottom: 4px; }
+    .exec-desc { font-size: 13.5px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 8px; }
+    .exec-line { font-size: 13px; color: var(--eyebrow-c); font-style: italic; padding: 8px 12px; background: var(--highlight-bg); border-radius: 6px; border-left: 2px solid var(--eyebrow-c); }
+
+    /* Confront vs Challenge tactic cards */
+    .pair-row { display: flex; gap: 10px; margin-top: 12px; }
+    .pair-card { flex: 1; border-radius: 10px; padding: 16px 18px; }
+    .pair-confront { background: var(--red-bg); border: 1px solid var(--red-bdr); }
+    .pair-confront .pair-label { color: var(--red); }
+    .pair-challenge { background: var(--green-bg); border: 1px solid var(--green-bdr); }
+    .pair-challenge .pair-label { color: var(--green); }
+    .pair-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+    .pair-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; font-style: italic; }
+
+    /* Vertical ladder */
+    .ladder { display: flex; flex-direction: column; }
+    .rung { display: flex; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--card-bdr); align-items: flex-start; transition: border-color .3s; }
+    .rung:last-child { border-bottom: none; }
+    .rung-depth { width: 30px; font-size: 11px; font-weight: 800; color: var(--text-faint); flex-shrink: 0; padding-top: 2px; }
+    .rung-content { flex: 1; }
+    .rung-tag { font-size: 9px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .rung-quote { font-size: 14px; color: var(--text-secondary); line-height: 1.6; font-style: italic; }
+    .rung.surface .rung-tag { color: var(--text-muted); }
+    .rung.belief .rung-tag { color: var(--amber); }
+    .rung.identity .rung-tag { color: var(--blue); }
+
+    /* Case study transcript */
+    .transcript { background: var(--card-bg); border: 1px solid var(--card-bdr); border-radius: 14px; overflow: hidden; margin-bottom: 20px; }
+    .transcript-header { padding: 14px 22px; border-bottom: 1px solid var(--card-bdr); font-size: 12px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.04em; display: flex; justify-content: space-between; align-items: center; }
+    .transcript-badge { font-size: 9px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; padding: 3px 9px; border-radius: 5px; background: var(--highlight-bg); color: var(--eyebrow-c); border: 1px solid var(--highlight-bdr); }
+    .transcript-body { padding: 20px 22px; display: flex; flex-direction: column; gap: 12px; }
+    .line { display: flex; flex-direction: column; gap: 4px; }
+    .line-who { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+    .line-who.rep { color: var(--blue); }
+    .line-who.prospect { color: var(--text-muted); }
+    .line-text { font-size: 14px; line-height: 1.65; padding: 10px 14px; border-radius: 10px; transition: background .3s, border-color .3s, color .3s; }
+    .line-text.rep-text { background: var(--blue-bg); border: 1px solid var(--blue-bdr); color: var(--blue); }
+    .line-text.prospect-text { background: var(--card-bg); border: 1px solid var(--card-bdr); color: var(--text-secondary); }
+    .line-text.prospect-text.marked-belief { border-color: var(--amber-bdr); background: var(--amber-bg); color: var(--amber); }
+    .line-text.prospect-text.marked-identity { border-color: var(--blue-bdr); background: var(--blue-bg); color: var(--blue); }
+    .line-text.prospect-text.marked-action { border-color: var(--green-bdr); background: var(--green-bg); color: var(--green); }
+    .tag { font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 6px; display: inline-block; margin-top: 2px; letter-spacing: 0.05em; text-transform: uppercase; }
+    .tag.belief { color: var(--amber); background: var(--amber-bg); border: 1px solid var(--amber-bdr); }
+    .tag.identity { color: var(--blue); background: var(--blue-bg); border: 1px solid var(--blue-bdr); }
+    .tag.action { color: var(--green); background: var(--green-bg); border: 1px solid var(--green-bdr); }
+
+    /* Objection map table */
+    .obj-map { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+    .obj-row { background: var(--card-bg); border: 1px solid var(--card-bdr); border-radius: 12px; padding: 18px 22px; }
+    .obj-surface { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+    .obj-surface::before { content: '"'; }
+    .obj-surface::after { content: '"'; }
+    .obj-underneath { font-size: 13px; color: var(--text-muted); margin-bottom: 10px; line-height: 1.6; }
+    .obj-underneath strong { color: var(--amber); font-weight: 700; }
+    .obj-question { font-size: 13px; color: var(--eyebrow-c); font-style: italic; padding: 8px 12px; background: var(--highlight-bg); border-radius: 6px; border-left: 2px solid var(--eyebrow-c); }
+
+    /* Execution checklist */
+    .checklist { display: flex; flex-direction: column; gap: 2px; }
+    .check-item { display: flex; align-items: flex-start; gap: 14px; padding: 13px 4px; border-radius: 8px; cursor: pointer; transition: background .12s; border-bottom: 1px solid var(--card-bdr); }
+    .check-item:last-child { border-bottom: none; }
+    .check-item:hover { background: var(--card-bg); }
+    .check-box { width: 19px; height: 19px; border-radius: 5px; border: 1.5px solid var(--text-faint); flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; transition: all .15s; }
+    .check-box.checked { background: var(--eyebrow-c); border-color: var(--eyebrow-c); }
+    .check-box.checked::after { content: '✓'; font-size: 11px; color: #000; font-weight: 900; }
+    .check-item span.check-label { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+    .check-item.checked span.check-label { color: var(--text-faint); text-decoration: line-through; }
+
+    /* Rule box */
+    .rule-box { background: var(--card-bg); border: 1px solid var(--card-bdr); border-radius: 16px; padding: 40px 32px; text-align: center; position: relative; overflow: hidden; box-shadow: 0 0 60px -20px rgba(var(--glow-rgb),.25); }
+    .rule-box::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, rgba(var(--glow-rgb),.12), transparent 70%); pointer-events: none; }
+    .rule-box .rule-num { font-size: 11px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: var(--eyebrow-c); margin-bottom: 16px; position: relative; }
+    .rule-box .rule-text { font-size: 26px; font-weight: 900; line-height: 1.35; color: var(--text-primary); position: relative; letter-spacing: -.5px; }
+    .rule-box .rule-sub { font-size: 14px; color: var(--text-muted); margin-top: 14px; line-height: 1.7; position: relative; max-width: 54ch; margin-left: auto; margin-right: auto; }
+
+    @media (max-width: 600px) {
+      .pair-row { flex-direction: column; }
+      .chain-row { flex-direction: column; align-items: stretch; gap: 4px; }
+      .chain-tag { width: auto; }
+      h1 { font-size: 38px; }
+      .sec-ghost { font-size: 68px; }
+    }
+
+    /* ── Mobile toggle ── */
+    .m-toggle{
+      display:none;position:fixed;top:14px;right:14px;z-index:9999;
+      background:#0e0e0c;border:1px solid #1a1a1a;border-radius:24px;
+      padding:7px 14px 7px 10px;align-items:center;gap:10px;
+      cursor:pointer;font-family:'Inter',sans-serif;
+      box-shadow:0 2px 12px rgba(0,0,0,.4);
+    }
+    .m-toggle-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#444;}
+    .m-toggle-track{width:36px;height:20px;border-radius:10px;background:#0d2b1a;border:1px solid #111;position:relative;flex-shrink:0;}
+    .m-toggle-dot{position:absolute;top:3px;left:3px;width:12px;height:12px;border-radius:50%;background:#4ade80;transition:transform .2s,background .2s;}
+    [data-theme="night"] .m-toggle-dot{transform:translateX(16px);}
+    [data-theme="day"] .m-toggle-dot{background:#555;transform:translateX(0);}
+    [data-theme="day"] .m-toggle-lbl{color:#888;}
+    .m-toggle:hover{box-shadow:0 2px 12px rgba(0,0,0,.4),0 0 18px rgba(var(--glow-rgb),.4);}
+    @media(max-width:960px){.m-toggle{display:flex;}}
+
+  </style>
+</head>
+<body>
+<div class="ambient-glow" aria-hidden="true"><span></span><span></span><span></span></div>
+<div class="cursor-spot" id="cursorSpot" aria-hidden="true"></div>
+<div class="container">
+
+  <div class="header">
+    <div class="label"><span class="pulse-dot"></span>Advanced Lesson · JJ Hernandez</div>
+    <h1>Belief, Identity, Action</h1>
+    <div class="meta">Sales.io &nbsp;·&nbsp; You don't sell the program. You challenge the belief underneath it. The identity moves on its own, and the action follows the identity every time. This lesson is written for reps selling sales training itself, closing other reps and aspiring closers into the Mastermind.</div>
+  </div>
+
+
+  <!-- 01 THE CHAIN -->
+  <section>
+    <div class="sec-header">
+      <span class="sec-ghost">01</span>
+      <h2>The Chain Reaction</h2>
+      <p class="sec-desc">Why pushing on the outcome directly is the least effective move available to you, and where the real leverage actually sits.</p>
+    </div>
+
+    <div class="block glowable">
+      <p>Almost every rep is trained to sell outcomes: more closes, more income, a better title. Outcomes are the last domino in a chain, not the first. If you sell the outcome directly, you are arguing with a person's actions, and actions are the most heavily defended layer of the entire system, because a person's actions are the proof they use to justify who they've already decided they are.</p>
+      <p>Underneath every action a prospect takes, or refuses to take, there's a three-link chain. Learn to read the chain and you stop pushing on the wrong link, which is what almost every failed close in this industry has in common.</p>
+    </div>
+
+    <div class="chain-stack">
+      <div class="chain-row chain-belief">
+        <div class="chain-tag">Belief</div>
+        <div class="chain-bar"><p>What they've quietly decided is true about themselves, their ability, or what's possible for someone like them. Rarely said out loud. Often not fully conscious. Formed years before the call, usually from one bad experience generalized into a rule.</p></div>
+      </div>
+      <div class="chain-arrow">↓ dictates</div>
+      <div class="chain-row chain-identity">
+        <div class="chain-tag">Identity</div>
+        <div class="chain-bar"><p>The story built on top of that belief and rehearsed daily until it calcifies. "I'm the type of person who freezes up on big calls." "I'm not a natural closer." Identity is belief with a name attached to it.</p></div>
+      </div>
+      <div class="chain-arrow">↓ dictates</div>
+      <div class="chain-row chain-action">
+        <div class="chain-tag">Action</div>
+        <div class="chain-bar"><p>Everything they do, or avoid doing, flows downstream of that identity automatically. No willpower required, no negotiation needed. A rep who believes "I'm not built for high-ticket" will unconsciously sabotage a high-ticket call, and then point to the failed call as proof the belief was correct.</p></div>
+      </div>
+    </div>
+
+    <div class="quote">
+      <p>"Belief dictates identity, which dictates action. We're trying to understand their beliefs throughout this whole process, and embedding our belief, that we're the best solution, into theirs."</p>
+      <div class="attribution">JJ Hernandez, SOP walkthrough with Justin &amp; Alan</div>
+    </div>
+
+    <div class="highlight glowable">
+      <p><strong>Why this matters more when you're selling sales training specifically:</strong> you're not selling a supplement or a course on a topic they're neutral about. You're selling the claim that they can become someone they currently don't believe they are, a great closer. Every prospect on a Mastermind call is carrying a belief about their own ceiling, and if you pitch the program before that belief surfaces, you're building a beautiful pitch on top of a belief that's already arguing against you in the prospect's head.</p>
+    </div>
+  </section>
+
+
+  <!-- 02 THREE LAYERS -->
+  <section>
+    <div class="sec-header">
+      <span class="sec-ghost">02</span>
+      <h2>The Three-Layer Belief Stack</h2>
+      <p class="sec-desc">Every rep or aspiring closer you talk to is carrying the same three layers, stacked in the same order. Know them cold before the call starts.</p>
+    </div>
+
+    <div class="layer-stack">
+      <div class="layer layer-1">
+        <div class="layer-tag">Layer 1 · Tactical</div>
+        <div class="layer-title">"I just need better tools."</div>
+        <p>The shallowest layer, and the only one most reps ever hear, because it's the only one prospects volunteer without being asked. They believe the gap is information: a better script, a better objection-handling framework, a better CRM.</p>
+        <div class="layer-quote">"I just need to get better at handling the price objection, that's really it."</div>
+      </div>
+      <div class="layer layer-2">
+        <div class="layer-tag">Layer 2 · Capability</div>
+        <div class="layer-title">"Something in me isn't working right on calls."</div>
+        <p>One level down. They've noticed the tactical fixes haven't moved the number, and they've started to suspect the problem isn't information, it's execution under pressure. This layer is uncomfortable to admit out loud, so it usually surfaces as a vague, deflected comment rather than a direct statement.</p>
+        <div class="layer-quote">"I know the words to say, I just... freeze up when it's real money on the line."</div>
+      </div>
+      <div class="layer layer-3">
+        <div class="layer-tag">Layer 3 · Identity</div>
+        <div class="layer-title">"I'm not actually sure I'm the type of person who gets to make real money doing this."</div>
+        <p>The load-bearing layer, and the one that actually decides whether they buy. This is rarely said in the first ten minutes of a call, and almost never said unprompted. It usually comes from somewhere specific: a parent, an old manager, a rejection that got generalized into a permanent rule about who they are.</p>
+        <div class="layer-quote">"My dad always said sales is for people who can't do anything else. I think part of me still believes that."</div>
+      </div>
+    </div>
+
+    <div class="highlight glowable">
+      <p><strong>Most reps sell to Layer 1 and wonder why the close rate is flat.</strong> You can hand someone the best script in the industry, and if Layer 3 is still telling them "you're not the type," they will find a way to not use it correctly. Selling sales training means selling into Layer 3, every time, whether or not the prospect ever says the words out loud.</p>
+    </div>
+  </section>
+
+
+  <!-- 03 CHALLENGE VS CONFRONT -->
+  <section>
+    <div class="sec-header">
+      <span class="sec-ghost">03</span>
+      <h2>Challenge the Belief, Not the Person</h2>
+      <p class="sec-desc">The exact difference between a question that produces defensiveness and a question that produces a real admission.</p>
+    </div>
+
+    <div class="block glowable">
+      <p>Confronting tells someone they're wrong. It forces a choice between defending the belief harder or losing face in front of a stranger, and most people, especially reps who already sell for a living, will defend. Challenging asks a question sharp enough that they hear the contradiction in their own answer, in their own voice. Nobody told them. They concluded it themselves, and a conclusion you reach yourself is one you don't fight when the offer shows up ten minutes later.</p>
+    </div>
+
+    <div class="pair-row">
+      <div class="pair-card pair-confront glowable">
+        <div class="pair-label">Confront</div>
+        <p>"You keep blaming your leads, but the leads aren't the problem, you are."</p>
+      </div>
+      <div class="pair-card pair-challenge glowable">
+        <div class="pair-label">Challenge</div>
+        <p>"When a deal falls through, what do you think is actually happening in that conversation?"</p>
+      </div>
+    </div>
+    <div class="pair-row" style="margin-top:10px;">
+      <div class="pair-card pair-confront glowable">
+        <div class="pair-label">Confront</div>
+        <p>"You've watched a hundred YouTube videos and you're still stuck. That clearly isn't working."</p>
+      </div>
+      <div class="pair-card pair-challenge glowable">
+        <div class="pair-label">Challenge</div>
+        <p>"What do you think is actually different about the reps who break through, versus the ones who stay at the same number for years?"</p>
+      </div>
+    </div>
+
+    <div class="danger glowable">
+      <p><strong>The ethical line.</strong> You are surfacing a belief that's already shaky, not manufacturing one that isn't there. If a rep is genuinely thriving and has no real gap between their belief and their results, there is nothing honest to challenge, and inventing a crisis just to close them is manipulation, not sales. The gap has to already exist before you go looking for it. Your questions only make it audible.</p>
+    </div>
+  </section>
+
+
+  <!-- 04 PCP MODEL -->
+  <section>
+    <div class="sec-header">
+      <span class="sec-ghost">04</span>
+      <h2>The PCP Model: What Has to Be True First</h2>
+      <p class="sec-desc">Perception, Context, and Permission aren't politeness, they're the precondition for the five-question descent in the next section actually working. Skip PCP and the exact question that cracked Marcus open gets you a one-word deflection instead.</p>
+    </div>
+
+    <div class="block glowable">
+      <p>The PCP Model already exists as a Sales.io standard: Perception is how they see the situation, and how they see you. Context is the frame around the interaction. Permission is what behaviors are actually available to them in this conversation. Every dissonance tactic, every belief-challenging question, lands inside a context you either built or failed to build before you asked it.</p>
+      <p>Here's the direct correlation to this framework: each letter of PCP gates one specific link in the belief, identity, action chain. Get the letter wrong, and that link never opens, no matter how good the question is.</p>
+    </div>
+
+    <div class="pcp-row">
+      <div class="pcp-card pcp-perception glowable">
+        <div class="pcp-letter">P</div>
+        <div class="pcp-word">Perception</div>
+        <div class="pcp-desc">How they see you. If they perceive you as another rep with a quota to hit, the real belief stays hidden, nobody hands a stranger with a quota their most embarrassing thought about themselves.</div>
+        <div class="pcp-unlocks">Unlocks: Belief</div>
+      </div>
+      <div class="pcp-card pcp-context glowable">
+        <div class="pcp-letter">C</div>
+        <div class="pcp-word">Context</div>
+        <div class="pcp-desc">The frame around the call. "What do you make that mean about you?" inside a sales-script frame reads as an attack. The same line inside a diagnostic frame reads as insight.</div>
+        <div class="pcp-unlocks">Unlocks: Identity</div>
+      </div>
+      <div class="pcp-card pcp-permission glowable">
+        <div class="pcp-letter">P</div>
+        <div class="pcp-word">Permission</div>
+        <div class="pcp-desc">What they're allowed to do on this call. Without explicit permission to decide fast, without feeling stupid or impulsive, a felt identity gap still exits the call as "let me think about it."</div>
+        <div class="pcp-unlocks">Unlocks: Action</div>
+      </div>
+    </div>
+
+    <div class="block glowable" style="margin-top:14px;">
+      <div class="block-label">Set All Three in the First Two Minutes</div>
+      <p>This has to happen before question one of the descent, not somewhere in the middle of it.</p>
+      <div class="pcp-opener">Perception: "I'm not here to sell you anything today. I'm here to figure out if there's an actual gap between what you're capable of and what your numbers show. If there's not, I'll tell you that too."</div>
+      <div class="pcp-opener">Context: "This isn't going to be a pitch, it's closer to a diagnostic, so a few of my questions might land a little different than a normal sales call."</div>
+      <div class="pcp-opener">Permission: "Whatever you tell me stays between us, and there's no wrong answer here. Be as honest with me as you'd be with yourself."</div>
+    </div>
+
+    <div class="highlight glowable">
+      <p><strong>The case study in Section 07 assumes PCP was already set.</strong> That's deliberate, not an oversight, in real practice PCP happens in the call's first two minutes and is never shown again on the transcript, the same way you never see a foundation once the house is built. Never skip straight to the descent. A rep who runs question four, "what do you make that mean about you," without first setting Perception and Context will get defensiveness, not depth.</p>
+    </div>
+  </section>
+
+
+  <!-- 05 EXECUTION -->
+  <section>
+    <div class="sec-header">
+      <span class="sec-ghost">05</span>
+      <h2>Execution: The Five-Question Descent</h2>
+      <p class="sec-desc">A repeatable sequence, run in this order, every call. Do not skip a step because the prospect seems talkative, talkative is not the same as deep.</p>
+    </div>
+
+    <div class="exec-list">
+      <div class="exec-step">
+        <div class="exec-num">1</div>
+        <div class="exec-body">
+          <div class="exec-title">Current Reality</div>
+          <div class="exec-desc">Get the actual number, not the story around the number. Most reps will round up or explain before you've even asked for the explanation. Let them, then come back to the number.</div>
+          <div class="exec-line">"Walk me through where you're actually at right now, what are you closing a month?"</div>
+        </div>
+      </div>
+      <div class="exec-step">
+        <div class="exec-num">2</div>
+        <div class="exec-body">
+          <div class="exec-title">Attempted Solutions</div>
+          <div class="exec-desc">This surfaces Layer 1 (tactical) fast, and shows you exactly how long they've been stuck and how many times they've already tried to fix this alone.</div>
+          <div class="exec-line">"What have you already tried to fix that?"</div>
+        </div>
+      </div>
+      <div class="exec-step">
+        <div class="exec-num">3</div>
+        <div class="exec-body">
+          <div class="exec-title">Surface Belief</div>
+          <div class="exec-desc">Ask why the attempted solutions didn't work. The first answer is almost always still Layer 1 or Layer 2. Do not accept it as final, it's a doorway, not the destination.</div>
+          <div class="exec-line">"Why do you think that hasn't actually moved the number?"</div>
+        </div>
+      </div>
+      <div class="exec-step">
+        <div class="exec-num">4</div>
+        <div class="exec-body">
+          <div class="exec-title">Identity Bridge</div>
+          <div class="exec-desc">This is the single most important question in the entire framework. It takes whatever they just said and forces it from an event ("that call went badly") into a self-concept ("what that says about me"). This is where Layer 3 usually surfaces.</div>
+          <div class="exec-line">"What do you make that mean about you as a closer?"</div>
+        </div>
+      </div>
+      <div class="exec-step">
+        <div class="exec-num">5</div>
+        <div class="exec-body">
+          <div class="exec-title">Forward Projection</div>
+          <div class="exec-desc">Once the identity-level belief is on the table, project it forward. This is what turns a quiet, private belief into felt urgency, without you ever having to manufacture pressure.</div>
+          <div class="exec-line">"If nothing about that changes in the next twelve months, who are you a year from now?"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight glowable">
+      <p><strong>Run this in order, on every call, no exceptions.</strong> Reps who skip straight to question four without questions one through three get a shallow, performative answer, because the prospect hasn't done the work of hearing their own pattern yet. The sequence matters as much as the questions.</p>
+    </div>
+  </section>
+
+
+  <!-- 05 THE LADDER -->
+  <section>
+    <div class="sec-header">
+      <span class="sec-ghost">06</span>
+      <h2>Descend the Ladder, Don't Walk Sideways</h2>
+      <p class="sec-desc">A modeled example of the five-question sequence actually landing, from a prospect named Marcus, a 28-year-old closer stuck at $9K/month for over a year.</p>
+    </div>
+
+    <div class="block glowable" style="margin-bottom:20px;">
+      <div class="block-label">Modeled Descent, Built on the Execution Framework Above</div>
+      <p>This is a constructed example built to show the mechanic clearly, not a transcript of a real call. It follows the exact five-question sequence from Section 05, in order.</p>
+    </div>
+
+    <div class="ladder">
+      <div class="rung surface">
+        <div class="rung-depth">01</div>
+        <div class="rung-content">
+          <div class="rung-tag">Surface</div>
+          <div class="rung-quote">"I'm closing about $9K a month right now, been there for probably fourteen months."</div>
+        </div>
+      </div>
+      <div class="rung surface">
+        <div class="rung-depth">02</div>
+        <div class="rung-content">
+          <div class="rung-tag">Surface</div>
+          <div class="rung-quote">"I've bought two courses, watched pretty much every free training on objection handling I can find."</div>
+        </div>
+      </div>
+      <div class="rung belief">
+        <div class="rung-depth">03</div>
+        <div class="rung-content">
+          <div class="rung-tag">Belief Forming</div>
+          <div class="rung-quote">"Honestly, I know the scripts cold. I just freeze up the second it's real money on the line, like my brain just goes blank."</div>
+        </div>
+      </div>
+      <div class="rung belief">
+        <div class="rung-depth">04</div>
+        <div class="rung-content">
+          <div class="rung-tag">Belief Forming</div>
+          <div class="rung-quote">"It's happened enough times now that I kind of expect it before I even get on the call."</div>
+        </div>
+      </div>
+      <div class="rung identity">
+        <div class="rung-depth">05</div>
+        <div class="rung-content">
+          <div class="rung-tag">Identity, Load-Bearing</div>
+          <div class="rung-quote">"I guess it means I'm not actually a closer. I'm someone who's good at the parts that don't matter and chokes on the part that does."</div>
+        </div>
+      </div>
+      <div class="rung identity">
+        <div class="rung-depth">06</div>
+        <div class="rung-content">
+          <div class="rung-tag">Identity, Load-Bearing</div>
+          <div class="rung-quote">"My dad always said sales was for people who couldn't do anything else. I told myself I'd prove him wrong. Fourteen months in, some days I wonder if he was right."</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight glowable">
+      <p><strong>Six lines, one thread, five questions.</strong> The rep never introduced a new topic. Each answer was pulled straight down from the previous one. By rung six, the conversation is no longer about scripts or objection handling. It's about whether Marcus gets to disprove something his father told him fifteen years ago. That is the actual thing being sold on this call, the training is the vehicle.</p>
+    </div>
+  </section>
+
+
+  <!-- 06 CASE STUDY -->
+  <section>
+    <div class="sec-header">
+      <span class="sec-ghost">07</span>
+      <h2>Case Study: Watching the Chain Form Live</h2>
+      <p class="sec-desc">Same prospect, continued. Once the identity-level belief is on the table, the rep does not pitch immediately. The thread gets pulled into real, felt urgency first.</p>
+    </div>
+
+    <div class="transcript glowable">
+      <div class="transcript-header">
+        Modeled Discovery Call: Belief Surfacing Into Committed Action
+        <span class="transcript-badge">Illustrative</span>
+      </div>
+      <div class="transcript-body">
+
+        <div class="line">
+          <span class="line-who rep">Rep</span>
+          <div class="line-text rep-text">"You said some days you wonder if your dad was right. If nothing changes and you're still at nine grand a month a year from now, is that a version of him being right you can actually live with?"</div>
+        </div>
+        <div class="line">
+          <span class="line-who prospect">Prospect</span>
+          <div class="line-text prospect-text marked-belief">"No. No, honestly, that's the thing that keeps me up. I don't think I could sit with that."<br><span class="tag belief">Belief: staying here is worse than the risk of trying and failing again</span></div>
+        </div>
+
+        <div class="line">
+          <span class="line-who rep">Rep</span>
+          <div class="line-text rep-text">"So if you actually broke through this, not just closed a few more deals, but stopped freezing, permanently, what would that prove, to you, not to him?"</div>
+        </div>
+        <div class="line">
+          <span class="line-who prospect">Prospect</span>
+          <div class="line-text prospect-text marked-identity">"That I'm actually built for this. That I'm not just someone who's good on paper. That'd be huge for me, honestly."<br><span class="tag identity">Identity: I am someone who is genuinely built for this, not an imposter</span></div>
+        </div>
+
+        <div class="line">
+          <span class="line-who rep">Rep</span>
+          <div class="line-text rep-text">"That's exactly the gap the Mastermind is built to close, the freeze isn't a scripts problem, it's a state and identity problem, which is why the scripts you already know haven't fixed it. Twelve weeks, weekly 1-on-1 coaching, mock calls every week until the freeze is gone, not just talked about."</div>
+        </div>
+        <div class="line">
+          <span class="line-who prospect">Prospect</span>
+          <div class="line-text prospect-text">"Okay, that actually makes sense. I've never had anyone name it like that before, everyone just tells me to 'be more confident.'"</div>
+        </div>
+
+        <div class="line">
+          <span class="line-who rep">Rep</span>
+          <div class="line-text rep-text">"You said you can't sit with being at nine grand a year from now. You don't want to fix this next month, or next quarter. Do you want to actually fix it now?"</div>
+        </div>
+        <div class="line">
+          <span class="line-who prospect">Prospect</span>
+          <div class="line-text prospect-text marked-action">"Yeah. Yeah, I'm done being the guy who freezes. Let's do it."<br><span class="tag action">Action: stated, unprompted, in his own words</span></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="block glowable">
+      <p>Notice what the rep never did. He never said "you're afraid of your dad." He never said "you need this program." He asked what a real breakthrough would prove, and let Marcus draw the line himself from a fourteen-year-old sentence his father said to the decision sitting in front of him right now. The rep built the hallway. Marcus walked it himself, and the offer only appeared once he was already standing at the end of it.</p>
+    </div>
+  </section>
+
+
+  <!-- 07 SAVIOR -->
+  <section>
+    <div class="sec-header">
+      <span class="sec-ghost">08</span>
+      <h2>You Created the Tension. You're Also the Exit.</h2>
+      <p class="sec-desc">Why the discomfort you surface is not something to rush past, and why holding it briefly is what makes the eventual yes feel inevitable instead of forced.</p>
+    </div>
+
+    <div class="block glowable">
+      <p>Once the belief surfaces and the identity gap is audible, the prospect feels real discomfort, the gap between who they believe they are and what the evidence in front of them shows. That discomfort is not a side effect to manage away with reassurance. It's the entire mechanism. It's what makes the decision feel necessary instead of optional, and it's the same reason Marcus said yes in one sentence once the gap was named clearly.</p>
+    </div>
+
+    <div class="quote">
+      <p>"You think you're a great content creator, but the evidence says you had one viral video and no idea what you're doing. That gap creates anxiety, they need someone to save them, which is you. You created the tension, but you're also the savior from it."</p>
+      <div class="attribution">JJ Hernandez</div>
+    </div>
+
+    <div class="highlight glowable">
+      <p><strong>The sales-training version of the same line:</strong> you think you're a closer, but the evidence says fourteen months at the same number, a freeze you can predict before it happens, and a belief about yourself you've been quietly carrying since you were a teenager. That gap creates real anxiety. They need someone who can actually close it, not talk around it, which is you, and it's the Mastermind. You didn't invent the fourteen months. You're the one who made the pattern audible, and now you're also the one holding the bridge across it.</p>
+    </div>
+  </section>
+
+
+  <!-- 08 OBJECTIONS -->
+  <section>
+    <div class="sec-header">
+      <span class="sec-ghost">09</span>
+      <h2>Objections Are Belief Statements in Disguise</h2>
+      <p class="sec-desc">Every objection you hear on a Mastermind call is a Layer 3 belief wearing a Layer 1 costume. Answer the costume and you lose the close. Answer what's underneath and the objection usually dissolves on its own.</p>
+    </div>
+
+    <div class="obj-map">
+      <div class="obj-row glowable">
+        <div class="obj-surface">I need to think about it</div>
+        <div class="obj-underneath"><strong>Underneath:</strong> "I've already invested in myself before and it didn't work, I'm afraid this is the same mistake twice."</div>
+        <div class="obj-question">"What specifically feels different about this decision than the last time you invested in yourself and it didn't land?"</div>
+      </div>
+      <div class="obj-row glowable">
+        <div class="obj-surface">It's too expensive right now</div>
+        <div class="obj-underneath"><strong>Underneath:</strong> "I don't fully believe I'll actually use this and get the return, so the price feels like a bet I might lose."</div>
+        <div class="obj-question">"If you were fully convinced you'd actually show up and use every part of this, would the price still be the thing stopping you?"</div>
+      </div>
+      <div class="obj-row glowable">
+        <div class="obj-surface">I can just find this stuff for free online</div>
+        <div class="obj-underneath"><strong>Underneath:</strong> "Admitting I need paid help feels like admitting I've failed to figure this out on my own, and that's uncomfortable."</div>
+        <div class="obj-question">"You've already told me you've watched a hundred of those free videos. Genuinely, what's different this time that makes free information enough?"</div>
+      </div>
+      <div class="obj-row glowable">
+        <div class="obj-surface">I need to talk to my spouse or partner first</div>
+        <div class="obj-underneath"><strong>Underneath:</strong> "I'm not fully sure I'm ready to be the one fully responsible for this decision if it doesn't work out."</div>
+        <div class="obj-question">"Is it more that you want their input, or that some part of you wants someone else to share the weight of this decision with you?"</div>
+      </div>
+    </div>
+
+    <div class="danger glowable">
+      <p><strong>Do not treat these as scripts to memorize word for word.</strong> The exact phrasing matters less than the move: hear the surface objection, don't answer it directly, ask the question that surfaces what's actually underneath it, then let them answer their own objection back to you. A rep who memorizes rebuttals will sound rehearsed. A rep who asks these questions with real curiosity will sound like the only person on the call who's actually listening.</p>
+    </div>
+  </section>
+
+
+  <!-- 09 EXECUTION CHECKLIST -->
+  <section>
+    <div class="sec-header">
+      <span class="sec-ghost">10</span>
+      <h2>Execution Checklist</h2>
+      <p class="sec-desc">Run through this before you consider a discovery call complete. If you can't check every box, the identity-level belief probably never surfaced, and the pitch that follows is standing on nothing.</p>
+    </div>
+
+    <div class="block glowable">
+      <div class="checklist" id="execChecklist">
+        <label class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">I ran the five-question descent in order, current reality, attempted solutions, surface belief, identity bridge, forward projection</span></label>
+        <label class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">I did not accept the first answer to "why hasn't that worked" as final, I asked at least one more layer down</span></label>
+        <label class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">I asked some version of "what do you make that mean about you" at least once</span></label>
+        <label class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">I wrote down their exact words the moment they hit identity-level language, not my paraphrase of it</span></label>
+        <label class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">I did not pitch the Mastermind until the identity statement was already out loud, in their own words</span></label>
+        <label class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">When I did pitch, I mirrored their own language back to them before presenting price</span></label>
+        <label class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">Every objection I heard, I treated as a Layer 3 belief in disguise, not a logistics problem to argue with</span></label>
+        <label class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><span class="check-label">The gap I surfaced was real, already present in their answers, not something I manufactured to create pressure</span></label>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- THE RULE -->
+  <section>
+    <div class="rule-box glowable">
+      <div class="rule-num">Rule #1 of This Framework</div>
+      <div class="rule-text">Don't sell the action.<br>Challenge the belief underneath it.</div>
+      <div class="rule-sub">The action is the last domino, not the first one. Push on the action and you'll get resistance, because you're fighting an identity that's been reinforced for years, sometimes since childhood. Find the belief holding that identity up, ask the question that makes the gap audible to them, and the identity shifts on its own. Once the identity shifts, the action isn't something you have to close them into. It's something they announce.</div>
+    </div>
+  </section>
+
+</div>
+<script>
+function toggleTheme(){
+  var html=document.documentElement;
+  var next=html.getAttribute("data-theme")==="day"?"night":"day";
+  html.setAttribute("data-theme",next);
+  var lbl=document.getElementById("mode-lbl");
+  if(lbl)lbl.textContent=next==="day"?"Day":"Night";
+  try{localStorage.setItem("tb-theme",next);}catch(e){}
+}
+try{
+  var saved=localStorage.getItem("tb-theme");
+  if(saved){
+    document.documentElement.setAttribute("data-theme",saved);
+    document.addEventListener("DOMContentLoaded",function(){
+      var lbl=document.getElementById("mode-lbl");
+      if(lbl)lbl.textContent=saved==="day"?"Day":"Night";
+    });
+  }
+}catch(e){}
+</script>
+<script>
+(function(){
+  function syncMobileLabel(){
+    var lbl=document.querySelector('.m-toggle-lbl');
+    if(lbl){lbl.textContent=document.documentElement.getAttribute('data-theme')==='day'?'Day':'Night';}
+  }
+  function makeMobileToggle(){
+    if(document.querySelector('.m-toggle'))return;
+    var theme=document.documentElement.getAttribute('data-theme')||'night';
+    var t=document.createElement('button');
+    t.className='m-toggle';
+    t.setAttribute('aria-label','Toggle theme');
+    t.innerHTML='<span class="m-toggle-lbl">'+(theme==='day'?'Day':'Night')+'</span><div class="m-toggle-track"><div class="m-toggle-dot"></div></div>';
+    t.onclick=function(){toggleTheme();syncMobileLabel();};
+    document.body.appendChild(t);
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',makeMobileToggle);}
+  else{makeMobileToggle();}
+})();
+</script>
+<script>
+function toggleCheck(el){
+  el.classList.toggle('checked');
+  var box=el.querySelector('.check-box');
+  box.classList.toggle('checked');
+}
+</script>
+<script>
+(function(){
+  var spot=document.getElementById('cursorSpot');
+  if(!spot)return;
+  var raf=null;
+  window.addEventListener('mousemove',function(e){
+    if(raf)return;
+    raf=requestAnimationFrame(function(){
+      var xPct=(e.clientX/window.innerWidth*100).toFixed(1);
+      var yPct=(e.clientY/window.innerHeight*100).toFixed(1);
+      spot.style.setProperty('--mx',xPct+'%');
+      spot.style.setProperty('--my',yPct+'%');
+      raf=null;
+    });
+  });
+})();
+</script>
+</body>
+</html>
