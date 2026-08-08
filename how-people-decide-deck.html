@@ -1,0 +1,392 @@
+<title>Sales.io — How People Actually Decide</title>
+<style>
+@font-face{
+  font-family:'PlayfairDeck';
+  src:local('Playfair Display');
+}
+:root{
+  --bg:#0a0a08;--bg-2:#0f0f0c;
+  --card:#141410;--card-2:#191914;
+  --bdr:rgba(234,228,217,.10);--bdr-2:rgba(234,228,217,.2);
+  --text:#f0ece2;--text-2:rgba(240,236,226,.62);--text-3:rgba(240,236,226,.34);
+  --gold:#d9b46a;--gold-soft:#f0d9a3;--gold-dim:rgba(217,180,106,.1);
+  --mono:'SF Mono','Menlo','Consolas',monospace;
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'Inter',-apple-system,sans-serif;
+}
+:root[data-theme="light"]{
+  --bg:#f4efe4;--bg-2:#ece5d4;
+  --card:#fffdf8;--card-2:#f7f1e4;
+  --bdr:rgba(20,16,8,.12);--bdr-2:rgba(20,16,8,.22);
+  --text:#171308;--text-2:rgba(23,19,8,.62);--text-3:rgba(23,19,8,.38);
+  --gold:#8a6420;--gold-soft:#6b4d16;--gold-dim:rgba(138,100,32,.08);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:var(--sans);-webkit-font-smoothing:antialiased;
+  overflow:hidden;height:100vh;width:100vw;
+  transition:background .3s,color .3s;
+}
+.deck{
+  height:100vh;width:100vw;overflow-y:scroll;overflow-x:hidden;
+  scroll-snap-type:y mandatory;
+}
+.slide{
+  height:100vh;width:100vw;scroll-snap-align:start;
+  display:flex;flex-direction:column;
+  position:relative;overflow:hidden;
+  padding:5vh 7vw;
+}
+
+/* ambient texture, subtle, shared across slides */
+.slide::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 50% at 85% -10%, var(--gold-dim), transparent 60%),
+    radial-gradient(ellipse 50% 40% at -10% 110%, var(--gold-dim), transparent 60%);
+  opacity:.8;
+}
+
+/* ── frame chrome ── */
+.frame-top{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2;}
+.brand{display:flex;align-items:center;gap:.6rem;}
+.brand-mark{
+  width:26px;height:26px;border-radius:6px;background:var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-weight:900;font-size:.85rem;color:var(--bg);flex-shrink:0;
+}
+.brand-name{font-family:var(--mono);font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--text-2);}
+.slide-count{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;color:var(--text-3);font-variant-numeric:tabular-nums;}
+
+.frame-body{flex:1;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:2;min-height:0;}
+
+.eyebrow{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.25rem;display:flex;align-items:center;gap:.6rem;
+}
+.eyebrow::before{content:'';width:22px;height:1px;background:var(--gold);display:inline-block;}
+
+h1.deck-title{
+  font-family:var(--serif);font-weight:700;font-style:normal;
+  font-size:clamp(2.4rem,5.4vw,4.4rem);line-height:1.02;letter-spacing:-.02em;
+  color:var(--text);text-wrap:balance;max-width:16ch;
+}
+h1.deck-title em{font-style:italic;font-weight:400;color:var(--gold-soft);}
+
+.deck-sub{
+  font-size:clamp(.95rem,1.35vw,1.15rem);color:var(--text-2);font-weight:300;line-height:1.7;
+  max-width:52ch;margin-top:1.25rem;
+}
+
+.frame-bottom{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;}
+.progress{display:flex;gap:.4rem;}
+.pdot{width:22px;height:2px;background:var(--bdr-2);border-radius:2px;transition:background .3s,width .3s;}
+.pdot.on{background:var(--gold);width:34px;}
+.nav-hint{font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);}
+
+/* ══ Slide 1 — Four Levels ══ */
+.levels{display:flex;flex-direction:column;gap:0;margin-top:2.75rem;max-width:840px;}
+.level-row{
+  display:grid;grid-template-columns:64px 1.1fr 1.6fr;gap:1.75rem;align-items:center;
+  padding:1.15rem 0;border-top:1px solid var(--bdr);
+}
+.level-row:last-child{border-bottom:1px solid var(--bdr);}
+.level-speed{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);}
+.level-speed strong{display:block;color:var(--gold);font-size:.95rem;letter-spacing:0;font-family:var(--serif);margin-bottom:.15rem;}
+.level-name{font-size:1.05rem;font-weight:700;color:var(--text);letter-spacing:-.01em;}
+.level-desc{font-size:.82rem;color:var(--text-2);font-weight:300;line-height:1.55;}
+
+/* ══ Slide 2 — Belief Identity Action ══ */
+.chain{display:flex;align-items:stretch;gap:0;margin-top:3rem;max-width:900px;}
+.chain-node{
+  flex:1;background:var(--card);border:1px solid var(--bdr);border-radius:14px;
+  padding:1.75rem 1.5rem;position:relative;
+}
+.chain-node + .chain-node{margin-left:2.5rem;}
+.chain-node::after{
+  content:'→';position:absolute;left:-2.15rem;top:50%;transform:translateY(-50%);
+  font-family:var(--serif);font-size:1.6rem;color:var(--gold);opacity:.7;
+}
+.chain-tag{font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;}
+.chain-word{font-family:var(--serif);font-size:1.55rem;font-weight:700;color:var(--text);margin-bottom:.65rem;}
+.chain-def{font-size:.78rem;color:var(--text-2);font-weight:300;line-height:1.6;}
+.chain-quote{
+  margin-top:2.75rem;max-width:56ch;font-family:var(--serif);font-style:italic;
+  font-size:1.25rem;line-height:1.55;color:var(--text-2);
+  border-left:2px solid var(--gold);padding-left:1.25rem;
+}
+.chain-quote strong{color:var(--gold-soft);font-style:normal;}
+
+/* ══ Slide 3 — Map of Consciousness ══ */
+.moc-credit{font-family:var(--mono);font-size:.68rem;color:var(--text-3);margin-top:.5rem;letter-spacing:.02em;}
+.moc-wrap{margin-top:1.5rem;flex:1;min-height:0;display:flex;flex-direction:column;}
+/* This table intentionally breaks from the deck's dark voice — it's a faithful
+   rendering of Hawkins's original chart, floating as a "paper" card on the slide. */
+.moc-paper{
+  flex:1;min-height:0;overflow-y:auto;border-radius:14px;
+  background:#fbf8f0;box-shadow:0 24px 60px -20px rgba(0,0,0,.55),0 0 0 1px rgba(0,0,0,.08);
+}
+.moc-table{width:100%;border-collapse:collapse;font-size:.78rem;font-family:var(--sans);}
+.moc-table thead th{
+  position:sticky;top:0;z-index:2;background:#efe9d8;
+  text-align:left;font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;
+  color:#5a5344;font-weight:700;padding:.55rem .8rem;
+}
+.moc-table thead th.moc-col-paradigm{width:2rem;}
+.moc-table td{padding:.42rem .8rem;color:#2a2418;font-weight:500;vertical-align:middle;}
+.moc-bracket{
+  width:1.6rem;text-align:center;font-size:.56rem;font-weight:800;letter-spacing:.06em;
+  writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);
+  color:#fff;padding:0;
+}
+.moc-level{font-weight:800;}
+.moc-log{font-variant-numeric:tabular-nums;font-family:var(--mono);font-weight:700;opacity:.75;}
+
+/* Pastel row gradient sampled from the original Hawkins chart, purple → blue → green → yellow → orange → red */
+.lvl-enlightenment{background:#ecdff8;}
+.lvl-peace{background:#ddd0f2;}
+.lvl-joy{background:#cfc6ee;}
+.lvl-love{background:#c2d6f2;}
+.lvl-reason{background:#bfe1f5;}
+.lvl-acceptance{background:#c9f0d3;}
+.lvl-willingness{background:#bdecc9;}
+.lvl-neutrality{background:#b3e9c1;}
+.lvl-courage{background:#e9f3ae;}
+.lvl-pride{background:#f7edA0;}
+.lvl-anger{background:#f8d99a;}
+.lvl-desire{background:#f8c99a;}
+.lvl-fear{background:#f8b99a;}
+.lvl-grief{background:#f6a89f;}
+.lvl-apathy{background:#f5a0a4;}
+.lvl-guilt{background:#f597a2;}
+.lvl-shame{background:#f38fa0;}
+
+.moc-para-spiritual{background:#9a7bc4;}
+.moc-para-reason{background:#4fa87e;}
+.moc-para-survival{background:#c4633f;}
+
+/* ══ Slide 4 — CTA ══ */
+.cta-slide .frame-body{align-items:flex-start;justify-content:center;}
+.cta-book{
+  display:flex;align-items:center;gap:2.5rem;margin-top:2.5rem;
+  background:var(--card);border:1px solid var(--bdr-2);border-radius:18px;
+  padding:2rem 2.5rem;max-width:760px;
+}
+.cta-book-icon{
+  font-family:var(--serif);font-size:2.75rem;font-weight:900;color:var(--bg);
+  width:76px;height:96px;flex-shrink:0;border-radius:6px;
+  background:linear-gradient(155deg,var(--gold-soft),var(--gold));
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 14px 34px -10px rgba(217,180,106,.5);
+}
+.cta-book-title{font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--text);margin-bottom:.4rem;}
+.cta-book-desc{font-size:.85rem;color:var(--text-2);font-weight:300;line-height:1.65;max-width:44ch;}
+.cta-claim{
+  margin-top:2.25rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;
+}
+.cta-link-box{
+  font-family:var(--mono);font-size:.85rem;color:var(--gold-soft);
+  border:1px dashed var(--bdr-2);border-radius:10px;padding:.85rem 1.25rem;
+  letter-spacing:.02em;
+}
+.cta-free{
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--text-3);
+}
+.cta-qr-block{display:flex;align-items:center;gap:1.5rem;}
+.cta-qr{
+  width:118px;height:118px;border-radius:12px;padding:8px;
+  background:var(--text);flex-shrink:0;
+}
+.cta-qr img{width:100%;height:100%;display:block;border-radius:5px;}
+.cta-qr-text{display:flex;flex-direction:column;gap:.35rem;}
+.cta-qr-label{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);}
+.cta-qr-url{font-family:var(--mono);font-size:.78rem;color:var(--text-2);word-break:break-all;max-width:26ch;}
+
+@media(max-width:860px){
+  .level-row{grid-template-columns:1fr;gap:.35rem;}
+  .chain{flex-direction:column;}
+  .chain-node + .chain-node{margin-left:0;margin-top:2.25rem;}
+  .chain-node::after{content:'↓';left:50%;top:-1.9rem;transform:translateX(-50%);}
+  .moc-table th:nth-child(5),.moc-table td:nth-child(5){display:none;}
+  .cta-book{flex-direction:column;text-align:center;}
+}
+</style>
+
+<div class="deck" id="deck">
+
+  <!-- SLIDE 1 — FOUR LEVELS OF COMMUNICATION -->
+  <section class="slide" id="s1">
+    <div class="frame-top">
+      <div class="brand"><div class="brand-mark">S</div><span class="brand-name">Sales.io</span></div>
+      <span class="slide-count">01 / 04</span>
+    </div>
+    <div class="frame-body">
+      <div class="eyebrow">How People Actually Decide</div>
+      <h1 class="deck-title">The Four Levels<br>of <em>Communication</em></h1>
+      <p class="deck-sub">Ranked by processing speed. What you say is the slowest signal in the room, and the last one they trust.</p>
+      <div class="levels">
+        <div class="level-row">
+          <div class="level-speed"><strong>01</strong>Fastest, most important</div>
+          <div class="level-name">How You Feel About Yourself</div>
+          <div class="level-desc">Pure energy, impulse. Felt the instant you walk into a room, before a word is spoken.</div>
+        </div>
+        <div class="level-row">
+          <div class="level-speed"><strong>02</strong>Fast</div>
+          <div class="level-name">Your Intention</div>
+          <div class="level-desc">The emotional environment. Felt before it's processed, good or bad intentions land before logic catches up.</div>
+        </div>
+        <div class="level-row">
+          <div class="level-speed"><strong>03</strong>Medium</div>
+          <div class="level-name">How You Say It</div>
+          <div class="level-desc">Pattern recognition kicking in, the brain scanning for reassurance: good scenario, bad scenario, safe, not safe.</div>
+        </div>
+        <div class="level-row">
+          <div class="level-speed"><strong>04</strong>Slowest, least important</div>
+          <div class="level-name">What You Say</div>
+          <div class="level-desc">The words themselves. Conceptual, deliberate, the layer everyone trains and the one people trust least.</div>
+        </div>
+      </div>
+    </div>
+    <div class="frame-bottom">
+      <div class="progress"><div class="pdot on"></div><div class="pdot"></div><div class="pdot"></div><div class="pdot"></div></div>
+      <span class="nav-hint">Scroll or &darr;</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 2 — BELIEF, IDENTITY, ACTION -->
+  <section class="slide" id="s2">
+    <div class="frame-top">
+      <div class="brand"><div class="brand-mark">S</div><span class="brand-name">Sales.io</span></div>
+      <span class="slide-count">02 / 04</span>
+    </div>
+    <div class="frame-body">
+      <div class="eyebrow">The Mechanism of Change</div>
+      <h1 class="deck-title">Belief, Identity,<br><em>Action</em></h1>
+      <div class="chain">
+        <div class="chain-node">
+          <div class="chain-tag">First</div>
+          <div class="chain-word">Belief</div>
+          <div class="chain-def">What someone has quietly decided is true, about themselves, their options, or what's possible for them.</div>
+        </div>
+        <div class="chain-node">
+          <div class="chain-tag">Then</div>
+          <div class="chain-word">Identity</div>
+          <div class="chain-def">The story built on top of the belief. Who they've decided they are, and what they'll defend to stay that person.</div>
+        </div>
+        <div class="chain-node">
+          <div class="chain-tag">Finally</div>
+          <div class="chain-word">Action</div>
+          <div class="chain-def">Everything they do, or won't do, flows downstream of the identity, automatically, without a decision being made.</div>
+        </div>
+      </div>
+      <p class="chain-quote">You don't sell the action. You <strong>challenge the belief</strong> underneath it. Change the belief, the identity shifts on its own, and the action stops being something you have to close them into.</p>
+    </div>
+    <div class="frame-bottom">
+      <div class="progress"><div class="pdot"></div><div class="pdot on"></div><div class="pdot"></div><div class="pdot"></div></div>
+      <span class="nav-hint">Scroll or &darr;</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 3 — MAP OF CONSCIOUSNESS -->
+  <section class="slide" id="s3">
+    <div class="frame-top">
+      <div class="brand"><div class="brand-mark">S</div><span class="brand-name">Sales.io</span></div>
+      <span class="slide-count">03 / 04</span>
+    </div>
+    <div class="frame-body">
+      <div class="eyebrow">Your Operating Baseline</div>
+      <h1 class="deck-title" style="max-width:20ch;">The Map of <em>Consciousness</em></h1>
+      <div class="moc-credit">Developed by David R. Hawkins &middot; measured in log-scale energetic units</div>
+      <div class="moc-wrap">
+        <div class="moc-paper">
+          <table class="moc-table">
+            <thead><tr><th class="moc-col-paradigm"></th><th>Level</th><th>Log</th><th>Emotional State</th><th>View of Life</th></tr></thead>
+            <tbody>
+              <tr class="lvl-enlightenment"><td class="moc-bracket" rowspan="5" style="background:#9a7bc4;">Spiritual Paradigm</td><td class="moc-level">Enlightenment</td><td class="moc-log">700&ndash;1000</td><td>Ineffable</td><td>Is</td></tr>
+              <tr class="lvl-peace"><td class="moc-level">Peace</td><td class="moc-log">600</td><td>Bliss</td><td>Perfect</td></tr>
+              <tr class="lvl-joy"><td class="moc-level">Joy</td><td class="moc-log">540</td><td>Serenity</td><td>Complete</td></tr>
+              <tr class="lvl-love"><td class="moc-level">Love</td><td class="moc-log">500</td><td>Reverence</td><td>Benign</td></tr>
+              <tr class="lvl-reason"><td class="moc-level">Reason</td><td class="moc-log">400</td><td>Understanding</td><td>Meaningful</td></tr>
+              <tr class="lvl-acceptance"><td class="moc-bracket" rowspan="4" style="background:#4fa87e;">Reason &amp; Integrity</td><td class="moc-level">Acceptance</td><td class="moc-log">350</td><td>Forgiveness</td><td>Harmonious</td></tr>
+              <tr class="lvl-willingness"><td class="moc-level">Willingness</td><td class="moc-log">310</td><td>Optimism</td><td>Hopeful</td></tr>
+              <tr class="lvl-neutrality"><td class="moc-level">Neutrality</td><td class="moc-log">250</td><td>Trust</td><td>Satisfactory</td></tr>
+              <tr class="lvl-courage"><td class="moc-level">Courage</td><td class="moc-log">200</td><td>Affirmation</td><td>Feasible</td></tr>
+              <tr class="lvl-pride"><td class="moc-bracket" rowspan="8" style="background:#c4633f;">Survival Paradigm</td><td class="moc-level">Pride</td><td class="moc-log">175</td><td>Scorn</td><td>Demanding</td></tr>
+              <tr class="lvl-anger"><td class="moc-level">Anger</td><td class="moc-log">150</td><td>Hate</td><td>Antagonistic</td></tr>
+              <tr class="lvl-desire"><td class="moc-level">Desire</td><td class="moc-log">125</td><td>Craving</td><td>Disappointing</td></tr>
+              <tr class="lvl-fear"><td class="moc-level">Fear</td><td class="moc-log">100</td><td>Anxiety</td><td>Frightening</td></tr>
+              <tr class="lvl-grief"><td class="moc-level">Grief</td><td class="moc-log">75</td><td>Regret</td><td>Tragic</td></tr>
+              <tr class="lvl-apathy"><td class="moc-level">Apathy</td><td class="moc-log">50</td><td>Despair</td><td>Hopeless</td></tr>
+              <tr class="lvl-guilt"><td class="moc-level">Guilt</td><td class="moc-log">30</td><td>Blame</td><td>Evil</td></tr>
+              <tr class="lvl-shame"><td class="moc-level">Shame</td><td class="moc-log">20</td><td>Humiliation</td><td>Miserable</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="frame-bottom">
+      <div class="progress"><div class="pdot"></div><div class="pdot"></div><div class="pdot on"></div><div class="pdot"></div></div>
+      <span class="nav-hint">Scroll or &darr;</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 4 — CTA -->
+  <section class="slide cta-slide" id="s4">
+    <div class="frame-top">
+      <div class="brand"><div class="brand-mark">S</div><span class="brand-name">Sales.io</span></div>
+      <span class="slide-count">04 / 04</span>
+    </div>
+    <div class="frame-body">
+      <div class="eyebrow">Take It With You</div>
+      <h1 class="deck-title">Get the <em>Sales.io<br>Bible</em>, Free</h1>
+      <p class="deck-sub">Every framework we covered today, plus the rest of what we teach, identity, frames, discovery, objections, closing, written out in full.</p>
+      <div class="cta-book">
+        <div class="cta-book-icon">S</div>
+        <div>
+          <div class="cta-book-title">The Sales.io Training Bible</div>
+          <div class="cta-book-desc">The complete curriculum. No cost, no catch, just take it and use it.</div>
+        </div>
+      </div>
+      <div class="cta-claim">
+        <div class="cta-qr-block">
+          <div class="cta-qr"><img src="data:image/png;base64,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" alt="QR code to claim the Sales.io Bible"></div>
+          <div class="cta-qr-text">
+            <span class="cta-qr-label">Scan to claim it</span>
+            <span class="cta-qr-url">jjhernandes.github.io/salesio-sops/how-people-decide-deck.html</span>
+          </div>
+        </div>
+        <span class="cta-free">Free &middot; No email required</span>
+      </div>
+    </div>
+    <div class="frame-bottom">
+      <div class="progress"><div class="pdot"></div><div class="pdot"></div><div class="pdot"></div><div class="pdot on"></div></div>
+      <span class="nav-hint">End</span>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  var deck=document.getElementById('deck');
+  var slides=Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var idx=0;
+  function go(i){
+    idx=Math.max(0,Math.min(slides.length-1,i));
+    slides[idx].scrollIntoView({behavior:'smooth'});
+  }
+  window.addEventListener('keydown',function(e){
+    if(e.key==='ArrowDown'||e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(idx+1);}
+    else if(e.key==='ArrowUp'||e.key==='ArrowLeft'){e.preventDefault();go(idx-1);}
+  });
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){idx=slides.indexOf(en.target);}
+    });
+  },{threshold:.6});
+  slides.forEach(function(s){io.observe(s);});
+})();
+</script>
