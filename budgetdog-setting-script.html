@@ -1,0 +1,307 @@
+
+<title>BudgetDog — SDR / Setter Call Framework</title>
+<style>
+  :root {
+    --bg: #090908;
+    --surface: #111110;
+    --surface-2: #1a1916;
+    --accent: #e2cfa8;
+    --accent-soft: #f0e4c8;
+    --accent-dim: rgba(226,207,168,.07);
+    --accent-border: rgba(226,207,168,.14);
+    --text: #f0ece4;
+    --text-muted: #8a8475;
+    --text-faint: #3e3b30;
+    --border: #201f18;
+    --check: #7dcf95;
+    --check-dim: rgba(125,207,149,.08);
+    --blue: #7fb0e0;
+    --blue-dim: rgba(127,176,224,.09);
+    --blue-border: rgba(127,176,224,.22);
+    --green: #7dcf95;
+    --green-dim: rgba(125,207,149,.08);
+    --green-border: rgba(125,207,149,.22);
+    --watch: #e0b060;
+    --watch-dim: rgba(224,176,96,.1);
+    --watch-border: rgba(224,176,96,.28);
+    --mono: 'SF Mono','Fira Code','Consolas',monospace;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f2; --surface: #f0ece0; --surface-2: #e4dece;
+      --accent: #8a6d3a; --accent-soft: #6b5228;
+      --accent-dim: rgba(138,109,58,.07); --accent-border: rgba(138,109,58,.2);
+      --text: #1a1914; --text-muted: #6a6450; --text-faint: #c0b898;
+      --border: #ddd8c8; --check: #2a7a45; --check-dim: rgba(42,122,69,.07);
+      --blue:#2f6aa8; --blue-dim: rgba(47,106,168,.08); --blue-border: rgba(47,106,168,.24);
+      --green:#2a7a45; --green-dim: rgba(42,122,69,.07); --green-border: rgba(42,122,69,.22);
+      --watch:#a8781f; --watch-dim: rgba(168,120,31,.09); --watch-border: rgba(168,120,31,.28);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#090908;--surface:#111110;--surface-2:#1a1916;
+    --accent:#e2cfa8;--accent-soft:#f0e4c8;
+    --accent-dim:rgba(226,207,168,.07);--accent-border:rgba(226,207,168,.14);
+    --text:#f0ece4;--text-muted:#8a8475;--text-faint:#3e3b30;
+    --border:#201f18;--check:#7dcf95;--check-dim:rgba(125,207,149,.08);
+    --blue: #7fb0e0;--blue-dim: rgba(127,176,224,.09);--blue-border: rgba(127,176,224,.22);
+    --green: #7dcf95;--green-dim: rgba(125,207,149,.08);--green-border: rgba(125,207,149,.22);
+    --watch: #e0b060;--watch-dim: rgba(224,176,96,.1);--watch-border: rgba(224,176,96,.28);
+  }
+  :root[data-theme="light"] {
+    --bg:#faf8f2;--surface:#f0ece0;--surface-2:#e4dece;
+    --accent:#8a6d3a;--accent-soft:#6b5228;
+    --accent-dim:rgba(138,109,58,.07);--accent-border:rgba(138,109,58,.2);
+    --text:#1a1914;--text-muted:#6a6450;--text-faint:#c0b898;
+    --border:#ddd8c8;--check:#2a7a45;--check-dim:rgba(42,122,69,.07);
+    --blue:#2f6aa8;--blue-dim: rgba(47,106,168,.08);--blue-border: rgba(47,106,168,.24);
+    --green:#2a7a45;--green-dim: rgba(42,122,69,.07);--green-border: rgba(42,122,69,.22);
+    --watch:#a8781f;--watch-dim: rgba(168,120,31,.09);--watch-border: rgba(168,120,31,.28);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{font-size:16px;scroll-behavior:smooth;}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    font-size:.9375rem;line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .doc-header{max-width:760px;margin:0 auto;padding:3rem 2rem 2.5rem;border-bottom:1px solid var(--border);}
+  .eyebrow{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.875rem;}
+  .doc-title{font-size:1.875rem;font-weight:700;letter-spacing:-.03em;line-height:1.2;color:var(--text);margin-bottom:.5rem;}
+  .doc-sub{color:var(--text-muted);font-size:.9375rem;max-width:56ch;line-height:1.6;}
+  .meta-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.125rem;}
+  .meta-chip{display:flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.6875rem;color:var(--text-muted);background:var(--surface);border:1px solid var(--border);border-radius:2px;padding:.25rem .625rem;}
+  .meta-chip-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+
+  main{max-width:760px;margin:0 auto;padding:0 2rem 5rem;}
+  .section{padding:2.25rem 0 1.75rem;border-bottom:1px solid var(--border);}
+  .section:last-child{border-bottom:none;}
+  .sec-eyebrow{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.75rem;}
+  .sec-title{font-size:1.0625rem;font-weight:650;color:var(--text);letter-spacing:-.015em;margin-bottom:1.25rem;}
+
+  .callout{padding:.875rem 1.125rem;background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:2px;font-size:.875rem;color:var(--text-muted);line-height:1.65;}
+  .callout strong{color:var(--accent-soft);}
+
+  /* Legend */
+  .legend{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;}
+  .legend-item{display:flex;align-items:center;gap:.625rem;border:1px solid var(--border);border-radius:3px;padding:.625rem .875rem;background:var(--surface);}
+  .legend-swatch{width:.75rem;height:.75rem;border-radius:2px;flex-shrink:0;}
+  .legend-swatch.script{background:var(--surface-2);border:1px solid var(--border);}
+  .legend-swatch.question{background:var(--blue-dim);border:1px solid var(--blue-border);}
+  .legend-swatch.answer{background:var(--green-dim);border:1px solid var(--green-border);}
+  .legend-swatch.watch{background:var(--watch-dim);border:1px solid var(--watch-border);}
+  .legend-label{font-size:.8125rem;color:var(--text-muted);}
+  .legend-label strong{color:var(--text);}
+
+  /* Scripts */
+  .script-grid{display:flex;flex-direction:column;gap:.5rem;}
+  .script-item{border:1px solid var(--border);border-radius:3px;padding:.875rem 1.125rem;background:var(--surface);}
+  .script-item.question{background:var(--blue-dim);border-color:var(--blue-border);}
+  .script-item.answer{background:var(--green-dim);border-color:var(--green-border);}
+  .script-label{font-family:var(--mono);font-size:.625rem;letter-spacing:.08em;text-transform:uppercase;opacity:.85;margin-bottom:.5rem;}
+  .script-item .script-label{color:var(--accent);}
+  .script-item.question .script-label{color:var(--blue);}
+  .script-item.answer .script-label{color:var(--green);}
+  .script-text{font-size:.875rem;color:var(--text);line-height:1.65;}
+  .script-item.answer .script-text{font-style:italic;color:var(--text-muted);}
+  .script-note{font-size:.8125rem;color:var(--text-muted);margin-top:.5rem;line-height:1.6;}
+
+  /* Watch-for callouts */
+  .watch-block{padding:.875rem 1.125rem;background:var(--watch-dim);border:1px solid var(--watch-border);border-radius:2px;font-size:.8125rem;color:var(--text-muted);line-height:1.65;margin-top:.625rem;}
+  .watch-block::before{content:'Watch for — ';font-family:var(--mono);font-size:.625rem;letter-spacing:.06em;text-transform:uppercase;color:var(--watch);}
+  .watch-block strong{color:var(--accent-soft);}
+
+  /* Discovery question cards */
+  .qcard{border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-bottom:.625rem;}
+  .qcard:last-child{margin-bottom:0;}
+  .qcard-head{display:flex;gap:.75rem;padding:.875rem 1.125rem;background:var(--blue-dim);border-bottom:1px solid var(--border);align-items:flex-start;}
+  .qcard-num{font-family:var(--mono);font-size:.75rem;font-weight:700;color:var(--blue);flex-shrink:0;margin-top:.05rem;}
+  .qcard-text{font-size:.9375rem;color:var(--text);line-height:1.55;}
+  .qcard-body{padding:.875rem 1.125rem;background:var(--surface);}
+
+  .doc-footer{max-width:760px;margin:0 auto;padding:1.5rem 2rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;font-family:var(--mono);font-size:.575rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);}
+
+  @media(max-width:600px){
+    .doc-header,main{padding-left:1.25rem;padding-right:1.25rem;}
+    .doc-title{font-size:1.5rem;}
+    .legend{grid-template-columns:1fr;}
+  }
+</style>
+
+<div class="doc-header">
+  <div class="eyebrow">Sales.io — Reference Playbook</div>
+  <h1 class="doc-title">BudgetDog Setting Framework</h1>
+  <div class="doc-sub">Cold call script for the SDR / setter team, adapted from the master triage framework for BudgetDog's offer. This is the "IF we can help" call — it qualifies and books the longer coaching call, it does not pitch or close.</div>
+  <div class="meta-row">
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Tristan Steckler's team</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>SDR / Setter Script</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Companion to Pablo playbook</div>
+  </div>
+</div>
+
+<main>
+
+  <!-- Legend -->
+  <div class="section">
+    <div class="sec-eyebrow">Legend</div>
+    <h2 class="sec-title">How to read this doc</h2>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-swatch script"></div><div class="legend-label"><strong>Plain</strong> — SDR script, say as written</div></div>
+      <div class="legend-item"><div class="legend-swatch question"></div><div class="legend-label"><strong>Blue</strong> — SDR question, wait for an answer</div></div>
+      <div class="legend-item"><div class="legend-swatch answer"></div><div class="legend-label"><strong>Green</strong> — likely prospect answer / branch</div></div>
+      <div class="legend-item"><div class="legend-swatch watch"></div><div class="legend-label"><strong>Gold</strong> — coaching note, watch for this</div></div>
+    </div>
+  </div>
+
+  <!-- Readiness -->
+  <div class="section">
+    <div class="sec-eyebrow">Before You Dial</div>
+    <h2 class="sec-title">State of readiness</h2>
+    <div class="callout">
+      <strong>Sharp as a tack. Industry expert. Enthusiastic as hell.</strong> The prospect filled out a form after seeing Brennan on Instagram — they already know who BudgetDog is. Your job is to sound like someone who lives inside personal finance and investing every day, not someone reading a script.
+    </div>
+  </div>
+
+  <!-- Opener -->
+  <div class="section">
+    <div class="sec-eyebrow">Call Begins</div>
+    <h2 class="sec-title">Opener</h2>
+    <div class="script-grid">
+      <div class="script-item question">
+        <div class="script-label">SDR question</div>
+        <div class="script-text">"Hey (FirstName)?" <em>(question tonality)</em></div>
+      </div>
+      <div class="script-item">
+        <div class="script-label">SDR script</div>
+        <div class="script-text">"Hey (FirstName), this is (NAME) with BudgetDog's team. How are ya?"</div>
+      </div>
+      <div class="script-item question">
+        <div class="script-label">SDR question</div>
+        <div class="script-text">"You filled out a form recently to get some help with your finances — getting a budget and investing plan in place — after seeing our founder Brennan on Instagram?"</div>
+      </div>
+      <div class="script-item answer">
+        <div class="script-label">If yes</div>
+        <div class="script-text">"Yes, I remember that." → "Cool, well is that still something you're looking to get help with?"</div>
+      </div>
+      <div class="script-item answer">
+        <div class="script-label">If no / unsure</div>
+        <div class="script-text">"No, what is that?" → "Really — BudgetDog, the company that helps you build a financial plan and actually invest with a system, does that ring a bell?"</div>
+        <div class="script-note">If they still can't place it or aren't interested, hop off the call and move on. Don't fight for a dead lead.</div>
+      </div>
+      <div class="script-item">
+        <div class="script-label">SDR script — framing the call</div>
+        <div class="script-text">"What is this call? I won't take up much of your time — this is a quick 5–10 minute chat to see one, where you're at now with your finances, two, where you're at with hitting your money goals, and three, to see IF and how we could help. That make sense?"</div>
+      </div>
+      <div class="script-item answer">
+        <div class="script-label">If they hesitate</div>
+        <div class="script-text">"No" → "No worries — what's changed your mind?"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Discovery -->
+  <div class="section">
+    <div class="sec-eyebrow">Discovery</div>
+    <h2 class="sec-title">Six questions, in order</h2>
+
+    <div class="qcard">
+      <div class="qcard-head"><div class="qcard-num">Q1</div><div class="qcard-text">"Okay sweet — so tell me, where are you at now with your finances?"</div></div>
+      <div class="qcard-body">
+        <div class="script-note"><strong>If new to budgeting/investing:</strong> "What made you want to get a handle on this now?"<br><strong>If already tracking something:</strong> "How long have you been trying to manage this on your own?"</div>
+      </div>
+    </div>
+
+    <div class="qcard">
+      <div class="qcard-head"><div class="qcard-num">Q2</div><div class="qcard-text">"Have you tried any coaching or advisors before to help you get a handle on this?"</div></div>
+    </div>
+
+    <div class="qcard">
+      <div class="qcard-head"><div class="qcard-num">Q3</div><div class="qcard-text">"And with that, what was the disconnect that didn't let that get you the results you were looking for?"</div></div>
+    </div>
+
+    <div class="qcard">
+      <div class="qcard-head"><div class="qcard-num">Q4</div><div class="qcard-text">"Okay got it — so having struggled with {PAIN} for the last {DURATION}, why reach out for help now?"</div></div>
+      <div class="qcard-body">
+        <div class="watch-block">This is the same "what changed recently" beat the closer will dig into again on the HOW call. Get a real answer here, don't let it slide — it's what makes the transition to booking feel earned instead of scripted.</div>
+      </div>
+    </div>
+
+    <div class="qcard">
+      <div class="qcard-head"><div class="qcard-num">Q5</div><div class="qcard-text">"And what's the goal with getting your finances in order — building the plan, investing, all of it?"</div></div>
+      <div class="qcard-body">
+        <div class="script-note">Chunk down if the answer is vague:</div>
+        <div class="script-grid" style="margin-top:.5rem;">
+          <div class="script-item question"><div class="script-text">"How much are you looking to have invested / saved / bringing in?"</div></div>
+          <div class="script-item question"><div class="script-text">"Why that number specifically?"</div></div>
+        </div>
+        <div class="script-note">Don't go too deep here — that's the closer's job on the HOW call. You're just getting a clear, specific number and reason to hand off.</div>
+      </div>
+    </div>
+
+    <div class="qcard">
+      <div class="qcard-head"><div class="qcard-num">Q6</div><div class="qcard-text">Price qualifier</div></div>
+      <div class="qcard-body">
+        <div class="script-item">
+          <div class="script-label">SDR script</div>
+          <div class="script-text">"So one last thing here — we value transparency, so before I connect you with the team: this isn't the cheapest program out there. But if it feels like the right fit, we'll work with you. Investment ranges between $7,500 and $14,000 depending on what you need — is that reachable?"</div>
+        </div>
+        <div class="watch-block">This number needs to match what the closer will actually quote. Don't round it down to make the call easier to book — a mismatch here is what creates a "bait and switch" feeling on the HOW call.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pitch / Transition -->
+  <div class="section">
+    <div class="sec-eyebrow">Pitch</div>
+    <h2 class="sec-title">High-level overview → transition to booking</h2>
+    <div class="script-grid">
+      <div class="script-item">
+        <div class="script-label">SDR script <span style="opacity:.6;">(skip if prospect is in a hurry — go straight to booking)</span></div>
+        <div class="script-text">"(NAME), I definitely think we can help you out. What I'll do now is break down what we do at a high level, then get you connected to a longer call where our head coach will break down exactly how we can help — that cool?"</div>
+      </div>
+      <div class="script-item">
+        <div class="script-label">Overview</div>
+        <div class="script-text">Track it. Grow it. Protect it. BudgetDog gives you a system to know where every dollar goes, turn active income into automated investing, and protect what you build — the same process behind 24+ millionaires in the last few years.</div>
+      </div>
+      <div class="script-item answer">
+        <div class="script-label">If they ask what the longer call is for</div>
+        <div class="script-text">"This call was more of an IF call — to see IF we could help. The next one is the HOW call — our head coach breaks down exactly how we'd build your plan. All cool?"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Book -->
+  <div class="section">
+    <div class="sec-eyebrow">Book</div>
+    <h2 class="sec-title">Lock the time</h2>
+    <div class="script-grid">
+      <div class="script-item question"><div class="script-text">"If I could get you on (day), would AM or PM work best?"</div></div>
+      <div class="script-item question"><div class="script-text">"How about (time)?"</div></div>
+      <div class="script-item question"><div class="script-text">"And what time zone are you in?"</div></div>
+      <div class="script-item question"><div class="script-text">"Can you confirm the spelling of your first and last name for me?"</div></div>
+      <div class="script-item question"><div class="script-text">"Is the number I called you on now the one you have on you at all times?"</div></div>
+      <div class="script-item question"><div class="script-text">"Can I get your cell?"</div></div>
+      <div class="script-item question"><div class="script-text">"And your email?"</div></div>
+    </div>
+  </div>
+
+  <!-- Close Out -->
+  <div class="section">
+    <div class="sec-eyebrow">Close Out</div>
+    <h2 class="sec-title">Set expectations, hand off</h2>
+    <div class="script-item">
+      <div class="script-label">SDR script</div>
+      <div class="script-text">"Great — so I'm going to do one thing for you, and I need you to do one thing for me. You'll get a text from our team with more info on what we do before you hop on that next call. And the one thing I ask: be on a computer, in a quiet spot, good audio, not driving. Can you accept the meeting invite we send to your email? Perfect. And if you have to cancel for any reason, just call me directly so we can give that spot to someone else."</div>
+    </div>
+    <div class="watch-block">Confirm the calendar invite gets accepted before you hang up if you can — an unconfirmed invite is the single biggest driver of no-shows on the HOW call.</div>
+  </div>
+
+</main>
+
+<footer class="doc-footer">
+  <span>Sales.io — Reference Playbook</span>
+  <span>BudgetDog · Companion to Pablo Humerez call framework</span>
+</footer>
