@@ -1,0 +1,372 @@
+
+<title>Sales.io Coaching Content — For Written Call Feedback</title>
+<style>
+  :root {
+    --bg: #090908;
+    --surface: #111110;
+    --surface-2: #1a1916;
+    --accent: #e2cfa8;
+    --accent-soft: #f0e4c8;
+    --accent-dim: rgba(226,207,168,.07);
+    --accent-border: rgba(226,207,168,.14);
+    --text: #f0ece4;
+    --text-muted: #8a8475;
+    --text-faint: #3e3b30;
+    --border: #201f18;
+    --check: #7dcf95;
+    --check-dim: rgba(125,207,149,.08);
+    --warn: #e0a060;
+    --warn-dim: rgba(224,160,96,.1);
+    --warn-border: rgba(224,160,96,.28);
+    --mono: 'SF Mono','Fira Code','Consolas',monospace;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f2; --surface: #f0ece0; --surface-2: #e4dece;
+      --accent: #8a6d3a; --accent-soft: #6b5228;
+      --accent-dim: rgba(138,109,58,.07); --accent-border: rgba(138,109,58,.2);
+      --text: #1a1914; --text-muted: #6a6450; --text-faint: #c0b898;
+      --border: #ddd8c8; --check: #2a7a45; --check-dim: rgba(42,122,69,.07);
+      --warn:#a8681f; --warn-dim: rgba(168,104,31,.08); --warn-border: rgba(168,104,31,.26);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#090908;--surface:#111110;--surface-2:#1a1916;
+    --accent:#e2cfa8;--accent-soft:#f0e4c8;
+    --accent-dim:rgba(226,207,168,.07);--accent-border:rgba(226,207,168,.14);
+    --text:#f0ece4;--text-muted:#8a8475;--text-faint:#3e3b30;
+    --border:#201f18;--check:#7dcf95;--check-dim:rgba(125,207,149,.08);
+    --warn:#e0a060;--warn-dim: rgba(224,160,96,.1);--warn-border: rgba(224,160,96,.28);
+  }
+  :root[data-theme="light"] {
+    --bg:#faf8f2;--surface:#f0ece0;--surface-2:#e4dece;
+    --accent:#8a6d3a;--accent-soft:#6b5228;
+    --accent-dim:rgba(138,109,58,.07);--accent-border:rgba(138,109,58,.2);
+    --text:#1a1914;--text-muted:#6a6450;--text-faint:#c0b898;
+    --border:#ddd8c8;--check:#2a7a45;--check-dim:rgba(42,122,69,.07);
+    --warn:#a8681f;--warn-dim: rgba(168,104,31,.08);--warn-border: rgba(168,104,31,.26);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{font-size:16px;scroll-behavior:smooth;}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    font-size:.9375rem;line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .doc-header{max-width:760px;margin:0 auto;padding:3rem 2rem 2.5rem;border-bottom:1px solid var(--border);}
+  .eyebrow{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:.875rem;}
+  .doc-title{font-size:1.75rem;font-weight:700;letter-spacing:-.03em;line-height:1.2;color:var(--text);margin-bottom:.5rem;}
+  .doc-sub{color:var(--text-muted);font-size:.9375rem;max-width:62ch;line-height:1.6;}
+  .meta-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.125rem;}
+  .meta-chip{display:flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.6875rem;color:var(--text-muted);background:var(--surface);border:1px solid var(--border);border-radius:2px;padding:.25rem .625rem;}
+  .meta-chip-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+
+  main{max-width:760px;margin:0 auto;padding:0 2rem 5rem;}
+  .section{padding:2.25rem 0 1.75rem;border-bottom:1px solid var(--border);}
+  .section:last-child{border-bottom:none;}
+  .sec-eyebrow{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.75rem;}
+  .sec-title{font-size:1.0625rem;font-weight:650;color:var(--text);letter-spacing:-.015em;margin-bottom:1.25rem;}
+  .body-p{font-size:.875rem;color:var(--text-muted);line-height:1.7;margin-bottom:.875rem;}
+  .body-p:last-child{margin-bottom:0;}
+  .body-p strong{color:var(--text);font-weight:600;}
+
+  .warn-callout{padding:.9375rem 1.125rem;background:var(--warn-dim);border:1px solid var(--warn-border);border-radius:3px;font-size:.875rem;color:var(--text-muted);line-height:1.7;}
+  .warn-callout strong{color:var(--warn);}
+
+  /* Step cards for the 12-step process */
+  .step-card{border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-bottom:.625rem;}
+  .step-card:last-child{margin-bottom:0;}
+  .step-head{display:flex;align-items:center;gap:.75rem;padding:.75rem 1.125rem;background:var(--surface-2);border-bottom:1px solid var(--border);}
+  .step-num{font-family:var(--mono);font-size:.7rem;font-weight:700;color:var(--accent);flex-shrink:0;}
+  .step-title{font-size:.9375rem;font-weight:650;color:var(--text);}
+  .step-body{padding:.9375rem 1.125rem;background:var(--surface);}
+  .blk-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);margin:.75rem 0 .4rem;}
+  .blk-label:first-child{margin-top:0;}
+  .goal-text{font-size:.8125rem;color:var(--text-muted);line-height:1.6;}
+  .quote-block{margin:.4rem 0;padding:.7rem 1rem;background:var(--accent-dim);border-left:2px solid var(--accent);border-radius:0 2px 2px 0;font-size:.8125rem;color:var(--accent-soft);line-height:1.6;font-style:italic;}
+  .q-list{display:flex;flex-direction:column;gap:.35rem;}
+  .q-item{font-size:.8125rem;color:var(--text-muted);line-height:1.55;font-style:italic;}
+  .q-item::before{content:'→ ';color:var(--accent);font-style:normal;}
+  .principle-note{margin-top:.6rem;padding:.7rem .9rem;background:var(--surface-2);border-radius:3px;font-size:.8rem;color:var(--text-muted);line-height:1.6;}
+  .principle-note strong{color:var(--accent-soft);}
+  .core-rule{padding:1rem 1.25rem;background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:3px;margin-bottom:1.25rem;}
+  .core-rule .label{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem;}
+  .core-rule p{font-size:.9375rem;color:var(--text);font-weight:650;line-height:1.5;}
+  .core-rule .sub{font-size:.8125rem;color:var(--text-muted);font-weight:400;margin-top:.5rem;}
+
+  /* Glossary */
+  .gloss-grid{display:flex;flex-direction:column;gap:.5rem;}
+  .gloss-item{border:1px solid var(--border);border-radius:3px;padding:.75rem .9375rem;background:var(--surface);}
+  .gloss-term{font-size:.875rem;font-weight:650;color:var(--text);margin-bottom:.25rem;}
+  .gloss-def{font-size:.8125rem;color:var(--text-muted);line-height:1.55;}
+
+  .missing-list{display:flex;flex-direction:column;gap:.5rem;}
+  .missing-item{padding:.75rem .9375rem;background:var(--warn-dim);border:1px solid var(--warn-border);border-radius:3px;font-size:.8125rem;color:var(--text-muted);line-height:1.6;}
+  .missing-item strong{color:var(--warn);}
+
+  .fb-list{display:flex;flex-direction:column;gap:.5rem;}
+  .fb-item{display:flex;gap:.75rem;padding:.75rem .875rem;background:var(--surface);border:1px solid var(--border);border-radius:3px;font-size:.875rem;color:var(--text-muted);line-height:1.55;}
+  .fb-num{font-family:var(--mono);font-size:.7rem;color:var(--accent);flex-shrink:0;font-weight:700;}
+  .fb-item strong{color:var(--text);}
+
+  .doc-footer{max-width:760px;margin:0 auto;padding:1.5rem 2rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;font-family:var(--mono);font-size:.575rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);}
+
+  @media(max-width:600px){
+    .doc-header,main{padding-left:1.25rem;padding-right:1.25rem;}
+    .doc-title{font-size:1.4rem;}
+  }
+</style>
+
+<div class="doc-header">
+  <div class="eyebrow">Sales.io — Coaching Reference for AI Feedback</div>
+  <h1 class="doc-title">Coaching Content for Written Call Feedback</h1>
+  <div class="doc-sub">Everything an AI system needs to give real, structured feedback on a student's sales call using Sales.io's actual frameworks. Built entirely from real, published material, nothing here is invented.</div>
+  <div class="meta-row">
+    <div class="meta-chip"><div class="meta-chip-dot"></div>12-Step Process</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Real scripts &amp; principles</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Feedback format guide</div>
+  </div>
+</div>
+
+<main>
+
+  <div class="section">
+    <div class="warn-callout"><strong>Honest disclaimer:</strong> Sales.io's 13-section Training Bible is planned but every module is currently marked "Coming Soon", the lesson bodies aren't written yet. Several frameworks are named but not defined (the Five Frames, the Meta-Rule, the 60-Second Loom Framework, the 5-Point Call Review Framework). Don't fabricate content for these, flag it plainly if a call touches one. Everything past this point is real, sourced from published SOPs, transcripts, and live coaching sessions.</div>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Structure</div>
+    <h2 class="sec-title">The 12-Step Sales Process — primary rubric for evaluating a call</h2>
+    <div class="core-rule">
+      <div class="label">Core Rule</div>
+      <p>Never pitch just to pitch. You only present once you've earned the right to present.</p>
+      <div class="sub">A strong close is created in discovery. If discovery is weak, objections get harder, the pitch feels forced, and the prospect won't feel clear enough to decide. Discovery is the close, everything after is confirmation.</div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-head"><span class="step-num">01</span><span class="step-title">Intro: Respect First, Likability Later</span></div>
+      <div class="step-body">
+        <div class="blk-label">Goal</div><div class="goal-text">Establish control, confirm time, open without overdoing rapport.</div>
+        <div class="blk-label">Script</div><div class="quote-block">"Hey [Name], good to meet you. I know you booked a call about [reason/context]. Do you still have the full [time] for today?"</div>
+        <div class="principle-note"><strong>Key principle —</strong> Don't try to impress them or become their best friend. Lead with calm authority.</div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-head"><span class="step-num">02</span><span class="step-title">Current Reality</span></div>
+      <div class="step-body">
+        <div class="blk-label">Goal</div><div class="goal-text">Understand what they're currently doing and where they are right now.</div>
+        <div class="blk-label">Questions</div>
+        <div class="q-list">
+          <div class="q-item">"Give me some context, what are you currently doing for [X]?"</div>
+          <div class="q-item">"How long have you been doing that?"</div>
+          <div class="q-item">"What's working? What's not working?"</div>
+        </div>
+        <div class="principle-note"><strong>Key principle —</strong> Start surface-level, then go deeper. Don't move on too fast.</div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-head"><span class="step-num">03</span><span class="step-title">Problem Awareness</span></div>
+      <div class="step-body">
+        <div class="blk-label">Goal</div><div class="goal-text">Help them become fully aware of the real problem and its impact.</div>
+        <div class="blk-label">Questions</div>
+        <div class="q-list">
+          <div class="q-item">"What do you feel is the biggest issue right now?"</div>
+          <div class="q-item">"What have you tried to fix it, and why hasn't that worked?"</div>
+          <div class="q-item">"What is this costing you right now?"</div>
+        </div>
+        <div class="blk-label">Redirect if they deflect</div>
+        <div class="quote-block">"I hear you, but if everything was exactly where you wanted it, why are we on this call?"</div>
+        <div class="principle-note"><strong>Key principle —</strong> Don't accept surface-level answers like "things are fine" if they booked a call. There's always a reason.</div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-head"><span class="step-num">04</span><span class="step-title">Solution Awareness</span></div>
+      <div class="step-body">
+        <div class="blk-label">Goal</div><div class="goal-text">Understand whether they know what the right solution actually looks like.</div>
+        <div class="blk-label">Questions</div>
+        <div class="q-list">
+          <div class="q-item">"How do you know what the right solution would even look like?"</div>
+          <div class="q-item">"What would need to be true for you to feel confident moving forward?"</div>
+        </div>
+        <div class="principle-note"><strong>Key principle —</strong> This is often where they realize the gap is bigger than they thought.</div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-head"><span class="step-num">05</span><span class="step-title">Future Pace</span></div>
+      <div class="step-body">
+        <div class="blk-label">Goal</div><div class="goal-text">Create the gap between where they are now and where they want to be.</div>
+        <div class="blk-label">Questions</div>
+        <div class="q-list">
+          <div class="q-item">"If this was fully solved, what would be different?"</div>
+          <div class="q-item">"What would life/business look like 3-6 months from now?"</div>
+        </div>
+        <div class="principle-note"><strong>Key principle —</strong> Don't get cheesy or overly emotional. Make it feel natural.</div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-head"><span class="step-num">06</span><span class="step-title">Consequence / Cost of Inaction</span></div>
+      <div class="step-body">
+        <div class="blk-label">Goal</div><div class="goal-text">Help them see what happens if nothing changes.</div>
+        <div class="blk-label">Questions</div>
+        <div class="q-list">
+          <div class="q-item">"What happens if this stays the same for the next 3-6 months?"</div>
+          <div class="q-item">"Is staying where you are actually an option?"</div>
+        </div>
+        <div class="principle-note"><strong>Key principle —</strong> Only ask these if the emotion isn't already there. Overdoing it after strong discovery can feel manipulative.</div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-head"><span class="step-num">07</span><span class="step-title">Transition to Pitch</span></div>
+      <div class="step-body">
+        <div class="blk-label">Goal</div><div class="goal-text">Summarize their situation and earn permission to present.</div>
+        <div class="blk-label">Script</div><div class="quote-block">"Based on everything you told me, I do think this could be a really strong fit. The main thing I'm hearing is [problem], and that's creating [pain/consequence]. Let me walk you through exactly how we'd help."</div>
+        <div class="principle-note"><strong>Key principle —</strong> The pitch should feel like the obvious next step, not a random presentation.</div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-head"><span class="step-num">08</span><span class="step-title">Pitch</span></div>
+      <div class="step-body">
+        <div class="blk-label">Structure</div>
+        <div class="q-list">
+          <div class="q-item">Restate their current problem</div>
+          <div class="q-item">Explain the mechanism that solves it</div>
+          <div class="q-item">Show how the program works</div>
+          <div class="q-item">Tie each feature back to their desired outcome</div>
+          <div class="q-item">Check for understanding throughout</div>
+        </div>
+        <div class="principle-note"><strong>Key principle —</strong> Don't feature dump. Every part connects to something they already said. Under 5 minutes, no matter what's being sold.</div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-head"><span class="step-num">09</span><span class="step-title">Confirm Fit</span></div>
+      <div class="step-body">
+        <div class="blk-label">Script</div><div class="quote-block">"Based on everything we covered, do you feel like this is the right fit for what you're trying to solve?" &mdash; if yes: "Why do you feel that way?"</div>
+        <div class="principle-note"><strong>Key principle —</strong> Get them to verbalize the decision before price.</div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-head"><span class="step-num">10</span><span class="step-title">Price Reveal</span></div>
+      <div class="step-body">
+        <div class="blk-label">Script</div><div class="quote-block">"Cool. So the investment for the program is [$X]. Is that reachable for you?"</div>
+        <div class="principle-note"><strong>Key principle —</strong> Say the price calmly. Don't over-explain. Don't get weird about it.</div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-head"><span class="step-num">11</span><span class="step-title">Objection Handling</span></div>
+      <div class="step-body">
+        <div class="blk-label">If energy shifts</div><div class="quote-block">"I feel like the energy shifted a little bit. Am I wrong, or is there something I'm not seeing?"</div>
+        <div class="blk-label">If they say money</div><div class="quote-block">"Is it truly that the money is impossible, or is it more that you're not fully confident this will work for you yet?"</div>
+        <div class="blk-label">If they say "think about it"</div><div class="quote-block">"Of course. What specifically do you feel like you need to think through?"</div>
+        <div class="principle-note"><strong>Key principle —</strong> Don't argue. The objection stage should feel like home, calm, comfortable, curious.</div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-head"><span class="step-num">12</span><span class="step-title">Close</span></div>
+      <div class="step-body">
+        <div class="blk-label">Script</div><div class="quote-block">"Based on what you told me, this is the exact problem you said you wanted to solve. You also said staying where you are isn't really an option. So if the only thing left is getting started, let's take care of that now."</div>
+        <div class="principle-note"><strong>Key principle —</strong> They're committing to the new version of themselves, not just the program.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Philosophy</div>
+    <h2 class="sec-title">Core philosophy (the why behind the feedback)</h2>
+    <p class="body-p">"Sales is human." It's a conversation where someone has a problem, you might have something that solves it, and your job is to figure out honestly whether that's true, then help them make a clear decision.</p>
+    <p class="body-p">"The best closers don't sound like closers." They sound like someone who actually cares whether this is right for the prospect.</p>
+    <p class="body-p">"People buy based on emotions and compensate logically." Understand the feeling first, everything else comes after.</p>
+    <p class="body-p">"We find out where you suck and make you good." Direct feedback is the culture, not an insult.</p>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Discovery</div>
+    <h2 class="sec-title">Deeper discovery principles</h2>
+    <p class="body-p">Pick current-reality-first OR goals-first as the structure, not both, don't bounce between them mid-call.</p>
+    <p class="body-p">When a real topic surfaces (revenue, a past bad experience), go deep before moving on. Always ask WHY behind a number: "500k a month, cool, why that number, what does that let you do?"</p>
+    <p class="body-p">Address a bad past experience immediately when it comes up, or it resurfaces later as a much harder objection.</p>
+    <p class="body-p">A loaded, identity-level statement ("I guess I'm just bad at this") gets a clarifying question, not an immediate deep dive: <em>"What do you mean by that? How so?"</em></p>
+    <p class="body-p">A rambling answer gets redirected, not chased: <em>"You gave me a lot there, and I appreciate the context, but I want to make sure I understand where you're at right now. What would you say is the one biggest challenge?"</em></p>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Pitch</div>
+    <h2 class="sec-title">Pitch principles beyond the script</h2>
+    <p class="body-p"><strong>"Sell the vacation, not the plane ticket"</strong> &mdash; sell the result and feeling, not the deliverables.</p>
+    <p class="body-p">A deliverables dump creates confusion, not conviction. Only speak to what's already been established as important to this person.</p>
+    <p class="body-p">Avoid the "mirror recap" habit (repeating back what the prospect just said). It's a dated guru tactic that reads as robotic. A genuine follow-up question does more.</p>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Objections</div>
+    <h2 class="sec-title">Belief-identity-action layer</h2>
+    <p class="body-p">Change the belief and identity shifts on its own, guaranteed. Attacking identity directly doesn't guarantee anything changes, because the belief underneath never moved.</p>
+    <p class="body-p">Anchor question: <em>"What do you believe is not working?"</em> The word "believe" specifically puts someone's mind in the right frame.</p>
+    <p class="body-p">It's rarely an actual money objection, it's usually a value perception objection. If ROI isn't clear, staying put feels safer than the decision.</p>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Presence</div>
+    <h2 class="sec-title">Frame, composure, and energy</h2>
+    <p class="body-p">Composure is the single strongest asset in sales. Reactivity is weakness (not the same as suppressing genuine emotion).</p>
+    <p class="body-p">Sitting in silence while a prospect thinks is respect, not awkwardness. "50% of sales are lost in the first two minutes", if the prospect gains control early, it's hard to get back.</p>
+    <p class="body-p">Stay more neutral early. Save warmth for once you're closing or real trust is built. Getting too friendly early removes the ability to challenge something later without it feeling jarring.</p>
+    <p class="body-p"><strong>PACE buyer types:</strong> Practical (closed off, tactical), Action (high energy, go-go-go), Social (wins any room), Emotional (softer). Match tone to type, neutral energy eases anyone in regardless of type.</p>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Reference</div>
+    <h2 class="sec-title">Glossary</h2>
+    <div class="gloss-grid">
+      <div class="gloss-item"><div class="gloss-term">Lead vs. Prospect</div><div class="gloss-def">A lead hasn't talked to anyone yet. The moment they're on a call, they're a prospect.</div></div>
+      <div class="gloss-item"><div class="gloss-term">Frame</div><div class="gloss-def">Who's actually in control of the conversation and its energy. "Holding your frame" means staying grounded under pushback.</div></div>
+      <div class="gloss-item"><div class="gloss-term">Cash Collected (CC)</div><div class="gloss-def">Money that's actually landed today, distinct from total deal size on a payment plan.</div></div>
+      <div class="gloss-item"><div class="gloss-term">Show Rate / Close Rate</div><div class="gloss-def">% of booked calls where the prospect shows up / % of calls taken that turn into a sale.</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Format</div>
+    <h2 class="sec-title">How to structure written feedback</h2>
+    <div class="fb-list">
+      <div class="fb-item"><div class="fb-num">01</div><div><strong>Max two pieces of feedback per call.</strong> More than that is too much to actually implement on the next call.</div></div>
+      <div class="fb-item"><div class="fb-num">02</div><div><strong>Explain WHY before the fix.</strong> Say what it's costing them first, then the fix.</div></div>
+      <div class="fb-item"><div class="fb-num">03</div><div><strong>Rate specific moments numerically</strong> when useful (5/10, 6/10), direct and concrete, not harsh.</div></div>
+      <div class="fb-item"><div class="fb-num">04</div><div><strong>Reference the 12-step structure explicitly.</strong> "You skipped Problem Awareness, that's why the price objection landed so hard."</div></div>
+      <div class="fb-item"><div class="fb-num">05</div><div><strong>Be honest about what you can't verify.</strong> No transcript, no recording, no fabricated specifics, ask for one instead.</div></div>
+      <div class="fb-item"><div class="fb-num">06</div><div><strong>No filler, no over-apologizing.</strong> "Not bad, but could be better" is the right register, not "great job overall!"</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Gaps</div>
+    <h2 class="sec-title">What's still missing — don't invent content for these</h2>
+    <div class="missing-list">
+      <div class="missing-item"><strong>The Five Frames</strong> (Power, Time, Analyst, Prize, Detachment) &mdash; named in Frame Mastery, not yet defined</div>
+      <div class="missing-item"><strong>The Meta-Rule for objections</strong> &mdash; named in Objection Psychology, not yet defined</div>
+      <div class="missing-item"><strong>The Pain Ladder, Dissatisfaction Priming, Desire Activation</strong> &mdash; named in Discovery Mastery, not yet defined</div>
+      <div class="missing-item"><strong>The Heaven and Hell Framework</strong> (Hell &rarr; Heaven &rarr; Gap &rarr; Bridge) &mdash; named in Pitch Architecture, structure implied but not elaborated</div>
+      <div class="missing-item"><strong>The 5-Point Call Review Framework</strong> &mdash; named in Call Review, not yet defined</div>
+      <div class="missing-item"><strong>The 60-Second Loom Framework</strong> &mdash; named in Finding Roles, not yet defined</div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="doc-footer">
+  <span>Sales.io &middot; Coaching Reference for AI Feedback</span>
+  <span>Built August 2026</span>
+</footer>
