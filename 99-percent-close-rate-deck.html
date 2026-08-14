@@ -1,0 +1,289 @@
+
+<title>The 99% Lesson</title>
+<style>
+  :root {
+    --bg: #0b0a08;
+    --surface: #17140f;
+    --surface-2: #221d15;
+    --accent: #f2a93c;
+    --accent-hot: #ff7a3d;
+    --accent-glow: #ffd889;
+    --accent-dim: rgba(242,169,60,.09);
+    --accent-border: rgba(242,169,60,.22);
+    --text: #f5f1e8;
+    --text-muted: #a89975;
+    --text-faint: #574e3c;
+    --border: #2b2519;
+    --mono: 'SF Mono','Fira Code','Consolas',monospace;
+    --display: ui-sans-serif, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,*::before,*::after{ animation-duration:.01ms !important; transition-duration:.01ms !important; }
+  }
+
+  .deck{position:relative;width:100vw;height:100vh;}
+
+  .slide{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:4vw 6vw;text-align:center;
+    opacity:0;visibility:hidden;
+    transform:translateY(24px);
+    transition:opacity .5s ease, transform .5s ease, visibility 0s linear .5s;
+  }
+  .slide.active{
+    opacity:1;visibility:visible;transform:translateY(0);
+    transition:opacity .5s ease, transform .5s ease;
+  }
+
+  .kicker{
+    font-family:var(--mono);font-size:clamp(.7rem,1vw,.85rem);
+    letter-spacing:.24em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:1.75rem;
+  }
+
+  .big-num{
+    font-family:var(--display);font-weight:900;
+    font-size:clamp(6rem,22vw,16rem);
+    line-height:.85;letter-spacing:-.04em;
+    background:linear-gradient(180deg, var(--accent-glow) 0%, var(--accent) 45%, var(--accent-hot) 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .headline{
+    font-family:var(--display);font-weight:900;
+    font-size:clamp(2.25rem,6vw,5rem);
+    line-height:1.02;letter-spacing:-.03em;
+    text-wrap:balance;max-width:20ch;
+    margin-bottom:1.5rem;
+  }
+  .headline em{
+    font-style:normal;
+    background:linear-gradient(90deg, var(--accent), var(--accent-glow));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .sub{
+    font-size:clamp(1.1rem,2vw,1.5rem);
+    color:var(--text-muted);max-width:32ch;line-height:1.5;
+    text-wrap:balance;
+  }
+  .sub strong{color:var(--text);font-weight:600;}
+
+  .tag-row{display:flex;gap:.75rem;margin-top:2.5rem;flex-wrap:wrap;justify-content:center;}
+  .tag{
+    padding:.6rem 1.1rem;border:1px solid var(--border);border-radius:999px;
+    background:var(--surface);font-size:.9rem;color:var(--text-muted);
+    font-family:var(--mono);letter-spacing:.02em;
+  }
+
+  .stack{display:flex;flex-direction:column;gap:1rem;max-width:44rem;width:100%;margin-top:1rem;}
+  .stack-item{
+    display:flex;align-items:baseline;gap:1.25rem;
+    padding:1.25rem 1.5rem;background:var(--surface);
+    border:1px solid var(--border);border-left:3px solid var(--accent);
+    border-radius:0 8px 8px 0;text-align:left;
+  }
+  .stack-num{
+    font-family:var(--display);font-weight:900;font-size:1.5rem;
+    color:var(--accent);flex-shrink:0;min-width:2rem;
+  }
+  .stack-text{font-size:1.15rem;color:var(--text);line-height:1.5;}
+  .stack-text strong{color:var(--accent-glow);}
+
+  .quote-slide .headline{max-width:26ch;}
+  .attribution{
+    margin-top:1.25rem;font-family:var(--mono);font-size:.85rem;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);
+  }
+
+  .glow{
+    position:absolute;top:50%;left:50%;
+    width:70vw;height:70vw;max-width:1000px;max-height:1000px;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle, var(--accent-dim) 0%, transparent 60%);
+    pointer-events:none;z-index:0;
+  }
+  .slide > *{position:relative;z-index:1;}
+
+  /* progress + nav */
+  .progress{
+    position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);
+    display:flex;gap:.5rem;z-index:10;
+  }
+  .dot{
+    width:6px;height:6px;border-radius:50%;background:var(--border);
+    transition:background .3s, width .3s;
+  }
+  .dot.active{background:var(--accent);width:20px;border-radius:3px;}
+
+  .counter{
+    position:fixed;top:2rem;right:2rem;
+    font-family:var(--mono);font-size:.75rem;letter-spacing:.1em;
+    color:var(--text-faint);z-index:10;
+  }
+  .brand-mark{
+    position:fixed;top:2rem;left:2rem;
+    font-family:var(--mono);font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;
+    color:var(--text-faint);z-index:10;
+  }
+
+  .nav-hint{
+    position:fixed;bottom:2rem;right:2rem;
+    font-family:var(--mono);font-size:.7rem;color:var(--text-faint);
+    letter-spacing:.05em;z-index:10;
+    opacity:0;animation:fadein 1s ease 1.5s forwards;
+  }
+  @keyframes fadein{to{opacity:1;}}
+
+  .nav-zone{position:fixed;top:0;bottom:0;width:15%;z-index:5;cursor:pointer;}
+  .nav-zone.left{left:0;}
+  .nav-zone.right{right:0;}
+
+  @media(max-width:640px){
+    .brand-mark,.counter{display:none;}
+    .stack-item{padding:1rem;gap:.75rem;}
+    .stack-text{font-size:1rem;}
+  }
+</style>
+
+<div class="deck" id="deck">
+
+  <section class="slide active">
+    <div class="glow"></div>
+    <div class="kicker">Sales.io &middot; JJ Hernandez</div>
+    <div class="big-num">99%</div>
+    <div class="sub" style="margin-top:2rem;">My close rate this year. <strong>It's not a closing technique.</strong></div>
+  </section>
+
+  <section class="slide">
+    <div class="glow"></div>
+    <div class="kicker">What You'd Assume</div>
+    <h1 class="headline">Better script. Better tonality. Better objection handling.</h1>
+    <div class="sub">That's what everyone guesses. <strong>None of it's the real reason.</strong></div>
+  </section>
+
+  <section class="slide">
+    <div class="glow"></div>
+    <div class="kicker">The Real Mechanism</div>
+    <h1 class="headline">A 99% close rate isn't <em>won</em> on the call.</h1>
+    <div class="sub">It's decided before the call ever starts.</div>
+  </section>
+
+  <section class="slide">
+    <div class="glow"></div>
+    <div class="kicker">Reason 01</div>
+    <h1 class="headline">You can't lose a sale you never should have booked.</h1>
+    <div class="sub">If the market's saturated, the margins are too thin, or the fit's wrong &mdash; I say so, and point them somewhere else. <strong>Every call left on my calendar is already a real fit.</strong></div>
+  </section>
+
+  <section class="slide">
+    <div class="glow"></div>
+    <div class="kicker">Reason 02</div>
+    <h1 class="headline">The person who needs the sale the most <em>always</em> loses.</h1>
+    <div class="sub">Neediness leaks. Prospects feel it before you say a word. <strong>Detachment from any single yes is what lets you close almost every one.</strong></div>
+  </section>
+
+  <section class="slide">
+    <div class="glow"></div>
+    <div class="kicker">Reason 03</div>
+    <h1 class="headline">Belief dictates identity. Identity dictates action.</h1>
+    <div class="sub">You're not selling a service. You're helping someone believe something different about themselves first. <strong>Once the belief shifts, the decision isn't really a decision anymore.</strong></div>
+  </section>
+
+  <section class="slide">
+    <div class="glow"></div>
+    <div class="kicker">Reason 04</div>
+    <h1 class="headline">Composure closes. Conviction just talks.</h1>
+    <div class="sub">50% of sales are lost in the first two minutes. Most reps lose the frame before they ever get to pitch. <strong>Silence isn't awkward. It's respect, and it's control.</strong></div>
+  </section>
+
+  <section class="slide">
+    <div class="glow"></div>
+    <div class="kicker">Reason 05</div>
+    <h1 class="headline">Who you are off your calls is who you are on your calls.</h1>
+    <div class="sub">You cannot perform composure you haven't actually built. <strong>The work that moves your close rate happens nowhere near a sales call.</strong></div>
+  </section>
+
+  <section class="slide">
+    <div class="glow"></div>
+    <div class="kicker">The One Lesson</div>
+    <h1 class="headline">Stop trying to close better. <em>Start disqualifying faster,</em> and stop needing the yes.</h1>
+    <div class="sub">Everything else in this deck is downstream of that one shift.</div>
+  </section>
+
+  <section class="slide">
+    <div class="glow"></div>
+    <div class="kicker">How To Actually Start</div>
+    <div class="stack">
+      <div class="stack-item"><div class="stack-num">01</div><div class="stack-text"><strong>Disqualify out loud, early.</strong> Say the honest thing if it's not a fit &mdash; don't wait for the call to prove it.</div></div>
+      <div class="stack-item"><div class="stack-num">02</div><div class="stack-text"><strong>Practice sitting in silence.</strong> Let a pause sit for a full three seconds before you speak. Feel how uncomfortable that actually is.</div></div>
+      <div class="stack-item"><div class="stack-num">03</div><div class="stack-text"><strong>Do the identity work off the calls.</strong> Who you are at 9am on a random Tuesday is who's going to show up on the call at 3.</div></div>
+    </div>
+  </section>
+
+  <section class="slide quote-slide">
+    <div class="glow"></div>
+    <h1 class="headline">Everyone else teaches you what to say.<br><em>We teach you how to think.</em></h1>
+    <div class="attribution">Sales.io</div>
+  </section>
+
+</div>
+
+<div class="brand-mark">Sales.io</div>
+<div class="counter" id="counter">01 / 10</div>
+<div class="progress" id="progress"></div>
+<div class="nav-hint">&larr; &rarr; or click sides to navigate &middot; F for fullscreen</div>
+<div class="nav-zone left" id="navLeft"></div>
+<div class="nav-zone right" id="navRight"></div>
+
+<script>
+(function(){
+  var slides = document.querySelectorAll('.slide');
+  var total = slides.length;
+  var current = 0;
+  var progress = document.getElementById('progress');
+  var counter = document.getElementById('counter');
+
+  for (var i = 0; i < total; i++) {
+    var d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    progress.appendChild(d);
+  }
+  var dots = progress.querySelectorAll('.dot');
+
+  function pad(n){ return n < 10 ? '0' + n : '' + n; }
+
+  function go(idx){
+    if (idx < 0 || idx >= total) return;
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = idx;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+    counter.textContent = pad(current + 1) + ' / ' + pad(total);
+  }
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { go(current + 1); e.preventDefault(); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { go(current - 1); e.preventDefault(); }
+    else if (e.key === 'Home') { go(0); }
+    else if (e.key === 'End') { go(total - 1); }
+    else if (e.key.toLowerCase() === 'f') {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen && document.documentElement.requestFullscreen();
+      else document.exitFullscreen && document.exitFullscreen();
+    }
+  });
+
+  document.getElementById('navLeft').addEventListener('click', function(){ go(current - 1); });
+  document.getElementById('navRight').addEventListener('click', function(){ go(current + 1); });
+
+  counter.textContent = pad(1) + ' / ' + pad(total);
+})();
+</script>
