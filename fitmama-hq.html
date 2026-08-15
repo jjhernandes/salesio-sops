@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="day">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>FitMama Coaching — Team HQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script>try{var s=localStorage.getItem('fm-theme');if(s)document.documentElement.dataset.theme=s;}catch(e){}</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{height:100%;}
+
+:root,[data-theme="day"]{
+  --bg:#f6f6f6;--bg-2:#efefef;
+  --card:#FFFFFF;--card-2:#f7f2fc;--card-3:#f0f0f0;
+  --bdr:rgba(0,0,0,.1);--bdr-2:rgba(0,0,0,.2);
+  --text:#000000;
+  --t2:rgba(0,0,0,.55);--t3:rgba(0,0,0,.32);--t4:rgba(0,0,0,.12);
+  --accent:#000000;--hbg:rgba(0,0,0,.04);
+  --shd:rgba(0,0,0,.08);--shd2:rgba(0,0,0,.15);
+  --sb-bg:#000000;--sb-text:#f6f6f6;
+  --sb-t2:rgba(246,246,246,.5);--sb-t3:rgba(246,246,246,.25);
+  --sb-bdr:rgba(246,246,246,.08);--sb-hbg:rgba(246,246,246,.07);
+  --tk:#f6f6f6;--tb:rgba(246,246,246,.25);--tt:#000000;--tl:rgba(246,246,246,.3);
+  --glow-rgb:153,59,247;
+}
+[data-theme="night"]{
+  --bg:#000;--bg-2:#040404;
+  --card:#0a0a0a;--card-2:#0f0f0f;--card-3:#141414;
+  --bdr:rgba(246,246,246,.09);--bdr-2:rgba(246,246,246,.18);
+  --text:#f6f6f6;
+  --t2:rgba(246,246,246,.58);--t3:rgba(246,246,246,.27);--t4:rgba(246,246,246,.1);
+  --accent:#f6f6f6;--hbg:rgba(246,246,246,.03);
+  --shd:rgba(0,0,0,.5);--shd2:rgba(0,0,0,.8);
+  --sb-bg:#060606;--sb-text:#f6f6f6;
+  --sb-t2:rgba(246,246,246,.45);--sb-t3:rgba(246,246,246,.2);
+  --sb-bdr:rgba(246,246,246,.07);--sb-hbg:rgba(246,246,246,.06);
+  --tk:rgba(246,246,246,.12);--tb:rgba(246,246,246,.08);--tt:#f6f6f6;--tl:rgba(246,246,246,.18);
+  --glow-rgb:153,59,247;
+}
+
+::selection{background:var(--text);color:var(--bg);}
+body{
+  display:flex;height:100vh;overflow:hidden;
+  color:var(--text);
+  font-family:'Inter',-apple-system,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  transition:background-color .4s,color .4s;font-size:14px;
+  background-color:var(--bg);
+  background-image:
+    radial-gradient(closest-side,rgba(var(--glow-rgb),.22),transparent 70%),
+    radial-gradient(closest-side,rgba(var(--glow-rgb),.16),transparent 70%);
+  background-repeat:no-repeat;
+  background-size:58vw 58vw,46vw 46vw;
+  background-position:-8% -12%,112% 108%;
+  animation:ambientDrift 28s ease-in-out infinite alternate;
+}
+@keyframes ambientDrift{
+  0%{background-position:-8% -12%,112% 108%;}
+  50%{background-position:14% 4%,86% 88%;}
+  100%{background-position:2% -6%,96% 100%;}
+}
+@media(prefers-reduced-motion:reduce){body{animation:none;}}
+
+.grain{
+  position:fixed;inset:0;z-index:9998;pointer-events:none;
+  opacity:.035;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat:repeat;background-size:300px 300px;
+}
+[data-theme="night"] .grain{opacity:.055;}
+
+/* ══ SIDEBAR ══ */
+.sidebar{
+  width:224px;flex-shrink:0;
+  background:var(--sb-bg);
+  display:flex;flex-direction:column;
+  height:100vh;overflow-y:auto;overflow-x:hidden;
+  border-right:1px solid var(--sb-bdr);
+  transition:background .4s,border-color .4s;
+  scrollbar-width:none;
+}
+.sidebar::-webkit-scrollbar{display:none;}
+
+.sb-header{padding:1.25rem 1.25rem 1rem;border-bottom:1px solid var(--sb-bdr);flex-shrink:0;}
+.sb-logo{display:flex;align-items:center;gap:.625rem;margin-bottom:.5rem;}
+.sb-logo-mark{
+  width:24px;height:24px;background:linear-gradient(135deg,#993bf7,#7c2fd4);border-radius:5px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.575rem;font-weight:900;color:#fff;
+  transition:transform .25s cubic-bezier(.2,0,0,1);cursor:default;
+}
+.sb-logo-mark:hover{transform:rotate(-8deg) scale(1.12);box-shadow:0 0 18px rgba(var(--glow-rgb),.65);}
+.sb-logo-name{font-size:.675rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--sb-text);transition:color .4s;}
+.sb-badge{font-size:.475rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sb-t3);font-family:'SF Mono',monospace;font-weight:700;}
+
+.sb-nav{flex:1;padding:.75rem 0;}
+.sb-section-label{font-size:.475rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--sb-t3);font-family:'SF Mono',monospace;padding:.875rem 1.25rem .375rem;}
+.nav-item{display:flex;align-items:center;gap:.625rem;padding:.6rem 1.25rem;cursor:pointer;font-size:.75rem;font-weight:500;color:var(--sb-t2);transition:all .18s;position:relative;user-select:none;}
+.nav-item::before{content:'';position:absolute;left:0;top:.2rem;bottom:.2rem;width:2px;background:var(--sb-text);transform:scaleY(0);transform-origin:center;transition:transform .2s cubic-bezier(.4,0,.2,1);border-radius:1px;}
+.nav-item:hover{background:var(--sb-hbg);color:var(--sb-text);padding-left:1.375rem;}
+.nav-item.active{background:var(--sb-hbg);color:var(--sb-text);font-weight:600;}
+.nav-item.active::before{transform:scaleY(1);box-shadow:0 0 8px 1px rgba(var(--glow-rgb),.9);}
+.nav-icon{font-size:.9rem;flex-shrink:0;width:18px;text-align:center;}
+
+.sb-divider{height:1px;background:var(--sb-bdr);margin:.5rem 1.25rem;}
+
+.nav-ext{display:flex;align-items:center;gap:.625rem;justify-content:space-between;padding:.6rem 1.25rem;cursor:pointer;font-size:.75rem;font-weight:500;color:var(--sb-t2);transition:all .18s;text-decoration:none;}
+.nav-ext:hover{background:var(--sb-hbg);color:var(--sb-text);}
+.ext-arr{font-size:.65rem;opacity:.5;}
+
+.sb-footer{padding:1rem 1.25rem;border-top:1px solid var(--sb-bdr);flex-shrink:0;}
+.sb-clock{font-size:.525rem;letter-spacing:.08em;color:var(--sb-t3);font-family:'SF Mono',monospace;margin-bottom:.75rem;}
+.toggle-row{display:flex;align-items:center;gap:.5rem;}
+.toggle-lbl{font-size:.5rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tl);font-family:'SF Mono',monospace;transition:color .4s;}
+.toggle-switch{width:36px;height:20px;border-radius:10px;background:var(--tk);border:1px solid var(--tb);position:relative;cursor:pointer;transition:all .25s;flex-shrink:0;}
+.toggle-switch:hover{opacity:.9;box-shadow:0 0 10px rgba(var(--glow-rgb),.5);}
+.toggle-thumb{position:absolute;top:3px;left:3px;width:12px;height:12px;border-radius:50%;background:var(--tt);transition:transform .3s cubic-bezier(.4,0,.2,1),background .25s;}
+[data-theme="night"] .toggle-thumb{transform:translateX(16px);}
+
+/* ══ MAIN ══ */
+.main{flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+.main-header{height:52px;flex-shrink:0;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;background:var(--bg);backdrop-filter:blur(20px);transition:background .4s,border-color .4s;}
+.mh-title{font-size:.625rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);}
+.mh-right{display:flex;align-items:center;gap:.875rem;}
+.internal-badge{font-size:.475rem;letter-spacing:.2em;text-transform:uppercase;background:var(--text);color:var(--bg);border-radius:4px;padding:.2rem .55rem;font-family:'SF Mono',monospace;font-weight:900;}
+
+.content{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--t4) transparent;}
+.content::-webkit-scrollbar{width:4px;}
+.content::-webkit-scrollbar-thumb{background:var(--t4);border-radius:2px;}
+
+.section{display:none;padding:2.5rem 2rem;min-height:calc(100vh - 52px);}
+.section.active{display:block;animation:secIn .3s cubic-bezier(.16,1,.3,1) both;}
+@keyframes secIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+/* ══ DASHBOARD ══ */
+.dash-header{margin-bottom:2rem;}
+.dash-date{font-size:.525rem;letter-spacing:.2em;text-transform:uppercase;color:var(--t3);font-family:'SF Mono',monospace;margin-bottom:.5rem;}
+.dash-greeting{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.75rem,4vw,2.5rem);font-weight:700;
+  line-height:1.1;letter-spacing:-.025em;color:var(--text);
+  background:linear-gradient(100deg,var(--text) 30%,rgba(var(--glow-rgb),1) 50%,var(--text) 70%);
+  background-size:250% auto;background-position:0% 50%;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  animation:shineText 7s ease-in-out .3s infinite;
+}
+@keyframes shineText{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
+.dash-greeting em{font-style:italic;font-weight:400;}
+
+.mission-card{
+  background:var(--text);color:var(--bg);
+  border-radius:14px;padding:1.5rem 1.75rem;
+  margin-bottom:2rem;position:relative;overflow:hidden;
+  animation:slideRight .4s cubic-bezier(.16,1,.3,1) .1s both,pulseGlow 3.5s ease-in-out 1s infinite;
+}
+@keyframes slideRight{from{opacity:0;transform:translateX(-12px);}to{opacity:1;transform:translateX(0);}}
+@keyframes pulseGlow{0%,100%{box-shadow:0 8px 32px var(--shd),0 0 0 0 rgba(var(--glow-rgb),0);}50%{box-shadow:0 8px 32px var(--shd),0 0 36px 4px rgba(var(--glow-rgb),.3);}}
+.mission-pre{font-size:.475rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(246,246,246,.45);font-family:'SF Mono',monospace;font-weight:800;margin-bottom:.625rem;}
+.mission-pre::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:rgba(var(--glow-rgb),1);box-shadow:0 0 8px 1px rgba(var(--glow-rgb),.9);margin-right:.5rem;vertical-align:middle;animation:dotPulse 1.6s ease-in-out infinite;}
+@keyframes dotPulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+[data-theme="day"] .mission-pre{color:rgba(246,246,246,.42);}
+.mission-title{font-size:1.05rem;font-weight:600;line-height:1.6;color:var(--bg);max-width:62ch;}
+[data-theme="day"] .mission-title{color:#f6f6f6;}
+
+/* Stats */
+.section-label{font-size:.525rem;font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:var(--t3);font-family:'SF Mono',monospace;margin-bottom:1rem;}
+.section-label::before{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;background:rgba(var(--glow-rgb),1);box-shadow:0 0 6px 1px rgba(var(--glow-rgb),.8);margin-right:.5rem;vertical-align:middle;animation:dotPulse 2s ease-in-out infinite;}
+
+@keyframes cardIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:2rem;}
+.stat-card{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:1.25rem;transition:all .2s;cursor:default;position:relative;overflow:hidden;animation:cardIn .5s cubic-bezier(.16,1,.3,1) both;}
+.stat-card:nth-child(1){animation-delay:.05s;}
+.stat-card:nth-child(2){animation-delay:.1s;}
+.stat-card:nth-child(3){animation-delay:.15s;}
+.stat-card:nth-child(4){animation-delay:.2s;}
+.stat-card::before{content:'';position:absolute;inset:0;background:var(--hbg);opacity:0;transition:opacity .2s;}
+.stat-card:hover::before{opacity:1;}
+.stat-card:hover{border-color:rgba(var(--glow-rgb),.55);transform:translateY(-2px);box-shadow:0 8px 32px var(--shd),0 0 24px rgba(var(--glow-rgb),.22);}
+.stat-num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--text);letter-spacing:-.04em;line-height:1;margin-bottom:.375rem;transition:color .4s,text-shadow .3s;}
+.stat-card:hover .stat-num{text-shadow:0 0 18px rgba(var(--glow-rgb),.55);}
+.stat-label{font-size:.525rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);font-family:'SF Mono',monospace;}
+.stat-owner{font-size:.5rem;color:var(--t3);margin-top:.4rem;font-family:'SF Mono',monospace;}
+
+/* Quick launch */
+.launch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:2.5rem;}
+.launch-card{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:1.25rem;text-decoration:none;color:var(--text);transition:all .2s;display:block;position:relative;overflow:hidden;cursor:pointer;animation:cardIn .5s cubic-bezier(.16,1,.3,1) both;}
+.launch-grid .launch-card:nth-child(1){animation-delay:.15s;}
+.launch-grid .launch-card:nth-child(2){animation-delay:.2s;}
+.launch-grid .launch-card:nth-child(3){animation-delay:.25s;}
+.launch-grid .launch-card:nth-child(4){animation-delay:.3s;}
+.launch-grid .launch-card:nth-child(5){animation-delay:.35s;}
+.launch-grid .launch-card:nth-child(6){animation-delay:.4s;}
+.launch-card::before{content:'';position:absolute;inset:0;background:var(--hbg);opacity:0;transition:opacity .2s;}
+.launch-card:hover::before{opacity:1;}
+.launch-card:hover{border-color:rgba(var(--glow-rgb),.55);transform:translateY(-3px);box-shadow:0 12px 36px var(--shd),0 0 30px rgba(var(--glow-rgb),.25);}
+.launch-card.primary{background:var(--text);border-color:var(--text);}
+.launch-card.primary:hover{opacity:.95;transform:translateY(-3px);box-shadow:0 12px 40px rgba(var(--glow-rgb),.4);}
+.launch-card.primary::before{background:transparent;}
+.lc-icon{font-size:1.25rem;margin-bottom:.75rem;}
+.lc-title{font-size:.825rem;font-weight:700;color:var(--text);margin-bottom:.25rem;}
+.launch-card.primary .lc-title{color:var(--bg);}
+.lc-desc{font-size:.7rem;color:var(--t2);font-weight:300;line-height:1.6;}
+.launch-card.primary .lc-desc{color:rgba(246,246,246,.55);}
+[data-theme="day"] .launch-card.primary .lc-desc{color:rgba(246,246,246,.5);}
+.lc-arr{font-size:.65rem;color:var(--t3);margin-top:.5rem;transition:transform .2s;}
+.launch-card:hover .lc-arr{transform:translateX(3px);}
+.launch-card.primary .lc-arr{color:rgba(246,246,246,.45);}
+
+/* Weekly rhythm */
+.rhythm-list{display:flex;flex-direction:column;gap:.625rem;margin-bottom:2rem;}
+.rhythm-item{display:flex;align-items:center;gap:1rem;background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:1rem 1.25rem;transition:all .2s;animation:cardIn .5s cubic-bezier(.16,1,.3,1) both;}
+.rhythm-item:hover{border-color:rgba(var(--glow-rgb),.45);box-shadow:0 0 18px rgba(var(--glow-rgb),.15);}
+.rhythm-when{font-size:.6rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--text);font-family:'SF Mono',monospace;min-width:130px;flex-shrink:0;}
+.rhythm-desc{font-size:.75rem;color:var(--t2);font-weight:300;flex:1;}
+.rhythm-desc strong{color:var(--text);font-weight:600;}
+
+/* ══ RESOURCES ══ */
+.res-group{margin-bottom:2.5rem;}
+.res-group-title{font-size:.525rem;font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:var(--t3);font-family:'SF Mono',monospace;padding-bottom:.625rem;border-bottom:1px solid var(--bdr);margin-bottom:1rem;}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:.625rem;}
+.res-card{display:flex;align-items:flex-start;gap:.75rem;background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:1rem;text-decoration:none;color:var(--text);transition:all .2s;position:relative;overflow:hidden;}
+.res-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:rgba(var(--glow-rgb),1);box-shadow:0 0 8px rgba(var(--glow-rgb),.8);transform:scaleY(0);transform-origin:top;transition:transform .22s cubic-bezier(.4,0,.2,1);}
+.res-card:hover::before{transform:scaleY(1);}
+.res-card:hover{background:var(--hbg);border-color:rgba(var(--glow-rgb),.45);padding-left:calc(1rem + 4px);box-shadow:0 0 20px rgba(var(--glow-rgb),.15);}
+.res-icon{font-size:1rem;flex-shrink:0;margin-top:.05rem;}
+.res-name{font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:.2rem;}
+.res-desc{font-size:.675rem;color:var(--t2);line-height:1.6;font-weight:300;}
+
+/* ══ TEAM ══ */
+.team-grid{display:flex;flex-direction:column;gap:.625rem;}
+.team-card{display:flex;align-items:flex-start;gap:1.125rem;background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:1.25rem 1.5rem;transition:all .22s;position:relative;overflow:hidden;}
+.team-card::before{content:'';position:absolute;inset:0;background:var(--hbg);opacity:0;transition:opacity .22s;pointer-events:none;}
+.team-card:hover::before{opacity:1;}
+.team-card:hover{border-color:rgba(var(--glow-rgb),.5);transform:translateX(4px);box-shadow:0 0 22px rgba(var(--glow-rgb),.18);}
+.team-avatar{width:40px;height:40px;border-radius:50%;background:var(--card-3);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:.875rem;font-weight:700;color:var(--t2);flex-shrink:0;transition:all .22s;}
+.team-card:hover .team-avatar{background:var(--text);color:var(--bg);border-color:var(--text);box-shadow:0 0 14px rgba(var(--glow-rgb),.6);}
+.team-info{flex:1;position:relative;z-index:1;}
+.team-name{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:.2rem;}
+.team-role{font-size:.55rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);font-family:'SF Mono',monospace;margin-bottom:.5rem;}
+.team-focus{font-size:.75rem;color:var(--t2);line-height:1.7;font-weight:300;}
+.team-focus strong{color:var(--text);font-weight:600;}
+.team-tag{display:inline-block;font-size:.45rem;letter-spacing:.1em;text-transform:uppercase;background:var(--hbg);border:1px solid var(--bdr);border-radius:4px;padding:.15rem .4rem;font-family:'SF Mono',monospace;font-weight:700;color:var(--t3);margin-right:.3rem;margin-top:.5rem;}
+
+/* ══ BRAIN DUMP ══ */
+.task-add-row{display:flex;gap:.5rem;margin-bottom:.875rem;}
+.task-input{flex:1;background:var(--card);border:1px solid var(--bdr-2);border-radius:8px;padding:.65rem .875rem;font-size:.8rem;color:var(--text);font-family:'Inter',sans-serif;transition:border-color .2s,box-shadow .2s;}
+.task-input:focus{outline:none;border-color:rgba(var(--glow-rgb),.55);box-shadow:0 0 18px rgba(var(--glow-rgb),.15);}
+.task-input::placeholder{color:var(--t3);}
+.task-add-btn{background:var(--text);color:var(--bg);border:none;border-radius:8px;padding:.65rem 1.125rem;font-size:.7rem;font-weight:700;cursor:pointer;transition:opacity .15s;font-family:'Inter',sans-serif;flex-shrink:0;}
+.task-add-btn:hover{opacity:.85;}
+.task-list{display:flex;flex-direction:column;gap:2px;}
+.task-item{display:flex;align-items:center;gap:.75rem;padding:.5rem .5rem;border-radius:8px;transition:background .15s;}
+.task-item:hover{background:var(--hbg);}
+.task-check{width:17px;height:17px;border-radius:5px;border:1.5px solid var(--bdr-2);background:transparent;cursor:pointer;flex-shrink:0;position:relative;transition:all .15s;}
+.task-check.done{background:rgba(var(--glow-rgb),1);border-color:rgba(var(--glow-rgb),1);box-shadow:0 0 10px rgba(var(--glow-rgb),.6);}
+.task-check.done::after{content:'';position:absolute;left:3px;top:0;width:5px;height:9px;border:2px solid var(--bg);border-top:none;border-left:none;transform:rotate(45deg);}
+.task-text{flex:1;font-size:.8rem;color:var(--text);cursor:pointer;}
+.task-text.done{color:var(--t3);text-decoration:line-through;}
+.task-del{background:none;border:none;color:var(--t3);cursor:pointer;font-size:.85rem;padding:.2rem;opacity:0;transition:opacity .15s;flex-shrink:0;}
+.task-item:hover .task-del{opacity:1;}
+.task-del:hover{color:#8a3030;}
+.task-empty{font-size:.75rem;color:var(--t3);padding:.75rem .5rem;font-weight:300;}
+
+.dash-widgets{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem;}
+.tasks-mini{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:1.25rem 1.375rem;transition:all .2s;}
+.tasks-mini:hover{border-color:rgba(var(--glow-rgb),.4);box-shadow:0 0 24px rgba(var(--glow-rgb),.15);}
+.mission-mini-card{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:1.25rem 1.375rem;transition:all .2s;}
+.mission-mini-card:hover{border-color:rgba(var(--glow-rgb),.4);box-shadow:0 0 24px rgba(var(--glow-rgb),.15);}
+.mission-mini-title{font-size:.7rem;font-weight:800;color:var(--text);margin-bottom:.625rem;}
+.mission-mini-body{font-size:.75rem;color:var(--t2);line-height:1.7;font-weight:300;}
+@media(max-width:700px){.dash-widgets{grid-template-columns:1fr;}}
+
+.notes-wrap{position:relative;}
+.notes-area{width:100%;min-height:360px;resize:vertical;background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:1.5rem;font-family:'Inter',sans-serif;font-size:.9rem;line-height:1.8;color:var(--text);transition:border-color .2s,box-shadow .2s;}
+.notes-area:focus{outline:none;border-color:rgba(var(--glow-rgb),.55);box-shadow:0 0 28px rgba(var(--glow-rgb),.18);}
+.notes-area::placeholder{color:var(--t3);}
+.notes-footer{display:flex;justify-content:space-between;align-items:center;margin-top:.75rem;}
+.notes-status{font-size:.65rem;color:var(--t3);font-family:'SF Mono',monospace;letter-spacing:.04em;}
+.notes-status.saved{color:#3d7a50;}
+.notes-clear{font-size:.65rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--t3);background:none;border:1px solid var(--bdr);border-radius:6px;padding:.35rem .7rem;cursor:pointer;font-family:'SF Mono',monospace;transition:all .15s;}
+.notes-clear:hover{color:var(--text);border-color:rgba(var(--glow-rgb),.5);}
+
+/* ══ PLAYBOOKS ══ */
+.pb-list{display:flex;flex-direction:column;gap:.5rem;}
+.pb-item{display:flex;align-items:center;gap:1rem;background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:1rem 1.25rem;text-decoration:none;color:var(--text);transition:all .2s;position:relative;overflow:hidden;}
+.pb-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:rgba(var(--glow-rgb),1);box-shadow:0 0 8px rgba(var(--glow-rgb),.8);transform:scaleY(0);transform-origin:top;transition:transform .22s cubic-bezier(.4,0,.2,1);}
+.pb-item:hover::before{transform:scaleY(1);}
+.pb-item:hover{background:var(--hbg);border-color:rgba(var(--glow-rgb),.45);padding-left:calc(1.25rem + 5px);box-shadow:0 0 18px rgba(var(--glow-rgb),.15);}
+.pb-icon{font-size:.9rem;width:20px;text-align:center;flex-shrink:0;}
+.pb-title{font-size:.825rem;font-weight:600;color:var(--text);flex:1;}
+.pb-tag{font-size:.475rem;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);font-family:'SF Mono',monospace;font-weight:700;}
+.pb-arr{font-size:.65rem;color:var(--t4);transition:transform .2s;}
+.pb-item:hover .pb-arr{transform:translateX(3px);}
+
+.page-title{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:700;letter-spacing:-.025em;color:var(--text);margin-bottom:.5rem;}
+.page-sub{font-size:.85rem;color:var(--t2);line-height:1.7;font-weight:300;max-width:64ch;margin-bottom:2rem;}
+.page-sub strong{color:var(--text);font-weight:600;}
+
+@media(max-width:700px){
+  .sidebar{display:none;}
+  .stats-row{grid-template-columns:repeat(2,1fr);}
+  .launch-grid{grid-template-columns:1fr 1fr;}
+  .section{padding:1.5rem 1.25rem;}
+}
+
+/* ══ ACCESS GATE ══ */
+#gate{position:fixed;inset:0;z-index:99999;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem;padding:1.5rem;text-align:center;}
+#gate .gate-mark{width:40px;height:40px;background:linear-gradient(135deg,#993bf7,#7c2fd4);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:900;color:#fff;font-family:'Inter',sans-serif;margin-bottom:.5rem;}
+#gate .gate-title{font-family:'Playfair Display',serif;font-size:1.375rem;font-weight:700;color:var(--text);}
+#gate .gate-sub{font-size:.8rem;color:var(--t2);max-width:36ch;line-height:1.6;}
+#gate input{background:var(--card);border:1px solid var(--bdr-2);border-radius:8px;padding:.75rem 1rem;font-size:.9rem;color:var(--text);font-family:'Inter',sans-serif;width:220px;text-align:center;}
+#gate input:focus{outline:none;border-color:rgba(var(--glow-rgb),.6);box-shadow:0 0 18px rgba(var(--glow-rgb),.2);}
+#gate button{background:var(--text);color:var(--bg);border:none;border-radius:8px;padding:.75rem 1.25rem;font-size:.8rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;}
+#gate button:hover{opacity:.85;}
+#gate .gate-err{font-size:.7rem;color:#c0392b;height:1em;}
+body.locked>*:not(#gate){display:none!important;}
+</style>
+</head>
+<body class="locked">
+
+<div id="gate">
+  <div class="gate-mark">FM</div>
+  <div class="gate-title">FitMama Team HQ</div>
+  <div class="gate-sub">Internal only. Enter the team password to continue.</div>
+  <form id="gate-form" style="display:flex;flex-direction:column;gap:.75rem;align-items:center;">
+    <input type="text" id="gate-input" placeholder="Password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+    <button type="submit">Enter</button>
+    <div class="gate-err" id="gate-err"></div>
+  </form>
+</div>
+
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ══ SIDEBAR ══ -->
+<nav class="sidebar">
+  <div class="sb-header">
+    <div class="sb-logo">
+      <div class="sb-logo-mark">FM</div>
+      <span class="sb-logo-name">FitMama</span>
+    </div>
+    <div class="sb-badge">Team HQ</div>
+  </div>
+
+  <div class="sb-nav">
+    <div class="sb-section-label">Navigation</div>
+    <div class="nav-item active" data-sec="dash" onclick="goTo('dash')"><span class="nav-icon">🏠</span> Dashboard</div>
+    <div class="nav-item" data-sec="notes" onclick="goTo('notes')"><span class="nav-icon">🧠</span> Brain Dump</div>
+    <div class="nav-item" data-sec="resources" onclick="goTo('resources')"><span class="nav-icon">📚</span> Resources</div>
+    <div class="nav-item" data-sec="vault" onclick="goTo('vault')"><span class="nav-icon">🎥</span> Call Vault</div>
+    <div class="nav-item" data-sec="team" onclick="goTo('team')"><span class="nav-icon">🤝</span> Team</div>
+    <div class="nav-item" data-sec="playbooks" onclick="goTo('playbooks')"><span class="nav-icon">📋</span> Playbooks</div>
+
+    <div class="sb-divider" style="margin-top:.75rem;"></div>
+    <div class="sb-section-label" style="margin-top:.25rem;">Quick Open</div>
+
+    <a class="nav-ext" href="./fitmama-sales-handbook.html" target="_blank">
+      <span style="display:flex;align-items:center;gap:.625rem;"><span class="nav-icon">📖</span> Sales Handbook</span>
+      <span class="ext-arr">↗</span>
+    </a>
+    <a class="nav-ext" href="./fitmama-vip-program.html" target="_blank">
+      <span style="display:flex;align-items:center;gap:.625rem;"><span class="nav-icon">💜</span> VIP Program Doc</span>
+      <span class="ext-arr">↗</span>
+    </a>
+    <a class="nav-ext" href="./fitmama-pre-call-video-script.html" target="_blank">
+      <span style="display:flex;align-items:center;gap:.625rem;"><span class="nav-icon">🎬</span> Pre-Call Video Script</span>
+      <span class="ext-arr">↗</span>
+    </a>
+  </div>
+
+  <div class="sb-footer">
+    <div class="sb-clock" id="clock"></div>
+    <div class="toggle-row">
+      <span class="toggle-lbl" id="mode-lbl">Day</span>
+      <div class="toggle-switch" onclick="toggleTheme()"><div class="toggle-thumb"></div></div>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ MAIN ══ -->
+<div class="main">
+  <div class="main-header">
+    <span class="mh-title" id="mh-title">Dashboard</span>
+    <div class="mh-right"><span class="internal-badge">Internal — Confidential</span></div>
+  </div>
+
+  <div class="content">
+
+    <!-- ── DASHBOARD ── -->
+    <div id="sec-dash" class="section active">
+      <div class="dash-header">
+        <div class="dash-date" id="dash-date"></div>
+        <div class="dash-greeting">Good <em id="greeting-time">morning</em>, team.</div>
+      </div>
+
+      <!-- Mission reminder -->
+      <div class="mission-card">
+        <div class="mission-pre">Why We're Here</div>
+        <div class="mission-title">FitMama helps ambitious Filipina moms get strong, lean, and confident — without giving up their cultural foods or their family. Fit over volume. Connection over pitch. Results over revenue.</div>
+      </div>
+
+      <!-- Today: tasks + mission -->
+      <div class="section-label">Today</div>
+      <div class="dash-widgets">
+        <div class="tasks-mini">
+          <div class="task-add-row">
+            <input type="text" id="task-input-mini" class="task-input" placeholder="Add a task..." onkeydown="if(event.key==='Enter')addTask('task-input-mini')">
+            <button class="task-add-btn" onclick="addTask('task-input-mini')">Add</button>
+          </div>
+          <div class="task-list" id="task-list-mini"></div>
+        </div>
+        <div class="mission-mini-card">
+          <div class="mission-mini-title">Fit Screen Reminder</div>
+          <div class="mission-mini-body">Green flags: cultural foods, felt unseen elsewhere, urgency, she's the decision maker. Red flags: vegan/plant-based, won't lift, pregnant/TTC, severe mental health. When in doubt — see the <a href="./fitmama-sales-handbook.html#icp" target="_blank" style="color:var(--text);text-decoration:underline;">ICP doc</a>.</div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="section-label">Performance Standards</div>
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-num">3%+</div>
+          <div class="stat-label">Book Rate</div>
+          <div class="stat-owner">Setters — floor, not ceiling</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">75%+</div>
+          <div class="stat-label">Show Rate</div>
+          <div class="stat-owner">Setters</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">40%</div>
+          <div class="stat-label">Close Rate</div>
+          <div class="stat-owner">Closers — Khalil's standard</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">$5K+</div>
+          <div class="stat-label">Avg Deal Size</div>
+          <div class="stat-owner">Closers — up to $13.5K</div>
+        </div>
+      </div>
+
+      <!-- Quick launch -->
+      <div class="section-label">Quick Launch</div>
+      <div class="launch-grid">
+        <a class="launch-card primary" href="./fitmama-sales-handbook.html" target="_blank">
+          <div class="lc-icon">📖</div>
+          <div class="lc-title">Sales Handbook</div>
+          <div class="lc-desc">The full 12-section handbook — offer, ICP, process, standards.</div>
+          <div class="lc-arr">↗</div>
+        </a>
+        <a class="launch-card" href="./fitmama-sales-handbook.html#setting" target="_blank">
+          <div class="lc-icon">✉️</div>
+          <div class="lc-title">Setter SOP</div>
+          <div class="lc-desc">DM qualification flow, scripts, and the 3% book rate benchmark.</div>
+          <div class="lc-arr">↗</div>
+        </a>
+        <a class="launch-card" href="./fitmama-sales-handbook.html#callprocess" target="_blank">
+          <div class="lc-icon">📞</div>
+          <div class="lc-title">Sales Call Process</div>
+          <div class="lc-desc">The one-call close framework, step by step.</div>
+          <div class="lc-arr">↗</div>
+        </a>
+        <a class="launch-card" href="./fitmama-sales-handbook.html#objections" target="_blank">
+          <div class="lc-icon">💬</div>
+          <div class="lc-title">Objection Handling</div>
+          <div class="lc-desc">Scripted responses for every common objection, including "Spouse in the House."</div>
+          <div class="lc-arr">↗</div>
+        </a>
+        <a class="launch-card" href="./fitmama-sales-handbook.html#crm" target="_blank">
+          <div class="lc-icon">🗂️</div>
+          <div class="lc-title">CRM Management</div>
+          <div class="lc-desc">GoHighLevel pipeline stages and note standards.</div>
+          <div class="lc-arr">↗</div>
+        </a>
+        <a class="launch-card" href="./fitmama-vip-program.html" target="_blank">
+          <div class="lc-icon">💜</div>
+          <div class="lc-title">VIP Program Doc</div>
+          <div class="lc-desc">Full 6-month curriculum, pillars, and pricing tiers.</div>
+          <div class="lc-arr">↗</div>
+        </a>
+      </div>
+
+      <!-- Weekly rhythm -->
+      <div class="section-label">Weekly Rhythm</div>
+      <div class="rhythm-list">
+        <div class="rhythm-item"><div class="rhythm-when">Daily</div><div class="rhythm-desc"><strong>Under 5 min</strong> lead response time. <strong>Same-day</strong> post-call follow-up, sent within 2 hours.</div></div>
+        <div class="rhythm-item"><div class="rhythm-when">Per Call</div><div class="rhythm-desc">Fathom recording on, GoHighLevel note logged within 30 minutes of the call ending. Closer confirms SQL/NQL status in LeadFi before joining.</div></div>
+        <div class="rhythm-item"><div class="rhythm-when">Monday</div><div class="rhythm-desc">Team reviews last week's <strong>BAM &amp; Reach</strong> against actuals, then sets this week's numbers together, live.</div></div>
+        <div class="rhythm-item"><div class="rhythm-when">Friday</div><div class="rhythm-desc">Weekly KPI report posted in <strong>Telegram</strong> — calls, applications, bookings, deals closed, biggest win, biggest blocker.</div></div>
+        <div class="rhythm-item"><div class="rhythm-when">Below 30%</div><div class="rhythm-desc">Close rate under 30% for a week triggers an <strong>immediate call review</strong> with Fathom recordings.</div></div>
+      </div>
+    </div>
+
+    <!-- ── BRAIN DUMP ── -->
+    <div id="sec-notes" class="section">
+      <div class="page-title">Brain Dump</div>
+      <div class="page-sub">A running scratchpad for tasks and notes. Everything saves automatically to this browser.</div>
+
+      <div class="section-label">Tasks</div>
+      <div class="task-add-row">
+        <input type="text" id="task-input-full" class="task-input" placeholder="Add a task..." onkeydown="if(event.key==='Enter')addTask('task-input-full')">
+        <button class="task-add-btn" onclick="addTask('task-input-full')">Add</button>
+      </div>
+      <div class="task-list" id="task-list-full" style="margin-bottom:2.5rem;"></div>
+
+      <div class="section-label">Notes</div>
+      <div class="notes-wrap">
+        <textarea id="notes-area" class="notes-area" placeholder="Dump it all here — call notes, ideas, half-formed thoughts. Nothing here is graded."></textarea>
+        <div class="notes-footer">
+          <span class="notes-status" id="notes-status">Not saved yet</span>
+          <button class="notes-clear" onclick="clearNotes()">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── RESOURCES ── -->
+    <div id="sec-resources" class="section">
+      <div class="page-title">Resources</div>
+      <div class="page-sub">Every FitMama sales doc, organized by category. All of it lives inside the <strong>Sales Handbook</strong> — these cards jump straight to the section you need.</div>
+
+      <div class="res-group">
+        <div class="res-group-title">Core Docs</div>
+        <div class="res-grid">
+          <a class="res-card" href="./fitmama-sales-handbook.html" target="_blank"><div class="res-icon">📖</div><div><div class="res-name">Sales Team Handbook</div><div class="res-desc">The full handbook — read on Day 1, reference daily.</div></div></a>
+          <a class="res-card" href="./fitmama-vip-program.html" target="_blank"><div class="res-icon">💜</div><div><div class="res-name">VIP 1:1 Program Doc</div><div class="res-desc">Full 6-month curriculum, pillars, and pricing tiers.</div></div></a>
+          <a class="res-card" href="./fitmama-sales-handbook.html#foundations" target="_blank"><div class="res-icon">🧭</div><div><div class="res-name">Foundations &amp; Tools</div><div class="res-desc">Mission, priorities, and Day 1 tool setup — GHL, Fathom, Zoom, Telegram.</div></div></a>
+        </div>
+      </div>
+
+      <div class="res-group">
+        <div class="res-group-title">Offer &amp; Client</div>
+        <div class="res-grid">
+          <a class="res-card" href="./fitmama-sales-handbook.html#offer" target="_blank"><div class="res-icon">💰</div><div><div class="res-name">The Offer</div><div class="res-desc">Flagship $5K, Annual $8–9K, Spouse in the House $7.5K–$13.5K.</div></div></a>
+          <a class="res-card" href="./fitmama-sales-handbook.html#icp" target="_blank"><div class="res-icon">🎯</div><div><div class="res-name">Ideal Client Profile</div><div class="res-desc">Who we sell to, green/red flags, and the mindsets you'll encounter.</div></div></a>
+        </div>
+      </div>
+
+      <div class="res-group">
+        <div class="res-group-title">For Setters</div>
+        <div class="res-grid">
+          <a class="res-card" href="./fitmama-sales-handbook.html#setting" target="_blank"><div class="res-icon">✉️</div><div><div class="res-name">Setter SOP — DM Qualification</div><div class="res-desc">8-step DM flow with scripts. Book rate benchmark: 3%.</div></div></a>
+          <a class="res-card" href="./fitmama-sales-handbook.html#appointment" target="_blank"><div class="res-icon">📋</div><div><div class="res-name">Appointment Setting &amp; Prep</div><div class="res-desc">Briefing the closer and the no-show protocol.</div></div></a>
+        </div>
+      </div>
+
+      <div class="res-group">
+        <div class="res-group-title">For Closers</div>
+        <div class="res-grid">
+          <a class="res-card" href="./fitmama-sales-handbook.html#callprocess" target="_blank"><div class="res-icon">📞</div><div><div class="res-name">Sales Call Process</div><div class="res-desc">One-call close framework — frame, discovery, pitch, close.</div></div></a>
+          <a class="res-card" href="./fitmama-sales-handbook.html#objections" target="_blank"><div class="res-icon">💬</div><div><div class="res-name">Objection Handling</div><div class="res-desc">Scripted responses to every common objection.</div></div></a>
+          <a class="res-card" href="./fitmama-sales-handbook.html#followup" target="_blank"><div class="res-icon">🔁</div><div><div class="res-name">Follow-Up Process</div><div class="res-desc">Same-day follow-up plus the Day 2/5/10/20 sequence.</div></div></a>
+          <a class="res-card" href="./fitmama-sales-handbook.html#closing" target="_blank"><div class="res-icon">✅</div><div><div class="res-name">Closing &amp; Payment Collection</div><div class="res-desc">Collecting the decision and getting payment to clear.</div></div></a>
+          <a class="res-card" href="./fitmama-hq.html#vault" target="_blank"><div class="res-icon">🎥</div><div><div class="res-name">Sales Call Vault</div><div class="res-desc">Growing library of real recorded calls to study, with context on each.</div></div></a>
+        </div>
+      </div>
+
+      <div class="res-group">
+        <div class="res-group-title">Systems &amp; Performance</div>
+        <div class="res-grid">
+          <a class="res-card" href="./fitmama-sales-handbook.html#crm" target="_blank"><div class="res-icon">🗂️</div><div><div class="res-name">CRM Management</div><div class="res-desc">GoHighLevel's 9 pipeline stages and note standards.</div></div></a>
+          <a class="res-card" href="./fitmama-sales-handbook.html#kpis" target="_blank"><div class="res-icon">📊</div><div><div class="res-name">KPIs &amp; Reporting</div><div class="res-desc">Setter and closer benchmarks, plus Friday Telegram reporting.</div></div></a>
+        </div>
+      </div>
+
+      <div class="res-group">
+        <div class="res-group-title">Ramp-Up</div>
+        <div class="res-grid">
+          <a class="res-card" href="./fitmama-sales-handbook.html#onboarding" target="_blank"><div class="res-icon">🚀</div><div><div class="res-name">Onboarding Schedule</div><div class="res-desc">Day 1 through Week 4 — full ramp checklist.</div></div></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CALL VAULT ── -->
+    <div id="sec-vault" class="section">
+      <div class="page-title">Sales Call Vault</div>
+      <div class="page-sub">Real recorded calls — study these to see the frameworks actually working, not just described.</div>
+
+      <div class="res-group">
+        <div class="res-group-title">Official Game Tape Review — fitmamacoaching.com</div>
+        <div class="res-grid">
+          <a class="res-card" href="https://fitmamacoaching.com/team-resources" target="_blank"><div class="res-icon">🎬</div><div><div class="res-name">FitMama Closer — Game Tape Review</div><div class="res-desc">The real thing: the 3-Story Close framework, a 17-move Skills Playbook, and a library of 38 full recorded strategy sessions filterable by skill and buyer type. Confidential team use only — contains real client health &amp; financial info. Do not screenshot or forward outside the team.</div></div></a>
+        </div>
+      </div>
+
+      <div class="res-group">
+        <div class="res-group-title">Framework Training — Licensed, Internal Only</div>
+        <div class="res-grid">
+          <a class="res-card" href="https://youtu.be/zaRXXhBaKOA" target="_blank"><div class="res-icon">🎥</div><div><div class="res-name">Call Framework Walkthrough</div><div class="res-desc">By Pop (FitPro CEO) / Will Nelson — the source for the opening &amp; discovery structure below. Shared with Pop's explicit written OK for FitMama's internal closer onboarding. Do not re-share outside the team.</div></div></a>
+        </div>
+
+        <div style="background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:1.5rem 1.75rem;margin-top:.75rem;">
+          <div style="font-size:.8rem;color:var(--t2);line-height:1.7;margin-bottom:1rem;">Adapted from Pop's licensed framework (see video above) for FitMama's call opening and discovery. This lives only here, behind the password — it's not in the public handbook.</div>
+
+          <div style="font-weight:700;color:var(--text);font-size:.85rem;margin-bottom:.4rem;">1. Call Opening &amp; Time Check</div>
+          <div style="font-size:.8rem;color:var(--t2);line-height:1.7;margin-bottom:1rem;">One-beat icebreaker (where's she's connecting from), then confirm time immediately — sessions run ~30 min depending on her questions, framed loosely for margin. No minimum time available right now? Reschedule, never rush it.</div>
+
+          <div style="font-weight:700;color:var(--text);font-size:.85rem;margin-bottom:.4rem;">2. Story #1 — Where She Is &amp; How She Got There (10–15 min)</div>
+          <div style="font-size:.8rem;color:var(--t2);line-height:1.7;margin-bottom:1rem;">What made her want this call today, whether it's new or long-running, what she's tried and why it stopped working. Drill into the pain — don't gloss over it. If she's had a coach before, ask how it went and what has to be true this time.</div>
+
+          <div style="font-weight:700;color:var(--text);font-size:.85rem;margin-bottom:.4rem;">3. Story #2 — Where She Wants to Be &amp; Why (5–10 min)</div>
+          <div style="font-size:.8rem;color:var(--t2);line-height:1.7;margin-bottom:1rem;">Project six months out — specific enough she can picture it (weight, look, feel). Ask what hitting that point unlocks for her — that's her real motivation. Reality-check the timeline if it fits the conversation.</div>
+
+          <div style="font-weight:700;color:var(--text);font-size:.85rem;margin-bottom:.4rem;">Bonus — Quick Qualifying (Only If Not Done Pre-Call)</div>
+          <div style="font-size:.8rem;color:var(--t2);line-height:1.7;">Should already be handled by the setter's DM flow — if not, ask about work (financial signal), marital support for the investment, kids, and if fit is still unclear, ask directly whether she's positioned to invest the right amount. Never framed as asking for a decision yet.</div>
+        </div>
+      </div>
+
+      <div class="page-sub" style="margin-top:.5rem;">The 38-call library above covers founder and team calls, filterable by skill and buyer type — that's the primary place to study real calls now. Anything new outside of that goes to Khalil or JJ to fold in.</div>
+    </div>
+
+    <!-- ── TEAM ── -->
+    <div id="sec-team" class="section">
+      <div class="page-title">The Team</div>
+      <div class="page-sub">Primary channel is <strong>Telegram</strong>. Here's who does what and when to loop them in.</div>
+
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar">KB</div>
+          <div class="team-info">
+            <div class="team-name">Khalil Bass</div>
+            <div class="team-role">Founder</div>
+            <div class="team-focus">The benchmark everything is measured against — <strong>40% close rate</strong>, one-call close model. Reviews call recordings for new closers. Available for escalations — use sparingly, but use him.</div>
+            <div><span class="team-tag">Sales strategy</span><span class="team-tag">Escalations</span><span class="team-tag">Standard-setting</span></div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">J</div>
+          <div class="team-info">
+            <div class="team-name">Jess</div>
+            <div class="team-role">Closer</div>
+            <div class="team-focus">Runs strategy sessions. Loop in for anything involving the close — call performance, objection patterns, or specific prospect situations.</div>
+            <div><span class="team-tag">Sales calls</span><span class="team-tag">Closing</span><span class="team-tag">Cash collected</span></div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">Ma</div>
+          <div class="team-info">
+            <div class="team-name">Mari</div>
+            <div class="team-role">Closer</div>
+            <div class="team-focus">New closer, ramping up. Prior high-ticket sales background. Loop in on call structure, offer tiers, and objection scripts while she's building reps.</div>
+            <div><span class="team-tag">Sales calls</span><span class="team-tag">Closing</span><span class="team-tag">Ramping</span></div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">S</div>
+          <div class="team-info">
+            <div class="team-name">Stacy</div>
+            <div class="team-role">Setter</div>
+            <div class="team-focus">Owns lead qualification via DM and booking. First point of contact for pipeline visibility and new lead status in GoHighLevel.</div>
+            <div><span class="team-tag">DM qualification</span><span class="team-tag">Booking</span><span class="team-tag">GoHighLevel</span></div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">M</div>
+          <div class="team-info">
+            <div class="team-name">Micah</div>
+            <div class="team-role">Setter</div>
+            <div class="team-focus">Owns lead qualification via DM and booking. Works alongside Stacy and Gloria on top-of-funnel volume and quality.</div>
+            <div><span class="team-tag">DM qualification</span><span class="team-tag">Booking</span><span class="team-tag">GoHighLevel</span></div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">G</div>
+          <div class="team-info">
+            <div class="team-name">Gloria</div>
+            <div class="team-role">Setter</div>
+            <div class="team-focus">New setter, ramping up. Based in Louisville, TX with prior high-ticket sales experience. Loop in on DM qualification and the fit screen while she ramps.</div>
+            <div><span class="team-tag">DM qualification</span><span class="team-tag">Booking</span><span class="team-tag">Ramping</span></div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">S.io</div>
+          <div class="team-info">
+            <div class="team-name">Sales.io</div>
+            <div class="team-role">Consulting Partner</div>
+            <div class="team-focus">JJ and the Sales.io coaching staff run regular 1-on-1 sessions with Khalil and the team — offer and messaging alignment, sales process build-out, and hiring support for new closers and setters.</div>
+            <div><span class="team-tag">Offer alignment</span><span class="team-tag">Process</span><span class="team-tag">Coaching</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PLAYBOOKS ── -->
+    <div id="sec-playbooks" class="section">
+      <div class="page-title">Playbooks &amp; SOPs</div>
+      <div class="page-sub">Every operational workflow, one click away. All link into the Sales Handbook's relevant section.</div>
+
+      <div class="section-label" style="margin-bottom:.75rem;">Client &amp; Offer</div>
+      <div class="pb-list" style="margin-bottom:2rem;">
+        <a class="pb-item" href="./fitmama-sales-handbook.html#offer" target="_blank"><div class="pb-icon">💰</div><div class="pb-title">The Offer</div><span class="pb-tag">Offer</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./fitmama-sales-handbook.html#icp" target="_blank"><div class="pb-icon">🎯</div><div class="pb-title">Ideal Client Profile</div><span class="pb-tag">Client fit</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./fitmama-vip-program.html" target="_blank"><div class="pb-icon">💜</div><div class="pb-title">VIP Program Curriculum</div><span class="pb-tag">Program</span><span class="pb-arr">↗</span></a>
+      </div>
+
+      <div class="section-label" style="margin-bottom:.75rem;">Setting</div>
+      <div class="pb-list" style="margin-bottom:2rem;">
+        <a class="pb-item" href="./fitmama-sales-handbook.html#setting" target="_blank"><div class="pb-icon">✉️</div><div class="pb-title">Setter SOP — DM Qualification</div><span class="pb-tag">Setting</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./fitmama-sales-handbook.html#appointment" target="_blank"><div class="pb-icon">📋</div><div class="pb-title">Appointment Setting &amp; Pre-Call Prep</div><span class="pb-tag">Setting</span><span class="pb-arr">↗</span></a>
+      </div>
+
+      <div class="section-label" style="margin-bottom:.75rem;">Closing</div>
+      <div class="pb-list" style="margin-bottom:2rem;">
+        <a class="pb-item" href="./fitmama-sales-handbook.html#callprocess" target="_blank"><div class="pb-icon">📞</div><div class="pb-title">Sales Call Process</div><span class="pb-tag">Closing</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./fitmama-sales-handbook.html#objections" target="_blank"><div class="pb-icon">💬</div><div class="pb-title">Objection Handling</div><span class="pb-tag">Closing</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./fitmama-sales-handbook.html#followup" target="_blank"><div class="pb-icon">🔁</div><div class="pb-title">Follow-Up Process</div><span class="pb-tag">Follow-up</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./fitmama-sales-handbook.html#closing" target="_blank"><div class="pb-icon">✅</div><div class="pb-title">Closing &amp; Payment Collection</div><span class="pb-tag">Closing</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./fitmama-hq.html#vault" target="_blank"><div class="pb-icon">🎥</div><div class="pb-title">Sales Call Vault</div><span class="pb-tag">Closing</span><span class="pb-arr">↗</span></a>
+      </div>
+
+      <div class="section-label" style="margin-bottom:.75rem;">Systems &amp; Performance</div>
+      <div class="pb-list" style="margin-bottom:2rem;">
+        <a class="pb-item" href="./fitmama-sales-handbook.html#crm" target="_blank"><div class="pb-icon">🗂️</div><div class="pb-title">CRM Management (GoHighLevel)</div><span class="pb-tag">Systems</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./fitmama-sales-handbook.html#kpis" target="_blank"><div class="pb-icon">📊</div><div class="pb-title">KPIs &amp; Reporting</div><span class="pb-tag">Performance</span><span class="pb-arr">↗</span></a>
+      </div>
+
+      <div class="section-label" style="margin-bottom:.75rem;">Onboarding</div>
+      <div class="pb-list">
+        <a class="pb-item" href="./fitmama-sales-handbook.html#foundations" target="_blank"><div class="pb-icon">🧭</div><div class="pb-title">Foundations &amp; Day 1 Tools</div><span class="pb-tag">Onboarding</span><span class="pb-arr">↗</span></a>
+        <a class="pb-item" href="./fitmama-sales-handbook.html#onboarding" target="_blank"><div class="pb-icon">🚀</div><div class="pb-title">Onboarding Schedule</div><span class="pb-tag">Onboarding</span><span class="pb-arr">↗</span></a>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<script>
+/* ── Access Gate ── */
+(function(){
+  var body=document.body;
+  function unlock(){
+    body.classList.remove('locked');
+    var g=document.getElementById('gate');
+    if(g)g.style.display='none';
+  }
+  function checkPass(val){
+    return val.toLowerCase()==='fitmama2026!';
+  }
+  try{
+    if(sessionStorage.getItem('fm_auth')==='ok'){unlock();return;}
+  }catch(e){}
+  var form=document.getElementById('gate-form');
+  var input=document.getElementById('gate-input');
+  var err=document.getElementById('gate-err');
+  if(form){
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      if(checkPass(input.value.trim())){
+        try{sessionStorage.setItem('fm_auth','ok');}catch(err2){}
+        unlock();
+      } else {
+        err.textContent='Incorrect password.';
+        input.value='';
+        input.focus();
+      }
+    });
+  }
+})();
+
+/* ── Theme ── */
+function toggleTheme(){
+  var h=document.documentElement,n=h.dataset.theme==='day'?'night':'day';
+  h.dataset.theme=n;
+  var l=document.getElementById('mode-lbl');if(l)l.textContent=n==='day'?'Day':'Night';
+  try{localStorage.setItem('fm-theme',n);}catch(e){}
+}
+(function(){
+  try{
+    var s=localStorage.getItem('fm-theme')||document.documentElement.dataset.theme||'day';
+    var l=document.getElementById('mode-lbl');if(l)l.textContent=s==='day'?'Day':'Night';
+  }catch(e){}
+})();
+
+/* ── Clock ── */
+function updateClock(){
+  var d=new Date(),h=d.getHours(),m=d.getMinutes();
+  var ampm=h>=12?'PM':'AM';h=h%12||12;
+  var ms=m<10?'0'+m:m;
+  var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var el=document.getElementById('clock');
+  if(el)el.textContent=days[d.getDay()]+' — '+h+':'+ms+' '+ampm;
+}
+updateClock();setInterval(updateClock,30000);
+
+/* ── Date / greeting ── */
+(function initDash(){
+  var now=new Date();
+  var months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var dateEl=document.getElementById('dash-date');
+  if(dateEl)dateEl.textContent=days[now.getDay()]+', '+months[now.getMonth()]+' '+now.getDate()+', '+now.getFullYear();
+  var hr=now.getHours();
+  var gt=document.getElementById('greeting-time');
+  if(gt)gt.textContent=hr<12?'morning':hr<17?'afternoon':'evening';
+})();
+
+/* ── Tasks (shared between Dashboard mini-widget and Brain Dump full list) ── */
+var TASKS_KEY='fitmama_tasks';
+function loadTasks(){try{return JSON.parse(localStorage.getItem(TASKS_KEY)||'[]');}catch(e){return [];}}
+function saveTasksState(tasks){try{localStorage.setItem(TASKS_KEY,JSON.stringify(tasks));}catch(e){}}
+function escapeHtml(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+
+function addTask(inputId){
+  var input=document.getElementById(inputId);
+  if(!input)return;
+  var val=input.value.trim();
+  if(!val)return;
+  var tasks=loadTasks();
+  tasks.push({id:Date.now()+Math.random(),text:val,done:false});
+  saveTasksState(tasks);
+  input.value='';
+  renderTasks();
+}
+function toggleTask(id){
+  var tasks=loadTasks();
+  tasks.forEach(function(t){if(t.id===id)t.done=!t.done;});
+  saveTasksState(tasks);
+  renderTasks();
+}
+function deleteTask(id){
+  saveTasksState(loadTasks().filter(function(t){return t.id!==id;}));
+  renderTasks();
+}
+function taskItemHTML(t){
+  return '<div class="task-item">'+
+    '<div class="task-check'+(t.done?' done':'')+'" onclick="toggleTask('+t.id+')"></div>'+
+    '<div class="task-text'+(t.done?' done':'')+'" onclick="toggleTask('+t.id+')">'+escapeHtml(t.text)+'</div>'+
+    '<button class="task-del" onclick="deleteTask('+t.id+')">✕</button>'+
+  '</div>';
+}
+function renderTasks(){
+  var tasks=loadTasks();
+  var full=document.getElementById('task-list-full');
+  if(full){full.innerHTML = tasks.length ? tasks.map(taskItemHTML).join('') : '<div class="task-empty">No tasks yet. Add one above.</div>';}
+  var mini=document.getElementById('task-list-mini');
+  if(mini){
+    var open=tasks.filter(function(t){return !t.done;});
+    if(tasks.length===0){mini.innerHTML='<div class="task-empty">No tasks yet.</div>';}
+    else if(open.length===0){mini.innerHTML='<div class="task-empty">All caught up. Nice.</div>';}
+    else{mini.innerHTML=open.slice(0,6).map(taskItemHTML).join('');}
+  }
+}
+renderTasks();
+
+(function initNotes(){
+  var area=document.getElementById('notes-area');
+  var status=document.getElementById('notes-status');
+  if(!area)return;
+  var KEY='fitmama_braindump';
+  try{
+    var saved=localStorage.getItem(KEY);
+    if(saved){area.value=saved;status.textContent='Loaded from last visit';}
+  }catch(e){}
+  var timer=null;
+  area.addEventListener('input',function(){
+    status.textContent='Saving…';
+    status.classList.remove('saved');
+    clearTimeout(timer);
+    timer=setTimeout(function(){
+      try{
+        localStorage.setItem(KEY,area.value);
+        var d=new Date();
+        var h=d.getHours(),m=d.getMinutes();
+        var ampm=h>=12?'PM':'AM';h=h%12||12;var ms=m<10?'0'+m:m;
+        status.textContent='Saved '+h+':'+ms+' '+ampm;
+        status.classList.add('saved');
+      }catch(e){status.textContent='Could not save';}
+    },500);
+  });
+})();
+
+function clearNotes(){
+  if(!confirm('Clear all notes? This can\'t be undone.'))return;
+  var area=document.getElementById('notes-area');
+  var status=document.getElementById('notes-status');
+  area.value='';
+  try{localStorage.removeItem('fitmama_braindump');}catch(e){}
+  status.textContent='Cleared';
+  status.classList.remove('saved');
+}
+
+/* ── Section nav ── */
+var SEC_TITLES={dash:'Dashboard',notes:'Brain Dump',resources:'Resources',vault:'Call Vault',team:'Team',playbooks:'Playbooks'};
+
+function goTo(id){
+  document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active');});
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
+  var sec=document.getElementById('sec-'+id);
+  var nav=document.querySelector('[data-sec="'+id+'"]');
+  if(sec)sec.classList.add('active');
+  if(nav)nav.classList.add('active');
+  var mh=document.getElementById('mh-title');
+  if(mh)mh.textContent=SEC_TITLES[id]||id;
+  history.replaceState(null,'','#'+id);
+}
+
+(function(){
+  var h=location.hash.replace('#','');
+  if(h&&document.getElementById('sec-'+h))goTo(h);
+})();
+</script>
+</body>
+</html>
