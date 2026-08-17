@@ -1,0 +1,338 @@
+<title>The Seven</title>
+<style>
+  @font-face {
+    font-family: 'Mono';
+    src: local('SF Mono'), local('Menlo'), local('Consolas');
+  }
+  :root {
+    --bg: #f4f2ec; --surface: #ffffff; --surface-2: #ebe8df;
+    --text: #16161a; --muted: #6b6a63; --faint: #b3b1a6;
+    --border: #ddd9cd;
+    --accent: #cc4a1f; --accent-soft: #e8dcd3;
+    --strength: #3d5a80; --strength-soft: #dde3ea;
+    --run: #5c7a4a; --run-soft: #e1e7da;
+    --station: #cc4a1f; --station-soft: #f3ddd2;
+    --good: #3d7a50;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0b0b0d; --surface: #17171a; --surface-2: #1f1f23;
+      --text: #f2f0ea; --muted: #9a988f; --faint: #4a4945;
+      --border: #2a2a2e;
+      --accent: #ff5a2b; --accent-soft: #2a180f;
+      --strength: #7fa2d4; --strength-soft: #16202c;
+      --run: #9ec786; --run-soft: #151d10;
+      --station: #ff5a2b; --station-soft: #2a180f;
+      --good: #6fcf87;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0b0b0d; --surface: #17171a; --surface-2: #1f1f23;
+    --text: #f2f0ea; --muted: #9a988f; --faint: #4a4945;
+    --border: #2a2a2e;
+    --accent: #ff5a2b; --accent-soft: #2a180f;
+    --strength: #7fa2d4; --strength-soft: #16202c;
+    --run: #9ec786; --run-soft: #151d10;
+    --station: #ff5a2b; --station-soft: #2a180f;
+    --good: #6fcf87;
+  }
+  :root[data-theme="light"] {
+    --bg: #f4f2ec; --surface: #ffffff; --surface-2: #ebe8df;
+    --text: #16161a; --muted: #6b6a63; --faint: #b3b1a6;
+    --border: #ddd9cd;
+    --accent: #cc4a1f; --accent-soft: #f3ddd2;
+    --strength: #3d5a80; --strength-soft: #dde3ea;
+    --run: #5c7a4a; --run-soft: #e1e7da;
+    --station: #cc4a1f; --station-soft: #f3ddd2;
+    --good: #3d7a50;
+  }
+
+  * { box-sizing: border-box; }
+  html { font-size: 16px; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-size: 15px; line-height: 1.6;
+  }
+  .mono { font-family: 'SF Mono', ui-monospace, 'Menlo', Consolas, monospace; font-variant-numeric: tabular-nums; }
+
+  .wrap { max-width: 860px; margin: 0 auto; padding: 64px 28px 100px; }
+
+  /* HERO */
+  .kicker { font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+  h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 900; letter-spacing: -.03em; line-height: 1.02; margin: 0 0 20px; text-wrap: balance; }
+  .lede { font-size: 17px; color: var(--muted); max-width: 62ch; line-height: 1.75; margin-bottom: 8px; }
+  .lede strong { color: var(--text); font-weight: 700; }
+
+  .stat-strip { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 36px 0 40px; }
+  .stat { background: var(--surface); padding: 16px 14px; text-align: center; }
+  .stat b { display: block; font-size: 20px; font-weight: 900; letter-spacing: -.02em; margin-bottom: 3px; }
+  .stat span { font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+
+  .guardrail { background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 10px; padding: 20px 24px; margin-bottom: 56px; }
+  .guardrail .g-label { font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .guardrail p { font-size: 14.5px; color: var(--text); line-height: 1.7; margin: 0; }
+
+  .placeholder-note { display: flex; gap: 12px; align-items: flex-start; background: var(--surface-2); border: 1px dashed var(--faint); border-radius: 10px; padding: 16px 20px; margin-bottom: 56px; }
+  .placeholder-note .pn-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .placeholder-note p { font-size: 13.5px; color: var(--muted); line-height: 1.65; margin: 0; }
+  .placeholder-note strong { color: var(--text); }
+
+  /* LEGEND */
+  .legend { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 8px; }
+  .legend-item { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--muted); font-weight: 600; }
+  .legend-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+
+  /* WEEK SECTION LABEL */
+  .week-label { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 56px 0 18px; padding-top: 40px; border-top: 1px solid var(--border); }
+  .week-label:first-of-type { border-top: none; padding-top: 0; }
+
+  /* DAY CARD */
+  .day { display: flex; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 14px; background: var(--surface); }
+  .day-rail { width: 6px; flex-shrink: 0; }
+  .day-rail.strength { background: var(--strength); }
+  .day-rail.run { background: var(--run); }
+  .day-rail.station { background: var(--station); }
+  .day-body { flex: 1; padding: 22px 26px 24px; min-width: 0; }
+
+  .day-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+  .day-name-row { display: flex; align-items: baseline; gap: 12px; }
+  .day-name { font-size: 20px; font-weight: 900; letter-spacing: -.02em; }
+  .day-time { font-size: 12.5px; color: var(--muted); font-weight: 600; }
+  .tag-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; padding: 4px 9px; border-radius: 5px; }
+  .tag.strength { background: var(--strength-soft); color: var(--strength); }
+  .tag.run { background: var(--run-soft); color: var(--run); }
+  .tag.station { background: var(--station-soft); color: var(--station); }
+
+  .day-focus { font-size: 13.5px; color: var(--muted); line-height: 1.6; margin-bottom: 18px; max-width: 60ch; }
+  .day-focus strong { color: var(--text); }
+
+  table.wo { width: 100%; border-collapse: collapse; }
+  table.wo th { text-align: left; font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); padding: 0 10px 8px 0; border-bottom: 1px solid var(--border); }
+  table.wo td { font-size: 13.5px; padding: 9px 10px 9px 0; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text); }
+  table.wo tr:last-child td { border-bottom: none; }
+  table.wo td.ex { font-weight: 650; }
+  table.wo td.num { white-space: nowrap; }
+  table.wo td.note { color: var(--muted); font-size: 12.5px; }
+
+  .simple-block { font-size: 13.5px; color: var(--text); line-height: 1.75; }
+  .simple-block strong { font-weight: 700; }
+
+  .coach-note { display: flex; gap: 10px; margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--border); }
+  .coach-note .cn-icon { flex-shrink: 0; font-size: 13px; margin-top: 1px; }
+  .coach-note p { font-size: 12.5px; color: var(--muted); line-height: 1.6; margin: 0; }
+  .coach-note strong { color: var(--text); }
+
+  /* PROGRESSION */
+  .progression { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 26px 28px; margin-top: 20px; }
+  .progression h3 { font-size: 15px; font-weight: 800; margin: 0 0 12px; }
+  .progression ol { margin: 0; padding-left: 20px; }
+  .progression li { font-size: 13.5px; color: var(--muted); line-height: 1.8; margin-bottom: 4px; }
+  .progression li strong { color: var(--text); }
+
+  .scope-note { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--faint); line-height: 1.7; }
+  .scope-note strong { color: var(--muted); }
+
+  @media (max-width: 640px) {
+    .wrap { padding: 44px 18px 72px; }
+    .stat-strip { grid-template-columns: repeat(2,1fr); }
+    .day { flex-direction: column; }
+    .day-rail { width: 100%; height: 5px; }
+    table.wo th:nth-child(4), table.wo td:nth-child(4) { display: none; }
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="kicker">HYROX Training — Base Building Block</div>
+  <h1>The Seven</h1>
+  <p class="lede">Three strength sessions, running spread across the week, two station days. Seven sessions, not the twelve everyone tries to survive on. <strong>New to HYROX, already training hybrid</strong> — this block builds the station-specific skill and the aerobic engine on top of a base you already have.</p>
+
+  <div class="stat-strip">
+    <div class="stat"><b>3</b><span>Strength Days</span></div>
+    <div class="stat"><b>4</b><span>Running Sessions</span></div>
+    <div class="stat"><b>2</b><span>Station Days</span></div>
+    <div class="stat"><b>7</b><span>Total / Week</span></div>
+  </div>
+
+  <div class="guardrail">
+    <div class="g-label">The Guardrail</div>
+    <p>Don't tell yourself you're going to lift five days, run five days, add cross-training, and recover well from all of it — not without eating like it's a full-time job. Seven honest sessions beats twelve you can't recover from. If a day says optional, that's not a suggestion to skip guilt-free later, it's permission to read your fatigue and make the call in real time.</p>
+  </div>
+
+  <div class="placeholder-note">
+    <div class="pn-icon">📅</div>
+    <p><strong>Times below are placeholders</strong> — early-morning default, before the workday eats the day. Connect Google Calendar (claude.ai → Connectors) and I'll refit every session around your actual open blocks at jj@sales.io instead of a guess.</p>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><span class="legend-dot" style="background:var(--strength)"></span>Strength</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--run)"></span>Running</div>
+    <div class="legend-item"><span class="legend-dot" style="background:var(--station)"></span>HYROX Stations</div>
+  </div>
+
+  <!-- MONDAY -->
+  <div class="week-label">Monday</div>
+  <div class="day">
+    <div class="day-rail strength"></div>
+    <div class="day-body">
+      <div class="day-head">
+        <div class="day-name-row"><div class="day-name">Upper Body — Hypertrophy</div><div class="day-time mono">6:00 AM · ~60 min</div></div>
+        <div class="tag-row"><span class="tag strength">Strength</span></div>
+      </div>
+      <div class="day-focus">Movement pattern and effort matter more than exercise selection. Push, pull, press — train it hard. This is the strength base that grip, wall balls, and sled work all draw from later in the week.</div>
+      <table class="wo">
+        <tr><th>Exercise</th><th>Sets × Reps</th><th>Rest</th><th>Note</th></tr>
+        <tr><td class="ex">Bench Press</td><td class="num mono">4 × 8–10</td><td class="num mono">90s</td><td class="note">Straight sets, add load when top set hits 10 clean</td></tr>
+        <tr><td class="ex">Weighted Pull-Up / Lat Pulldown</td><td class="num mono">4 × 8–10</td><td class="num mono">90s</td><td class="note">Superset with bench if you're pressed for time</td></tr>
+        <tr><td class="ex">Seated DB Shoulder Press</td><td class="num mono">3 × 10–12</td><td class="num mono">75s</td><td class="note"></td></tr>
+        <tr><td class="ex">Chest-Supported Row</td><td class="num mono">3 × 10–12</td><td class="num mono">75s</td><td class="note"></td></tr>
+        <tr><td class="ex">Incline DB Press or Dips</td><td class="num mono">3 × 12–15</td><td class="num mono">60s</td><td class="note"></td></tr>
+        <tr><td class="ex">Face Pulls</td><td class="num mono">3 × 15–20</td><td class="num mono">45s</td><td class="note">Shoulder health — protects you on wall balls and carries</td></tr>
+        <tr><td class="ex">Farmers Carry (heavy)</td><td class="num mono">3 × 40m</td><td class="num mono">90s</td><td class="note">Direct HYROX carryover, go heavy</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- TUESDAY -->
+  <div class="week-label">Tuesday</div>
+  <div class="day">
+    <div class="day-rail run"></div>
+    <div class="day-body">
+      <div class="day-head">
+        <div class="day-name-row"><div class="day-name">Easy Run</div><div class="day-time mono">AM or PM · 30–40 min</div></div>
+        <div class="tag-row"><span class="tag run">Running</span></div>
+      </div>
+      <div class="day-focus">Zone 2 the whole way — conversational pace, you could hold a sentence without gasping. This is aerobic base, the exact thing HYROX exposes if it's underbuilt. Morning or evening, whichever fits — your call, just don't stack it against another hard session same day.</div>
+      <div class="simple-block">
+        30–40 min continuous, easy effort.<br>
+        Optional finish: 4–6 × 20-second relaxed strides, full recovery between — keeps leg turnover sharp without adding real fatigue.
+      </div>
+    </div>
+  </div>
+
+  <!-- WEDNESDAY -->
+  <div class="week-label">Wednesday</div>
+  <div class="day">
+    <div class="day-rail strength"></div>
+    <div class="day-body">
+      <div class="day-head">
+        <div class="day-name-row"><div class="day-name">Legs — Functional</div><div class="day-time mono">6:00 AM · ~60 min</div></div>
+        <div class="tag-row"><span class="tag strength">Strength</span></div>
+      </div>
+      <div class="day-focus">Second strength session of the week. Built to carry over directly into your runs and station work, not a bodybuilder leg day. Some weeks, swap the back half for plyometrics and explosive work if you're feeling fresh and want to bias speed instead.</div>
+      <table class="wo">
+        <tr><th>Exercise</th><th>Sets × Reps</th><th>Rest</th><th>Note</th></tr>
+        <tr><td class="ex">Back or Front Squat</td><td class="num mono">4 × 6–8</td><td class="num mono">2min</td><td class="note"></td></tr>
+        <tr><td class="ex">Weighted Walking Lunges</td><td class="num mono">3 × 12/leg</td><td class="num mono">90s</td><td class="note">Direct sandbag lunge carryover</td></tr>
+        <tr><td class="ex">Romanian Deadlift</td><td class="num mono">3 × 10</td><td class="num mono">90s</td><td class="note"></td></tr>
+        <tr><td class="ex">Sled Push (heavy, short)</td><td class="num mono">4 × 20m</td><td class="num mono">2min</td><td class="note">Straight HYROX station — go heavy, stay low</td></tr>
+        <tr><td class="ex">Single-Leg RDL or Step-Ups</td><td class="num mono">3 × 10/leg</td><td class="num mono">60s</td><td class="note"></td></tr>
+      </table>
+      <div class="coach-note"><div class="cn-icon">⚙️</div><p><strong>Variation option:</strong> swap the RDL + step-ups block for box jumps and broad jumps when you want an explosive-bias week instead of a pure-strength one.</p></div>
+    </div>
+  </div>
+
+  <!-- THURSDAY -->
+  <div class="week-label">Thursday</div>
+  <div class="day">
+    <div class="day-rail run"></div>
+    <div class="day-body">
+      <div class="day-head">
+        <div class="day-name-row"><div class="day-name">Speed Work</div><div class="day-time mono">6:00 AM · ~35 min</div></div>
+        <div class="tag-row"><span class="tag run">Running</span><span class="tag station">+ Stations (Optional)</span></div>
+      </div>
+      <div class="day-focus">Speed session first, always. The station add-on is a fatigue call you make that morning, not a fixed plan — it's real load on top of intervals.</div>
+      <div class="simple-block">
+        10 min easy jog + drills, then <strong>8–10 × 400m @ 5K-effort</strong>, 90s walk/jog between reps. 10 min easy cooldown.
+      </div>
+      <table class="wo" style="margin-top:16px;">
+        <tr><th>Optional Add-On</th><th>Work</th><th>Rest</th><th>Note</th></tr>
+        <tr><td class="ex">SkiErg</td><td class="num mono">500m hard</td><td class="num mono">—</td><td class="note">Only if legs feel genuinely fresh</td></tr>
+        <tr><td class="ex">Wall Balls</td><td class="num mono">3 × 15</td><td class="num mono">60s</td><td class="note"></td></tr>
+        <tr><td class="ex">Sled Pull</td><td class="num mono">4 × 20m</td><td class="num mono">90s</td><td class="note"></td></tr>
+        <tr><td class="ex">Row</td><td class="num mono">500m hard</td><td class="num mono">—</td><td class="note"></td></tr>
+      </table>
+      <div class="coach-note"><div class="cn-icon">🧭</div><p><strong>Assess before you add:</strong> if the 400s wrecked you, skip the stations entirely and take the win on the speed work alone. This is a judgment call every single week, not a fixed script.</p></div>
+    </div>
+  </div>
+
+  <!-- FRIDAY -->
+  <div class="week-label">Friday</div>
+  <div class="day">
+    <div class="day-rail strength"></div>
+    <div class="day-body">
+      <div class="day-head">
+        <div class="day-name-row"><div class="day-name">Upper Body — Power</div><div class="day-time mono">6:00 AM · ~45 min</div></div>
+        <div class="tag-row"><span class="tag strength">Strength</span><span class="tag run">+ Easy Run</span></div>
+      </div>
+      <div class="day-focus">Third and final strength day. Explosive and low-volume where Monday was hypertrophy and higher-volume — same muscles, different stimulus. Easy run happens same day, separated by several hours. Don't stack them back-to-back.</div>
+      <table class="wo">
+        <tr><th>Exercise</th><th>Sets × Reps</th><th>Rest</th><th>Note</th></tr>
+        <tr><td class="ex">Push Press</td><td class="num mono">5 × 3</td><td class="num mono">2min</td><td class="note">Explosive, stay crisp — drop weight before form breaks</td></tr>
+        <tr><td class="ex">Med Ball Chest Pass</td><td class="num mono">4 × 6</td><td class="num mono">90s</td><td class="note"></td></tr>
+        <tr><td class="ex">Max-Effort Pull-Ups or Battle Ropes</td><td class="num mono">4 × 20s</td><td class="num mono">90s</td><td class="note"></td></tr>
+        <tr><td class="ex">Wall Balls</td><td class="num mono">4 × 12</td><td class="num mono">90s</td><td class="note">Technical focus — rhythm over just grinding through fatigue</td></tr>
+      </table>
+      <div class="simple-block" style="margin-top:16px;">Later same day: <strong>Easy Run, 30–40 min</strong>, same Zone 2 effort as Tuesday. AM/PM order is flexible — swap with the lift if that fits your day better.</div>
+    </div>
+  </div>
+
+  <!-- SATURDAY -->
+  <div class="week-label">Saturday</div>
+  <div class="day">
+    <div class="day-rail station"></div>
+    <div class="day-body">
+      <div class="day-head">
+        <div class="day-name-row"><div class="day-name">HYROX Simulation — Half Distance</div><div class="day-time mono">8:00 AM · ~60–75 min</div></div>
+        <div class="tag-row"><span class="tag station">Stations</span></div>
+      </div>
+      <div class="day-focus">Half distance on purpose — you're new to the format, so this teaches the actual skill (run-to-station transitions, pacing under fatigue) without the volume overload of a full 8-and-8 sim before you've earned it. Build toward full distance over the coming weeks.</div>
+      <table class="wo">
+        <tr><th>Order</th><th>Work</th><th>Note</th></tr>
+        <tr><td class="ex mono">1</td><td>1km Run</td><td class="note">Moderate-hard, race-simulation effort</td></tr>
+        <tr><td class="ex mono">2</td><td>SkiErg — 500m</td><td class="note">Move straight from the run, minimal pause</td></tr>
+        <tr><td class="ex mono">3</td><td>1km Run</td><td class="note"></td></tr>
+        <tr><td class="ex mono">4</td><td>Sled Push 25m + Sled Pull 25m</td><td class="note"></td></tr>
+        <tr><td class="ex mono">5</td><td>1km Run</td><td class="note"></td></tr>
+        <tr><td class="ex mono">6</td><td>Burpee Broad Jumps × 20m</td><td class="note"></td></tr>
+        <tr><td class="ex mono">7</td><td>1km Run</td><td class="note"></td></tr>
+        <tr><td class="ex mono">8</td><td>Wall Balls × 50 reps</td><td class="note">Finish here — cooldown 10 min easy after</td></tr>
+      </table>
+      <div class="coach-note"><div class="cn-icon">⏱️</div><p><strong>What actually matters here:</strong> the transition, not just the stations. Practice moving from run to station with almost no pause — that's the roxzone skill, and it's trainable independent of raw fitness.</p></div>
+    </div>
+  </div>
+
+  <!-- SUNDAY -->
+  <div class="week-label">Sunday</div>
+  <div class="day">
+    <div class="day-rail run"></div>
+    <div class="day-body">
+      <div class="day-head">
+        <div class="day-name-row"><div class="day-name">Long Run</div><div class="day-time mono">8:00 AM · 50–70 min</div></div>
+        <div class="tag-row"><span class="tag run">Running</span></div>
+      </div>
+      <div class="day-focus">Closes the week. Zone 2, same easy effort as Tuesday and Friday's runs, just longer. This is the session that determines how well you hold pace across all eight runs once you're racing full distance.</div>
+      <div class="simple-block">Start at 50 min. Add 5–10 min per week if you're recovering well — if Monday's lift feels flat, hold the duration instead of pushing it.</div>
+    </div>
+  </div>
+
+  <!-- PROGRESSION -->
+  <div class="week-label">Running It Forward</div>
+  <div class="progression">
+    <h3>No race booked yet — here's how this block progresses</h3>
+    <ol>
+      <li>Run this exact structure for <strong>4 weeks</strong> before changing anything. Consistency is the variable that matters most right now, not novelty.</li>
+      <li>Each week: add <strong>5–10% load</strong> on the main strength lifts once every rep is clean, extend the <strong>long run by 5–10 min</strong>, and push Saturday's simulation pace slightly if recovery allows.</li>
+      <li>After week 4, reassess: how did the Saturday sim feel? If the transitions were the limiter, spend the next block drilling transitions specifically. If the runs were the limiter, bias more Zone 2 volume.</li>
+      <li>Once you pick a race date, this shifts into a real periodized build — base, build, peak, taper — with Saturday's simulation moving toward full 8-run/8-station distance and pace targets built from your own splits.</li>
+    </ol>
+  </div>
+
+  <div class="scope-note">
+    <strong>Scope note:</strong> this covers training and technique only. Nutrition, sleep, and recovery protocols aren't addressed here — for calorie needs at this training volume, that's a sports nutritionist's call, not mine. If anything above produces pain (not normal training fatigue), stop and see a physio before working around it.
+  </div>
+
+</div>
