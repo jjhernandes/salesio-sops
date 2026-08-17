@@ -1,0 +1,578 @@
+<title>Price-Raise Email Swipe File</title>
+<style>
+  :root {
+    --bg: #090908;
+    --surface: #111110;
+    --surface-2: #1a1916;
+    --accent: #e2cfa8;
+    --accent-soft: #f0e4c8;
+    --accent-dim: rgba(226,207,168,.07);
+    --accent-border: rgba(226,207,168,.14);
+    --text: #f0ece4;
+    --text-muted: #8a8475;
+    --text-faint: #3e3b30;
+    --border: #201f18;
+    --check: #7dcf95;
+    --check-dim: rgba(125,207,149,.08);
+    --mono: 'SF Mono','Fira Code','Consolas',monospace;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f2; --surface: #f0ece0; --surface-2: #e4dece;
+      --accent: #8a6d3a; --accent-soft: #6b5228;
+      --accent-dim: rgba(138,109,58,.07); --accent-border: rgba(138,109,58,.2);
+      --text: #1a1914; --text-muted: #6a6450; --text-faint: #c0b898;
+      --border: #ddd8c8; --check: #2a7a45; --check-dim: rgba(42,122,69,.07);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#090908;--surface:#111110;--surface-2:#1a1916;
+    --accent:#e2cfa8;--accent-soft:#f0e4c8;
+    --accent-dim:rgba(226,207,168,.07);--accent-border:rgba(226,207,168,.14);
+    --text:#f0ece4;--text-muted:#8a8475;--text-faint:#3e3b30;
+    --border:#201f18;--check:#7dcf95;--check-dim:rgba(125,207,149,.08);
+  }
+  :root[data-theme="light"] {
+    --bg:#faf8f2;--surface:#f0ece0;--surface-2:#e4dece;
+    --accent:#8a6d3a;--accent-soft:#6b5228;
+    --accent-dim:rgba(138,109,58,.07);--accent-border:rgba(138,109,58,.2);
+    --text:#1a1914;--text-muted:#6a6450;--text-faint:#c0b898;
+    --border:#ddd8c8;--check:#2a7a45;--check-dim:rgba(42,122,69,.07);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{font-size:16px;scroll-behavior:smooth;}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    font-size:.9375rem;line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .doc-header{
+    max-width:760px;margin:0 auto;
+    padding:3rem 2rem 2.5rem;
+    border-bottom:1px solid var(--border);
+  }
+  .eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:.875rem;
+  }
+  .doc-title{
+    font-size:1.75rem;font-weight:700;
+    letter-spacing:-.03em;line-height:1.2;
+    color:var(--text);margin-bottom:.25rem;
+  }
+  .doc-sub{color:var(--text-muted);font-size:.9375rem;margin-top:.25rem;}
+  .meta-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.125rem;}
+  .meta-chip{
+    display:flex;align-items:center;gap:.4rem;
+    font-family:var(--mono);font-size:.6875rem;
+    color:var(--text-muted);background:var(--surface);
+    border:1px solid var(--border);border-radius:2px;padding:.25rem .625rem;
+  }
+  .meta-chip-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+
+  main{max-width:760px;margin:0 auto;padding:0 2rem 5rem;}
+
+  .section{padding:2.25rem 0 1.75rem;border-bottom:1px solid var(--border);}
+  .section:last-child{border-bottom:none;}
+  .sec-eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.12em;text-transform:uppercase;
+    color:var(--text-faint);margin-bottom:.75rem;
+  }
+  .sec-title{
+    font-size:1.0625rem;font-weight:650;
+    color:var(--text);letter-spacing:-.015em;margin-bottom:1.25rem;
+  }
+  .sec-note{font-size:.875rem;color:var(--text-muted);line-height:1.65;margin-bottom:1.25rem;}
+  .sec-note strong{color:var(--text);font-weight:600;}
+
+  /* Principle grid */
+  .principle-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+  .principle-card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:3px;padding:.75rem .875rem;
+  }
+  .principle-num{
+    font-family:var(--mono);font-size:.6rem;color:var(--accent);
+    opacity:.7;letter-spacing:.08em;margin-bottom:.35rem;
+  }
+  .principle-title{font-size:.8125rem;font-weight:650;color:var(--text);margin-bottom:.25rem;}
+  .principle-body{font-size:.8125rem;color:var(--text-muted);line-height:1.55;}
+
+  /* Email cards */
+  .email-card{
+    border:1px solid var(--border);border-radius:6px;overflow:hidden;
+    margin-bottom:1rem;
+  }
+  .email-card:last-child{margin-bottom:0;}
+  .email-head{
+    display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+    padding:.9375rem 1.125rem;background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+  }
+  .email-label{
+    font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--accent);opacity:.8;margin-bottom:.35rem;
+  }
+  .email-angle{font-size:.9375rem;font-weight:650;color:var(--text);letter-spacing:-.01em;}
+  .email-when{
+    font-family:var(--mono);font-size:.6875rem;color:var(--text-muted);
+    background:var(--surface);border:1px solid var(--border);border-radius:2px;
+    padding:.2rem .5rem;white-space:nowrap;
+  }
+  .email-body{
+    padding:1.125rem 1.25rem;background:var(--surface);
+    white-space:pre-line;font-size:.84375rem;color:var(--text-muted);line-height:1.8;
+  }
+  .email-body strong{color:var(--text);font-weight:600;}
+  .img-tag{
+    display:inline-block;margin:.15rem 0;padding:.2rem .5rem;
+    border:1px dashed var(--border);border-radius:2px;
+    font-family:var(--mono);font-size:.6875rem;color:var(--text-faint);
+  }
+  .email-reused{
+    padding:.75rem 1.125rem;background:var(--accent-dim);
+    border-top:1px solid var(--accent-border);
+    font-size:.8125rem;color:var(--text-muted);line-height:1.6;
+  }
+  .email-reused strong{color:var(--accent-soft);}
+
+  .callout{
+    padding:.875rem 1rem;
+    background:var(--accent-dim);border:1px solid var(--accent-border);
+    border-radius:2px;font-size:.875rem;color:var(--text-muted);line-height:1.65;
+  }
+  .callout strong{color:var(--accent-soft);}
+  .callout + .callout{margin-top:.625rem;}
+
+  .doc-footer{
+    max-width:760px;margin:0 auto;
+    padding:1.5rem 2rem;border-top:1px solid var(--border);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);
+  }
+
+  @media(max-width:600px){
+    .doc-header,main{padding-left:1.25rem;padding-right:1.25rem;}
+    .doc-title{font-size:1.4rem;}
+    .principle-grid{grid-template-columns:1fr;}
+  }
+</style>
+
+<div class="doc-header">
+  <div class="eyebrow">Sales.io &times; Content Academy, Swipe File</div>
+  <h1 class="doc-title">Price-Raise Email Swipe File</h1>
+  <div class="doc-sub">The exact urgency sequence JJ ran for the World Class Sales Premium and Inner Circle price increases &mdash; sent over for Mino, Justin, and the Content Academy team to adapt for your own raise, promised on the Aug 17 pricing call</div>
+  <div class="meta-row">
+    <div class="meta-chip"><div class="meta-chip-dot"></div>4 templates, deduped from live sends</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Announce &rarr; warn &rarr; recover &rarr; final call</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Ref: price-raise call, Aug 17</div>
+  </div>
+</div>
+
+<main>
+
+  <!-- Context -->
+  <div class="section">
+    <div class="sec-eyebrow">Context</div>
+    <h2 class="sec-title">Why you're getting this</h2>
+    <div class="sec-note">On the call, the team landed on raising the offer by <strong>~$1,000</strong> and JJ's advice was to be deliberate about the sequence: lead with proof, frame the raise as protecting service quality (not "we need more money"), and use the new CS system as the value-add that justifies it &mdash; the same move Justin already used on Alan.</div>
+    <div class="sec-note">These templates are from JJ's own WCS Premium campaigns, where the price moves were much bigger (a full <strong>4x-to-doubling</strong> jump, not $1K). <strong>Use the structure, not the scale</strong> &mdash; see "Adapting this" below before you send anything.</div>
+  </div>
+
+  <!-- Framework -->
+  <div class="section">
+    <div class="sec-eyebrow">Framework</div>
+    <h2 class="sec-title">What makes this sequence work</h2>
+    <div class="principle-grid">
+      <div class="principle-card">
+        <div class="principle-num">01</div>
+        <div class="principle-title">Proof before ask</div>
+        <div class="principle-body">Screenshots and testimonials go up top, before the pitch. Results carry the argument, not adjectives.</div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-num">02</div>
+        <div class="principle-title">Frame it as their benefit</div>
+        <div class="principle-body">"We're raising the price" reads as greed. "We're protecting quality/service for a smaller group" reads as care.</div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-num">03</div>
+        <div class="principle-title">Real urgency, stated plainly</div>
+        <div class="principle-body">"No fake scarcity. No BS tactics." A real clock, a real date, said once, not manufactured hype.</div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-num">04</div>
+        <div class="principle-title">Preempt the excuses</div>
+        <div class="principle-body">Name the objections before they show up ("I was stuck in traffic," "my boss locked me in my office") so late replies have nowhere to land.</div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-num">05</div>
+        <div class="principle-title">Stack the value in dollars</div>
+        <div class="principle-body">Every deliverable gets a price tag next to it, so the new price looks small next to the total stack.</div>
+      </div>
+      <div class="principle-card">
+        <div class="principle-num">06</div>
+        <div class="principle-title">Borrow authority</div>
+        <div class="principle-body">Name-drop the coaches and the names behind them (who they've built sales teams for) to raise perceived stakes.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sequence -->
+  <div class="section">
+    <div class="sec-eyebrow">Sequence</div>
+    <h2 class="sec-title">The 4 templates</h2>
+
+    <div class="email-card">
+      <div class="email-head">
+        <div>
+          <div class="email-label">Template 1 &middot; Send first</div>
+          <div class="email-angle">The Announcement</div>
+        </div>
+        <div class="email-when">Internal, sets the date</div>
+      </div>
+      <div class="email-body">Quick heads up - tomorrow at midnight, World Class Sales Premium is going from $217/month to $999/month (or $5000 lifetime).
+
+And the Inner Circle? Moving to a 5 figure investment now.
+
+Why? Because the results speak for themselves.
+
+Our members are consistently landing $10K+/month roles and closing more deals at a faster rate with the authentic selling system we teach.
+
+Plus, I'm bringing on two absolute monsters to our coaching team:
+
+Jeff Mangold - Top closer at Gym Launch
+
+Scott Brunning - Former sales manager at Educate under Iman Gadzhi
+
+Not to mention, myself and Cole Verbeek (20k a month closer) will still be coaching.
+
+These guys have generated millions in sales and built world-class sales teams.
+
+They know what actually works in 2025.
+
+This is your last chance to get in at the current price.
+
+No fake scarcity. No BS tactics.
+
+Just giving you a heads up before the price goes up.
+
+Lock in the current rate for WCS premium
+
+Lock in the current rate for Inner Circle
+
+You know what to do,
+
+JJ Hernandez</div>
+    </div>
+
+    <div class="email-card">
+      <div class="email-head">
+        <div>
+          <div class="email-label">Template 2 &middot; Send day 2&ndash;3</div>
+          <div class="email-angle">The Short Warning</div>
+        </div>
+        <div class="email-when">Doubling price, pay half for life</div>
+      </div>
+      <div class="email-body">Hey [First Name]
+
+I wanted you to see this before it's too late
+
+And I don't want you to miss out
+
+So, consider this your final warning
+
+TOMORROW when the clock strikes midnight&hellip;
+
+WORLD CLASS SALES is doubling in price
+
+We have raised the price before and it's happening again...
+
+So, if you've been on the fence
+
+This is your last chance...
+
+Because when the clock strikes midnight TOMORROW
+
+I have it set to automatically double the price
+
+Get access now before it's too late
+
+And if you're still curious...
+
+You would be working with some of the biggest names in the sales space responsible for building offers for guys like...
+
+Iman Gadzhi
+Alex Hormozi
+Grant Cardone
+Thach Nguyen
+Ashton Hall
+
+But here's the thing...
+
+I can't promise that this will be the last price increase.
+
+If we still have an army of people trying to get in&hellip;
+
+We will double the price again.
+
+So rather than paying more later
+
+Just pay less now.
+
+Seriously, if you get in now&hellip; you ONLY pay half
+
+FOR LIFE
+
+If you miss this though, it's off the table.
+
+Gone.
+
+No exceptions.
+
+P.S.
+
+September BONUS:
+
+1on1 with Alex and I
+Access to 4 coaching calls a week
+Job placement opportunities
+Private community on WhatsApp
+Chance to come to our in person mastermind
+
+See you inside.</div>
+      <div class="email-reused"><strong>Reused as-is</strong> for two different sends &mdash; only the recipient's first name and the day ("TOMORROW" vs "THURSDAY") changed between them.</div>
+    </div>
+
+    <div class="email-card">
+      <div class="email-head">
+        <div>
+          <div class="email-label">Template 3 &middot; Send after a broken/missed send</div>
+          <div class="email-angle">The Recovery / Re-hook</div>
+        </div>
+        <div class="email-when">Apology angle + full offer stack</div>
+      </div>
+      <div class="email-body">Hi [First Name]
+
+It's JJ and I want to apologize (again)&hellip;
+
+I sent my last email out with broken links.
+
+We had an army of people trying to access our final offer&hellip;
+
+All telling us "when I click the link, nothing happens"
+
+This should be fixed, and yes, you did read that right&hellip;
+
+You can be grandfathered in to our WORLD CLASS SALES GROUP
+
+The program that has generated MILLIONS of commissions for clients....
+
+(and of course millions of dollars for myself)
+
+<span class="img-tag">[image: client results, 4 screenshots]</span>
+
+So if you've been on the fence
+
+This is your last chance...
+
+Because when the clock strikes midnight TONIGHT
+
+I have it set to automatically double the price
+
+Get access now before it's too late
+
+But if you're still curious...
+
+You would be working with some of the biggest names in the sales space responsible for sales teams like...
+
+Iman Gadhzi
+Alex Hormozi
+Grant Cardone
+Ashton Hall
+Devin Jatho
+
+And here's the thing...
+
+I can't promise that this will be the last price increase.
+
+If we still have an army of people trying to get in&hellip;
+
+We will double the price again.
+
+So rather than paying more later
+
+Just pay less now.
+
+Seriously, if you get in now&hellip; you ONLY pay half
+
+FOR LIFE
+
+If you miss this though, it's off the table.
+
+Gone.
+
+No exceptions.
+
+<span class="img-tag">[image: results screenshot]</span>
+
+So [First Name],
+
+If you are still going through the pain of not finding an offer that you can make $15k+ per month&hellip;
+
+If you aren't closing sales consistently and are wasting your time on these calls, not knowing where you are going wrong&hellip;
+
+If you need to start seeing more commissions SOON or just simply NEED an offer.
+
+Here's what we offer:
+
+World Class Sales training ($2,999) &mdash; The EXACT structure I used to coach Iman's sales team.
+All my live sales recordings ($7,999) &mdash; access to our proprietary sales calls where you can see exactly how I sell.
+5-6 Weekly Coaching Sessions ($8,999) with ACTUAL experts
+Unlimited Q&amp;A with JJ &amp; his team ($3,999)
+BONUS: 1on1 calls to get placed
+
+You will work 1on1 with us
+Opportunity to be placed on an offer
+Zoom Background Layout Guide
+World Class Sale's Fail-Proof sales script Formula
+
+But I have to stress this...
+
+As soon as the clock strikes midnight today...
+
+You've lost out for good.
+
+&ndash; To your success
+
+JJ</div>
+    </div>
+
+    <div class="email-card">
+      <div class="email-head">
+        <div>
+          <div class="email-label">Template 4 &middot; Send last</div>
+          <div class="email-angle">The Final Warning + Full Stack</div>
+        </div>
+        <div class="email-when">12hr window, objections preempted</div>
+      </div>
+      <div class="email-body">Look, I get it...
+
+It's probably too late already
+
+But I had to warn you for the last time
+
+You've got [12hrs]
+
+Before the COMMUNITY goes back to full price
+
+Honestly, I'll probably never run a promotion again
+
+But...
+
+Because I know how much value our members get from...
+
+&#10003; 3-4x coaching calls a week from us and our coaches (with $20M+ in CC)
+
+&#10003; Watching the training (7yrs of knowledge with "no fluff" included)
+
+&#10003; Using our Frameworks (Proven strategies on call)
+
+I had to let you know...
+
+Tomorrow at 11am EST
+
+World Class Sales Group is going back to full price
+
+So...
+
+Now that you've been warned
+
+I don't want to get any emails like
+
+"I wanted the promotion deal... but I waited too long. Can I still have it?"
+
+"I was stuck in traffic for the last seven days... can I get it now?"
+
+"My boss locked me in my office with no internet. I promise I'm ready now"
+
+Some people already got in late&hellip;
+
+And probably wished they would have gotten in earlier
+
+Again...
+
+Price increase is happening at 11am EST
+
+Get access now before it's too late
+
+So [First Name],
+
+If you are still going through the pain of trying to close sales and feel like you lack ammunition in the close&hellip;
+
+If you are lost on what to do to improve to be able to hit those consistent 10k months&hellip;
+
+If you need to start seeing actual MONEY in your commission check SOON
+
+Here's what we offer:
+
+BONUS: Every single one of you will get a 1-on-1 call with Alex and I.
+Live high ticket sales calls ($100,000+ ticket price)
+3-4 Weekly Coaching Sessions ($8,999) with ACTUAL experts
+Unlimited Q&amp;A with JJ &amp; his team ($3,999)
+BONUS: SALES Cheat-Sheets
+Frameworks (Exactly what to say and when to say it on calls)
+Job support/placement (originally $5,000)
+Daily call reviews (normally $1,000/per review)
+
+PLUS get coaching from ACTUAL sales experts that have worked for some of the biggest offers on the internet like:
+
+Alex Hormozi
+Iman Gadzhi
+Grant Cardone
+Thach Nguyen
+Ashton Hall
+
+But if you're on the fence...
+
+Take a look at what some of our current members have to say
+
+<span class="img-tag">[image: member testimonial screenshots]</span>
+
+Are you ready now?
+
+World Class Sales Group
+
+(before the price increases... again)
+
+To Your Success,
+
+JJ
+
+P.S. Hate reading? Watch the training videos instead</div>
+      <div class="email-reused"><strong>Reused as-is</strong> for two different sends, name swapped only. On one send this rolled directly after Template 2, same day, to push the final close.</div>
+    </div>
+
+  </div>
+
+  <!-- Adapting -->
+  <div class="section">
+    <div class="sec-eyebrow">Adapting this</div>
+    <h2 class="sec-title">For a $1K raise, not a 4x one</h2>
+    <div class="callout"><strong>Tone it down.</strong> "Doubling in price," "gone, no exceptions," "I'll probably never run a promotion again" &mdash; that language matches a 4x jump. For +$1K, one clear notice plus a short countdown does the job. Overselling the urgency on a small raise reads as try-hard.</div>
+    <div class="callout"><strong>Lead with the CS system, not the coaches.</strong> Template 4's authority stack works because it's citing outside names. Your value-add is the new proactive CS/concierge system Mino is building &mdash; use that as the "here's what justifies it" the way Justin already framed it for Alan.</div>
+    <div class="callout"><strong>Loop the sales team in first.</strong> JJ's note from the call: whatever you send, give Omar, Allan, Eli, and Justin a heads-up before it goes out, so they're not caught flat-footed by a colder or more skeptical lead on a call.</div>
+    <div class="callout"><strong>One email, maybe two.</strong> You don't need all 4 templates for a $1K move. Template 1 (announce) plus a shortened Template 2 (warn, with the CS system swapped in for the bonus list) likely covers it.</div>
+  </div>
+
+</main>
+
+<div class="doc-footer">
+  <span>Sales.io &middot; Price-Raise Swipe File</span>
+  <span>Source: WCS Premium campaign sends &middot; compiled Aug 17, 2026</span>
+</div>
