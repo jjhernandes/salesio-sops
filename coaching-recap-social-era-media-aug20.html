@@ -1,0 +1,439 @@
+
+<title>Sales Team Review: Social Era Media, August 20</title>
+<style>
+  :root {
+    --bg: #090908;
+    --surface: #111110;
+    --surface-2: #1a1916;
+    --accent: #e2cfa8;
+    --accent-soft: #f0e4c8;
+    --accent-dim: rgba(226,207,168,.07);
+    --accent-border: rgba(226,207,168,.14);
+    --text: #f0ece4;
+    --text-muted: #8a8475;
+    --text-faint: #3e3b30;
+    --border: #201f18;
+    --check: #7dcf95;
+    --check-dim: rgba(125,207,149,.08);
+    --mono: 'SF Mono','Fira Code','Consolas',monospace;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f2; --surface: #f0ece0; --surface-2: #e4dece;
+      --accent: #8a6d3a; --accent-soft: #6b5228;
+      --accent-dim: rgba(138,109,58,.07); --accent-border: rgba(138,109,58,.2);
+      --text: #1a1914; --text-muted: #6a6450; --text-faint: #c0b898;
+      --border: #ddd8c8; --check: #2a7a45; --check-dim: rgba(42,122,69,.07);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#090908;--surface:#111110;--surface-2:#1a1916;
+    --accent:#e2cfa8;--accent-soft:#f0e4c8;
+    --accent-dim:rgba(226,207,168,.07);--accent-border:rgba(226,207,168,.14);
+    --text:#f0ece4;--text-muted:#8a8475;--text-faint:#3e3b30;
+    --border:#201f18;--check:#7dcf95;--check-dim:rgba(125,207,149,.08);
+  }
+  :root[data-theme="light"] {
+    --bg:#faf8f2;--surface:#f0ece0;--surface-2:#e4dece;
+    --accent:#8a6d3a;--accent-soft:#6b5228;
+    --accent-dim:rgba(138,109,58,.07);--accent-border:rgba(138,109,58,.2);
+    --text:#1a1914;--text-muted:#6a6450;--text-faint:#c0b898;
+    --border:#ddd8c8;--check:#2a7a45;--check-dim:rgba(42,122,69,.07);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{font-size:16px;scroll-behavior:smooth;}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    font-size:.9375rem;line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .doc-header{
+    max-width:760px;margin:0 auto;
+    padding:3rem 2rem 2.5rem;
+    border-bottom:1px solid var(--border);
+  }
+  .eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:.875rem;
+  }
+  .doc-title{
+    font-size:1.75rem;font-weight:700;
+    letter-spacing:-.03em;line-height:1.2;
+    color:var(--text);margin-bottom:.25rem;
+  }
+  .doc-sub{color:var(--text-muted);font-size:.9375rem;margin-top:.25rem;}
+  .meta-row{
+    display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.125rem;
+  }
+  .meta-chip{
+    display:flex;align-items:center;gap:.4rem;
+    font-family:var(--mono);font-size:.6875rem;
+    color:var(--text-muted);background:var(--surface);
+    border:1px solid var(--border);border-radius:2px;padding:.25rem .625rem;
+  }
+  .meta-chip-dot{
+    width:4px;height:4px;border-radius:50%;
+    background:var(--accent);flex-shrink:0;
+  }
+
+  main{max-width:760px;margin:0 auto;padding:0 2rem 5rem;}
+
+  .section{padding:2.25rem 0 1.75rem;border-bottom:1px solid var(--border);}
+  .section:last-child{border-bottom:none;}
+  .sec-eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.12em;text-transform:uppercase;
+    color:var(--text-faint);margin-bottom:.75rem;
+  }
+  .sec-title{
+    font-size:1.0625rem;font-weight:650;
+    color:var(--text);letter-spacing:-.015em;margin-bottom:1.25rem;
+  }
+
+  /* Snapshot cards */
+  .snap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;}
+  .snap-card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:3px;overflow:hidden;
+  }
+  .snap-head{
+    padding:.5rem .75rem;background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--text-faint);
+  }
+  .snap-val{
+    padding:.625rem .75rem;font-size:.875rem;color:var(--text-muted);
+    line-height:1.5;
+  }
+  .snap-val strong{color:var(--text);font-weight:600;}
+
+  /* Video card */
+  .video-card{
+    display:block;text-decoration:none;color:inherit;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:6px;overflow:hidden;transition:border-color .15s,background .15s;
+  }
+  .video-card:hover{border-color:var(--accent-border);background:var(--surface-2);}
+  .video-poster{
+    aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;
+    background:
+      radial-gradient(circle at 30% 20%, var(--accent-dim), transparent 60%),
+      var(--surface-2);
+    position:relative;
+  }
+  .video-poster.brand-fallback{
+    background:#000;flex-direction:column;gap:1rem;
+  }
+  .brand-fallback .brand-mark{display:flex;align-items:center;gap:.625rem;}
+  .brand-fallback .brand-word{
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    font-size:1.375rem;font-weight:700;letter-spacing:-.02em;color:#fff;
+  }
+  .play-circle{
+    width:56px;height:56px;border-radius:50%;
+    background:var(--accent);display:flex;align-items:center;justify-content:center;
+    box-shadow:0 4px 18px var(--accent-dim);flex-shrink:0;
+    transition:transform .15s;
+  }
+  .video-card:hover .play-circle{transform:scale(1.06);}
+  .play-circle svg{width:18px;height:18px;margin-left:3px;fill:var(--bg);}
+  .video-card-meta{padding:.875rem 1rem;border-top:1px solid var(--border);}
+  .video-card-title{font-size:.875rem;font-weight:650;color:var(--text);margin-bottom:.25rem;}
+  .video-card-sub{display:flex;justify-content:space-between;align-items:center;gap:.75rem;flex-wrap:wrap;font-size:.75rem;color:var(--text-muted);}
+  .video-card-sub .link{color:var(--accent);font-family:var(--mono);font-size:.7rem;}
+
+  /* Moments */
+  .moment{
+    margin-bottom:.625rem;
+    border:1px solid var(--border);border-radius:3px;overflow:hidden;
+  }
+  .moment-head{
+    display:flex;align-items:flex-start;gap:.875rem;
+    padding:.9375rem 1.125rem;background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+  }
+  .moment-num{
+    font-family:var(--mono);font-size:.625rem;
+    letter-spacing:.08em;color:var(--accent);opacity:.55;
+    flex-shrink:0;margin-top:.15rem;min-width:1.5rem;
+  }
+  .moment-title{
+    font-size:.9375rem;font-weight:650;
+    color:var(--text);letter-spacing:-.01em;line-height:1.3;
+  }
+  .moment-body{
+    padding:.9375rem 1.125rem;background:var(--surface);
+  }
+  .moment-p{
+    font-size:.875rem;color:var(--text-muted);
+    line-height:1.65;margin-bottom:.625rem;
+  }
+  .moment-p:last-child{margin-bottom:0;}
+  .moment-p strong{color:var(--text);font-weight:600;}
+
+  .quote-block{
+    margin:.75rem 0;padding:.75rem 1rem;
+    background:var(--accent-dim);border-left:2px solid var(--accent);
+    border-radius:0 2px 2px 0;
+    font-size:.875rem;color:var(--accent-soft);
+    line-height:1.6;font-style:italic;
+  }
+  .quote-attr{
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--text-faint);margin-top:.35rem;font-style:normal;
+  }
+
+  .callout{
+    padding:.75rem 1rem;
+    background:var(--accent-dim);border:1px solid var(--accent-border);
+    border-radius:2px;font-size:.875rem;color:var(--text-muted);line-height:1.6;
+    margin-top:.875rem;
+  }
+  .callout strong{color:var(--accent-soft);}
+
+  /* Numbers table */
+  .num-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+  .num-card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:3px;padding:.75rem .875rem;
+  }
+  .num-name{font-size:.875rem;font-weight:650;color:var(--text);margin-bottom:.35rem;}
+  .num-stats{font-family:var(--mono);font-size:.75rem;color:var(--accent-soft);line-height:1.6;}
+  .num-stats span{color:var(--text-muted);}
+
+  /* Action items */
+  .action-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+  .action-item{
+    display:flex;align-items:flex-start;gap:.75rem;
+    padding:.75rem .875rem;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:3px;font-size:.875rem;color:var(--text-muted);line-height:1.5;
+  }
+  .action-owner{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent);opacity:.7;flex-shrink:0;
+    margin-top:.15rem;min-width:3.5rem;
+  }
+
+  .doc-footer{
+    max-width:760px;margin:0 auto;
+    padding:1.5rem 2rem;border-top:1px solid var(--border);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);
+  }
+
+  @media(max-width:600px){
+    .doc-header,main{padding-left:1.25rem;padding-right:1.25rem;}
+    .doc-title{font-size:1.4rem;}
+    .snap-grid,.action-grid,.num-grid{grid-template-columns:1fr;}
+  }
+</style>
+
+<div class="doc-header">
+  <div class="eyebrow">Sales.io Consulting &times; Social Era Media</div>
+  <h1 class="doc-title">Sales Team Review</h1>
+  <div class="doc-sub">JJ's consulting review with Allan Guerrero: diagnosing why Mark's show rate is stuck at 44% against Chris's 60&ndash;70%, why it's a follow-up/effort gap more than a skill gap, and a structural fix for pitching leads who only want video, not full-funnel lead gen</div>
+  <div class="meta-row">
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Full 66 min covered</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Rep review &amp; offer structure</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Mark, Chris, the "one thing" framework</div>
+  </div>
+</div>
+
+<main>
+
+  <!-- Session recording -->
+  <div class="section">
+    <div class="sec-eyebrow">Recording</div>
+    <h2 class="sec-title">Session video</h2>
+    <a class="video-card" href="https://fathom.video/calls/793203053" target="_blank" rel="noopener">
+      <div class="video-poster brand-fallback">
+        <div class="brand-mark">
+          <span class="brand-word">sales.io</span>
+        </div>
+        <div class="play-circle"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      </div>
+      <div class="video-card-meta">
+        <div class="video-card-title">Social Era Media Sales Review, August 20</div>
+        <div class="video-card-sub">
+          <span>Recorded session &middot; 66 min (transcript covers ~46)</span>
+          <span class="link">Watch on Fathom &rarr;</span>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Snapshot -->
+  <div class="section">
+    <div class="sec-eyebrow">Context</div>
+    <h2 class="sec-title">What this session is</h2>
+    <div class="snap-grid">
+      <div class="snap-card">
+        <div class="snap-head">Who's on it</div>
+        <div class="snap-val">JJ's consulting check-in with <strong>Allan Guerrero</strong> (Social Era Media), reviewing the performance data for reps <strong>Mark</strong> and <strong>Chris</strong>.</div>
+      </div>
+      <div class="snap-card">
+        <div class="snap-head">The tension</div>
+        <div class="snap-val">No closes in <strong>2.5 weeks</strong> since JJ came on. Mark: 18 calls, 8 shows, 6 qualified, 44% show rate. Chris: historically 60&ndash;70%, no-show-free, two verbal commitments pending.</div>
+      </div>
+      <div class="snap-card">
+        <div class="snap-head">Core lesson</div>
+        <div class="snap-val">The gap isn't skill, it's follow-up effort and honesty about it &mdash; and separately, the offer needs to lead with the one thing the prospect actually wants before pitching the bundle.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Walkthrough -->
+  <div class="section">
+    <div class="sec-eyebrow">Walkthrough</div>
+    <h2 class="sec-title">What was covered</h2>
+
+    <div class="moment">
+      <div class="moment-head">
+        <div class="moment-num">01</div>
+        <div class="moment-title">The numbers: Mark at 44%, Chris at 60&ndash;70%</div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">JJ opened with the data pulled directly from both reps that morning. Mark: 18 calls booked, 8 shows, 6 qualified &mdash; a 44% show rate. JJ's target: 60&ndash;70%+. On paper the qualified-call count isn't alarming for the volume, but the show rate is the real concern. Chris, by contrast, has historically run 60&ndash;70% with essentially no no-shows, and currently has two people verbally committed to close (Friday and the following Monday), even though cash hasn't been collected yet.</div>
+        <div class="quote-block">
+          "It doesn't matter if this is good, if this is 7.5K [in booked calls]&hellip; to me, it's not. So if you can also see the short rate being at 44, I think this can still be improved. I always think above 50%."
+          <div class="quote-attr">JJ Hernandez</div>
+        </div>
+        <div class="moment-p">Allan pushed back usefully, asking whether the problem traces back to a common denominator &mdash; the triage call itself, not the closer. JJ agreed that's exactly where it starts: a weak triage means a weak show rate downstream, regardless of closing skill.</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head">
+        <div class="moment-num">02</div>
+        <div class="moment-title">Effort and honesty, not talent, is the real gap</div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">JJ was direct that this isn't a "Mark isn't good enough" problem. His diagnosis: Mark is defensive and "wishy-washy" when describing why calls didn't convert (calling a DM-sourced lead "not a good fit" or saying they "want to do their own filming"), versus Chris's direct ownership and visible eagerness. Two of Mark's recent no-closes (Andrea, Avi) came from organic DMs &mdash; warm, pre-qualified leads by Allan's own account &mdash; which made Mark's framing read as avoidance rather than an accurate read on lead quality.</div>
+        <div class="quote-block">
+          "If a closer gets defensive about them not being a good fit&hellip; instead of taking accountability for the poor performance&hellip; I think Chris is doing a good job of fighting it. And I think Mark's kind of afraid to tell me, like, hey man, I just don't understand why this isn't working."
+          <div class="quote-attr">JJ Hernandez</div>
+        </div>
+        <div class="moment-p">JJ also flagged specific CRM gaps he found reviewing the pipeline directly: leads marked "unresponsive" or "self-gen rebooked" with no visible dial or message history behind them, and one 4-second "completed" call with no actual contact. He asked for direct GoHighLevel access (Allan confirmed it was already shared to jj@sales.io) so he can verify follow-up activity himself instead of relying on rep self-reporting.</div>
+        <div class="callout"><strong>JJ's stated rule of thumb:</strong> don't make a final skill judgment on a rep before 15 live calls. Mark is only at 6 qualified/8 shown so far &mdash; too early to conclude on ability, but the show-rate and follow-up gaps are real regardless of that threshold.</div>
+        <div class="moment-p">Plan agreed: JJ hops on a 1:1 Zoom with Mark immediately after this call, records it, and shares it with Allan's team &mdash; framed as fact-finding on effort and honesty, not a performance ultimatum.</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head">
+        <div class="moment-num">03</div>
+        <div class="moment-title">The offer problem: leading with the bundle scares off video-only leads</div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">Allan raised a structural issue separate from rep performance: Social Era Media is known for one viral case study (a contractor they made famous), and most inbound DM leads come in wanting exactly that &mdash; video content, not necessarily lead generation. But the current sales process defaults to pitching the full $3,750 bundle (filming + ads) and educating prospects that "views don't equal leads," which risks scaring away people who only wanted the cheaper, simpler thing in the first place.</div>
+        <div class="moment-p">JJ's fix: figure out "the one thing" the prospect actually wants before running discovery at all &mdash; virality/views, or leads/ROI &mdash; and let that determine the entire conversation, rather than pitching the bundle by default and hoping they self-select.</div>
+        <div class="quote-block">
+          "It's a little oxymoronic, right? Because the sales reps want to make as much money as possible, which is why they push for the higher numbers&hellip; but a sale is better than no sale. It is, truthfully, for the company and for them, and for both of them in that case."
+          <div class="quote-attr">JJ Hernandez</div>
+        </div>
+        <div class="moment-p">JJ drew a direct parallel to his time on Iman Gadzhi's team during the Educate rebrand, when they sold three distinct products (sales, copywriting, agency) at once and prospects would stall out simply from not knowing which one they wanted. The fix there was the same: don't start the real sales conversation until you know which bucket someone belongs in, using simple elimination questions ("do you want to be on calls all day, or behind a computer?").</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head">
+        <div class="moment-num">04</div>
+        <div class="moment-title">The "challenger sale" framing as the fix</div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">JJ connected Allan's instinct directly to a named technique: the challenger sale, proactively telling the prospect something that challenges their existing belief (views &ne; leads) before they ask. Done right, it builds authority as a byproduct instead of reading as a sales tactic.</div>
+        <div class="quote-block">
+          "If you ever learn high-level B2B sales, the biggest way to get somebody to want to buy is called a challenger sale. So you challenge their beliefs&hellip; they can break that belief and they automatically get authority as a byproduct."
+          <div class="quote-attr">JJ Hernandez</div>
+        </div>
+        <div class="moment-p">Concrete script agreed on the call: open with a direct qualifying question &mdash; "are you here because you want views and virality, or do you want to get leads?" &mdash; before running the rest of discovery. If it's virality, price and pitch accordingly (the existing downsell offer already covers this). If it's leads, frame the video-only option as insufficient on its own and anchor toward the full bundle. Either way, the prospect hears the real tradeoff stated plainly instead of discovering it later.</div>
+        <div class="callout">Allan's own read, once JJ reframed it: <strong>"I think our current system is almost contrary to the [challenger sale] system we're talking about right now."</strong> Agreed as an immediate process fix, not a long-term project &mdash; JJ offered to loop in Mark and Chris live on the same call to roll it out directly.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Walkthrough, continued</div>
+    <h2 class="sec-title">Rolling it out live with Mark and Chris</h2>
+
+    <div class="moment">
+      <div class="moment-head">
+        <div class="moment-num">05</div>
+        <div class="moment-title">JJ brings both reps in and teaches the fix in real time</div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">Rather than write this up and send it later, JJ pulled Mark Anthony Alcala and Chris Byrd directly onto the call to teach the "one thing" qualifying question himself, live. He opened with the Ashton Hall example as proof that views don't equal revenue: Ashton was getting millions of views while personally making under $70K/month, a deliberately extreme data point to break the team's own belief before asking them to break it for prospects.</div>
+        <div class="quote-block">
+          "The funny thing about that, the thing that they want is a misconception. Just because you get viral and you get views does not mean you're going to get leads&hellip; my whole point here is we need to get clear from the beginning of the conversation right away on what they're there for."
+          <div class="quote-attr">JJ Hernandez</div>
+        </div>
+        <div class="moment-p">He then walked through the exact script: ask, before any discovery starts, whether the prospect is there for virality/views or for lead generation, and let their answer determine the entire rest of the call. Chris tried twice to jump in with feedback mid-explanation; JJ redirected him to a 1:1 call afterward both times, keeping the group session focused and brief rather than letting it turn into open debate in front of the client.</div>
+        <div class="moment-p">Mark's response was immediate and specific, connecting it to a real, recent example of his own: a lead named Andrea had pushed back on his discovery questions the day before, asking why he needed to know her pain point. That's the exact trust gap the new framing is designed to close.</div>
+        <div class="quote-block">
+          "It does seem like sometimes&hellip; Andrea yesterday, she was like, 'oh, you're asking me this because you want to know my pain point.' I was like, no, we just want to understand what's going on so we can actually be of help."
+          <div class="quote-attr">Mark Anthony Alcala</div>
+        </div>
+        <div class="callout">Allan added the framing that made it click for the room: in B2B specifically, prospects want proof they're talking to an expert. Breaking a false belief in the first sixty seconds of a call (views &ne; leads) reads as expertise, not as a sales tactic &mdash; and once that authority is established, the prospect stops fighting the qualifying questions and starts answering them.</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head">
+        <div class="moment-num">06</div>
+        <div class="moment-title">Proof from JJ's other clients: the "one thing principle"</div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">JJ closed the call with two outside case studies to show this isn't theoretical. With a past client selling an AI product (Dan Martell's team), the same shift &mdash; stop trying to resolve everything, find the one thing the prospect is actually there for, sell only that &mdash; took a 19-year-old closer to $50K in commissions in a single month on a $25,000 product. With Daniel Iles, whose offer leaned heavily on virality/guaranteed-views marketing, the fix wasn't the sales script alone but repositioning the offer itself toward strategy for coaches and consultants, since virality-driven leads were structurally the wrong audience for what was being sold.</div>
+        <div class="quote-block">
+          "People will pay whatever they want to resolve the one thing&hellip; the reason why you guys even work with me is to increase your closes. That's the one thing. Did I ask you guys a thousand questions? No. It's like, what's the one thing? Let's make sure we can improve that."
+          <div class="quote-attr">JJ Hernandez</div>
+        </div>
+        <div class="moment-p">Allan named the natural division of labor this creates: marketing can keep leaning into the viral case study to drive volume ("that's what people think they want, so we give them that hook"), while sales owns the clarification the moment the call starts. JJ called this the most productive conversation of the engagement so far &mdash; not because of the data review, but because it reframed the actual lever: it's not purely a talent gap between reps, it's that neither rep had the context or the tool to remove the prospect's confusion before pitching.</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head">
+        <div class="moment-num">07</div>
+        <div class="moment-title">Wrap-up and distribution</div>
+      </div>
+      <div class="moment-body">
+        <div class="moment-p">JJ committed to updating Social Era Media's sales handbook directly based on this conversation, for Allan to review and confirm. He was explicit that the recap goes to Allan only, not to Mark or Chris directly, since their individual performance was discussed candidly earlier in the call.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Action items -->
+  <div class="section">
+    <div class="sec-eyebrow">Next Steps</div>
+    <h2 class="sec-title">Action items</h2>
+    <div class="action-grid">
+      <div class="action-item"><div class="action-owner">JJ</div>1:1 Zoom with Mark immediately after this call, recorded, to assess effort and honesty on the recent no-shows and CRM gaps &mdash; not a final verdict, fact-finding toward the 15-call threshold.</div>
+      <div class="action-item"><div class="action-owner">JJ</div>Review Mark's GoHighLevel activity directly (access already shared) to verify actual follow-up/dial history rather than relying on self-reported numbers.</div>
+      <div class="action-item"><div class="action-owner">JJ</div>Update the Social Era Media sales handbook with the "one thing" qualifying script, for Allan to confirm.</div>
+      <div class="action-item"><div class="action-owner">JJ</div>Take Chris's held-back feedback on the new framework in a 1:1 call, separate from the group rollout.</div>
+      <div class="action-item"><div class="action-owner">Allan</div>Confirm whether Mark has been reverting to personal-phone outreach instead of GoHighLevel, and re-clarify the SOP if so.</div>
+      <div class="action-item"><div class="action-owner">Allan</div>Integrate the video-only downsell path formally into the process so reps stop defaulting to the full bundle pitch for every lead.</div>
+      <div class="action-item"><div class="action-owner">Mark &amp; Chris</div>Start every discovery call with the virality-vs-leads qualifying question before anything else; send JJ recordings for the next review.</div>
+      <div class="action-item"><div class="action-owner">Both</div>Continue tracking Mark toward 15 live calls before making a final retain/replace call, per JJ's stated threshold.</div>
+    </div>
+  </div>
+
+</main>
+
+<div class="doc-footer">
+  <span>Sales.io Consulting &times; Social Era Media</span>
+  <span>Sales Team Review &middot; August 20, 2026</span>
+</div>
