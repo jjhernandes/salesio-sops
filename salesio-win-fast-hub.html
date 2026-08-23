@@ -1,0 +1,239 @@
+
+<title>Win Fast</title>
+<style>
+  :root {
+    --bg: #090908;
+    --surface: #111110;
+    --surface-2: #1a1916;
+    --accent: #e2cfa8;
+    --accent-soft: #f0e4c8;
+    --accent-dim: rgba(226,207,168,.07);
+    --accent-border: rgba(226,207,168,.14);
+    --text: #f0ece4;
+    --text-muted: #8a8475;
+    --text-faint: #3e3b30;
+    --border: #201f18;
+    --mono: 'SF Mono','Fira Code','Consolas',monospace;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f2; --surface: #f0ece0; --surface-2: #e4dece;
+      --accent: #8a6d3a; --accent-soft: #6b5228;
+      --accent-dim: rgba(138,109,58,.07); --accent-border: rgba(138,109,58,.2);
+      --text: #1a1914; --text-muted: #6a6450; --text-faint: #c0b898;
+      --border: #ddd8c8;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#090908;--surface:#111110;--surface-2:#1a1916;
+    --accent:#e2cfa8;--accent-soft:#f0e4c8;
+    --accent-dim:rgba(226,207,168,.07);--accent-border:rgba(226,207,168,.14);
+    --text:#f0ece4;--text-muted:#8a8475;--text-faint:#3e3b30;
+    --border:#201f18;
+  }
+  :root[data-theme="light"] {
+    --bg:#faf8f2;--surface:#f0ece0;--surface-2:#e4dece;
+    --accent:#8a6d3a;--accent-soft:#6b5228;
+    --accent-dim:rgba(138,109,58,.07);--accent-border:rgba(138,109,58,.2);
+    --text:#1a1914;--text-muted:#6a6450;--text-faint:#c0b898;
+    --border:#ddd8c8;
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{font-size:16px;scroll-behavior:smooth;}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    font-size:.9375rem;line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .hero{max-width:920px;margin:0 auto;padding:4rem 2rem 2.5rem;text-align:center;}
+  .eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:1rem;
+  }
+  .hero-title{
+    font-size:clamp(2.25rem,6vw,3.5rem);font-weight:800;
+    letter-spacing:-.03em;line-height:1.05;color:var(--text);margin-bottom:.75rem;
+  }
+  .hero-sub{color:var(--text-muted);font-size:1rem;max-width:52ch;margin:0 auto;line-height:1.65;}
+  .hero-note{
+    margin-top:1.75rem;display:inline-block;padding:.625rem 1.125rem;
+    background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:6px;
+    font-size:.8125rem;color:var(--text-muted);
+  }
+  .hero-note strong{color:var(--accent-soft);}
+
+  main{max-width:920px;margin:0 auto;padding:1rem 2rem 5rem;}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:1rem;}
+
+  .tile{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--surface);}
+  .tile-num{
+    padding:.75rem 1.25rem;background:var(--surface-2);border-bottom:1px solid var(--border);
+    font-family:var(--mono);font-size:.6875rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);
+  }
+
+  /* VIDEO SLOT — replace the <div class="video-slot"> contents with your embed code (YouTube/Wistia/Loom iframe, or an <video> tag). Keep the aspect-ratio wrapper. */
+  .video-slot{
+    aspect-ratio:16/9;background:var(--surface-2);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;
+    border-bottom:1px solid var(--border);position:relative;
+  }
+  .video-slot .play-icon{
+    width:44px;height:44px;border-radius:50%;background:var(--accent);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .video-slot .play-icon svg{width:16px;height:16px;fill:var(--bg);margin-left:2px;}
+  .video-slot .video-placeholder-text{font-family:var(--mono);font-size:.6875rem;color:var(--text-faint);}
+
+  .tile-body{padding:1.25rem;}
+  .tile-name{font-size:1.0625rem;font-weight:700;color:var(--text);letter-spacing:-.01em;margin-bottom:.5rem;}
+  .tile-desc{font-size:.8125rem;color:var(--text-muted);line-height:1.6;margin-bottom:1rem;}
+  .tile-script{
+    background:var(--surface-2);border-left:2px solid var(--accent-border);
+    border-radius:0 4px 4px 0;padding:.75rem .875rem;
+    font-size:.78125rem;color:var(--text);line-height:1.6;font-style:italic;white-space:pre-line;
+  }
+
+  .scope-note{margin-top:3rem;padding-top:1.75rem;border-top:1px solid var(--border);font-size:.75rem;color:var(--text-faint);line-height:1.7;}
+
+  @media(max-width:680px){
+    .hero,main{padding-left:1.25rem;padding-right:1.25rem;}
+    .grid{grid-template-columns:1fr;}
+  }
+
+  .doc-footer{
+    max-width:920px;margin:0 auto;
+    padding:1.5rem 2rem;border-top:1px solid var(--border);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);
+  }
+</style>
+
+<div class="hero">
+  <div class="eyebrow">Sales.io Closer Training</div>
+  <h1 class="hero-title">Win Fast</h1>
+  <p class="hero-sub">Seven ways to put real money on the board this week. Watch the video, run the play, don't overthink it.</p>
+  <div class="hero-note">Structure adapted from BlackBelt's <strong>"$10K in 10 Minutes"</strong> workbook set &mdash; same seven mechanics, built for closers instead of coaches.</div>
+</div>
+
+<main>
+
+  <div class="grid">
+
+    <!-- 1 -->
+    <div class="tile">
+      <div class="tile-num">01 &middot; The 9 Word Email</div>
+      <div class="video-slot">
+        <div class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        <div class="video-placeholder-text">VIDEO GOES HERE</div>
+      </div>
+      <div class="tile-body">
+        <div class="tile-name">Stale Pipeline Revival</div>
+        <div class="tile-desc">Not a list blast. A personal reopen on your own dead deals, one line each, same day.</div>
+        <div class="tile-script">Subject: [First Name]
+Still figuring out [their stated problem]?
+[Your name]</div>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="tile">
+      <div class="tile-num">02 &middot; Price Rise</div>
+      <div class="video-slot">
+        <div class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        <div class="video-placeholder-text">VIDEO GOES HERE</div>
+      </div>
+      <div class="tile-body">
+        <div class="tile-name">The Deadline Push</div>
+        <div class="tile-desc">You don't set the price, but a real upcoming price change is a legit close-now trigger on stalled deals.</div>
+        <div class="tile-script">"Hey [Name], heads up, the price moves to [X] on [date]. Wanted you to have first shot before that. Want to lock it in this week?"</div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="tile">
+      <div class="tile-num">03 &middot; Pop Up</div>
+      <div class="video-slot">
+        <div class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        <div class="video-placeholder-text">VIDEO GOES HERE</div>
+      </div>
+      <div class="tile-body">
+        <div class="tile-name">The Surprise Slot</div>
+        <div class="tile-desc">Real availability, not fake urgency. A genuine opening today, offered to one stalled prospect.</div>
+        <div class="tile-script">"Hey [Name], had a cancellation, got one slot open today at [time] if you want it."</div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="tile">
+      <div class="tile-num">04 &middot; 50 Chat Starts</div>
+      <div class="video-slot">
+        <div class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        <div class="video-placeholder-text">VIDEO GOES HERE</div>
+      </div>
+      <div class="tile-body">
+        <div class="tile-name">50 Touches</div>
+        <div class="tile-desc">Pick 50 stalled or old leads from your own pipeline. One personal line each, same day. Not a pitch, a check-in.</div>
+        <div class="tile-script">"Hey [Name], random thought, still on your radar to fix [X]?"</div>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="tile">
+      <div class="tile-num">05 &middot; Guest to Client</div>
+      <div class="video-slot">
+        <div class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        <div class="video-placeholder-text">VIDEO GOES HERE</div>
+      </div>
+      <div class="tile-body">
+        <div class="tile-name">The Assist Call</div>
+        <div class="tile-desc">Bring a peer or coach onto a stalled prospect's next call as a second voice. Breaks stuck deals loose.</div>
+        <div class="tile-script">"[Name], I want to bring my coach on for 10 minutes next call, he's helped people in your exact spot."</div>
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="tile">
+      <div class="tile-num">06 &middot; Looked, Didn't Buy</div>
+      <div class="video-slot">
+        <div class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        <div class="video-placeholder-text">VIDEO GOES HERE</div>
+      </div>
+      <div class="tile-body">
+        <div class="tile-name">The Almost List</div>
+        <div class="tile-desc">Every prospect who had a real call and didn't close goes on one list. One message, 2-4 weeks later.</div>
+        <div class="tile-script">"Hey [Name], has [their stated problem] gotten better or worse since we talked?"</div>
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="tile">
+      <div class="tile-num">07 &middot; Would You Like To Join Us</div>
+      <div class="video-slot">
+        <div class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        <div class="video-placeholder-text">VIDEO GOES HERE</div>
+      </div>
+      <div class="tile-body">
+        <div class="tile-name">The Referral Ask</div>
+        <div class="tile-desc">For anyone who's seen real results working with you, a plain, low-pressure invite in.</div>
+        <div class="tile-script">"Hey [Name], you've seen how this actually works for me. Would you want in on it too?"</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="scope-note">
+    <strong>To fill in a video:</strong> each tile has a <code>.video-slot</code> div marked "VIDEO GOES HERE." Replace its contents with your embed (YouTube/Wistia/Loom iframe, or an HTML5 <code>&lt;video&gt;</code> tag) &mdash; the 16:9 aspect-ratio wrapper is already sized correctly, no layout changes needed. Full script/prompt for each tactic is the italic block below its video, ready to reference on camera.
+  </div>
+
+</main>
+
+<div class="doc-footer">
+  <span>Sales.io &middot; Win Fast</span>
+  <span>Adapted from BlackBelt &quot;$10K in 10 Minutes&quot; &middot; compiled Aug 2026</span>
+</div>
