@@ -1,0 +1,285 @@
+
+<title>Would You Like To Join Us</title>
+<style>
+  :root {
+    --bg: #090908;
+    --surface: #111110;
+    --surface-2: #1a1916;
+    --accent: #e2cfa8;
+    --accent-soft: #f0e4c8;
+    --accent-dim: rgba(226,207,168,.07);
+    --accent-border: rgba(226,207,168,.14);
+    --text: #f0ece4;
+    --text-muted: #8a8475;
+    --text-faint: #3e3b30;
+    --border: #201f18;
+    --mono: 'SF Mono','Fira Code','Consolas',monospace;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f2; --surface: #f0ece0; --surface-2: #e4dece;
+      --accent: #8a6d3a; --accent-soft: #6b5228;
+      --accent-dim: rgba(138,109,58,.07); --accent-border: rgba(138,109,58,.2);
+      --text: #1a1914; --text-muted: #6a6450; --text-faint: #c0b898;
+      --border: #ddd8c8;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#090908;--surface:#111110;--surface-2:#1a1916;
+    --accent:#e2cfa8;--accent-soft:#f0e4c8;
+    --accent-dim:rgba(226,207,168,.07);--accent-border:rgba(226,207,168,.14);
+    --text:#f0ece4;--text-muted:#8a8475;--text-faint:#3e3b30;
+    --border:#201f18;
+  }
+  :root[data-theme="light"] {
+    --bg:#faf8f2;--surface:#f0ece0;--surface-2:#e4dece;
+    --accent:#8a6d3a;--accent-soft:#6b5228;
+    --accent-dim:rgba(138,109,58,.07);--accent-border:rgba(138,109,58,.2);
+    --text:#1a1914;--text-muted:#6a6450;--text-faint:#c0b898;
+    --border:#ddd8c8;
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{font-size:16px;scroll-behavior:smooth;}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    font-size:.9375rem;line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .doc-header{
+    max-width:800px;margin:0 auto;
+    padding:3rem 2rem 2.5rem;
+    border-bottom:1px solid var(--border);
+  }
+  .eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:.875rem;
+  }
+  .doc-title{
+    font-size:1.75rem;font-weight:700;
+    letter-spacing:-.03em;line-height:1.2;
+    color:var(--text);margin-bottom:.5rem;
+  }
+  .doc-sub{color:var(--text-muted);font-size:.9375rem;max-width:64ch;}
+  .meta-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.125rem;}
+  .meta-chip{
+    display:flex;align-items:center;gap:.4rem;
+    font-family:var(--mono);font-size:.6875rem;
+    color:var(--text-muted);background:var(--surface);
+    border:1px solid var(--border);border-radius:2px;padding:.25rem .625rem;
+  }
+  .meta-chip-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+
+  main{max-width:800px;margin:0 auto;padding:0 2rem 5rem;}
+
+  .group-label{
+    font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--text-faint);margin:3rem 0 1rem;padding-top:2.5rem;border-top:1px solid var(--border);
+  }
+  .group-label:first-of-type{margin-top:2.5rem;padding-top:0;border-top:none;}
+
+  .variant{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:1rem;}
+  .variant-head{
+    display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+    padding:.875rem 1.25rem;background:var(--surface-2);border-bottom:1px solid var(--border);
+  }
+  .variant-name{font-size:1rem;font-weight:700;color:var(--text);letter-spacing:-.01em;}
+  .variant-num{font-family:var(--mono);font-size:.6875rem;color:var(--accent);opacity:.7;}
+  .variant-body{padding:1.25rem;background:var(--surface);}
+  .variant-copy{
+    font-size:.875rem;color:var(--text-muted);line-height:1.7;white-space:pre-line;
+    padding-bottom:1rem;margin-bottom:1rem;border-bottom:1px dashed var(--border);
+  }
+  .variant-when{
+    display:flex;gap:.625rem;align-items:flex-start;
+  }
+  .when-label{
+    font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent);flex-shrink:0;margin-top:.15rem;min-width:5.5rem;
+  }
+  .when-text{font-size:.8125rem;color:var(--text);line-height:1.6;}
+
+  @media(max-width:600px){
+    .doc-header,main{padding-left:1.25rem;padding-right:1.25rem;}
+    .doc-title{font-size:1.4rem;}
+  }
+
+  .doc-footer{
+    max-width:800px;margin:0 auto;
+    padding:1.5rem 2rem;border-top:1px solid var(--border);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);
+  }
+</style>
+
+<div class="doc-header">
+  <div class="eyebrow">Sales.io &middot; Would You Like To Join Us (Tactic 07)</div>
+  <h1 class="doc-title">10 Variations, One Per Situation</h1>
+  <p class="doc-sub">Each one solves a different problem: how warm the lead is, whether you have real proof to lean on, whether you're filling a specific number of spots or just opening a door. Pick by the "When to use" line, not by which one sounds best.</p>
+  <div class="meta-row">
+    <div class="meta-chip"><div class="meta-chip-dot"></div>10 variations</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Low-pressure &rarr; high-exclusivity</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>All sent as JJ</div>
+  </div>
+</div>
+
+<main>
+
+  <div class="group-label">Low Commitment &mdash; Cold or Barely-Warm Leads</div>
+
+  <div class="variant">
+    <div class="variant-head"><div class="variant-name">Group</div><div class="variant-num">01</div></div>
+    <div class="variant-body">
+      <div class="variant-copy">Hey [First Name],
+
+I run a free community for reps who want to close more without sounding like a closer. Might be useful for you.
+
+Check it out here: [link]
+
+JJ</div>
+      <div class="variant-when"><div class="when-label">Use when</div><div class="when-text">The lead is cold or you're not sure how warm they are. No real ask, just a door into the ecosystem. This is a first touch, not a close attempt.</div></div>
+    </div>
+  </div>
+
+  <div class="variant">
+    <div class="variant-head"><div class="variant-name">Brainstorm</div><div class="variant-num">02</div></div>
+    <div class="variant-body">
+      <div class="variant-copy">Hey [First Name],
+
+I'm getting a few reps together to brainstorm landing higher-ticket roles.
+
+Would you like to join us?
+
+JJ</div>
+      <div class="variant-when"><div class="when-label">Use when</div><div class="when-text">Someone's engaged with your content but never taken action. "Brainstorm" feels like a peer session, not a sales call, so it's an easy yes for someone who's still on the fence about you personally.</div></div>
+    </div>
+  </div>
+
+  <div class="group-label">Event-Based &mdash; A Real Date on the Calendar</div>
+
+  <div class="variant">
+    <div class="variant-head"><div class="variant-name">Meetup</div><div class="variant-num">03</div></div>
+    <div class="variant-body">
+      <div class="variant-copy">Hey [First Name],
+
+I'm running an event for reps closing $10K+/month in [location] in [month].
+
+Would you like to join us?
+
+JJ</div>
+      <div class="variant-when"><div class="when-label">Use when</div><div class="when-text">You actually have an in-person event booked (this maps directly to the quarterly Orlando masterminds). Only send to people who genuinely fit the stated tier ($10K+/month) &mdash; the specificity is what makes it credible, don't loosen it to fill seats.</div></div>
+    </div>
+  </div>
+
+  <div class="variant">
+    <div class="variant-head"><div class="variant-name">8 Week Accelerator</div><div class="variant-num">04</div></div>
+    <div class="variant-body">
+      <div class="variant-copy">Hey [First Name],
+
+We're starting a new 8-week accelerator to help reps land their next role fast.
+
+Would you like to join us?
+
+JJ</div>
+      <div class="variant-when"><div class="when-label">Use when</div><div class="when-text">You're promoting a specific named, structured program with a defined length. Good for cold-to-warm conversion because the description does the selling, no exclusivity language needed here.</div></div>
+    </div>
+  </div>
+
+  <div class="variant">
+    <div class="variant-head"><div class="variant-name">Pilot Program</div><div class="variant-num">05</div></div>
+    <div class="variant-body">
+      <div class="variant-copy">Hey [First Name],
+
+I'm starting a pilot next month to help reps break into higher-ticket roles faster. Still working out the exact format.
+
+Interested?
+
+JJ</div>
+      <div class="variant-when"><div class="when-label">Use when</div><div class="when-text">You're launching something genuinely new and untested. The "still working it out" framing lowers the stakes for both of you &mdash; good for early-adopter types who like being first, bad for anyone who needs certainty before committing.</div></div>
+    </div>
+  </div>
+
+  <div class="group-label">Matched Outcome &mdash; Specific Spots, Specific Result</div>
+
+  <div class="variant">
+    <div class="variant-head"><div class="variant-name">Working Together (Spots)</div><div class="variant-num">06</div></div>
+    <div class="variant-body">
+      <div class="variant-copy">Hey [First Name],
+
+I'm looking for 5 reps who want to break into consistent $15K+ months.
+
+Sound like you?
+
+JJ</div>
+      <div class="variant-when"><div class="when-label">Use when</div><div class="when-text">You want to fill a small, specific number of spots and want the recipient to self-identify with the outcome, not with you. Only use a real number, if you say 5 and take 12, the next one you send this to won't believe the next scarcity claim.</div></div>
+    </div>
+  </div>
+
+  <div class="variant">
+    <div class="variant-head"><div class="variant-name">Working Together (Direct)</div><div class="variant-num">07</div></div>
+    <div class="variant-body">
+      <div class="variant-copy">Hey [First Name],
+
+Want to work with me to go from where you're at to consistent $10K+ months?
+
+JJ</div>
+      <div class="variant-when"><div class="when-label">Use when</div><div class="when-text">The simplest, most direct version of all ten. Best as a first-touch DM to someone already warm and qualified, not a cold list. No scarcity, no framing, just the ask.</div></div>
+    </div>
+  </div>
+
+  <div class="group-label">Proof-Led &mdash; You Have a Real Result to Point To</div>
+
+  <div class="variant">
+    <div class="variant-head"><div class="variant-name">Case Study</div><div class="variant-num">08</div></div>
+    <div class="variant-body">
+      <div class="variant-copy">Hey [First Name],
+
+Just got a message from [Name] who went from [before] to [after] in [timeframe].
+
+Think you could get a similar result?
+
+JJ</div>
+      <div class="variant-when"><div class="when-label">Use when</div><div class="when-text">You have a genuine, recent, specific win to reference &mdash; never a vague or old one. Strongest option for skeptical or previously-burned leads, since it leads with proof instead of a promise. Never fabricate or round up the numbers.</div></div>
+    </div>
+  </div>
+
+  <div class="group-label">High Exclusivity &mdash; Your Best People Only</div>
+
+  <div class="variant">
+    <div class="variant-head"><div class="variant-name">Private Group</div><div class="variant-num">09</div></div>
+    <div class="variant-body">
+      <div class="variant-copy">Hey [First Name],
+
+I'm putting together a group for [year] where I'm working with a handful of top closers privately.
+
+Would you like to work with me?
+
+JJ</div>
+      <div class="variant-when"><div class="when-label">Use when</div><div class="when-text">Recruiting your strongest, most successful students or alumni for something new and small. This is the most exclusive-sounding of the ten, only send it to people who'd genuinely recognize themselves as "top closers" &mdash; sent broadly, it reads as flattery, not truth.</div></div>
+    </div>
+  </div>
+
+  <div class="variant">
+    <div class="variant-head"><div class="variant-name">Advanced Only</div><div class="variant-num">10</div></div>
+    <div class="variant-body">
+      <div class="variant-copy">Hey [First Name],
+
+$10K+/month closers only &mdash; I'm running a class for our top students to go from $10K to $20K+ months over the next 12-24 months.
+
+Would you like to join?
+
+JJ</div>
+      <div class="variant-when"><div class="when-label">Use when</div><div class="when-text">Targeting existing successful students or alumni for an advanced upsell, not new/cold leads. The gate in the subject line ("$10K+/month closers only") does the qualifying before they even open it &mdash; anyone who doesn't fit self-selects out immediately.</div></div>
+    </div>
+  </div>
+
+</main>
+
+<div class="doc-footer">
+  <span>Sales.io &middot; Would You Like To Join Us</span>
+  <span>Adapted from BlackBelt &quot;$10K in 10 Minutes&quot; &middot; compiled Aug 2026</span>
+</div>
