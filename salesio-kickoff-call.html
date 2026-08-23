@@ -1,292 +1,304 @@
-
-<title>The Sales.io Kickoff Call</title>
+<!DOCTYPE html>
+<html lang="en" data-theme="night">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kickoff Call</title>
 <style>
-  :root {
-    --bg: #090908;
-    --surface: #111110;
-    --surface-2: #1a1916;
-    --accent: #e2cfa8;
-    --accent-soft: #f0e4c8;
-    --accent-dim: rgba(226,207,168,.07);
-    --accent-border: rgba(226,207,168,.14);
-    --text: #f0ece4;
-    --text-muted: #8a8475;
-    --text-faint: #3e3b30;
-    --border: #201f18;
-    --mono: 'SF Mono','Fira Code','Consolas',monospace;
-  }
-  @media (prefers-color-scheme: light) {
-    :root {
-      --bg: #faf8f2; --surface: #f0ece0; --surface-2: #e4dece;
-      --accent: #8a6d3a; --accent-soft: #6b5228;
-      --accent-dim: rgba(138,109,58,.07); --accent-border: rgba(138,109,58,.2);
-      --text: #1a1914; --text-muted: #6a6450; --text-faint: #c0b898;
-      --border: #ddd8c8;
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg:#090908;--surface:#111110;--surface-2:#1a1916;
-    --accent:#e2cfa8;--accent-soft:#f0e4c8;
-    --accent-dim:rgba(226,207,168,.07);--accent-border:rgba(226,207,168,.14);
-    --text:#f0ece4;--text-muted:#8a8475;--text-faint:#3e3b30;
-    --border:#201f18;
-  }
-  :root[data-theme="light"] {
-    --bg:#faf8f2;--surface:#f0ece0;--surface-2:#e4dece;
-    --accent:#8a6d3a;--accent-soft:#6b5228;
-    --accent-dim:rgba(138,109,58,.07);--accent-border:rgba(138,109,58,.2);
-    --text:#1a1914;--text-muted:#6a6450;--text-faint:#c0b898;
-    --border:#ddd8c8;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
 
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-  html{font-size:16px;scroll-behavior:smooth;}
-  body{
-    background:var(--bg);color:var(--text);
-    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
-    font-size:.9375rem;line-height:1.7;
-    -webkit-font-smoothing:antialiased;
-  }
+:root,[data-theme="day"]{
+  --bg:           #EAE4D9;
+  --card-bg:      #FFFFFF;
+  --card-bdr:     #E2DDD3;
+  --card-bdr-hv:  rgba(0,0,0,.15);
+  --card-shadow-hv:rgba(0,0,0,.10);
+  --text-primary: #0A0A08;
+  --text-secondary:#444;
+  --text-muted:   #AAA49A;
+  --text-faint:   #C8C2B8;
+  --eyebrow-c:    #A09070;
+  --sec-label:    #A09070;
+  --sec-pill-bg:  #E2DDD3;
+  --sec-pill-c:   #A09070;
+  --sec-bdr:      #D5CFBF;
+  --sec-desc:     #AAA;
+  --accent-fill:  rgba(160,144,112,.09);
+  --accent-bdr:   rgba(160,144,112,.28);
+  --tag-bg:       #F0EBE3;
+  --tag-c:        #A09070;
+  --glow-rgb:     160,144,112;
+  --toggle-track: #1a1a18;
+  --toggle-bg:    #1a1a18;
+}
 
-  .doc-header{
-    max-width:900px;margin:0 auto;
-    padding:3rem 2rem 2.5rem;
-    border-bottom:1px solid var(--border);
-  }
-  .eyebrow{
-    font-family:var(--mono);font-size:.6rem;
-    letter-spacing:.14em;text-transform:uppercase;
-    color:var(--accent);margin-bottom:.875rem;
-  }
-  .doc-title{
-    font-size:1.9rem;font-weight:700;
-    letter-spacing:-.03em;line-height:1.2;
-    color:var(--text);margin-bottom:.5rem;
-  }
-  .doc-sub{color:var(--text-muted);font-size:.9375rem;max-width:66ch;}
-  .meta-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.125rem;}
-  .meta-chip{
-    display:flex;align-items:center;gap:.4rem;
-    font-family:var(--mono);font-size:.6875rem;
-    color:var(--text-muted);background:var(--surface);
-    border:1px solid var(--border);border-radius:2px;padding:.25rem .625rem;
-  }
-  .meta-chip-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+[data-theme="night"]{
+  --bg:           #000000;
+  --card-bg:      #0a0a0a;
+  --card-bdr:     #161616;
+  --card-bdr-hv:  #1e3a24;
+  --card-shadow-hv:rgba(74,222,128,.06);
+  --text-primary: #FFFFFF;
+  --text-secondary:#ccc;
+  --text-muted:   #666;
+  --text-faint:   #2a2a2a;
+  --eyebrow-c:    #4ade80;
+  --sec-label:    #4ade80;
+  --sec-pill-bg:  #0d2b1a;
+  --sec-pill-c:   #4ade80;
+  --sec-bdr:      #111;
+  --sec-desc:     #555;
+  --accent-fill:  rgba(74,222,128,.07);
+  --accent-bdr:   rgba(74,222,128,.28);
+  --tag-bg:       #0d0d0d;
+  --tag-c:        #4ade80;
+  --glow-rgb:     74,222,128;
+  --toggle-track: #0d2b1a;
+  --toggle-bg:    #0a0a0a;
+}
 
-  main{max-width:900px;margin:0 auto;padding:0 2rem 5rem;}
+body{
+  background:var(--bg);color:var(--text-primary);
+  font-family:'Inter',sans-serif;font-size:15px;line-height:1.65;
+  min-height:100vh;transition:background .3s,color .3s;
+}
 
-  .section{padding:2.75rem 0 2rem;border-bottom:1px solid var(--border);}
-  .section:last-child{border-bottom:none;}
-  .sec-eyebrow{
-    font-family:var(--mono);font-size:.6rem;
-    letter-spacing:.12em;text-transform:uppercase;
-    color:var(--text-faint);margin-bottom:.75rem;
-  }
-  .sec-title{
-    font-size:1.3125rem;font-weight:650;
-    color:var(--text);letter-spacing:-.02em;margin-bottom:.375rem;
-  }
-  .sec-note{font-size:.8125rem;color:var(--text-muted);margin-bottom:1.5rem;max-width:70ch;}
+.main{max-width:980px;margin:0 auto;padding:72px 32px 140px;position:relative;z-index:1;}
 
-  .panel{border:1px solid var(--border);border-radius:10px;background:var(--surface);padding:1.75rem;}
+/* ── Hero ── */
+.hero{margin-bottom:76px;text-align:center;}
+.hero-eyebrow{font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--eyebrow-c);margin-bottom:20px;transition:color .3s;}
+.hero-title{font-size:64px;font-weight:900;line-height:.97;letter-spacing:-2.5px;color:var(--text-primary);margin-bottom:20px;transition:color .3s;}
+.hero-quote{font-size:15px;color:var(--text-muted);font-style:italic;margin:0 auto 32px;line-height:1.6;max-width:520px;padding-left:16px;border-left:2px solid var(--sec-bdr);text-align:left;transition:color .3s,border-color .3s;}
+.hero-stats{display:flex;gap:32px;justify-content:center;}
+.stat-num{font-size:26px;font-weight:900;color:var(--text-primary);letter-spacing:-1px;line-height:1;transition:color .3s;}
+.stat-lbl{font-size:10px;color:var(--text-muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:3px;transition:color .3s;}
+.stat-div{width:1px;background:var(--sec-bdr);align-self:stretch;margin:4px 0;transition:background .3s;}
+.stat{transition:transform .2s;cursor:default;}
+.stat:hover{transform:translateY(-2px);}
+.stat:hover .stat-num{text-shadow:0 0 20px rgba(var(--glow-rgb),.65);}
 
-  /* ── Venn: The Closer Model ── */
-  .venn-wrap{display:flex;gap:2.5rem;align-items:center;flex-wrap:wrap;}
-  .venn{position:relative;width:320px;height:280px;flex-shrink:0;}
-  .venn-circle{
-    position:absolute;width:190px;height:190px;border-radius:50%;
-    display:flex;align-items:center;justify-content:center;text-align:center;
-    mix-blend-mode:screen;background:var(--accent-dim);border:1px solid var(--accent-border);
-    font-size:.8125rem;font-weight:650;color:var(--accent-soft);padding:1rem;
-  }
-  @media (prefers-color-scheme: light){.venn-circle{mix-blend-mode:multiply;}}
-  :root[data-theme="light"] .venn-circle{mix-blend-mode:multiply;}
-  .venn-circle span{display:block;font-family:var(--mono);font-size:.6rem;font-weight:400;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase;margin-top:.35rem;}
-  .venn-c1{top:0;left:65px;}
-  .venn-c2{top:95px;left:0;}
-  .venn-c3{top:95px;left:130px;}
-  .venn-list{flex:1;min-width:220px;}
-  .venn-list div{font-size:.8125rem;color:var(--text-muted);padding:.5rem 0;border-bottom:1px solid var(--border);}
-  .venn-list div:last-child{border-bottom:none;}
-  .venn-list strong{color:var(--text);font-weight:600;}
+.hero-title span.shine{
+  background:linear-gradient(100deg,var(--text-primary) 30%,rgba(var(--glow-rgb),1) 50%,var(--text-primary) 70%);
+  background-size:250% auto;background-position:0% 50%;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  animation:shineText 6.5s ease-in-out .3s infinite;
+}
+@keyframes shineText{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
 
-  /* ── Future Focuser ── */
-  .focuser{display:flex;gap:2rem;flex-wrap:wrap;align-items:stretch;}
-  .curve-box{flex:1;min-width:280px;}
-  .curve-box svg{width:100%;height:auto;display:block;}
-  .focuser-table{width:180px;flex-shrink:0;display:flex;flex-direction:column;border:1px solid var(--border);border-radius:6px;overflow:hidden;}
-  .focuser-row{flex:1;display:flex;border-bottom:1px solid var(--border);}
-  .focuser-row:last-child{border-bottom:none;}
-  .focuser-lbl{
-    writing-mode:vertical-rl;transform:rotate(180deg);
-    font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
-    color:var(--accent);padding:.6rem .4rem;background:var(--surface-2);flex-shrink:0;
-  }
-  .focuser-fill{flex:1;padding:.6rem .75rem;font-size:.75rem;color:var(--text-faint);font-style:italic;}
+/* ── Section header ── */
+.sec-block{margin-bottom:56px;}
+.sec-header{position:relative;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--sec-bdr);transition:border-color .3s;}
+.sec-meta{display:flex;align-items:center;gap:10px;margin-bottom:11px;}
+.sec-label{font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--sec-label);transition:color .3s;position:relative;padding-left:14px;}
+.sec-label::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:6px;height:6px;border-radius:50%;background:rgba(var(--glow-rgb),1);box-shadow:0 0 8px 1px rgba(var(--glow-rgb),.9);animation:dotPulse 2s ease-in-out infinite;}
+@keyframes dotPulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.sec-pill{font-size:10px;font-weight:700;background:var(--sec-pill-bg);color:var(--sec-pill-c);border-radius:4px;padding:2px 8px;letter-spacing:.04em;transition:background .3s,color .3s;}
+.sec-header h2{font-size:23px;font-weight:900;letter-spacing:-.4px;line-height:1.1;color:var(--text-primary);margin-bottom:6px;transition:color .3s;}
+.sec-desc{font-size:12.5px;color:var(--sec-desc);line-height:1.6;max-width:66ch;transition:color .3s;}
 
-  /* ── Five Ones pyramid ── */
-  .pyramid-wrap{display:flex;flex-direction:column;align-items:center;gap:2px;max-width:520px;margin:0 auto;}
-  .pyr-tier{
-    display:flex;align-items:center;justify-content:center;text-align:center;
-    background:var(--accent-dim);border:1px solid var(--accent-border);
-    color:var(--accent-soft);font-size:.75rem;font-weight:600;padding:.65rem 1rem;
-    border-radius:4px;
-  }
-  .pyr-tier span{display:block;font-family:var(--mono);font-weight:400;font-size:.65rem;color:var(--text-muted);margin-top:.2rem;text-transform:none;}
-  .pyr-1{width:34%;}
-  .pyr-2{width:50%;}
-  .pyr-3{width:66%;}
-  .pyr-4{width:82%;}
-  .pyr-5{width:100%;}
+/* ── Glow card wrapper ── */
+.wcard{
+  position:relative;background:var(--card-bg);border:1px solid var(--card-bdr);
+  border-radius:14px;overflow:hidden;padding:28px;
+  opacity:0;transform:translateY(16px);
+  transition:opacity .45s,transform .45s,border-color .15s,box-shadow .2s,background .3s;
+}
+.wcard.visible{opacity:1;transform:translateY(0);}
+.wcard:hover{border-color:var(--card-bdr-hv);box-shadow:0 8px 32px var(--card-shadow-hv),0 0 28px rgba(var(--glow-rgb),.16);}
+.card-glow{position:absolute;inset:0;border-radius:14px;background:radial-gradient(280px circle at var(--cx,50%) var(--cy,0%),rgba(var(--glow-rgb),.30) 0%,transparent 70%);pointer-events:none;opacity:0;transition:opacity .3s;}
+.wcard:hover .card-glow{opacity:1;}
 
-  /* ── First Steps curve ── */
-  .steps-note{display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap;}
-  .steps-note div{flex:1;min-width:200px;border-left:2px solid var(--accent-border);padding-left:.85rem;}
-  .steps-note strong{display:block;color:var(--text);font-size:.8125rem;margin-bottom:.2rem;}
-  .steps-note p{font-size:.75rem;color:var(--text-muted);}
+/* ── Venn ── */
+.venn-wrap{display:flex;gap:2.5rem;align-items:center;flex-wrap:wrap;}
+.venn{position:relative;width:300px;height:270px;flex-shrink:0;}
+.venn-circle{position:absolute;width:180px;height:180px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;mix-blend-mode:screen;background:var(--accent-fill);border:1px solid var(--accent-bdr);font-size:13px;font-weight:700;color:var(--text-primary);padding:1rem;transition:background .3s,border-color .3s,color .3s;}
+[data-theme="day"] .venn-circle{mix-blend-mode:multiply;}
+.venn-circle span{display:block;font-size:10px;font-weight:400;color:var(--text-muted);letter-spacing:.04em;margin-top:.35rem;transition:color .3s;}
+.venn-c1{top:0;left:60px;}
+.venn-c2{top:90px;left:0;}
+.venn-c3{top:90px;left:120px;}
+.venn-list{flex:1;min-width:220px;}
+.venn-list div{font-size:13px;color:var(--text-muted);padding:.6rem 0;border-bottom:1px solid var(--sec-bdr);transition:color .3s,border-color .3s;}
+.venn-list div:last-child{border-bottom:none;}
+.venn-list strong{color:var(--text-primary);font-weight:700;transition:color .3s;}
 
-  /* ── Revenue Ladder ── */
-  .ladder-wrap{display:flex;gap:2rem;align-items:flex-end;flex-wrap:wrap;}
-  .ladder-list{flex-shrink:0;display:flex;flex-direction:column-reverse;gap:.3rem;width:220px;}
-  .ladder-row{display:flex;align-items:center;gap:.6rem;font-size:.75rem;}
-  .ladder-tag{
-    width:64px;flex-shrink:0;font-family:var(--mono);font-weight:700;color:var(--bg);
-    background:var(--accent);border-radius:3px;padding:.2rem 0;text-align:center;font-size:.7rem;
-  }
-  .ladder-name{color:var(--text-muted);}
-  .ladder-chart{flex:1;min-width:260px;}
-  .ladder-chart svg{width:100%;height:auto;display:block;}
-  .ladder-last{
-    margin-top:.75rem;font-family:var(--mono);font-size:.7rem;color:var(--text-faint);
-    border:1px dashed var(--border);border-radius:4px;padding:.5rem .75rem;
-  }
+/* ── Future Focuser ── */
+.focuser{display:flex;gap:2rem;flex-wrap:wrap;align-items:stretch;}
+.curve-box{flex:1;min-width:280px;}
+.curve-box svg{width:100%;height:auto;display:block;}
+.focuser-table{width:180px;flex-shrink:0;display:flex;flex-direction:column;border:1px solid var(--card-bdr);border-radius:6px;overflow:hidden;transition:border-color .3s;}
+.focuser-row{flex:1;display:flex;border-bottom:1px solid var(--card-bdr);transition:border-color .3s;}
+.focuser-row:last-child{border-bottom:none;}
+.focuser-lbl{writing-mode:vertical-rl;transform:rotate(180deg);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--sec-label);padding:.6rem .4rem;background:var(--tag-bg);flex-shrink:0;transition:color .3s,background .3s;}
+.focuser-fill{flex:1;padding:.6rem .75rem;font-size:12px;color:var(--text-faint);font-style:italic;transition:color .3s;}
 
-  /* ── Promise ── */
-  .promise-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
-  .promise-col h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:.9rem;}
-  .promise-col ul{list-style:none;display:flex;flex-direction:column;gap:.65rem;}
-  .promise-col li{font-size:.8125rem;color:var(--text-muted);padding-left:1.1rem;position:relative;line-height:1.6;}
-  .promise-col li::before{content:'—';position:absolute;left:0;color:var(--accent-border);}
-  .promise-sign{margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;gap:2rem;flex-wrap:wrap;}
-  .sign-line{flex:1;min-width:200px;}
-  .sign-line .line{border-bottom:1px solid var(--border);height:2rem;}
-  .sign-line label{font-family:var(--mono);font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-faint);margin-top:.35rem;display:block;}
-  @media(max-width:640px){.promise-grid{grid-template-columns:1fr;}}
+/* ── Five Ones pyramid ── */
+.pyramid-wrap{display:flex;flex-direction:column;align-items:center;gap:3px;max-width:520px;margin:0 auto;}
+.pyr-tier{display:flex;align-items:center;justify-content:center;text-align:center;background:var(--accent-fill);border:1px solid var(--accent-bdr);color:var(--text-primary);font-size:12.5px;font-weight:700;padding:.7rem 1rem;border-radius:6px;transition:background .3s,border-color .3s,color .3s;}
+.pyr-tier span{display:block;font-weight:400;font-size:10.5px;color:var(--text-muted);margin-top:.25rem;transition:color .3s;}
+.pyr-1{width:34%;}.pyr-2{width:50%;}.pyr-3{width:66%;}.pyr-4{width:82%;}.pyr-5{width:100%;}
 
-  /* ── System grid ── */
-  .system-grid{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--border);border-radius:8px;overflow:hidden;position:relative;}
-  .sys-head{background:var(--surface-2);text-align:center;font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);padding:.6rem 0;border-bottom:1px solid var(--border);}
-  .sys-cell{
-    border-right:1px solid var(--border);border-bottom:1px solid var(--border);
-    padding:1.5rem 1rem;min-height:110px;display:flex;align-items:center;justify-content:center;text-align:center;
-    font-size:.8125rem;font-weight:600;color:var(--text);position:relative;
-  }
-  .sys-cell span{display:block;font-size:.7rem;color:var(--text-muted);font-weight:400;margin-top:.3rem;}
-  .system-grid .sys-cell:nth-child(3n){border-right:none;}
-  .system-grid .sys-head:nth-child(3n){border-right:none;}
+/* ── First Steps ── */
+.steps-note{display:flex;gap:1.5rem;margin-top:1.1rem;flex-wrap:wrap;}
+.steps-note div{flex:1;min-width:200px;border-left:2px solid var(--accent-bdr);padding-left:.85rem;transition:border-color .3s;}
+.steps-note strong{display:block;color:var(--text-primary);font-size:13px;margin-bottom:.2rem;transition:color .3s;}
+.steps-note p{font-size:12px;color:var(--text-muted);transition:color .3s;}
 
-  .pase-wheel{
-    position:relative;width:150px;height:150px;border-radius:50%;
-    border:1px solid var(--accent-border);background:var(--accent-dim);
-    display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;
-  }
-  .pase-wheel::before,.pase-wheel::after{content:'';position:absolute;background:var(--accent-border);}
-  .pase-wheel::before{top:0;bottom:0;left:50%;width:1px;}
-  .pase-wheel::after{left:0;right:0;top:50%;height:1px;}
-  .pase-q{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.55rem;font-weight:700;letter-spacing:.04em;color:var(--accent-soft);text-align:center;padding:.4rem;}
-  .pase-center{
-    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-    width:56px;height:56px;border-radius:50%;background:var(--surface);border:1px solid var(--accent-border);
-    display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.5rem;color:var(--text-muted);text-align:center;line-height:1.2;
-  }
+/* ── Revenue Ladder ── */
+.ladder-wrap{display:flex;gap:2rem;align-items:flex-end;flex-wrap:wrap;}
+.ladder-list{flex-shrink:0;display:flex;flex-direction:column-reverse;gap:.32rem;width:220px;}
+.ladder-row{display:flex;align-items:center;gap:.6rem;font-size:12px;}
+.ladder-tag{width:64px;flex-shrink:0;font-weight:800;color:var(--bg);background:rgba(var(--glow-rgb),1);border-radius:3px;padding:.22rem 0;text-align:center;font-size:11px;transition:color .3s;}
+.ladder-name{color:var(--text-muted);transition:color .3s;}
+.ladder-chart{flex:1;min-width:260px;}
+.ladder-chart svg{width:100%;height:auto;display:block;}
+.ladder-last{margin-top:.75rem;font-size:11.5px;color:var(--text-faint);border:1px dashed var(--sec-bdr);border-radius:4px;padding:.5rem .75rem;transition:color .3s,border-color .3s;}
 
-  .hh-diamond{position:relative;width:150px;height:150px;}
-  .hh-shape{
-    position:absolute;top:50%;left:50%;width:96px;height:96px;
-    transform:translate(-50%,-50%) rotate(45deg);
-    background:var(--accent-dim);border:1px solid var(--accent-border);
-  }
-  .hh-lbl{position:absolute;font-family:var(--mono);font-size:.55rem;font-weight:700;color:var(--accent-soft);text-align:center;width:90px;}
-  .hh-top{top:0;left:50%;transform:translateX(-50%);}
-  .hh-bottom{bottom:0;left:50%;transform:translateX(-50%);}
-  .hh-left{top:50%;left:-10px;transform:translateY(-50%);text-align:right;width:70px;}
-  .hh-right{top:50%;right:-10px;transform:translateY(-50%);text-align:left;width:70px;}
+/* ── Promise ── */
+.promise-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+.promise-col h3{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--sec-label);margin-bottom:.9rem;transition:color .3s;}
+.promise-col ul{list-style:none;display:flex;flex-direction:column;gap:.65rem;}
+.promise-col li{font-size:12.5px;color:var(--text-muted);padding-left:1.1rem;position:relative;line-height:1.6;transition:color .3s;}
+.promise-col li::before{content:'—';position:absolute;left:0;color:var(--accent-bdr);}
+.promise-sign{margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--sec-bdr);display:flex;gap:2rem;flex-wrap:wrap;transition:border-color .3s;}
+.sign-line{flex:1;min-width:200px;}
+.sign-line .line{border-bottom:1px solid var(--card-bdr);height:2rem;transition:border-color .3s;}
+.sign-line label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-faint);margin-top:.35rem;display:block;transition:color .3s;}
+@media(max-width:640px){.promise-grid{grid-template-columns:1fr;}}
 
-  /* ── Sprint Scheduler ── */
-  .scheduler{width:100%;border-collapse:collapse;font-size:.7rem;}
-  .scheduler th{background:var(--surface-2);color:var(--text-muted);font-weight:600;padding:.5rem;border:1px solid var(--border);font-size:.65rem;text-transform:uppercase;letter-spacing:.05em;}
-  .scheduler td{border:1px solid var(--border);height:44px;}
-  .scheduler td.rowlbl{background:var(--surface-2);color:var(--text-faint);font-family:var(--mono);font-size:.6rem;text-align:center;text-transform:uppercase;writing-mode:vertical-rl;transform:rotate(180deg);}
-  .scheduler-wrap{overflow-x:auto;}
+/* ── System grid ── */
+.system-grid{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--card-bdr);border-radius:10px;overflow:hidden;transition:border-color .3s;}
+.sys-head{background:var(--tag-bg);text-align:center;font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--sec-label);padding:.6rem 0;border-bottom:1px solid var(--card-bdr);transition:background .3s,color .3s,border-color .3s;}
+.sys-cell{border-right:1px solid var(--card-bdr);border-bottom:1px solid var(--card-bdr);padding:1.5rem 1rem;min-height:110px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:12.5px;font-weight:700;color:var(--text-primary);position:relative;transition:border-color .3s,color .3s;}
+.sys-cell span{display:block;font-size:11px;color:var(--text-muted);font-weight:400;margin-top:.3rem;transition:color .3s;}
+.system-grid .sys-cell:nth-child(3n){border-right:none;}
+.system-grid .sys-head:nth-child(3n){border-right:none;}
 
-  /* ── Chat template ── */
-  .chat-example{display:flex;gap:2rem;flex-wrap:wrap;}
-  .chat-bubble{
-    max-width:280px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;
-    padding:.9rem 1rem;flex-shrink:0;
-  }
-  .chat-bubble .who{font-size:.7rem;color:var(--accent);margin-bottom:.4rem;}
-  .chat-bubble .who b{color:var(--text);}
-  .chat-bubble p{font-size:.8125rem;color:var(--text-muted);line-height:1.6;}
-  .notepad{flex:1;min-width:240px;border:1px solid var(--border);border-radius:6px;padding:1rem 1.25rem;background:repeating-linear-gradient(var(--surface),var(--surface) 26px,var(--border) 27px,var(--border) 28px);}
-  .notepad-line{height:27px;}
+.pase-wheel{position:relative;width:140px;height:140px;border-radius:50%;border:1px solid var(--accent-bdr);background:var(--accent-fill);display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;transition:background .3s,border-color .3s;}
+.pase-wheel::before,.pase-wheel::after{content:'';position:absolute;background:var(--accent-bdr);transition:background .3s;}
+.pase-wheel::before{top:0;bottom:0;left:50%;width:1px;}
+.pase-wheel::after{left:0;right:0;top:50%;height:1px;}
+.pase-q{display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:800;letter-spacing:.03em;color:var(--text-primary);text-align:center;padding:.4rem;transition:color .3s;}
+.pase-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:var(--card-bg);border:1px solid var(--accent-bdr);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--text-muted);text-align:center;line-height:1.2;transition:background .3s,border-color .3s,color .3s;}
 
-  /* ── Program timeline ── */
-  .timeline{display:flex;flex-direction:column;gap:0;}
-  .tl-row{display:flex;gap:1rem;padding:.75rem 0;border-bottom:1px solid var(--border);align-items:baseline;}
-  .tl-row:last-child{border-bottom:none;}
-  .tl-week{font-family:var(--mono);font-size:.7rem;color:var(--accent);width:64px;flex-shrink:0;}
-  .tl-body strong{display:block;font-size:.8125rem;color:var(--text);margin-bottom:.15rem;}
-  .tl-body p{font-size:.75rem;color:var(--text-muted);}
+.hh-diamond{position:relative;width:140px;height:140px;}
+.hh-shape{position:absolute;top:50%;left:50%;width:88px;height:88px;transform:translate(-50%,-50%) rotate(45deg);background:var(--accent-fill);border:1px solid var(--accent-bdr);transition:background .3s,border-color .3s;}
+.hh-lbl{position:absolute;font-size:9.5px;font-weight:800;color:var(--text-primary);text-align:center;width:90px;transition:color .3s;}
+.hh-top{top:0;left:50%;transform:translateX(-50%);}
+.hh-bottom{bottom:0;left:50%;transform:translateX(-50%);}
+.hh-left{top:50%;left:-14px;transform:translateY(-50%);text-align:right;width:70px;}
+.hh-right{top:50%;right:-14px;transform:translateY(-50%);text-align:left;width:70px;}
 
-  /* ── Next / checklist ── */
-  .next-fields{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:2rem;}
-  .field label{font-family:var(--mono);font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-faint);display:block;margin-bottom:.35rem;}
-  .field .line{border-bottom:1px solid var(--border);height:1.75rem;}
-  .field.full{grid-column:1/-1;}
-  .field.tall .line{height:5rem;background:repeating-linear-gradient(var(--surface),var(--surface) 26px,var(--border) 27px,var(--border) 28px);border-bottom:none;border:1px solid var(--border);border-radius:4px;}
-  @media(max-width:640px){.next-fields{grid-template-columns:1fr;}}
+/* ── Sprint Scheduler ── */
+.scheduler{width:100%;border-collapse:collapse;font-size:11px;}
+.scheduler th{background:var(--tag-bg);color:var(--text-muted);font-weight:700;padding:.5rem;border:1px solid var(--card-bdr);font-size:10px;text-transform:uppercase;letter-spacing:.05em;transition:background .3s,color .3s,border-color .3s;}
+.scheduler td{border:1px solid var(--card-bdr);height:42px;transition:border-color .3s;}
+.scheduler td.rowlbl{background:var(--tag-bg);color:var(--text-faint);font-size:9.5px;text-align:center;text-transform:uppercase;writing-mode:vertical-rl;transform:rotate(180deg);transition:background .3s,color .3s;}
+.scheduler-wrap{overflow-x:auto;}
 
-  .checklist{list-style:none;display:flex;flex-direction:column;gap:.75rem;}
-  .checklist li{display:flex;align-items:flex-start;gap:.7rem;font-size:.8125rem;color:var(--text-muted);}
-  .checklist li::before{content:'';flex-shrink:0;width:15px;height:15px;border:1px solid var(--accent-border);border-radius:3px;margin-top:.15rem;}
+/* ── Chat template ── */
+.chat-example{display:flex;gap:2rem;flex-wrap:wrap;}
+.chat-bubble{max-width:280px;background:var(--tag-bg);border:1px solid var(--card-bdr);border-radius:8px;padding:.9rem 1rem;flex-shrink:0;transition:background .3s,border-color .3s;}
+.chat-bubble .who{font-size:11px;color:var(--sec-label);margin-bottom:.4rem;transition:color .3s;}
+.chat-bubble .who b{color:var(--text-primary);transition:color .3s;}
+.chat-bubble p{font-size:12.5px;color:var(--text-muted);line-height:1.6;transition:color .3s;}
+.notepad{flex:1;min-width:240px;border:1px solid var(--card-bdr);border-radius:6px;padding:1rem 1.25rem;background:repeating-linear-gradient(var(--card-bg),var(--card-bg) 26px,var(--card-bdr) 27px,var(--card-bdr) 28px);transition:border-color .3s;}
+.notepad-line{height:27px;}
 
-  @media(max-width:600px){
-    .doc-header,main{padding-left:1.25rem;padding-right:1.25rem;}
-    .doc-title{font-size:1.5rem;}
-    .venn-wrap{justify-content:center;}
-    .system-grid{grid-template-columns:1fr;}
-    .system-grid .sys-cell,.system-grid .sys-head{border-right:none;}
-  }
+/* ── Program timeline ── */
+.timeline{display:flex;flex-direction:column;gap:0;}
+.tl-row{display:flex;gap:1rem;padding:.75rem 0;border-bottom:1px solid var(--sec-bdr);align-items:baseline;transition:border-color .3s;}
+.tl-row:last-child{border-bottom:none;}
+.tl-week{font-size:11px;font-weight:800;color:var(--sec-label);width:60px;flex-shrink:0;transition:color .3s;}
+.tl-body strong{display:block;font-size:13px;color:var(--text-primary);margin-bottom:.15rem;transition:color .3s;}
+.tl-body p{font-size:12px;color:var(--text-muted);transition:color .3s;}
 
-  .doc-footer{
-    max-width:900px;margin:0 auto;
-    padding:1.5rem 2rem;border-top:1px solid var(--border);
-    display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
-    font-family:var(--mono);font-size:.575rem;
-    letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);
-  }
+/* ── Next / checklist ── */
+.next-fields{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:2rem;}
+.field label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-faint);display:block;margin-bottom:.35rem;transition:color .3s;}
+.field .line{border-bottom:1px solid var(--card-bdr);height:1.75rem;transition:border-color .3s;}
+.field.full{grid-column:1/-1;}
+.field.tall .line{height:5rem;background:repeating-linear-gradient(var(--card-bg),var(--card-bg) 26px,var(--card-bdr) 27px,var(--card-bdr) 28px);border-bottom:none;border:1px solid var(--card-bdr);border-radius:4px;}
+@media(max-width:640px){.next-fields{grid-template-columns:1fr;}}
+
+.checklist{list-style:none;display:flex;flex-direction:column;gap:.75rem;}
+.checklist li{display:flex;align-items:flex-start;gap:.7rem;font-size:12.5px;color:var(--text-muted);transition:color .3s;}
+.checklist li::before{content:'';flex-shrink:0;width:15px;height:15px;border:1px solid var(--accent-bdr);border-radius:3px;margin-top:.15rem;transition:border-color .3s;}
+.checklist-title{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--sec-label);margin-bottom:1rem;transition:color .3s;}
+
+/* ── Theme toggle ── */
+.theme-toggle{position:fixed;top:20px;right:20px;z-index:9999;display:flex;align-items:center;gap:10px;background:var(--toggle-bg);border:1px solid var(--sec-bdr);border-radius:24px;padding:8px 16px 8px 12px;cursor:pointer;transition:background .3s,border-color .3s,box-shadow .2s;box-shadow:0 2px 12px rgba(0,0,0,.2);}
+.theme-toggle:hover{box-shadow:0 2px 12px rgba(0,0,0,.2),0 0 18px rgba(var(--glow-rgb),.4);}
+.theme-toggle-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);}
+.toggle-switch{width:36px;height:20px;border-radius:10px;background:var(--toggle-track);border:1px solid var(--sec-bdr);position:relative;flex-shrink:0;transition:background .25s,border-color .25s;}
+.toggle-thumb{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#888;transition:transform .25s,background .25s;}
+[data-theme="night"] .toggle-thumb{background:#4ade80;transform:translateX(16px);}
+
+@media(max-width:680px){
+  .main{padding:56px 20px 90px;}
+  .hero-title{font-size:38px;letter-spacing:-1.2px;}
+  .promise-grid{grid-template-columns:1fr;}
+  .system-grid{grid-template-columns:1fr;}
+  .system-grid .sys-cell,.system-grid .sys-head{border-right:none;}
+  .theme-toggle{top:12px;right:12px;padding:6px 12px 6px 10px;}
+  .wcard{padding:20px;}
+}
+
+.doc-footer{max-width:980px;margin:0 auto;padding:0 32px;font-family:monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;transition:color .3s;}
+
+/* ── Ambient effects ── */
+.scroll-progress{position:fixed;top:0;left:0;height:3px;width:0%;z-index:10000;background:linear-gradient(90deg,rgba(var(--glow-rgb),.5),rgba(var(--glow-rgb),1));box-shadow:0 0 14px rgba(var(--glow-rgb),.85);pointer-events:none;}
+.ambient-glow{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.ambient-glow span{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;background:radial-gradient(circle,rgba(var(--glow-rgb),.4),transparent 70%);animation:driftBlob 25s ease-in-out infinite alternate;}
+.ambient-glow span:nth-child(1){width:480px;height:480px;top:-160px;left:20%;animation-duration:27s;}
+.ambient-glow span:nth-child(2){width:380px;height:380px;top:8%;right:-120px;animation-duration:22s;animation-delay:-6s;}
+.ambient-glow span:nth-child(3){width:320px;height:320px;top:60%;left:40%;animation-duration:31s;animation-delay:-15s;opacity:.32;}
+@keyframes driftBlob{from{transform:translate(0,0) scale(1);}to{transform:translate(55px,-45px) scale(1.2);}}
+@media(prefers-reduced-motion:reduce){.ambient-glow span{animation:none;}}
+
+.cursor-spot{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0;background:radial-gradient(560px circle at var(--mx,50%) var(--my,50%),rgba(var(--glow-rgb),.09),transparent 72%);transition:opacity .3s;}
+.cursor-spot.active{opacity:1;}
+@media(max-width:960px){.cursor-spot{display:none;}}
 </style>
+</head>
+<body>
 
-<div class="doc-header">
-  <div class="eyebrow">Sales.io &middot; Student Kickoff Call</div>
-  <h1 class="doc-title">The Sales.io Kickoff Call</h1>
-  <p class="doc-sub">A live, fill-in-the-blank worksheet for the first coaching call with a new Mastermind student &mdash; walk through it together on Zoom, screen-share it, and build their gameplan in real time.</p>
-  <div class="meta-row">
-    <div class="meta-chip"><div class="meta-chip-dot"></div>Run in the student's first week</div>
-    <div class="meta-chip"><div class="meta-chip-dot"></div>45&ndash;60 minutes</div>
-    <div class="meta-chip"><div class="meta-chip-dot"></div>Screen-share and fill in live</div>
-  </div>
+<div class="scroll-progress" id="scroll-progress"></div>
+<div class="ambient-glow" aria-hidden="true"><span></span><span></span><span></span></div>
+<div class="cursor-spot" id="cursor-spot"></div>
+
+<div class="theme-toggle" onclick="toggleTheme()" role="switch" aria-label="Toggle theme">
+  <span class="theme-toggle-lbl" id="mode-lbl">Night</span>
+  <div class="toggle-switch"><div class="toggle-thumb"></div></div>
 </div>
 
-<main>
+<main class="main">
 
-  <!-- 1. Closer Model -->
-  <div class="section">
-    <div class="sec-eyebrow">01 &middot; The Foundation</div>
-    <h2 class="sec-title">The Sales.io Closer Model</h2>
-    <div class="sec-note">Everything we teach lives inside three overlapping pillars. A student who's weak in even one of these caps out &mdash; walk through where they already have strength, and where the gap is.</div>
-    <div class="panel">
+  <div class="hero">
+    <div class="hero-eyebrow">Sales.io Student Kickoff Call</div>
+    <h1 class="hero-title"><span class="shine">Kick Off.</span></h1>
+    <p class="hero-quote">A live, fill-in-the-blank worksheet for the first coaching call with a new Mastermind student &mdash; screen-share it and build their gameplan in real time.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">11</div><div class="stat-lbl">Sections</div></div>
+      <div class="stat-div"></div>
+      <div class="stat"><div class="stat-num">60</div><div class="stat-lbl">Min or Less</div></div>
+      <div class="stat-div"></div>
+      <div class="stat"><div class="stat-num">1</div><div class="stat-lbl">Gameplan</div></div>
+    </div>
+  </div>
+
+  <!-- 01 -->
+  <div class="sec-block">
+    <div class="sec-header">
+      <div class="sec-meta"><span class="sec-label">The Foundation</span><span class="sec-pill">Step 01</span></div>
+      <h2>The Sales.io Closer Model</h2>
+      <p class="sec-desc">Everything we teach lives inside three overlapping pillars. A student who's weak in even one of these caps out &mdash; walk through where they already have strength, and where the gap is.</p>
+    </div>
+    <div class="wcard">
+      <div class="card-glow"></div>
       <div class="venn-wrap">
         <div class="venn">
           <div class="venn-circle venn-c1">Identity<span>who you are off the call</span></div>
@@ -302,20 +314,23 @@
     </div>
   </div>
 
-  <!-- 2. Future Focuser -->
-  <div class="section">
-    <div class="sec-eyebrow">02 &middot; Their Vision</div>
-    <h2 class="sec-title">The Future Focuser</h2>
-    <div class="sec-note">Ask, then write down their own words &mdash; don't put words in their mouth. This becomes the thing you remind them of when week 6 gets hard.</div>
-    <div class="panel">
+  <!-- 02 -->
+  <div class="sec-block">
+    <div class="sec-header">
+      <div class="sec-meta"><span class="sec-label">Their Vision</span><span class="sec-pill">Step 02</span></div>
+      <h2>The Future Focuser</h2>
+      <p class="sec-desc">Ask, then write down their own words &mdash; don't put words in their mouth. This becomes the thing you remind them of when week 6 gets hard.</p>
+    </div>
+    <div class="wcard">
+      <div class="card-glow"></div>
       <div class="focuser">
         <div class="curve-box">
           <svg viewBox="0 0 400 200" fill="none">
-            <line x1="20" y1="10" x2="20" y2="180" stroke="var(--border)" stroke-width="1"/>
-            <line x1="20" y1="180" x2="390" y2="180" stroke="var(--border)" stroke-width="1"/>
-            <path d="M20,160 C120,150 220,120 390,20" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
-            <text x="20" y="196" font-family="var(--mono)" font-size="9" fill="var(--text-faint)">Today</text>
-            <text x="355" y="196" font-family="var(--mono)" font-size="9" fill="var(--text-faint)">12 Months</text>
+            <line x1="20" y1="10" x2="20" y2="180" stroke="var(--card-bdr)" stroke-width="1"/>
+            <line x1="20" y1="180" x2="390" y2="180" stroke="var(--card-bdr)" stroke-width="1"/>
+            <path d="M20,160 C120,150 220,120 390,20" stroke="rgba(var(--glow-rgb),1)" stroke-width="2" stroke-linecap="round"/>
+            <text x="20" y="196" font-size="9" fill="var(--text-faint)">Today</text>
+            <text x="355" y="196" font-size="9" fill="var(--text-faint)">12 Months</text>
           </svg>
         </div>
         <div class="focuser-table">
@@ -327,12 +342,15 @@
     </div>
   </div>
 
-  <!-- 3. Five Ones -->
-  <div class="section">
-    <div class="sec-eyebrow">03 &middot; Their Focus</div>
-    <h2 class="sec-title">The Five Ones</h2>
-    <div class="sec-note">Five things, no more. Anything outside this list is noise for the next 12 weeks. Fill each tier in with their specific answer, out loud, on the call.</div>
-    <div class="panel">
+  <!-- 03 -->
+  <div class="sec-block">
+    <div class="sec-header">
+      <div class="sec-meta"><span class="sec-label">Their Focus</span><span class="sec-pill">Step 03</span></div>
+      <h2>The Five Ones</h2>
+      <p class="sec-desc">Five things, no more. Anything outside this list is noise for the next 12 weeks. Fill each tier in with their specific answer, out loud, on the call.</p>
+    </div>
+    <div class="wcard">
+      <div class="card-glow"></div>
       <div class="pyramid-wrap">
         <div class="pyr-tier pyr-1">One Belief<span>[the identity shift they need]</span></div>
         <div class="pyr-tier pyr-2">One Relationship<span>[their accountability partner]</span></div>
@@ -343,18 +361,21 @@
     </div>
   </div>
 
-  <!-- 4. First Steps -->
-  <div class="section">
-    <div class="sec-eyebrow">04 &middot; Their Plan</div>
-    <h2 class="sec-title">Your First Steps</h2>
-    <div class="sec-note">Two checkpoints, not twelve. This keeps the plan real instead of a wishlist.</div>
-    <div class="panel">
+  <!-- 04 -->
+  <div class="sec-block">
+    <div class="sec-header">
+      <div class="sec-meta"><span class="sec-label">Their Plan</span><span class="sec-pill">Step 04</span></div>
+      <h2>Your First Steps</h2>
+      <p class="sec-desc">Two checkpoints, not twelve. This keeps the plan real instead of a wishlist.</p>
+    </div>
+    <div class="wcard">
+      <div class="card-glow"></div>
       <svg viewBox="0 0 700 140" fill="none" style="width:100%;height:auto;display:block;">
-        <line x1="20" y1="120" x2="680" y2="120" stroke="var(--border)" stroke-width="1"/>
-        <line x1="20" y1="10" x2="20" y2="120" stroke="var(--border)" stroke-width="1"/>
-        <path d="M20,105 C200,100 350,90 680,15" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
-        <line x1="230" y1="15" x2="230" y2="120" stroke="var(--border)" stroke-width="1" stroke-dasharray="3 3"/>
-        <line x1="480" y1="15" x2="480" y2="120" stroke="var(--border)" stroke-width="1" stroke-dasharray="3 3"/>
+        <line x1="20" y1="120" x2="680" y2="120" stroke="var(--card-bdr)" stroke-width="1"/>
+        <line x1="20" y1="10" x2="20" y2="120" stroke="var(--card-bdr)" stroke-width="1"/>
+        <path d="M20,105 C200,100 350,90 680,15" stroke="rgba(var(--glow-rgb),1)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="230" y1="15" x2="230" y2="120" stroke="var(--card-bdr)" stroke-width="1" stroke-dasharray="3 3"/>
+        <line x1="480" y1="15" x2="480" y2="120" stroke="var(--card-bdr)" stroke-width="1" stroke-dasharray="3 3"/>
       </svg>
       <div class="steps-note">
         <div><strong>Week 2 &mdash; Check-In</strong><p>[first mock call graded / first live application sent / first outreach batch sent]</p></div>
@@ -363,12 +384,15 @@
     </div>
   </div>
 
-  <!-- 5. The Sales.io Way -->
-  <div class="section">
-    <div class="sec-eyebrow">05 &middot; The Proof</div>
-    <h2 class="sec-title">The Sales.io Way</h2>
-    <div class="sec-note">This is the same ladder every student climbs. Show them where they are today, and where the next rung actually is &mdash; it's usually closer than they think.</div>
-    <div class="panel">
+  <!-- 05 -->
+  <div class="sec-block">
+    <div class="sec-header">
+      <div class="sec-meta"><span class="sec-label">The Proof</span><span class="sec-pill">Step 05</span></div>
+      <h2>The Sales.io Way</h2>
+      <p class="sec-desc">This is the same ladder every student climbs. Show them where they are today, and where the next rung actually is &mdash; it's usually closer than they think.</p>
+    </div>
+    <div class="wcard">
+      <div class="card-glow"></div>
       <div class="ladder-wrap">
         <div class="ladder-list">
           <div class="ladder-row"><div class="ladder-tag">$50K+</div><div class="ladder-name">Elite Closer</div></div>
@@ -382,11 +406,11 @@
         </div>
         <div class="ladder-chart">
           <svg viewBox="0 0 400 220" fill="none">
-            <line x1="20" y1="10" x2="20" y2="200" stroke="var(--border)" stroke-width="1"/>
-            <line x1="20" y1="200" x2="390" y2="200" stroke="var(--border)" stroke-width="1"/>
-            <path d="M20,180 C100,175 220,140 390,20" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
-            <line x1="270" y1="20" x2="270" y2="200" stroke="var(--border)" stroke-width="1" stroke-dasharray="3 3"/>
-            <text x="272" y="15" font-family="var(--mono)" font-size="9" fill="var(--text-faint)">Last month</text>
+            <line x1="20" y1="10" x2="20" y2="200" stroke="var(--card-bdr)" stroke-width="1"/>
+            <line x1="20" y1="200" x2="390" y2="200" stroke="var(--card-bdr)" stroke-width="1"/>
+            <path d="M20,180 C100,175 220,140 390,20" stroke="rgba(var(--glow-rgb),1)" stroke-width="2" stroke-linecap="round"/>
+            <line x1="270" y1="20" x2="270" y2="200" stroke="var(--card-bdr)" stroke-width="1" stroke-dasharray="3 3"/>
+            <text x="272" y="15" font-size="9" fill="var(--text-faint)">Last month</text>
           </svg>
           <div class="ladder-last">Last month: [$ &mdash; fill in live with the student]</div>
         </div>
@@ -394,12 +418,15 @@
     </div>
   </div>
 
-  <!-- 6. The Promise -->
-  <div class="section">
-    <div class="sec-eyebrow">06 &middot; The Commitment</div>
-    <h2 class="sec-title">The Sales.io Promise</h2>
-    <div class="sec-note">What we owe each other. Read this together &mdash; out loud is better than silent. It sets the frame for the next 12 weeks.</div>
-    <div class="panel">
+  <!-- 06 -->
+  <div class="sec-block">
+    <div class="sec-header">
+      <div class="sec-meta"><span class="sec-label">The Commitment</span><span class="sec-pill">Step 06</span></div>
+      <h2>The Sales.io Promise</h2>
+      <p class="sec-desc">What we owe each other. Read this together &mdash; out loud is better than silent. It sets the frame for the next 12 weeks.</p>
+    </div>
+    <div class="wcard">
+      <div class="card-glow"></div>
       <div class="promise-grid">
         <div class="promise-col">
           <h3>We Must</h3>
@@ -433,12 +460,15 @@
     </div>
   </div>
 
-  <!-- 7. The System -->
-  <div class="section">
-    <div class="sec-eyebrow">07 &middot; The Framework</div>
-    <h2 class="sec-title">The Sales.io System</h2>
-    <div class="sec-note">Three phases, one journey. Show the student where they sit right now &mdash; most new students are somewhere in Get In.</div>
-    <div class="panel">
+  <!-- 07 -->
+  <div class="sec-block">
+    <div class="sec-header">
+      <div class="sec-meta"><span class="sec-label">The Framework</span><span class="sec-pill">Step 07</span></div>
+      <h2>The Sales.io System</h2>
+      <p class="sec-desc">Three phases, one journey. Show the student where they sit right now &mdash; most new students are somewhere in Get In.</p>
+    </div>
+    <div class="wcard">
+      <div class="card-glow"></div>
       <div class="system-grid">
         <div class="sys-head">Get In</div>
         <div class="sys-head">Get Good</div>
@@ -473,12 +503,15 @@
     </div>
   </div>
 
-  <!-- 8. Sprint Scheduler -->
-  <div class="section">
-    <div class="sec-eyebrow">08 &middot; Their Week</div>
-    <h2 class="sec-title">The Sprint Scheduler</h2>
-    <div class="sec-note">Block it live, right now, on the call. A gameplan without a calendar is just a wish. Mark prospecting blocks, call time, and the weekly group calls.</div>
-    <div class="panel">
+  <!-- 08 -->
+  <div class="sec-block">
+    <div class="sec-header">
+      <div class="sec-meta"><span class="sec-label">Their Week</span><span class="sec-pill">Step 08</span></div>
+      <h2>The Sprint Scheduler</h2>
+      <p class="sec-desc">Block it live, right now, on the call. A gameplan without a calendar is just a wish. Mark prospecting blocks, call time, and the weekly group calls.</p>
+    </div>
+    <div class="wcard">
+      <div class="card-glow"></div>
       <div class="scheduler-wrap">
         <table class="scheduler">
           <tr><th></th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr>
@@ -492,12 +525,15 @@
     </div>
   </div>
 
-  <!-- 9. Chat template exercise -->
-  <div class="section">
-    <div class="sec-eyebrow">09 &middot; Quick Win Drill</div>
-    <h2 class="sec-title">I Sent a Thing About a Thing</h2>
-    <div class="sec-note">The fastest proof a student can get in week one &mdash; a real message sent to a real person. Write 3 versions together, live, in their own voice.</div>
-    <div class="panel">
+  <!-- 09 -->
+  <div class="sec-block">
+    <div class="sec-header">
+      <div class="sec-meta"><span class="sec-label">Quick Win Drill</span><span class="sec-pill">Step 09</span></div>
+      <h2>I Sent a Thing About a Thing</h2>
+      <p class="sec-desc">The fastest proof a student can get in week one &mdash; a real message sent to a real person. Write 3 versions together, live, in their own voice.</p>
+    </div>
+    <div class="wcard">
+      <div class="card-glow"></div>
       <div class="chat-example">
         <div class="chat-bubble">
           <div class="who"><b>JJ</b> to Student &middot; 9:52am</div>
@@ -513,12 +549,15 @@
     </div>
   </div>
 
-  <!-- 10. Program timeline -->
-  <div class="section">
-    <div class="sec-eyebrow">10 &middot; The 12 Weeks</div>
-    <h2 class="sec-title">What's Ahead</h2>
-    <div class="sec-note">Give them the shape of the whole program so week 4 doesn't feel like a surprise.</div>
-    <div class="panel">
+  <!-- 10 -->
+  <div class="sec-block">
+    <div class="sec-header">
+      <div class="sec-meta"><span class="sec-label">The 12 Weeks</span><span class="sec-pill">Step 10</span></div>
+      <h2>What's Ahead</h2>
+      <p class="sec-desc">Give them the shape of the whole program so week 4 doesn't feel like a surprise.</p>
+    </div>
+    <div class="wcard">
+      <div class="card-glow"></div>
       <div class="timeline">
         <div class="tl-row"><div class="tl-week">Wk 1</div><div class="tl-body"><strong>Kickoff &amp; Gameplan</strong><p>This call. Five Ones locked in, calendar blocked, first outreach sent.</p></div></div>
         <div class="tl-row"><div class="tl-week">Wk 2&ndash;3</div><div class="tl-body"><strong>Foundations</strong><p>Mock Call Monday, Setting Mastery, PASE typing in live reps.</p></div></div>
@@ -530,12 +569,15 @@
     </div>
   </div>
 
-  <!-- 11. Next -->
-  <div class="section">
-    <div class="sec-eyebrow">11 &middot; Wrap Up</div>
-    <h2 class="sec-title">Next&hellip;</h2>
-    <div class="sec-note">Fill this in during the last five minutes of the call, together, so nothing gets lost.</div>
-    <div class="panel">
+  <!-- 11 -->
+  <div class="sec-block">
+    <div class="sec-header">
+      <div class="sec-meta"><span class="sec-label">Wrap Up</span><span class="sec-pill">Step 11</span></div>
+      <h2>Next&hellip;</h2>
+      <p class="sec-desc">Fill this in during the last five minutes of the call, together, so nothing gets lost.</p>
+    </div>
+    <div class="wcard">
+      <div class="card-glow"></div>
       <div class="next-fields">
         <div class="field"><label>Name</label><div class="line"></div></div>
         <div class="field"><label>Date</label><div class="line"></div></div>
@@ -543,7 +585,7 @@
         <div class="field full tall"><label>Actions</label><div class="line"></div></div>
         <div class="field full tall"><label>Communications</label><div class="line"></div></div>
       </div>
-      <h3 style="font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;">Checklist</h3>
+      <h3 class="checklist-title">Checklist</h3>
       <ul class="checklist">
         <li>Book in your Week 2 check-in</li>
         <li>Get access to Skool &mdash; modules, call recordings, coaching calendar</li>
@@ -561,3 +603,64 @@
   <span>Sales.io &middot; The Kickoff Call</span>
   <span>Adapted from BlackBelt "The Kickoff Call" &middot; compiled Aug 2026</span>
 </div>
+
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const next = html.dataset.theme === 'day' ? 'night' : 'day';
+  html.dataset.theme = next;
+  const el = document.getElementById('mode-lbl'); if(el) el.textContent = next === 'day' ? 'Day' : 'Night';
+  try { localStorage.setItem('kc-theme', next); } catch(e) {}
+}
+try {
+  const saved = localStorage.getItem('kc-theme');
+  if (saved) {
+    document.documentElement.dataset.theme = saved;
+    const el = document.getElementById('mode-lbl'); if(el) el.textContent = saved === 'day' ? 'Day' : 'Night';
+  }
+} catch(e) {}
+
+const cards = document.querySelectorAll('.wcard');
+const cardObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); cardObs.unobserve(e.target); }
+  });
+}, {threshold: 0.08, rootMargin: '0px 0px -60px 0px'});
+cards.forEach(c => cardObs.observe(c));
+
+const progressBar = document.getElementById('scroll-progress');
+function updateProgress(){
+  if (!progressBar) return;
+  const h = document.documentElement;
+  const scrollTop = h.scrollTop || document.body.scrollTop;
+  const height = h.scrollHeight - h.clientHeight;
+  progressBar.style.width = (height > 0 ? (scrollTop / height * 100) : 0) + '%';
+}
+document.addEventListener('scroll', updateProgress, {passive: true});
+updateProgress();
+
+const cursorSpot = document.getElementById('cursor-spot');
+let rafPending = false, lastMouseEvt = null;
+document.addEventListener('mousemove', e => {
+  lastMouseEvt = e;
+  if (rafPending) return;
+  rafPending = true;
+  requestAnimationFrame(() => {
+    rafPending = false;
+    if (cursorSpot) {
+      cursorSpot.style.setProperty('--mx', lastMouseEvt.clientX + 'px');
+      cursorSpot.style.setProperty('--my', lastMouseEvt.clientY + 'px');
+      cursorSpot.classList.add('active');
+    }
+    const card = lastMouseEvt.target.closest && lastMouseEvt.target.closest('.wcard');
+    if (card) {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--cx', ((lastMouseEvt.clientX - r.left) / r.width * 100).toFixed(1) + '%');
+      card.style.setProperty('--cy', ((lastMouseEvt.clientY - r.top) / r.height * 100).toFixed(1) + '%');
+    }
+  });
+});
+document.addEventListener('mouseleave', () => { if (cursorSpot) cursorSpot.classList.remove('active'); });
+</script>
+</body>
+</html>
