@@ -1,239 +1,466 @@
-
+<!DOCTYPE html>
+<html lang="en" data-theme="night">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Win Fast</title>
 <style>
-  :root {
-    --bg: #000000;
-    --surface: #0a0a0a;
-    --surface-2: #0d2b1a;
-    --accent: #4ade80;
-    --accent-soft: #4ade80;
-    --accent-dim: rgba(74,222,128,.07);
-    --accent-border: #1e3a24;
-    --text: #f0ece4;
-    --text-muted: #8a8475;
-    --text-faint: #2a2a2a;
-    --border: #161616;
-    --mono: 'SF Mono','Fira Code','Consolas',monospace;
-  }
-  @media (prefers-color-scheme: light) {
-    :root {
-      --bg: #EAE4D9; --surface: #FFFFFF; --surface-2: #E2DDD3;
-      --accent: #1a7a42; --accent-soft: #145c32;
-      --accent-dim: rgba(26,122,66,.07); --accent-border: rgba(26,122,66,.2);
-      --text: #0A0A08; --text-muted: #6a6450; --text-faint: #c0b898;
-      --border: #D5CFBF;
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg:#000000;--surface:#0a0a0a;--surface-2:#0d2b1a;
-    --accent:#4ade80;--accent-soft:#4ade80;
-    --accent-dim:rgba(74,222,128,.07);--accent-border:#1e3a24;
-    --text:#f0ece4;--text-muted:#8a8475;--text-faint:#2a2a2a;
-    --border:#161616;
-  }
-  :root[data-theme="light"] {
-    --bg:#EAE4D9;--surface:#FFFFFF;--surface-2:#E2DDD3;
-    --accent:#1a7a42;--accent-soft:#145c32;
-    --accent-dim:rgba(26,122,66,.07);--accent-border:rgba(26,122,66,.2);
-    --text:#0A0A08;--text-muted:#6a6450;--text-faint:#c0b898;
-    --border:#D5CFBF;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
 
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-  html{font-size:16px;scroll-behavior:smooth;}
-  body{
-    background:var(--bg);color:var(--text);
-    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
-    font-size:.9375rem;line-height:1.7;
-    -webkit-font-smoothing:antialiased;
-  }
+:root,[data-theme="day"]{
+  --bg:           #EAE4D9;
+  --card-bg:      #FFFFFF;
+  --card-bdr:     #E2DDD3;
+  --card-bdr-hv:  rgba(0,0,0,.15);
+  --card-shadow:  rgba(0,0,0,.0);
+  --card-shadow-hv:rgba(0,0,0,.10);
+  --text-primary: #0A0A08;
+  --text-secondary:#444;
+  --text-muted:   #AAA49A;
+  --text-faint:   #C8C2B8;
+  --eyebrow-c:    #A09070;
+  --sec-label:    #A09070;
+  --sec-pill-bg:  #E2DDD3;
+  --sec-pill-c:   #A09070;
+  --sec-bdr:      #D5CFBF;
+  --sec-desc:     #AAA;
+  --ghost-c:      rgba(0,0,0,.04);
+  --card-num:     #D5D0C8;
+  --card-tag-bg:  #F0EBE3;
+  --card-tag-c:   #B8B2A8;
+  --video-bg:     #FAF8F4;
+  --video-bdr:    #EDE8DE;
+  --video-icon-bg:#F0EBE3;
+  --video-icon-c: #A09070;
+  --video-lbl:    #A09070;
+  --toggle-track: #1a1a18;
+  --toggle-bg:    #1a1a18;
+  --glow-c:       transparent;
+  --glow-rgb:     160,144,112;
+  --script-bg:    #F8F5EF;
+  --script-bdr:   #A09070;
+}
 
-  .hero{max-width:920px;margin:0 auto;padding:4rem 2rem 2.5rem;text-align:center;}
-  .eyebrow{
-    font-family:var(--mono);font-size:.6rem;
-    letter-spacing:.14em;text-transform:uppercase;
-    color:var(--accent);margin-bottom:1rem;
-  }
-  .hero-title{
-    font-size:clamp(2.25rem,6vw,3.5rem);font-weight:800;
-    letter-spacing:-.03em;line-height:1.05;color:var(--text);margin-bottom:.75rem;
-  }
-  .hero-sub{color:var(--text-muted);font-size:1rem;max-width:52ch;margin:0 auto;line-height:1.65;}
-  .hero-note{
-    margin-top:1.75rem;display:inline-block;padding:.625rem 1.125rem;
-    background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:6px;
-    font-size:.8125rem;color:var(--text-muted);
-  }
-  .hero-note strong{color:var(--accent-soft);}
+[data-theme="night"]{
+  --bg:           #000000;
+  --card-bg:      #0a0a0a;
+  --card-bdr:     #161616;
+  --card-bdr-hv:  #1e3a24;
+  --card-shadow:  rgba(0,0,0,.0);
+  --card-shadow-hv:rgba(74,222,128,.06);
+  --text-primary: #FFFFFF;
+  --text-secondary:#ccc;
+  --text-muted:   #555;
+  --text-faint:   #2a2a2a;
+  --eyebrow-c:    #4ade80;
+  --sec-label:    #4ade80;
+  --sec-pill-bg:  #0d2b1a;
+  --sec-pill-c:   #4ade80;
+  --sec-bdr:      #111;
+  --sec-desc:     #444;
+  --ghost-c:      rgba(74,222,128,.03);
+  --card-num:     #252525;
+  --card-tag-bg:  #0d0d0d;
+  --card-tag-c:   #4ade80;
+  --video-bg:     #060606;
+  --video-bdr:    #111;
+  --video-icon-bg:#0d2b1a;
+  --video-icon-c: #4ade80;
+  --video-lbl:    #4ade80;
+  --toggle-track: #0d2b1a;
+  --toggle-bg:    #0a0a0a;
+  --glow-c:       rgba(74,222,128,.07);
+  --glow-rgb:     74,222,128;
+  --script-bg:    #0a1710;
+  --script-bdr:   #4ade80;
+}
 
-  main{max-width:920px;margin:0 auto;padding:1rem 2rem 5rem;}
+body{
+  background:var(--bg);color:var(--text-primary);
+  font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;
+  min-height:100vh;transition:background .3s,color .3s;
+}
 
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:1rem;}
+.main{max-width:1120px;margin:0 auto;padding:72px 32px 140px;position:relative;z-index:1;}
 
-  .tile{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--surface);}
-  .tile-num{
-    padding:.75rem 1.25rem;background:var(--surface-2);border-bottom:1px solid var(--border);
-    font-family:var(--mono);font-size:.6875rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);
-  }
+/* ── Hero ── */
+.hero{margin-bottom:80px;text-align:center;}
+.hero-eyebrow{
+  font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--eyebrow-c);margin-bottom:20px;transition:color .3s;
+}
+.hero-title{
+  font-size:72px;font-weight:900;line-height:.95;letter-spacing:-3px;
+  color:var(--text-primary);margin-bottom:20px;transition:color .3s;
+}
+.hero-quote{
+  font-size:15px;color:var(--text-muted);font-style:italic;
+  margin:0 auto 32px;line-height:1.6;max-width:480px;
+  padding-left:16px;border-left:2px solid var(--sec-bdr);text-align:left;
+  transition:color .3s,border-color .3s;
+}
+.hero-stats{display:flex;gap:32px;justify-content:center;}
+.stat-num{font-size:28px;font-weight:900;color:var(--text-primary);letter-spacing:-1px;line-height:1;transition:color .3s;}
+.stat-lbl{font-size:11px;color:var(--text-muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:3px;transition:color .3s;}
+.stat-div{width:1px;background:var(--sec-bdr);align-self:stretch;margin:4px 0;transition:background .3s;}
+.stat{transition:transform .2s;cursor:default;}
+.stat:hover{transform:translateY(-2px);}
+.stat:hover .stat-num{text-shadow:0 0 20px rgba(var(--glow-rgb),.65);}
 
-  /* VIDEO SLOT — replace the <div class="video-slot"> contents with your embed code (YouTube/Wistia/Loom iframe, or an <video> tag). Keep the aspect-ratio wrapper. */
-  .video-slot{
-    aspect-ratio:16/9;background:var(--surface-2);
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;
-    border-bottom:1px solid var(--border);position:relative;
-  }
-  .video-slot .play-icon{
-    width:44px;height:44px;border-radius:50%;background:var(--accent);
-    display:flex;align-items:center;justify-content:center;
-  }
-  .video-slot .play-icon svg{width:16px;height:16px;fill:var(--bg);margin-left:2px;}
-  .video-slot .video-placeholder-text{font-family:var(--mono);font-size:.6875rem;color:var(--text-faint);}
+/* ── Section header ── */
+.sec-header{position:relative;margin-bottom:28px;padding-bottom:22px;border-bottom:1px solid var(--sec-bdr);overflow:hidden;transition:border-color .3s;}
+.sec-meta{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.sec-label{font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--sec-label);transition:color .3s;position:relative;padding-left:14px;}
+.sec-label::before{
+  content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);
+  width:6px;height:6px;border-radius:50%;background:rgba(var(--glow-rgb),1);
+  box-shadow:0 0 8px 1px rgba(var(--glow-rgb),.9);animation:dotPulse 2s ease-in-out infinite;
+}
+@keyframes dotPulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.sec-pill{font-size:10px;font-weight:700;background:var(--sec-pill-bg);color:var(--sec-pill-c);border-radius:4px;padding:2px 8px;letter-spacing:.04em;transition:background .3s,color .3s;}
+.sec-header h2{font-size:26px;font-weight:900;letter-spacing:-.5px;line-height:1.05;color:var(--text-primary);margin-bottom:7px;transition:color .3s;}
+.sec-desc{font-size:13px;color:var(--sec-desc);line-height:1.6;max-width:60ch;transition:color .3s;}
 
-  .tile-body{padding:1.25rem;}
-  .tile-name{font-size:1.0625rem;font-weight:700;color:var(--text);letter-spacing:-.01em;margin-bottom:.5rem;}
-  .tile-desc{font-size:.8125rem;color:var(--text-muted);line-height:1.6;margin-bottom:1rem;}
-  .tile-script{
-    background:var(--surface-2);border-left:2px solid var(--accent-border);
-    border-radius:0 4px 4px 0;padding:.75rem .875rem;
-    font-size:.78125rem;color:var(--text);line-height:1.6;font-style:italic;white-space:pre-line;
-  }
+/* ── Card grid ── */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;margin-bottom:64px;}
 
-  .scope-note{margin-top:3rem;padding-top:1.75rem;border-top:1px solid var(--border);font-size:.75rem;color:var(--text-faint);line-height:1.7;}
+.tactic-card{
+  position:relative;display:flex;flex-direction:column;
+  background:var(--card-bg);border:1px solid var(--card-bdr);
+  border-radius:14px;overflow:hidden;
+  box-shadow:0 1px 3px var(--card-shadow);
+  opacity:0;transform:translateY(16px);
+  transition:opacity .45s,transform .45s,border-color .15s,box-shadow .2s,background .3s;
+}
+.tactic-card.visible{opacity:1;transform:translateY(0);}
+.tactic-card:hover{
+  border-color:var(--card-bdr-hv);
+  box-shadow:0 8px 32px var(--card-shadow-hv),0 0 28px rgba(var(--glow-rgb),.18);
+  transform:translateY(-3px);
+}
+.card-glow{
+  position:absolute;inset:0;border-radius:14px;
+  background:radial-gradient(220px circle at var(--cx,50%) var(--cy,0%),rgba(var(--glow-rgb),.4) 0%,transparent 70%);
+  pointer-events:none;opacity:0;transition:opacity .3s;
+}
+.tactic-card:hover .card-glow{opacity:1;}
+.tactic-card::after{
+  content:'';position:absolute;inset:0;border-radius:14px;pointer-events:none;z-index:1;
+  background:linear-gradient(115deg,transparent 42%,rgba(var(--glow-rgb),.28) 50%,transparent 58%);
+  background-size:250% 250%;background-position:150% 150%;opacity:0;
+}
+.tactic-card:hover::after{opacity:1;animation:shineSweep 1s ease forwards;}
+@keyframes shineSweep{from{background-position:150% 150%;}to{background-position:-60% -60%;}}
 
-  @media(max-width:680px){
-    .hero,main{padding-left:1.25rem;padding-right:1.25rem;}
-    .grid{grid-template-columns:1fr;}
-  }
+.card-inner{display:flex;flex-direction:column;flex:1;padding:18px 18px 0;}
+.card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.card-num{font-size:11px;font-weight:900;color:var(--card-num);letter-spacing:.1em;transition:color .15s;}
+.card-tag{font-size:9px;font-weight:800;background:var(--card-tag-bg);color:var(--card-tag-c);border-radius:4px;padding:2px 7px;letter-spacing:.06em;transition:background .3s,color .3s;}
+.card-title{font-size:15px;font-weight:700;color:var(--text-primary);line-height:1.4;margin-bottom:6px;transition:color .15s;}
+.card-sub{font-size:12px;color:var(--text-muted);line-height:1.55;margin-bottom:14px;transition:color .3s;}
 
-  .doc-footer{
-    max-width:920px;margin:0 auto;
-    padding:1.5rem 2rem;border-top:1px solid var(--border);
-    display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
-    font-family:var(--mono);font-size:.575rem;
-    letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);
-  }
+/* video slot — replace inner contents with your embed (YouTube/Wistia/Loom iframe or an <video> tag), keep the 16:9 wrapper */
+.video-slot{
+  aspect-ratio:16/9;background:var(--video-bg);border:1px solid var(--video-bdr);border-radius:8px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  margin-bottom:14px;position:relative;transition:background .3s,border-color .3s;
+}
+.play-btn{
+  width:36px;height:36px;border-radius:50%;position:relative;
+  background:var(--video-icon-bg);border:1px solid var(--video-bdr);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--video-icon-c);flex-shrink:0;transition:background .3s,border-color .3s,color .3s;
+}
+.play-btn svg{width:12px;height:12px;fill:currentColor;margin-left:2px;}
+.play-btn::before{
+  content:'';position:absolute;inset:-4px;border-radius:50%;
+  border:1px solid rgba(var(--glow-rgb),.55);opacity:0;transform:scale(.8);pointer-events:none;
+}
+.tactic-card:hover .play-btn::before{opacity:1;animation:playPulse 1.3s ease-out infinite;}
+@keyframes playPulse{0%{transform:scale(.8);opacity:.8;}100%{transform:scale(1.7);opacity:0;}}
+.video-label{font-size:10px;color:var(--video-lbl);font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:color .3s;}
+
+.card-script{
+  background:var(--script-bg);border-left:2px solid var(--script-bdr);
+  border-radius:0 6px 6px 0;padding:12px 14px;margin-bottom:18px;
+  font-size:12.5px;color:var(--text-secondary);line-height:1.65;font-style:italic;
+  white-space:pre-line;transition:background .3s,border-color .3s,color .3s;
+}
+
+.scope-note{max-width:70ch;font-size:12px;color:var(--text-faint);line-height:1.7;padding-top:24px;border-top:1px solid var(--sec-bdr);transition:color .3s,border-color .3s;}
+.scope-note code{background:var(--card-tag-bg);color:var(--sec-pill-c);padding:1px 5px;border-radius:3px;font-family:monospace;}
+
+/* ── Theme toggle (fixed, top right) ── */
+.theme-toggle{
+  position:fixed;top:20px;right:20px;z-index:9999;
+  display:flex;align-items:center;gap:10px;
+  background:var(--toggle-bg);border:1px solid var(--sec-bdr);border-radius:24px;
+  padding:8px 16px 8px 12px;cursor:pointer;transition:background .3s,border-color .3s,box-shadow .2s;
+  box-shadow:0 2px 12px rgba(0,0,0,.2);
+}
+.theme-toggle:hover{box-shadow:0 2px 12px rgba(0,0,0,.2),0 0 18px rgba(var(--glow-rgb),.4);}
+.theme-toggle-lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);}
+.toggle-switch{width:36px;height:20px;border-radius:10px;background:var(--toggle-track);border:1px solid var(--sec-bdr);position:relative;flex-shrink:0;transition:background .25s,border-color .25s;}
+.toggle-thumb{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#888;transition:transform .25s,background .25s;}
+[data-theme="night"] .toggle-thumb{background:#4ade80;transform:translateX(16px);}
+
+@media(max-width:680px){
+  .main{padding:56px 20px 90px;}
+  .hero-title{font-size:44px;letter-spacing:-1.5px;}
+  .card-grid{grid-template-columns:1fr;}
+  .theme-toggle{top:12px;right:12px;padding:6px 12px 6px 10px;}
+}
+
+.doc-footer{max-width:1120px;margin:0 auto;padding:0 32px;font-family:monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+
+/* ── Ambient effects ── */
+.scroll-progress{
+  position:fixed;top:0;left:0;height:3px;width:0%;z-index:10000;
+  background:linear-gradient(90deg,rgba(var(--glow-rgb),.5),rgba(var(--glow-rgb),1));
+  box-shadow:0 0 14px rgba(var(--glow-rgb),.85);pointer-events:none;
+}
+.ambient-glow{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.ambient-glow span{
+  position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;
+  background:radial-gradient(circle,rgba(var(--glow-rgb),.4),transparent 70%);
+  animation:driftBlob 25s ease-in-out infinite alternate;
+}
+.ambient-glow span:nth-child(1){width:480px;height:480px;top:-160px;left:20%;animation-duration:27s;}
+.ambient-glow span:nth-child(2){width:380px;height:380px;top:8%;right:-120px;animation-duration:22s;animation-delay:-6s;}
+.ambient-glow span:nth-child(3){width:320px;height:320px;top:60%;left:40%;animation-duration:31s;animation-delay:-15s;opacity:.32;}
+@keyframes driftBlob{from{transform:translate(0,0) scale(1);}to{transform:translate(55px,-45px) scale(1.2);}}
+@media(prefers-reduced-motion:reduce){.ambient-glow span{animation:none;}}
+
+.cursor-spot{
+  position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0;
+  background:radial-gradient(560px circle at var(--mx,50%) var(--my,50%),rgba(var(--glow-rgb),.09),transparent 72%);
+  transition:opacity .3s;
+}
+.cursor-spot.active{opacity:1;}
+@media(max-width:960px){.cursor-spot{display:none;}}
+
+.hero-title span.shine{
+  background:linear-gradient(100deg,var(--text-primary) 30%,rgba(var(--glow-rgb),1) 50%,var(--text-primary) 70%);
+  background-size:250% auto;background-position:0% 50%;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  animation:shineText 6.5s ease-in-out .3s infinite;
+}
+@keyframes shineText{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
 </style>
+</head>
+<body>
 
-<div class="hero">
-  <div class="eyebrow">Sales.io Closer Training</div>
-  <h1 class="hero-title">Win Fast</h1>
-  <p class="hero-sub">Seven ways to put real money on the board this week. Watch the video, run the play, don't overthink it.</p>
-  <div class="hero-note">Structure adapted from BlackBelt's <strong>"$10K in 10 Minutes"</strong> workbook set &mdash; same seven mechanics, built for closers instead of coaches.</div>
+<div class="scroll-progress" id="scroll-progress"></div>
+<div class="ambient-glow" aria-hidden="true"><span></span><span></span><span></span></div>
+<div class="cursor-spot" id="cursor-spot"></div>
+
+<div class="theme-toggle" onclick="toggleTheme()" role="switch" aria-label="Toggle theme">
+  <span class="theme-toggle-lbl" id="mode-lbl">Night</span>
+  <div class="toggle-switch"><div class="toggle-thumb"></div></div>
 </div>
 
-<main>
+<main class="main">
 
-  <div class="grid">
+  <div class="hero">
+    <div class="hero-eyebrow">Sales.io Closer Training</div>
+    <h1 class="hero-title"><span class="shine">Win Fast.</span></h1>
+    <p class="hero-quote">"Who you are off your calls is who you are on your calls." Seven ways to put real money on the board this week &mdash; watch the video, run the play, don't overthink it.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">7</div><div class="stat-lbl">Fast Plays</div></div>
+      <div class="stat-div"></div>
+      <div class="stat"><div class="stat-num">10</div><div class="stat-lbl">Min or Less</div></div>
+      <div class="stat-div"></div>
+      <div class="stat"><div class="stat-num">1</div><div class="stat-lbl">System</div></div>
+    </div>
+  </div>
+
+  <div class="sec-header">
+    <div class="sec-meta">
+      <span class="sec-label">The Plays</span>
+      <span class="sec-pill">7 tactics</span>
+    </div>
+    <h2>Pick One. Run It This Week.</h2>
+    <p class="sec-desc">Adapted from BlackBelt's "$10K in 10 Minutes" workbook set &mdash; same seven mechanics, built for closers instead of coaches. Don't try to run all seven at once.</p>
+  </div>
+
+  <div class="card-grid">
 
     <!-- 1 -->
-    <div class="tile">
-      <div class="tile-num">01 &middot; The 9 Word Email</div>
-      <div class="video-slot">
-        <div class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-        <div class="video-placeholder-text">VIDEO GOES HERE</div>
-      </div>
-      <div class="tile-body">
-        <div class="tile-name">Stale Pipeline Revival</div>
-        <div class="tile-desc">Not a list blast. A personal reopen on your own dead deals, one line each, same day.</div>
-        <div class="tile-script">Subject: [First Name]
+    <div class="tactic-card">
+      <div class="card-inner">
+        <div class="card-top"><span class="card-num">01</span><span class="card-tag">Reactivate</span></div>
+        <div class="card-title">The 9 Word Email</div>
+        <div class="card-sub">Stale Pipeline Revival &mdash; not a list blast, a personal reopen on your own dead deals.</div>
+        <div class="video-slot">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <div class="video-label">Video Coming Soon</div>
+        </div>
+        <div class="card-script">Subject: [First Name]
 Still figuring out [their stated problem]?
 [Your name]</div>
       </div>
     </div>
 
     <!-- 2 -->
-    <div class="tile">
-      <div class="tile-num">02 &middot; Price Rise</div>
-      <div class="video-slot">
-        <div class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-        <div class="video-placeholder-text">VIDEO GOES HERE</div>
-      </div>
-      <div class="tile-body">
-        <div class="tile-name">The Deadline Push</div>
-        <div class="tile-desc">You don't set the price, but a real upcoming price change is a legit close-now trigger on stalled deals.</div>
-        <div class="tile-script">"Hey [Name], heads up, the price moves to [X] on [date]. Wanted you to have first shot before that. Want to lock it in this week?"</div>
+    <div class="tactic-card">
+      <div class="card-inner">
+        <div class="card-top"><span class="card-num">02</span><span class="card-tag">Deadline</span></div>
+        <div class="card-title">Price Rise</div>
+        <div class="card-sub">The Deadline Push &mdash; a real upcoming price change is a legit close-now trigger on stalled deals.</div>
+        <div class="video-slot">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <div class="video-label">Video Coming Soon</div>
+        </div>
+        <div class="card-script">"Hey [Name], heads up, the price moves to [X] on [date]. Wanted you to have first shot before that. Want to lock it in this week?"</div>
       </div>
     </div>
 
     <!-- 3 -->
-    <div class="tile">
-      <div class="tile-num">03 &middot; Pop Up</div>
-      <div class="video-slot">
-        <div class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-        <div class="video-placeholder-text">VIDEO GOES HERE</div>
-      </div>
-      <div class="tile-body">
-        <div class="tile-name">The Surprise Slot</div>
-        <div class="tile-desc">Real availability, not fake urgency. A genuine opening today, offered to one stalled prospect.</div>
-        <div class="tile-script">"Hey [Name], had a cancellation, got one slot open today at [time] if you want it."</div>
+    <div class="tactic-card">
+      <div class="card-inner">
+        <div class="card-top"><span class="card-num">03</span><span class="card-tag">Availability</span></div>
+        <div class="card-title">Pop Up</div>
+        <div class="card-sub">The Surprise Slot &mdash; real availability, not fake urgency. A genuine opening today.</div>
+        <div class="video-slot">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <div class="video-label">Video Coming Soon</div>
+        </div>
+        <div class="card-script">"Hey [Name], had a cancellation, got one slot open today at [time] if you want it."</div>
       </div>
     </div>
 
     <!-- 4 -->
-    <div class="tile">
-      <div class="tile-num">04 &middot; 50 Chat Starts</div>
-      <div class="video-slot">
-        <div class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-        <div class="video-placeholder-text">VIDEO GOES HERE</div>
-      </div>
-      <div class="tile-body">
-        <div class="tile-name">50 Touches</div>
-        <div class="tile-desc">Pick 50 stalled or old leads from your own pipeline. One personal line each, same day. Not a pitch, a check-in.</div>
-        <div class="tile-script">"Hey [Name], random thought, still on your radar to fix [X]?"</div>
+    <div class="tactic-card">
+      <div class="card-inner">
+        <div class="card-top"><span class="card-num">04</span><span class="card-tag">Volume</span></div>
+        <div class="card-title">50 Chat Starts</div>
+        <div class="card-sub">50 Touches &mdash; pick 50 stalled or old leads. One personal line each, same day.</div>
+        <div class="video-slot">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <div class="video-label">Video Coming Soon</div>
+        </div>
+        <div class="card-script">"Hey [Name], random thought, still on your radar to fix [X]?"</div>
       </div>
     </div>
 
     <!-- 5 -->
-    <div class="tile">
-      <div class="tile-num">05 &middot; Guest to Client</div>
-      <div class="video-slot">
-        <div class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-        <div class="video-placeholder-text">VIDEO GOES HERE</div>
-      </div>
-      <div class="tile-body">
-        <div class="tile-name">The Assist Call</div>
-        <div class="tile-desc">Bring a peer or coach onto a stalled prospect's next call as a second voice. Breaks stuck deals loose.</div>
-        <div class="tile-script">"[Name], I want to bring my coach on for 10 minutes next call, he's helped people in your exact spot."</div>
+    <div class="tactic-card">
+      <div class="card-inner">
+        <div class="card-top"><span class="card-num">05</span><span class="card-tag">Social Proof</span></div>
+        <div class="card-title">Guest to Client</div>
+        <div class="card-sub">The Assist Call &mdash; bring a peer or coach onto a stalled prospect's next call.</div>
+        <div class="video-slot">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <div class="video-label">Video Coming Soon</div>
+        </div>
+        <div class="card-script">"[Name], I want to bring my coach on for 10 minutes next call, he's helped people in your exact spot."</div>
       </div>
     </div>
 
     <!-- 6 -->
-    <div class="tile">
-      <div class="tile-num">06 &middot; Looked, Didn't Buy</div>
-      <div class="video-slot">
-        <div class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-        <div class="video-placeholder-text">VIDEO GOES HERE</div>
-      </div>
-      <div class="tile-body">
-        <div class="tile-name">The Almost List</div>
-        <div class="tile-desc">Every prospect who had a real call and didn't close goes on one list. One message, 2-4 weeks later.</div>
-        <div class="tile-script">"Hey [Name], has [their stated problem] gotten better or worse since we talked?"</div>
+    <div class="tactic-card">
+      <div class="card-inner">
+        <div class="card-top"><span class="card-num">06</span><span class="card-tag">Remarket</span></div>
+        <div class="card-title">Looked, Didn't Buy</div>
+        <div class="card-sub">The Almost List &mdash; every real call that didn't close goes on one list. One message, weeks later.</div>
+        <div class="video-slot">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <div class="video-label">Video Coming Soon</div>
+        </div>
+        <div class="card-script">"Hey [Name], has [their stated problem] gotten better or worse since we talked?"</div>
       </div>
     </div>
 
     <!-- 7 -->
-    <div class="tile">
-      <div class="tile-num">07 &middot; Would You Like To Join Us</div>
-      <div class="video-slot">
-        <div class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-        <div class="video-placeholder-text">VIDEO GOES HERE</div>
-      </div>
-      <div class="tile-body">
-        <div class="tile-name">The Referral Ask</div>
-        <div class="tile-desc">For anyone who's seen real results working with you, a plain, low-pressure invite in.</div>
-        <div class="tile-script">"Hey [Name], you've seen how this actually works for me. Would you want in on it too?"</div>
+    <div class="tactic-card">
+      <div class="card-inner">
+        <div class="card-top"><span class="card-num">07</span><span class="card-tag">Referral</span></div>
+        <div class="card-title">Would You Like To Join Us</div>
+        <div class="card-sub">The Referral Ask &mdash; for anyone who's seen real results, a plain, low-pressure invite in.</div>
+        <div class="video-slot">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <div class="video-label">Video Coming Soon</div>
+        </div>
+        <div class="card-script">"Hey [Name], you've seen how this actually works for me. Would you want in on it too?"</div>
       </div>
     </div>
 
   </div>
 
   <div class="scope-note">
-    <strong>To fill in a video:</strong> each tile has a <code>.video-slot</code> div marked "VIDEO GOES HERE." Replace its contents with your embed (YouTube/Wistia/Loom iframe, or an HTML5 <code>&lt;video&gt;</code> tag) &mdash; the 16:9 aspect-ratio wrapper is already sized correctly, no layout changes needed. Full script/prompt for each tactic is the italic block below its video, ready to reference on camera.
+    <strong>To fill in a video:</strong> each card has a <code>.video-slot</code> div. Replace its contents with your embed (YouTube/Wistia/Loom iframe, or an HTML5 <code>&lt;video&gt;</code> tag) &mdash; the 16:9 aspect-ratio and border are already sized correctly, no layout changes needed.
   </div>
 
 </main>
 
 <div class="doc-footer">
   <span>Sales.io &middot; Win Fast</span>
-  <span>Adapted from BlackBelt &quot;$10K in 10 Minutes&quot; &middot; compiled Aug 2026</span>
+  <span>Adapted from BlackBelt "$10K in 10 Minutes" &middot; compiled Aug 2026</span>
 </div>
+
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const next = html.dataset.theme === 'day' ? 'night' : 'day';
+  html.dataset.theme = next;
+  const lbl = next === 'day' ? 'Day' : 'Night';
+  const el = document.getElementById('mode-lbl'); if(el) el.textContent = lbl;
+  try { localStorage.setItem('wf-theme', next); } catch(e) {}
+}
+try {
+  const saved = localStorage.getItem('wf-theme');
+  if (saved) {
+    document.documentElement.dataset.theme = saved;
+    const el = document.getElementById('mode-lbl'); if(el) el.textContent = saved === 'day' ? 'Day' : 'Night';
+  }
+} catch(e) {}
+
+const cards = document.querySelectorAll('.tactic-card');
+const cardObs = new IntersectionObserver(entries => {
+  entries.forEach((e,i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 20);
+      cardObs.unobserve(e.target);
+    }
+  });
+}, {threshold: 0.08, rootMargin: '0px 0px -40px 0px'});
+cards.forEach(c => cardObs.observe(c));
+
+const progressBar = document.getElementById('scroll-progress');
+function updateProgress(){
+  if (!progressBar) return;
+  const h = document.documentElement;
+  const scrollTop = h.scrollTop || document.body.scrollTop;
+  const height = h.scrollHeight - h.clientHeight;
+  progressBar.style.width = (height > 0 ? (scrollTop / height * 100) : 0) + '%';
+}
+document.addEventListener('scroll', updateProgress, {passive: true});
+updateProgress();
+
+const cursorSpot = document.getElementById('cursor-spot');
+let rafPending = false, lastMouseEvt = null;
+document.addEventListener('mousemove', e => {
+  lastMouseEvt = e;
+  if (rafPending) return;
+  rafPending = true;
+  requestAnimationFrame(() => {
+    rafPending = false;
+    if (cursorSpot) {
+      cursorSpot.style.setProperty('--mx', lastMouseEvt.clientX + 'px');
+      cursorSpot.style.setProperty('--my', lastMouseEvt.clientY + 'px');
+      cursorSpot.classList.add('active');
+    }
+    const card = lastMouseEvt.target.closest && lastMouseEvt.target.closest('.tactic-card');
+    if (card) {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--cx', ((lastMouseEvt.clientX - r.left) / r.width * 100).toFixed(1) + '%');
+      card.style.setProperty('--cy', ((lastMouseEvt.clientY - r.top) / r.height * 100).toFixed(1) + '%');
+    }
+  });
+});
+document.addEventListener('mouseleave', () => { if (cursorSpot) cursorSpot.classList.remove('active'); });
+</script>
+</body>
+</html>
