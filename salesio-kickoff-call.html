@@ -1,0 +1,563 @@
+
+<title>The Sales.io Kickoff Call</title>
+<style>
+  :root {
+    --bg: #090908;
+    --surface: #111110;
+    --surface-2: #1a1916;
+    --accent: #e2cfa8;
+    --accent-soft: #f0e4c8;
+    --accent-dim: rgba(226,207,168,.07);
+    --accent-border: rgba(226,207,168,.14);
+    --text: #f0ece4;
+    --text-muted: #8a8475;
+    --text-faint: #3e3b30;
+    --border: #201f18;
+    --mono: 'SF Mono','Fira Code','Consolas',monospace;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f2; --surface: #f0ece0; --surface-2: #e4dece;
+      --accent: #8a6d3a; --accent-soft: #6b5228;
+      --accent-dim: rgba(138,109,58,.07); --accent-border: rgba(138,109,58,.2);
+      --text: #1a1914; --text-muted: #6a6450; --text-faint: #c0b898;
+      --border: #ddd8c8;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#090908;--surface:#111110;--surface-2:#1a1916;
+    --accent:#e2cfa8;--accent-soft:#f0e4c8;
+    --accent-dim:rgba(226,207,168,.07);--accent-border:rgba(226,207,168,.14);
+    --text:#f0ece4;--text-muted:#8a8475;--text-faint:#3e3b30;
+    --border:#201f18;
+  }
+  :root[data-theme="light"] {
+    --bg:#faf8f2;--surface:#f0ece0;--surface-2:#e4dece;
+    --accent:#8a6d3a;--accent-soft:#6b5228;
+    --accent-dim:rgba(138,109,58,.07);--accent-border:rgba(138,109,58,.2);
+    --text:#1a1914;--text-muted:#6a6450;--text-faint:#c0b898;
+    --border:#ddd8c8;
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{font-size:16px;scroll-behavior:smooth;}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    font-size:.9375rem;line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .doc-header{
+    max-width:900px;margin:0 auto;
+    padding:3rem 2rem 2.5rem;
+    border-bottom:1px solid var(--border);
+  }
+  .eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:.875rem;
+  }
+  .doc-title{
+    font-size:1.9rem;font-weight:700;
+    letter-spacing:-.03em;line-height:1.2;
+    color:var(--text);margin-bottom:.5rem;
+  }
+  .doc-sub{color:var(--text-muted);font-size:.9375rem;max-width:66ch;}
+  .meta-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.125rem;}
+  .meta-chip{
+    display:flex;align-items:center;gap:.4rem;
+    font-family:var(--mono);font-size:.6875rem;
+    color:var(--text-muted);background:var(--surface);
+    border:1px solid var(--border);border-radius:2px;padding:.25rem .625rem;
+  }
+  .meta-chip-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);flex-shrink:0;}
+
+  main{max-width:900px;margin:0 auto;padding:0 2rem 5rem;}
+
+  .section{padding:2.75rem 0 2rem;border-bottom:1px solid var(--border);}
+  .section:last-child{border-bottom:none;}
+  .sec-eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.12em;text-transform:uppercase;
+    color:var(--text-faint);margin-bottom:.75rem;
+  }
+  .sec-title{
+    font-size:1.3125rem;font-weight:650;
+    color:var(--text);letter-spacing:-.02em;margin-bottom:.375rem;
+  }
+  .sec-note{font-size:.8125rem;color:var(--text-muted);margin-bottom:1.5rem;max-width:70ch;}
+
+  .panel{border:1px solid var(--border);border-radius:10px;background:var(--surface);padding:1.75rem;}
+
+  /* ── Venn: The Closer Model ── */
+  .venn-wrap{display:flex;gap:2.5rem;align-items:center;flex-wrap:wrap;}
+  .venn{position:relative;width:320px;height:280px;flex-shrink:0;}
+  .venn-circle{
+    position:absolute;width:190px;height:190px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    mix-blend-mode:screen;background:var(--accent-dim);border:1px solid var(--accent-border);
+    font-size:.8125rem;font-weight:650;color:var(--accent-soft);padding:1rem;
+  }
+  @media (prefers-color-scheme: light){.venn-circle{mix-blend-mode:multiply;}}
+  :root[data-theme="light"] .venn-circle{mix-blend-mode:multiply;}
+  .venn-circle span{display:block;font-family:var(--mono);font-size:.6rem;font-weight:400;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase;margin-top:.35rem;}
+  .venn-c1{top:0;left:65px;}
+  .venn-c2{top:95px;left:0;}
+  .venn-c3{top:95px;left:130px;}
+  .venn-list{flex:1;min-width:220px;}
+  .venn-list div{font-size:.8125rem;color:var(--text-muted);padding:.5rem 0;border-bottom:1px solid var(--border);}
+  .venn-list div:last-child{border-bottom:none;}
+  .venn-list strong{color:var(--text);font-weight:600;}
+
+  /* ── Future Focuser ── */
+  .focuser{display:flex;gap:2rem;flex-wrap:wrap;align-items:stretch;}
+  .curve-box{flex:1;min-width:280px;}
+  .curve-box svg{width:100%;height:auto;display:block;}
+  .focuser-table{width:180px;flex-shrink:0;display:flex;flex-direction:column;border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+  .focuser-row{flex:1;display:flex;border-bottom:1px solid var(--border);}
+  .focuser-row:last-child{border-bottom:none;}
+  .focuser-lbl{
+    writing-mode:vertical-rl;transform:rotate(180deg);
+    font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--accent);padding:.6rem .4rem;background:var(--surface-2);flex-shrink:0;
+  }
+  .focuser-fill{flex:1;padding:.6rem .75rem;font-size:.75rem;color:var(--text-faint);font-style:italic;}
+
+  /* ── Five Ones pyramid ── */
+  .pyramid-wrap{display:flex;flex-direction:column;align-items:center;gap:2px;max-width:520px;margin:0 auto;}
+  .pyr-tier{
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    background:var(--accent-dim);border:1px solid var(--accent-border);
+    color:var(--accent-soft);font-size:.75rem;font-weight:600;padding:.65rem 1rem;
+    border-radius:4px;
+  }
+  .pyr-tier span{display:block;font-family:var(--mono);font-weight:400;font-size:.65rem;color:var(--text-muted);margin-top:.2rem;text-transform:none;}
+  .pyr-1{width:34%;}
+  .pyr-2{width:50%;}
+  .pyr-3{width:66%;}
+  .pyr-4{width:82%;}
+  .pyr-5{width:100%;}
+
+  /* ── First Steps curve ── */
+  .steps-note{display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap;}
+  .steps-note div{flex:1;min-width:200px;border-left:2px solid var(--accent-border);padding-left:.85rem;}
+  .steps-note strong{display:block;color:var(--text);font-size:.8125rem;margin-bottom:.2rem;}
+  .steps-note p{font-size:.75rem;color:var(--text-muted);}
+
+  /* ── Revenue Ladder ── */
+  .ladder-wrap{display:flex;gap:2rem;align-items:flex-end;flex-wrap:wrap;}
+  .ladder-list{flex-shrink:0;display:flex;flex-direction:column-reverse;gap:.3rem;width:220px;}
+  .ladder-row{display:flex;align-items:center;gap:.6rem;font-size:.75rem;}
+  .ladder-tag{
+    width:64px;flex-shrink:0;font-family:var(--mono);font-weight:700;color:var(--bg);
+    background:var(--accent);border-radius:3px;padding:.2rem 0;text-align:center;font-size:.7rem;
+  }
+  .ladder-name{color:var(--text-muted);}
+  .ladder-chart{flex:1;min-width:260px;}
+  .ladder-chart svg{width:100%;height:auto;display:block;}
+  .ladder-last{
+    margin-top:.75rem;font-family:var(--mono);font-size:.7rem;color:var(--text-faint);
+    border:1px dashed var(--border);border-radius:4px;padding:.5rem .75rem;
+  }
+
+  /* ── Promise ── */
+  .promise-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+  .promise-col h3{font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:.9rem;}
+  .promise-col ul{list-style:none;display:flex;flex-direction:column;gap:.65rem;}
+  .promise-col li{font-size:.8125rem;color:var(--text-muted);padding-left:1.1rem;position:relative;line-height:1.6;}
+  .promise-col li::before{content:'—';position:absolute;left:0;color:var(--accent-border);}
+  .promise-sign{margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;gap:2rem;flex-wrap:wrap;}
+  .sign-line{flex:1;min-width:200px;}
+  .sign-line .line{border-bottom:1px solid var(--border);height:2rem;}
+  .sign-line label{font-family:var(--mono);font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-faint);margin-top:.35rem;display:block;}
+  @media(max-width:640px){.promise-grid{grid-template-columns:1fr;}}
+
+  /* ── System grid ── */
+  .system-grid{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--border);border-radius:8px;overflow:hidden;position:relative;}
+  .sys-head{background:var(--surface-2);text-align:center;font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);padding:.6rem 0;border-bottom:1px solid var(--border);}
+  .sys-cell{
+    border-right:1px solid var(--border);border-bottom:1px solid var(--border);
+    padding:1.5rem 1rem;min-height:110px;display:flex;align-items:center;justify-content:center;text-align:center;
+    font-size:.8125rem;font-weight:600;color:var(--text);position:relative;
+  }
+  .sys-cell span{display:block;font-size:.7rem;color:var(--text-muted);font-weight:400;margin-top:.3rem;}
+  .system-grid .sys-cell:nth-child(3n){border-right:none;}
+  .system-grid .sys-head:nth-child(3n){border-right:none;}
+
+  .pase-wheel{
+    position:relative;width:150px;height:150px;border-radius:50%;
+    border:1px solid var(--accent-border);background:var(--accent-dim);
+    display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;
+  }
+  .pase-wheel::before,.pase-wheel::after{content:'';position:absolute;background:var(--accent-border);}
+  .pase-wheel::before{top:0;bottom:0;left:50%;width:1px;}
+  .pase-wheel::after{left:0;right:0;top:50%;height:1px;}
+  .pase-q{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.55rem;font-weight:700;letter-spacing:.04em;color:var(--accent-soft);text-align:center;padding:.4rem;}
+  .pase-center{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:56px;height:56px;border-radius:50%;background:var(--surface);border:1px solid var(--accent-border);
+    display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.5rem;color:var(--text-muted);text-align:center;line-height:1.2;
+  }
+
+  .hh-diamond{position:relative;width:150px;height:150px;}
+  .hh-shape{
+    position:absolute;top:50%;left:50%;width:96px;height:96px;
+    transform:translate(-50%,-50%) rotate(45deg);
+    background:var(--accent-dim);border:1px solid var(--accent-border);
+  }
+  .hh-lbl{position:absolute;font-family:var(--mono);font-size:.55rem;font-weight:700;color:var(--accent-soft);text-align:center;width:90px;}
+  .hh-top{top:0;left:50%;transform:translateX(-50%);}
+  .hh-bottom{bottom:0;left:50%;transform:translateX(-50%);}
+  .hh-left{top:50%;left:-10px;transform:translateY(-50%);text-align:right;width:70px;}
+  .hh-right{top:50%;right:-10px;transform:translateY(-50%);text-align:left;width:70px;}
+
+  /* ── Sprint Scheduler ── */
+  .scheduler{width:100%;border-collapse:collapse;font-size:.7rem;}
+  .scheduler th{background:var(--surface-2);color:var(--text-muted);font-weight:600;padding:.5rem;border:1px solid var(--border);font-size:.65rem;text-transform:uppercase;letter-spacing:.05em;}
+  .scheduler td{border:1px solid var(--border);height:44px;}
+  .scheduler td.rowlbl{background:var(--surface-2);color:var(--text-faint);font-family:var(--mono);font-size:.6rem;text-align:center;text-transform:uppercase;writing-mode:vertical-rl;transform:rotate(180deg);}
+  .scheduler-wrap{overflow-x:auto;}
+
+  /* ── Chat template ── */
+  .chat-example{display:flex;gap:2rem;flex-wrap:wrap;}
+  .chat-bubble{
+    max-width:280px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;
+    padding:.9rem 1rem;flex-shrink:0;
+  }
+  .chat-bubble .who{font-size:.7rem;color:var(--accent);margin-bottom:.4rem;}
+  .chat-bubble .who b{color:var(--text);}
+  .chat-bubble p{font-size:.8125rem;color:var(--text-muted);line-height:1.6;}
+  .notepad{flex:1;min-width:240px;border:1px solid var(--border);border-radius:6px;padding:1rem 1.25rem;background:repeating-linear-gradient(var(--surface),var(--surface) 26px,var(--border) 27px,var(--border) 28px);}
+  .notepad-line{height:27px;}
+
+  /* ── Program timeline ── */
+  .timeline{display:flex;flex-direction:column;gap:0;}
+  .tl-row{display:flex;gap:1rem;padding:.75rem 0;border-bottom:1px solid var(--border);align-items:baseline;}
+  .tl-row:last-child{border-bottom:none;}
+  .tl-week{font-family:var(--mono);font-size:.7rem;color:var(--accent);width:64px;flex-shrink:0;}
+  .tl-body strong{display:block;font-size:.8125rem;color:var(--text);margin-bottom:.15rem;}
+  .tl-body p{font-size:.75rem;color:var(--text-muted);}
+
+  /* ── Next / checklist ── */
+  .next-fields{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:2rem;}
+  .field label{font-family:var(--mono);font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-faint);display:block;margin-bottom:.35rem;}
+  .field .line{border-bottom:1px solid var(--border);height:1.75rem;}
+  .field.full{grid-column:1/-1;}
+  .field.tall .line{height:5rem;background:repeating-linear-gradient(var(--surface),var(--surface) 26px,var(--border) 27px,var(--border) 28px);border-bottom:none;border:1px solid var(--border);border-radius:4px;}
+  @media(max-width:640px){.next-fields{grid-template-columns:1fr;}}
+
+  .checklist{list-style:none;display:flex;flex-direction:column;gap:.75rem;}
+  .checklist li{display:flex;align-items:flex-start;gap:.7rem;font-size:.8125rem;color:var(--text-muted);}
+  .checklist li::before{content:'';flex-shrink:0;width:15px;height:15px;border:1px solid var(--accent-border);border-radius:3px;margin-top:.15rem;}
+
+  @media(max-width:600px){
+    .doc-header,main{padding-left:1.25rem;padding-right:1.25rem;}
+    .doc-title{font-size:1.5rem;}
+    .venn-wrap{justify-content:center;}
+    .system-grid{grid-template-columns:1fr;}
+    .system-grid .sys-cell,.system-grid .sys-head{border-right:none;}
+  }
+
+  .doc-footer{
+    max-width:900px;margin:0 auto;
+    padding:1.5rem 2rem;border-top:1px solid var(--border);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);
+  }
+</style>
+
+<div class="doc-header">
+  <div class="eyebrow">Sales.io &middot; Student Kickoff Call</div>
+  <h1 class="doc-title">The Sales.io Kickoff Call</h1>
+  <p class="doc-sub">A live, fill-in-the-blank worksheet for the first coaching call with a new Mastermind student &mdash; walk through it together on Zoom, screen-share it, and build their gameplan in real time.</p>
+  <div class="meta-row">
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Run in the student's first week</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>45&ndash;60 minutes</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Screen-share and fill in live</div>
+  </div>
+</div>
+
+<main>
+
+  <!-- 1. Closer Model -->
+  <div class="section">
+    <div class="sec-eyebrow">01 &middot; The Foundation</div>
+    <h2 class="sec-title">The Sales.io Closer Model</h2>
+    <div class="sec-note">Everything we teach lives inside three overlapping pillars. A student who's weak in even one of these caps out &mdash; walk through where they already have strength, and where the gap is.</div>
+    <div class="panel">
+      <div class="venn-wrap">
+        <div class="venn">
+          <div class="venn-circle venn-c1">Identity<span>who you are off the call</span></div>
+          <div class="venn-circle venn-c2">Psychology<span>why people actually buy</span></div>
+          <div class="venn-circle venn-c3">Skill<span>the mechanics of the call</span></div>
+        </div>
+        <div class="venn-list">
+          <div><strong>Identity</strong> &mdash; self-worth, state, and standards off the call show up on the call. This is the one most reps skip.</div>
+          <div><strong>Psychology</strong> &mdash; PASE typing, cognitive dissonance, the Heaven &amp; Hell framework. The "why" behind the buy.</div>
+          <div><strong>Skill</strong> &mdash; scriptless selling, objection handling, tonality. The mechanics, last, not first.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Future Focuser -->
+  <div class="section">
+    <div class="sec-eyebrow">02 &middot; Their Vision</div>
+    <h2 class="sec-title">The Future Focuser</h2>
+    <div class="sec-note">Ask, then write down their own words &mdash; don't put words in their mouth. This becomes the thing you remind them of when week 6 gets hard.</div>
+    <div class="panel">
+      <div class="focuser">
+        <div class="curve-box">
+          <svg viewBox="0 0 400 200" fill="none">
+            <line x1="20" y1="10" x2="20" y2="180" stroke="var(--border)" stroke-width="1"/>
+            <line x1="20" y1="180" x2="390" y2="180" stroke="var(--border)" stroke-width="1"/>
+            <path d="M20,160 C120,150 220,120 390,20" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
+            <text x="20" y="196" font-family="var(--mono)" font-size="9" fill="var(--text-faint)">Today</text>
+            <text x="355" y="196" font-family="var(--mono)" font-size="9" fill="var(--text-faint)">12 Months</text>
+          </svg>
+        </div>
+        <div class="focuser-table">
+          <div class="focuser-row"><div class="focuser-lbl">Money</div><div class="focuser-fill">[their target monthly commission]</div></div>
+          <div class="focuser-row"><div class="focuser-lbl">Meaning</div><div class="focuser-fill">[what winning would actually prove to them]</div></div>
+          <div class="focuser-row"><div class="focuser-lbl">Freedom</div><div class="focuser-fill">[what changes in their day-to-day life]</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Five Ones -->
+  <div class="section">
+    <div class="sec-eyebrow">03 &middot; Their Focus</div>
+    <h2 class="sec-title">The Five Ones</h2>
+    <div class="sec-note">Five things, no more. Anything outside this list is noise for the next 12 weeks. Fill each tier in with their specific answer, out loud, on the call.</div>
+    <div class="panel">
+      <div class="pyramid-wrap">
+        <div class="pyr-tier pyr-1">One Belief<span>[the identity shift they need]</span></div>
+        <div class="pyr-tier pyr-2">One Relationship<span>[their accountability partner]</span></div>
+        <div class="pyr-tier pyr-3">One Habit<span>[the daily non-negotiable]</span></div>
+        <div class="pyr-tier pyr-4">One Skill<span>[the gap that's actually capping them]</span></div>
+        <div class="pyr-tier pyr-5">One Number<span>[the commission target for week 12]</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. First Steps -->
+  <div class="section">
+    <div class="sec-eyebrow">04 &middot; Their Plan</div>
+    <h2 class="sec-title">Your First Steps</h2>
+    <div class="sec-note">Two checkpoints, not twelve. This keeps the plan real instead of a wishlist.</div>
+    <div class="panel">
+      <svg viewBox="0 0 700 140" fill="none" style="width:100%;height:auto;display:block;">
+        <line x1="20" y1="120" x2="680" y2="120" stroke="var(--border)" stroke-width="1"/>
+        <line x1="20" y1="10" x2="20" y2="120" stroke="var(--border)" stroke-width="1"/>
+        <path d="M20,105 C200,100 350,90 680,15" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
+        <line x1="230" y1="15" x2="230" y2="120" stroke="var(--border)" stroke-width="1" stroke-dasharray="3 3"/>
+        <line x1="480" y1="15" x2="480" y2="120" stroke="var(--border)" stroke-width="1" stroke-dasharray="3 3"/>
+      </svg>
+      <div class="steps-note">
+        <div><strong>Week 2 &mdash; Check-In</strong><p>[first mock call graded / first live application sent / first outreach batch sent]</p></div>
+        <div><strong>Week 6 &mdash; Gameplan Reset</strong><p>[what "on track" looks like by the halfway point &mdash; ties into the 6-Week Gameplan workshop]</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. The Sales.io Way -->
+  <div class="section">
+    <div class="sec-eyebrow">05 &middot; The Proof</div>
+    <h2 class="sec-title">The Sales.io Way</h2>
+    <div class="sec-note">This is the same ladder every student climbs. Show them where they are today, and where the next rung actually is &mdash; it's usually closer than they think.</div>
+    <div class="panel">
+      <div class="ladder-wrap">
+        <div class="ladder-list">
+          <div class="ladder-row"><div class="ladder-tag">$50K+</div><div class="ladder-name">Elite Closer</div></div>
+          <div class="ladder-row"><div class="ladder-tag">$35K</div><div class="ladder-name">Senior Closer</div></div>
+          <div class="ladder-row"><div class="ladder-tag">$25K</div><div class="ladder-name">Closer</div></div>
+          <div class="ladder-row"><div class="ladder-tag">$18K</div><div class="ladder-name">Certified Closer</div></div>
+          <div class="ladder-row"><div class="ladder-tag">$12K</div><div class="ladder-name">Working Closer</div></div>
+          <div class="ladder-row"><div class="ladder-tag">$8K</div><div class="ladder-name">Landed the Role</div></div>
+          <div class="ladder-row"><div class="ladder-tag">$5K</div><div class="ladder-name">First Deals</div></div>
+          <div class="ladder-row"><div class="ladder-tag">$3K</div><div class="ladder-name">Day One</div></div>
+        </div>
+        <div class="ladder-chart">
+          <svg viewBox="0 0 400 220" fill="none">
+            <line x1="20" y1="10" x2="20" y2="200" stroke="var(--border)" stroke-width="1"/>
+            <line x1="20" y1="200" x2="390" y2="200" stroke="var(--border)" stroke-width="1"/>
+            <path d="M20,180 C100,175 220,140 390,20" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
+            <line x1="270" y1="20" x2="270" y2="200" stroke="var(--border)" stroke-width="1" stroke-dasharray="3 3"/>
+            <text x="272" y="15" font-family="var(--mono)" font-size="9" fill="var(--text-faint)">Last month</text>
+          </svg>
+          <div class="ladder-last">Last month: [$ &mdash; fill in live with the student]</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. The Promise -->
+  <div class="section">
+    <div class="sec-eyebrow">06 &middot; The Commitment</div>
+    <h2 class="sec-title">The Sales.io Promise</h2>
+    <div class="sec-note">What we owe each other. Read this together &mdash; out loud is better than silent. It sets the frame for the next 12 weeks.</div>
+    <div class="panel">
+      <div class="promise-grid">
+        <div class="promise-col">
+          <h3>We Must</h3>
+          <ul>
+            <li>Build you a real, customized gameplan for your first 6 weeks &mdash; not a generic curriculum.</li>
+            <li>Coach you every single week, live, so you're never more than 7 days from the answer you need.</li>
+            <li>Hold you to a higher standard than you hold yourself, and call it out when you're playing small.</li>
+            <li>Give you access to the full coaching team &mdash; Slack, WhatsApp, weekly group calls, all of it.</li>
+            <li>Keep every coach actively closing deals, not teaching from past glory.</li>
+            <li>Open the job platform to you &mdash; 60-80+ vetted companies hiring, updated weekly.</li>
+            <li>Show up for the quarterly in-person mastermind in Orlando, and do the work with you live.</li>
+            <li>Tell you the truth even when it's not what you want to hear. That's the job.</li>
+          </ul>
+        </div>
+        <div class="promise-col">
+          <h3>You Must</h3>
+          <ul>
+            <li>Show up. Mock Call Monday, your 1:1s, the group calls &mdash; camera on, present.</li>
+            <li>Be quick to implement and quick to ask for help. Don't sit stuck for a week alone.</li>
+            <li>Tell us if something isn't working. Silence doesn't get fixed &mdash; a real conversation does.</li>
+            <li>Keep your commitment for the full 12 weeks. Half-effort gets half-results.</li>
+            <li>Respect the community. Everyone here is your peer, not your prospect.</li>
+            <li>Actually apply what you learn on real calls, not just in the group chat.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="promise-sign">
+        <div class="sign-line"><div class="line"></div><label>Student Signature</label></div>
+        <div class="sign-line"><div class="line"></div><label>Date</label></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. The System -->
+  <div class="section">
+    <div class="sec-eyebrow">07 &middot; The Framework</div>
+    <h2 class="sec-title">The Sales.io System</h2>
+    <div class="sec-note">Three phases, one journey. Show the student where they sit right now &mdash; most new students are somewhere in Get In.</div>
+    <div class="panel">
+      <div class="system-grid">
+        <div class="sys-head">Get In</div>
+        <div class="sys-head">Get Good</div>
+        <div class="sys-head">Get Paid</div>
+
+        <div class="sys-cell">Personal Brand<span>LinkedIn + content</span></div>
+        <div class="sys-cell">
+          <div class="pase-wheel">
+            <div class="pase-q">Practical</div><div class="pase-q">Action</div>
+            <div class="pase-q">Social</div><div class="pase-q">Emotional</div>
+            <div class="pase-center">PASE<br>Typing</div>
+          </div>
+        </div>
+        <div class="sys-cell">Live Deals<span>real pipeline, real reps</span></div>
+
+        <div class="sys-cell">Job Platform<span>60-80+ vetted roles</span></div>
+        <div class="sys-cell">Mock Call Monday<span>weekly reps on real objections</span></div>
+        <div class="sys-cell">
+          <div class="hh-diamond">
+            <div class="hh-shape"></div>
+            <div class="hh-lbl hh-top">Future<br>State</div>
+            <div class="hh-lbl hh-bottom">Current<br>State</div>
+            <div class="hh-lbl hh-left">Solution</div>
+            <div class="hh-lbl hh-right">Gap</div>
+          </div>
+        </div>
+
+        <div class="sys-cell">Application Sprint<span>land interviews fast</span></div>
+        <div class="sys-cell">Call Review<span>game tape, every week</span></div>
+        <div class="sys-cell">Renewal &amp; Scale<span>$1K/mo continuation</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. Sprint Scheduler -->
+  <div class="section">
+    <div class="sec-eyebrow">08 &middot; Their Week</div>
+    <h2 class="sec-title">The Sprint Scheduler</h2>
+    <div class="sec-note">Block it live, right now, on the call. A gameplan without a calendar is just a wish. Mark prospecting blocks, call time, and the weekly group calls.</div>
+    <div class="panel">
+      <div class="scheduler-wrap">
+        <table class="scheduler">
+          <tr><th></th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr>
+          <tr><td class="rowlbl">Early</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="rowlbl">Morning</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="rowlbl">Mid</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="rowlbl">Afternoon</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          <tr><td class="rowlbl">Late</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. Chat template exercise -->
+  <div class="section">
+    <div class="sec-eyebrow">09 &middot; Quick Win Drill</div>
+    <h2 class="sec-title">I Sent a Thing About a Thing</h2>
+    <div class="sec-note">The fastest proof a student can get in week one &mdash; a real message sent to a real person. Write 3 versions together, live, in their own voice.</div>
+    <div class="panel">
+      <div class="chat-example">
+        <div class="chat-bubble">
+          <div class="who"><b>JJ</b> to Student &middot; 9:52am</div>
+          <p>I just made a [thing] for [role] who [problem] and want [result] in the next 30 days. Want me to send it over?</p>
+        </div>
+        <div class="notepad">
+          <div class="notepad-line"></div>
+          <div class="notepad-line"></div>
+          <div class="notepad-line"></div>
+          <div class="notepad-line"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. Program timeline -->
+  <div class="section">
+    <div class="sec-eyebrow">10 &middot; The 12 Weeks</div>
+    <h2 class="sec-title">What's Ahead</h2>
+    <div class="sec-note">Give them the shape of the whole program so week 4 doesn't feel like a surprise.</div>
+    <div class="panel">
+      <div class="timeline">
+        <div class="tl-row"><div class="tl-week">Wk 1</div><div class="tl-body"><strong>Kickoff &amp; Gameplan</strong><p>This call. Five Ones locked in, calendar blocked, first outreach sent.</p></div></div>
+        <div class="tl-row"><div class="tl-week">Wk 2&ndash;3</div><div class="tl-body"><strong>Foundations</strong><p>Mock Call Monday, Setting Mastery, PASE typing in live reps.</p></div></div>
+        <div class="tl-row"><div class="tl-week">Wk 4&ndash;5</div><div class="tl-body"><strong>Applied Skill</strong><p>Job platform push, applications live, first interviews booked.</p></div></div>
+        <div class="tl-row"><div class="tl-week">Wk 6</div><div class="tl-body"><strong>6-Week Gameplan Reset</strong><p>Full checkpoint &mdash; review, recalibrate, plan the back half.</p></div></div>
+        <div class="tl-row"><div class="tl-week">Wk 7&ndash;10</div><div class="tl-body"><strong>Live Reps</strong><p>Real calls, Call Review/Game Tape weekly, objection handling under pressure.</p></div></div>
+        <div class="tl-row"><div class="tl-week">Wk 11&ndash;12</div><div class="tl-body"><strong>Scale &amp; Renew</strong><p>Commission tracking, renewal conversation, Post-Mastermind continuation.</p></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11. Next -->
+  <div class="section">
+    <div class="sec-eyebrow">11 &middot; Wrap Up</div>
+    <h2 class="sec-title">Next&hellip;</h2>
+    <div class="sec-note">Fill this in during the last five minutes of the call, together, so nothing gets lost.</div>
+    <div class="panel">
+      <div class="next-fields">
+        <div class="field"><label>Name</label><div class="line"></div></div>
+        <div class="field"><label>Date</label><div class="line"></div></div>
+        <div class="field full tall"><label>Takeaways</label><div class="line"></div></div>
+        <div class="field full tall"><label>Actions</label><div class="line"></div></div>
+        <div class="field full tall"><label>Communications</label><div class="line"></div></div>
+      </div>
+      <h3 style="font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;">Checklist</h3>
+      <ul class="checklist">
+        <li>Book in your Week 2 check-in</li>
+        <li>Get access to Skool &mdash; modules, call recordings, coaching calendar</li>
+        <li>Join the WhatsApp community channels</li>
+        <li>Log your current monthly commission at the Revenue Ladder above</li>
+        <li>Calculate the number of deals you need to hit your Week 12 number</li>
+        <li>See you at Mock Call Monday</li>
+      </ul>
+    </div>
+  </div>
+
+</main>
+
+<div class="doc-footer">
+  <span>Sales.io &middot; The Kickoff Call</span>
+  <span>Adapted from BlackBelt "The Kickoff Call" &middot; compiled Aug 2026</span>
+</div>
