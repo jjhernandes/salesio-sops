@@ -57,6 +57,8 @@ body{
 .opt li strong{color:var(--text);}
 .opt li.excl{color:var(--faint);}
 .opt li.excl::before{content:'\00d7';}
+.opt li.incl-flag{color:var(--accent);font-weight:700;}
+.opt li.incl-flag::before{content:'\2713';color:var(--accent);}
 
 .credit-box{margin-top:1.25rem;background:var(--accent-bg);border:1px solid var(--accent);border-radius:10px;padding:1rem 1.15rem;}
 .credit-title{font-size:.65rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:.65rem;}
@@ -65,15 +67,45 @@ body{
 .credit-row strong{color:var(--text);font-size:.85rem;white-space:nowrap;}
 
 .addon-box{
-  display:flex;gap:.75rem;align-items:flex-start;margin-top:1.25rem;
+  display:flex;gap:.75rem;align-items:flex-start;margin-top:1.25rem;cursor:pointer;user-select:none;
   border:1px dashed var(--bdr-2);border-radius:10px;padding:.9rem 1rem;
+  transition:border-color .25s,background .25s,box-shadow .25s;
 }
-.addon-check{width:16px;height:16px;flex-shrink:0;margin-top:.15rem;border:1.5px solid var(--faint);border-radius:4px;}
+.addon-box:hover{border-color:var(--accent);}
+.addon-box.checked{
+  border:1px solid var(--accent);background:var(--accent-bg);
+  box-shadow:0 0 0 1px var(--accent),0 6px 24px rgba(0,0,0,.12);
+}
+.addon-check{
+  position:relative;width:18px;height:18px;flex-shrink:0;margin-top:.15rem;
+  border:1.5px solid var(--faint);border-radius:5px;
+  transition:background .25s,border-color .25s,transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.addon-box.checked .addon-check{
+  background:var(--accent);border-color:var(--accent);transform:scale(1.08);
+}
+.addon-check::after{
+  content:'';position:absolute;left:5px;top:1px;width:5px;height:9px;
+  border:solid var(--card);border-width:0 2px 2px 0;transform:rotate(45deg) scale(0);
+  transition:transform .2s cubic-bezier(.34,1.56,.64,1) .05s;
+}
+.addon-box.checked .addon-check::after{transform:rotate(45deg) scale(1);}
 .addon-title{font-size:.8rem;font-weight:800;color:var(--text);margin-bottom:.15rem;}
 .addon-desc{font-size:.75rem;color:var(--muted);margin-bottom:.5rem;line-height:1.5;}
 .addon-price{font-size:.78rem;color:var(--muted);}
 .addon-price strong{color:var(--accent);font-size:.9rem;}
 .addon-price span{color:var(--faint);}
+
+.price-flip{animation:priceFlip .45s cubic-bezier(.34,1.56,.64,1);}
+@keyframes priceFlip{
+  0%{opacity:1;transform:scale(1);}
+  35%{opacity:0;transform:scale(.85) translateY(4px);}
+  36%{opacity:0;transform:scale(.85) translateY(-4px);}
+  100%{opacity:1;transform:scale(1) translateY(0);}
+}
+.opt-price,.pif-price,.pif-save{transition:color .25s;}
+.opt.upgraded .opt-price,.opt.upgraded .pif-price{color:var(--accent);}
+.trial-excl-fade{transition:opacity .25s,max-height .25s;overflow:hidden;}
 
 @media(max-width:640px){
   .options{grid-template-columns:1fr;}
@@ -85,16 +117,16 @@ body{
 
   <div class="options">
 
-    <div class="opt">
+    <div class="opt" id="trial-card">
       <div class="opt-badge">Option 1</div>
       <div class="opt-name">3-Month Trial</div>
-      <div class="opt-price">$25,000</div>
+      <div class="opt-price" id="trial-price">$25,000</div>
       <div class="pif-row">
         <div>
           <div class="pif-lbl">Pay in Full</div>
-          <div class="pif-price">$20,000</div>
+          <div class="pif-price" id="trial-pif-price">$20,000</div>
         </div>
-        <div class="pif-save">Save $5,000</div>
+        <div class="pif-save" id="trial-pif-save">Save $5,000</div>
       </div>
       <div class="incl-lbl">What's Included</div>
       <ul>
@@ -105,10 +137,10 @@ body{
         <li>Slack access to the coaching team for 90 days</li>
         <li>All <strong>frameworks and SOPs</strong> covered &mdash; yours to keep</li>
         <li>One <strong>in-person masterclass</strong> included</li>
-        <li class="excl">Group coaching only &mdash; no 1-on-1s at this tier</li>
+        <li class="excl" id="trial-excl-line">Group coaching only &mdash; no 1-on-1s at this tier</li>
       </ul>
-      <div class="addon-box">
-        <div class="addon-check"></div>
+      <div class="addon-box" id="addon-box" role="checkbox" aria-checked="false" tabindex="0">
+        <div class="addon-check" id="addon-check"></div>
         <div class="addon-body">
           <div class="addon-title">Add 1-on-1 Coaching</div>
           <div class="addon-desc">1&ndash;2 dedicated team coaching calls / week, private to your team</div>
@@ -139,13 +171,75 @@ body{
       </ul>
       <div class="credit-box">
         <div class="credit-title">Your Trial Credit, If You Upgrade</div>
-        <div class="credit-row"><span>Paid $25,000 for trial &rarr; standard annual</span><strong>$65,000 due</strong></div>
-        <div class="credit-row"><span>Paid $20,000 for trial (in full) &rarr; pay-in-full annual</span><strong>$55,000 due</strong></div>
+        <div class="credit-row"><span id="credit-row-1-label">Paid $25,000 for trial &rarr; standard annual</span><strong id="credit-row-1-val">$65,000 due</strong></div>
+        <div class="credit-row"><span id="credit-row-2-label">Paid $20,000 for trial (in full) &rarr; pay-in-full annual</span><strong id="credit-row-2-val">$55,000 due</strong></div>
       </div>
     </div>
 
   </div>
 
 </div>
+
+<script>
+(function(){
+  var STATE = {
+    off: {
+      price: '$25,000', pif: '$20,000', save: 'Save $5,000',
+      exclText: 'Group coaching only — no 1-on-1s at this tier', exclClass: 'excl',
+      c1label: 'Paid $25,000 for trial → standard annual', c1val: '$65,000 due',
+      c2label: 'Paid $20,000 for trial (in full) → pay-in-full annual', c2val: '$55,000 due'
+    },
+    on: {
+      price: '$42,000', pif: '$32,500', save: 'Save $9,500',
+      exclText: '1-on-1 coaching included', exclClass: 'incl-flag',
+      c1label: 'Paid $42,000 for trial → standard annual', c1val: '$48,000 due',
+      c2label: 'Paid $32,500 for trial (in full) → pay-in-full annual', c2val: '$42,500 due'
+    }
+  };
+
+  var box = document.getElementById('addon-box');
+  var card = document.getElementById('trial-card');
+  var els = {
+    price: document.getElementById('trial-price'),
+    pif: document.getElementById('trial-pif-price'),
+    save: document.getElementById('trial-pif-save'),
+    excl: document.getElementById('trial-excl-line'),
+    c1l: document.getElementById('credit-row-1-label'),
+    c1v: document.getElementById('credit-row-1-val'),
+    c2l: document.getElementById('credit-row-2-label'),
+    c2v: document.getElementById('credit-row-2-val')
+  };
+
+  function flip(el, text){
+    el.classList.remove('price-flip');
+    void el.offsetWidth;
+    el.classList.add('price-flip');
+    setTimeout(function(){ el.textContent = text; }, 160);
+  }
+
+  function apply(checked){
+    var s = checked ? STATE.on : STATE.off;
+    box.classList.toggle('checked', checked);
+    box.setAttribute('aria-checked', checked ? 'true' : 'false');
+    card.classList.toggle('upgraded', checked);
+    flip(els.price, s.price);
+    flip(els.pif, s.pif);
+    flip(els.save, s.save);
+    flip(els.excl, s.exclText);
+    els.excl.className = s.exclClass;
+    flip(els.c1l, s.c1label);
+    flip(els.c1v, s.c1val);
+    flip(els.c2l, s.c2label);
+    flip(els.c2v, s.c2val);
+  }
+
+  var checked = false;
+  box.addEventListener('click', function(){ checked = !checked; apply(checked); });
+  box.addEventListener('keydown', function(e){
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); checked = !checked; apply(checked); }
+  });
+})();
+</script>
+
 </body>
 </html>
