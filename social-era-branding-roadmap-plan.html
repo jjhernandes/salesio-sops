@@ -1,0 +1,178 @@
+<title>Branding Roadmap Execution Plan</title>
+<style>
+  @font-face { font-family:'Mono'; src:local('SF Mono'), local('Menlo'), local('Consolas'); }
+  :root {
+    --bg:#f4f2ec; --card:#ffffff; --card-2:#ebe8df;
+    --text:#16161a; --muted:#6b6a63; --faint:#b3b1a6;
+    --border:#ddd9cd;
+    --accent:#8a6a3a; --accent-soft:#efe6d5;
+    --good:#3d7a50; --good-soft:#dde7de;
+    --warn:#a06a1a; --warn-soft:#f6ecd9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#0b0b0a; --card:#171715; --card-2:#1f1f1c;
+      --text:#f2f0ea; --muted:#9a988f; --faint:#4a4945;
+      --border:#2a2a26;
+      --accent:#d4a865; --accent-soft:#2a2013;
+      --good:#6fcf87; --good-soft:#142118;
+      --warn:#e0ab4a; --warn-soft:#2a2010;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#0b0b0a; --card:#171715; --card-2:#1f1f1c;
+    --text:#f2f0ea; --muted:#9a988f; --faint:#4a4945;
+    --border:#2a2a26;
+    --accent:#d4a865; --accent-soft:#2a2013;
+    --good:#6fcf87; --good-soft:#142118;
+    --warn:#e0ab4a; --warn-soft:#2a2010;
+  }
+  :root[data-theme="light"] {
+    --bg:#f4f2ec; --card:#ffffff; --card-2:#ebe8df;
+    --text:#16161a; --muted:#6b6a63; --faint:#b3b1a6;
+    --border:#ddd9cd;
+    --accent:#8a6a3a; --accent-soft:#efe6d5;
+    --good:#3d7a50; --good-soft:#dde7de;
+    --warn:#a06a1a; --warn-soft:#f6ecd9;
+  }
+
+  * { box-sizing:border-box; }
+  html { font-size:16px; }
+  body {
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased; font-size:15px; line-height:1.6;
+  }
+  .mono { font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace; font-variant-numeric:tabular-nums; }
+  .wrap { max-width:860px; margin:0 auto; padding:64px 28px 100px; }
+
+  .kicker { font-size:11px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); margin-bottom:18px; }
+  h1 { font-size:clamp(2rem,4.4vw,2.8rem); font-weight:900; letter-spacing:-.03em; line-height:1.05; margin:0 0 16px; text-wrap:balance; }
+  .lede { font-size:16.5px; color:var(--muted); max-width:64ch; line-height:1.75; margin-bottom:44px; }
+  .lede strong { color:var(--text); font-weight:700; }
+
+  .section-label { font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin:52px 0 16px; padding-top:36px; border-top:1px solid var(--border); }
+  .section-label:first-of-type { margin-top:0; padding-top:0; border-top:none; }
+  h2 { font-size:20px; font-weight:800; letter-spacing:-.01em; margin:0 0 14px; }
+  p.body-text { font-size:14.5px; color:var(--text); line-height:1.75; margin-bottom:14px; max-width:70ch; }
+  p.body-text strong { font-weight:700; }
+  p.body-text.muted { color:var(--muted); }
+
+  table.rt { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:8px; }
+  table.rt th { text-align:left; font-size:10.5px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--faint); padding:13px 16px; border-bottom:1px solid var(--border); background:var(--card-2); }
+  table.rt td { font-size:14px; padding:13px 16px; border-bottom:1px solid var(--border); vertical-align:top; }
+  table.rt tr:last-child td { border-bottom:none; }
+  table.rt td.lbl { font-weight:700; white-space:nowrap; }
+  table.rt td.num { white-space:nowrap; }
+  table.rt td.why { color:var(--muted); font-size:13px; }
+  table.rt tfoot td { font-weight:800; background:var(--card-2); border-top:2px solid var(--border); border-bottom:none; }
+
+  .callout { display:flex; gap:12px; align-items:flex-start; border-radius:10px; padding:18px 22px; margin:20px 0; }
+  .callout.warn { background:var(--warn-soft); border:1px solid var(--warn); }
+  .callout.good { background:var(--good-soft); border:1px solid var(--good); }
+  .callout .c-icon { font-size:16px; flex-shrink:0; margin-top:1px; }
+  .callout p { font-size:13.5px; color:var(--text); line-height:1.7; margin:0; }
+  .callout strong { color:var(--text); }
+  .callout .c-label { font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin-bottom:6px; display:block; }
+  .callout.warn .c-label { color:var(--warn); }
+  .callout.good .c-label { color:var(--good); }
+
+  ol.steps { margin:0; padding-left:22px; }
+  ol.steps li { font-size:14.5px; color:var(--text); line-height:1.8; margin-bottom:10px; }
+  ol.steps li strong { font-weight:700; }
+  ol.steps li span.sub { display:block; color:var(--muted); font-size:13px; margin-top:2px; }
+
+  .example-box { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:22px 24px; margin-top:16px; }
+  .example-box .ex-label { font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
+  .example-row { display:flex; justify-content:space-between; gap:16px; padding:9px 0; border-bottom:1px solid var(--border); font-size:13.5px; }
+  .example-row:last-child { border-bottom:none; padding-top:14px; font-weight:800; font-size:14.5px; }
+  .example-row .r-label { color:var(--muted); }
+  .example-row.total .r-label { color:var(--text); }
+  .example-row .r-val { font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace; font-variant-numeric:tabular-nums; white-space:nowrap; }
+
+  .scope-note { margin-top:52px; padding-top:24px; border-top:1px solid var(--border); font-size:12.5px; color:var(--faint); line-height:1.7; }
+  .scope-note strong { color:var(--muted); }
+
+  @media (max-width:640px) {
+    .wrap { padding:44px 18px 72px; }
+    table.rt th:nth-child(3), table.rt td:nth-child(3) { display:none; }
+    .example-row { flex-direction:column; gap:2px; }
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="kicker">Social Era Media &middot; New Offer Rollout</div>
+  <h1>Branding Roadmap<br>Execution Plan</h1>
+  <p class="lede">Built off Eddie's idea for a two-phase entry offer. This lays out what the offer actually is, the one decision that needs to be locked before it goes live, how it rolls out to the team, and how commission should work so closers are pulling in the same direction as the business.</p>
+
+  <div class="section-label">The Offer</div>
+  <h2>Two phases, one committed deal</h2>
+  <p class="body-text">This isn't a cheaper package. It's a trade: give up $1,000 on month one in exchange for killing the 7-day refund window entirely. Every $3,750 sale today carries 7 days of refund risk. This removes that risk and locks 60 days of revenue instead.</p>
+  <table class="rt">
+    <thead><tr><th>Phase</th><th>Price</th><th>Deliverable</th><th>Trial</th></tr></thead>
+    <tbody>
+      <tr><td class="lbl">1 &mdash; Branding Roadmap</td><td class="num mono">$2,750</td><td>12 videos, 1 shoot, page activation</td><td>None</td></tr>
+      <tr><td class="lbl">2 &mdash; Core Package</td><td class="num mono">$3,750</td><td>6 videos, ads live</td><td>None (past it)</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td>Total committed value</td><td class="num mono">$6,500</td><td colspan="2">Sold and contracted as one 60-day term</td></tr>
+    </tfoot>
+  </table>
+
+  <div class="callout warn">
+    <div class="c-icon">⚠️</div>
+    <div>
+      <span class="c-label">Decide This Before Launch</span>
+      <p>Is month 2 locked at the point of sale, or does the client decide after month 1 whether to continue? If it's optional, the exact drop-off problem this was built to solve just moves 30 days downstream, and closers will default to selling only the easy $2,750 month. <strong>Recommendation: lock it.</strong> Sell and contract this as one 60-day, two-phase agreement collected as two payments, not two separate decisions.</p>
+    </div>
+  </div>
+
+  <div class="section-label">Execution Plan</div>
+  <h2>Rollout, in order</h2>
+  <ol class="steps">
+    <li><strong>Lock the month-2 question above.</strong> Nothing below should go into scripts or paperwork until this is confirmed.<span class="sub">Owner: Eddie</span></li>
+    <li><strong>Update the contract.</strong> No 7-day trial clause on this offer, 60-day minimum term covering both phases, and clear language on what happens if a client tries to cancel mid-term.</li>
+    <li><strong>Build the CRM pipeline.</strong> A separate stage for "Branding Roadmap" deals with the 60-day term and the phase-2 transition date tracked, so nothing relies on someone remembering to follow up.</li>
+    <li><strong>Reposition the pitch.</strong> This goes into the offer stack as Phase 1 for any client, not as a fallback when someone says no to $3,750. Every client needs branding whether they run ads or not, so it's presented that way from the top of the call, not introduced after an objection. Selling it as a discount because someone couldn't afford the full package reads as needy and costs the frame.</li>
+    <li><strong>Brief the team as a standard, not an option.</strong> Once contract and CRM are ready, this is "the new entry point," not an optional add-on reps can ignore.</li>
+    <li><strong>Road-test on call reviews</strong> before it's fully live, the same way any new framework gets pressure-tested before it's trusted on live calls.</li>
+  </ol>
+
+  <div class="section-label">Closer Incentive Structure</div>
+  <h2>Bonuses and percentages</h2>
+  <p class="body-text muted">Built off the same 8% / 12% probation-to-standard shape already in use, adapted so the numbers reward the behavior that actually matters here: getting the client to stay through both phases, not just signing the cheap month.</p>
+  <table class="rt">
+    <thead><tr><th>Component</th><th>Structure</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td class="lbl">Base commission</td><td class="num">8% (days 1&ndash;60)<br>12% (day 61+)</td><td class="why">Matches existing comp philosophy, no new system to learn</td></tr>
+      <tr><td class="lbl">Commission basis</td><td>Full $6,500 committed value at signing, not just what collects in month 1</td><td class="why">If commission only pays on what's collected that month, reps are financially better off underselling the cheap tier and moving on. Pricing it on the full deal removes that incentive</td></tr>
+      <tr><td class="lbl">Payout timing</td><td>Pay on the $2,750 the day it collects, pay on the $3,750 the day <em>that</em> collects</td><td class="why">Protects cash flow, still gives reps a reason to make sure phase 2 actually bills</td></tr>
+      <tr><td class="lbl">Roadmap completion bonus</td><td class="num mono">$50&ndash;100 / deal</td><td class="why">Paid only when month 2 collects. Direct incentive to care whether the client sticks, not just whether they signed</td></tr>
+      <tr><td class="lbl">Full-pay bonus</td><td class="num mono">+3&ndash;5%</td><td class="why">If a closer collects the full $6,500 upfront instead of two monthly charges. Rewards the deal structure that reduces collection risk the most</td></tr>
+      <tr><td class="lbl">Clawback</td><td>Reverse commission on anything uncollected if the client cancels before day 60</td><td class="why">Same logic as the standard 90-day clawback, scoped to this offer's shorter term</td></tr>
+    </tbody>
+  </table>
+
+  <div class="example-box">
+    <div class="ex-label">Example Payout &mdash; One Deal, Standard Rate, Split Billing</div>
+    <div class="example-row"><span class="r-label">Month 1 collects $2,750 &rarr; commission (8% / 12%)</span><span class="r-val mono">$220 &ndash; $330</span></div>
+    <div class="example-row"><span class="r-label">Month 2 collects $3,750 &rarr; commission (8% / 12%)</span><span class="r-val mono">$300 &ndash; $450</span></div>
+    <div class="example-row"><span class="r-label">Roadmap completion bonus</span><span class="r-val mono">$50 &ndash; $100</span></div>
+    <div class="example-row total"><span class="r-label">Total on a fully-completed 60-day deal</span><span class="r-val mono">$570 &ndash; $880</span></div>
+  </div>
+  <p class="body-text muted" style="margin-top:14px;">Compare that to $300&ndash;450 for selling the $3,750 package alone with no phase 1. That gap is intentional: it makes the full roadmap worth meaningfully more to the closer than either piece sold on its own, which is what gets the team to sell it instead of defaulting to whichever feels like the easier yes in the moment.</p>
+
+  <div class="callout good">
+    <div class="c-icon">✓</div>
+    <div>
+      <span class="c-label">Guardrail</span>
+      <p>Because commission is based on the full $6,500 value and not month 1 alone, there's no financial upside to underselling the cheap tier by default. Spot-check call recordings early on to confirm reps are leading with this as a strategic Phase 1, not a discount they reach for out of habit.</p>
+    </div>
+  </div>
+
+  <div class="scope-note">
+    <strong>Scope note:</strong> this covers offer structure, rollout sequencing, and commission design. Contract language, CRM field setup, and script rewrites are the next layer of work once the month-2 lock question above is answered.
+  </div>
+
+</div>
