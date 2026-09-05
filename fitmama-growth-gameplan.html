@@ -1,0 +1,229 @@
+<title>FitMama Growth Gameplan</title>
+<style>
+  @font-face { font-family:'Mono'; src:local('SF Mono'), local('Menlo'), local('Consolas'); }
+  :root {
+    --bg:#f6f6f6; --card:#ffffff; --card-2:#efefef;
+    --text:#141414; --muted:#65605a; --faint:#a8a29a;
+    --border:#dedad2;
+    --accent:#141414; --accent-soft:#eceae5;
+    --good:#3d7a50; --good-soft:#dde7de;
+    --warn:#a0631a; --warn-soft:#f6ecd9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#0b0b0a; --card:#161613; --card-2:#1e1e1a;
+      --text:#f2f0ea; --muted:#9a958a; --faint:#4a463f;
+      --border:#2b2a25;
+      --accent:#f2f0ea; --accent-soft:#211f19;
+      --good:#6fcf87; --good-soft:#142118;
+      --warn:#e0ab4a; --warn-soft:#2a2010;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#0b0b0a; --card:#161613; --card-2:#1e1e1a;
+    --text:#f2f0ea; --muted:#9a958a; --faint:#4a463f;
+    --border:#2b2a25;
+    --accent:#f2f0ea; --accent-soft:#211f19;
+    --good:#6fcf87; --good-soft:#142118;
+    --warn:#e0ab4a; --warn-soft:#2a2010;
+  }
+  :root[data-theme="light"] {
+    --bg:#f6f6f6; --card:#ffffff; --card-2:#efefef;
+    --text:#141414; --muted:#65605a; --faint:#a8a29a;
+    --border:#dedad2;
+    --accent:#141414; --accent-soft:#eceae5;
+    --good:#3d7a50; --good-soft:#dde7de;
+    --warn:#a0631a; --warn-soft:#f6ecd9;
+  }
+
+  * { box-sizing:border-box; }
+  html { font-size:16px; }
+  body {
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased; font-size:15px; line-height:1.6;
+  }
+  .mono { font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace; font-variant-numeric:tabular-nums; }
+  .wrap { max-width:900px; margin:0 auto; padding:60px 28px 100px; }
+
+  .kicker { font-size:11px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:16px; }
+  h1 { font-size:clamp(1.9rem,4.2vw,2.6rem); font-weight:900; letter-spacing:-.03em; line-height:1.08; margin:0 0 14px; text-wrap:balance; }
+  .lede { font-size:15.5px; color:var(--muted); max-width:70ch; line-height:1.75; margin-bottom:36px; }
+
+  .num-label { display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:5px; background:var(--accent); color:var(--bg); font-size:11px; font-weight:800; margin-right:9px; flex-shrink:0; }
+  .section-head { display:flex; align-items:center; margin:52px 0 8px; padding-top:36px; border-top:1px solid var(--border); }
+  .section-head:first-of-type { margin-top:0; padding-top:0; border-top:none; }
+  h2 { font-size:19px; font-weight:800; letter-spacing:-.01em; margin:0; }
+  p.body-text { font-size:14.5px; color:var(--text); line-height:1.75; margin:10px 0 14px; max-width:72ch; }
+  p.body-text.muted { color:var(--muted); }
+  p.body-text strong { font-weight:700; }
+
+  ul.plain, ol.plain { margin:0 0 14px; padding-left:20px; }
+  ul.plain li, ol.plain li { font-size:14px; color:var(--text); line-height:1.75; margin-bottom:6px; }
+  ul.plain li strong, ol.plain li strong { font-weight:700; }
+  ul.plain li span.sub, ol.plain li span.sub { display:block; color:var(--muted); font-size:12.5px; }
+
+  table.rt { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--border); border-radius:10px; overflow:hidden; margin:8px 0 14px; }
+  table.rt th { text-align:left; font-size:10px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--faint); padding:11px 14px; border-bottom:1px solid var(--border); background:var(--card-2); }
+  table.rt td { font-size:13.5px; padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+  table.rt tr:last-child td { border-bottom:none; }
+  table.rt td.lbl { font-weight:700; white-space:nowrap; }
+  table.rt td.num { white-space:nowrap; }
+  table.rt td.why { color:var(--muted); font-size:12.5px; }
+
+  .callout { display:flex; gap:11px; align-items:flex-start; border-radius:10px; padding:16px 20px; margin:14px 0; }
+  .callout.warn { background:var(--warn-soft); border:1px solid var(--warn); }
+  .callout.good { background:var(--good-soft); border:1px solid var(--good); }
+  .callout .c-icon { font-size:15px; flex-shrink:0; margin-top:1px; }
+  .callout p { font-size:13px; color:var(--text); line-height:1.7; margin:0; }
+  .callout strong { color:var(--text); }
+  .callout .c-label { font-size:10px; font-weight:800; letter-spacing:.09em; text-transform:uppercase; margin-bottom:5px; display:block; }
+  .callout.warn .c-label { color:var(--warn); }
+  .callout.good .c-label { color:var(--good); }
+
+  .kpi-strip { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:10px; overflow:hidden; margin:16px 0; }
+  .kpi { background:var(--card); padding:14px 14px; }
+  .kpi-label { font-size:9.5px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--faint); margin-bottom:5px; }
+  .kpi-val { font-size:17px; font-weight:800; }
+
+  .scope-note { margin-top:52px; padding-top:22px; border-top:1px solid var(--border); font-size:12px; color:var(--faint); line-height:1.7; }
+  .scope-note strong { color:var(--muted); }
+
+  @media (max-width:640px) {
+    .wrap { padding:40px 18px 72px; }
+    .kpi-strip { grid-template-columns:1fr 1fr; }
+    table.rt th:nth-child(3), table.rt td:nth-child(3) { display:none; }
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="kicker">FitMama Coaching &middot; Strategy Session Recap</div>
+  <h1>Growth Gameplan</h1>
+  <p class="lede">Built off the full strategy call with JJ, Khalil, and Jalen. Organized in the order the call actually ran: lead acquisition, funnel and nurture, automations, tracking, sales, then team structure. Two things below don't match the original outline going in, flagged first so nothing slips through.</p>
+
+  <div class="callout warn">
+    <div class="c-icon">⚠️</div>
+    <div>
+      <span class="c-label">Confirm Before This Goes to the Team</span>
+      <p><strong>The funnel got cut down hard at the end of the call.</strong> After walking the numbers, the call ended with a decision to kill the quiz/assessment funnel and phone setters entirely. Final structure is organic plus DM Ad only, feeding straight into DM setter conversations. Monthly webinar and email nurture still stand. Reasoning stated on the call: last month burned $60K in ad spend with no return, so the move is back to the DM system that's actually proven, before testing anything new again.</p>
+      <p style="margin-top:8px;"><strong>The closer roster changed.</strong> The plan going in named Malia and Cara as the two full-time closers. The call instead confirms <strong>Mariah and Noelle</strong> (a new hire out of Jeremy Haynes' group) as the two full-time closers going forward, Cara said she doesn't want to do sales long-term.</p>
+    </div>
+  </div>
+
+  <div class="kpi-strip">
+    <div class="kpi"><div class="kpi-label">Revenue Target</div><div class="kpi-val">$250K/mo</div></div>
+    <div class="kpi"><div class="kpi-label">Then</div><div class="kpi-val">$500K/mo</div></div>
+    <div class="kpi"><div class="kpi-label">Cost / Booked Call</div><div class="kpi-val">$200</div></div>
+    <div class="kpi"><div class="kpi-label">Blended AOV</div><div class="kpi-val">~$7,000</div></div>
+  </div>
+  <p class="body-text muted">Stabilize at $250K/month consistently first, that gives the cash ("gunpowder") to push toward $500K. Don't try to jump straight there.</p>
+
+  <div class="section-head"><span class="num-label">1</span><h2>Lead Acquisition</h2></div>
+  <table class="rt">
+    <thead><tr><th>Channel</th><th>Plan</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="lbl">Organic &mdash; Khalil</td><td>3 CTAs/week</td><td class="why">Reels, carousel, or story posts. Khalil starts making content on his own page too, not just Jazz's, since past $9K+ closes have come from his personal page</td></tr>
+      <tr><td class="lbl">Organic &mdash; Jazz</td><td>3 CTAs/week</td><td class="why">Lean harder into her actual story: two kids, third on the way, running a business. That authenticity is the differentiator, not more polished content</td></tr>
+      <tr><td class="lbl">Paid</td><td>DM Ad only, both accounts</td><td class="why">CTA says "comment," click also routes straight to the funnel. Already live on Jazz's account and converting</td></tr>
+      <tr><td class="lbl">Other</td><td>Monthly warm webinar</td><td class="why">Next one likely October. Discussed Jazz opening it and handing off to the team ~13 minutes in, JJ may run a separate one to his own audience</td></tr>
+    </tbody>
+  </table>
+  <p class="body-text muted">YouTube is acknowledged as necessary long-term but explicitly not a near-term priority. Not being built into this gameplan.</p>
+
+  <div class="section-head"><span class="num-label">2</span><h2>Funnel and Nurture</h2></div>
+  <ol class="plain">
+    <li><strong>DM Ad &rarr; comment &rarr; DM setter conversation &rarr; booked call.</strong> This is the whole funnel now.<span class="sub">No quiz funnel, no separate "straight to book" path, no phone setters</span></li>
+    <li><strong>Fast cash emails.</strong> JJ has a proven sequence (accountable for $6.4M in revenue across his own past teams) he's sending over: broken-link resend, a 9-word "do you want this" email, a deposit-based win-back offer</li>
+    <li><strong>Monthly warm webinar</strong> stays as a secondary nurture play, not the primary funnel</li>
+    <li><strong>Win-back call for no-shows/non-closers.</strong> A live group call (Khalil/Jazz host) for anyone who booked but didn't close, offering a special deal or deposit option. No extra ad spend needed, these are already-warm leads</li>
+  </ol>
+  <p class="body-text muted">Owner for responses/replies on the DM/email nurture side wasn't fully settled on the call, worth a direct follow-up.</p>
+
+  <div class="section-head"><span class="num-label">3</span><h2>Automations</h2></div>
+  <ul class="plain">
+    <li><strong>GHL</strong> as the backend for email/nurture</li>
+    <li><strong>Slack connection for new leads.</strong> New submission pings the team immediately, same pattern JJ ran at scale elsewhere: a lead comes in, gets tagged, and everyone can see it's been picked up</li>
+    <li><strong>Sales call recordings auto-post to Slack.</strong> Zoom recording &rarr; unlisted YouTube upload &rarr; posted in a public channel automatically via Zapier, so any call can be reviewed by anyone</li>
+    <li><strong>BrightBoard connected to GHL.</strong> End-of-day submission forms populate the dashboard automatically, nobody has to manually build a report</li>
+    <li><strong>Setter feedback loop on ad source.</strong> Hyros can't track a click once it's inside a DM conversation, so setters have to self-report which ad a lead came from. This is how they identified their best-performing ad last time and shut off the rest</li>
+  </ul>
+
+  <div class="section-head"><span class="num-label">4</span><h2>Tracking</h2></div>
+  <ul class="plain">
+    <li><strong>Wistia</strong> for video engagement</li>
+    <li><strong>BrightBoard</strong> as the central dashboard: closer numbers, setter numbers, upcoming calls, full form history, all filterable by individual team member</li>
+    <li><strong>Hyros</strong> for ad-level tracking (limited once leads move into DMs, see automations above)</li>
+    <li><strong>Self-reporting</strong> via daily end-of-day forms for both closers and setters, feeding BrightBoard directly</li>
+  </ul>
+  <p class="body-text muted">Weekly rhythm: a Friday call where every setter and closer pulls up their own BrightBoard numbers and reports live to the team. This is the accountability mechanism JJ says fixed the same problem on past teams, not a manager chasing people down mid-week.</p>
+
+  <div class="section-head"><span class="num-label">5</span><h2>Sales</h2></div>
+  <p class="body-text"><strong>Package length:</strong> real debate on the call between 3, 6, and 12 months. The 12-month is the better deal in principle (higher LTV, matches how JJ would price this "every single time" if cash flow weren't a factor), but given the current cash crunch, the call landed on <strong>starting with a lower barrier of entry now to rebuild volume and cash flow</strong>, then graduating back up once stable. Key caveat stated directly: you can offer a cheap entry tier, but you can't easily walk it back up once it's out there, so this is meant to be a circumstantial move, not a permanent repositioning.</p>
+  <ul class="plain">
+    <li>No financing on the entry-tier offer, this protects margin and keeps the door open to a backend extension/upsell later</li>
+    <li>Coaches get 10% on any renewal, same as a closer, so retention-quality coaching is directly incentivized</li>
+  </ul>
+  <p class="body-text"><strong>The math, worked live on the call:</strong> at a $7,000 blended AOV and a worst-case 25% close rate, hitting the $250K target needs roughly 144 calls to show, which means around 206 booked calls, call it 10 bookings a day across both accounts. Historically the team has hit 230+ booked calls/month at a 25&ndash;30% close rate and a $6,200 blended AOV, so this is in range of what's already been proven, not a new stretch.</p>
+  <table class="rt">
+    <thead><tr><th>Metric</th><th>Target</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td class="lbl">Cost per booked call</td><td class="num mono">$200</td><td class="why">Guarantees roughly 5X return at the current blended AOV</td></tr>
+      <tr><td class="lbl">Closer close rate</td><td class="num mono">~40%+</td><td class="why">Historical average has been 46%</td></tr>
+      <tr><td class="lbl">Monthly closes needed</td><td class="num mono">~36</td><td class="why">To hit $250K at $7K blended AOV</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-head"><span class="num-label">6</span><h2>Team Structure, Expectations, Org Chart</h2></div>
+  <p class="body-text"><strong>DM Setters:</strong> rebuilding the bench. Micah remains the standard, she's the only one who has historically felt personal accountability to her numbers, and she built the actual voice-note-driven conversation system everyone else should be trained on.</p>
+  <table class="rt">
+    <thead><tr><th>Role</th><th>Coverage</th><th>Comp</th></tr></thead>
+    <tbody>
+      <tr><td class="lbl">Micah (lead setter)</td><td>Protected 8am&ndash;2pm block, her leads, nobody else touches them during her shift</td><td>Existing rate</td></tr>
+      <tr><td class="lbl">New DM setters</td><td>2&ndash;6pm block, split shift, hire 6&ndash;7 on trial and cut down to who performs</td><td>$1K base + 5% commission after trial</td></tr>
+      <tr><td class="lbl">Roxana</td><td>Weekends, plus afternoon flex</td><td>Existing rate</td></tr>
+      <tr><td class="lbl">Respark VA (new role)</td><td>Overnight / pipeline hygiene, re-engages cold leads only, does not close or book</td><td>~$5/hr, hourly only, no commission</td></tr>
+    </tbody>
+  </table>
+  <p class="body-text muted">The Respark role is new and deliberate: its only job is reviving cold conversations and keeping the pipeline organized on a spreadsheet, so Micah and the other setters spend their time on live, high-intent conversations instead of chasing stale leads. This is also the direct fix for the "whose lead is this" conflict that caused real team friction in the past.</p>
+  <p class="body-text"><strong>Trial process for new setters:</strong> roleplay conversation with Jalen and Micah before going live, then a trial period with daily KPI accountability, missing a day's KPI is an automatic cut, formal review at day 7 to decide who stays.</p>
+  <p class="body-text"><strong>Closers:</strong> two full-time, <strong>Mariah and Noelle</strong> (see the flag at the top of this doc). Cara is not moving into a long-term sales role.</p>
+
+  <table class="rt">
+    <thead><tr><th>KPI</th><th>Target</th><th>Applies To</th></tr></thead>
+    <tbody>
+      <tr><td class="lbl">Conversations started</td><td class="num mono">100/day</td><td>Each DM setter</td></tr>
+      <tr><td class="lbl">Booked calls</td><td class="num mono">4/day</td><td>Each DM setter</td></tr>
+      <tr><td class="lbl">Conversations started</td><td class="num mono">300/day floor</td><td>Respark VA / outreach</td></tr>
+    </tbody>
+  </table>
+  <p class="body-text muted">If a setter isn't converting at the expected rate, that's the coaching conversation: are they sending through genuinely interested leads, or just anyone, to hit a number. This is a judgment call for whoever's managing the team day to day, not something to automate away.</p>
+
+  <div class="callout good">
+    <div class="c-icon">✓</div>
+    <div>
+      <span class="c-label">Sequencing</span>
+      <p>The full org chart and written expectations doc still needs to be built (JJ committed to a Miro board plus a shared document), reviewed internally, then presented to the whole team once it's ready. This gameplan is the input to that, not a replacement for it.</p>
+    </div>
+  </div>
+
+  <div class="section-head"><span class="num-label">7</span><h2>Action Items and Owners</h2></div>
+  <table class="rt">
+    <thead><tr><th>Action</th><th>Owner</th><th>Timing</th></tr></thead>
+    <tbody>
+      <tr><td>Get the DM Ad and funnel fully live</td><td class="lbl">Khalil</td><td class="num">Same day</td></tr>
+      <tr><td>Hire and onboard 6&ndash;7 trial DM setters, system ready</td><td class="lbl">Khalil</td><td class="num">By Mon/Tue</td></tr>
+      <tr><td>Design the shift hand-off system (Instagram tagging vs. mini-chat buckets) and bring options back to the team</td><td class="lbl">Jalen</td><td class="num">This week</td></tr>
+      <tr><td>Run roleplay sign-off with new setters before they go live</td><td class="lbl">Jalen + Micah</td><td class="num">Before trial starts</td></tr>
+      <tr><td>Connect GHL to BrightBoard, confirm ad-source tracking on lead records</td><td class="lbl">James (JJ's ops contact)</td><td class="num">ASAP</td></tr>
+      <tr><td>Share fast-cash email templates and price-raise sequence docs</td><td class="lbl">JJ</td><td class="num">This week</td></tr>
+      <tr><td>Build the Miro org chart and full team expectations doc, then present to the team</td><td class="lbl">JJ</td><td class="num">Next</td></tr>
+      <tr><td>Confirm closer roster (Mariah/Noelle) and funnel simplification before either goes into team-facing materials</td><td class="lbl">Khalil</td><td class="num">Before rollout</td></tr>
+    </tbody>
+  </table>
+
+  <div class="scope-note">
+    <strong>Scope note:</strong> this reflects decisions and numbers discussed live on the call, including exploratory math that was worked through out loud, not all of it landed as a final number. Where the call left something genuinely open (DM/email reply ownership, exact shift hand-off mechanism), it's noted as open here rather than assumed.
+  </div>
+
+</div>
