@@ -1,0 +1,197 @@
+<title>Poppy AI Objection Tree</title>
+<style>
+  :root {
+    --bg:#f4f2ec; --card:#ffffff; --card-2:#ebe8df;
+    --text:#16161a; --muted:#6b6a63; --faint:#b3b1a6;
+    --border:#ddd9cd;
+    --accent:#3d5a80; --accent-soft:#dde3ea;
+    --warn:#a0631a; --warn-soft:#f6ecd9;
+    --good:#3d7a50; --good-soft:#dde7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#0b0b0d; --card:#17171a; --card-2:#1f1f23;
+      --text:#f2f0ea; --muted:#9a988f; --faint:#4a4945;
+      --border:#2a2a2e;
+      --accent:#7fa2d4; --accent-soft:#16202c;
+      --warn:#e0ab4a; --warn-soft:#2a2010;
+      --good:#6fcf87; --good-soft:#142118;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#0b0b0d; --card:#17171a; --card-2:#1f1f23;
+    --text:#f2f0ea; --muted:#9a988f; --faint:#4a4945;
+    --border:#2a2a2e;
+    --accent:#7fa2d4; --accent-soft:#16202c;
+    --warn:#e0ab4a; --warn-soft:#2a2010;
+    --good:#6fcf87; --good-soft:#142118;
+  }
+  :root[data-theme="light"] {
+    --bg:#f4f2ec; --card:#ffffff; --card-2:#ebe8df;
+    --text:#16161a; --muted:#6b6a63; --faint:#b3b1a6;
+    --border:#ddd9cd;
+    --accent:#3d5a80; --accent-soft:#dde3ea;
+    --warn:#a0631a; --warn-soft:#f6ecd9;
+    --good:#3d7a50; --good-soft:#dde7de;
+  }
+
+  * { box-sizing:border-box; }
+  html { font-size:16px; }
+  body {
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased; font-size:15px; line-height:1.6;
+  }
+  .mono { font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace; }
+  .wrap { max-width:880px; margin:0 auto; padding:60px 28px 100px; }
+
+  .kicker { font-size:11px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); margin-bottom:16px; }
+  h1 { font-size:clamp(1.9rem,4.2vw,2.6rem); font-weight:900; letter-spacing:-.03em; line-height:1.08; margin:0 0 14px; }
+  .lede { font-size:15.5px; color:var(--muted); max-width:70ch; line-height:1.75; margin-bottom:32px; }
+  .lede strong { color:var(--text); font-weight:700; }
+
+  .rule-box { background:var(--accent-soft); border:1px solid var(--accent); border-radius:10px; padding:18px 22px; margin-bottom:40px; }
+  .rule-box .r-label { font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:8px; }
+  .rule-box p { font-size:14px; color:var(--text); line-height:1.7; margin:0; }
+
+  .section-label { font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin:48px 0 18px; padding-top:36px; border-top:1px solid var(--border); }
+  .section-label:first-of-type { margin-top:0; padding-top:0; border-top:none; }
+
+  .obj-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:22px 24px; margin-bottom:14px; }
+  .obj-line { font-size:16px; font-weight:800; letter-spacing:-.01em; margin-bottom:4px; }
+  .obj-line::before { content:"“"; }
+  .obj-line::after { content:"”"; }
+  .obj-real { font-size:13px; color:var(--muted); margin-bottom:14px; font-style:italic; }
+  .obj-row { display:grid; grid-template-columns:100px 1fr; gap:14px; padding:10px 0; border-top:1px solid var(--border); }
+  .obj-row:first-of-type { border-top:none; }
+  .obj-row-label { font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--faint); padding-top:2px; }
+  .obj-row-label.isolate { color:var(--warn); }
+  .obj-row-label.response { color:var(--good); }
+  .obj-row-body { font-size:14px; color:var(--text); line-height:1.65; }
+  .obj-row-body em { color:var(--muted); font-style:italic; }
+  .obj-script { display:block; background:var(--card-2); border-radius:6px; padding:8px 12px; margin-top:6px; font-size:13.5px; color:var(--text); font-style:italic; }
+
+  .avatar-grid { display:grid; grid-template-columns:1fr; gap:12px; }
+  .avatar-card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:18px 22px; }
+  .avatar-name { font-size:13.5px; font-weight:800; color:var(--accent); text-transform:uppercase; letter-spacing:.04em; margin-bottom:8px; }
+  .avatar-obj { font-size:14px; color:var(--text); font-weight:700; margin-bottom:4px; }
+  .avatar-obj::before { content:"Hits hardest: "; color:var(--faint); font-weight:600; text-transform:none; letter-spacing:0; }
+  .avatar-reframe { font-size:13.5px; color:var(--muted); line-height:1.65; }
+  .avatar-reframe strong { color:var(--text); }
+
+  .scope-note { margin-top:52px; padding-top:24px; border-top:1px solid var(--border); font-size:12.5px; color:var(--faint); line-height:1.7; }
+  .scope-note strong { color:var(--muted); }
+
+  @media (max-width:640px) {
+    .wrap { padding:40px 18px 72px; }
+    .obj-row { grid-template-columns:1fr; gap:4px; }
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="kicker">Poppy AI &middot; Closer Reference</div>
+  <h1>Objection Tree</h1>
+  <p class="lede">Built off the 7 buyer avatars. The universal objections below apply on every call, but the response that actually lands is the one tied to the avatar you're on the phone with — that's what the flex section at the bottom is for.</p>
+
+  <div class="rule-box">
+    <div class="r-label">The One Rule</div>
+    <p>Never handle the objection you're given, handle the one underneath it. "Think about it," "too expensive," and "I need to talk to my partner" are all surface language for something more specific. <strong>Isolate first, then respond</strong> — a response to the wrong objection just teaches the prospect their stall works.</p>
+  </div>
+
+  <div class="section-label">Universal Objections</div>
+
+  <div class="obj-card">
+    <div class="obj-line">Let me think about it</div>
+    <div class="obj-real">What it really is: not an objection, it's a stall. The real reason hasn't surfaced yet.</div>
+    <div class="obj-row"><div class="obj-row-label isolate">Isolate</div><div class="obj-row-body"><span class="obj-script">"Totally fair — what specifically do you need to think through? Is it the price, the timing, whether this actually works for a business like yours, or something else?"</span></div></div>
+    <div class="obj-row"><div class="obj-row-label response">Response</div><div class="obj-row-body">Don't answer "think about it" directly, get the real objection named and handle that instead. If they can't name anything specific, reflect it back: <em>"It sounds like this isn't actually a priority right now, is that fair?"</em> — that either surfaces the truth or gets them to correct you and re-commit.</div></div>
+  </div>
+
+  <div class="obj-card">
+    <div class="obj-line">I need to talk to my partner</div>
+    <div class="obj-real">What it really is: sometimes genuine, sometimes a clean exit that avoids saying no directly.</div>
+    <div class="obj-row"><div class="obj-row-label isolate">Isolate</div><div class="obj-row-body"><span class="obj-script">"Totally understand — if it was just up to you today, would you move forward?"</span> This single question tells you whether it's a real logistics need or an avoidance move.</div></div>
+    <div class="obj-row"><div class="obj-row-label response">Response</div><div class="obj-row-body">If yes: <em>"Great, let's get them on a quick call right now so we're not playing telephone with this."</em> Same-day beats "call me after." If genuinely unavailable: lock an exact time. <em>"What time will you have talked to them by tonight? I'll call you right at that time."</em> Vague follow-up is where these deals go to die.</div></div>
+  </div>
+
+  <div class="obj-card">
+    <div class="obj-line">It's too expensive / I can't afford it</div>
+    <div class="obj-real">What it really is: they haven't connected the cost of staying stuck to the price of fixing it. It's a value-order problem, not a real capacity problem.</div>
+    <div class="obj-row"><div class="obj-row-label isolate">Isolate</div><div class="obj-row-body"><span class="obj-script">"Expensive compared to what?"</span> Find their actual comparison — an agency retainer, a VA salary, a competitor tool, or nothing at all (meaning the real objection is priority, not price).</div></div>
+    <div class="obj-row"><div class="obj-row-label response">Response</div><div class="obj-row-body">Anchor to <strong>their own numbers</strong>, not a script. A coach's cost of one un-booked call this month. An agency's cost of the pipeline clients they can't currently deliver × retainer. A DTC brand's cost of leaving 0.1&ndash;0.3 points of ROAS on the table. Let them do the math out loud — it lands harder coming from them than from you.</div></div>
+  </div>
+
+  <div class="obj-card">
+    <div class="obj-line">I'm already paying for [agency / tool / freelancer]</div>
+    <div class="obj-real">What it really is: they've priced an alternative, so "too expensive" here means "not obviously better than what I have."</div>
+    <div class="obj-row"><div class="obj-row-label isolate">Isolate</div><div class="obj-row-body"><span class="obj-script">"What are you comparing it to, and how's that actually going for you right now?"</span></div></div>
+    <div class="obj-row"><div class="obj-row-label response">Response</div><div class="obj-row-body">Don't compete on price, compete on the specific gap. An agency: staff churn, no transparency, pay-per-ad-spend model, results that already dropped — <em>"the day you stop paying them, everything they built dies. We teach you to fish."</em> A generic AI tool: no repurposing engine, no team seats, no system that survives them leaving the business.</div></div>
+  </div>
+
+  <div class="obj-card">
+    <div class="obj-line">I don't have time to implement another tool / my team won't adopt it</div>
+    <div class="obj-real">What it really is: fear of becoming the bottleneck themselves, usually from a past tool that never got used.</div>
+    <div class="obj-row"><div class="obj-row-label isolate">Isolate</div><div class="obj-row-body"><span class="obj-script">"What happened last time you tried to roll something like this out?"</span></div></div>
+    <div class="obj-row"><div class="obj-row-label response">Response</div><div class="obj-row-body">Point to what actually removes the founder as the bottleneck: voice/ICP/pillars saved once and reused, live collaboration so it's not one person's job, script to teleprompter to posted in minutes. <strong>This isn't another tool to manage, it's the system that stops everything running through them.</strong></div></div>
+  </div>
+
+  <div class="obj-card">
+    <div class="obj-line">I tried something like this before and it didn't work</div>
+    <div class="obj-real">What it really is: a trust objection wearing a product objection's clothes.</div>
+    <div class="obj-row"><div class="obj-row-label isolate">Isolate</div><div class="obj-row-body"><span class="obj-script">"What specifically didn't work about it?"</span> Get the exact failure point before defending anything.</div></div>
+    <div class="obj-row"><div class="obj-row-label response">Response</div><div class="obj-row-body">Most past failures trace back to no ongoing system or no personalization to their actual voice/niche, not the underlying idea being wrong. Map their specific failure to the specific thing that's different here, don't give a generic "we're better" answer.</div></div>
+  </div>
+
+  <div class="obj-card">
+    <div class="obj-line">I need to see this works for someone like me</div>
+    <div class="obj-real">What it really is: a legitimate ask. Generic proof doesn't answer it.</div>
+    <div class="obj-row"><div class="obj-row-label response">Response</div><div class="obj-row-body">Always match the proof point to their exact avatar, never a generic win. A coach wants to hear about a coach (parent coach 150K&rarr;240K in 2 weeks). A creator wants to hear about a creator (Chanel 0&rarr;16K from near zero). An ads-driven high-ticket business wants the 9&ndash;10x ROAS operators in their own niche. Wrong-niche proof reads as a stretch, right-niche proof reads as inevitable.</div></div>
+  </div>
+
+  <div class="section-label">Avatar-Specific Flex</div>
+  <p class="lede" style="margin-bottom:20px;">Same tree, but know which objection is actually coming before it lands.</p>
+
+  <div class="avatar-grid">
+    <div class="avatar-card">
+      <div class="avatar-name">Coaches, Consultants &amp; Course Creators</div>
+      <div class="avatar-obj">Time / camera fear, dressed up as money</div>
+      <div class="avatar-reframe"><strong>Reframe:</strong> scripts trained on their own voice remove the "I don't know what to say" excuse entirely. Tie the ROI to booked calls, not content volume — warmer leads close easier and need less setter dependency.</div>
+    </div>
+    <div class="avatar-card">
+      <div class="avatar-name">Content Creators &amp; Monetizers</div>
+      <div class="avatar-obj">"I already post a lot, why do I need this"</div>
+      <div class="avatar-reframe"><strong>Reframe:</strong> they don't see a content problem, they have a conversion problem. <em>"Going viral is the hard part — you've already cracked it. This is about making the followers you have BUY."</em></div>
+    </div>
+    <div class="avatar-card">
+      <div class="avatar-name">Agencies &amp; Creative Studios</div>
+      <div class="avatar-obj">Team adoption / logistics</div>
+      <div class="avatar-reframe"><strong>Reframe:</strong> "You don't need another AI tool, you need a system your team runs without you." Unlimited brands plus 5 seats means every client's voice gets saved once and the whole team plugs into the same system, not five different workflows.</div>
+    </div>
+    <div class="avatar-card">
+      <div class="avatar-name">E-Commerce, DTC &amp; Dropshippers</div>
+      <div class="avatar-obj">Money / ROAS skepticism</div>
+      <div class="avatar-reframe"><strong>Reframe:</strong> anchor on the ROAS lever with conservative math said out loud, let them do the multiplication. Numbers-only, detached close — don't oversell the emotional angle here.</div>
+    </div>
+    <div class="avatar-card">
+      <div class="avatar-name">Local &amp; Professional Services</div>
+      <div class="avatar-obj">Already burned by an agency (trust)</div>
+      <div class="avatar-reframe"><strong>Reframe:</strong> "You have a traffic problem, not a business problem." Bringing it in-house means firing the agency and keeping the system, not trading one dependency for another.</div>
+    </div>
+    <div class="avatar-card">
+      <div class="avatar-name">B2B, SaaS &amp; Founders</div>
+      <div class="avatar-obj">"Not a business priority right now" (timing)</div>
+      <div class="avatar-reframe"><strong>Reframe:</strong> business case and strategic fit first, emotion second. Position it as the content hub for the raise or launch they're already planning, not a new subscription line item.</div>
+    </div>
+    <div class="avatar-card">
+      <div class="avatar-name">High-Ticket Businesses Ran on Ads</div>
+      <div class="avatar-obj">"We're already doing fine on ads" (risk-blindness)</div>
+      <div class="avatar-reframe"><strong>Reframe:</strong> de-risking off pure paid, one ad account ban and the business stops. Follower-ads and talking-head trust content are the 9&ndash;10x lever sitting untapped in their exact niche.</div>
+    </div>
+  </div>
+
+  <div class="scope-note">
+    <strong>Scope note:</strong> money/expensive responses here are built on ROI framing and avatar-specific proof points, not hard dollar anchors — drop in your actual price, payment plan, and guarantee language once locked so closers have a real number to work from, not just a framework.
+  </div>
+
+</div>
