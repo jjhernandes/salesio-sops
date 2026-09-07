@@ -1,0 +1,429 @@
+<meta charset="UTF-8">
+<title>Poppy AI Objection Board</title>
+<style>
+  :root{
+    --canvas:#eef1f4; --dot:#c7cdd4;
+    --card:#ffffff; --card-bdr:#dfe3e8;
+    --text:#14161a; --muted:#5c6570; --faint:#9aa3ad;
+    --obj:#c0392b; --obj-soft:#fbe4e1; --obj-bdr:#e6a49b;
+    --isolate:#1f5fa8; --isolate-soft:#e1ecf9; --isolate-bdr:#9dbfe3;
+    --reframe:#6b4fa0; --reframe-soft:#ede6f7; --reframe-bdr:#c3adde;
+    --close:#1f7a4d; --close-soft:#dff1e6; --close-bdr:#8fcbaa;
+    --line:#b7bec6;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --canvas:#0e1013; --dot:#262b31;
+      --card:#181b20; --card-bdr:#2b3038;
+      --text:#eef0f2; --muted:#9aa3ad; --faint:#5c6570;
+      --obj:#e8776a; --obj-soft:#2a1512; --obj-bdr:#5a2b23;
+      --isolate:#6fa3e0; --isolate-soft:#101c2a; --isolate-bdr:#254063;
+      --reframe:#b39ce0; --reframe-soft:#1c1628; --reframe-bdr:#3d2f57;
+      --close:#6fcf9a; --close-soft:#0f1f17; --close-bdr:#245c3c;
+      --line:#3a4048;
+    }
+  }
+  :root[data-theme="dark"]{
+    --canvas:#0e1013; --dot:#262b31;
+    --card:#181b20; --card-bdr:#2b3038;
+    --text:#eef0f2; --muted:#9aa3ad; --faint:#5c6570;
+    --obj:#e8776a; --obj-soft:#2a1512; --obj-bdr:#5a2b23;
+    --isolate:#6fa3e0; --isolate-soft:#101c2a; --isolate-bdr:#254063;
+    --reframe:#b39ce0; --reframe-soft:#1c1628; --reframe-bdr:#3d2f57;
+    --close:#6fcf9a; --close-soft:#0f1f17; --close-bdr:#245c3c;
+    --line:#3a4048;
+  }
+  :root[data-theme="light"]{
+    --canvas:#eef1f4; --dot:#c7cdd4;
+    --card:#ffffff; --card-bdr:#dfe3e8;
+    --text:#14161a; --muted:#5c6570; --faint:#9aa3ad;
+    --obj:#c0392b; --obj-soft:#fbe4e1; --obj-bdr:#e6a49b;
+    --isolate:#1f5fa8; --isolate-soft:#e1ecf9; --isolate-bdr:#9dbfe3;
+    --reframe:#6b4fa0; --reframe-soft:#ede6f7; --reframe-bdr:#c3adde;
+    --close:#1f7a4d; --close-soft:#dff1e6; --close-bdr:#8fcbaa;
+    --line:#b7bec6;
+  }
+
+  *{box-sizing:border-box;}
+  html{font-size:16px;}
+  body{
+    margin:0;
+    background-color:var(--canvas);
+    background-image:radial-gradient(var(--dot) 1px, transparent 1px);
+    background-size:22px 22px;
+    color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+
+  .topbar{
+    position:sticky; top:0; z-index:20;
+    background:var(--card); border-bottom:1px solid var(--card-bdr);
+    padding:16px 24px;
+  }
+  .topbar-inner{ max-width:1180px; margin:0 auto; }
+  .kicker{ font-size:11px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:10px; }
+  .tabs{ display:flex; flex-wrap:wrap; gap:8px; }
+  .tab{
+    font-family:inherit; font-size:12.5px; font-weight:700;
+    padding:8px 14px; border-radius:20px; border:1px solid var(--card-bdr);
+    background:var(--card); color:var(--muted); cursor:pointer;
+    transition:all .15s;
+  }
+  .tab:hover{ border-color:var(--isolate-bdr); color:var(--text); }
+  .tab.active{ background:var(--text); color:var(--canvas); border-color:var(--text); }
+
+  .board{ max-width:900px; margin:0 auto; padding:44px 24px 100px; }
+
+  .avatar-head{ margin-bottom:8px; }
+  .avatar-head .a-label{ font-size:10.5px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--faint); }
+  .avatar-head h1{ font-size:clamp(1.5rem,3.4vw,2rem); font-weight:900; letter-spacing:-.02em; margin:4px 0 6px; }
+  .avatar-head .a-sub{ font-size:13.5px; color:var(--muted); max-width:60ch; line-height:1.6; margin-bottom:36px; }
+
+  .node{
+    position:relative;
+    background:var(--card); border:1.5px solid var(--card-bdr);
+    border-radius:12px; padding:18px 20px;
+    box-shadow:0 2px 10px rgba(0,0,0,.06);
+    max-width:640px;
+  }
+  .node + .node{ margin-top:0; }
+  .node-tag{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:10px; font-weight:800; letter-spacing:.1em; text-transform:uppercase;
+    padding:3px 9px; border-radius:20px; margin-bottom:10px;
+  }
+  .node.obj{ border-color:var(--obj-bdr); }
+  .node.obj .node-tag{ background:var(--obj-soft); color:var(--obj); }
+  .node.isolate{ border-color:var(--isolate-bdr); }
+  .node.isolate .node-tag{ background:var(--isolate-soft); color:var(--isolate); }
+  .node.reframe{ border-color:var(--reframe-bdr); }
+  .node.reframe .node-tag{ background:var(--reframe-soft); color:var(--reframe); }
+  .node.close{ border-color:var(--close-bdr); }
+  .node.close .node-tag{ background:var(--close-soft); color:var(--close); }
+
+  .node-quote{ font-size:16px; font-weight:700; letter-spacing:-.005em; line-height:1.4; }
+  .node-quote::before{ content:"“"; }
+  .node-quote::after{ content:"”"; }
+  .node-body{ font-size:13.5px; color:var(--muted); line-height:1.65; margin-top:8px; }
+  .node-body strong{ color:var(--text); }
+  .node-script{ display:block; margin-top:8px; font-size:13.5px; font-style:italic; color:var(--text); background:var(--canvas); border-radius:6px; padding:8px 12px; }
+
+  .connector{ width:2px; height:30px; background:var(--line); margin-left:32px; position:relative; }
+  .connector::after{
+    content:''; position:absolute; bottom:-1px; left:50%; transform:translateX(-50%);
+    width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent;
+    border-top:7px solid var(--line);
+  }
+
+  .fork-wrap{ margin-left:0; }
+  .fork-label{
+    display:flex; align-items:center; gap:10px;
+    font-size:11px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--faint);
+    margin:0 0 4px 32px;
+  }
+  .fork-buttons{
+    position:relative;
+    display:flex; gap:22px; flex-wrap:wrap;
+    margin:0 0 6px 32px; padding-top:20px;
+  }
+  .fork-buttons::before{
+    content:''; position:absolute; top:0; left:18px; right:18px; height:2px;
+    background:var(--line);
+  }
+  .fork-btn{
+    position:relative;
+    font-family:inherit; font-size:13px; font-weight:700;
+    padding:9px 16px; border-radius:8px; border:1.5px dashed var(--line);
+    background:transparent; color:var(--faint); cursor:pointer; opacity:.6;
+    transition:all .15s;
+  }
+  .fork-btn::before{
+    content:''; position:absolute; top:-20px; left:50%; transform:translateX(-50%);
+    width:2px; height:20px; background:var(--line);
+  }
+  .fork-btn:hover{ border-color:var(--isolate); color:var(--isolate); opacity:1; }
+  .fork-btn.picked{
+    border-style:solid; background:var(--isolate); color:#fff; border-color:var(--isolate);
+    opacity:1;
+  }
+  .fork-btn.picked::before{ background:var(--isolate); }
+  .fork-hint{ font-size:12px; color:var(--faint); margin:8px 0 0 32px; font-style:italic; }
+
+  .path-below{ display:block; animation:fadeIn .2s ease; }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(-4px);} to{opacity:1; transform:translateY(0);} }
+
+  .node.close{ border-width:2px; box-shadow:0 4px 16px rgba(31,122,77,.15); }
+  .close-flag{
+    display:flex; align-items:center; gap:10px; margin-top:16px;
+    font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--close);
+  }
+  .close-flag::before, .close-flag::after{ content:''; flex:1; height:1px; background:var(--close-bdr); }
+
+  .reset-row{ margin:14px 0 0 32px; }
+  .reset-btn{
+    font-family:inherit; font-size:11.5px; font-weight:700; color:var(--faint);
+    background:none; border:none; cursor:pointer; text-decoration:underline;
+    padding:0;
+  }
+  .reset-btn:hover{ color:var(--text); }
+
+  @media(max-width:640px){
+    .node{ max-width:100%; }
+    .connector, .fork-label, .fork-buttons, .fork-hint, .reset-row{ margin-left:14px; }
+    .fork-buttons::before{ left:14px; right:14px; }
+  }
+</style>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="kicker">Poppy AI &middot; Live Call Reference</div>
+    <div class="tabs" id="tabs"></div>
+  </div>
+</div>
+
+<div class="board" id="board"></div>
+
+<script>
+const AVATARS = [
+  {
+    id: "coaches",
+    name: "Coaches & Course Creators",
+    sub: "Solopreneurs selling expertise — coaching, consulting, courses.",
+    entry: "I don't have time to post every day / I don't know what to say on camera",
+    isolate: "If content wasn't the bottleneck, would you already have enough booked calls?",
+    forks: [
+      {
+        label: "Yes — content's the gap",
+        reframe: "Scripts trained on your own voice remove the “what do I even say” problem entirely — you show up, read, post in minutes.",
+        proof: "A parent coach we worked with went 150K → 240K in two weeks running exactly this."
+      },
+      {
+        label: "No — “I post fine, it's just not converting”",
+        reframe: "Then it's not a volume problem, it's a funnel problem — views without conversion means the content's doing top-of-funnel work with no bottom-of-funnel CTA or story sequence pulling people into DMs.",
+        proof: "Same fix either way: authority content plus a warm-up sequence before the call, so the setter isn't starting from zero."
+      }
+    ],
+    second: "How much does this cost / I already have a VA doing some of this",
+    handle: "Isolate what the VA actually does — usually they can execute but can't generate winning hooks or scripts. That's the actual gap, not overlap.",
+    close: "If scripts in your voice go out daily without you writing them, and that's even 2–3 extra booked calls a week, this pays for itself on the first close. Want to get set up today?"
+  },
+  {
+    id: "creators",
+    name: "Content Creators & Monetizers",
+    sub: "Monetizing an audience directly — TikTok Shop, affiliate, UGC, communities.",
+    entry: "I already post a lot, why do I need this?",
+    isolate: "Do your views actually translate into sales, or does it feel random which videos convert?",
+    forks: [
+      {
+        label: "It's random",
+        reframe: "That's exactly what the outlier tool solves — it reverse-engineers your own winning videos into a repeatable hook formula, so reach stops being luck.",
+        proof: "Chanel went from near zero to 16K using this exact breakdown process."
+      },
+      {
+        label: "Hooks are fine, sales aren't happening",
+        reframe: "Then the leak is bottom-of-funnel — outlier reels with no story sequence converting the warm audience already watching. Single story, before/after, poll, self-qualifier, that's the missing layer.",
+        proof: "Often the fastest ROI here is zero extra posting, just converting who's already watching."
+      }
+    ],
+    second: "I don't want to sound scripted / lose my authenticity",
+    handle: "It's trained on THEIR winning content, not a generic script — it amplifies what's already working in their own voice, it doesn't replace it.",
+    close: "Going viral is the hard part — you've already cracked it. This just makes sure the audience you've built actually buys. Let's build your first hook bank today."
+  },
+  {
+    id: "agencies",
+    name: "Agencies & Creative Studios",
+    sub: "Producing content or ads for a client roster.",
+    entry: "My team won't adopt another tool",
+    isolate: "How much of your team's time goes into re-explaining a client's voice and pillars every time someone new touches that account?",
+    forks: [
+      {
+        label: "A lot — onboarding resets everything",
+        reframe: "That's exactly what gets solved — save each client's voice, ICP, and pillars once, and every team member plugs into the same system instead of starting from scratch.",
+        proof: "Unlimited brands, 5 seats, one board — not five different workflows."
+      },
+      {
+        label: "It's more that quality is inconsistent between reps",
+        reframe: "Same root fix — one templated, repeatable system the whole team runs without the founder being the creative bottleneck for every video.",
+        proof: "Live collaboration on one board standardizes quality across editors, strategists, and VAs."
+      }
+    ],
+    second: "We're at capacity, we can't take on ramp-up time right now",
+    handle: "Flip it — this is what frees the capacity. The founder stops being the bottleneck for every script, which is exactly what's needed to onboard the pipeline clients already sitting there.",
+    close: "You've got pipeline clients you can't currently deliver on. This is what unlocks that revenue without adding headcount. Want to start with your busiest client account?"
+  },
+  {
+    id: "ecom",
+    name: "E-Commerce, DTC & Dropshippers",
+    sub: "Product brands and performance marketers running paid ads at volume.",
+    entry: "Not sure this is worth it on top of our ad budget",
+    isolate: "What's your ROAS looked like the last 60 days — trending up or down?",
+    forks: [
+      {
+        label: "Down or flat — creative fatigue",
+        reframe: "Static and video ad generation at volume, reverse-engineering both competitor ads and your own winners — the algorithm rewards volume, this is how you feed it without a full creative team.",
+        proof: "Every 0.1–0.3x ROAS is five to six figures at this spend level — let them do that math."
+      },
+      {
+        label: "Up — just want more scale",
+        reframe: "Then it's about diversity of creative to scale spend without fatigue setting in next — same engine, used to stay ahead of it instead of reacting to it.",
+        proof: "Multi-brand hub, no restriction on bold angles."
+      }
+    ],
+    second: "We already have a creative strategist",
+    handle: "Not a replacement — 10x the raw output to test. Finding and keeping a good strategist is already hard; volume is the actual bottleneck, not talent.",
+    close: "If lifting ROAS by even half a point pays for this outright, the math already works. Let's load your last 90 days of ad data and see what it finds."
+  },
+  {
+    id: "local",
+    name: "Local & Professional Services",
+    sub: "Doctors, clinics, med spas, law firms, trades moving online.",
+    entry: "I already tried an agency and got burned",
+    isolate: "What happened — results dropped, no transparency, or both?",
+    forks: [
+      {
+        label: "Both",
+        reframe: "That's the exact reason to bring it in-house. You have a traffic problem, not a business problem — the reputation's already there, it's just not visible yet.",
+        proof: "Pair it with a cheap media buyer or your own VA to run it."
+      },
+      {
+        label: "Mostly the pay-per-ad-spend model felt exploitative",
+        reframe: "Then owning the system instead of renting it solves that directly — no more paying a percentage of your own spend to someone else's black box.",
+        proof: "Case studies built in your exact niche, not a generic agency deck."
+      }
+    ],
+    second: "I don't have time to run this myself",
+    handle: "It's not solo — pairs with a cheap media buyer or an existing VA, since the system carries the heavy lift, not the operator.",
+    close: "The day you stop paying an agency, everything they built for you disappears. This is yours forever. Want to start with your strongest case study?"
+  },
+  {
+    id: "b2b",
+    name: "B2B, SaaS & Founders",
+    sub: "Software, funds, and founders building distribution or raising capital.",
+    entry: "This isn't a priority right now",
+    isolate: "Are you planning a raise, a launch, or building toward one in the next 6 months?",
+    forks: [
+      {
+        label: "Yes",
+        reframe: "Then this is the content hub for that exact raise or launch — research and ideation for podcast guests, repurposing long-form into LinkedIn, newsletter, and shorts, building the authority a raise or enterprise sale actually needs.",
+        proof: "Jack Neal-style prep: 100 tailored questions pulled from a guest's full footprint."
+      },
+      {
+        label: "No immediate plans",
+        reframe: "Then it's about compounding distribution before you need it — the LinkedIn authority engine builds the audience a raise or sale will lean on later, starting now costs less than starting under pressure.",
+        proof: "Repurposing engine means one recorded conversation becomes weeks of content."
+      }
+    ],
+    second: "We don't have bandwidth to be the face of this",
+    handle: "Team seats for delegation, plus a strategist who's worked with top operators handles the heavy lift — the founder doesn't have to be the one producing it.",
+    close: "This isn't a subscription, it's part of how you build the case for your raise or launch. Let's map it against your actual timeline."
+  },
+  {
+    id: "ads",
+    name: "High-Ticket Businesses Ran on Ads",
+    sub: "Credit repair, funding, financial services — closed via setter/closer flow.",
+    entry: "We're already doing fine on ads",
+    isolate: "What happens to the business if that ad account gets banned tomorrow?",
+    forks: [
+      {
+        label: "That would hurt a lot",
+        reframe: "De-risking off pure paid with follower-ads and trust-building talking-head content — operators in this exact space are hitting 9–10x ROAS on follower ads because almost nobody else is running them.",
+        proof: "Story sequences convert the warm follower base that's already sitting there untouched."
+      },
+      {
+        label: "We'd just make a new account",
+        reframe: "That's a bigger cost than it sounds — rebuilding pixel data and account trust from zero. A parallel organic and follower-ad channel means a ban doesn't zero out the pipeline.",
+        proof: "Talking-head content builds the trust needed to close in DMs, which shortens the setter-to-close cycle too."
+      }
+    ],
+    second: "Our content doesn't reflect what we actually earn / feels risky to show that",
+    handle: "This is proof-based content, not risk-based — testimonials and case studies, not personal financial flexing.",
+    close: "One ad ban and you're starting from zero. This is the safety net and a growth lever at the same time. Let's build your first follower-ad script."
+  }
+];
+
+let current = AVATARS[0].id;
+let pickedFork = {};
+
+function render(){
+  const tabs = document.getElementById('tabs');
+  tabs.innerHTML = AVATARS.map(a =>
+    `<button class="tab${a.id===current?' active':''}" onclick="selectAvatar('${a.id}')">${a.name}</button>`
+  ).join('');
+
+  const a = AVATARS.find(x => x.id === current);
+  const picked = pickedFork[a.id] !== undefined ? pickedFork[a.id] : 0;
+  const board = document.getElementById('board');
+
+  board.innerHTML = `
+    <div class="avatar-head">
+      <div class="a-label">Objection &rarr; Close Flow</div>
+      <h1>${a.name}</h1>
+      <div class="a-sub">${a.sub}</div>
+    </div>
+
+    <div class="node obj">
+      <div class="node-tag">01 &middot; Opening Objection</div>
+      <div class="node-quote">${a.entry}</div>
+    </div>
+    <div class="connector"></div>
+
+    <div class="node isolate">
+      <div class="node-tag">02 &middot; Isolate</div>
+      <span class="node-script">${a.isolate}</span>
+    </div>
+    <div class="connector"></div>
+
+    <div class="fork-wrap">
+      <div class="fork-label">&#8627; how they answer decides the path</div>
+      <div class="fork-buttons">
+        ${a.forks.map((f,i) => `<button class="fork-btn${picked===i?' picked':''}" onclick="pickFork('${a.id}', ${i})">${f.label}</button>`).join('')}
+      </div>
+      <div class="fork-hint">Showing the ${picked===0?'first':'second'} path below &mdash; click the other answer to swap it.</div>
+    </div>
+
+    <div class="path-below">
+      <div class="connector"></div>
+      <div class="node reframe">
+        <div class="node-tag">03 &middot; Reframe</div>
+        <div class="node-body"><strong>${a.forks[picked].reframe}</strong></div>
+        <span class="node-script">${a.forks[picked].proof}</span>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node obj">
+        <div class="node-tag">04 &middot; Second Objection</div>
+        <div class="node-quote">${a.second}</div>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node isolate">
+        <div class="node-tag">05 &middot; Handle</div>
+        <div class="node-body">${a.handle}</div>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node close">
+        <div class="node-tag">06 &middot; Close</div>
+        <span class="node-script">${a.close}</span>
+        <div class="close-flag">&#127937; End of flow</div>
+      </div>
+
+      <div class="reset-row"><button class="reset-btn" onclick="pickFork('${a.id}', ${picked===0?1:0})">&larr; see the other branch instead</button></div>
+    </div>
+  `;
+}
+
+function selectAvatar(id){
+  current = id;
+  render();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function pickFork(id, i){
+  pickedFork[id] = i;
+  render();
+}
+
+render();
+</script>
