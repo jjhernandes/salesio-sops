@@ -1,0 +1,385 @@
+<meta charset="UTF-8">
+<title>Social Era Objection Board</title>
+<style>
+  :root{
+    --canvas:#eef1f4; --dot:#c7cdd4;
+    --card:#ffffff; --card-bdr:#dfe3e8;
+    --text:#14161a; --muted:#5c6570; --faint:#9aa3ad;
+    --obj:#c0392b; --obj-soft:#fbe4e1; --obj-bdr:#e6a49b;
+    --isolate:#1f5fa8; --isolate-soft:#e1ecf9; --isolate-bdr:#9dbfe3;
+    --reframe:#6b4fa0; --reframe-soft:#ede6f7; --reframe-bdr:#c3adde;
+    --close:#1f7a4d; --close-soft:#dff1e6; --close-bdr:#8fcbaa;
+    --line:#b7bec6;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --canvas:#0e1013; --dot:#262b31;
+      --card:#181b20; --card-bdr:#2b3038;
+      --text:#eef0f2; --muted:#9aa3ad; --faint:#5c6570;
+      --obj:#e8776a; --obj-soft:#2a1512; --obj-bdr:#5a2b23;
+      --isolate:#6fa3e0; --isolate-soft:#101c2a; --isolate-bdr:#254063;
+      --reframe:#b39ce0; --reframe-soft:#1c1628; --reframe-bdr:#3d2f57;
+      --close:#6fcf9a; --close-soft:#0f1f17; --close-bdr:#245c3c;
+      --line:#3a4048;
+    }
+  }
+  :root[data-theme="dark"]{
+    --canvas:#0e1013; --dot:#262b31;
+    --card:#181b20; --card-bdr:#2b3038;
+    --text:#eef0f2; --muted:#9aa3ad; --faint:#5c6570;
+    --obj:#e8776a; --obj-soft:#2a1512; --obj-bdr:#5a2b23;
+    --isolate:#6fa3e0; --isolate-soft:#101c2a; --isolate-bdr:#254063;
+    --reframe:#b39ce0; --reframe-soft:#1c1628; --reframe-bdr:#3d2f57;
+    --close:#6fcf9a; --close-soft:#0f1f17; --close-bdr:#245c3c;
+    --line:#3a4048;
+  }
+  :root[data-theme="light"]{
+    --canvas:#eef1f4; --dot:#c7cdd4;
+    --card:#ffffff; --card-bdr:#dfe3e8;
+    --text:#14161a; --muted:#5c6570; --faint:#9aa3ad;
+    --obj:#c0392b; --obj-soft:#fbe4e1; --obj-bdr:#e6a49b;
+    --isolate:#1f5fa8; --isolate-soft:#e1ecf9; --isolate-bdr:#9dbfe3;
+    --reframe:#6b4fa0; --reframe-soft:#ede6f7; --reframe-bdr:#c3adde;
+    --close:#1f7a4d; --close-soft:#dff1e6; --close-bdr:#8fcbaa;
+    --line:#b7bec6;
+  }
+
+  *{box-sizing:border-box;}
+  html{font-size:16px;}
+  body{
+    margin:0;
+    background-color:var(--canvas);
+    background-image:radial-gradient(var(--dot) 1px, transparent 1px);
+    background-size:22px 22px;
+    color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+
+  .topbar{
+    position:sticky; top:0; z-index:20;
+    background:var(--card); border-bottom:1px solid var(--card-bdr);
+    padding:16px 24px;
+  }
+  .topbar-inner{ max-width:1180px; margin:0 auto; }
+  .kicker{ font-size:11px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:10px; }
+  .tabs{ display:flex; flex-wrap:wrap; gap:8px; }
+  .tab{
+    font-family:inherit; font-size:12.5px; font-weight:700;
+    padding:8px 14px; border-radius:20px; border:1px solid var(--card-bdr);
+    background:var(--card); color:var(--muted); cursor:pointer;
+    transition:all .15s;
+  }
+  .tab:hover{ border-color:var(--isolate-bdr); color:var(--text); }
+  .tab.active{ background:var(--text); color:var(--canvas); border-color:var(--text); }
+
+  .board{ max-width:900px; margin:0 auto; padding:44px 24px 100px; }
+
+  .avatar-head{ margin-bottom:8px; }
+  .avatar-head .a-label{ font-size:10.5px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--faint); }
+  .avatar-head h1{ font-size:clamp(1.5rem,3.4vw,2rem); font-weight:900; letter-spacing:-.02em; margin:4px 0 6px; }
+  .avatar-head .a-sub{ font-size:13.5px; color:var(--muted); max-width:60ch; line-height:1.6; margin-bottom:36px; }
+
+  .node{
+    position:relative;
+    background:var(--card); border:1.5px solid var(--card-bdr);
+    border-radius:12px; padding:18px 20px;
+    box-shadow:0 2px 10px rgba(0,0,0,.06);
+    max-width:640px;
+  }
+  .node + .node{ margin-top:0; }
+  .node-tag{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:10px; font-weight:800; letter-spacing:.1em; text-transform:uppercase;
+    padding:3px 9px; border-radius:20px; margin-bottom:10px;
+  }
+  .node.obj{ border-color:var(--obj-bdr); }
+  .node.obj .node-tag{ background:var(--obj-soft); color:var(--obj); }
+  .node.isolate{ border-color:var(--isolate-bdr); }
+  .node.isolate .node-tag{ background:var(--isolate-soft); color:var(--isolate); }
+  .node.reframe{ border-color:var(--reframe-bdr); }
+  .node.reframe .node-tag{ background:var(--reframe-soft); color:var(--reframe); }
+  .node.close{ border-color:var(--close-bdr); }
+  .node.close .node-tag{ background:var(--close-soft); color:var(--close); }
+
+  .node-quote{ font-size:16px; font-weight:700; letter-spacing:-.005em; line-height:1.4; }
+  .node-quote::before{ content:"“"; }
+  .node-quote::after{ content:"”"; }
+  .node-body{ font-size:13.5px; color:var(--muted); line-height:1.65; margin-top:8px; }
+  .node-body strong{ color:var(--text); }
+  .node-script{ display:block; margin-top:8px; font-size:13.5px; font-style:italic; color:var(--text); background:var(--canvas); border-radius:6px; padding:8px 12px; }
+
+  .connector{ width:2px; height:30px; background:var(--line); margin-left:32px; position:relative; }
+  .connector::after{
+    content:''; position:absolute; bottom:-1px; left:50%; transform:translateX(-50%);
+    width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent;
+    border-top:7px solid var(--line);
+  }
+
+  .fork-wrap{ margin-left:0; }
+  .fork-label{
+    display:flex; align-items:center; gap:10px;
+    font-size:11px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--faint);
+    margin:0 0 4px 32px;
+  }
+  .fork-buttons{
+    position:relative;
+    display:flex; gap:22px; flex-wrap:wrap;
+    margin:0 0 6px 32px; padding-top:20px;
+  }
+  .fork-buttons::before{
+    content:''; position:absolute; top:0; left:18px; right:18px; height:2px;
+    background:var(--line);
+  }
+  .fork-btn{
+    position:relative;
+    font-family:inherit; font-size:13px; font-weight:700;
+    padding:9px 16px; border-radius:8px; border:1.5px dashed var(--line);
+    background:transparent; color:var(--faint); cursor:pointer; opacity:.6;
+    transition:all .15s;
+  }
+  .fork-btn::before{
+    content:''; position:absolute; top:-20px; left:50%; transform:translateX(-50%);
+    width:2px; height:20px; background:var(--line);
+  }
+  .fork-btn:hover{ border-color:var(--isolate); color:var(--isolate); opacity:1; }
+  .fork-btn.picked{
+    border-style:solid; background:var(--isolate); color:#fff; border-color:var(--isolate);
+    opacity:1;
+  }
+  .fork-btn.picked::before{ background:var(--isolate); }
+  .fork-hint{ font-size:12px; color:var(--faint); margin:8px 0 0 32px; font-style:italic; }
+
+  .path-below{ display:block; animation:fadeIn .2s ease; }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(-4px);} to{opacity:1; transform:translateY(0);} }
+
+  .node.close{ border-width:2px; box-shadow:0 4px 16px rgba(31,122,77,.15); }
+  .close-flag{
+    display:flex; align-items:center; gap:10px; margin-top:16px;
+    font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--close);
+  }
+  .close-flag::before, .close-flag::after{ content:''; flex:1; height:1px; background:var(--close-bdr); }
+
+  .reset-row{ margin:14px 0 0 32px; }
+  .reset-btn{
+    font-family:inherit; font-size:11.5px; font-weight:700; color:var(--faint);
+    background:none; border:none; cursor:pointer; text-decoration:underline;
+    padding:0;
+  }
+  .reset-btn:hover{ color:var(--text); }
+
+  @media(max-width:640px){
+    .node{ max-width:100%; }
+    .connector, .fork-label, .fork-buttons, .fork-hint, .reset-row{ margin-left:14px; }
+    .fork-buttons::before{ left:14px; right:14px; }
+  }
+</style>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="kicker">Social Era Media &middot; Branding Roadmap &middot; Live Call Reference</div>
+    <div class="tabs" id="tabs"></div>
+  </div>
+</div>
+
+<div class="board" id="board"></div>
+
+<script>
+const FLOWS = [
+  {
+    id: "ads-first",
+    name: "“I just want ads, not branding first”",
+    sub: "Prospect wants leads now and pushes back on starting with the $2,750 branding phase.",
+    entry: "I don't need videos, I need leads and clients now — can we just skip to ads?",
+    isolate: "When's the last time you had a professional shoot done for your page?",
+    forks: [
+      {
+        label: "Never, or a long time ago",
+        reframe: "Branding is the foundation ads run on. You need professional content whether you run ads with us or not — this isn't a detour, it's day one of the same plan.",
+        proof: "Every client who's completed at least one shoot with us has stuck around 4+ months."
+      },
+      {
+        label: "Recently — content's actually decent",
+        reframe: "Then phase one moves faster, not away. Ads running against a page that isn't primed for this specific offer still underperforms — this is a shorter runway, not a skipped step.",
+        proof: "The goal is a page built around the exact campaign we're about to run traffic to, not generic content."
+      }
+    ],
+    second: "So I'm paying $2,750 just for videos before I even get a single lead?",
+    handle: "Reframe the discount and the risk trade, not the price alone: full price with the old 7-day trial exposes you to nothing extra, this removes that trial in exchange for $1,000 off and one committed 60-day runway instead of two separate decisions.",
+    close: "You get a professional page and 12 pieces of content in 30 days, then we go straight into running ads on a page that's actually ready to convert. Want to lock in the shoot date this week?"
+  },
+  {
+    id: "one-month",
+    name: "“Can I just do one month and see?”",
+    sub: "Prospect wants to split the 60-day commitment into two separate decisions.",
+    entry: "Can we start with just the branding month and decide about ads after?",
+    isolate: "What would make you want to stop after month one instead of continuing?",
+    forks: [
+      {
+        label: "Budget concern",
+        reframe: "The 60-day term is exactly what makes the $1,000 discount possible in the first place — it's one committed decision, not two, which is why it's priced lower than paying full price twice.",
+        proof: "Splitting it back into two decisions would mean repricing it back up to the standard $3,750 rate."
+      },
+      {
+        label: "Wants to “test it out” first",
+        reframe: "The branding month doesn't generate leads by design — testing whether “it works” only shows up once ads are live, so splitting the commitment actually defeats the test they're trying to run.",
+        proof: "The real test starts in phase two, on a page phase one already built for it."
+      }
+    ],
+    second: "What if I hate the content and don't want to continue?",
+    handle: "Content direction and approval happen during the shoot and edit process, not delivered blind at the end — there's no scenario where phase two starts on content that hasn't already been approved.",
+    close: "This is built as one 60-day runway, not two separate decisions. Let's get the shoot on the calendar — you'll see and approve the content well before ads ever go live.",
+  },
+  {
+    id: "no-trial",
+    name: "“Why isn't there a trial like before?”",
+    sub: "Prospect compares to the old $3,750 package's 7-day refund window.",
+    entry: "Your other package has a 7-day trial, why doesn't this one?",
+    isolate: "What's the trial actually protecting you against?",
+    forks: [
+      {
+        label: "Worried about content quality",
+        reframe: "The old trial existed for the ads package, where results take time to show. Here, you see and approve the actual video content before anything ever airs — there's nothing hidden left to trial.",
+        proof: "Approval happens during production, not after delivery."
+      },
+      {
+        label: "Just wants a general exit option",
+        reframe: "Removing the trial is exactly what let the price drop $1,000 on month one. The trade-off is real, and it's already priced in, not a hidden catch.",
+        proof: "No trial also means no refund exposure on our side — that's the whole reason this costs less."
+      }
+    ],
+    second: "What if life happens and I need to pause mid-term?",
+    handle: "Handled case by case, not a blanket policy — but 60 days is short enough that pausing rarely becomes necessary in practice.",
+    close: "This isn't more risk, it's a different kind of certainty for both sides. You know exactly what you're getting before phase two ever starts."
+  },
+  {
+    id: "price-content",
+    name: "“$2,750 feels like a lot for content”",
+    sub: "Prospect anchors the branding phase against a cheaper DIY or freelance option.",
+    entry: "Twelve videos and a shoot for $2,750 seems steep.",
+    isolate: "What are you comparing that to right now?",
+    forks: [
+      {
+        label: "A freelancer or videographer",
+        reframe: "This isn't just a shoot — it's a full month of edited, platform-ready content plus a live business page. A freelancer hands you raw footage, not a working system.",
+        proof: "Every deliverable is built to post, not just built to exist."
+      },
+      {
+        label: "Doing it themselves / posting on their own",
+        reframe: "Professional content compounds — it's the asset ads run on for every month after this one, not a one-off expense that ends when the shoot does.",
+        proof: "Clients who've done one shoot with us stay on 4+ months, this isn't a single-use purchase."
+      }
+    ],
+    second: "How do I actually know this pays off?",
+    handle: "Point to retention, not a promise: every client who's completed at least one shoot has stayed on 4+ months — the payoff shows up in phase two, not in isolation.",
+    close: "Think of this as month one of a two-month runway, not a standalone purchase. Let's get you on the calendar for a shoot this week."
+  },
+  {
+    id: "skip-to-ads",
+    name: "“I already have good content, skip to ads”",
+    sub: "Prospect believes their existing content is strong enough to skip phase one entirely.",
+    entry: "I've already got a solid page, can we skip branding and start straight with ads?",
+    isolate: "When was your last professional shoot, and is your current content actually built around the strategy we'd be running ads to?",
+    forks: [
+      {
+        label: "Content's dated or off-strategy",
+        reframe: "Content built for a different goal often doesn't convert the same way once real ad spend hits it. A short refresh phase de-risks the spend that follows, it isn't extra content for its own sake.",
+        proof: "Ad performance is downstream of whether the page matches the exact offer being run."
+      },
+      {
+        label: "Genuinely strong, recent, aligned content",
+        reframe: "Fair case — this isn't a blanket no. The move is a shortened phase one scoped to what's actually missing for this specific campaign, not a full rebuild.",
+        proof: "Some clients need less phase-one work, but the approval and campaign-alignment step still has to happen."
+      }
+    ],
+    second: "So even with good content, I still have to pay for phase one?",
+    handle: "Be straight about it: the scope can shrink, but the process (approval, page setup, campaign-specific content) doesn't disappear — it's not padding, it's what makes the ad spend behind it work.",
+    close: "Let's look at exactly what you've got before this gets quoted — but running ads on content that wasn't built for this specific offer is the fastest way to burn spend."
+  }
+];
+
+let current = FLOWS[0].id;
+let pickedFork = {};
+
+function render(){
+  const tabs = document.getElementById('tabs');
+  tabs.innerHTML = FLOWS.map(a =>
+    `<button class="tab${a.id===current?' active':''}" onclick="selectFlow('${a.id}')">${a.name}</button>`
+  ).join('');
+
+  const a = FLOWS.find(x => x.id === current);
+  const picked = pickedFork[a.id] !== undefined ? pickedFork[a.id] : 0;
+  const board = document.getElementById('board');
+
+  board.innerHTML = `
+    <div class="avatar-head">
+      <div class="a-label">Objection &rarr; Close Flow</div>
+      <h1>${a.name}</h1>
+      <div class="a-sub">${a.sub}</div>
+    </div>
+
+    <div class="node obj">
+      <div class="node-tag">01 &middot; Opening Objection</div>
+      <div class="node-quote">${a.entry}</div>
+    </div>
+    <div class="connector"></div>
+
+    <div class="node isolate">
+      <div class="node-tag">02 &middot; Isolate</div>
+      <span class="node-script">${a.isolate}</span>
+    </div>
+    <div class="connector"></div>
+
+    <div class="fork-wrap">
+      <div class="fork-label">&#8627; how they answer decides the path</div>
+      <div class="fork-buttons">
+        ${a.forks.map((f,i) => `<button class="fork-btn${picked===i?' picked':''}" onclick="pickFork('${a.id}', ${i})">${f.label}</button>`).join('')}
+      </div>
+      <div class="fork-hint">Showing the ${picked===0?'first':'second'} path below &mdash; click the other answer to swap it.</div>
+    </div>
+
+    <div class="path-below">
+      <div class="connector"></div>
+      <div class="node reframe">
+        <div class="node-tag">03 &middot; Reframe</div>
+        <div class="node-body"><strong>${a.forks[picked].reframe}</strong></div>
+        <span class="node-script">${a.forks[picked].proof}</span>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node obj">
+        <div class="node-tag">04 &middot; Second Objection</div>
+        <div class="node-quote">${a.second}</div>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node isolate">
+        <div class="node-tag">05 &middot; Handle</div>
+        <div class="node-body">${a.handle}</div>
+      </div>
+      <div class="connector"></div>
+
+      <div class="node close">
+        <div class="node-tag">06 &middot; Close</div>
+        <span class="node-script">${a.close}</span>
+        <div class="close-flag">&#127937; End of flow</div>
+      </div>
+
+      <div class="reset-row"><button class="reset-btn" onclick="pickFork('${a.id}', ${picked===0?1:0})">&larr; see the other branch instead</button></div>
+    </div>
+  `;
+}
+
+function selectFlow(id){
+  current = id;
+  render();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function pickFork(id, i){
+  pickedFork[id] = i;
+  render();
+}
+
+render();
+</script>
