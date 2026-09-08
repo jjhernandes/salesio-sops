@@ -9,6 +9,7 @@
     --isolate:#1f5fa8; --isolate-soft:#e1ecf9; --isolate-bdr:#9dbfe3;
     --reframe:#6b4fa0; --reframe-soft:#ede6f7; --reframe-bdr:#c3adde;
     --close:#1f7a4d; --close-soft:#dff1e6; --close-bdr:#8fcbaa;
+    --flag:#a0631a; --flag-soft:#f6ecd9; --flag-bdr:#e0b877;
     --line:#b7bec6;
   }
   @media (prefers-color-scheme: dark){
@@ -20,6 +21,7 @@
       --isolate:#6fa3e0; --isolate-soft:#101c2a; --isolate-bdr:#254063;
       --reframe:#b39ce0; --reframe-soft:#1c1628; --reframe-bdr:#3d2f57;
       --close:#6fcf9a; --close-soft:#0f1f17; --close-bdr:#245c3c;
+      --flag:#e0ab4a; --flag-soft:#2a2010; --flag-bdr:#5a4520;
       --line:#3a4048;
     }
   }
@@ -31,6 +33,7 @@
     --isolate:#6fa3e0; --isolate-soft:#101c2a; --isolate-bdr:#254063;
     --reframe:#b39ce0; --reframe-soft:#1c1628; --reframe-bdr:#3d2f57;
     --close:#6fcf9a; --close-soft:#0f1f17; --close-bdr:#245c3c;
+    --flag:#e0ab4a; --flag-soft:#2a2010; --flag-bdr:#5a4520;
     --line:#3a4048;
   }
   :root[data-theme="light"]{
@@ -41,6 +44,7 @@
     --isolate:#1f5fa8; --isolate-soft:#e1ecf9; --isolate-bdr:#9dbfe3;
     --reframe:#6b4fa0; --reframe-soft:#ede6f7; --reframe-bdr:#c3adde;
     --close:#1f7a4d; --close-soft:#dff1e6; --close-bdr:#8fcbaa;
+    --flag:#a0631a; --flag-soft:#f6ecd9; --flag-bdr:#e0b877;
     --line:#b7bec6;
   }
 
@@ -66,13 +70,14 @@
   .kicker{ font-size:11px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:10px; }
   .tabs{ display:flex; flex-wrap:wrap; gap:8px; }
   .tab{
-    font-family:inherit; font-size:12.5px; font-weight:700;
-    padding:8px 14px; border-radius:20px; border:1px solid var(--card-bdr);
+    font-family:inherit; font-size:12px; font-weight:700;
+    padding:7px 13px; border-radius:20px; border:1px solid var(--card-bdr);
     background:var(--card); color:var(--muted); cursor:pointer;
     transition:all .15s;
   }
   .tab:hover{ border-color:var(--isolate-bdr); color:var(--text); }
   .tab.active{ background:var(--text); color:var(--canvas); border-color:var(--text); }
+  .tab.flagged::after{ content:' ⚠'; }
 
   .board{ max-width:900px; margin:0 auto; padding:44px 24px 100px; }
 
@@ -102,6 +107,8 @@
   .node.reframe .node-tag{ background:var(--reframe-soft); color:var(--reframe); }
   .node.close{ border-color:var(--close-bdr); }
   .node.close .node-tag{ background:var(--close-soft); color:var(--close); }
+  .node.flag{ border-color:var(--flag-bdr); }
+  .node.flag .node-tag{ background:var(--flag-soft); color:var(--flag); }
 
   .node-quote{ font-size:16px; font-weight:700; letter-spacing:-.005em; line-height:1.4; }
   .node-quote::before{ content:"“"; }
@@ -155,11 +162,16 @@
   @keyframes fadeIn{ from{opacity:0; transform:translateY(-4px);} to{opacity:1; transform:translateY(0);} }
 
   .node.close{ border-width:2px; box-shadow:0 4px 16px rgba(31,122,77,.15); }
+  .node.flag{ border-width:2px; box-shadow:0 4px 16px rgba(160,99,26,.15); }
   .close-flag{
     display:flex; align-items:center; gap:10px; margin-top:16px;
-    font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--close);
+    font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase;
   }
-  .close-flag::before, .close-flag::after{ content:''; flex:1; height:1px; background:var(--close-bdr); }
+  .node.close .close-flag{ color:var(--close); }
+  .node.close .close-flag::before, .node.close .close-flag::after{ background:var(--close-bdr); }
+  .node.flag .close-flag{ color:var(--flag); }
+  .node.flag .close-flag::before, .node.flag .close-flag::after{ background:var(--flag-bdr); }
+  .close-flag::before, .close-flag::after{ content:''; flex:1; height:1px; }
 
   .reset-row{ margin:14px 0 0 32px; }
   .reset-btn{
@@ -178,7 +190,7 @@
 
 <div class="topbar">
   <div class="topbar-inner">
-    <div class="kicker">Poppy AI &middot; Live Call Reference</div>
+    <div class="kicker">Poppy AI &middot; Live Call Reference &middot; ⚠ = needs a real policy answer before promising it</div>
     <div class="tabs" id="tabs"></div>
   </div>
 </div>
@@ -186,175 +198,358 @@
 <div class="board" id="board"></div>
 
 <script>
-const AVATARS = [
+const FLOWS = [
   {
-    id: "coaches",
-    name: "Coaches & Course Creators",
-    sub: "Solopreneurs selling expertise — coaching, consulting, courses.",
-    entry: "I don't have time to post every day / I don't know what to say on camera",
-    isolate: "If content wasn't the bottleneck, would you already have enough booked calls?",
+    id: "price",
+    name: "Price is more than I expected",
+    sub: "The gap between what they had in mind and the real number.",
+    entry: "The price is more than I expected.",
+    isolate: "More than expected based on a number you had in mind, or something you were comparing it to?",
     forks: [
       {
-        label: "Yes — content's the gap",
-        reframe: "Scripts trained on your own voice remove the “what do I even say” problem entirely — you show up, read, post in minutes.",
-        proof: "A parent coach we worked with went 150K → 240K in two weeks running exactly this."
+        label: "Had a lower number in mind, no real comparison",
+        reframe: "Shift off cost entirely and onto what it replaces — a strategist's salary, a course they'd have to build themselves, or months of trial and error finding what actually converts.",
+        proof: "Tie it to their own proof point: a coach who went 150K → 240K in two weeks, or an operator hitting 9–10x ROAS, isn't paying for a tool, they're paying for the outcome."
       },
       {
-        label: "No — “I post fine, it's just not converting”",
-        reframe: "Then it's not a volume problem, it's a funnel problem — views without conversion means the content's doing top-of-funnel work with no bottom-of-funnel CTA or story sequence pulling people into DMs.",
-        proof: "Same fix either way: authority content plus a warm-up sequence before the call, so the setter isn't starting from zero."
+        label: "Comparing to a specific cheaper tool",
+        reframe: "This is a shopping-around objection wearing price language — isolate what that tool actually does before conceding price is the real gap.",
+        proof: "Most alternatives don't have all three: your own outlier data, team seats, and a repurposing/delegation layer."
       }
     ],
-    second: "How much does this cost / I already have a VA doing some of this",
-    handle: "Isolate what the VA actually does — usually they can execute but can't generate winning hooks or scripts. That's the actual gap, not overlap.",
-    close: "If scripts in your voice go out daily without you writing them, and that's even 2–3 extra booked calls a week, this pays for itself on the first close. Want to get set up today?"
+    second: "Is there a way to make this work at a lower commitment first?",
+    handle: "This is where the monthly-vs-annual conversation opens — bridge to that flow rather than discounting on the spot.",
+    close: "Anchor back to their own proof point and ask for the decision, not a lower price."
   },
   {
-    id: "creators",
-    name: "Content Creators & Monetizers",
-    sub: "Monetizing an audience directly — TikTok Shop, affiliate, UGC, communities.",
-    entry: "I already post a lot, why do I need this?",
-    isolate: "Do your views actually translate into sales, or does it feel random which videos convert?",
+    id: "partner",
+    name: "I need to talk to my partner or spouse",
+    sub: "Sometimes genuine, sometimes a clean exit that avoids saying no directly.",
+    entry: "I need to talk to my partner or spouse first.",
+    isolate: "Totally understand — if it was just up to you today, would you move forward?",
     forks: [
       {
-        label: "It's random",
-        reframe: "That's exactly what the outlier tool solves — it reverse-engineers your own winning videos into a repeatable hook formula, so reach stops being luck.",
-        proof: "Chanel went from near zero to 16K using this exact breakdown process."
+        label: "Yes, if it were just me",
+        reframe: "Get them on a quick call right now so this isn't a game of telephone.",
+        proof: "Same-day beats \"I'll call you after\" every time — momentum doesn't survive 48 hours of silence."
       },
       {
-        label: "Hooks are fine, sales aren't happening",
-        reframe: "Then the leak is bottom-of-funnel — outlier reels with no story sequence converting the warm audience already watching. Single story, before/after, poll, self-qualifier, that's the missing layer.",
-        proof: "Often the fastest ROI here is zero extra posting, just converting who's already watching."
+        label: "Not sure / genuinely needs the conversation",
+        reframe: "Lock an exact time to reconnect instead of a vague follow-up.",
+        proof: "\"What time will you have talked to them by tonight? I'll call you right then\" — specific beats open-ended."
       }
     ],
-    second: "I don't want to sound scripted / lose my authenticity",
-    handle: "It's trained on THEIR winning content, not a generic script — it amplifies what's already working in their own voice, it doesn't replace it.",
-    close: "Going viral is the hard part — you've already cracked it. This just makes sure the audience you've built actually buys. Let's build your first hook bank today."
+    second: "What if they're not fully on board?",
+    handle: "Ask what their partner would actually need to hear — usually it's the same proof point that convinced them, not a new argument entirely.",
+    close: "Offer to join that follow-up call directly if it helps get both people the same information at once."
   },
   {
-    id: "agencies",
-    name: "Agencies & Creative Studios",
-    sub: "Producing content or ads for a client roster.",
-    entry: "My team won't adopt another tool",
-    isolate: "How much of your team's time goes into re-explaining a client's voice and pillars every time someone new touches that account?",
+    id: "monthly",
+    name: "Can you do monthly instead of annual",
+    sub: "A payment-terms ask, not always a real affordability problem.",
+    entry: "Can you do monthly instead of annual?",
+    isolate: "Is it the total commitment length that's the concern, or the size of a single payment?",
     forks: [
       {
-        label: "A lot — onboarding resets everything",
-        reframe: "That's exactly what gets solved — save each client's voice, ICP, and pillars once, and every team member plugs into the same system instead of starting from scratch.",
-        proof: "Unlimited brands, 5 seats, one board — not five different workflows."
+        label: "The commitment length",
+        reframe: "Annual is priced for that commitment — value compounds over months of use, not in week one.",
+        proof: "Position monthly (where available) as the higher cost-per-month option, not a discount route."
       },
       {
-        label: "It's more that quality is inconsistent between reps",
-        reframe: "Same root fix — one templated, repeatable system the whole team runs without the founder being the creative bottleneck for every video.",
-        proof: "Live collaboration on one board standardizes quality across editors, strategists, and VAs."
+        label: "The size of one payment",
+        reframe: "This is really a cash-flow objection — treat it as one.",
+        proof: "Bridge straight into the cash-is-tight flow instead of relitigating the term length."
       }
     ],
-    second: "We're at capacity, we can't take on ramp-up time right now",
-    handle: "Flip it — this is what frees the capacity. The founder stops being the bottleneck for every script, which is exactly what's needed to onboard the pipeline clients already sitting there.",
-    close: "You've got pipeline clients you can't currently deliver on. This is what unlocks that revenue without adding headcount. Want to start with your busiest client account?"
+    second: "So is monthly actually available or not?",
+    handle: "⚠ Confirm the real answer on monthly availability and pricing with Poppy leadership before this call. Don't improvise a payment structure that isn't real.",
+    close: "Once the actual option is confirmed, anchor the close on their proof point, not on which billing cadence they picked.",
+    flag: true
   },
   {
-    id: "ecom",
-    name: "E-Commerce, DTC & Dropshippers",
-    sub: "Product brands and performance marketers running paid ads at volume.",
-    entry: "Not sure this is worth it on top of our ad budget",
-    isolate: "What's your ROAS looked like the last 60 days — trending up or down?",
+    id: "cash",
+    name: "Cash is tight right now",
+    sub: "A real constraint, or a stall — the follow-up question tells you which.",
+    entry: "Cash is tight right now.",
+    isolate: "Tight because of something specific happening right now, or tight in general for the business?",
     forks: [
       {
-        label: "Down or flat — creative fatigue",
-        reframe: "Static and video ad generation at volume, reverse-engineering both competitor ads and your own winners — the algorithm rewards volume, this is how you feed it without a full creative team.",
-        proof: "Every 0.1–0.3x ROAS is five to six figures at this spend level — let them do that math."
+        label: "Something specific / temporary",
+        reframe: "Solve the timing problem directly — a flexible start date protects the value without touching price.",
+        proof: "\"What if we start this the day after your next deposit lands instead of today?\""
       },
       {
-        label: "Up — just want more scale",
-        reframe: "Then it's about diversity of creative to scale spend without fatigue setting in next — same engine, used to stay ahead of it instead of reacting to it.",
-        proof: "Multi-brand hub, no restriction on bold angles."
+        label: "Ongoing tight margins",
+        reframe: "Tie straight to urgency — this is meant to fix the exact cash problem by converting more from what they're already spending on content or ads. Waiting doesn't fix cash, it delays the fix.",
+        proof: "Every month without it is another month of the same conversion rate they're unhappy with."
       }
     ],
-    second: "We already have a creative strategist",
-    handle: "Not a replacement — 10x the raw output to test. Finding and keeping a good strategist is already hard; volume is the actual bottleneck, not talent.",
-    close: "If lifting ROAS by even half a point pays for this outright, the math already works. Let's load your last 90 days of ad data and see what it finds."
+    second: "What would need to be true for cash to not be the blocker?",
+    handle: "Get specific — a number, a date, a milestone. Vague \"things need to improve\" isn't something you can plan a follow-up around.",
+    close: "Lock the specific date or condition they named, and calendar the follow-up yourself instead of waiting for them to reach out."
   },
   {
-    id: "local",
-    name: "Local & Professional Services",
-    sub: "Doctors, clinics, med spas, law firms, trades moving online.",
-    entry: "I already tried an agency and got burned",
-    isolate: "What happened — results dropped, no transparency, or both?",
+    id: "think",
+    name: "Let me think about it",
+    sub: "Not a real objection — a stall because the real one hasn't surfaced.",
+    entry: "Let me think about it.",
+    isolate: "Totally fair — what specifically do you need to think through? Price, timing, whether this actually works for a business like yours, or something else?",
     forks: [
       {
-        label: "Both",
-        reframe: "That's the exact reason to bring it in-house. You have a traffic problem, not a business problem — the reputation's already there, it's just not visible yet.",
-        proof: "Pair it with a cheap media buyer or your own VA to run it."
+        label: "They name something specific",
+        reframe: "Good — now you're handling a real objection instead of a stall. Jump to that flow directly.",
+        proof: "Naming it is the whole win here — most people never get past \"let me think about it.\""
       },
       {
-        label: "Mostly the pay-per-ad-spend model felt exploitative",
-        reframe: "Then owning the system instead of renting it solves that directly — no more paying a percentage of your own spend to someone else's black box.",
-        proof: "Case studies built in your exact niche, not a generic agency deck."
+        label: "They can't name anything specific",
+        reframe: "Reflect it back: \"It sounds like this isn't actually a priority right now, is that fair?\" — this either surfaces the truth or gets them to correct you and re-commit.",
+        proof: "A stall with nothing behind it usually means priority, not genuine uncertainty."
       }
     ],
-    second: "I don't have time to run this myself",
-    handle: "It's not solo — pairs with a cheap media buyer or an existing VA, since the system carries the heavy lift, not the operator.",
-    close: "The day you stop paying an agency, everything they built for you disappears. This is yours forever. Want to start with your strongest case study?"
+    second: "What would help you decide today instead of later?",
+    handle: "If they still can't answer, that itself is the answer — don't chase a close that isn't there.",
+    close: "Either resolve the real objection now, or set a specific, dated follow-up — never a vague \"circle back.\""
   },
   {
-    id: "b2b",
-    name: "B2B, SaaS & Founders",
-    sub: "Software, funds, and founders building distribution or raising capital.",
-    entry: "This isn't a priority right now",
-    isolate: "Are you planning a raise, a launch, or building toward one in the next 6 months?",
+    id: "wontwork",
+    name: "I'm not sure it will actually work for me",
+    sub: "Doubt about the mechanism, or doubt about themselves — different fixes.",
+    entry: "I'm not sure this will actually work for me.",
+    isolate: "What's making you unsure — the tool itself, or whether you'll be the exception to what's worked for others?",
     forks: [
       {
-        label: "Yes",
-        reframe: "Then this is the content hub for that exact raise or launch — research and ideation for podcast guests, repurposing long-form into LinkedIn, newsletter, and shorts, building the authority a raise or enterprise sale actually needs.",
-        proof: "Jack Neal-style prep: 100 tailored questions pulled from a guest's full footprint."
+        label: "Doubts the mechanism",
+        reframe: "Pull the proof point that matches their exact business type, not a generic win.",
+        proof: "Wrong-niche proof reads as a stretch. Right-niche proof reads as inevitable."
       },
       {
-        label: "No immediate plans",
-        reframe: "Then it's about compounding distribution before you need it — the LinkedIn authority engine builds the audience a raise or sale will lean on later, starting now costs less than starting under pressure.",
-        proof: "Repurposing engine means one recorded conversation becomes weeks of content."
+        label: "Doubts themselves (\"I'm not like those people\")",
+        reframe: "This is really a consistency/identity objection wearing a different sentence — bridge to that flow.",
+        proof: "The mechanism doesn't require them to be a natural, it's built to remove the parts they'd otherwise fail at."
       }
     ],
-    second: "We don't have bandwidth to be the face of this",
-    handle: "Team seats for delegation, plus a strategist who's worked with top operators handles the heavy lift — the founder doesn't have to be the one producing it.",
-    close: "This isn't a subscription, it's part of how you build the case for your raise or launch. Let's map it against your actual timeline."
+    second: "What would make you confident this works specifically for you?",
+    handle: "Get concrete: a case study in their niche, a walkthrough of their exact use case, not a general reassurance.",
+    close: "Show, don't tell — pull up the closest matching proof point live if you have it."
   },
   {
-    id: "ads",
-    name: "High-Ticket Businesses Ran on Ads",
-    sub: "Credit repair, funding, financial services — closed via setter/closer flow.",
-    entry: "We're already doing fine on ads",
-    isolate: "What happens to the business if that ad account gets banned tomorrow?",
+    id: "toolonly",
+    name: "I just want the tool, not the coaching",
+    sub: "Usually a scope/time concern, sometimes a real packaging question.",
+    entry: "I just want the tool, not the coaching.",
+    isolate: "What's making the coaching feel unnecessary — the time commitment, or you don't think you need the strategy side?",
     forks: [
       {
-        label: "That would hurt a lot",
-        reframe: "De-risking off pure paid with follower-ads and trust-building talking-head content — operators in this exact space are hitting 9–10x ROAS on follower ads because almost nobody else is running them.",
-        proof: "Story sequences convert the warm follower base that's already sitting there untouched."
+        label: "Time commitment",
+        reframe: "Clarify how light the actual cadence is if there's a lower-touch version — most people overestimate what's being asked of them.",
+        proof: "Onboarding is what makes the tool produce winning content instead of generic content — it's front-loaded, not ongoing."
       },
       {
-        label: "We'd just make a new account",
-        reframe: "That's a bigger cost than it sounds — rebuilding pixel data and account trust from zero. A parallel organic and follower-ad channel means a ban doesn't zero out the pipeline.",
-        proof: "Talking-head content builds the trust needed to close in DMs, which shortens the setter-to-close cycle too."
+        label: "Feels capable solo",
+        reframe: "The tool's output is only as good as the ICP and strategy inputs behind it — that's what the coaching actually sets up.",
+        proof: "Without that input, it's a generic content tool. With it, it's trained on their specific business."
       }
     ],
-    second: "Our content doesn't reflect what we actually earn / feels risky to show that",
-    handle: "This is proof-based content, not risk-based — testimonials and case studies, not personal financial flexing.",
-    close: "One ad ban and you're starting from zero. This is the safety net and a growth lever at the same time. Let's build your first follower-ad script."
+    second: "Is there a tool-only tier available?",
+    handle: "⚠ Confirm actual packaging/tiering with Poppy leadership before promising a tool-only option exists. Don't invent a tier on the call.",
+    close: "Once the real packaging is confirmed, close on the outcome the coaching unlocks, not on removing it.",
+    flag: true
+  },
+  {
+    id: "consistency",
+    name: "I won't stay consistent enough to use it",
+    sub: "Self-doubt about follow-through, usually rooted in a past tool that failed them.",
+    entry: "I won't stay consistent enough to actually use this.",
+    isolate: "What's made past tools or habits fall off for you before?",
+    forks: [
+      {
+        label: "Overwhelm / too much manual work",
+        reframe: "This is the exact mechanism advantage — scripts generate for them, they're not starting from a blank page. The consistency problem was a content-creation-effort problem, and that's what gets removed.",
+        proof: "Script to teleprompter to posted, in minutes — not a new habit to build from scratch."
+      },
+      {
+        label: "Just not a \"systems\" person generally",
+        reframe: "It's built to take minutes, not hours or willpower.",
+        proof: "The bar for consistency here is a lot lower than whatever failed before."
+      }
+    ],
+    second: "What would make it easy enough to actually stick?",
+    handle: "Get specific about their real week — when would this actually happen, what's already a fixed habit it can attach to.",
+    close: "Anchor the close on the lowered bar for effort, not a promise they'll suddenly become more disciplined."
+  },
+  {
+    id: "expectation",
+    name: "This isn't what I thought Poppy was",
+    sub: "An expectation mismatch — find the gap before defending anything.",
+    entry: "This isn't what I thought Poppy was.",
+    isolate: "What were you expecting it to be?",
+    forks: [
+      {
+        label: "Expected something narrower (just a script tool)",
+        reframe: "Clarify the actual scope and reposition the value around everything it does beyond scripts.",
+        proof: "Most people undersell it to themselves before seeing the full system."
+      },
+      {
+        label: "Expected something more hands-off/automated",
+        reframe: "Reset expectations honestly rather than overselling — better to be accurate now than lose trust later.",
+        proof: "Set the real bar: what it automates, and what still needs their input."
+      }
+    ],
+    second: "Given what it actually does, does that solve the problem you originally came in with?",
+    handle: "Refocus on their original stated pain, not the mismatch itself — the mismatch is a distraction from whether the core problem still gets solved.",
+    close: "If it solves the real problem, close on that. If it genuinely doesn't fit, say so rather than forcing it."
+  },
+  {
+    id: "trial",
+    name: "Let me try it before I pay",
+    sub: "A risk-reversal ask — needs a real, confirmed answer, not an improvised one.",
+    entry: "Let me try it before I pay.",
+    isolate: "What would trying it need to show you to feel confident moving forward?",
+    forks: [
+      {
+        label: "Wants to see it in action",
+        reframe: "Use a live walkthrough or demo of the actual product instead of offering unpaid access.",
+        proof: "Case studies and a real demo often answer this without needing a free trial at all."
+      },
+      {
+        label: "Specifically wants to use it themselves first",
+        reframe: "⚠ Confirm whether any trial or demo-access policy actually exists with Poppy leadership. Don't offer free access that isn't a real, approved option.",
+        proof: "Better to say \"let me check what we can set up for you\" than promise something off-script."
+      }
+    ],
+    second: "What's the real hesitation if a live demo answers most of your questions?",
+    handle: "Isolate what specifically remains unresolved after the demo, and handle that directly.",
+    close: "Close on the demo plus proof points, escalate the trial-access question rather than inventing an answer.",
+    flag: true
+  },
+  {
+    id: "shopping",
+    name: "I'm shopping around at other options",
+    sub: "A real comparison, not a stall, if handled directly.",
+    entry: "I'm shopping around at other options.",
+    isolate: "What else is on your list, and what's most appealing about it?",
+    forks: [
+      {
+        label: "Comparing to a similar AI content tool",
+        reframe: "Differentiate on what most tools don't have together: your own outlier data, team seats, and a delegation layer, not just AI-generated text.",
+        proof: "Most competitors have one of those three. Few have all three in one system."
+      },
+      {
+        label: "Comparing to doing nothing / hiring someone",
+        reframe: "Shift back to build-vs-buy: hiring or DIY still costs time and salary, without the data engine behind it.",
+        proof: "The real comparison isn't cost, it's speed to a working system."
+      }
+    ],
+    second: "What would make this the clear choice over the others?",
+    handle: "Ask directly rather than guessing — let them tell you the actual deciding factor.",
+    close: "Answer that specific factor head-on, then ask for the decision."
+  },
+  {
+    id: "chatbot",
+    name: "I could just do this with a chatbot myself",
+    sub: "The most common DIY objection — the gap is data, not \"can AI write.\"",
+    entry: "I could just do this myself with a chatbot.",
+    isolate: "Have you actually tried prompting something like ChatGPT for this? How'd it go?",
+    forks: [
+      {
+        label: "Tried it, wasn't good",
+        reframe: "A generic chatbot doesn't have their specific voice, ICP, or their own winning-content data — the gap is the data and system, not whether AI can write.",
+        proof: "Poppy reverse-engineers their own outlier content, a blank chatbot has none of that history to work from."
+      },
+      {
+        label: "Hasn't tried, just assumes it's the same",
+        reframe: "The value isn't \"AI writes text\" — it's turning their own winning content into a repeatable system a team can actually run.",
+        proof: "A raw chatbot has no data, no team collaboration, and no memory of what's already worked for them."
+      }
+    ],
+    second: "What's your time worth figuring out the prompting and workflow yourself?",
+    handle: "Quantify the hours spent reverse-engineering a system by hand versus having it built in.",
+    close: "Close on speed to a working system, not on whether AI itself is capable."
+  },
+  {
+    id: "feature",
+    name: "It's missing a feature I need",
+    sub: "Sometimes a real gap, sometimes a workaround away — be honest either way.",
+    entry: "It's missing a feature I need.",
+    isolate: "What's the specific feature, and what would it let you do that you can't right now?",
+    forks: [
+      {
+        label: "A workaround or adjacent feature exists",
+        reframe: "Show the actual workaround directly rather than arguing the feature isn't needed.",
+        proof: "Most \"missing features\" turn out to be solved a different way inside the existing system."
+      },
+      {
+        label: "It's a genuine gap",
+        reframe: "Be straight about it, log it, and pivot to whether the rest of the system still solves their core problem enough to move forward now.",
+        proof: "Honesty here builds more trust than overpromising a roadmap date."
+      }
+    ],
+    second: "Does that one gap change whether this solves your main problem, or is it a nice-to-have?",
+    handle: "Separate a dealbreaker from a wishlist item before treating it like one.",
+    close: "If it's not a dealbreaker, close on the core problem it does solve. If it is, don't force it."
+  },
+  {
+    id: "timing",
+    name: "Now isn't a good time",
+    sub: "Business timing and personal bandwidth need different responses.",
+    entry: "Now isn't a good time.",
+    isolate: "Is it timing on the business side, or timing on your own bandwidth to implement it?",
+    forks: [
+      {
+        label: "Business timing (seasonal, launch, etc.)",
+        reframe: "Align the actual start date to their calendar instead of losing the deal outright.",
+        proof: "A confirmed future start date beats an open-ended \"maybe later.\""
+      },
+      {
+        label: "Personal bandwidth",
+        reframe: "Bridge to the consistency flow — this is built to take minutes, not hours, and \"more bandwidth\" rarely arrives on its own.",
+        proof: "Waiting for a less busy season is usually waiting for something that doesn't come."
+      }
+    ],
+    second: "What does need to be true for the timing to work?",
+    handle: "Get a specific date or trigger event, not a vague \"later.\"",
+    close: "Book the follow-up on that exact date now, don't leave it open-ended."
+  },
+  {
+    id: "credit",
+    name: "I just paid you recently, credit that",
+    sub: "A billing/policy question — escalate, don't improvise.",
+    entry: "I just paid you recently, credit that toward this.",
+    isolate: "What did that recent payment cover, and what's the new ask on top of it?",
+    forks: [
+      {
+        label: "Recent payment was for something clearly separate",
+        reframe: "Acknowledge it directly, then clarify what this new ask actually adds on top.",
+        proof: "Clarity on scope usually resolves this without needing an actual credit."
+      },
+      {
+        label: "There's real overlap between the two",
+        reframe: "⚠ This needs an actual answer from billing/leadership, not a guess or a promise made live on the call.",
+        proof: "\"Let me check the exact overlap and get you a clear answer today\" protects both the client relationship and the company."
+      }
+    ],
+    second: "Can I get you a real answer today instead of guessing right now?",
+    handle: "Escalate immediately after the call, don't leave it open for days — the speed of the follow-up matters as much as the answer.",
+    close: "Close everything else that's agreed on, treat the credit question as a fast follow-up, not a blocker to moving forward.",
+    flag: true
   }
 ];
 
-let current = AVATARS[0].id;
+let current = FLOWS[0].id;
 let pickedFork = {};
 
 function render(){
   const tabs = document.getElementById('tabs');
-  tabs.innerHTML = AVATARS.map(a =>
-    `<button class="tab${a.id===current?' active':''}" onclick="selectAvatar('${a.id}')">${a.name}</button>`
+  tabs.innerHTML = FLOWS.map(a =>
+    `<button class="tab${a.id===current?' active':''}${a.flag?' flagged':''}" onclick="selectFlow('${a.id}')">${a.name}</button>`
   ).join('');
 
-  const a = AVATARS.find(x => x.id === current);
+  const a = FLOWS.find(x => x.id === current);
   const picked = pickedFork[a.id] !== undefined ? pickedFork[a.id] : 0;
   const board = document.getElementById('board');
+  const endTag = a.flag ? 'flag' : 'close';
+  const endLabel = a.flag ? '06 &middot; Confirm Before Promising' : '06 &middot; Close';
+  const endFlagLabel = a.flag ? '&#9888; Needs a real policy answer' : '&#127937; End of flow';
 
   board.innerHTML = `
     <div class="avatar-head">
@@ -404,10 +599,10 @@ function render(){
       </div>
       <div class="connector"></div>
 
-      <div class="node close">
-        <div class="node-tag">06 &middot; Close</div>
+      <div class="node ${endTag}">
+        <div class="node-tag">${endLabel}</div>
         <span class="node-script">${a.close}</span>
-        <div class="close-flag">&#127937; End of flow</div>
+        <div class="close-flag">${endFlagLabel}</div>
       </div>
 
       <div class="reset-row"><button class="reset-btn" onclick="pickFork('${a.id}', ${picked===0?1:0})">&larr; see the other branch instead</button></div>
@@ -415,7 +610,7 @@ function render(){
   `;
 }
 
-function selectAvatar(id){
+function selectFlow(id){
   current = id;
   render();
   window.scrollTo({top:0, behavior:'smooth'});
