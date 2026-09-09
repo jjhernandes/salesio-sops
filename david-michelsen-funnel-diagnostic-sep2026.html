@@ -1,0 +1,277 @@
+<title>David Michelsen Funnel Diagnostic</title>
+<style>
+  @font-face { font-family:'Mono'; src:local('SF Mono'), local('Menlo'), local('Consolas'); }
+  :root {
+    --bg:#f4f2ec; --card:#ffffff; --card-2:#ebe8df;
+    --text:#16161a; --muted:#6b6a63; --faint:#b3b1a6;
+    --border:#ddd9cd;
+    --accent:#a0631a; --accent-soft:#f6ecd9;
+    --good:#3d7a50; --good-soft:#dde7de;
+    --bad:#b3403a; --bad-soft:#f5dfdd;
+    --warn:#a0631a; --warn-soft:#f6ecd9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#0b0b0a; --card:#171715; --card-2:#1f1f1c;
+      --text:#f2f0ea; --muted:#9a958a; --faint:#4a463f;
+      --border:#2b2a25;
+      --accent:#e0ab4a; --accent-soft:#2a2010;
+      --good:#6fcf87; --good-soft:#142118;
+      --bad:#e08a7f; --bad-soft:#2a1512;
+      --warn:#e0ab4a; --warn-soft:#2a2010;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#0b0b0a; --card:#171715; --card-2:#1f1f1c;
+    --text:#f2f0ea; --muted:#9a958a; --faint:#4a463f;
+    --border:#2b2a25;
+    --accent:#e0ab4a; --accent-soft:#2a2010;
+    --good:#6fcf87; --good-soft:#142118;
+    --bad:#e08a7f; --bad-soft:#2a1512;
+    --warn:#e0ab4a; --warn-soft:#2a2010;
+  }
+  :root[data-theme="light"] {
+    --bg:#f4f2ec; --card:#ffffff; --card-2:#ebe8df;
+    --text:#16161a; --muted:#6b6a63; --faint:#b3b1a6;
+    --border:#ddd9cd;
+    --accent:#a0631a; --accent-soft:#f6ecd9;
+    --good:#3d7a50; --good-soft:#dde7de;
+    --bad:#b3403a; --bad-soft:#f5dfdd;
+    --warn:#a0631a; --warn-soft:#f6ecd9;
+  }
+
+  * { box-sizing:border-box; }
+  html { font-size:16px; }
+  body {
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased; font-size:15px; line-height:1.6;
+  }
+  .mono { font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace; font-variant-numeric:tabular-nums; }
+  .wrap { max-width:920px; margin:0 auto; padding:60px 28px 100px; }
+
+  .kicker { font-size:11px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); margin-bottom:16px; }
+  h1 { font-size:clamp(1.9rem,4.2vw,2.7rem); font-weight:900; letter-spacing:-.03em; line-height:1.08; margin:0 0 12px; }
+  .lede { font-size:15.5px; color:var(--muted); max-width:72ch; line-height:1.75; margin-bottom:8px; }
+  .lede strong { color:var(--text); font-weight:700; }
+  .meta-row { display:flex; flex-wrap:wrap; gap:16px; margin:18px 0 36px; font-size:12px; color:var(--faint); }
+
+  .hero-callout { background:var(--accent-soft); border:1.5px solid var(--accent); border-radius:12px; padding:24px 26px; margin-bottom:44px; }
+  .hero-callout .hc-label { font-size:10.5px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
+  .hero-callout p { font-size:15px; color:var(--text); line-height:1.75; margin:0; }
+  .hero-callout strong { font-weight:800; }
+
+  .section-head { display:flex; align-items:baseline; gap:10px; margin:52px 0 6px; padding-top:36px; border-top:1px solid var(--border); }
+  .section-head:first-of-type { margin-top:0; padding-top:0; border-top:none; }
+  .section-num { font-size:11px; font-weight:800; color:var(--faint); font-family:'SF Mono',monospace; }
+  h2 { font-size:20px; font-weight:800; letter-spacing:-.01em; margin:0; }
+  p.body-text { font-size:14.5px; color:var(--text); line-height:1.75; margin:10px 0 14px; max-width:74ch; }
+  p.body-text.muted { color:var(--muted); }
+  p.body-text strong { font-weight:700; }
+
+  table.rt { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--border); border-radius:10px; overflow:hidden; margin:10px 0 8px; }
+  table.rt th { text-align:left; font-size:10px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--faint); padding:10px 13px; border-bottom:1px solid var(--border); background:var(--card-2); }
+  table.rt th.num, table.rt td.num { text-align:right; }
+  table.rt td { font-size:13.5px; padding:10px 13px; border-bottom:1px solid var(--border); vertical-align:top; }
+  table.rt tr:last-child td { border-bottom:none; }
+  table.rt td.lbl { font-weight:700; white-space:nowrap; }
+  table.rt td.why { color:var(--muted); font-size:12.5px; }
+  table.rt tfoot td { font-weight:800; background:var(--card-2); border-top:2px solid var(--border); border-bottom:none; }
+  .table-wrap { overflow-x:auto; }
+
+  .highlight-cell { color:var(--accent); font-weight:800; }
+  .bad-cell { color:var(--bad); font-weight:800; }
+  .good-cell { color:var(--good); font-weight:800; }
+
+  .callout { display:flex; gap:11px; align-items:flex-start; border-radius:10px; padding:16px 20px; margin:16px 0; }
+  .callout.bad { background:var(--bad-soft); border:1px solid var(--bad); }
+  .callout.warn { background:var(--warn-soft); border:1px solid var(--warn); }
+  .callout.good { background:var(--good-soft); border:1px solid var(--good); }
+  .callout .c-icon { font-size:15px; flex-shrink:0; margin-top:1px; }
+  .callout p { font-size:13.5px; color:var(--text); line-height:1.7; margin:0; }
+  .callout strong { color:var(--text); }
+  .callout .c-label { font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin-bottom:6px; display:block; }
+  .callout.bad .c-label { color:var(--bad); }
+  .callout.warn .c-label { color:var(--warn); }
+  .callout.good .c-label { color:var(--good); }
+
+  .funnel-flow { display:flex; flex-wrap:wrap; align-items:stretch; gap:0; margin:16px 0 20px; }
+  .flow-step { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; min-width:130px; flex:1; }
+  .flow-step .fs-label { font-size:9.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--faint); margin-bottom:6px; }
+  .flow-step .fs-val { font-size:19px; font-weight:900; }
+  .flow-arrow { display:flex; align-items:center; justify-content:center; padding:0 8px; color:var(--faint); font-size:16px; flex-shrink:0; }
+
+  ol.plain, ul.plain { margin:0 0 14px; padding-left:22px; }
+  ol.plain li, ul.plain li { font-size:14px; color:var(--text); line-height:1.8; margin-bottom:10px; }
+  ol.plain li strong { font-weight:700; }
+  ol.plain li span.sub, ul.plain li span.sub { display:block; color:var(--muted); font-size:12.5px; margin-top:2px; }
+
+  .priority-item { display:flex; gap:14px; background:var(--card); border:1px solid var(--border); border-radius:10px; padding:16px 18px; margin-bottom:10px; }
+  .priority-num { font-size:20px; font-weight:900; color:var(--accent); flex-shrink:0; font-family:'SF Mono',monospace; min-width:28px; }
+  .priority-body h3 { font-size:14.5px; font-weight:800; margin-bottom:4px; }
+  .priority-body p { font-size:13px; color:var(--muted); line-height:1.65; margin:0; }
+
+  .scope-note { margin-top:52px; padding-top:24px; border-top:1px solid var(--border); font-size:12.5px; color:var(--faint); line-height:1.7; }
+  .scope-note strong { color:var(--muted); }
+
+  @media (max-width:640px) {
+    .wrap { padding:40px 18px 72px; }
+    .funnel-flow { flex-direction:column; }
+    .flow-arrow { transform:rotate(90deg); padding:4px 0; }
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="kicker">David Michelsen &middot; startabizz.com &middot; Funnel Diagnostic</div>
+  <h1>Where The Money Actually Leaks</h1>
+  <p class="lede">Built off 6 months of real data: the manual DM outreach tracker, discovery-call calendar, and the "First to $5,000" challenge round 1 numbers, checked against the target funnel model. <strong>The short version: the problem isn't getting attention, it's getting paid.</strong></p>
+  <div class="meta-row">
+    <span>Data window: April&ndash;September 2026</span>
+    <span>Prepared for: today's meeting</span>
+    <span>Source: DM trackers, Meta ad spend, Typeform, Google Calendar, cross-checked 5 Sep 2026</span>
+  </div>
+
+  <div class="hero-callout">
+    <div class="hc-label">The One Thing That Matters Most</div>
+    <p>Over 6 months: 24 discovery calls booked, ~22 showed (90%), ~21 got pitched (95%). Then <strong>1 actual close with money collected.</strong> That's a ~5% close rate against a 30% target, and the note on the data is direct: most non-buyers said yes to the service and stalled on money. <strong>Every stage before the close is working. The leak is entirely at "yes" &rarr; "paid."</strong> Scaling ad spend or DM volume right now feeds more people into a funnel that converts 1 in 21 at the very last step.</p>
+  </div>
+
+  <div class="section-head"><span class="section-num">01</span><h2>The Manual DM Funnel (Apr&ndash;Sep)</h2></div>
+  <p class="body-text muted">Instagram and TikTok combined, cold outreach through a scripted trojan &rarr; primer &rarr; VSL &rarr; Calendly sequence.</p>
+  <div class="table-wrap">
+  <table class="rt">
+    <thead><tr><th>Stage</th><th class="num">Instagram</th><th class="num">TikTok</th><th class="num">Combined</th></tr></thead>
+    <tbody>
+      <tr><td class="lbl">Trojans sent</td><td class="num mono">1,203</td><td class="num mono">1,026</td><td class="num mono highlight-cell">2,229</td></tr>
+      <tr><td class="lbl">Primers sent</td><td class="num mono">172</td><td class="num mono">137</td><td class="num mono">309</td></tr>
+      <tr><td class="lbl">VSLs sent</td><td class="num mono">75</td><td class="num mono">48</td><td class="num mono">123</td></tr>
+      <tr><td class="lbl">Calendly sent</td><td class="num mono">16</td><td class="num mono">8</td><td class="num mono">24</td></tr>
+      <tr><td class="lbl">Booked calls</td><td class="num mono">10</td><td class="num mono">4</td><td class="num mono highlight-cell">14</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="table-wrap">
+  <table class="rt">
+    <thead><tr><th>Conversion</th><th class="num">Instagram</th><th class="num">TikTok</th><th class="num">Combined</th></tr></thead>
+    <tbody>
+      <tr><td class="lbl">Trojan &rarr; Primer</td><td class="num mono">14.3%</td><td class="num mono">13.4%</td><td class="num mono">13.9%</td></tr>
+      <tr><td class="lbl">VSL &rarr; Calendly</td><td class="num mono">21%</td><td class="num mono">17%</td><td class="num mono">20%</td></tr>
+      <tr><td class="lbl">Calendly &rarr; Booked</td><td class="num mono">63%</td><td class="num mono">50%</td><td class="num mono">58%</td></tr>
+      <tr><td class="lbl">Trojan &rarr; Booked, overall</td><td class="num mono">0.83%</td><td class="num mono">0.39%</td><td class="num mono bad-cell">0.63%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="body-text muted">0.63% overall means roughly <strong>1 booked call per 159 trojans sent.</strong> Activity was 15 DMs/day per platform most of the year, raised to 20/day both platforms at the end of August.</p>
+
+  <div class="table-wrap">
+  <table class="rt">
+    <thead><tr><th>Month</th><th class="num">Apr</th><th class="num">May</th><th class="num">Jun</th><th class="num">Jul</th><th class="num">Aug</th><th class="num">Sep*</th></tr></thead>
+    <tbody>
+      <tr><td class="lbl">Trojans sent</td><td class="num mono">546</td><td class="num mono">386</td><td class="num mono">734</td><td class="num mono">89</td><td class="num mono">394</td><td class="num mono">80</td></tr>
+      <tr><td class="lbl">Booked, DM trackers</td><td class="num mono">2</td><td class="num mono">3</td><td class="num mono">7</td><td class="num mono">2</td><td class="num mono bad-cell">0</td><td class="num mono">0</td></tr>
+      <tr><td class="lbl">Booked, calendar-verified</td><td class="num mono">4</td><td class="num mono">6</td><td class="num mono">6</td><td class="num mono">4</td><td class="num mono">3</td><td class="num mono">1</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="body-text muted">*September partial. Calendar-verified includes non-DM bookings (challenge downsell and other sources) &mdash; that's all 4 calendar bookings since mid-August.</p>
+
+  <div class="callout bad">
+    <div class="c-icon">&#9888;</div>
+    <div>
+      <span class="c-label">Worth Asking About Today</span>
+      <p><strong>August: 394 trojans sent (activity was raised to 20/day) and zero DM-tracked booked calls that month.</strong> That's not a small dip, it's a complete stall despite higher volume. Before trusting DM volume as a lever going forward, this needs a real answer: did messaging or targeting break, did tracking miss something, or did focus genuinely shift elsewhere (the challenge launch overlaps this window)?</p>
+    </div>
+  </div>
+
+  <div class="section-head"><span class="section-num">02</span><h2>Discovery Calls &mdash; Where It Actually Breaks</h2></div>
+  <div class="funnel-flow">
+    <div class="flow-step"><div class="fs-label">Booked</div><div class="fs-val mono">24</div></div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step"><div class="fs-label">Showed (~90%)</div><div class="fs-val mono">~22</div></div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step"><div class="fs-label">Pitched (~95%)</div><div class="fs-val mono">~21</div></div>
+    <div class="flow-arrow">&rarr;</div>
+    <div class="flow-step" style="border-color:var(--bad);"><div class="fs-label">Closed, Paid</div><div class="fs-val mono bad-cell">1</div></div>
+  </div>
+  <p class="body-text">Upsells and renewals excluded. <strong>Most non-buyers said yes to the service and stalled on money</strong> &mdash; the objection reads as at least partly real in many cases, not all. That distinction matters: this isn't primarily a persuasion problem on the call, it's what happens in the gap between the verbal yes and the payment actually landing.</p>
+
+  <div class="section-head"><span class="section-num">03</span><h2>Challenge Round 1 &mdash; "First to $5,000"</h2></div>
+  <p class="body-text muted">Round is still running, ends late September. Two of three key assumptions are already tracking worse than the target model.</p>
+  <div class="table-wrap">
+  <table class="rt">
+    <thead><tr><th>Metric</th><th class="num">Target Model</th><th class="num">Actual, Round 1</th><th>Gap</th></tr></thead>
+    <tbody>
+      <tr><td class="lbl">Cost per lead</td><td class="num mono">$67</td><td class="num mono bad-cell">$82</td><td class="why">22% higher than planned</td></tr>
+      <tr><td class="lbl">Show rate</td><td class="num mono">50% assumed</td><td class="num mono bad-cell">29% (4 of 14)</td><td class="why">Real attendance well below assumption</td></tr>
+      <tr><td class="lbl">Close rate</td><td class="num mono">30% assumed</td><td class="num mono">25&ndash;40%, unmeasured</td><td class="why">David's estimate &mdash; round hasn't closed, not a real number yet</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="body-text muted">Ad spend to date: 6,330.18 kr ($985) for 12 ad/Typeform leads, plus 1 from the IG bio link and 1 from the call downsell.</p>
+
+  <div class="section-head"><span class="section-num">04</span><h2>The Target Model (For Reference)</h2></div>
+  <p class="body-text muted">The monthly recurring math the whole plan is aimed at &mdash; every number here checks out.</p>
+  <div class="table-wrap">
+  <table class="rt">
+    <thead><tr><th>Stage</th><th class="num">Rate</th><th class="num">Result</th></tr></thead>
+    <tbody>
+      <tr><td class="lbl">Challenge signups (ads @ $67 CPL)</td><td class="num">&mdash;</td><td class="num mono">45/mo</td></tr>
+      <tr><td class="lbl">Active participants</td><td class="num mono">50%</td><td class="num mono">22.5</td></tr>
+      <tr><td class="lbl">Book a post-challenge call</td><td class="num mono">70%</td><td class="num mono">15.75</td></tr>
+      <tr><td class="lbl">Close</td><td class="num mono">30%</td><td class="num mono">4.725 &approx; 5 sales/mo</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td>Revenue @ $5,000/sale</td><td></td><td class="mono">$23,625/mo</td></tr>
+    </tfoot>
+  </table>
+  </div>
+  <p class="body-text muted">Ad spend: 45 &times; $67 = $3,015/mo. Gross after ad cost: $20,610 (87.24% margin). Note the offer price here ($5,000) is the challenge price &mdash; the 1-on-1 DM/discovery-call funnel runs on a separate $6,000 split-pay offer per the sales process doc, worth clarifying today whether that's still the intended structure for both channels.</p>
+
+  <div class="section-head"><span class="section-num">05</span><h2>Diagnosis &mdash; Ranked By Actual Leverage</h2></div>
+  <p class="body-text muted">Not the order things happen in the funnel. The order that actually moves revenue.</p>
+
+  <div class="priority-item">
+    <div class="priority-num">1</div>
+    <div class="priority-body">
+      <h3>Fix the close-through leak</h3>
+      <p>1 paid close from ~21 pitches over 6 months is the single biggest number in this whole diagnostic. Find out exactly why verbal yeses stall on payment, timing, trust, payment method friction, something else, before touching volume anywhere. Every dollar spent on more leads right now is feeding a funnel that converts 1 in 21 at the final step.</p>
+    </div>
+  </div>
+  <div class="priority-item">
+    <div class="priority-num">2</div>
+    <div class="priority-body">
+      <h3>Diagnose the August DM dead zone</h3>
+      <p>394 trojans, zero booked calls, despite raised activity. This needs a real answer before DM volume is trusted as a lever going forward &mdash; could be message fatigue, targeting drift, or a tracking gap, but it shouldn't be assumed away.</p>
+    </div>
+  </div>
+  <div class="priority-item">
+    <div class="priority-num">3</div>
+    <div class="priority-body">
+      <h3>Let challenge round 1 finish before re-planning around it</h3>
+      <p>Show rate and CPL are already tracking worse than the target model assumed. Close rate is still a guess. Wait for the real number before rebuilding the monthly math around this channel.</p>
+    </div>
+  </div>
+  <div class="priority-item">
+    <div class="priority-num">4</div>
+    <div class="priority-body">
+      <h3>Then decide the primary top-of-funnel channel</h3>
+      <p>Ads are already running measurably worse than planned ($82 vs $67 CPL, 29% vs 50% show). Manual DM is extremely time-expensive for its current return (159 DMs per booked call). Don't scale either until priority 1 is fixed &mdash; a better channel feeding the same 5% close rate just wastes money faster.</p>
+    </div>
+  </div>
+
+  <div class="section-head"><span class="section-num">06</span><h2>Questions To Resolve In Today's Meeting</h2></div>
+  <ol class="plain">
+    <li><strong>What's actually happening in the gap between "yes" and "paid"?</strong> Get the last 5-10 stalled prospects' real reasons, not a general sense of it.<span class="sub">Is it price, payment method, timing, or cold feet after the call ends?</span></li>
+    <li><strong>What happened in August?</strong> Trace whether it's messaging, targeting, tracking, or attention shifted to the challenge launch.</li>
+    <li><strong>Is the $6,000 split-pay offer still the 1-on-1 product, and is $5,000 challenge-specific?</strong> Confirms whether these are two offers or one offer being tested at two price points.</li>
+    <li><strong>What's the actual plan once challenge round 1 closes out?</strong> Repeat monthly as designed, or adjust based on what round 1 actually shows.</li>
+    <li><strong>Does David have bandwidth or interest in a real payment-collection process</strong> (deposit at verbal yes, immediate invoice, structured follow-up) instead of relying on the call itself to produce cash.</li>
+  </ol>
+
+  <div class="scope-note">
+    <strong>Scope note:</strong> all numbers above are pulled directly from the funnel report (DM tracker dashboards, Meta ad spend, Typeform, and Google Calendar, cross-checked 5 September 2026). The challenge round 1 close rate is explicitly unmeasured, treat it as a placeholder until the round actually closes out in late September.
+  </div>
+
+</div>
