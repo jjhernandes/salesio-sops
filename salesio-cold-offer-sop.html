@@ -1,0 +1,227 @@
+<title>Cold Offer Engineering SOP</title>
+<style>
+  @font-face { font-family:'Mono'; src:local('SF Mono'), local('Menlo'), local('Consolas'); }
+  :root {
+    --bg:#f4f2ec; --card:#ffffff; --card-2:#ebe8df;
+    --text:#16161a; --muted:#6b6a63; --faint:#b3b1a6;
+    --border:#ddd9cd;
+    --accent:#8a5a2a; --accent-soft:#f0e2cf;
+    --good:#3d7a50; --good-soft:#dde7de;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#0b0b0a; --card:#171715; --card-2:#1f1f1c;
+      --text:#f2f0ea; --muted:#9a958a; --faint:#4a463f;
+      --border:#2b2a25;
+      --accent:#d4a865; --accent-soft:#2a2013;
+      --good:#6fcf87; --good-soft:#142118;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#0b0b0a; --card:#171715; --card-2:#1f1f1c;
+    --text:#f2f0ea; --muted:#9a958a; --faint:#4a463f;
+    --border:#2b2a25;
+    --accent:#d4a865; --accent-soft:#2a2013;
+    --good:#6fcf87; --good-soft:#142118;
+  }
+  :root[data-theme="light"] {
+    --bg:#f4f2ec; --card:#ffffff; --card-2:#ebe8df;
+    --text:#16161a; --muted:#6b6a63; --faint:#b3b1a6;
+    --border:#ddd9cd;
+    --accent:#8a5a2a; --accent-soft:#f0e2cf;
+    --good:#3d7a50; --good-soft:#dde7de;
+  }
+
+  * { box-sizing:border-box; }
+  html { font-size:16px; }
+  body {
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased; font-size:15px; line-height:1.6;
+  }
+  .mono { font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace; font-variant-numeric:tabular-nums; }
+  .wrap { max-width:920px; margin:0 auto; padding:60px 28px 110px; }
+
+  .kicker { font-size:11px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); margin-bottom:16px; }
+  h1 { font-size:clamp(1.9rem,4.2vw,2.7rem); font-weight:900; letter-spacing:-.03em; line-height:1.08; margin:0 0 12px; }
+  .lede { font-size:15.5px; color:var(--muted); max-width:74ch; line-height:1.75; margin-bottom:8px; }
+  .lede strong { color:var(--text); font-weight:700; }
+  .meta-row { font-size:12px; color:var(--faint); margin-bottom:36px; }
+  .meta-row a { color:var(--faint); }
+
+  .section-head { display:flex; align-items:baseline; gap:10px; margin:44px 0 6px; padding-top:32px; border-top:1px solid var(--border); }
+  .section-head:first-of-type { margin-top:0; padding-top:0; border-top:none; }
+  .section-num { font-size:11px; font-weight:800; color:var(--faint); font-family:'SF Mono',monospace; }
+  h3 { font-size:18px; font-weight:800; letter-spacing:-.01em; margin:0; }
+  p.body-text { font-size:14.5px; color:var(--text); line-height:1.75; margin:10px 0 14px; max-width:74ch; }
+  p.body-text.muted { color:var(--muted); }
+  p.body-text strong { font-weight:700; }
+
+  .teach { background:var(--accent-soft); border-left:3px solid var(--accent); border-radius:0 10px 10px 0; padding:14px 18px; margin:14px 0; }
+  .teach .t-label { font-size:10px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:6px; display:block; }
+  .teach p { font-size:13.5px; color:var(--text); line-height:1.7; margin:0; }
+  .teach strong { color:var(--text); }
+
+  .fill-block { background:var(--card); border:1px dashed var(--faint); border-radius:10px; padding:16px 20px; margin:14px 0; font-size:13.5px; line-height:1.9; color:var(--text); }
+  .fill-block .blank { color:var(--accent); font-weight:700; }
+
+  table.rt { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--border); border-radius:10px; overflow:hidden; margin:10px 0 8px; }
+  table.rt th { text-align:left; font-size:10px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--faint); padding:10px 13px; border-bottom:1px solid var(--border); background:var(--card-2); }
+  table.rt td { font-size:13.5px; padding:10px 13px; border-bottom:1px solid var(--border); vertical-align:top; }
+  table.rt tr:last-child td { border-bottom:none; }
+  table.rt td.lbl { font-weight:700; white-space:nowrap; }
+  .table-wrap { overflow-x:auto; }
+
+  ol.plain, ul.plain { margin:0 0 14px; padding-left:22px; }
+  ol.plain li, ul.plain li { font-size:14px; color:var(--text); line-height:1.8; margin-bottom:10px; }
+  ol.plain li strong { font-weight:700; }
+
+  .checklist { display:flex; flex-direction:column; gap:8px; margin:14px 0; }
+  .check-item { display:flex; gap:10px; align-items:flex-start; background:var(--card); border:1px solid var(--border); border-radius:8px; padding:12px 14px; }
+  .check-box { width:16px; height:16px; border:2px solid var(--accent); border-radius:4px; flex-shrink:0; margin-top:2px; }
+  .check-item p { font-size:13.5px; color:var(--text); line-height:1.6; margin:0; }
+  .check-item strong { font-weight:700; }
+
+  .scope-note { margin-top:52px; padding-top:24px; border-top:1px solid var(--border); font-size:12.5px; color:var(--faint); line-height:1.7; }
+  .scope-note strong { color:var(--muted); }
+
+  @media (max-width:640px) {
+    .wrap { padding:40px 18px 80px; }
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="kicker">Sales.io &middot; Offer Strategy &middot; SOP</div>
+  <h1>Cold Offer Engineering SOP</h1>
+  <p class="lede">The reusable process behind building a cold traffic offer, offer anatomy, the 3S formula, mechanism design, positioning, and guarantees, with teaching points explaining the why behind each step, not just the what. Built to be used again for the next offer, not just this one.</p>
+  <div class="meta-row">Companion doc: <a href="./salesio-cold-offers.html">the three offers built using this process &rarr;</a></div>
+
+  <div class="section-head"><span class="section-num">01</span><h3>Understand What Actually Makes an Offer Good</h3></div>
+  <p class="body-text">A good offer does two things: it's meaningfully differentiated, and it's scalable. Differentiation is what lets a total stranger take a risk and reach out. Scalability is what determines whether your cost per customer gets better or worse as you grow.</p>
+  <div class="teach">
+    <span class="t-label">Teaching Point</span>
+    <p>80% of a business's success or failure comes down to the offer, not the funnel, not the team, not work ethic. Mediocre operators with a great offer outgrow world-class operators with a weak one. This is why offer work always comes before ad spend or funnel work, fixing the offer fixes everything downstream of it.</p>
+  </div>
+  <table class="rt">
+    <thead><tr><th>You Have</th><th>You're Missing</th><th>What Breaks</th></tr></thead>
+    <tbody>
+      <tr><td>Packaging + Scalability</td><td>Economics</td><td>Weak margins, can't hire, can't reinvest</td></tr>
+      <tr><td>Packaging + Economics</td><td>Scalability</td><td>Constant fulfillment bottlenecks</td></tr>
+      <tr><td>Economics + Scalability</td><td>Packaging</td><td>Cold acquisition never works</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-head"><span class="section-num">02</span><h3>Fill Out the 3S Formula</h3></div>
+  <p class="body-text">Specific problem, for a specific person, solved a specific way. This single formula is the fastest route to a workable cold offer, because it forces the differentiation that everything else depends on.</p>
+  <div class="fill-block">
+    Specific Person: <span class="blank">[who exactly, not "business owners" or "sales reps," get precise]</span><br>
+    Specific Problem: <span class="blank">[the one problem, not a list of problems]</span><br>
+    Specific Way: <span class="blank">[your actual mechanism, see step 4]</span>
+  </div>
+  <div class="teach">
+    <span class="t-label">Teaching Point</span>
+    <p>"Full-service, we do everything for everyone" only works at Fortune 500 scale, where deals close through networking and brand, not ads. For everyone else, being everything to everybody means being nobody to anybody, no one has a reason to reach out over a competitor, and there's nothing to charge a premium for.</p>
+  </div>
+
+  <div class="section-head"><span class="section-num">03</span><h3>Diagnose Market Sophistication</h3></div>
+  <p class="body-text">Where your market is in its awareness of claims like yours determines whether you can just state a benefit, or whether you need a full mechanism to be believed at all.</p>
+  <table class="rt">
+    <thead><tr><th>Stage</th><th>What Works</th></tr></thead>
+    <tbody>
+      <tr><td class="lbl">1. First to market</td><td>Simple direct claim ("automate your company with AI")</td></tr>
+      <tr><td class="lbl">2. Second to market</td><td>Expand and inflate the claim ("save $50K, guaranteed")</td></tr>
+      <tr><td class="lbl">3. Claims exhausted</td><td>Explain the mechanism, why it works, why it's different</td></tr>
+      <tr><td class="lbl">4. Mechanism copied</td><td>Enlarge and re-inflate the mechanism claim</td></tr>
+      <tr><td class="lbl">5. Dead market</td><td>Rare, almost never actually true, usually just means the mechanism needs to change, not the market</td></tr>
+    </tbody>
+  </table>
+  <div class="teach">
+    <span class="t-label">Teaching Point</span>
+    <p>Default to acting like you're in stage 3, even if you're technically earlier. A stage-3 mechanism-driven approach outperforms a stage-1 simple claim even in a stage-1 market, so there's no downside to building the mechanism regardless of where the market actually sits.</p>
+  </div>
+
+  <div class="section-head"><span class="section-num">04</span><h3>Build the Mechanism</h3></div>
+  <p class="body-text">The mechanism is a simultaneous explanation of why what they've tried before failed, and why this is different. This is the single hardest and most valuable piece of the whole offer.</p>
+  <div class="fill-block">
+    Most <span class="blank">[specific person]</span> trying to <span class="blank">[achieve X]</span> make the mistake of <span class="blank">[common approach]</span>.<br>
+    The problem with that is <span class="blank">[why it fails]</span>, which means <span class="blank">[consequence]</span>.<br>
+    Instead, we <span class="blank">[specific methodology]</span>, which lets you <span class="blank">[benefit]</span>, and ultimately <span class="blank">[bigger benefit]</span>.
+  </div>
+  <p class="body-text muted">All three offers in the companion doc were built directly off this template, worked examples, not theory.</p>
+  <div class="teach">
+    <span class="t-label">Teaching Point</span>
+    <p>A cool mechanism name helps (memorable beats forgettable), but the explanation is where the actual persuasion lives. The name gets repeated, the explanation is what convinces someone on a cold call or a cold ad to believe you're actually different, not just claiming to be.</p>
+  </div>
+
+  <div class="section-head"><span class="section-num">05</span><h3>Choose Your Barbell Position</h3></div>
+  <p class="body-text">Positioning splits into two workable ends: a done-for-you (or partial) offer to a smaller, richer market, or a done-with-you offer to a large B2C market where the back-end LTV carries the business. The dangerous place is the middle, a market too poor for full done-for-you and too established to want done-with-you.</p>
+  <div class="teach">
+    <span class="t-label">Teaching Point</span>
+    <p>Avoid "no man's land": a small TAM of people who aren't rich enough to justify a premium done-for-you price and aren't early enough to want a done-with-you starting offer. Sales.io's current model sits correctly on the B2C, done-with-you, large-TAM side, financing exists specifically because this is a volume-and-LTV business, not a high-touch boutique one. A B2B offer (like Option C in the companion doc) deliberately moves to the other end of the barbell instead of sitting in the middle, that's what makes it viable as a different model rather than a worse version of the same one.</p>
+  </div>
+
+  <div class="section-head"><span class="section-num">06</span><h3>Diagnose Pain vs. Unfulfilled Desire</h3></div>
+  <table class="rt">
+    <thead><tr><th></th><th>Below Average &rarr; Average (Pain)</th><th>Average &rarr; Excellence (Desire)</th></tr></thead>
+    <tbody>
+      <tr><td class="lbl">Urgency</td><td>Higher (loss aversion)</td><td>Lower</td></tr>
+      <tr><td class="lbl">TAM</td><td>Bigger</td><td>Smaller</td></tr>
+      <tr><td class="lbl">Money</td><td>Usually less</td><td>Usually more</td></tr>
+    </tbody>
+  </table>
+  <div class="teach">
+    <span class="t-label">Teaching Point</span>
+    <p>The golden opportunity is finding wealthy people who feel below average. High urgency and high money in the same person is rare and extremely valuable when found. A rep already earning real commission but stuck feels the pain of being below where they should be, and has money to solve it, unlike a total beginner, that's a stronger position than either pure pain or pure desire alone.</p>
+  </div>
+
+  <div class="section-head"><span class="section-num">07</span><h3>Channel Desire, Don't Try to Create It</h3></div>
+  <p class="body-text">Desire already exists in the market, permanent categories like money, relationships, health never go away. The only two moves are putting your offer directly in front of existing desire, or channeling existing desire into your offer through the mechanism and messaging.</p>
+  <div class="teach">
+    <span class="t-label">Teaching Point</span>
+    <p>Nobody wakes up wanting "sales training." They wake up wanting to make money, quit their job, stop feeling stuck, or stop hiring bad employees. Every strong offer in the companion doc channels a desire that already exists at volume, none of them try to manufacture a new one.</p>
+  </div>
+
+  <div class="section-head"><span class="section-num">08</span><h3>Build the Guarantee</h3></div>
+  <ul class="plain">
+    <li><strong>Result-based:</strong> guaranteed outcome or you don't pay</li>
+    <li><strong>Time-based:</strong> we work with you until you get there</li>
+    <li><strong>Performance-based:</strong> pay per result generated</li>
+    <li><strong>Reimbursement-based:</strong> we cover the cost if it doesn't work</li>
+    <li><strong>Experience-based:</strong> refund if the first session isn't valuable</li>
+  </ul>
+  <div class="teach">
+    <span class="t-label">Teaching Point</span>
+    <p>Conditions on a guarantee should be exactly the things that predict success anyway, showing up, doing the reps, submitting calls for review. If someone does those things, they were always going to succeed, so the guarantee rarely gets triggered while still being genuinely true. The main reason to have one at all is marketing differentiation, not a sales-team crutch, if lead volume isn't the constraint, a guarantee matters less.</p>
+  </div>
+
+  <div class="section-head"><span class="section-num">09</span><h3>Stack Proof</h3></div>
+  <p class="body-text">Overwhelming volume of proof can be the single difference between an ad or cold message converting or not, even before the rest of the offer is perfect.</p>
+  <div class="teach">
+    <span class="t-label">Teaching Point</span>
+    <p>You don't need famous names to stack proof, 10-15 real results from people similar to the target avatar works. The same proof stack can be reframed for different buyers, the exact track record used to sell training to individuals is what makes a B2B placement offer credible too, it just needs to be told from the buyer's side instead of the trainee's side.</p>
+  </div>
+
+  <div class="section-head"><span class="section-num">10</span><h3>Add a Done-For-You Hybrid Element (Optional)</h3></div>
+  <p class="body-text">A single done-for-you piece bolted onto an otherwise done-with-you offer makes the offer sound dramatically more attractive without breaking scalability, as long as it stays bounded.</p>
+  <div class="teach">
+    <span class="t-label">Teaching Point</span>
+    <p>Bounded is the key word. Application support into a job board is a scoped DFY layer. Full placement with ongoing team management is not, that's a different, far less scalable business. Decide the boundary before building, not after demand shows up and pressure to expand scope follows it.</p>
+  </div>
+
+  <div class="section-head"><h3>Launch Checklist</h3></div>
+  <div class="checklist">
+    <div class="check-item"><div class="check-box"></div><p><strong>3S formula filled out</strong> with a real, specific person and problem, not a category</p></div>
+    <div class="check-item"><div class="check-box"></div><p><strong>Mechanism written</strong> using the fill-in template, tested out loud like a sales call explanation</p></div>
+    <div class="check-item"><div class="check-box"></div><p><strong>Barbell position confirmed</strong>, not sitting in no man's land</p></div>
+    <div class="check-item"><div class="check-box"></div><p><strong>Existing desire identified</strong> that this offer channels, not a desire being invented</p></div>
+    <div class="check-item"><div class="check-box"></div><p><strong>Guarantee built</strong> around the actual predictors of success, not a blanket promise</p></div>
+    <div class="check-item"><div class="check-box"></div><p><strong>Proof stack assembled</strong>, real numbers, ready to drop into ad copy</p></div>
+    <div class="check-item"><div class="check-box"></div><p><strong>DFY hybrid scoped</strong> (if used) and bounded so it doesn't break fulfillment at scale</p></div>
+  </div>
+
+  <div class="scope-note">
+    <strong>Scope note:</strong> this is the process, not a finished offer. See the companion doc for three worked examples this process actually produced.
+  </div>
+
+</div>

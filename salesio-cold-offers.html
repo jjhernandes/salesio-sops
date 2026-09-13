@@ -1,0 +1,279 @@
+<title>Sales.io Cold Traffic Offers</title>
+<style>
+  @font-face { font-family:'Mono'; src:local('SF Mono'), local('Menlo'), local('Consolas'); }
+  :root {
+    --bg:#f4f2ec; --card:#ffffff; --card-2:#ebe8df;
+    --text:#16161a; --muted:#6b6a63; --faint:#b3b1a6;
+    --border:#ddd9cd;
+    --accent:#8a5a2a; --accent-soft:#f0e2cf;
+    --good:#3d7a50; --good-soft:#dde7de;
+    --optA:#3d5a80; --optA-soft:#dde3ea;
+    --optB:#6b4fa0; --optB-soft:#ede6f7;
+    --optC:#a0631a; --optC-soft:#f6ecd9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#0b0b0a; --card:#171715; --card-2:#1f1f1c;
+      --text:#f2f0ea; --muted:#9a958a; --faint:#4a463f;
+      --border:#2b2a25;
+      --accent:#d4a865; --accent-soft:#2a2013;
+      --good:#6fcf87; --good-soft:#142118;
+      --optA:#7fa2d4; --optA-soft:#16202c;
+      --optB:#b39ce0; --optB-soft:#1c1628;
+      --optC:#e0ab4a; --optC-soft:#2a2010;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#0b0b0a; --card:#171715; --card-2:#1f1f1c;
+    --text:#f2f0ea; --muted:#9a958a; --faint:#4a463f;
+    --border:#2b2a25;
+    --accent:#d4a865; --accent-soft:#2a2013;
+    --good:#6fcf87; --good-soft:#142118;
+    --optA:#7fa2d4; --optA-soft:#16202c;
+    --optB:#b39ce0; --optB-soft:#1c1628;
+    --optC:#e0ab4a; --optC-soft:#2a2010;
+  }
+  :root[data-theme="light"] {
+    --bg:#f4f2ec; --card:#ffffff; --card-2:#ebe8df;
+    --text:#16161a; --muted:#6b6a63; --faint:#b3b1a6;
+    --border:#ddd9cd;
+    --accent:#8a5a2a; --accent-soft:#f0e2cf;
+    --good:#3d7a50; --good-soft:#dde7de;
+    --optA:#3d5a80; --optA-soft:#dde3ea;
+    --optB:#6b4fa0; --optB-soft:#ede6f7;
+    --optC:#a0631a; --optC-soft:#f6ecd9;
+  }
+
+  * { box-sizing:border-box; }
+  html { font-size:16px; }
+  body {
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased; font-size:15px; line-height:1.6;
+  }
+  .mono { font-family:'SF Mono',ui-monospace,Menlo,Consolas,monospace; font-variant-numeric:tabular-nums; }
+  .wrap { max-width:920px; margin:0 auto; padding:60px 28px 110px; }
+
+  .kicker { font-size:11px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); margin-bottom:16px; }
+  h1 { font-size:clamp(1.9rem,4.2vw,2.7rem); font-weight:900; letter-spacing:-.03em; line-height:1.08; margin:0 0 12px; }
+  .lede { font-size:15.5px; color:var(--muted); max-width:74ch; line-height:1.75; margin-bottom:8px; }
+  .lede strong { color:var(--text); font-weight:700; }
+  .meta-row { font-size:12px; color:var(--faint); margin-bottom:36px; }
+  .meta-row a { color:var(--faint); }
+
+  .section-head { display:flex; align-items:baseline; gap:10px; margin:44px 0 6px; padding-top:32px; border-top:1px solid var(--border); }
+  .section-head:first-of-type { margin-top:0; padding-top:0; border-top:none; }
+  h3 { font-size:18px; font-weight:800; letter-spacing:-.01em; margin:0; }
+  p.body-text { font-size:14.5px; color:var(--text); line-height:1.75; margin:10px 0 14px; max-width:74ch; }
+  p.body-text.muted { color:var(--muted); }
+  p.body-text strong { font-weight:700; }
+
+  .offer-card { background:var(--card); border:1.5px solid var(--border); border-radius:14px; padding:26px 28px; margin-bottom:24px; }
+  .offer-card.optA { border-color:var(--optA); }
+  .offer-card.optB { border-color:var(--optB); }
+  .offer-card.optC { border-color:var(--optC); border-width:2px; }
+  .offer-badge { display:inline-block; font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; padding:4px 12px; border-radius:20px; margin-bottom:12px; }
+  .optA .offer-badge { background:var(--optA-soft); color:var(--optA); }
+  .optB .offer-badge { background:var(--optB-soft); color:var(--optB); }
+  .optC .offer-badge { background:var(--optC-soft); color:var(--optC); }
+  .offer-name { font-size:21px; font-weight:900; letter-spacing:-.01em; margin-bottom:6px; }
+  .offer-tagline { font-size:13.5px; color:var(--muted); margin-bottom:18px; font-style:italic; }
+
+  table.spec { width:100%; border-collapse:collapse; margin-bottom:14px; }
+  table.spec td { font-size:13.5px; padding:10px 0; border-top:1px solid var(--border); vertical-align:top; line-height:1.65; }
+  table.spec tr:first-child td { border-top:none; }
+  table.spec td.spec-lbl { font-weight:800; width:150px; color:var(--muted); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; padding-top:12px; }
+
+  .mech-box { background:var(--card-2); border-radius:10px; padding:16px 18px; margin:8px 0; font-size:13.5px; line-height:1.75; font-style:italic; color:var(--text); }
+
+  table.rt { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--border); border-radius:10px; overflow:hidden; margin:10px 0 8px; }
+  table.rt th { text-align:left; font-size:10px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--faint); padding:10px 13px; border-bottom:1px solid var(--border); background:var(--card-2); }
+  table.rt td { font-size:13.5px; padding:10px 13px; border-bottom:1px solid var(--border); vertical-align:top; }
+  table.rt tr:last-child td { border-bottom:none; }
+  table.rt td.lbl { font-weight:700; white-space:nowrap; }
+  .table-wrap { overflow-x:auto; }
+
+  .price-tag { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; background:var(--card-2); border-radius:10px; padding:14px 18px; margin-bottom:16px; }
+  .price-tag .p-amount { font-size:24px; font-weight:900; letter-spacing:-.01em; }
+  .price-tag .p-terms { font-size:12.5px; color:var(--muted); line-height:1.6; }
+  .included-list { margin:0 0 14px; padding-left:20px; }
+  .included-list li { font-size:13.5px; color:var(--text); line-height:1.75; margin-bottom:5px; }
+  .included-list li strong { font-weight:700; }
+  .included-label { font-size:10.5px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+  .proposed-tag { display:inline-block; font-size:9.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--optC); background:var(--optC-soft); border-radius:10px; padding:2px 8px; margin-left:8px; vertical-align:middle; }
+
+  .callout { display:flex; gap:11px; align-items:flex-start; border-radius:10px; padding:16px 20px; margin:16px 0; background:var(--optC-soft); border:1px solid var(--optC); }
+  .callout .c-icon { font-size:15px; flex-shrink:0; margin-top:1px; }
+  .callout p { font-size:13.5px; color:var(--text); line-height:1.7; margin:0; }
+  .callout strong { color:var(--text); }
+  .callout .c-label { font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin-bottom:6px; display:block; color:var(--optC); }
+
+  .scope-note { margin-top:52px; padding-top:24px; border-top:1px solid var(--border); font-size:12.5px; color:var(--faint); line-height:1.7; }
+  .scope-note strong { color:var(--muted); }
+
+  @media (max-width:640px) {
+    .wrap { padding:40px 18px 80px; }
+    table.spec td.spec-lbl { width:100px; }
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="kicker">Sales.io &middot; Offer Strategy</div>
+  <h1>Cold Traffic Offers</h1>
+  <p class="lede">Three offers built off the 3S formula, mechanism design, and desire channeling, plus one distribution channel for Option A. Two offers extend what Sales.io already does, Option C is a genuine departure, a different revenue model built on assets already sitting unused.</p>
+  <div class="meta-row">Companion doc: <a href="./salesio-cold-offer-sop.html">the reusable SOP behind these builds &rarr;</a></div>
+
+  <div class="offer-card optA">
+    <div class="offer-badge">Option A &middot; Mass Market, B2C</div>
+    <div class="offer-name">The Remote Closer Fast-Track</div>
+    <div class="offer-tagline">For people trying to escape a 9-to-5 through "making money online" who don't realize there's a faster door.</div>
+    <div class="price-tag">
+      <div class="p-amount">$7,500</div>
+      <div class="p-terms">Same core Mastermind, same financing as the flagship: 2-way split $3,750/mo, 3-way split $3,333/mo ($10K total), or Klarna/Affirm from ~$300/mo. Cold traffic converts on the guarantee, not a discount, price stays at parity with the flagship.</div>
+    </div>
+    <div class="included-label">What's Included</div>
+    <ul class="included-list">
+      <li>Weekly 1-on-1 coaching with JJ and coaching staff</li>
+      <li>7 weekly group coaching calls (Mock Call Monday, Setting Mastery, Coffee Chat, Sales Psychology, B2B Strategy, Inner Circle Advanced, Call Review/Game Tape)</li>
+      <li>WhatsApp community access, all channels</li>
+      <li>Slack 1-on-1 access to coaches</li>
+      <li><strong>The job board, plus active application support</strong> into the 60-80+ vetted companies hiring weekly, this last piece is the DFY layer unique to this front door, not part of the standard flagship pitch</li>
+      <li>Quarterly in-person mastermind access</li>
+    </ul>
+    <table class="spec">
+      <tr><td class="spec-lbl">Specific Person</td><td>Employed or underemployed people actively trying to leave their 9-to-5 and make money remotely, they've looked at dropshipping, affiliate marketing, or starting an agency.</td></tr>
+      <tr><td class="spec-lbl">Specific Problem</td><td>Every other route they've looked at requires building an entire business first, ads, tech, a team, months or years before real income shows up.</td></tr>
+      <tr><td class="spec-lbl">Specific Way</td><td>Direct placement into a paid, remote, high-ticket closing role through Sales.io's vetted job board (60-80+ companies hiring weekly) plus identity-based closer training, so income starts in weeks, not years.</td></tr>
+    </table>
+    <div class="mech-box">"Most people trying to make money online get into dropshipping or affiliate marketing. The problem is that's a full business you have to build from scratch, ads, tech, a team, years before you see real income. Instead, we place you directly into a paid remote sales role using our vetted job board and identity-based closer training, so you're earning commission in 30 to 60 days instead of building a business for years."</div>
+    <table class="spec">
+      <tr><td class="spec-lbl">Guarantee</td><td>Land a paid sales role within your first month, or we keep working with you at no additional cost until you do. This is provable, not aspirational, it matches the actual track record.</td></tr>
+      <tr><td class="spec-lbl">DFY Hybrid</td><td>Active application support into the job board's vetted companies, not full placement, but real hands-on help getting in front of the right roles. Bounded and scalable, doesn't turn into a staffing agency.</td></tr>
+      <tr><td class="spec-lbl">Proof to Lead With</td><td>"Every student has landed a role within their first month." 2,100+ reps coached. Zero disputes in program history.</td></tr>
+      <tr><td class="spec-lbl">Existing Desire Channeled</td><td>"Make money online / quit my job," already flowing, already searched for daily. This offer doesn't create that desire, it redirects it away from dropshipping and into something that actually delivers faster.</td></tr>
+    </table>
+  </div>
+
+  <div class="offer-card optB">
+    <div class="offer-badge">Option B &middot; Pain-Driven, Higher Urgency</div>
+    <div class="offer-name">The Identity Closer Method</div>
+    <div class="offer-tagline">For reps already in sales who are stuck, and already know their current approach isn't the answer.</div>
+    <div class="price-tag">
+      <div class="p-amount">$7,500</div>
+      <div class="p-terms">Same core program and financing as the flagship. This segment already has income, expect full-pay and the 3-way split ($10K total) to convert more often here than on Option A, no separate SKU needed to charge more, the audience self-selects into the higher-commitment tiers.</div>
+    </div>
+    <div class="included-label">What's Included</div>
+    <ul class="included-list">
+      <li>Weekly 1-on-1 coaching with JJ and coaching staff</li>
+      <li>7 weekly group coaching calls, with <strong>call review weighted heavier</strong> in how this is sold, since that's the specific mechanism this audience is buying</li>
+      <li>WhatsApp community access, all channels</li>
+      <li>Slack 1-on-1 access to coaches</li>
+      <li>Job board access (present, but de-emphasized in messaging, this audience is already working, not job hunting)</li>
+      <li>Quarterly in-person mastermind access</li>
+    </ul>
+    <table class="spec">
+      <tr><td class="spec-lbl">Specific Person</td><td>Sales reps already closing $5K-$15K/month in commission, tried scripts or objection-handling frameworks (NEPQ-style training), still stuck.</td></tr>
+      <tr><td class="spec-lbl">Specific Problem</td><td>Scripts and tactics make every closer sound the same, and prospects can feel it, which kills trust exactly when it matters most on the call.</td></tr>
+      <tr><td class="spec-lbl">Specific Way</td><td>The psychology behind why people actually buy, taught through the Four Levels of Communication, identity work, and cognitive dissonance, not another script to memorize.</td></tr>
+    </table>
+    <div class="mech-box">"Most stuck sales reps go looking for a better script or a new objection-handling framework. The problem is scripts make you sound like every other closer, and prospects can feel it, which kills trust exactly when you need it most. Instead, we teach the psychology behind why people actually buy, so you stop sounding like a closer and start closing like one."</div>
+    <table class="spec">
+      <tr><td class="spec-lbl">Guarantee</td><td>A conditional, effort-based guarantee tied to the specific things that actually predict success (attending coaching calls, submitting call recordings for review, applying the framework on a set number of live calls). If they do those things and don't see movement, extend coaching at no cost.</td></tr>
+      <tr><td class="spec-lbl">DFY Hybrid</td><td>Not applicable in the placement sense, the hybrid element here is call review: hands-on breakdown of the rep's actual calls, not just group theory. This is already how Sales.io coaches, it just needs to be named and sold as a specific mechanism.</td></tr>
+      <tr><td class="spec-lbl">Proof to Lead With</td><td>2,100+ reps coached. 100% success rate among one-on-one students. Anti-guru positioning: "everyone else teaches you what to say, we teach you how to think."</td></tr>
+      <tr><td class="spec-lbl">Existing Desire Channeled</td><td>"Get better at closing / make more commission," this is pain-driven (below average to average), higher urgency than Option A, smaller TAM, but a rep already earning $5K-$15K has real money to spend.</td></tr>
+    </table>
+  </div>
+
+  <div class="section-head"><h3>Which One First</h3></div>
+  <table class="rt">
+    <thead><tr><th></th><th>TAM</th><th>Urgency</th><th>Budget</th><th>Fit With Current ICP</th></tr></thead>
+    <tbody>
+      <tr><td class="lbl" style="color:var(--optA);">A: Fast-Track</td><td>Large</td><td>Lower</td><td>Lower (financing does the work)</td><td>Matches the 30-40% beginner segment, already the biggest slice of actual customers</td></tr>
+      <tr><td class="lbl" style="color:var(--optB);">B: Identity Method</td><td>Smaller</td><td>Higher</td><td>Higher</td><td>Matches the "true ideal customer" segment, only 5-10% of current mix</td></tr>
+    </tbody>
+  </table>
+  <p class="body-text">A and B don't compete for the same person, worth testing in parallel rather than choosing one over the other.</p>
+
+  <div class="section-head"><h3>Option C &mdash; A Genuine Departure</h3></div>
+  <p class="body-text muted">Not something Sales.io currently does. Included because the assets to build it already exist, and it flips the business from selling training to individuals into selling staffing to companies, a different, likely larger economic model built on the exact same supply Sales.io already trains.</p>
+
+  <div class="offer-card optC">
+    <div class="offer-badge">Option C &middot; B2B, Big Brand Edition</div>
+    <div class="offer-name">The Closer Deployment Line</div>
+    <div class="offer-tagline">For established personal-brand businesses where a bad closer doesn't just cost a deal, it costs trust the brand spent years building.</div>
+    <div class="price-tag">
+      <div class="p-amount">$5,000 <span class="proposed-tag">Proposed</span></div>
+      <div class="p-terms">Per closer placed, due after a 30-day performance validation window, ties directly to the guarantee. Plus an optional $1,000/month ongoing coaching retainer per placed closer. No existing pricing precedent for this line, these numbers need real testing against 1-2 actual clients before treating them as set.</div>
+    </div>
+    <div class="included-label">What's Included</div>
+    <ul class="included-list">
+      <li>Vetting and identity-based training already completed before placement, not on-the-job training at the client's expense</li>
+      <li>A matched placement into the business, screened for fit with a personality-led, high-visibility sales environment</li>
+      <li>The 30-day performance guarantee, no payment due if the closer doesn't perform</li>
+      <li><strong>Optional retainer:</strong> ongoing call review and quality assurance so performance doesn't degrade after placement, this is the recurring revenue layer, not required to use the placement service</li>
+    </ul>
+    <table class="spec">
+      <tr><td class="spec-lbl">Specific Person</td><td>Established coaches, course creators, and personal-brand-led companies at real scale, the category kings within their niche, who are still personally closing calls or whose internal closers are undertrained relative to the brand's audience expectations.</td></tr>
+      <tr><td class="spec-lbl">Specific Problem</td><td>Generic recruiting agencies don't understand high-ticket, personality-driven sales, and at this scale, a single scripted or tone-deaf closer conversation can damage a brand that took years to build. In-house training pipelines take too long to stand up internally, and the founder ends up back on calls anyway.</td></tr>
+      <tr><td class="spec-lbl">Specific Way</td><td>Sales.io places closers already trained inside the exact ecosystem this business came from, Sales.io itself started inside Iman Gadzhi's ecosystem and has coached Hormozi and Iman-level teams, so the closers placed already understand how high-profile, personality-led brands actually sell.</td></tr>
+    </table>
+    <div class="mech-box">"Most established coaches and course creators trying to scale their sales team hire from generic recruiting agencies or promote internally without a real training system. The problem is generic recruiters don't understand high-ticket, personality-driven sales, and a bad closer on a call with your audience can damage a brand it took years to build. Instead, we place closers already trained inside the same ecosystem we built our own company in, coaching Hormozi and Iman's own teams, so you're not the test case."</div>
+    <table class="spec">
+      <tr><td class="spec-lbl">Guarantee</td><td>Performance-based: if the placed closer doesn't perform, you don't pay. At this tier, also frame explicitly as brand protection, not just a hiring guarantee, the real fear is reputational, not just a wasted lead.</td></tr>
+      <tr><td class="spec-lbl">DFY Hybrid</td><td>Bounded on purpose: Sales.io handles vetting, training, and placement, matched specifically for personality-led, high-visibility sales environments. The founder still manages day-to-day, this isn't full outsourced sales team management.</td></tr>
+      <tr><td class="spec-lbl">Proof to Lead With</td><td>Sales.io's own origin and relationships, not a generic case study: launched inside Iman Gadzhi's ecosystem, coached Hormozi and Iman's own teams. This is insider credibility a generic recruiter can't claim.</td></tr>
+      <tr><td class="spec-lbl">Existing Desire Channeled</td><td>"Protect what I've built while I scale it," the same desire driving every decision a category-king brand makes, this just applies it to sales hiring specifically.</td></tr>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="c-icon">&#128161;</div>
+    <div>
+      <span class="c-label">Why This Is High Potential</span>
+      <p>Sales.io already has both halves of a two-sided marketplace and is only monetizing one side. The training pipeline builds trained closers (supply). The job board already has relationships with vetted companies (demand). Option C monetizes the demand side directly, placement fees or a placement-plus-retainer model, which is a fundamentally different and typically higher-margin economic model than individual course sales. The big-brand framing also solves the classic problem of breaking into enterprise without a huge personal network, Sales.io already has the credibility asset most people spend years building, it just hasn't been used to sell placement yet. It also creates its own proof engine: companies that hire through this become case studies that make Options A and B convert better, and satisfied companies become a source of new job board listings, a flywheel that doesn't exist today.</p>
+    </div>
+  </div>
+  <p class="body-text muted">Worth treating as a real test, not a certainty, this is unproven for Sales.io specifically, and the agency-owner segment of the current customer mix (10-15%) is a natural first signal of demand worth checking before building it out fully.</p>
+
+  <div class="section-head"><h3>The Coach-Ambassador Program</h3></div>
+  <p class="body-text muted">Not a fourth offer, a distribution channel for Option A specifically. Turns your best proof into your acquisition engine, but gated hard so it doesn't pattern-match to the guru-affiliate structures Sales.io is positioned against.</p>
+
+  <div class="offer-card optC">
+    <div class="offer-badge">Distribution Channel &middot; Referral, Not Recruiting</div>
+    <div class="offer-name">Represent Sales.io as a Coach</div>
+    <div class="offer-tagline">Students who've actually made it become the people introducing the next student to the biz op, not just a link in a bio.</div>
+    <div class="price-tag">
+      <div class="p-amount">15% <span class="proposed-tag">Proposed</span></div>
+      <div class="p-terms">Of the referred student's enrollment payment, staged 40% at enrollment / 60% at the referred student's real milestone (lands a role, or hits their first commission check). On the $7,500 core offer, that's roughly $450 at signup and $675 at milestone, about $1,125 total per successful referral.</div>
+    </div>
+    <div class="included-label">What The Ambassador Gets</div>
+    <ul class="included-list">
+      <li>Coach title and standing within the community, not just a referral link</li>
+      <li>Featured visibility, case study placement, possible coaching touchpoint</li>
+      <li>Referral tracking so the staged payout is transparent and verifiable</li>
+    </ul>
+    <table class="spec">
+      <tr><td class="spec-lbl">Qualification Bar</td><td>Verified $30K+ earned since going through Sales.io, real income, not enrollment count or time-in-program. This is the gate that keeps this from becoming recruit-to-recruit.</td></tr>
+      <tr><td class="spec-lbl">The Role</td><td>Qualifying students represent Sales.io as coaches, not affiliates with a link. They carry real title and visibility (featured case studies, a coaching touchpoint, community standing), and they introduce their own audience or network specifically into the biz op / intro-to-sales route (Option A).</td></tr>
+      <tr><td class="spec-lbl">Why $30K Is the Right Bar</td><td>It filters for people whose success is substantial enough to be credible, not someone who barely finished the program. A coach who has genuinely won is a fundamentally different messenger than someone incentivized to talk anyone into signing up.</td></tr>
+    </table>
+    <div class="callout" style="margin-top:4px;">
+      <div class="c-icon">&#9888;</div>
+      <div>
+        <span class="c-label">The Guardrail That Actually Matters</span>
+        <p>"Successful students earn commission for bringing in more students" is structurally identical to the affiliate models run by Jeremy Miner, Cole Gordon, and Andy Elliott, the exact positioning Sales.io is built against. The fix isn't avoiding this, it's staging the payout: partial on enrollment, the rest only when the referred student hits a real milestone (lands a role, hits their first commission month). That keeps the incentive aligned to "did this person actually succeed," not "did this person sign up," which is the entire difference between a coach representing real outcomes and a recruiter chasing headcount.</p>
+      </div>
+    </div>
+    <table class="spec">
+      <tr><td class="spec-lbl">Proof to Lead With</td><td>The ambassador themselves is the proof. This channel doesn't need a separate case study, the coach's own $30K+ result is the pitch.</td></tr>
+      <tr><td class="spec-lbl">Existing Desire Channeled</td><td>Feeds directly into Option A's "make money online / quit my job" desire, but arrives with a trust level cold ads can't match, a real person's own transformation, not a stranger's ad.</td></tr>
+    </table>
+  </div>
+
+  <div class="scope-note">
+    <strong>Scope note:</strong> Options A and B use the existing, real Mastermind price and inclusions, that part is not proposed. The Option C placement pricing and the Coach-Ambassador commission structure are marked <span class="proposed-tag">Proposed</span> directly on the price tag, they're grounded in industry-normal recruiting and affiliate structures but haven't been tested against a real client or paid out to a real ambassador yet. See the companion SOP for the process used to build these, and to build the next one.
+  </div>
+
+</div>
