@@ -1,0 +1,191 @@
+<title>Content Execution Plan</title>
+<style>
+  @font-face { font-family:'Mono'; src:local('SF Mono'), local('Menlo'), local('Consolas'); }
+  :root {
+    --bg:#f4f2ec; --card:#ffffff; --card-2:#ebe8df;
+    --text:#16161a; --muted:#6b6a63; --faint:#b3b1a6;
+    --border:#ddd9cd;
+    --accent:#8a5a2a; --accent-soft:#f0e2cf;
+    --jj:#3d7a50; --jj-soft:#dde7de;
+    --josh:#3d5a80; --josh-soft:#dde3ea;
+    --jack:#6b4fa0; --jack-soft:#ede6f7;
+    --warn:#a0631a; --warn-soft:#f6ecd9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#0b0b0a; --card:#171715; --card-2:#1f1f1c;
+      --text:#f2f0ea; --muted:#9a958a; --faint:#4a463f;
+      --border:#2b2a25;
+      --accent:#d4a865; --accent-soft:#2a2013;
+      --jj:#6fcf87; --jj-soft:#142118;
+      --josh:#7fa2d4; --josh-soft:#16202c;
+      --jack:#b39ce0; --jack-soft:#1c1628;
+      --warn:#e0ab4a; --warn-soft:#2a2010;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#0b0b0a; --card:#171715; --card-2:#1f1f1c;
+    --text:#f2f0ea; --muted:#9a958a; --faint:#4a463f;
+    --border:#2b2a25;
+    --accent:#d4a865; --accent-soft:#2a2013;
+    --jj:#6fcf87; --jj-soft:#142118;
+    --josh:#7fa2d4; --josh-soft:#16202c;
+    --jack:#b39ce0; --jack-soft:#1c1628;
+    --warn:#e0ab4a; --warn-soft:#2a2010;
+  }
+  :root[data-theme="light"] {
+    --bg:#f4f2ec; --card:#ffffff; --card-2:#ebe8df;
+    --text:#16161a; --muted:#6b6a63; --faint:#b3b1a6;
+    --border:#ddd9cd;
+    --accent:#8a5a2a; --accent-soft:#f0e2cf;
+    --jj:#3d7a50; --jj-soft:#dde7de;
+    --josh:#3d5a80; --josh-soft:#dde3ea;
+    --jack:#6b4fa0; --jack-soft:#ede6f7;
+    --warn:#a0631a; --warn-soft:#f6ecd9;
+  }
+
+  * { box-sizing:border-box; }
+  html { font-size:16px; }
+  body {
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased; font-size:15px; line-height:1.6;
+  }
+  .wrap { max-width:900px; margin:0 auto; padding:60px 28px 110px; }
+
+  .kicker { font-size:11px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); margin-bottom:16px; }
+  h1 { font-size:clamp(1.9rem,4.2vw,2.6rem); font-weight:900; letter-spacing:-.03em; line-height:1.08; margin:0 0 12px; }
+  .lede { font-size:15.5px; color:var(--muted); max-width:72ch; line-height:1.75; margin-bottom:8px; }
+  .meta-row { font-size:12px; color:var(--faint); margin:18px 0 36px; }
+  .meta-row a { color:var(--faint); }
+
+  .callout { display:flex; gap:11px; align-items:flex-start; border-radius:10px; padding:16px 20px; margin-bottom:36px; background:var(--warn-soft); border:1px solid var(--warn); }
+  .callout .c-icon { font-size:15px; flex-shrink:0; margin-top:1px; }
+  .callout p { font-size:13.5px; color:var(--text); line-height:1.7; margin:0; }
+  .callout strong { color:var(--text); }
+  .callout .c-label { font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; margin-bottom:6px; display:block; color:var(--warn); }
+
+  .owner-head { display:flex; align-items:center; gap:12px; margin:52px 0 18px; padding-top:36px; border-top:2px solid var(--border); }
+  .owner-head:first-of-type { margin-top:0; padding-top:0; border-top:none; }
+  .owner-badge { font-size:12px; font-weight:900; letter-spacing:.04em; text-transform:uppercase; padding:6px 16px; border-radius:20px; }
+  .owner-badge.jj { background:var(--jj-soft); color:var(--jj); }
+  .owner-badge.josh { background:var(--josh-soft); color:var(--josh); }
+  .owner-badge.jack { background:var(--jack-soft); color:var(--jack); }
+  .owner-sub { font-size:12.5px; color:var(--muted); }
+
+  .subhead { font-size:11px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--faint); margin:24px 0 10px; }
+  .subhead:first-of-type { margin-top:0; }
+
+  .step-item { display:flex; gap:14px; align-items:flex-start; background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin-bottom:8px; }
+  .step-num { font-size:15px; font-weight:900; font-family:'SF Mono',monospace; flex-shrink:0; min-width:20px; }
+  .step-item.jj .step-num { color:var(--jj); }
+  .step-item.josh .step-num { color:var(--josh); }
+  .step-item.jack .step-num { color:var(--jack); }
+  .step-body h4 { font-size:14px; font-weight:800; margin-bottom:3px; }
+  .step-body p { font-size:13px; color:var(--muted); line-height:1.65; margin:0; }
+  .step-body p strong { color:var(--text); }
+
+  .scope-note { margin-top:52px; padding-top:24px; border-top:1px solid var(--border); font-size:12.5px; color:var(--faint); line-height:1.7; }
+  .scope-note strong { color:var(--muted); }
+
+  @media (max-width:640px) { .wrap { padding:40px 18px 80px; } }
+</style>
+
+<div class="wrap">
+
+  <div class="kicker">Sales.io &middot; Content Execution</div>
+  <h1>Content Execution Plan</h1>
+  <p class="lede">Pulled directly from the Content Strategy Playbook, broken down by exactly who does what. Built to hand straight to Josh and Jack, not just read internally.</p>
+  <div class="meta-row">Source doc: <a href="./salesio-content-strategy-playbook.html">Content Strategy Playbook &rarr;</a></div>
+
+  <div class="callout">
+    <div class="c-icon">&#9888;</div>
+    <div>
+      <span class="c-label">Order Matters</span>
+      <p>Consent has to happen before Jack touches any coaching recap footage. The naming rule and the three-tier close script have to exist before Jack packages anything. Josh's dashboard and consent form should exist before the first public recap goes out, not after. Don't let production get ahead of the decisions above it.</p>
+    </div>
+  </div>
+
+  <div class="owner-head"><span class="owner-badge jj">JJ</span><span class="owner-sub">Decisions, then personal execution</span></div>
+
+  <div class="subhead">Build (decisions only you can make)</div>
+  <div class="step-item jj">
+    <div class="step-num">1</div>
+    <div class="step-body"><h4>Pick the consent list</h4><p>Choose 3 coaching recaps to go public first. Get explicit consent from those specific students before anything else moves.</p></div>
+  </div>
+  <div class="step-item jj">
+    <div class="step-num">2</div>
+    <div class="step-body"><h4>Name any unnamed framework before it goes out</h4><p>No topic goes public without a real name first. Check this before handing anything to Jack.</p></div>
+  </div>
+  <div class="step-item jj">
+    <div class="step-num">3</div>
+    <div class="step-body"><h4>Write the three-tier close script</h4><p>One line naming the Skool community, the Mastermind, and the placement line, in that order, self-segmenting. Write it once, hand it to Jack to insert everywhere.</p></div>
+  </div>
+  <div class="step-item jj">
+    <div class="step-num">4</div>
+    <div class="step-body"><h4>Decide the one real thing to declare on camera</h4><p>The $350K/month goal, a content cadence, whatever's actually true right now. Has to be real when you say it.</p></div>
+  </div>
+
+  <div class="subhead">Do (can't be delegated)</div>
+  <div class="step-item jj">
+    <div class="step-num">5</div>
+    <div class="step-body"><h4>Record one unscripted long-form conversation this month</h4><p>With Evan Brown or Jalen. Pick the specific training topic before you hit record, not a loose catch-up.</p></div>
+  </div>
+  <div class="step-item jj">
+    <div class="step-num">6</div>
+    <div class="step-body"><h4>Reach out directly to the 3 students on the consent list</h4><p>This has to come from you personally, not a team message.</p></div>
+  </div>
+  <div class="step-item jj">
+    <div class="step-num">7</div>
+    <div class="step-body"><h4>Film the public commitment video</h4><p>From decision 4 above.</p></div>
+  </div>
+  <div class="step-item jj">
+    <div class="step-num">8</div>
+    <div class="step-body"><h4>Record one full-depth framework deep-dive</h4><p>Ask Evan or Jalen which framework students report the biggest breakthroughs from, then teach it at full depth, no watering it down.</p></div>
+  </div>
+
+  <div class="owner-head"><span class="owner-badge josh">Josh</span><span class="owner-sub">Systems and infrastructure</span></div>
+  <div class="step-item josh">
+    <div class="step-num">1</div>
+    <div class="step-body"><h4>Build a single cross-platform dashboard</h4><p>Views and engagement from YouTube, Instagram, LinkedIn, and X in one place. Without this, there's no way to actually measure whether the multi-platform synergy effect is real for Sales.io.</p></div>
+  </div>
+  <div class="step-item josh">
+    <div class="step-num">2</div>
+    <div class="step-body"><h4>Set up a repurposing pipeline</h4><p>A defined path from raw recording to Jack's queue to tracked short-form cuts per platform. A shared drive with a clear naming convention is enough to start, doesn't need to be fancy yet.</p></div>
+  </div>
+  <div class="step-item josh">
+    <div class="step-num">3</div>
+    <div class="step-body"><h4>Build a basic consent and release form</h4><p>For using real student calls and results publicly. Needs to exist before recap #1 goes out, not after.</p></div>
+  </div>
+  <div class="step-item josh">
+    <div class="step-num">4</div>
+    <div class="step-body"><h4>Set up the "mids" channel infrastructure</h4><p>A second YouTube channel for short highlight clips, separate from the main one. Not step one, build this once the core pipeline is already running.</p></div>
+  </div>
+
+  <div class="owner-head"><span class="owner-badge jack">Jack</span><span class="owner-sub">Production and editing</span></div>
+  <div class="step-item jack">
+    <div class="step-num">1</div>
+    <div class="step-body"><h4>Cut the unscripted conversation</h4><p>Once JJ and Evan/Jalen record it, one long-form YouTube cut, minimal editing, don't over-produce it, plus short-form cuts for every other platform.</p></div>
+  </div>
+  <div class="step-item jack">
+    <div class="step-num">2</div>
+    <div class="step-body"><h4>Cut the 3 consented coaching recaps</h4><p>Screen-share the real numbers, keep it dense and raw rather than heavily produced, the substance is what carries it.</p></div>
+  </div>
+  <div class="step-item jack">
+    <div class="step-num">3</div>
+    <div class="step-body"><h4>Own the miner role for now</h4><p>Go through raw footage and find the actual hook, it's rarely at the start. Restructure clips around wherever it actually is.</p></div>
+  </div>
+  <div class="step-item jack">
+    <div class="step-num">4</div>
+    <div class="step-body"><h4>Packaging and titles happen last</h4><p>After the cut is finished, not before filming. This is a sequence change from however titles get picked today.</p></div>
+  </div>
+  <div class="step-item jack">
+    <div class="step-num">5</div>
+    <div class="step-body"><h4>Insert the three-tier close in every outro</h4><p>Once JJ writes it, standardized, not improvised per video.</p></div>
+  </div>
+
+  <div class="scope-note">
+    <strong>Scope note:</strong> this is the execution breakdown, not a production calendar or a filming schedule. Jack isn't yet listed in <code>context/team.md</code>, worth adding once his title and role scope are confirmed.
+  </div>
+
+</div>
