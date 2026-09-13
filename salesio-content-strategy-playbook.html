@@ -1,0 +1,289 @@
+<title>Content Strategy Playbook</title>
+<style>
+  @font-face { font-family:'Mono'; src:local('SF Mono'), local('Menlo'), local('Consolas'); }
+  :root {
+    --bg:#f4f2ec; --card:#ffffff; --card-2:#ebe8df;
+    --text:#16161a; --muted:#6b6a63; --faint:#b3b1a6;
+    --border:#ddd9cd;
+    --accent:#8a5a2a; --accent-soft:#f0e2cf;
+    --good:#3d7a50; --good-soft:#dde7de;
+    --jeremy:#a0631a; --jeremy-soft:#f6ecd9;
+    --cole:#3d5a80; --cole-soft:#dde3ea;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#0b0b0a; --card:#171715; --card-2:#1f1f1c;
+      --text:#f2f0ea; --muted:#9a958a; --faint:#4a463f;
+      --border:#2b2a25;
+      --accent:#d4a865; --accent-soft:#2a2013;
+      --good:#6fcf87; --good-soft:#142118;
+      --jeremy:#e0ab4a; --jeremy-soft:#2a2010;
+      --cole:#7fa2d4; --cole-soft:#16202c;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#0b0b0a; --card:#171715; --card-2:#1f1f1c;
+    --text:#f2f0ea; --muted:#9a958a; --faint:#4a463f;
+    --border:#2b2a25;
+    --accent:#d4a865; --accent-soft:#2a2013;
+    --good:#6fcf87; --good-soft:#142118;
+    --jeremy:#e0ab4a; --jeremy-soft:#2a2010;
+    --cole:#7fa2d4; --cole-soft:#16202c;
+  }
+  :root[data-theme="light"] {
+    --bg:#f4f2ec; --card:#ffffff; --card-2:#ebe8df;
+    --text:#16161a; --muted:#6b6a63; --faint:#b3b1a6;
+    --border:#ddd9cd;
+    --accent:#8a5a2a; --accent-soft:#f0e2cf;
+    --good:#3d7a50; --good-soft:#dde7de;
+    --jeremy:#a0631a; --jeremy-soft:#f6ecd9;
+    --cole:#3d5a80; --cole-soft:#dde3ea;
+  }
+
+  * { box-sizing:border-box; }
+  html { font-size:16px; }
+  body {
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased; font-size:15px; line-height:1.6;
+  }
+  .wrap { max-width:920px; margin:0 auto; padding:60px 28px 110px; }
+
+  .kicker { font-size:11px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); margin-bottom:16px; }
+  h1 { font-size:clamp(1.9rem,4.2vw,2.7rem); font-weight:900; letter-spacing:-.03em; line-height:1.08; margin:0 0 12px; }
+  .lede { font-size:15.5px; color:var(--muted); max-width:74ch; line-height:1.75; margin-bottom:8px; }
+  .lede strong { color:var(--text); font-weight:700; }
+  .meta-row { font-size:12px; color:var(--faint); margin-bottom:36px; }
+  .meta-row a { color:var(--faint); }
+  .src-tag { font-size:9.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; padding:2px 9px; border-radius:10px; margin-left:2px; }
+  .src-tag.src-jeremy { background:var(--jeremy-soft); color:var(--jeremy); }
+  .src-tag.src-cole { background:var(--cole-soft); color:var(--cole); }
+  .pattern-box.cole .p-label { color:var(--cole); }
+
+  .section-head { display:flex; align-items:baseline; gap:10px; margin:44px 0 6px; padding-top:32px; border-top:1px solid var(--border); flex-wrap:wrap; }
+  .section-head:first-of-type { margin-top:0; padding-top:0; border-top:none; }
+  .section-num { font-size:11px; font-weight:800; color:var(--faint); font-family:'SF Mono',monospace; }
+  h3 { font-size:18px; font-weight:800; letter-spacing:-.01em; margin:0; }
+  p.body-text { font-size:14.5px; color:var(--text); line-height:1.75; margin:10px 0 14px; max-width:74ch; }
+  p.body-text.muted { color:var(--muted); }
+  p.body-text strong { font-weight:700; }
+
+  .pattern-box { background:var(--card-2); border-radius:10px; padding:14px 18px; margin-bottom:12px; }
+  .pattern-box .p-label { font-size:10px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--jeremy); margin-bottom:6px; display:block; }
+  .pattern-box p { font-size:13.5px; color:var(--text); line-height:1.7; margin:0; }
+
+  .apply-box { background:var(--accent-soft); border-left:3px solid var(--accent); border-radius:0 10px 10px 0; padding:14px 18px; margin-bottom:14px; }
+  .apply-box .a-label { font-size:10px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:6px; display:block; }
+  .apply-box p { font-size:13.5px; color:var(--text); line-height:1.7; margin:0; }
+  .apply-box strong { color:var(--text); }
+
+  table.rt { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--border); border-radius:10px; overflow:hidden; margin:10px 0 8px; }
+  table.rt th { text-align:left; font-size:10px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--faint); padding:10px 13px; border-bottom:1px solid var(--border); background:var(--card-2); }
+  table.rt td { font-size:13.5px; padding:10px 13px; border-bottom:1px solid var(--border); vertical-align:top; }
+  table.rt tr:last-child td { border-bottom:none; }
+  table.rt td.lbl { font-weight:700; white-space:nowrap; }
+
+  ol.plain, ul.plain { margin:0 0 14px; padding-left:22px; }
+  ol.plain li, ul.plain li { font-size:14px; color:var(--text); line-height:1.8; margin-bottom:10px; }
+  ol.plain li strong { font-weight:700; }
+
+  .priority-item { display:flex; gap:14px; background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 18px; margin-bottom:10px; }
+  .priority-num { font-size:18px; font-weight:900; color:var(--accent); flex-shrink:0; font-family:'SF Mono',monospace; min-width:24px; }
+  .priority-body h4 { font-size:14px; font-weight:800; margin-bottom:3px; }
+  .priority-body p { font-size:13px; color:var(--muted); line-height:1.6; margin:0; }
+
+  .scope-note { margin-top:52px; padding-top:24px; border-top:1px solid var(--border); font-size:12.5px; color:var(--faint); line-height:1.7; }
+  .scope-note strong { color:var(--muted); }
+
+  @media (max-width:640px) { .wrap { padding:40px 18px 80px; } }
+</style>
+
+<div class="wrap">
+
+  <div class="kicker">Sales.io &amp; JJ Hernandez &middot; Content Strategy</div>
+  <h1>Content Strategy Playbook</h1>
+  <p class="lede">Not the call-funnel tactics, the content strategy underneath them. This extracts how Jeremy Miner and Cole Gordon actually build authority through content and turn it into paid tiers, then translates each piece into something Sales.io can do with assets already sitting in this system.</p>
+  <p class="body-text muted">Sourced from both of their own public training content. Sales.io positions against both of them publicly on substance, teaching identity and psychology over scripts, that's separate from studying how they structure content, which is genuinely effective and worth learning from directly. Every section is tagged by source.</p>
+  <div class="meta-row">Related docs: <a href="./salesio-cold-offers.html">Cold Traffic Offers</a> &middot; <a href="./salesio-cold-offer-sop.html">Cold Offer Engineering SOP</a></div>
+
+  <div class="section-head"><span class="section-num">01</span><h3>Long-Form Business Breakdowns With Real Names</h3><span class="src-tag src-jeremy">Jeremy</span></div>
+  <div class="pattern-box">
+    <span class="p-label">The Pattern</span>
+    <p>Jeremy's highest-trust content isn't advice, it's him sitting down with actual named students (Andres, Nick, Tom, Abram) and breaking down their real screen-shared numbers on camera, opt-in rates, cost per call, show rates. Specificity and real names build more trust than any polished claim.</p>
+  </div>
+  <div class="apply-box">
+    <span class="a-label">For Sales.io</span>
+    <p>You already have the raw material for this and most of it was never meant to be public. The coaching recap library (Colton Bishop, Kevin, David Michelsen, Hisam Baig, and dozens more) already documents real 1-on-1 breakdowns with real numbers. Pick a rotating few (with their consent), turn them into public long-form videos the same way, screen-share the actual call, the actual close rate, the actual before/after. This is a library you're already sitting on, it just needs to be selectively made public instead of staying internal.</p>
+  </div>
+
+  <div class="section-head"><span class="section-num">02</span><h3>The Milestone-Trophy Mechanism</h3><span class="src-tag src-jeremy">Jeremy</span></div>
+  <div class="pattern-box">
+    <span class="p-label">The Pattern</span>
+    <p>Students who cross a real threshold (first $1M/month) get a literal trophy and 20 minutes on stage at the live mastermind, filmed and archived in a vault. It's simultaneously a status reward, a community incentive, and reusable proof content, one mechanism doing three jobs.</p>
+  </div>
+  <div class="apply-box">
+    <span class="a-label">For Sales.io</span>
+    <p>This slots directly into the quarterly Orlando masterminds already on the calendar, and it's the same mechanism already designed into the Coach-Ambassador program (the $30K+ earned bar). Give qualifying students actual stage time to present their own "here's how I did it" breakdown, film it, archive it. This turns the ambassador qualification into a recurring content source instead of a one-time gate.</p>
+  </div>
+
+  <div class="section-head"><span class="section-num">03</span><h3>A Compounding Topic Library</h3><span class="src-tag src-jeremy">Jeremy</span></div>
+  <div class="pattern-box">
+    <span class="p-label">The Pattern</span>
+    <p>Every named framework (3S formula, master messaging, pixel conditioning) has its own dedicated deep-dive video, and every newer video links back to it. The library compounds, new viewers keep discovering old videos through references in new ones.</p>
+  </div>
+  <div class="apply-box">
+    <span class="a-label">For Sales.io</span>
+    <p>You already have proprietary-named frameworks that only exist inside the paid curriculum: the Four Levels of Communication, the PASE Method, the Heaven and Hell Framework, Scriptless Selling. Each one deserves its own dedicated public video, taught with real depth, not a teaser. Reference the back catalog in every new video going forward so the library actually compounds instead of each video existing in isolation.</p>
+  </div>
+
+  <div class="section-head"><span class="section-num">04</span><h3>Credibility Through Willingness to Criticize</h3><span class="src-tag src-jeremy">Jeremy</span></div>
+  <div class="pattern-box">
+    <span class="p-label">The Pattern</span>
+    <p>Jeremy openly criticizes tools he has no financial relationship with (Typeform, Calendly, a competitor's software) by name, unprompted. The explicit "I have no affiliate deal, I don't care about these guys" framing is what makes the criticism land as trustworthy instead of biased.</p>
+  </div>
+  <div class="apply-box">
+    <span class="a-label">For Sales.io</span>
+    <p>This is already your anti-guru positioning, "we find out where you suck and make you good" is the same energy. Lean into it more deliberately in content specifically: call out bad tactics in the sales training space by name where it's factually accurate, the same directness that separates you from Miner, Gordon, and Elliott in substance can also separate your content from theirs in tone, willing to say what's actually true instead of what's safe.</p>
+  </div>
+
+  <div class="section-head"><span class="section-num">05</span><h3>One Sticky Analogy Per Framework</h3><span class="src-tag src-jeremy">Jeremy</span></div>
+  <div class="pattern-box">
+    <span class="p-label">The Pattern</span>
+    <p>Dense frameworks get one memorable analogy each, Inglourious Basterds for messaging-signal congruency, a Ferrari "tit job" for optional offer add-ons. The analogy is what actually gets remembered and repeated, not the framework name alone.</p>
+  </div>
+  <div class="apply-box">
+    <span class="a-label">For Sales.io</span>
+    <p>Build this into the content prep process itself: before filming any framework video, require one real story or pop-culture reference that makes it stick, not just a clean explanation. This is also just good coaching, the existing curriculum already leans on vivid framing (identity work, cognitive dissonance), extend that same instinct into the public content, not just the paid material.</p>
+  </div>
+
+  <div class="section-head"><span class="section-num">06</span><h3>A Consistent, Self-Segmenting Close</h3><span class="src-tag src-jeremy">Jeremy</span></div>
+  <div class="pattern-box">
+    <span class="p-label">The Pattern</span>
+    <p>Every video ends with the same tiered stack, cheap AI tool, mid-tier education, high-ticket mastermind, framed so the viewer self-selects ("if you're rich trying to get richer... if you want to get educated..."). No hard pitch, just a menu matched to where the viewer already sees themselves.</p>
+  </div>
+  <div class="apply-box">
+    <span class="a-label">For Sales.io</span>
+    <p>This maps directly onto the actual product stack already built: the $39/month Skool community, the $7,500 Mastermind (Options A and B from the cold offer doc), and the B2B placement line (Option C) for founders. Standardize a closing line for every piece of content that names all three and lets the viewer place themselves, instead of pitching one product regardless of who's watching.</p>
+  </div>
+
+  <div class="section-head"><span class="section-num">07</span><h3>Teach the AI Workflow, Not Just the Lesson</h3><span class="src-tag src-jeremy">Jeremy</span></div>
+  <div class="pattern-box">
+    <span class="p-label">The Pattern</span>
+    <p>Jeremy doesn't just teach a concept, he teaches the exact prompt structure to feed call transcripts and his own SOPs into an AI model to generate ad copy. It's immediately actionable and positions him as current, not theoretical.</p>
+  </div>
+  <div class="apply-box">
+    <span class="a-label">For Sales.io</span>
+    <p>The direct equivalent: teach students how to feed their own call recordings into an AI model alongside a Sales.io framework (the Four Levels, PASE) to find their own blind spots. This is a genuinely useful, modern piece of content and it reinforces the actual product (the frameworks) rather than replacing the need for coaching.</p>
+  </div>
+
+  <div class="section-head"><span class="section-num">08</span><h3>Name Everything Before You Publish It</h3><span class="src-tag src-jeremy">Jeremy</span></div>
+  <div class="pattern-box">
+    <span class="p-label">The Pattern</span>
+    <p>Every tactic gets a proprietary name before it ever goes out, the 3S formula, AI Manipulation Mastery, the Hammer Them Strategy. This is the same "cool name helps" principle from offer mechanism design, applied to content instead of offers.</p>
+  </div>
+  <div class="apply-box">
+    <span class="a-label">For Sales.io</span>
+    <p>Make this a standing rule for new content, not just new offers: no lesson goes public without a real name first. This is already half-true, the Four Levels of Communication and PASE Method are proof it works, the discipline is doing it every time going forward, not just for the flagship frameworks.</p>
+  </div>
+
+  <div class="section-head"><span class="section-num">09</span><h3>Turn Your Own Big Bets Into Content</h3><span class="src-tag src-cole">Cole</span></div>
+  <div class="pattern-box cole">
+    <span class="p-label">The Pattern</span>
+    <p>Cole publicly declared he paid $225K for content coaching, on camera, multiple times, before he'd proven any of it would work. The public declaration itself became leverage, backing out later would mean looking like an idiot in front of an audience that already knew. It also gave the audience a real story to follow, not just a lesson.</p>
+  </div>
+  <div class="apply-box">
+    <span class="a-label">For Sales.io</span>
+    <p>Public commitment is a content format, not just a discipline trick. Declaring a real goal on camera, hitting $350K/month consistently, a specific content cadence, a new offer line, creates the same self-leverage and gives an audience something to actually follow over time, not just a static lesson.</p>
+  </div>
+
+  <div class="section-head"><span class="section-num">10</span><h3>Content First, Packaging After, Stay Locked to Your Real Niche</h3><span class="src-tag src-cole">Cole</span></div>
+  <div class="pattern-box cole">
+    <span class="p-label">The Pattern</span>
+    <p>Cole's biggest early mistake was going broad, chasing "how to get rich in your 20s" style content to feed a low-ticket funnel, because that's what the standard YouTube-growth playbook says works: find an outlier video, reverse-engineer the packaging, make something similar. It bombed, felt terrible to make, and diluted his actual expertise. The fix was deciding the audience and the problem first, making the content he actually wanted to make, and only figuring out the title and packaging after the fact. MrBeast, Hormozi, and the Acquired podcast all work this way too, content first, packaging second.</p>
+  </div>
+  <div class="apply-box">
+    <span class="a-label">For Sales.io</span>
+    <p>This directly validates staying locked to the real ICP (the 5-10% "true ideal customer" segment) instead of chasing broad self-improvement or "get rich" content to feed the top of funnel. Decide what JJ actually wants to teach that week, usually whatever came up in real coaching, film it, and let the title come after, not before.</p>
+  </div>
+
+  <div class="section-head"><span class="section-num">11</span><h3>Real Unscripted Conversations Beat Produced Talking-Heads</h3><span class="src-tag src-cole">Cole</span></div>
+  <div class="pattern-box cole">
+    <span class="p-label">The Pattern</span>
+    <p>Cole's breakthrough came from filming an unscripted, three-hour, rapport-driven conversation with a friend who happened to be staying over, ten minutes of prep versus a full week of scripting, and it outperformed every produced video he'd made. He repeated it with his own CMO, someone with zero public recognition, and it outperformed guests with real name recognition, because the topic and packaging mattered more than who was in the room. Framing the conversation as a training (a specific topic worth taking notes on) rather than a loose interview is what made it durable.</p>
+  </div>
+  <div class="apply-box">
+    <span class="a-label">For Sales.io</span>
+    <p>JJ doesn't need a chain of famous guests to make this work. Real, unscripted conversations with Evan Brown, Jalen, or an actual student, framed around one specific training topic (not a loose catch-up), is a format Sales.io can run indefinitely without running out of names. This is the same instinct as the coaching-recap library in section 01, just in live conversation form instead of a call breakdown.</p>
+  </div>
+
+  <div class="section-head"><span class="section-num">12</span><h3>Specific and Dense Outperforms Broad and Polished</h3><span class="src-tag src-cole">Cole</span></div>
+  <div class="pattern-box cole">
+    <span class="p-label">The Pattern</span>
+    <p>Every time Cole made his content more tactical and specific, views and lead generation both went up, the opposite of what conventional advice predicts. His single highest-performing solo video was recorded in one take, screen-sharing a raw Google Doc, zero editing, purely because the information was exceptional and he was genuinely deep in the topic that week.</p>
+  </div>
+  <div class="apply-box">
+    <span class="a-label">For Sales.io</span>
+    <p>Reinforces not watering down the framework deep-dives from section 03. It also means the raw coaching recap library doesn't need heavy production to work as public content, the substance is what carries it, matching exactly what Cole found with his own raw, one-take video.</p>
+  </div>
+
+  <div class="section-head"><span class="section-num">13</span><h3>Multi-Platform Is a Synergy Engine, Not Separate Channels</h3><span class="src-tag src-cole">Cole</span></div>
+  <div class="pattern-box cole">
+    <span class="p-label">The Pattern</span>
+    <p>Being active on platforms that don't directly monetize (X, short-form clips) doesn't just add incremental reach, it measurably increases performance on the core platform (YouTube long-form), since the other platforms function as constant reminders pointing people back to the main content. One long conversation gets repurposed everywhere instead of creating platform-specific content from scratch.</p>
+  </div>
+  <div class="apply-box">
+    <span class="a-label">For Sales.io</span>
+    <p>Treat LinkedIn, Instagram, and YouTube as one content flywheel, not three separate content calendars. One long-form coaching breakdown or conversation should get clipped and repurposed everywhere, with the expectation that the short-form presence lifts YouTube performance rather than competing with it for attention.</p>
+  </div>
+
+  <div class="section-head"><span class="section-num">14</span><h3>Build Toward a Real Content Team Structure</h3><span class="src-tag src-cole">Cole</span></div>
+  <div class="pattern-box cole">
+    <span class="p-label">The Pattern</span>
+    <p>Cole's team structure: a long-form strategist (often doubling as videographer), a short-form strategist managing platform-specific editors, a dedicated "miner" role for clipping (finding the hook buried mid-conversation and restructuring it), and a separate short-clip "mids" channel that, despite far fewer views, generates more revenue than the main channel.</p>
+  </div>
+  <div class="apply-box">
+    <span class="a-label">For Sales.io</span>
+    <p>A concrete structure to grow into as the content operation scales past one collaborator (James, per the current content-strategy project notes): a long-form lead, a clipping/miner role once volume justifies it, and eventually a dedicated short-highlights channel separate from the main one. Don't build all of it at once, grow into it the way Cole did, starting lean and adding roles as volume demands them.</p>
+  </div>
+
+  <div class="section-head"><h3>Where To Start</h3></div>
+  <div class="priority-item">
+    <div class="priority-num">1</div>
+    <div class="priority-body"><h4>Pick 3 coaching recaps to turn public first</h4><p>Choose from the existing library, get consent, this is the fastest win since the raw material already exists.</p></div>
+  </div>
+  <div class="priority-item">
+    <div class="priority-num">2</div>
+    <div class="priority-body"><h4>Build the milestone-trophy moment into the next Orlando mastermind</h4><p>Ties directly to the Coach-Ambassador program's $30K+ bar, one mechanism, two payoffs.</p></div>
+  </div>
+  <div class="priority-item">
+    <div class="priority-num">3</div>
+    <div class="priority-body"><h4>Script one dedicated deep-dive video per existing framework</h4><p>Start with whichever framework students report the biggest breakthroughs from.</p></div>
+  </div>
+  <div class="priority-item">
+    <div class="priority-num">4</div>
+    <div class="priority-body"><h4>Standardize the three-tier close on every new video</h4><p>Write it once, use it everywhere, stop pitching one product to everyone regardless of fit.</p></div>
+  </div>
+  <div class="priority-item">
+    <div class="priority-num">5</div>
+    <div class="priority-body"><h4>Do one real, unscripted long-form conversation this month</h4><p>With Evan Brown, Jalen, or a real student, framed as a specific training topic, not a loose interview. Cheapest test of the highest-leverage format found here.</p></div>
+  </div>
+  <div class="priority-item">
+    <div class="priority-num">6</div>
+    <div class="priority-body"><h4>Publish one raw, unedited coaching call as a direct test against a produced video</h4><p>Compare performance directly, this is the fastest way to find out if substance already carries Sales.io's content the way it did for Cole.</p></div>
+  </div>
+
+  <div class="section-head"><h3>Sources &amp; Attribution</h3></div>
+  <p class="body-text muted">Sales.io positions publicly against both of these people. This playbook still draws real, useful lessons from how they each build content, that's normal competitive research, not an endorsement, and it's worth being explicit internally about which lessons came from which source.</p>
+  <table class="rt">
+    <thead><tr><th>Source</th><th>What Was Used</th></tr></thead>
+    <tbody>
+      <tr><td class="lbl"><span class="src-tag src-jeremy">Jeremy Miner</span></td><td>Sections 01-08: business breakdowns with named students, the milestone-trophy mechanism, the compounding topic library, willingness to criticize as a trust device, sticky analogies, the self-segmenting close, teaching the AI workflow, and naming everything before publishing.</td></tr>
+      <tr><td class="lbl"><span class="src-tag src-cole">Cole Gordon</span></td><td>Sections 09-14: turning public commitments into content, the content-first/packaging-after sequence and staying niche-locked, real unscripted conversations over produced talking-heads, specific and dense content outperforming broad and polished, multi-platform as a synergy engine, and the content team structure to grow into. Sourced from his own account of rebuilding his personal brand.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="scope-note">
+    <strong>Scope note:</strong> this is strategy and structure, not a content calendar or finished scripts. Next step is picking which of the four starting points to build out first into an actual production plan.
+  </div>
+
+</div>
