@@ -1,0 +1,293 @@
+<title>Social Era Setting SOP</title>
+<style>
+  :root {
+    --bg: #f4f2ec; --surface: #ffffff; --surface-2: #ebe8df;
+    --text: #16161a; --muted: #6b6a63; --faint: #b3b1a6;
+    --border: #ddd9cd;
+    --accent: #1f6f5c; --accent-soft: #dcece6;
+    --warn: #cc4a1f; --warn-soft: #f3ddd2;
+    --script: #3d5a80; --script-soft: #dde3ea;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0b0b0d; --surface: #17171a; --surface-2: #1f1f23;
+      --text: #f2f0ea; --muted: #9a988f; --faint: #4a4945;
+      --border: #2a2a2e;
+      --accent: #4fd1af; --accent-soft: #12251f;
+      --warn: #ff5a2b; --warn-soft: #2a180f;
+      --script: #7fa2d4; --script-soft: #16202c;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0b0b0d; --surface: #17171a; --surface-2: #1f1f23;
+    --text: #f2f0ea; --muted: #9a988f; --faint: #4a4945;
+    --border: #2a2a2e;
+    --accent: #4fd1af; --accent-soft: #12251f;
+    --warn: #ff5a2b; --warn-soft: #2a180f;
+    --script: #7fa2d4; --script-soft: #16202c;
+  }
+  :root[data-theme="light"] {
+    --bg: #f4f2ec; --surface: #ffffff; --surface-2: #ebe8df;
+    --text: #16161a; --muted: #6b6a63; --faint: #b3b1a6;
+    --border: #ddd9cd;
+    --accent: #1f6f5c; --accent-soft: #dcece6;
+    --warn: #cc4a1f; --warn-soft: #f3ddd2;
+    --script: #3d5a80; --script-soft: #dde3ea;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-size: 15px; line-height: 1.6;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 56px 28px 100px; }
+  .kicker { font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+  h1 { font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 900; letter-spacing: -.03em; line-height: 1.05; margin: 0 0 16px; }
+  .lede { font-size: 16px; color: var(--muted); max-width: 62ch; line-height: 1.75; margin-bottom: 40px; }
+  .lede strong { color: var(--text); }
+
+  .stat-strip { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 40px; }
+  .stat { background: var(--surface); padding: 16px 12px; text-align: center; }
+  .stat b { display: block; font-size: 18px; font-weight: 900; margin-bottom: 3px; }
+  .stat span { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+
+  .rule-box { background: var(--warn-soft); border: 1px solid var(--warn); border-radius: 10px; padding: 20px 24px; margin-bottom: 40px; }
+  .rule-box .rb-label { font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--warn); margin-bottom: 10px; }
+  .rule-box ol { margin: 0; padding-left: 20px; }
+  .rule-box li { font-size: 14px; line-height: 1.7; margin-bottom: 6px; color: var(--text); }
+  .rule-box li strong { color: var(--warn); }
+
+  section.block { margin-bottom: 44px; }
+  h2 { font-size: 20px; font-weight: 900; letter-spacing: -.01em; margin: 0 0 6px; }
+  .sub { font-size: 13px; color: var(--muted); margin-bottom: 18px; max-width: 65ch; }
+
+  .step { display: flex; gap: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; margin-bottom: 10px; }
+  .step-num { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-weight: 800; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+  .step-body { flex: 1; min-width: 0; }
+  .step-title { font-weight: 800; font-size: 14px; margin-bottom: 3px; }
+  .step-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .step-desc strong { color: var(--text); }
+
+  .script { background: var(--script-soft); border-left: 3px solid var(--script); border-radius: 6px; padding: 10px 14px; margin-top: 8px; font-size: 13px; font-style: italic; color: var(--text); }
+  .script b { font-style: normal; color: var(--script); font-size: 10px; text-transform: uppercase; letter-spacing: .06em; display: block; margin-bottom: 4px; }
+
+  .timing-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 8px; }
+  .timing-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .timing-card .tc-time { font-size: 16px; font-weight: 900; color: var(--accent); margin-bottom: 6px; }
+  .timing-card .tc-why { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+
+  table.wo { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  table.wo th { text-align: left; font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+  table.wo td { font-size: 13px; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text); }
+  table.wo tr:last-child td { border-bottom: none; }
+  table.wo td.label { font-weight: 700; white-space: nowrap; }
+
+  .callout { background: var(--surface-2); border: 1px dashed var(--faint); border-radius: 10px; padding: 16px 20px; font-size: 13px; color: var(--muted); line-height: 1.7; margin-top: 12px; }
+  .callout strong { color: var(--text); }
+
+  .attribution { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--faint); line-height: 1.7; }
+
+  @media (max-width: 640px) {
+    .stat-strip { grid-template-columns: repeat(2,1fr); }
+    .timing-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="kicker">Social Era Media — Setting SOP</div>
+  <h1>Triage &amp; Follow-Up Framework</h1>
+  <p class="lede">Chris Byrd's process, standardized for the team. Core idea: <strong>be a human, not an automation</strong>. Every rule below exists to protect that — availability, pacing, and proof over pitching.</p>
+
+  <div class="stat-strip">
+    <div class="stat"><b>48 hrs</b><span>Booking Window</span></div>
+    <div class="stat"><b>3 / day</b><span>Touch Limit</span></div>
+    <div class="stat"><b>7</b><span>Touches to Exhaust</span></div>
+    <div class="stat"><b>50% / 20%</b><span>Show / Close Target</span></div>
+  </div>
+
+  <div class="rule-box">
+    <div class="rb-label">The Non-Negotiables</div>
+    <ol>
+      <li><strong>Max 3 touches per day.</strong> Call, voicemail, and text each count as one touch — that's TCPA law, not a suggestion (California fines run ~$1,000 per violation). Three touches in a day is the ceiling, not the target.</li>
+      <li><strong>Never double-dial.</strong> Calling back-to-back reads as "trying to sell me immediately" — same energy as a door-knocker skipping rapport. Only exception: you got hung up on instantly or hit dead air, and it's genuinely a dropped-connection callback.</li>
+      <li><strong>Respond the second a lead engages</strong> — mid-dinner, doesn't matter. That's the only window where you have their attention. Every other rule about pacing is about touches <em>you</em> initiate, not about them coming back to you.</li>
+    </ol>
+  </div>
+
+  <section class="block">
+    <h2>Speed &amp; Timing</h2>
+    <p class="sub">Call new leads within 1&ndash;5 minutes of them coming in. Beyond that, three windows in the day actually convert.</p>
+    <div class="timing-grid">
+      <div class="timing-card">
+        <div class="tc-time">8&ndash;10 AM</div>
+        <div class="tc-why">Guys in the trades are heading into the field early. Catch them before the day swallows them.</div>
+      </div>
+      <div class="timing-card">
+        <div class="tc-time">1&ndash;3 PM</div>
+        <div class="tc-why">Never 12&ndash;1 &mdash; that's lunch and they won't pick up. By early afternoon they're tired, lackadaisical, and actually looking for a reason to break focus. That's your opening.</div>
+      </div>
+      <div class="timing-card">
+        <div class="tc-time">5&ndash;7 PM</div>
+        <div class="tc-why">Out of the field, settling down for the day. Calling at 6:36 PM and hearing "yeah, I was just getting ready for bed" is normal &mdash; it still lands.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Not Booked &mdash; The 7-Touch Sequence</h2>
+    <p class="sub">If they don't answer or don't book on the first call, this is the order. Each step gives them room before the next one lands.</p>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Text immediately if no answer</div>
+        <div class="step-desc">Low pressure, states why you're calling. Don't over-format it &mdash; two casual sentences, not a template with line breaks and a sign-off.</div>
+        <div class="script"><b>Script</b>"Hey Rick, this is Chris with Social Era Media &mdash; when's a good time to speak?"</div>
+        <div class="script"><b>Script (JJ's line)</b>"Hey, I spoke with the team, have something they want to share with you. When's a good time to speak for 10 minutes?"</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Wait until the next day</div>
+        <div class="step-desc">Give the first touch time to soak. This is the touch-limit rule in practice &mdash; you already used your day-1 touch.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">Call again, leave a voicemail</div>
+        <div class="step-desc">Pattern break, not a repeat of touch 1. Go one layer deeper on why the call matters.</div>
+        <div class="script"><b>Script</b>"Yeah, this is Chris with Social Era Media, still trying to talk to you &mdash; just need 10 minutes, trying to book a time to speak deeper and get a quick understanding of your business."</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-title">Send proof, not pressure</div>
+        <div class="step-desc">Pull a case study or portfolio piece matched to their actual service &mdash; a landscaper gets a landscaper's results, a plumber gets a plumber's. This is a give, not another ask.</div>
+        <div class="script"><b>Script</b>"Hey, I was checking out your marketing for your company. Wanted you to check out a couple things we did for other companies &mdash; here's Royal Vistas Landscaping, here's Rosewood Landscaping."</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <div class="step-title">Day 6, still no engagement &mdash; pattern interrupt</div>
+        <div class="step-desc">Send something genuinely funny or human &mdash; a relevant meme, not another pitch. It breaks the "serious salesperson" frame they've built around you. Worked on a contractor who'd gone dark for days &mdash; laughed, called the office same hour.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <div class="step-title">Final call &mdash; touch 7</div>
+        <div class="step-desc">A touch is a touch, however it lands. If nothing after this, the lead goes cold &mdash; but not dead.</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Cold lead, long tail:</strong> after the 7 touches are exhausted, don't drop it. Call again 1 week later, then 2 weeks after that, then double it again to a month out &mdash; roughly 2 months of total follow-up. Unrecognized numbers get picked up more than you'd think, and you're back in the cycle.
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Booked &mdash; The Triage Call</h2>
+    <p class="sub">Goal of this call is not to sell. It's to get a read on who they are as a person and gather what you'll actually use to close later. If they push for a pitch, answer informatively &mdash; don't sway or convince.</p>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Open by confirming the moment</div>
+        <div class="step-desc">Respect their time before you take any of it.</div>
+        <div class="script"><b>Script</b>"Hey, this is Chris with Social Era Media &mdash; did I catch you at a good time?"</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Revenue question</div>
+        <div class="step-desc">Frame it as making the call more focused, not as qualifying them. Get a specific number, not a range, then let them justify it &mdash; that justification is where the real story comes out.</div>
+        <div class="script"><b>Script</b>"I'm just trying to get to know your business before we talk, so we can make the call more focused. You said revenue's under $50K &mdash; where are you at exactly? Tell me a bit more about the business."</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">Motivation question</div>
+        <div class="step-desc">This is where pain, goals, and proof all surface at once. Don't dig &mdash; just let them open up, and collect what they hand you. It becomes ammunition for the real call.</div>
+        <div class="script"><b>Script</b>"What's got you most interested in using social media for your company?"</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-title">Ideal-project / niche question</div>
+        <div class="step-desc">Most contractors assume you'll market everything they do. Correct that here, and claim authority doing it &mdash; the riches are in the niches. Get them to name their most profitable project type, then the actual revenue and margin on it, and explain why narrowing wins.</div>
+        <div class="script"><b>Script</b>"So on average, that project makes you this much revenue &mdash; how much of that is margin? Got it. Reason I ask: we could point our arrow at a lot of different targets, but if we do that, we don't land any of them. We want to get narrow."</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <div class="step-title">Give them the floor</div>
+        <div class="step-desc">Open it up before you book. If you only ever take information, the call feels extractive &mdash; even if they can't consciously name why. This is also where you pre-handle objections and hand them a sense of control.</div>
+        <div class="script"><b>Script</b>"Any questions for me on my end?"</div>
+        <div class="script"><b>Script (when asked what you do)</b>"We live in the show-me times &mdash; people don't care what you tell them, they care about proof. We're The Proof in the Pudding, and we target contractors specifically because a $60 lead can turn into a $50&ndash;60K kitchen or bathroom remodel."</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <div class="step-title">Book inside 48 hours</div>
+        <div class="step-desc">Never book further out than that. If they're free today, book today.</div>
+        <div class="script"><b>Script</b>"When in the next 48 hours can we speak? If you've got time today, let's just do that."</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">7</div>
+      <div class="step-body">
+        <div class="step-title">Confirm, then send the post-book package</div>
+        <div class="step-desc">Send the post-booking video &mdash; call it a "5-minute video," not just "a video." Naming the length removes the friction of not knowing what they're committing to. Then send a testimonial or case study matched directly to whatever they said they cared about or feared, in the same text.</div>
+        <div class="script"><b>Script</b>"Thanks for speaking with me &mdash; this is Chris with Social Era Media. Looking forward to our conversation on [time]."</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Before the Call &mdash; Reminder Sequence</h2>
+    <table class="wo">
+      <tr><th>When</th><th>Action</th></tr>
+      <tr><td class="label">On booking</td><td>Send calendar invite. Every booked lead gets an email/calendar notification in some form &mdash; no exceptions.</td></tr>
+      <tr><td class="label">10 min before</td><td>Text a direct, clickable join link. 10 minutes is the sweet spot &mdash; not 30, not 15, not 5. It's enough of a pattern break to get "oh shoot, I gotta get ready" without feeling like a countdown.</td></tr>
+      <tr><td class="label">No-show, 0&ndash;2 min</td><td>Call immediately. Same instinct as showing up at a friend's door and calling to say "I'm here, let me in."</td></tr>
+      <tr><td class="label">No-show, ~15 min</td><td>Text: "Hey, are you still able to make the call? If not, let's just reschedule." Keep it casual, no guilt.</td></tr>
+      <tr><td class="label">Reschedule ignored</td><td>Restart the 7-touch not-booked sequence from step 1.</td></tr>
+    </table>
+  </section>
+
+  <section class="block">
+    <h2>Team Targets</h2>
+    <table class="wo">
+      <tr><th>Metric</th><th>Target</th><th>Note</th></tr>
+      <tr><td class="label">Show rate</td><td>50%+</td><td>Chris is at 100%, Mark's building from 33% &mdash; the gap is touches and pacing, not the offer.</td></tr>
+      <tr><td class="label">Close rate</td><td>20%+</td><td>Team is already holding this &mdash; the priority is protecting it while lifting show rate.</td></tr>
+    </table>
+  </section>
+
+  <div class="attribution">
+    <strong>Source:</strong> Chris Byrd's setting &amp; triage call with Mark Anthony Alcala, walked through live and captured for the team. This SOP is his process, standardized so anyone on setting can run it the same way.
+  </div>
+
+</div>
