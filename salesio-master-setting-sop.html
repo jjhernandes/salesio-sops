@@ -1,0 +1,528 @@
+<title>Master Setting SOP</title>
+<style>
+  :root {
+    --bg: #f4f2ec; --surface: #ffffff; --surface-2: #ebe8df;
+    --text: #16161a; --muted: #6b6a63; --faint: #b3b1a6;
+    --border: #ddd9cd;
+    --accent: #cc4a1f; --accent-soft: #f3ddd2;
+    --good: #1f6f5c; --good-soft: #dcece6;
+    --warn: #a8460f; --warn-soft: #f0ddc9;
+    --script: #3d5a80; --script-soft: #dde3ea;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0b0b0d; --surface: #17171a; --surface-2: #1f1f23;
+      --text: #f2f0ea; --muted: #9a988f; --faint: #4a4945;
+      --border: #2a2a2e;
+      --accent: #ff5a2b; --accent-soft: #2a180f;
+      --good: #4fd1af; --good-soft: #12251f;
+      --warn: #e0863f; --warn-soft: #2a1c0d;
+      --script: #7fa2d4; --script-soft: #16202c;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0b0b0d; --surface: #17171a; --surface-2: #1f1f23;
+    --text: #f2f0ea; --muted: #9a988f; --faint: #4a4945;
+    --border: #2a2a2e;
+    --accent: #ff5a2b; --accent-soft: #2a180f;
+    --good: #4fd1af; --good-soft: #12251f;
+    --warn: #e0863f; --warn-soft: #2a1c0d;
+    --script: #7fa2d4; --script-soft: #16202c;
+  }
+  :root[data-theme="light"] {
+    --bg: #f4f2ec; --surface: #ffffff; --surface-2: #ebe8df;
+    --text: #16161a; --muted: #6b6a63; --faint: #b3b1a6;
+    --border: #ddd9cd;
+    --accent: #cc4a1f; --accent-soft: #f3ddd2;
+    --good: #1f6f5c; --good-soft: #dcece6;
+    --warn: #a8460f; --warn-soft: #f0ddc9;
+    --script: #3d5a80; --script-soft: #dde3ea;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-size: 15px; line-height: 1.6;
+  }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 56px 28px 100px; }
+  .kicker { font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+  h1 { font-size: clamp(2rem, 5vw, 2.9rem); font-weight: 900; letter-spacing: -.03em; line-height: 1.05; margin: 0 0 16px; }
+  .lede { font-size: 16px; color: var(--muted); max-width: 68ch; line-height: 1.75; margin-bottom: 8px; }
+  .lede strong { color: var(--text); }
+
+  .quote { font-size: 15px; font-style: italic; color: var(--text); border-left: 3px solid var(--accent); padding: 4px 0 4px 16px; margin: 24px 0 40px; max-width: 62ch; }
+  .quote cite { display: block; font-style: normal; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-top: 8px; }
+
+  .stat-strip { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 40px; }
+  .stat { background: var(--surface); padding: 16px 10px; text-align: center; }
+  .stat b { display: block; font-size: 17px; font-weight: 900; margin-bottom: 3px; }
+  .stat span { font-size: 9.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+
+  nav.toc { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px 22px; margin-bottom: 48px; }
+  nav.toc .toc-label { font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  nav.toc ol { margin: 0; padding-left: 18px; columns: 2; column-gap: 24px; }
+  nav.toc li { font-size: 12.5px; margin-bottom: 6px; }
+  nav.toc a { color: var(--text); text-decoration: none; }
+  nav.toc a:hover { color: var(--accent); }
+
+  section.block { margin-bottom: 52px; scroll-margin-top: 20px; }
+  .sec-label { font-size: 10.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  h2 { font-size: 22px; font-weight: 900; letter-spacing: -.01em; margin: 0 0 8px; }
+  .sub { font-size: 13.5px; color: var(--muted); margin-bottom: 20px; max-width: 68ch; line-height: 1.65; }
+  .sub strong { color: var(--text); }
+
+  .step { display: flex; gap: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; margin-bottom: 10px; }
+  .step-num { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-weight: 800; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+  .step-body { flex: 1; min-width: 0; }
+  .step-title-row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+  .step-title { font-weight: 800; font-size: 14.5px; }
+  .step-time { font-size: 11px; color: var(--muted); font-weight: 700; white-space: nowrap; }
+  .step-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
+  .step-desc strong { color: var(--text); }
+
+  .script { background: var(--script-soft); border-left: 3px solid var(--script); border-radius: 6px; padding: 10px 14px; margin-top: 8px; font-size: 13px; font-style: italic; color: var(--text); }
+  .script b { font-style: normal; color: var(--script); font-size: 10px; text-transform: uppercase; letter-spacing: .06em; display: block; margin-bottom: 4px; }
+
+  table.wo { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 4px; }
+  table.wo th { text-align: left; font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+  table.wo td { font-size: 13px; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text); }
+  table.wo tr:last-child td { border-bottom: none; }
+  table.wo td.label { font-weight: 700; white-space: nowrap; }
+  table.wo td.num { font-weight: 800; color: var(--accent); white-space: nowrap; }
+
+  .callout { background: var(--surface-2); border: 1px dashed var(--faint); border-radius: 10px; padding: 16px 20px; font-size: 13px; color: var(--muted); line-height: 1.7; margin-top: 14px; }
+  .callout strong { color: var(--text); }
+
+  .good-box { background: var(--good-soft); border: 1px solid var(--good); border-radius: 10px; padding: 18px 22px; margin-bottom: 12px; }
+  .good-box .gb-label { font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--good); margin-bottom: 10px; }
+  .good-box ol, .good-box ul { margin: 0; padding-left: 20px; }
+  .good-box li { font-size: 13.5px; line-height: 1.7; margin-bottom: 6px; color: var(--text); }
+
+  .warn-box { background: var(--warn-soft); border: 1px solid var(--warn); border-radius: 10px; padding: 18px 22px; margin-bottom: 12px; }
+  .warn-box .wb-label { font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--warn); margin-bottom: 10px; }
+  .warn-box ul { margin: 0; padding-left: 20px; }
+  .warn-box li { font-size: 13.5px; line-height: 1.7; margin-bottom: 6px; color: var(--text); }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  .lineage-note { background: var(--surface-2); border-left: 3px solid var(--faint); border-radius: 6px; padding: 12px 16px; font-size: 12px; color: var(--muted); line-height: 1.7; margin-top: 12px; }
+  .lineage-note strong { color: var(--text); }
+
+  .attribution { margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--faint); line-height: 1.8; }
+  .attribution ul { margin: 8px 0 0; padding-left: 18px; }
+
+  @media (max-width: 640px) {
+    .stat-strip { grid-template-columns: repeat(2,1fr); }
+    nav.toc ol { columns: 1; }
+    .two-col { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="kicker">Sales.io — Master Setting SOP</div>
+  <h1>The Setting Playbook</h1>
+  <p class="lede">One canonical process, built from every setting framework, script, and metric in the library — the S10 curriculum, JJ's NCI framework, Jalen's DM playbook, Faris's daily standards, and the commission policy. Where those sources disagreed, this doc makes the call and says so.</p>
+
+  <div class="quote">
+    "The setter is the first impression of Sales.io. You are not booking appointments. You are qualifying human beings and deciding who gets access to JJ's time."
+    <cite>— JJ Hernandez</cite>
+  </div>
+
+  <div class="stat-strip">
+    <div class="stat"><b>15&ndash;25%</b><span>Connect Rate</span></div>
+    <div class="stat"><b>30&ndash;50%</b><span>Booking Rate</span></div>
+    <div class="stat"><b>70&ndash;85%</b><span>Show Rate</span></div>
+    <div class="stat"><b>&lt;5 min</b><span>Inbound Response</span></div>
+  </div>
+
+  <nav class="toc">
+    <div class="toc-label">In This Doc</div>
+    <ol>
+      <li><a href="#job">The Setter's Job</a></li>
+      <li><a href="#framework">The 5-Phase Framework</a></li>
+      <li><a href="#channels">Channel Playbooks</a></li>
+      <li><a href="#qualifying">Qualifying Standard</a></li>
+      <li><a href="#objections">Objection Handling</a></li>
+      <li><a href="#confirmation">Booking &amp; Confirmation</a></li>
+      <li><a href="#handoff">Handoff Protocol</a></li>
+      <li><a href="#metrics">Metrics &amp; Diagnostics</a></li>
+      <li><a href="#comp">Compensation &amp; Non-Negotiables</a></li>
+      <li><a href="#lineage">A Note on Sources</a></li>
+      <li><a href="#sem">Cross-Application: Social Era Media</a></li>
+    </ol>
+  </nav>
+
+  <section class="block" id="job">
+    <div class="sec-label">01</div>
+    <h2>The Setter's Job</h2>
+    <p class="sub">Three functions, in order of importance. Booking is the output, not the job.</p>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body"><div class="step-title">Filter</div><div class="step-desc">Keep unqualified people off the closer's calendar. This is the job before it's anything else.</div></div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body"><div class="step-title">Prime</div><div class="step-desc">Create genuine curiosity and forward momentum before the call happens &mdash; the closer inherits whatever emotional state the setter leaves the prospect in.</div></div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body"><div class="step-title">Book</div><div class="step-desc">Get the right person on the calendar at a time they'll actually show. Not any person, at any time.</div></div>
+    </div>
+    <div class="callout">
+      <strong>One bad set can poison two good ones.</strong> A bad set costs the closer 45 minutes, demoralizes them going into the next call, produces $0 revenue, and erodes closer trust in the whole pipeline. The prospect's first real interaction with Sales.io is the setter &mdash; a good experience makes them warm before the closer speaks; a "herded" one hands the closer friction they didn't create.
+    </div>
+  </section>
+
+  <section class="block" id="framework">
+    <div class="sec-label">02</div>
+    <h2>The 5-Phase Framework</h2>
+    <p class="sub">This is the canonical structure &mdash; JJ's phase model, with Jalen's cold-call and DM mechanics built into Phases 1&ndash;2 as the channel-specific execution. Use this as the shape of every set, cold or warm, call or DM.</p>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title-row"><div class="step-title">Pattern Interrupt</div><div class="step-time">30&ndash;60 sec</div></div>
+        <div class="step-desc">Never open with what you do. Say their name once, calmly, then yours, then a two-beat pause &mdash; no "how are you," no company name up front. That combination is a universal sales-call tell prospects screen out in the first 3&ndash;4 seconds.</div>
+        <div class="script"><b>Cold Call</b>"Hey Marcus." <em>[pause]</em> "This is Jalen."</div>
+        <div class="script"><b>DM / Warm</b>"[Name] &mdash; not going to pitch you, just had a quick question about something you mentioned. You got 60 seconds?"</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title-row"><div class="step-title">Hook + Quick Qualify</div><div class="step-time">1&ndash;2 min</div></div>
+        <div class="step-desc">One curiosity line referencing their specific world, then one qualifying question in a curious tone, not an interrogating one.</div>
+        <div class="script"><b>Hook</b>"I work with remote closers in the coaching space &mdash; specifically reps who've hit a plateau on close rate and can't figure out why."</div>
+        <div class="script"><b>Qualify</b>"Quick question &mdash; are you on an offer you're happy with, or is performance the thing you're looking to fix right now?"</div>
+        <div class="script"><b>Disqualify, if it's a clean no</b>"Honestly, based on what you've told me, I don't think this is the right fit for where you are right now."</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title-row"><div class="step-title">Pain Extraction</div><div class="step-time">3&ndash;5 min</div></div>
+        <div class="step-desc">The most important phase. Run this sequence in order, present-first &mdash; the current problem, then pace to the future. If you're talking more than 30% of this phase, you're doing it wrong; let them talk more than you.</div>
+        <div class="script"><b>Sequence</b>"How long has it been this way?" &rarr; "What have you actually tried to fix it?" &rarr; "What has that cost you &mdash; and I don't just mean the money?" &rarr; "How much longer is this acceptable to you?" &rarr; "When this is actually solved, what does that look like for you?"</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-title-row"><div class="step-title">Bridge to the Call</div><div class="step-time">1&ndash;2 min</div></div>
+        <div class="step-desc">Assume the yes and move straight to logistics. Never explain what the call covers in program terms &mdash; that's the closer's job, not yours.</div>
+        <div class="warn-box" style="margin-top:8px;">
+          <div class="wb-label">Never Say</div>
+          <ul><li>"On the call, we'll walk you through the program."</li><li>Anything that previews pricing, curriculum, or program structure &mdash; that's pitching, and it's not your job (see Qualifying Standard below for the one narrow exception).</li></ul>
+        </div>
+        <div class="script"><b>Bridge</b>"What does your week look like?"</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <div class="step-title-row"><div class="step-title">Book &amp; Lock</div><div class="step-time">1 min</div></div>
+        <div class="step-desc">Give two specific time options, not an open-ended "when works for you." Send the calendar invite during the conversation, live, not after you hang up.</div>
+        <div class="script"><b>Book</b>"I'd want to get you on a call with our head coach &mdash; not a pitch, just a real conversation. Tuesday afternoon or Thursday morning work for you?"</div>
+      </div>
+    </div>
+
+    <div class="lineage-note"><strong>Reconciled:</strong> S10's cold-call framework (Interrupt&rarr;Hook&rarr;Qualify&rarr;Book) is the same shape compressed into a single call. This 5-phase version is the fuller model for anything with more room to breathe &mdash; DMs, warm inbound, community leads.</div>
+  </section>
+
+  <section class="block" id="channels">
+    <div class="sec-label">03</div>
+    <h2>Channel Playbooks</h2>
+    <p class="sub">Same framework, different mechanics per channel.</p>
+
+    <h3 style="font-size:15px; margin: 20px 0 10px;">Cold Call &mdash; 4 Steps</h3>
+    <table class="wo">
+      <tr><th>Step</th><th>What</th><th>Why</th></tr>
+      <tr><td class="label">1. Interrupt</td><td>Name, pause, your name. No greeting question.</td><td>Prospects have a Pavlovian response to unknown numbers &mdash; the first 10 seconds decide engagement vs. tolerance.</td></tr>
+      <tr><td class="label">2. Hook</td><td>One specific line referencing their world.</td><td>Generic openers get sorted into "sales call" instantly.</td></tr>
+      <tr><td class="label">3. Qualify</td><td>One curious-toned qualifying question.</td><td>Confirms it's worth continuing before you invest more time.</td></tr>
+      <tr><td class="label">4. Book</td><td>Two binary time options.</td><td>Open-ended scheduling questions kill momentum.</td></tr>
+    </table>
+
+    <h3 style="font-size:15px; margin: 24px 0 10px;">Tonality &mdash; 4 Principles</h3>
+    <table class="wo">
+      <tr><th>Principle</th><th>In Practice</th></tr>
+      <tr><td class="label">Calm certainty over enthusiasm</td><td>Enthusiasm signals you need their approval. "This works. I've watched it work." beats "This is SO exciting."</td></tr>
+      <tr><td class="label">Slower than feels natural</td><td>Practice at roughly 80% of your normal speaking pace.</td></tr>
+      <tr><td class="label">Downward inflection on statements</td><td>Upward inflection turns a statement into an uncertain question.</td></tr>
+      <tr><td class="label">Consistent volume</td><td>Never go quieter or louder under pressure or after an objection &mdash; that's a tell.</td></tr>
+    </table>
+
+    <h3 style="font-size:15px; margin: 24px 0 10px;">DM Setting &mdash; Qualify, Don't Sell</h3>
+    <p class="sub" style="margin-bottom:10px;">"We don't sell in DMs. We qualify. The content already did the convincing &mdash; your job is to find the people it convinced." Never pitch in message 1. Never ask "want to jump on a call?" before pain, interest, and budget readiness have actually surfaced &mdash; that premature book attempt is the single most common DM mistake.</p>
+    <table class="wo">
+      <tr><th>Opener Type</th><th>Script</th></tr>
+      <tr><td class="label">New follower</td><td>"What's going on [Name], just saw you shot me a follow. I speak a lot on [topic] &mdash; let me know if there's anything I can help with."</td></tr>
+      <tr><td class="label">Commented on a post</td><td>"Just saw you commented on one of my posts about [X]. Is this something you're currently going through?"</td></tr>
+      <tr><td class="label">Liked content</td><td>"Curious what's got you in that space right now &mdash; what are you working through?"</td></tr>
+    </table>
+    <div class="callout"><strong>The filter:</strong> a real answer naming a problem or frustration means keep going. "Great content 🔥," "thanks man," or silence means move on &mdash; don't manufacture urgency that isn't there.</div>
+    <div class="callout" style="margin-top:10px;"><strong>Sequence shape (condensed from the 10-message playbook):</strong> Expand the problem &rarr; get time-under-tension (how long has this been going on) &rarr; surface past investment history without asking a dollar figure &rarr; let them self-diagnose (don't drop social proof here) &rarr; qualify urgency &rarr; bridge to the closer with 2&ndash;3 time options &rarr; lock the time &rarr; get them to actually accept the calendar invite &rarr; set the expectation that the closer will reach out before the call.</div>
+    <div class="script" style="margin-top:10px;"><b>The Bridge</b>"Let's do this &mdash; I want to get you connected to my guy [Closer]. He's the person on our team who handles this. What times are you free later today, tomorrow, or the day after?"</div>
+    <div class="script"><b>"How much does it cost?"</b>"Price is tailored to what you need and I don't want to bullshit you &mdash; it's not a cheap investment. The exact number depends on your situation, and that's the call to have with [Closer]."</div>
+  </section>
+
+  <section class="block" id="qualifying">
+    <div class="sec-label">04</div>
+    <h2>Qualifying Standard</h2>
+    <p class="sub">Four criteria, all must be true before you book. Jalen's DM playbook calls this BANT (Budget / Authority / Need / Time) &mdash; same four things, DM-specific vocabulary, run Need first.</p>
+
+    <div class="two-col">
+      <div class="good-box">
+        <div class="gb-label">Budget Capacity</div>
+        <ul><li>Ask readiness to invest, never a dollar figure directly &mdash; a direct number ("do you have $7,500?") creates defensiveness.</li></ul>
+        <div class="script"><b>Script</b>"Is investing in that kind of growth something you're in a position to do right now, or is timing off?"</div>
+      </div>
+      <div class="good-box">
+        <div class="gb-label">Decision Authority</div>
+        <div class="script"><b>Script</b>"For something like this &mdash; a real investment in yourself &mdash; is that a solo decision, or is there someone else you typically loop in?"</div>
+      </div>
+      <div class="good-box">
+        <div class="gb-label">Timeline</div>
+        <div class="script"><b>Script</b>"Is this something you're actively working on right now, or more of a down-the-road thing?" ("Now" = this quarter, not literally today.)</div>
+      </div>
+      <div class="good-box">
+        <div class="gb-label">Genuine Interest</div>
+        <div class="step-desc">Distinguished from polite tolerance by whether they ask follow-up questions and take initiative, vs. one-word answers.</div>
+      </div>
+    </div>
+
+    <h3 style="font-size:15px; margin: 24px 0 10px;">Minimum Bar to Book</h3>
+    <table class="wo">
+      <tr><th>Book if</th><th>Don't book if</th></tr>
+      <tr><td>Active income, not pre-revenue</td><td>Pre-revenue with no near-term income</td></tr>
+      <tr><td>Expressed a specific problem</td><td>"Just curious," no real urgency</td></tr>
+      <tr><td>Open to investing in a solution</td><td>Active financial crisis</td></tr>
+      <tr><td>Decision is theirs, or partner is informed</td><td>Only polite tolerance &mdash; no genuine engagement</td></tr>
+    </table>
+    <div class="callout"><strong>Partial qualifiers:</strong> interested + real problem but tight budget &rarr; book anyway, the budget conversation belongs to the closer. Interested + budget fine but an undisclosed spouse/partner &rarr; have them give the partner a heads-up before you book. Timeline is "next quarter" &rarr; don't book yet, follow up later. Standard: <strong>only book who you'd bet $375 on.</strong></div>
+
+    <h3 style="font-size:15px; margin: 24px 0 10px;">Disqualifiers &amp; Required Action</h3>
+    <table class="wo">
+      <tr><th>Signal</th><th>Action</th></tr>
+      <tr><td>"I just want to learn more first"</td><td>Send to Skool community ($39/mo), tag for 60-day follow-up</td></tr>
+      <tr><td>Can't answer what offer they want</td><td>Clarify further or disqualify</td></tr>
+      <tr><td>Refuses to discuss money at all</td><td>Ask about financing; if still refused, not-yet</td></tr>
+      <tr><td>Already enrolled in a competing program</td><td>Log it, check back in 3 months</td></tr>
+      <tr><td>"I need to think about it" before the call even happens</td><td>Don't book, follow up in a week</td></tr>
+      <tr><td>Hostile or disrespectful in DMs</td><td>Do not book, flag to JJ if severe</td></tr>
+    </table>
+  </section>
+
+  <section class="block" id="objections">
+    <div class="sec-label">05</div>
+    <h2>Objection Handling</h2>
+    <p class="sub">"I'm not interested" is reflexive, not final &mdash; it usually means one of four things: they don't understand the offer, they've been burned before, they don't think it applies to them, or they don't trust you yet. You don't fight the objection, you get curious about it.</p>
+
+    <div class="good-box">
+      <div class="gb-label">The VCR Pattern</div>
+      <ol>
+        <li><strong>Validate</strong> &mdash; "That makes sense" / "Fair enough" / "Understood."</li>
+        <li><strong>Curiosity Question</strong> &mdash; genuine, not rhetorical.</li>
+        <li><strong>Reframe</strong> &mdash; specific to their actual answer, not a script recital.</li>
+      </ol>
+    </div>
+
+    <table class="wo">
+      <tr><th>Objection</th><th>Response</th></tr>
+      <tr><td class="label">"I'm not interested"</td><td>"Fair enough &mdash; out of curiosity, is it that the timing's off, or that sales training specifically isn't something you're looking at right now?"</td></tr>
+      <tr><td class="label">"I already have a coach/program"</td><td>"Got it &mdash; how's that going for you so far? What's it doing for your close rate?"</td></tr>
+      <tr><td class="label">"I don't have the money right now"</td><td>"Understood &mdash; is the plan to revisit this once you're in a better place financially, or is the growth piece not a priority at all right now?"</td></tr>
+      <tr><td class="label">"I'm not looking for anything right now"</td><td>"Makes sense &mdash; are you in a good spot with your close rate, or are you still working through things?"</td></tr>
+      <tr><td class="label">"Send me more info" (brush-off)</td><td>"I could do that, but honestly it won't give you what the conversation would. What would make a 20-minute call worth your time?"</td></tr>
+    </table>
+
+    <div class="two-col" style="margin-top:14px;">
+      <div class="good-box">
+        <div class="gb-label">Push When</div>
+        <ul><li>Objection is reflexive, under 10 seconds</li><li>Engaged but hesitant</li><li>Stated objection isn't the real one</li><li>Revealed pain connects to the offer</li><li>Has qualified-prospect markers</li></ul>
+      </div>
+      <div class="warn-box">
+        <div class="wb-label">Let Go When</div>
+        <ul><li>Genuinely not a fit after 2 questions</li><li>Pre-revenue, no path</li><li>Financial distress</li><li>Said no twice with specific reasoning</li></ul>
+      </div>
+    </div>
+    <div class="script"><b>Graceful exit</b>"Understood &mdash; look, if anything changes on your end, I'll leave it open. Take care."</div>
+  </section>
+
+  <section class="block" id="confirmation">
+    <div class="sec-label">06</div>
+    <h2>Booking &amp; Confirmation</h2>
+    <p class="sub">Industry average no-show rate on cold-outreach bookings is <strong>40&ndash;60%</strong>. This sequence exists to beat that number. Three touchpoints, no more &mdash; a fourth crosses into chasing.</p>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title-row"><div class="step-title">Immediate confirmation</div><div class="step-time">within 5 min of booking</div></div>
+        <div class="step-desc">Must reference the specific pain point discussed &mdash; not a generic "looking forward to it."</div>
+        <div class="script"><b>Script</b>"Just sent the link &mdash; looking forward to it. Based on what you mentioned about folding on the 'think about it' objection, I think you're going to get a lot of clarity from this call. You're confirmed for [day] at [time]."</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title-row"><div class="step-title">24-hour check-in</div><div class="step-time">day before</div></div>
+        <div class="step-desc">Re-anchor interest &mdash; this is the "mental vaccine" against canceling. Don't just confirm the time; restate the opportunity cost.</div>
+        <div class="script"><b>Script</b>"Hey Marcus &mdash; tomorrow at 2pm, still good for you? One thing to think about before the call: what would your month look like if your close rate went from 18% to 28%? That's what we'll map out."</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title-row"><div class="step-title">Day-of reminder</div><div class="step-time">2 hrs before</div></div>
+        <div class="step-desc">Brief and human, with an easy reschedule path built in.</div>
+        <div class="script"><b>Script</b>"Hey &mdash; you're on with Coach Jalen in about 2 hours at 2pm. [link]. If anything came up on your end, let me know and we can move it &mdash; otherwise see you there."</div>
+      </div>
+    </div>
+    <div class="warn-box" style="margin-top:6px;">
+      <div class="wb-label">Leave Out</div>
+      <ul><li>Corporate auto-emails</li><li>Generic "looking forward to it!" with no context</li><li>Re-pitching the program in a reminder</li><li>A 4th touchpoint before the call &mdash; three is the ceiling</li></ul>
+    </div>
+  </section>
+
+  <section class="block" id="handoff">
+    <div class="sec-label">07</div>
+    <h2>Handoff Protocol</h2>
+    <p class="sub">Starting a call in the dark costs the closer 5&ndash;10 minutes of rapport-building inside a 45-minute call. Every booked call gets a structured Close CRM note the moment it's confirmed &mdash; not the day of, not an hour before.</p>
+
+    <div class="good-box">
+      <div class="gb-label">Handoff Note Template</div>
+      <table class="wo" style="margin-top:0;">
+        <tr><td class="label">Name</td><td>Marcus Thompson</td></tr>
+        <tr><td class="label">Source</td><td>Cold call</td></tr>
+        <tr><td class="label">Situation</td><td>Currently on $15K/mo in B2B SaaS. Wants to hit $30K.</td></tr>
+        <tr><td class="label">Pain Point (their words)</td><td>Has tried NEPQ, says it didn't stick.</td></tr>
+        <tr><td class="label">Qualification</td><td>Budget confirmed &mdash; looking at PIF or 2-way split.</td></tr>
+        <tr><td class="label">Energy / Tone</td><td>Engaged, asked follow-up questions.</td></tr>
+        <tr><td class="label">Setter Notes</td><td>Booked Thursday 3pm EST.</td></tr>
+      </table>
+    </div>
+    <div class="callout"><strong>What doesn't count as a handoff:</strong> a name in Close with no notes, "he seemed interested," or a generic "qualified lead" tag with nothing behind it.</div>
+
+    <h3 style="font-size:15px; margin: 24px 0 10px;">Daily CRM Discipline</h3>
+    <p class="sub" style="margin-bottom:10px;">"If it happened, it's in Close. If it's not in Close, it didn't happen."</p>
+    <table class="wo">
+      <tr><th>Rule</th><th>Detail</th></tr>
+      <tr><td class="label">Log immediately</td><td>Every lead touched gets a note the moment the conversation happens &mdash; not end of day.</td></tr>
+      <tr><td class="label">Opportunity created same day</td><td>Every new lead gets a $7,500 opportunity created the day they're first contacted.</td></tr>
+      <tr><td class="label">Stage discipline</td><td>Potential (new) &rarr; Call Booked (confirmed date/time) &rarr; Call Not Completed (3 attempts, no response in 48 hrs) &rarr; Nurture (not ready, needs a dated task) &rarr; Bad Fit / Not Interested.</td></tr>
+      <tr><td class="label">7-day rule</td><td>Nothing sits in "Potential" more than 7 days without a task attached.</td></tr>
+      <tr><td class="label">Note format</td><td>What happened, what's the next step, who owns it and when &mdash; signed.</td></tr>
+      <tr><td class="label">No duplicates</td><td>Search before creating a new lead record.</td></tr>
+    </table>
+  </section>
+
+  <section class="block" id="metrics">
+    <div class="sec-label">08</div>
+    <h2>Metrics &amp; Diagnostics</h2>
+    <p class="sub">Four levers, in funnel order. You're only ever broken in one or two of these at a time &mdash; find the biggest single percentage drop between two consecutive stages and fix that, not everything at once.</p>
+
+    <table class="wo">
+      <tr><th>Metric</th><th>Target</th><th>If broken, fix</th></tr>
+      <tr><td class="label">Connect Rate</td><td class="num">15&ndash;25%</td><td>Dial volume, time of day, opener, platform. Below 5% = wrong audience/channel/time. Above 25% = possibly over-indexing on a warm list.</td></tr>
+      <tr><td class="label">Booking Rate</td><td class="num">30&ndash;50%</td><td>Pitch quality (treat the set like a mini-sale), who you're qualifying, urgency building. Below 20% = weak qualification or positioning; above 60% = you're probably not qualifying hard enough.</td></tr>
+      <tr><td class="label">Show Rate</td><td class="num">70&ndash;85%</td><td>Confirmation sequence, verbal commitment at booking, rapport built in the set. Below 70% is a real problem.</td></tr>
+      <tr><td class="label">Show-Up Quality</td><td class="num">&mdash;</td><td>Pre-booking questions creating a real filter; be explicit about who the call is and isn't for.</td></tr>
+    </table>
+
+    <div class="callout">
+      <strong>Don't fix the wrong metric.</strong> Worked example: 20% connect, 40% booking, 55% show &mdash; that's a <strong>show rate</strong> problem, not a connect or booking problem. Full math from a real coaching call: 120 DMs &rarr; 18 connects (15%) &rarr; 9 books (50% of connects) &rarr; 4 shows (44% of books). Diagnosis: the confirmation sequence was broken &mdash; only 2 of the 3 touchpoints were being used.
+    </div>
+
+    <h3 style="font-size:15px; margin: 24px 0 10px;">Volume Is Not the Goal</h3>
+    <p class="sub">A setter who books 8 genuinely qualified calls a week is worth more than one who books 20 mixed-quality calls &mdash; every time. Volume for its own sake is ego. Track revenue generated per lead booked, not raw call count, and hold closer close-rate on your sets to the same bar as the team average.</p>
+  </section>
+
+  <section class="block" id="comp">
+    <div class="sec-label">09</div>
+    <h2>Compensation &amp; Non-Negotiables</h2>
+
+    <table class="wo">
+      <tr><th>Period</th><th>Rate</th><th>Example</th></tr>
+      <tr><td class="label">Days 1&ndash;60 (Probationary)</td><td class="num">3% of deal value</td><td>$7,500 close = $225</td></tr>
+      <tr><td class="label">Day 61+ (Standard)</td><td class="num">5% + $50/triage</td><td>$7,500 close = $375; triage pay only unlocks day 61</td></tr>
+    </table>
+    <div class="callout">Deal value = $7,500 (pay-in-full) or $10,000 (3-way split), commission on actual collected payment. Paid bi-weekly, after payment clears. Reversed on refund/chargeback (rare &mdash; 99.8% retention).</div>
+
+    <table class="wo" style="margin-top:14px;">
+      <tr><th>Scenario</th><th>Pay</th></tr>
+      <tr><td>Days 1&ndash;60: 3 closes</td><td class="num">$675</td></tr>
+      <tr><td>Days 1&ndash;60: 5 closes</td><td class="num">$1,125</td></tr>
+      <tr><td>Day 61+: 3 closes + 4 triages</td><td class="num">$1,325</td></tr>
+      <tr><td>Day 61+: 8 closes + 8 triages</td><td class="num">$3,400</td></tr>
+      <tr><td>Day 61+: 10 triages, 0 closes</td><td class="num">$500</td></tr>
+      <tr><td>Booked 10, 0 showed, 0 closed</td><td class="num">$0</td></tr>
+    </table>
+
+    <h3 style="font-size:15px; margin: 24px 0 10px;">KPI Targets</h3>
+    <table class="wo">
+      <tr><th>Metric</th><th>Target</th></tr>
+      <tr><td>Show Rate</td><td class="num">70%+ (below 60% is a problem)</td></tr>
+      <tr><td>Qualified Sets / Week</td><td class="num">10+</td></tr>
+      <tr><td>CRM Accuracy</td><td class="num">100%</td></tr>
+      <tr><td>Inbound Response Time</td><td class="num">&lt; 5 min</td></tr>
+      <tr><td>Follow-Up Touches Before Marking Dead</td><td class="num">3+</td></tr>
+      <tr><td>Close Rate (Team, on your sets)</td><td class="num">30%+ (review below 25%)</td></tr>
+    </table>
+
+    <div class="warn-box" style="margin-top:14px;">
+      <div class="wb-label">The 6 Non-Negotiables</div>
+      <ul>
+        <li>Every lead into Close CRM immediately &mdash; right when the conversation happens, not end of day.</li>
+        <li>Never promise a price or outcome you can't guarantee. "$7,500 all-in" is fine. "You'll definitely get placed in 30 days" is not.</li>
+        <li>No booking unless baseline qualification passes.</li>
+        <li>Respond to inbound leads within 5 minutes during working hours, or flag the team if you can't.</li>
+        <li>Do not pitch. Qualify.</li>
+        <li>Communicate bad news fast &mdash; cancels, no-shows, cold leads go into CRM + Slack immediately.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block" id="lineage">
+    <div class="sec-label">10</div>
+    <h2>A Note on Sources</h2>
+    <p class="sub">This doc pulls from the S10 setter curriculum, JJ's NCI setting framework, Jalen's DM playbook, Faris's daily standards, and the commission policy &mdash; several of which disagreed with each other. Here's what got reconciled and how:</p>
+    <div class="lineage-note"><strong>Pitching:</strong> the older <code>salesio-setting-script.html</code> call script includes a "pitch &mdash; high-level overview" step that contradicts every other doc's no-pitch doctrine. Treated as legacy; the standing rule going forward is qualify only, per Non-Negotiable #5.</div>
+    <div class="lineage-note"><strong>Price questions:</strong> S10 explicitly warns against asking for a dollar figure directly. The legacy call script does it anyway with a direct price anchor. Jalen's DM playbook never states a number at all. Canonical: indirect readiness-to-invest language, full stop &mdash; let the closer own the pricing conversation.</div>
+    <div class="lineage-note"><strong>Show rate target:</strong> sources ranged from 70% to 85%. Set as a 70&ndash;85% band with 70% as the hard floor, matching the commission policy's "under 60% is a problem" language.</div>
+    <div class="lineage-note"><strong>Booking time options:</strong> most sources use two ("Tuesday or Thursday"); Jalen's DM playbook uses three. Two is canonical for calls; DMs can flex to three given the async nature of the channel.</div>
+    <div class="lineage-note"><strong>Discovery ordering:</strong> Fernando's framework (a different offer, Alex Eubank's brand) runs future-state before current-situation. Sales.io's core process runs current-problem first, future last. Both are documented here as offer-specific, not in conflict &mdash; use present-first as the Sales.io default.</div>
+  </section>
+
+  <section class="block" id="sem">
+    <div class="sec-label">11</div>
+    <h2>Cross-Application: Social Era Media</h2>
+    <p class="sub">A separate client engagement, not the Sales.io program &mdash; but JJ's own diagnostic principle showed up again word-for-word when consulting on it: <strong>a weak triage means a weak show rate downstream, regardless of closing skill</strong>. Same law, different business. Full SOP: <a href="social-era-setting-sop.html" style="color:var(--script);">social-era-setting-sop.html</a>.</p>
+    <table class="wo">
+      <tr><th>Principle</th><th>Transfers Because</th></tr>
+      <tr><td class="label">3 touches/day, hard cap</td><td>Same law as Sales.io's touch discipline &mdash; more isn't more, it reads as desperate either way.</td></tr>
+      <tr><td class="label">Never double-dial</td><td>Same instinct as never rushing the pattern interrupt &mdash; both read as "trying to sell me immediately."</td></tr>
+      <tr><td class="label">Speed to lead: 1&ndash;5 min</td><td>Matches Sales.io's &lt;5 min inbound response standard almost exactly.</td></tr>
+      <tr><td class="label">Respond the instant they re-engage</td><td>Identical rule, identical reasoning: that's the only window you actually have their attention.</td></tr>
+    </table>
+    <div class="callout">Where it diverges: Chris Byrd's model leans harder into being visibly human &mdash; casual texting, memes as pattern interrupts, treating a booked call like showing up at a friend's house. Sales.io's model leans harder into authority and calm certainty. Worth testing pieces of the SEM warmth playbook against Sales.io's show-rate numbers before assuming they don't transfer.</div>
+  </section>
+
+  <div class="attribution">
+    <strong>Consolidated from:</strong>
+    <ul>
+      <li>lesson-s10-01 through s10-10 (Jalen Hoxie's official setter curriculum)</li>
+      <li>lesson-setting-framework.html, lesson-setter-levers.html (JJ Hernandez)</li>
+      <li>jalen-dm-playbook.html, faris-setter-daily-standards.html</li>
+      <li>salesio-setting-script.html, setter-framework-fernando.html</li>
+      <li>salesio-setter-tracker.html, setter-expectations-commission.html</li>
+      <li>social-era-setting-sop.html (Chris Byrd, cross-applied)</li>
+    </ul>
+  </div>
+
+</div>
