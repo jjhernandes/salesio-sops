@@ -1,0 +1,308 @@
+<title>Overcommunication Standard</title>
+<style>
+  :root {
+    --bg: #f4f2ec; --surface: #ffffff; --surface-2: #ebe8df;
+    --text: #16161a; --muted: #6b6a63; --faint: #b3b1a6;
+    --border: #ddd9cd;
+    --accent: #cc4a1f; --accent-soft: #f3ddd2;
+    --good: #1f6f5c; --good-soft: #dcece6;
+    --warn: #a8460f; --warn-soft: #f0ddc9;
+    --script: #3d5a80; --script-soft: #dde3ea;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0b0b0d; --surface: #17171a; --surface-2: #1f1f23;
+      --text: #f2f0ea; --muted: #9a988f; --faint: #4a4945;
+      --border: #2a2a2e;
+      --accent: #ff5a2b; --accent-soft: #2a180f;
+      --good: #4fd1af; --good-soft: #12251f;
+      --warn: #e0863f; --warn-soft: #2a1c0d;
+      --script: #7fa2d4; --script-soft: #16202c;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0b0b0d; --surface: #17171a; --surface-2: #1f1f23;
+    --text: #f2f0ea; --muted: #9a988f; --faint: #4a4945;
+    --border: #2a2a2e;
+    --accent: #ff5a2b; --accent-soft: #2a180f;
+    --good: #4fd1af; --good-soft: #12251f;
+    --warn: #e0863f; --warn-soft: #2a1c0d;
+    --script: #7fa2d4; --script-soft: #16202c;
+  }
+  :root[data-theme="light"] {
+    --bg: #f4f2ec; --surface: #ffffff; --surface-2: #ebe8df;
+    --text: #16161a; --muted: #6b6a63; --faint: #b3b1a6;
+    --border: #ddd9cd;
+    --accent: #cc4a1f; --accent-soft: #f3ddd2;
+    --good: #1f6f5c; --good-soft: #dcece6;
+    --warn: #a8460f; --warn-soft: #f0ddc9;
+    --script: #3d5a80; --script-soft: #dde3ea;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-size: 15px; line-height: 1.6;
+  }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 56px 28px 100px; }
+  .kicker { font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+  h1 { font-size: clamp(2rem, 5vw, 2.9rem); font-weight: 900; letter-spacing: -.03em; line-height: 1.05; margin: 0 0 16px; }
+  .lede { font-size: 16px; color: var(--muted); max-width: 68ch; line-height: 1.75; margin-bottom: 8px; }
+  .lede strong { color: var(--text); }
+
+  .quote { font-size: 15px; font-style: italic; color: var(--text); border-left: 3px solid var(--accent); padding: 4px 0 4px 16px; margin: 24px 0 40px; max-width: 62ch; }
+
+  .stat-strip { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 40px; }
+  .stat { background: var(--surface); padding: 16px 10px; text-align: center; }
+  .stat b { display: block; font-size: 16px; font-weight: 900; margin-bottom: 3px; }
+  .stat span { font-size: 9.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+
+  nav.toc { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px 22px; margin-bottom: 48px; }
+  nav.toc .toc-label { font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  nav.toc ol { margin: 0; padding-left: 18px; columns: 2; column-gap: 24px; }
+  nav.toc li { font-size: 12.5px; margin-bottom: 6px; }
+  nav.toc a { color: var(--text); text-decoration: none; }
+  nav.toc a:hover { color: var(--accent); }
+
+  section.block { margin-bottom: 52px; scroll-margin-top: 20px; }
+  .sec-label { font-size: 10.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  h2 { font-size: 22px; font-weight: 900; letter-spacing: -.01em; margin: 0 0 8px; }
+  .sub { font-size: 13.5px; color: var(--muted); margin-bottom: 20px; max-width: 68ch; line-height: 1.65; }
+  .sub strong { color: var(--text); }
+
+  .step { display: flex; gap: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; margin-bottom: 10px; }
+  .step-num { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-weight: 800; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+  .step-body { flex: 1; min-width: 0; }
+  .step-title { font-weight: 800; font-size: 14px; margin-bottom: 3px; }
+  .step-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .step-desc strong { color: var(--text); }
+
+  table.wo { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 4px; }
+  table.wo th { text-align: left; font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+  table.wo td { font-size: 13px; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text); }
+  table.wo tr:last-child td { border-bottom: none; }
+  table.wo td.label { font-weight: 700; white-space: nowrap; }
+  table.wo td.num { font-weight: 800; color: var(--accent); white-space: nowrap; }
+
+  .callout { background: var(--surface-2); border: 1px dashed var(--faint); border-radius: 10px; padding: 16px 20px; font-size: 13px; color: var(--muted); line-height: 1.7; margin-top: 14px; }
+  .callout strong { color: var(--text); }
+
+  .good-box { background: var(--good-soft); border: 1px solid var(--good); border-radius: 10px; padding: 18px 22px; margin-bottom: 12px; }
+  .good-box .gb-label { font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--good); margin-bottom: 10px; }
+  .good-box ol, .good-box ul { margin: 0; padding-left: 20px; }
+  .good-box li { font-size: 13.5px; line-height: 1.7; margin-bottom: 6px; color: var(--text); }
+
+  .warn-box { background: var(--warn-soft); border: 1px solid var(--warn); border-radius: 10px; padding: 18px 22px; margin-bottom: 12px; }
+  .warn-box .wb-label { font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--warn); margin-bottom: 10px; }
+  .warn-box ul { margin: 0; padding-left: 20px; }
+  .warn-box li { font-size: 13.5px; line-height: 1.7; margin-bottom: 6px; color: var(--text); }
+
+  .attribution { margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--faint); line-height: 1.8; }
+  .attribution ul { margin: 8px 0 0; padding-left: 18px; }
+
+  @media (max-width: 640px) {
+    .stat-strip { grid-template-columns: repeat(2,1fr); }
+    nav.toc ol { columns: 1; }
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="kicker">FitMama Coaching — Team Standard</div>
+  <h1>Overcommunication</h1>
+  <p class="lede">For FitMama's setters and closers only — GHL and Telegram, FitMama's own numbers, FitMama's own process. The default failure mode on any sales team isn't a bad script, it's a gap: a setter who doesn't flag a bad lead, a closer who doesn't report an objection, a number nobody logged until Friday.</p>
+
+  <div class="quote">"Silence is never neutral. If you didn't say it, someone downstream is about to make a decision with less information than they needed."</div>
+
+  <div class="stat-strip">
+    <div class="stat"><b>&lt;5 min</b><span>Lead Response</span></div>
+    <div class="stat"><b>30 min</b><span>GHL Note</span></div>
+    <div class="stat"><b>75%+</b><span>Show Rate</span></div>
+    <div class="stat"><b>40%</b><span>Close Rate</span></div>
+  </div>
+
+  <nav class="toc">
+    <div class="toc-label">In This Doc</div>
+    <ol>
+      <li><a href="#rule">The Core Rule</a></li>
+      <li><a href="#channels">Where Things Go: GHL vs. Telegram</a></li>
+      <li><a href="#sequence">The Booking Sequence</a></li>
+      <li><a href="#handoff">Setter → Closer: The Brief</a></li>
+      <li><a href="#feedback">Closer → Setter: The Loop Back</a></li>
+      <li><a href="#weekly">Weekly Cadence</a></li>
+      <li><a href="#changes">What Changed Sept 4, What's Still Unclear</a></li>
+      <li><a href="#tracking">Why Tracking Isn't Optional</a></li>
+      <li><a href="#checklist">Non-Negotiables</a></li>
+    </ol>
+  </nav>
+
+  <section class="block" id="rule">
+    <div class="sec-label">01</div>
+    <h2>The Core Rule</h2>
+    <p class="sub">When in doubt, communicate. The cost of over-sharing a status update is thirty seconds of someone's attention. The cost of under-sharing is a wasted call, a misquoted price, or a closer walking into a room blind.</p>
+    <div class="good-box">
+      <div class="gb-label">Default To</div>
+      <ul>
+        <li>Log the moment it happens, not at end of day</li>
+        <li>Flag a blocker the same hour you hit it</li>
+        <li>Say "I don't know, checking" instead of going quiet</li>
+        <li>Over-explain a handoff rather than under-explain it</li>
+      </ul>
+    </div>
+    <div class="warn-box">
+      <div class="wb-label">Never</div>
+      <ul>
+        <li>Sit on bad news hoping it resolves itself</li>
+        <li>Batch updates for a "big reveal" on Friday</li>
+        <li>Assume someone already knows because it seems obvious</li>
+        <li>Let a lead sit untouched without a note explaining why</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block" id="channels">
+    <div class="sec-label">02</div>
+    <h2>Where Things Go: GHL vs. Telegram</h2>
+    <p class="sub">Two systems, two jobs. Don't cross them.</p>
+    <table class="wo">
+      <tr><th>System</th><th>Use It For</th></tr>
+      <tr><td class="label">GHL</td><td>Anything specific to one lead — the setter brief, post-call notes, pipeline stage, SQL/NQL status. If it's about a person, it goes on her contact record, not in Telegram.</td></tr>
+      <tr><td class="label">Telegram (team chat)</td><td>Team-wide status: Friday KPI recaps, blockers, wins, help requests, anything the whole team needs to see.</td></tr>
+    </table>
+    <div class="callout"><strong>Rule of thumb:</strong> if it's about one lead, it lives in GHL. If it's about the team's week, it lives in Telegram. A lead detail buried in a Telegram thread is a lead detail the next person won't find.</div>
+  </section>
+
+  <section class="block" id="sequence">
+    <div class="sec-label">03</div>
+    <h2>The Booking Sequence</h2>
+    <p class="sub">Setter and closer both own pieces of this chain. Miss a step and the show rate takes the hit.</p>
+    <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Setter books the call</div><div class="step-desc">Application reviewed, qualified against the 4 criteria, booked within 24 hours of application.</div></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Closer sends the pre-call video, minutes after</div><div class="step-desc">30-45 second selfie video, sent the moment the setter's booking note lands. A stranger is easy to no-show — this is what makes the call feel real before it happens.</div></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Setter sends the VSL homework link, right after</div><div class="step-desc">Goes out immediately following the closer's video, not hours later.</div></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">24-hour and 1-hour reminders</div><div class="step-desc">Both automated confirmation touchpoints before the call happens.</div></div></div>
+    <div class="warn-box">
+      <div class="wb-label">No-Show Protocol</div>
+      <ul>
+        <li>5-minute ping if she's not on the call</li>
+        <li>15-minute mark: send reschedule link, move to No-Show stage</li>
+        <li>24-hour follow-up</li>
+        <li>Two attempts with no response → move to Nurture</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="block" id="handoff">
+    <div class="sec-label">04</div>
+    <h2>Setter → Closer: The Brief</h2>
+    <p class="sub">Never skip the brief. Every booked call gets one in GHL before the closer joins.</p>
+    <div class="good-box">
+      <div class="gb-label">Required in the Brief</div>
+      <ul>
+        <li>Name, age</li>
+        <li>Her struggle, in her own words</li>
+        <li>Health issues or flags</li>
+        <li>Decision-maker status — is this her call alone, or does a husband need to be looped in</li>
+        <li>Whether the husband was mentioned</li>
+        <li>Whether she's watched the VSL homework, yes or no</li>
+        <li>Any red or green flags from the ICP screen</li>
+      </ul>
+    </div>
+    <div class="warn-box">
+      <div class="wb-label">Before Every Call, Closer Checks</div>
+      <ul>
+        <li>SQL vs. NQL status in LeadFi — especially for a lead that booked directly off the VSL with no setter screening. If she's NQL, either qualify her yourself on the call or cancel it. Don't run a full pitch on someone who was never actually screened.</li>
+      </ul>
+    </div>
+    <div class="callout"><strong>A bad brief looks like:</strong> "she seems interested" with nothing behind it, a name in GHL with zero notes, or an SQL tag applied without checking if it's actually true.</div>
+  </section>
+
+  <section class="block" id="feedback">
+    <div class="sec-label">05</div>
+    <h2>Closer → Setter: The Loop Back</h2>
+    <p class="sub">Communication runs both directions. A setter can't get better at qualifying if the outcome of her sets disappears into the closer's calendar and never comes back.</p>
+    <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Every disqualified set gets flagged back to the setter who booked it</div><div class="step-desc">Not as a callout — as data. Why wasn't she qualified? That's the only way a setter's screening actually improves.</div></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Outcome logged in GHL the same day: Closed Won, Closed Lost, or Decision Pending</div><div class="step-desc">A setter should never have to ask "did that call even happen?" three days later.</div></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Only tag SQL when it's actually true</div><div class="step-desc">A lead that came in NQL but turns out qualified gets the SQL tag added on her GHL record — that's the whole action, automation handles the rest. Loose tagging corrupts the team's real ad-tracking numbers, so tag only what you can back up.</div></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">Objection patterns get said out loud, not just logged privately</div><div class="step-desc">If closers are all hearing the same objection this week, that's a setting-stage or offer-stage problem — it only surfaces if it gets said in Telegram, not buried in individual call notes.</div></div></div>
+  </section>
+
+  <section class="block" id="weekly">
+    <div class="sec-label">06</div>
+    <h2>Weekly Cadence</h2>
+    <table class="wo">
+      <tr><th>Day</th><th>What Happens</th></tr>
+      <tr><td class="label">Monday</td><td>Team reviews last week's BAM &amp; Reach against actuals, then sets this week's numbers live.</td></tr>
+      <tr><td class="label">Friday</td><td>Every rep posts a KPI recap in Telegram: calls made, applications sent, calls booked, deals closed and cash collected, biggest win, biggest blocker.</td></tr>
+      <tr><td class="label">Ongoing</td><td>Close rate under 30% for a full week triggers an immediate call review using Fathom recordings — don't wait for the next scheduled check-in.</td></tr>
+    </table>
+  </section>
+
+  <section class="block" id="changes">
+    <div class="sec-label">07</div>
+    <h2>What Changed Sept 4, What's Still Unclear</h2>
+    <p class="sub">FitMama went through a real restructure on <strong>September 4</strong>. The problem: the handbook and team HQ are dated July and August and were never updated to match. Know which version of reality is current before you quote anything to a lead.</p>
+
+    <div class="good-box">
+      <div class="gb-label">Confirmed as of Sept 4 — Treat This as Current</div>
+      <ul>
+        <li><strong>The quiz/assessment funnel and phone setters are killed.</strong> $60K was spent on that funnel last month with no return. New structure: organic + DM ad → DM setter conversation → booked call. Webinar and email nurture still run.</li>
+        <li><strong>Closer roster is Mariah and Noelle</strong> (Noelle is a new hire from Jeremy Haynes' group) — not the names in the old Team HQ page, not the August bootcamp candidate pool.</li>
+        <li><strong>New setter structure:</strong> Micah is lead setter, working a protected 8am-2pm block; new DM setters cover 2-6pm ($1K base + 5% commission after trial); Roxana covers weekends and afternoon flex; a new "Respark VA" role handles overnight pipeline hygiene only — no booking, no closing, no commission.</li>
+        <li><strong>New targets:</strong> stabilize at $250K/month, then scale to $500K/month. Cost per booked call target: $200. 100 conversations/day per DM setter, 4 booked calls/day per setter.</li>
+        <li><strong>Entry-tier pricing lowered</strong> as a temporary, cash-crunch-driven move, not a permanent repositioning. No financing on the entry tier. Coaches get 10% on any renewal.</li>
+      </ul>
+    </div>
+
+    <div class="warn-box">
+      <div class="wb-label">Not Yet Reconciled — Confirm Before You Quote This</div>
+      <ul>
+        <li><strong>VSL homework vs. the VSL auto-booking funnel:</strong> setters are still sending "VSL homework" after every DM-booked call, and closers are still checking LeadFi for "VSL auto-bookings" specifically. It's unconfirmed whether the homework video is the same VSL that got killed, or a separate asset that survives. Don't assume either way — ask before telling a lead what to expect.</li>
+        <li><strong>No single current team roster exists.</strong> The old Team HQ page lists Jess, Mari, Stacy, Micah, Gloria. The August bootcamp evaluated six completely different candidates. The Sept 4 call named Mariah and Noelle as the final closers. If you need to know who's actually closing calls right now, ask Khalil directly — don't trust any single doc.</li>
+        <li><strong>Lead ownership/attribution rules between setters are still unwritten</strong> — Khalil and Sales.io's coaching team are finalizing that policy. Don't assume a lead is exclusively yours until it exists.</li>
+      </ul>
+    </div>
+
+    <div class="callout"><strong>Standing instruction until this gets cleaned up:</strong> where a doc conflicts with what Khalil told you live, the live instruction wins. Flag the conflict in Telegram so it gets fixed once, not re-discovered by the next person.</div>
+  </section>
+
+  <section class="block" id="tracking">
+    <div class="sec-label">08</div>
+    <h2>Why Tracking Isn't Optional</h2>
+    <p class="sub">Every number a setter or closer logs feeds a decision someone else makes with real money behind it.</p>
+    <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">It's the only way to find which lever is broken</div><div class="step-desc">A conversion problem looks identical from the outside ("numbers are down") whether it's a connect problem, a booking problem, or a show problem — unless the funnel is actually logged stage by stage in GHL.</div></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">It's what separates a setter problem from a closer problem</div><div class="step-desc">A closer flagging an unqualified set only means something if it traces back to who booked it. Without that, a bad week gets blamed on whoever's easiest to blame instead of whoever's actually responsible.</div></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">It's the difference between a $60K mistake and a caught one</div><div class="step-desc">The old funnel ran for a month burning spend with no return before anyone could prove it wasn't working. Tight tracking is what kills a bad bet in week one instead of month three.</div></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">It rolls up into whether the company hits $250K, then $500K</div><div class="step-desc">Every booked call, every SQL tag, every logged outcome feeds the same dashboard leadership uses to know if the funnel is actually working. Skip the log and that picture gets less accurate, not less real.</div></div></div>
+    <div class="callout"><strong>The honest version:</strong> a number that isn't logged isn't just missing — it's actively misleading, because everyone downstream assumes what they can see is the complete picture. Under-tracking is worse than no tracking, because it looks like data.</div>
+  </section>
+
+  <section class="block" id="checklist">
+    <div class="sec-label">09</div>
+    <h2>Non-Negotiables</h2>
+    <div class="good-box">
+      <ul>
+        <li>Respond to leads within 5 minutes.</li>
+        <li>Post-call GHL note within 30 minutes — every call, no exceptions.</li>
+        <li>Never skip the setter brief before a closer joins a call.</li>
+        <li>Closer checks SQL/NQL status in LeadFi before every call, especially VSL auto-bookings.</li>
+        <li>Only apply an SQL tag when it's actually true.</li>
+        <li>No lead sits more than 5 days without logged activity.</li>
+        <li>Outcome of every booked call gets reported back to the setter who booked it, same day.</li>
+        <li>Post your Friday KPI recap in Telegram — calls, bookings, closes, cash collected, biggest win, biggest blocker.</li>
+        <li>When a doc and a live instruction from Khalil conflict, the live instruction wins — and you flag the conflict so it gets fixed once.</li>
+        <li>Bad news travels same-day. A dead lead, a blown call, a missed target — say it now, not at the next scheduled check-in.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="attribution">
+    <strong>Built from:</strong>
+    <ul>
+      <li>fitmama-hq.html, fitmama-sales-handbook.html, fitmama-growth-gameplan.html (Sept 4 restructure)</li>
+      <li>fitmama-power-dialer-sql-tag-sop.html, fitmama-pre-call-video-script.html</li>
+      <li>coaching-recap-fitmama-team-jul06.html, coaching-recap-fitmama-team-jul13.html</li>
+    </ul>
+  </div>
+
+</div>
