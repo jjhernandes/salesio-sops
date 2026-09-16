@@ -1,0 +1,181 @@
+<title>SDR Cold Call Framework</title>
+<style>
+  :root {
+    --bg: #f4f2ec; --surface: #ffffff; --surface-2: #ebe8df;
+    --text: #16161a; --muted: #6b6a63; --faint: #b3b1a6;
+    --border: #ddd9cd;
+    --accent: #57534e;
+    --q-bg: #dbe9fb; --q-border: #7fa8dd; --q-text: #1b4a82;
+    --a-bg: #dcefdc; --a-border: #7cb888; --a-text: #1e5c2e;
+    --hl-bg: #fdf1b8; --hl-border: #e0c23e; --hl-text: #6b5a06;
+    --script-bg: #ffffff; --script-border: #ddd9cd;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0b0b0d; --surface: #17171a; --surface-2: #1f1f23;
+      --text: #f2f0ea; --muted: #9a988f; --faint: #4a4945;
+      --border: #2a2a2e;
+      --accent: #b5b0a5;
+      --q-bg: #16283f; --q-border: #3d6ba8; --q-text: #a9c9f2;
+      --a-bg: #16321c; --a-border: #3f7a4d; --a-text: #a9dab3;
+      --hl-bg: #3a2f0a; --hl-border: #8a6f1a; --hl-text: #f0dc8a;
+      --script-bg: #17171a; --script-border: #2a2a2e;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0b0b0d; --surface: #17171a; --surface-2: #1f1f23;
+    --text: #f2f0ea; --muted: #9a988f; --faint: #4a4945;
+    --border: #2a2a2e;
+    --accent: #b5b0a5;
+    --q-bg: #16283f; --q-border: #3d6ba8; --q-text: #a9c9f2;
+    --a-bg: #16321c; --a-border: #3f7a4d; --a-text: #a9dab3;
+    --hl-bg: #3a2f0a; --hl-border: #8a6f1a; --hl-text: #f0dc8a;
+    --script-bg: #17171a; --script-border: #2a2a2e;
+  }
+  :root[data-theme="light"] {
+    --bg: #f4f2ec; --surface: #ffffff; --surface-2: #ebe8df;
+    --text: #16161a; --muted: #6b6a63; --faint: #b3b1a6;
+    --border: #ddd9cd;
+    --accent: #57534e;
+    --q-bg: #dbe9fb; --q-border: #7fa8dd; --q-text: #1b4a82;
+    --a-bg: #dcefdc; --a-border: #7cb888; --a-text: #1e5c2e;
+    --hl-bg: #fdf1b8; --hl-border: #e0c23e; --hl-text: #6b5a06;
+    --script-bg: #ffffff; --script-border: #ddd9cd;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-size: 15px; line-height: 1.6;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 56px 28px 100px; }
+  .kicker { font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+  h1 { font-size: clamp(1.9rem, 5vw, 2.6rem); font-weight: 900; letter-spacing: -.03em; line-height: 1.05; margin: 0 0 16px; }
+  .lede { font-size: 15px; color: var(--muted); max-width: 62ch; line-height: 1.7; margin-bottom: 32px; }
+  .lede strong { color: var(--text); }
+
+  .legend { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; margin-bottom: 44px; }
+  .legend-item { display: flex; align-items: center; gap: 10px; font-size: 12.5px; }
+  .legend-swatch { flex-shrink: 0; width: 20px; height: 20px; border-radius: 5px; }
+  .legend-swatch.plain { background: var(--script-bg); border: 1.5px solid var(--faint); }
+  .legend-swatch.q { background: var(--q-bg); border: 1.5px solid var(--q-border); }
+  .legend-swatch.a { background: var(--a-bg); border: 1.5px solid var(--a-border); }
+  .legend-swatch.hl { background: var(--hl-bg); border: 1.5px solid var(--hl-border); }
+  .legend-item span.lbl { color: var(--text); font-weight: 600; }
+
+  .readiness { background: var(--surface-2); border: 1px dashed var(--faint); border-radius: 10px; padding: 18px 22px; margin-bottom: 44px; }
+  .readiness .r-label { font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .readiness ul { margin: 0; padding-left: 20px; }
+  .readiness li { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+
+  .divider { text-align: center; margin: 44px 0 22px; }
+  .divider span { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); background: var(--bg); padding: 0 14px; position: relative; }
+  .divider::before { content: ""; display: block; border-top: 1px solid var(--border); margin-bottom: -10px; }
+
+  .line { border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; font-size: 14px; line-height: 1.65; }
+  .line.plain { background: var(--script-bg); border: 1px solid var(--script-border); color: var(--text); }
+  .line.q { background: var(--q-bg); border: 1px solid var(--q-border); color: var(--q-text); font-weight: 600; }
+  .line.a { background: var(--a-bg); border: 1px solid var(--a-border); color: var(--a-text); }
+  .line.a .a-tag { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; opacity: .75; display: block; margin-bottom: 3px; }
+  .line.hl { background: var(--hl-bg); border: 1px solid var(--hl-border); color: var(--hl-text); font-size: 13px; font-style: italic; }
+
+  .indent { margin-left: 24px; }
+  .placeholder { font-weight: 800; text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 2px; }
+
+  .attribution { margin-top: 56px; padding-top: 22px; border-top: 1px solid var(--border); font-size: 12px; color: var(--faint); line-height: 1.7; }
+
+  @media (max-width: 560px) {
+    .legend { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="kicker">Reusable Framework</div>
+  <h1>SDR Cold Call Script</h1>
+  <p class="lede">A generic setter/SDR cold-call template. Swap the bracketed placeholders — <span class="placeholder">NAME</span>, <span class="placeholder">BLANK</span>, <span class="placeholder">XYZ</span>, price range, offer details — for whatever business is running it. The structure and the color coding stay the same.</p>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-swatch plain"></div><span class="lbl">No highlight</span> — SDR cold call script</div>
+    <div class="legend-item"><div class="legend-swatch q"></div><span class="lbl">Blue filled</span> — SDR questions</div>
+    <div class="legend-item"><div class="legend-swatch a"></div><span class="lbl">Green filled</span> — Prospect answers</div>
+    <div class="legend-item"><div class="legend-swatch hl"></div><span class="lbl">Highlight</span> — Points to look out for</div>
+  </div>
+
+  <div class="readiness">
+    <div class="r-label">Overview Pitch — Be in a State of Readiness</div>
+    <ul>
+      <li>Sharp as a tack</li>
+      <li>Industry expert</li>
+      <li>Enthusiastic as hell</li>
+    </ul>
+  </div>
+
+  <div class="divider"><span>Call Begins</span></div>
+
+  <div class="line plain">Hey (FirstName)? <em>(question tonality)</em></div>
+  <div class="line plain">Hey (FirstName), this is <span class="placeholder">NAME</span> with <span class="placeholder">BLANK</span>'s team. How are ya?</div>
+  <div class="line q">Where are you from? You filled out a form just recently to receive help with your <span class="placeholder">[offer/niche]</span>, from our owner <span class="placeholder">BLANK</span> on Instagram?</div>
+  <div class="line hl">*pause</div>
+
+  <div class="line a"><span class="a-tag">Prospect</span>Yes, I do remember.</div>
+  <div class="line q indent">Cool — well, is that still something you're looking to get help with?</div>
+  <div class="line a indent"><span class="a-tag">Prospect</span>No.</div>
+  <div class="line q indent">No worries — what's changed your mind?</div>
+
+  <div class="line a"><span class="a-tag">Prospect</span>No, what is that?</div>
+  <div class="line q indent">Really? The company that helps you build and scale your own <span class="placeholder">[offer/niche]</span> — does that ring a bell?</div>
+  <div class="line hl">*If they can't remember or aren't interested, hop off the call and move on.</div>
+
+  <div class="line plain">Ok cool.</div>
+  <div class="line plain">What is the call? I won't be taking up much of your time — this is a quick 5-10 minute chat to see, one, where you're at now; two, where you're at currently with achieving your goal; and three, to see IF and how we could help you out. If that makes sense!</div>
+
+  <div class="divider"><span>Discovery</span></div>
+
+  <div class="line q">Question 1: Okay sweet — so tell me, where are you at now with your <span class="placeholder">XYZ</span> journey?</div>
+  <div class="line hl">Expand their response with at least 2-3 follow-up questions (Why, what do you mean, why do you say that, etc).</div>
+
+  <div class="line q">Question 2: How long has <span class="placeholder">X</span> been an issue for?</div>
+  <div class="line q">Question 3: What have you tried in order to achieve <span class="placeholder">XYZ</span>?</div>
+  <div class="line q">Question 4: And with that, what was the disconnect that didn't allow those attempts to give you the result you were looking for?</div>
+  <div class="line q">Question 5: Okay, got it — and so with you having struggled with <span class="placeholder">{PAIN}</span> for the last <span class="placeholder">{DURATION}</span>, why reach out for help now?</div>
+  <div class="line q">Question 6: Okay, and what is the goal with starting or getting help with your own <span class="placeholder">[offer/niche]</span>?</div>
+  <div class="line hl">Chunk down if they don't give a clear answer.</div>
+  <div class="line q indent">How much are you wanting to bring in with your offer?</div>
+  <div class="line q indent">Why that amount exactly?</div>
+  <div class="line hl indent">Try not to go too deep here — that's for the closer to do. Good enough to get clarity.</div>
+
+  <div class="line q">Question 7: So one last thing here — we value transparency, so to make life easier before letting you talk to the team, we always want to make the point that this is not the cheapest program in the world.</div>
+  <div class="line plain">But if you think it feels like the right fit, we will work with you.</div>
+  <div class="line q">Prices range between <span class="placeholder">X</span> and <span class="placeholder">Y</span> — is that reachable?</div>
+
+  <div class="divider"><span>Pitch</span></div>
+
+  <div class="line hl">High-level overview. If the prospect is in a hurry or can't stay much longer, skip the overview and go straight to booking.</div>
+  <div class="line plain">So <span class="placeholder">NAME</span>, I definitely think we can help you out. What I'll do now is break down what we do in a high-level overview, then get you connected onto a longer HOW call which will break down everything deeper for you — is that all cool?</div>
+  <div class="line plain indent"><em>[Insert overview pitch here]</em></div>
+
+  <div class="line a"><span class="a-tag">Prospect</span>What is the longer call for?</div>
+  <div class="line plain indent">Basically, we'll dive deeper into what you're currently doing, and then our head coaches will break down exactly how we can help. I like to say this call was more of an IF call — to see IF we could help — but the next one will be more of a HOW call. All cool?</div>
+
+  <div class="divider"><span>Book</span></div>
+
+  <div class="line q">If I'd be able to get you on <span class="placeholder">X day</span>, would AM or PM work best for you?</div>
+  <div class="line plain">Sure, how about <span class="placeholder">(time)</span>?</div>
+  <div class="line q">And what time zone are you currently in?</div>
+  <div class="line q">Can you just confirm the spelling of your first and last name for me?</div>
+  <div class="line q">And is the phone number I called now the one you have on you at all times?</div>
+  <div class="line q">Can I get your cell?</div>
+  <div class="line q">And email?</div>
+
+  <div class="divider"><span>Close Out</span></div>
+
+  <div class="line plain">Great! So I'm going to do one thing for you, and I need you to do one thing for me. You should be getting a text from our team with some more information, letting you know more of what we do before hopping onto that next call.</div>
+  <div class="line plain">And the one thing I ask of you — please be on a computer in a quiet spot so we have great audio, and don't be driving or anything like that.</div>
+  <div class="line q">Can you also accept that meeting invite we sent over to your email?</div>
+  <div class="line plain">Perfect — also, by any chance you have to cancel, could you just ring me, just so we can ensure everyone gets a chance to hop on?</div>
+
+  <div class="attribution">Generic template — replace placeholders with your own offer, pricing, and industry language before use.</div>
+
+</div>
