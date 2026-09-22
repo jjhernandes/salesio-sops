@@ -1,0 +1,186 @@
+<meta charset="UTF-8">
+<title>Affiliate Offer Structure</title>
+<style>
+  :root {
+    --bg: #f4f2ec; --surface: #ffffff; --surface-2: #ebe8df;
+    --text: #16161a; --muted: #6b6a63; --faint: #b3b1a6;
+    --border: #ddd9cd;
+    --accent: #cc4a1f; --accent-soft: #f3ddd2;
+    --good: #1f6f5c; --good-soft: #dcece6;
+    --script: #3d5a80; --script-soft: #dde3ea;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0b0b0d; --surface: #17171a; --surface-2: #1f1f23;
+      --text: #f2f0ea; --muted: #9a988f; --faint: #4a4945;
+      --border: #2a2a2e;
+      --accent: #ff5a2b; --accent-soft: #2a180f;
+      --good: #4fd1af; --good-soft: #12251f;
+      --script: #7fa2d4; --script-soft: #16202c;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0b0b0d; --surface: #17171a; --surface-2: #1f1f23;
+    --text: #f2f0ea; --muted: #9a988f; --faint: #4a4945;
+    --border: #2a2a2e;
+    --accent: #ff5a2b; --accent-soft: #2a180f;
+    --good: #4fd1af; --good-soft: #12251f;
+    --script: #7fa2d4; --script-soft: #16202c;
+  }
+  :root[data-theme="light"] {
+    --bg: #f4f2ec; --surface: #ffffff; --surface-2: #ebe8df;
+    --text: #16161a; --muted: #6b6a63; --faint: #b3b1a6;
+    --border: #ddd9cd;
+    --accent: #cc4a1f; --accent-soft: #f3ddd2;
+    --good: #1f6f5c; --good-soft: #dcece6;
+    --script: #3d5a80; --script-soft: #dde3ea;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-size: 15px; line-height: 1.6;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 56px 28px 100px; }
+  .kicker { font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+  h1 { font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 900; letter-spacing: -.03em; line-height: 1.05; margin: 0 0 16px; }
+  .lede { font-size: 16px; color: var(--muted); max-width: 66ch; line-height: 1.75; margin-bottom: 40px; }
+  .lede strong { color: var(--text); }
+
+  .stat-strip { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 44px; }
+  .stat { background: var(--surface); padding: 16px 12px; text-align: center; }
+  .stat b { display: block; font-size: 17px; font-weight: 900; margin-bottom: 3px; }
+  .stat span { font-size: 9.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+
+  section.block { margin-bottom: 48px; }
+  .sec-label { font-size: 10.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  h2 { font-size: 21px; font-weight: 900; letter-spacing: -.01em; margin: 0 0 6px; }
+  .sub { font-size: 13.5px; color: var(--muted); margin-bottom: 18px; max-width: 65ch; line-height: 1.65; }
+  .sub strong { color: var(--text); }
+
+  /* FUNNEL FLOW */
+  .flow { display: flex; flex-wrap: wrap; align-items: stretch; gap: 0; margin-bottom: 8px; }
+  .flow-step { flex: 1; min-width: 140px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 14px; text-align: center; position: relative; }
+  .flow-step .fs-tag { font-size: 9.5px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: var(--accent); margin-bottom: 6px; }
+  .flow-step .fs-title { font-size: 13.5px; font-weight: 800; margin-bottom: 4px; }
+  .flow-step .fs-note { font-size: 11.5px; color: var(--muted); line-height: 1.4; }
+  .flow-arrow { display: flex; align-items: center; justify-content: center; width: 24px; color: var(--faint); font-size: 16px; flex-shrink: 0; }
+
+  table.wo { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 4px; }
+  table.wo th { text-align: left; font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+  table.wo td { font-size: 13px; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text); }
+  table.wo tr:last-child td { border-bottom: none; }
+  table.wo td.label { font-weight: 700; white-space: nowrap; }
+  table.wo td.num { font-weight: 800; color: var(--accent); white-space: nowrap; }
+  .tbd { font-style: italic; color: var(--faint); font-weight: 600; }
+
+  .callout { background: var(--surface-2); border: 1px dashed var(--faint); border-radius: 10px; padding: 16px 20px; font-size: 13px; color: var(--muted); line-height: 1.7; margin-top: 14px; }
+  .callout strong { color: var(--text); }
+
+  .good-box { background: var(--good-soft); border: 1px solid var(--good); border-radius: 10px; padding: 18px 22px; margin-bottom: 12px; }
+  .good-box .gb-label { font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--good); margin-bottom: 10px; }
+  .good-box ul { margin: 0; padding-left: 20px; }
+  .good-box li { font-size: 13.5px; line-height: 1.7; margin-bottom: 6px; color: var(--text); }
+
+  .attribution { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--faint); line-height: 1.7; }
+
+  @media (max-width: 640px) {
+    .stat-strip { grid-template-columns: repeat(2,1fr); }
+    .flow { flex-direction: column; }
+    .flow-arrow { transform: rotate(90deg); width: auto; height: 20px; }
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="kicker">Sales.io — Affiliate Offer Structure</div>
+  <h1>The Affiliate Ascension Funnel</h1>
+  <p class="lede">Built for affiliate-driven traffic, not application-gated traffic. Everything an affiliate promotes has to convert with zero friction — the qualification and gating happens later, inside the paid experience, never in front of the sale.</p>
+
+  <div class="stat-strip">
+    <div class="stat"><b>$197/mo</b><span>Entry Tier</span></div>
+    <div class="stat"><b>$5,000</b><span>Core / 6 Months</span></div>
+    <div class="stat"><b>3 Months</b><span>Advanced Upsell</span></div>
+    <div class="stat"><b><span class="tbd">TBD</span></b><span>Recurring Commission</span></div>
+  </div>
+
+  <section class="block">
+    <div class="sec-label">01</div>
+    <h2>The Funnel</h2>
+    <p class="sub">The path an affiliate's traffic actually walks, start to finish.</p>
+    <div class="flow">
+      <div class="flow-step"><div class="fs-tag">Free</div><div class="fs-title">Content + Weekly WhatsApp Story</div><div class="fs-note">Top of funnel, affiliate-driven traffic lands here</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="fs-tag">Day 14–21</div><div class="fs-title">Low-Ticket Email</div><div class="fs-note">Sent after content consumption, points to the external Circle group</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="fs-tag">$197/mo</div><div class="fs-title">Circle Group</div><div class="fs-note">Recurring entry tier — the offer affiliates actually promote</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="fs-tag">$5,000</div><div class="fs-title">Core Offer, 6 Months</div><div class="fs-note">Backend — sold via booked call, not self-checkout</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="fs-tag">3 Months</div><div class="fs-title">Advanced Coaching Upsell</div><div class="fs-note">Ascension for whoever finishes the core strong</div></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="sec-label">02</div>
+    <h2>Offer Structure</h2>
+    <table class="wo">
+      <tr><th>Component</th><th>Detail</th></tr>
+      <tr><td class="label">Core Offer</td><td>$5,000 / 6 months</td></tr>
+      <tr><td class="label">Advanced Upsell</td><td>3-month upsell period into more advanced coaching, offered to core-offer graduates</td></tr>
+      <tr><td class="label">Community Touch</td><td>Small group open office hours</td></tr>
+      <tr><td class="label">1-on-1 Access</td><td>Tickets or fixed calendar slots — gated, not open-ended (see below)</td></tr>
+      <tr><td class="label">Free Tier Engagement</td><td>Weekly story to the free WhatsApp chat</td></tr>
+      <tr><td class="label">Direct CTA</td><td>Book a call, always available as a path in</td></tr>
+      <tr><td class="label">Entry Tier</td><td>$197/month — External Circle group, offered via email 2-3 weeks after someone starts consuming content</td></tr>
+    </table>
+
+    <div class="callout">
+      <strong>1-on-1 gating logic:</strong> tie access to a specific result, not a ticket count — e.g. unlocked once a member hits <span class="tbd">[specific milestone]</span>. That keeps it scarce and outcome-linked instead of turning into an open support queue, and it doesn't touch the front-end sale at all, so it costs nothing in affiliate conversion.
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="sec-label">03</div>
+    <h2>Affiliate Commission Structure</h2>
+    <p class="sub">Recurring and backend commissions are what keep affiliates promoting past the first payout — a one-time front-end cut gets forgotten.</p>
+    <table class="wo">
+      <tr><th>Tier</th><th>Commission</th><th>Why</th></tr>
+      <tr><td class="label">$197/mo Circle</td><td class="tbd">TBD — recurring %</td><td>Recurring commission is the single biggest lever for long-term affiliate promotion. A flat one-time payout doesn't hold their attention past month one.</td></tr>
+      <tr><td class="label">$5,000 Core (backend)</td><td class="tbd">TBD — % or flat override</td><td>If an affiliate's referral upgrades to the core offer and the affiliate sees nothing, they stop promoting once they notice. Pay a cut or a flat bonus on the upgrade.</td></tr>
+      <tr><td class="label">3-Month Advanced Upsell</td><td class="tbd">TBD — smaller override</td><td>Optional, but a small override here rewards affiliates whose referrals go the distance rather than churn early.</td></tr>
+    </table>
+  </section>
+
+  <section class="block">
+    <div class="sec-label">04</div>
+    <h2>Attribution &amp; Terms</h2>
+    <table class="wo">
+      <tr><th>Term</th><th>Recommendation</th></tr>
+      <tr><td class="label">Cookie window</td><td>30–60 days minimum — the ascension path (content → $197 → $5K) takes time, don't lose credit because the buyer took three weeks</td></tr>
+      <tr><td class="label">Payout schedule</td><td class="tbd">TBD — monthly is standard</td></tr>
+      <tr><td class="label">Minimum payout threshold</td><td class="tbd">TBD</td></tr>
+      <tr><td class="label">Refund clawback</td><td>Commission reverses if the underlying sale refunds — standard, and easy to skip if not written down explicitly</td></tr>
+    </table>
+  </section>
+
+  <section class="block">
+    <div class="sec-label">05</div>
+    <h2>Affiliate Assets Needed</h2>
+    <div class="good-box">
+      <div class="gb-label">Before Launch</div>
+      <ul>
+        <li>Pre-written swipe copy — emails and social captions ready to post, not left for affiliates to write themselves</li>
+        <li>Tracking links + a dashboard affiliates can check their own numbers on</li>
+        <li>A landing page built for cold affiliate traffic, separate from the organic/direct funnel messaging</li>
+        <li>Simple one-pager explaining the commission structure and terms above — affiliates need this in writing before they'll commit real promotion effort</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="attribution">
+    Fields marked <span class="tbd">TBD</span> are structural recommendations, not decided figures — confirm exact rates and thresholds before this goes out to affiliates.
+  </div>
+
+</div>
