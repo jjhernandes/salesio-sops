@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NHC Dialer Onboarding Plan</title>
+<style>
+  :root {
+    --bg: #f3f4f6; --surface: #ffffff; --surface-2: #e9ebef;
+    --text: #14171f; --muted: #5c6270; --faint: #a8adb8;
+    --border: #dcdfe4;
+    --accent: #2454a8; --accent-soft: #dbe6f6;
+    --good: #1f7a52; --good-soft: #dceee2;
+    --warn: #a8460f; --warn-soft: #f0ddc9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0b0c0f; --surface: #15171c; --surface-2: #1d2026;
+      --text: #eef0f4; --muted: #9aa0ac; --faint: #4a4e58;
+      --border: #262a32;
+      --accent: #6f9ee6; --accent-soft: #16233a;
+      --good: #52c98a; --good-soft: #102a1e;
+      --warn: #e0863f; --warn-soft: #2a1c0d;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0b0c0f; --surface: #15171c; --surface-2: #1d2026;
+    --text: #eef0f4; --muted: #9aa0ac; --faint: #4a4e58;
+    --border: #262a32;
+    --accent: #6f9ee6; --accent-soft: #16233a;
+    --good: #52c98a; --good-soft: #102a1e;
+    --warn: #e0863f; --warn-soft: #2a1c0d;
+  }
+  :root[data-theme="light"] {
+    --bg: #f3f4f6; --surface: #ffffff; --surface-2: #e9ebef;
+    --text: #14171f; --muted: #5c6270; --faint: #a8adb8;
+    --border: #dcdfe4;
+    --accent: #2454a8; --accent-soft: #dbe6f6;
+    --good: #1f7a52; --good-soft: #dceee2;
+    --warn: #a8460f; --warn-soft: #f0ddc9;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-size: 15px; line-height: 1.6;
+  }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 56px 28px 100px; }
+  .kicker { font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+  h1 { font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 900; letter-spacing: -.03em; line-height: 1.05; margin: 0 0 16px; }
+  .lede { font-size: 16px; color: var(--muted); max-width: 68ch; line-height: 1.75; margin-bottom: 8px; }
+  .lede strong { color: var(--text); }
+
+  .stat-strip { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 36px 0 40px; }
+  .stat { background: var(--surface); padding: 16px 12px; text-align: center; }
+  .stat b { display: block; font-size: 18px; font-weight: 900; margin-bottom: 3px; }
+  .stat span { font-size: 9.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+
+  section.block { margin-bottom: 52px; }
+  .sec-label { font-size: 10.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  h2 { font-size: 22px; font-weight: 900; letter-spacing: -.01em; margin: 0 0 6px; }
+  h3 { font-size: 14px; font-weight: 800; margin: 22px 0 10px; }
+  .sub { font-size: 13.5px; color: var(--muted); margin-bottom: 18px; max-width: 68ch; line-height: 1.65; }
+  .sub strong { color: var(--text); }
+
+  table.wo { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
+  table.wo th { text-align: left; font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--faint); padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+  table.wo td { font-size: 13px; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text); }
+  table.wo tr:last-child td { border-bottom: none; }
+  table.wo td.label { font-weight: 700; white-space: nowrap; }
+  table.wo td.num { font-weight: 800; color: var(--accent); white-space: nowrap; }
+  .tbd { font-style: italic; color: var(--faint); font-weight: 600; }
+
+  .step { display: flex; gap: 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; margin-bottom: 8px; }
+  .step-num { flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-weight: 800; font-size: 11px; display: flex; align-items: center; justify-content: center; }
+  .step-body { flex: 1; min-width: 0; }
+  .step-title { font-weight: 700; font-size: 13.5px; margin-bottom: 2px; }
+  .step-desc { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+  .step-desc strong { color: var(--text); }
+
+  .callout { background: var(--surface-2); border: 1px dashed var(--faint); border-radius: 10px; padding: 16px 20px; font-size: 13px; color: var(--muted); line-height: 1.7; margin-top: 14px; }
+  .callout strong { color: var(--text); }
+
+  .warn-box { background: var(--warn-soft); border: 1px solid var(--warn); border-radius: 10px; padding: 18px 22px; margin-bottom: 16px; }
+  .warn-box .wb-label { font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--warn); margin-bottom: 10px; }
+  .warn-box p { margin: 0; font-size: 13.5px; line-height: 1.7; color: var(--text); }
+  .warn-box strong { color: var(--warn); }
+
+  .good-box { background: var(--good-soft); border: 1px solid var(--good); border-radius: 10px; padding: 18px 22px; margin-bottom: 12px; }
+  .good-box .gb-label { font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--good); margin-bottom: 10px; }
+  .good-box ol, .good-box ul { margin: 0; padding-left: 20px; }
+  .good-box li { font-size: 13.5px; line-height: 1.7; margin-bottom: 6px; color: var(--text); }
+
+  .week { border-left: 3px solid var(--accent); padding-left: 18px; margin-bottom: 24px; }
+  .week-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); margin-bottom: 8px; }
+  .week ul { margin: 0; padding-left: 18px; }
+  .week li { font-size: 13.5px; color: var(--text); line-height: 1.7; margin-bottom: 5px; }
+
+  .attribution { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--faint); line-height: 1.7; }
+
+  @media (max-width: 640px) {
+    .stat-strip { grid-template-columns: repeat(2,1fr); }
+  }
+  .tw { overflow-x: auto; margin-bottom: 12px; }
+  .tw table.wo { margin-bottom: 0; min-width: 560px; }
+  @media (max-width: 640px) { .wrap { padding: 40px 16px 80px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="kicker">New Horizon Creators · Sales Ops</div>
+<h1>First Dialer: Onboarding &amp; Setup Plan</h1>
+<p class="lede">How to bring the first dialer on board so <strong>every lead already sitting in GHL gets worked</strong>, without breaking the data we just cleaned up. What the role is, which leads they work, how GHL and the dialer get set up, how we track it, and the dates to get it live.</p>
+
+<div class="stat-strip">
+  <div class="stat"><b>~650+</b><span>Dialable leads (est.)</span></div>
+  <div class="stat"><b>~$500K</b><span>In Deposit + Follow-Up</span></div>
+  <div class="stat"><b>6</b><span>Attempts per lead</span></div>
+  <div class="stat"><b>Oct 27</b><span>Target first live dial day</span></div>
+</div>
+
+<div class="warn-box">
+  <div class="wb-label">Read this first</div>
+  <p>The lead count is an estimate from the stage counts on the handover call (Canceled 522, No-Show 76, Reschedule 29, plus Follow-Up and Qualified Nurture). <strong>Pull the real number in Step 1</strong> before you size the hire. Benchmarks below (dials/day, connect rate, comp) are starting points, not promises. Set real targets after week 2 of live dialing.</p>
+</div>
+
+<!-- 1 -->
+<section class="block">
+<div class="sec-label">01 · The Role</div>
+<h2>What the Dialer Does (and Doesn't)</h2>
+<p class="sub">One job: <strong>turn old pipeline into booked calls for closers.</strong> They don't close, don't take payments, don't touch active students.</p>
+<div class="tw"><table class="wo">
+<tr><th>Piece</th><th>Detail</th></tr>
+<tr><td class="label">Owns</td><td>Outbound calls + texts to every lead in their assigned lists, booking qualified prospects onto closer calendars, logging every attempt in GHL</td></tr>
+<tr><td class="label">Doesn't own</td><td>Closing, pricing conversations, custom payment terms, failed payments (Renard and Samaria), active students</td></tr>
+<tr><td class="label">Reports to</td><td>You (sales lead). Daily numbers in Slack, weekly 1:1 with call review</td></tr>
+<tr><td class="label">Hours</td><td>Set a protected dialing block when leads pick up most: late afternoon / early evening in the lead's time zone. Admin and list prep outside that block</td></tr>
+<tr><td class="label">Comp (suggested)</td><td>Base + commission on <strong>cash collected</strong> from their sets (not on bookings, so they're paid for quality). Reference point from a similar Sales.io client: $1K/mo base + 5% after a 2-week trial. <span class="tbd">Confirm with Merrick</span></td></tr>
+<tr><td class="label">Where to hire</td><td>Sales.io job board and community. Ask JJ for 2-3 vetted setters with phone experience. Cuts sourcing time to days, not weeks</td></tr>
+</table></div>
+</section>
+
+<!-- 2 -->
+<section class="block">
+<div class="sec-label">02 · The Leads</div>
+<h2>Who Gets Called, in What Order</h2>
+<p class="sub">Work the warmest money first. A lead who already showed up or put down a deposit is worth 10x a cold cancel.</p>
+<div class="tw"><table class="wo">
+<tr><th>Priority</th><th>Segment (GHL stage)</th><th>Approx. count</th><th>Who works it</th><th>Goal</th></tr>
+<tr><td class="num">1</td><td class="label">Deposit</td><td>21</td><td>You / closers, <strong>not</strong> the dialer</td><td>Close the balance. Too much money to hand to a new hire</td></tr>
+<tr><td class="num">2</td><td class="label">Follow-Up (no reply 14+ days)</td><td><span class="tbd">pull</span></td><td>Dialer</td><td>Rebook with the original closer</td></tr>
+<tr><td class="num">3</td><td class="label">Reschedule</td><td>29</td><td>Dialer</td><td>Get a confirmed new time</td></tr>
+<tr><td class="num">4</td><td class="label">No-Show</td><td>76</td><td>Dialer</td><td>Rebook, confirm by text</td></tr>
+<tr><td class="num">5</td><td class="label">Qualified Nurture</td><td><span class="tbd">pull</span></td><td>Dialer</td><td>Rebook, or route to the $167 community offer</td></tr>
+<tr><td class="num">6</td><td class="label">Canceled</td><td>522</td><td>Dialer</td><td>Biggest list, lowest intent. Rebook or route to $167 offer</td></tr>
+<tr><td class="num">-</td><td class="label">Excluded</td><td>-</td><td>Nobody</td><td>Merrick's leads, Closed Won / active students, hard DQs, anyone who asked not to be contacted</td></tr>
+</table></div>
+<div class="callout"><strong>Capacity math:</strong> ~650 leads × 6 attempts ≈ 3,900 dials. At ~200 dials/day that's about 4 weeks to touch the whole backlog once, with one dialer. If the real count comes back much bigger, that's when you add dialer #2, not before.</div>
+</section>
+
+<!-- 3 -->
+<section class="block">
+<div class="sec-label">03 · Tech Setup</div>
+<h2>Dialer &amp; Phone Setup</h2>
+<p class="sub">Keep everything inside GHL so every call, text and outcome lands on the contact record. One source of truth, same as the dashboard.</p>
+<div class="tw"><table class="wo">
+<tr><th>Item</th><th>Recommendation</th><th>Why</th></tr>
+<tr><td class="label">Dialer</td><td>Start with <strong>GHL's built-in power dialer</strong> (LC Phone). Only move to a third-party tool (Kixie, JustCall) if GHL can't keep up with volume</td><td>No sync issues, calls and recordings live on the contact automatically</td></tr>
+<tr><td class="label">Phone numbers</td><td>2-3 local numbers in the area codes where most leads are. Rotate them</td><td>Local numbers get picked up more. Rotating keeps any one number from getting flagged as spam</td></tr>
+<tr><td class="label">Spam protection</td><td>Register the numbers with CNAM (business caller name) and the free caller registry so they don't show "Spam Likely"</td><td>A flagged number kills connect rate overnight</td></tr>
+<tr><td class="label">Texting</td><td>Confirm A2P 10DLC registration is approved on the GHL account before texting at volume</td><td>Unregistered texts get blocked by carriers</td></tr>
+<tr><td class="label">Recording</td><td>Turn on call recording. Add a one-line disclosure for two-party consent states</td><td>Weekly call review + compliance</td></tr>
+<tr><td class="label">Access</td><td>GHL user with access to <strong>only</strong> their smart lists + closer calendars. Slack. Read-only TLDV for the closer calls on their leads</td><td>Least access needed. No payment data</td></tr>
+<tr><td class="label">Opt-outs</td><td>Anyone who says "stop" or "don't call" gets the <strong>DND</strong> toggle in GHL the same day</td><td>Required, and protects the numbers</td></tr>
+</table></div>
+</section>
+
+<!-- 4 -->
+<section class="block">
+<div class="sec-label">04 · Data</div>
+<h2>How the Data Gets Set Up in GHL</h2>
+<p class="sub">The rule: <strong>the dialer never overwrites the original sales pipeline.</strong> We already lost trust in the numbers once. Reactivation gets its own lane so the main dashboard stays clean.</p>
+
+<h3>Build these before day 1</h3>
+<div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">A separate "Reactivation" pipeline</div><div class="step-desc">Stages: <strong>To Dial → Attempting → Connected → Booked → Showed → Closed / Lost / Nurture.</strong> Leads get added here; their original stage in the Sales Pipeline stays as history.</div></div></div>
+<div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">Custom fields on the contact</div><div class="step-desc"><strong>Reactivation Segment</strong> (Deposit, Follow-Up, No-Show, etc.), <strong>Dial Attempts</strong> (number), <strong>Last Dial Date</strong>, <strong>Last Dial Outcome</strong>, <strong>Original Closer</strong>.</div></div></div>
+<div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">One dispo per call, from a fixed list</div><div class="step-desc">No Answer · Left VM · Bad Number · Call Back (date) · Not Interested · Not Now (Nurture) · Booked · Routed to $167 · DND. Fixed options only, no free text for the outcome. Notes go in the notes field.</div></div></div>
+<div class="step"><div class="step-num">4</div><div class="step-body"><div class="step-title">Smart lists = the dialer's call queues</div><div class="step-desc">One smart list per segment, filtered to: in Reactivation pipeline, Dial Attempts under 6, not DND, Last Dial Date not today. The dialer works the lists top to bottom in priority order.</div></div></div>
+<div class="step"><div class="step-num">5</div><div class="step-body"><div class="step-title">Attribution on every booking</div><div class="step-desc">When the dialer books, the <strong>Setter</strong> field = dialer's name and a <strong>reactivation</strong> tag goes on the appointment. That's how DPL, show rate and close rate by setter stay accurate, and how we know what this hire actually produced.</div></div></div>
+<div class="step"><div class="step-num">6</div><div class="step-body"><div class="step-title">Clean the list before it's loaded</div><div class="step-desc">Dedupe contacts, remove bad / missing phone numbers, strip out the excluded group (Section 02), and attach the last closer note to each lead so the dialer knows the story before calling.</div></div></div>
+
+<h3>What we track</h3>
+<div class="tw"><table class="wo">
+<tr><th>Daily (dialer posts in Slack)</th><th>Weekly (you review)</th></tr>
+<tr><td>Dials · Connects · Conversations · Calls booked · Routed to $167</td><td>Connect rate · Booking rate per conversation · Show rate on reactivation bookings · Close rate · Cash collected from reactivation · Leads still untouched</td></tr>
+</table></div>
+<div class="callout"><strong>Starting benchmarks</strong> (adjust after 2 weeks): 150-250 dials/day on a power dialer, 10-20% connect rate, 2-5 booked calls/day. If connect rate sits under 10%, look at the numbers getting flagged as spam before you blame the dialer.</div>
+</section>
+
+<!-- 5 -->
+<section class="block">
+<div class="sec-label">05 · The Cadence</div>
+<h2>How Each Lead Gets Worked</h2>
+<p class="sub">6 attempts over 14 days, then it moves to Nurture. No lead gets called forever, no lead gets called once and forgotten.</p>
+<div class="tw"><table class="wo">
+<tr><th>Day</th><th>Action</th></tr>
+<tr><td class="label">Day 1</td><td>Call. No answer → call back right away (double dial). Still no answer → text</td></tr>
+<tr><td class="label">Day 2</td><td>Call at a different time of day</td></tr>
+<tr><td class="label">Day 4</td><td>Call + voicemail + text</td></tr>
+<tr><td class="label">Day 7</td><td>Call. Text with something useful (a student win, a short clip)</td></tr>
+<tr><td class="label">Day 10</td><td>Call</td></tr>
+<tr><td class="label">Day 14</td><td>Last call + breakup text: "don't want to keep bugging you, reply 'yes' if you still want help." No reply → Nurture</td></tr>
+</table></div>
+<div class="callout"><strong>Script angle:</strong> it's a reconnect, not a cold call. "Hey [name], you talked with [closer] back in [month] about [their goal from the notes]. Wanted to check in, where are you at with it now?" Can't afford the main program → route to the $167 community, don't drop them.</div>
+</section>
+
+<!-- 6 -->
+<section class="block">
+<div class="sec-label">06 · Onboarding</div>
+<h2>First Week for the New Dialer</h2>
+<p class="sub">This is the roleplay / certification step Ben and Tyler flagged as missing. Nobody dials live leads until they pass it.</p>
+<div class="week"><div class="week-label">Day 1</div><ul><li>Access set up (GHL, Slack, TLDV). Walk through the offer, the $167 downsell, and the pipeline</li><li>Listen to 5 recorded closer calls to learn how prospects talk</li></ul></div>
+<div class="week"><div class="week-label">Day 2</div><ul><li>Learn the script + objection handling. Practice the GHL dispo flow on test contacts</li></ul></div>
+<div class="week"><div class="week-label">Day 3</div><ul><li>Roleplays with you or a closer: reconnect opener, "no money," "not interested," "call me later," booking</li></ul></div>
+<div class="week"><div class="week-label">Day 4: Certification</div><ul><li>Pass a recorded roleplay + a dispo check. Pass = live. Fail = one more day of practice</li></ul></div>
+<div class="week"><div class="week-label">Day 5</div><ul><li>Live on the <strong>No-Show</strong> list only (warmest, smallest). Review every call recording same day</li></ul></div>
+</section>
+
+<!-- 7 -->
+<section class="block">
+<div class="sec-label">07 · Timeline</div>
+<h2>Action Plan</h2>
+<div class="tw"><table class="wo">
+<tr><th>When</th><th>Action</th><th>Owner</th></tr>
+<tr><td class="label">Oct 9-13</td><td>Pull the real lead counts by segment. Confirm comp + budget with Merrick. Post the role (Sales.io job board)</td><td>You</td></tr>
+<tr><td class="label">Oct 13-17</td><td>Build the Reactivation pipeline, custom fields, dispo list, smart lists. Buy + register phone numbers, confirm A2P</td><td>GHL admin <span class="tbd">confirm who</span></td></tr>
+<tr><td class="label">Oct 13-17</td><td>Interview + hire. Write the reconnect script + objection sheet</td><td>You</td></tr>
+<tr><td class="label">Oct 17</td><td>Clean and load the lead lists</td><td>GHL admin</td></tr>
+<tr><td class="label">Oct 20-24</td><td>Dialer onboarding week (Section 06). Live on No-Show list Oct 24</td><td>You + dialer</td></tr>
+<tr><td class="label">Oct 27</td><td>Full dialing across all segments</td><td>Dialer</td></tr>
+<tr><td class="label">Nov 7</td><td>2-week review: set real KPI targets, decide on dialer #2</td><td>You</td></tr>
+</table></div>
+</section>
+
+<div class="good-box">
+  <div class="gb-label">To confirm before go-live</div>
+  <ul>
+    <li>Real lead count per segment (sizes the hire)</li>
+    <li>Comp structure and budget, approved by Merrick</li>
+    <li>Who on the team can build in GHL (pipeline, fields, smart lists)</li>
+    <li>Whether the GHL account already has A2P approved and LC Phone set up</li>
+    <li>Which closer calendars the dialer can book on, and how many slots per day</li>
+  </ul>
+</div>
+
+<div class="attribution">Builds on the New Horizon Creators 30-Day Ownership Plan (Sep 24). Stage counts and team names come from the Ben and Tyler handover call. Benchmarks are starting points to adjust once live data is in.</div>
+
+</div>
+</body>
+</html>
