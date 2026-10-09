@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Post-Booking Text Play</title>
+<style>
+  :root {
+    --bg: #faf6f2; --surface: #ffffff; --surface-2: #f2ebe4;
+    --text: #1d1a1a; --muted: #6f6763; --faint: #b8aea8;
+    --border: #e6dcd4;
+    --accent: #c2477a; --accent-soft: #f6e1ea;
+    --good: #1f6f5c; --good-soft: #dcece6;
+    --warn: #a8460f; --warn-soft: #f4e2d2;
+    --msg: #2f6fdf; --msg-soft: #e3ecfb;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0d0b0c; --surface: #181516; --surface-2: #211d1e;
+      --text: #f3eeeb; --muted: #a39a95; --faint: #4d4643;
+      --border: #2d2728;
+      --accent: #f07aa8; --accent-soft: #2b1620;
+      --good: #4fd1af; --good-soft: #12251f;
+      --warn: #e0863f; --warn-soft: #2a1c0d;
+      --msg: #6ea0ff; --msg-soft: #142036;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d0b0c; --surface: #181516; --surface-2: #211d1e;
+    --text: #f3eeeb; --muted: #a39a95; --faint: #4d4643;
+    --border: #2d2728;
+    --accent: #f07aa8; --accent-soft: #2b1620;
+    --good: #4fd1af; --good-soft: #12251f;
+    --warn: #e0863f; --warn-soft: #2a1c0d;
+    --msg: #6ea0ff; --msg-soft: #142036;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    font-size: 15.5px; line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 48px 16px 80px; }
+  .eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 10px;
+  }
+  h1 { font-size: 32px; line-height: 1.15; letter-spacing: -.02em; margin-bottom: 10px; }
+  .sub { color: var(--muted); font-size: 16px; max-width: 600px; }
+  h2 {
+    font-size: 20px; letter-spacing: -.01em; margin: 44px 0 14px;
+    padding-top: 28px; border-top: 1px solid var(--border);
+  }
+  h3 { font-size: 15px; margin: 22px 0 8px; }
+  p { margin-bottom: 12px; }
+  ul, ol { padding-left: 20px; margin-bottom: 12px; }
+  li { margin-bottom: 6px; }
+  strong { font-weight: 650; }
+  code {
+    font-family: 'SF Mono', Consolas, monospace; font-size: 13px;
+    background: var(--surface-2); padding: 1px 6px; border-radius: 4px;
+  }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 28px; }
+  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .stat .k { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 700; }
+  .stat .v { font-size: 15px; font-weight: 650; margin-top: 4px; }
+  @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } h1 { font-size: 26px; } }
+
+  .thread { display: flex; flex-direction: column; gap: 8px; margin: 14px 0 18px; }
+  .bubble {
+    max-width: 85%; padding: 10px 14px; border-radius: 18px;
+    font-size: 15px; line-height: 1.45;
+  }
+  .out { align-self: flex-end; background: var(--msg); color: #fff; border-bottom-right-radius: 6px; }
+  .in { align-self: flex-start; background: var(--surface-2); color: var(--text); border-bottom-left-radius: 6px; }
+  .label { font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: .04em; }
+  .label.r { align-self: flex-end; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; margin: 14px 0; }
+  .card h3 { margin-top: 0; }
+  .note { border-radius: 10px; padding: 14px 16px; margin: 14px 0; font-size: 14.5px; }
+  .note.warn { background: var(--warn-soft); border-left: 3px solid var(--warn); }
+  .note.good { background: var(--good-soft); border-left: 3px solid var(--good); }
+  .note.pink { background: var(--accent-soft); border-left: 3px solid var(--accent); }
+
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 16px; font-size: 14.5px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+  .table-wrap { overflow-x: auto; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">She Creates Academy · Sales Team</div>
+  <h1>The Post-Booking Text</h1>
+  <p class="sub">One text, sent from Gigi's phone the minute someone books off the Thursday webinar. It gets context for the closer, warms the lead up, and gets her to watch the pre-call video so she shows up ready to buy.</p>
+
+  <div class="grid">
+    <div class="stat"><div class="k">Who sends</div><div class="v">Setter on Thursday Night Triage</div></div>
+    <div class="stat"><div class="k">When</div><div class="v">Within 5 min of booking, while the webinar is live</div></div>
+    <div class="stat"><div class="k">From</div><div class="v">Gigi's number (via GHL)</div></div>
+  </div>
+
+  <h2>Why this works</h2>
+  <ul>
+    <li><strong>It breaks the pattern.</strong> She just watched Gigi for an hour. A text "from Gigi's phone" stops the scroll and gets a reply.</li>
+    <li><strong>It's honest.</strong> We say up front it's a teammate, not Gigi. That builds more trust than pretending.</li>
+    <li><strong>The closer walks in prepped.</strong> Whatever she shares goes straight into GHL notes before the call.</li>
+    <li><strong>Show rate goes up.</strong> Someone who replied and watched the video has already said yes twice before the call starts.</li>
+  </ul>
+  <p>This is the same play running on Mino's Content Academy funnel. Adapted for Gigi and her girls.</p>
+
+  <h2>Step 1: The opener</h2>
+  <p>Send this as <strong>three separate texts</strong>, back to back. It reads like a real person typing, not a blast.</p>
+
+  <div class="thread">
+    <div class="label r">Gigi's number</div>
+    <div class="bubble out">hey {{contact.first_name}}, it's gigi!</div>
+    <div class="bubble out">well actually it's [your name] using gigi's phone because she's still on the webinar 🙈</div>
+    <div class="bubble out">i know you just booked in, but wanted to reach out and get some context for the team. really anything you'd want to share with us before your call?</div>
+  </div>
+
+  <div class="note pink">
+    <strong>Keep it lowercase and casual.</strong> No exclamation-point overload, no emojis beyond one. It should feel like a girl texting from her friend's phone, not a brand.
+  </div>
+
+  <div class="note warn">
+    <strong>Only use this if it actually comes from Gigi's number.</strong> If GHL sends from a different number, swap line 2 for: <em>"it's [your name] from gigi's team, she's still on the webinar"</em>. Never say it's Gigi when it isn't.
+  </div>
+
+  <h3>Booked outside the webinar? Use this instead</h3>
+  <div class="thread">
+    <div class="bubble out">hey {{contact.first_name}}, it's [your name] from gigi's team!</div>
+    <div class="bubble out">saw you just booked your call, so excited for you. anything you'd want us to know before we chat?</div>
+  </div>
+
+  <h2>Step 2: Handle the reply</h2>
+  <p>Everything after the opener is manual. Answer like a real person, keep it short, and always end by sending the pre-call video.</p>
+
+  <div class="card">
+    <h3>"Is this really Gigi?"</h3>
+    <div class="thread">
+      <div class="bubble in">wait is this actually gigi??</div>
+      <div class="bubble out">haha it's her phone but it's me, [your name]! i'm on her team. she's still live on the webinar answering questions rn</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>"Is this AI?" / "Is this a bot?"</h3>
+    <div class="thread">
+      <div class="bubble in">is this AI lol</div>
+      <div class="bubble out">lol no, real human! i'm [your name], i help gigi with calls. promise i'm not a robot 😂</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>She shares context</h3>
+    <div class="thread">
+      <div class="bubble in">honestly i've wanted to start ugc for months but i have no idea how to get brands to pay me</div>
+      <div class="bubble out">ok that's literally the #1 thing we hear and it's so fixable. i'll make sure your coach knows that going in</div>
+    </div>
+    <p style="margin-top:8px">Log it in GHL notes word for word. Her exact words are gold for the closer.</p>
+  </div>
+
+  <div class="card">
+    <h3>She asks about price or "what's included"</h3>
+    <div class="thread">
+      <div class="bubble in">how much is it?</div>
+      <div class="bubble out">totally fair q! that's exactly what your call is for, they'll walk you through everything and see what fits you. the video below covers a lot of it too</div>
+    </div>
+    <p style="margin-top:8px">Don't quote price over text. The call is where value gets built first.</p>
+  </div>
+
+  <div class="card">
+    <h3>No reply after 30 minutes</h3>
+    <div class="thread">
+      <div class="bubble out">no worries if you're still catching up on the webinar! here's a quick video to watch before your call, it'll answer 99% of your questions 💕 [post-booking page link]</div>
+    </div>
+  </div>
+
+  <h2>Step 3: Send the pre-call video</h2>
+  <p>Every conversation ends here, no matter how it went.</p>
+  <div class="thread">
+    <div class="bubble out">love that. before your call, watch this quick video, it'll answer 99% of your questions so we can spend the call on YOU 💕</div>
+    <div class="bubble out">[post-booking page link]</div>
+  </div>
+
+  <div class="note warn">
+    <strong>To confirm with Gigi's team:</strong> is there a post-booking page with a short video yet? Content Academy uses a 6-minute one. If She Creates doesn't have one, record it before rolling this out. It's what makes the whole play work.
+  </div>
+
+  <h2>Step 4: Hand off to the closer</h2>
+  <ol>
+    <li>Drop everything she shared into the contact's <strong>GHL notes</strong>.</li>
+    <li>Tag the closer in the <strong>SCA Internal Discord</strong> if there's anything big (spouse needs to be on, money worry, already tried another program).</li>
+    <li>Note whether she <strong>replied</strong> and whether she <strong>watched the video</strong>. This is how we'll track if the play is lifting show rate.</li>
+  </ol>
+
+  <h2>Rules</h2>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Do</th><th>Don't</th></tr>
+    <tr><td>Send within 5 minutes of the booking</td><td>Wait until after the webinar ends</td></tr>
+    <tr><td>Say who you really are right away</td><td>Pretend to be Gigi</td></tr>
+    <tr><td>Keep it lowercase, warm, girls' girl energy</td><td>Sound like a brand or a script</td></tr>
+    <tr><td>End every thread with the video link</td><td>Quote price or pitch over text</td></tr>
+    <tr><td>Log her exact words in GHL</td><td>Summarize or paraphrase what she said</td></tr>
+  </table>
+  </div>
+
+  <div class="note good">
+    <strong>What winning looks like:</strong> most bookings reply to the opener, most watch the video, and Thursday show rate climbs. Track replies and video views for the first 2 to 3 webinars and we'll tune the wording from there.
+  </div>
+
+</div>
+</body>
+</html>

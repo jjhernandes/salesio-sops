@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>She Creates No-Show Protocol</title>
+<style>
+  :root {
+    --bg: #faf6f2; --surface: #ffffff; --surface-2: #f2ebe4;
+    --text: #1d1a1a; --muted: #6f6763; --faint: #b8aea8;
+    --border: #e6dcd4;
+    --accent: #c2477a; --accent-soft: #f6e1ea;
+    --good: #1f6f5c; --good-soft: #dcece6;
+    --warn: #a8460f; --warn-soft: #f4e2d2;
+    --msg: #2f6fdf; --msg-soft: #e3ecfb;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0d0b0c; --surface: #181516; --surface-2: #211d1e;
+      --text: #f3eeeb; --muted: #a39a95; --faint: #4d4643;
+      --border: #2d2728;
+      --accent: #f07aa8; --accent-soft: #2b1620;
+      --good: #4fd1af; --good-soft: #12251f;
+      --warn: #e0863f; --warn-soft: #2a1c0d;
+      --msg: #6ea0ff; --msg-soft: #142036;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d0b0c; --surface: #181516; --surface-2: #211d1e;
+    --text: #f3eeeb; --muted: #a39a95; --faint: #4d4643;
+    --border: #2d2728;
+    --accent: #f07aa8; --accent-soft: #2b1620;
+    --good: #4fd1af; --good-soft: #12251f;
+    --warn: #e0863f; --warn-soft: #2a1c0d;
+    --msg: #6ea0ff; --msg-soft: #142036;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    font-size: 15.5px; line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 48px 16px 80px; }
+  .eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 10px;
+  }
+  h1 { font-size: 32px; line-height: 1.15; letter-spacing: -.02em; margin-bottom: 10px; }
+  .sub { color: var(--muted); font-size: 16px; max-width: 600px; }
+  h2 {
+    font-size: 20px; letter-spacing: -.01em; margin: 44px 0 14px;
+    padding-top: 28px; border-top: 1px solid var(--border);
+  }
+  h3 { font-size: 15px; margin: 22px 0 8px; }
+  p { margin-bottom: 12px; }
+  ul, ol { padding-left: 20px; margin-bottom: 12px; }
+  li { margin-bottom: 6px; }
+  strong { font-weight: 650; }
+  code {
+    font-family: 'SF Mono', Consolas, monospace; font-size: 13px;
+    background: var(--surface-2); padding: 1px 6px; border-radius: 4px;
+  }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 28px; }
+  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .stat .k { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 700; }
+  .stat .v { font-size: 15px; font-weight: 650; margin-top: 4px; }
+  @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } h1 { font-size: 26px; } }
+
+  .thread { display: flex; flex-direction: column; gap: 8px; margin: 14px 0 18px; }
+  .bubble {
+    max-width: 85%; padding: 10px 14px; border-radius: 18px;
+    font-size: 15px; line-height: 1.45;
+  }
+  .out { align-self: flex-end; background: var(--msg); color: #fff; border-bottom-right-radius: 6px; }
+  .in { align-self: flex-start; background: var(--surface-2); color: var(--text); border-bottom-left-radius: 6px; }
+  .label { font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: .04em; }
+  .label.r { align-self: flex-end; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; margin: 14px 0; }
+  .card h3 { margin-top: 0; }
+  .note { border-radius: 10px; padding: 14px 16px; margin: 14px 0; font-size: 14.5px; }
+  .note.warn { background: var(--warn-soft); border-left: 3px solid var(--warn); }
+  .note.good { background: var(--good-soft); border-left: 3px solid var(--good); }
+  .note.pink { background: var(--accent-soft); border-left: 3px solid var(--accent); }
+
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 16px; font-size: 14.5px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+  .table-wrap { overflow-x: auto; }
+
+  .tl { border-left: 2px solid var(--border); margin: 10px 0 0 6px; padding-left: 20px; }
+  .step { position: relative; margin-bottom: 26px; }
+  .step::before { content: ""; position: absolute; left: -27px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); }
+  .when { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+  .step h3 { margin: 2px 0 6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">She Creates Academy · Sales Team</div>
+  <h1>The No-Show Protocol</h1>
+  <p class="sub">What to do the second a booked call doesn't show. Most no-shows aren't "not interested." She got busy, the kids needed her, or she got nervous. Our job is to make it easy to say yes again without making her feel bad.</p>
+
+  <div class="grid">
+    <div class="stat"><div class="k">Who owns it</div><div class="v">Closer during the call window, setter after</div></div>
+    <div class="stat"><div class="k">From</div><div class="v">Gigi's number (via GHL)</div></div>
+    <div class="stat"><div class="k">Window</div><div class="v">7 days, then nurture</div></div>
+  </div>
+
+  <h2>The timeline at a glance</h2>
+  <div class="table-wrap">
+  <table>
+    <tr><th>When</th><th>Who</th><th>Action</th></tr>
+    <tr><td>Call time +2 min</td><td>Closer</td><td>Text: "i'm on, are you still good?"</td></tr>
+    <tr><td>+5 min</td><td>Closer</td><td>Call her once. If no answer, voice memo or text</td></tr>
+    <tr><td>+10 min</td><td>Closer</td><td>Leave the call. Send the reschedule text. Move to <code>No-Show</code> in GHL</td></tr>
+    <tr><td>Same day, evening</td><td>Setter</td><td>Personal check-in text with reschedule link</td></tr>
+    <tr><td>Day 1</td><td>Setter</td><td>Call + text. Give 2 specific times</td></tr>
+    <tr><td>Day 3</td><td>Setter</td><td>Value nudge (a student win or Gigi clip)</td></tr>
+    <tr><td>Day 7</td><td>Setter</td><td>Breakup text. No reply = move to <code>Nurture</code></td></tr>
+  </table>
+  </div>
+
+  <h2>Part 1: Live on the call (closer)</h2>
+  <div class="tl">
+
+    <div class="step">
+      <div class="when">Call time +2 min</div>
+      <h3>The "i'm here" text</h3>
+      <div class="thread">
+        <div class="bubble out">hey {{contact.first_name}}! i'm on the zoom whenever you're ready 💕 [zoom link]</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="when">+5 min</div>
+      <h3>One call, then a voice memo</h3>
+      <p>Call once. If it goes to voicemail, hang up and send a short voice memo (15 seconds, smiling). A voice note gets way more replies than a voicemail.</p>
+      <div class="thread">
+        <div class="bubble out">🎤 "hey {{first_name}}, it's [your name] from gigi's team! i'm on the call waiting for you, no rush at all. hop on whenever you can, i'll hang out for a few more minutes"</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="when">+10 min</div>
+      <h3>Leave and send the reschedule text</h3>
+      <div class="thread">
+        <div class="bubble out">no worries at all, life happens (especially for us girls juggling everything 😅)</div>
+        <div class="bubble out">here's a link to grab a new time that actually works for you: [reschedule link]</div>
+      </div>
+      <p style="margin-top:8px">Then in GHL: move to <code>No-Show</code>, add tag <code>no-show-1</code>, and drop a note on anything you know from the post-booking text.</p>
+    </div>
+
+  </div>
+
+  <div class="note pink">
+    <strong>Tone is everything here.</strong> No guilt, no "we missed you" passive aggression, no "my time is valuable." She should feel relief, not shame. Shame is what makes people ghost for good.
+  </div>
+
+  <h2>Part 2: Getting her back (setter)</h2>
+  <p>The closer hands off in the SCA Internal Discord the minute she's marked no-show. Setter owns it from here.</p>
+
+  <div class="tl">
+
+    <div class="step">
+      <div class="when">Same day, evening</div>
+      <h3>The personal check-in</h3>
+      <div class="thread">
+        <div class="bubble out">hey {{contact.first_name}}! just checking in, all good today? 🫶</div>
+        <div class="bubble out">totally get it if something came up. you were so close to getting your plan for [what she shared, ex: landing your first paid brand deal] and i don't want you to lose that momentum</div>
+        <div class="bubble out">want me to grab you a new spot this week?</div>
+      </div>
+      <p style="margin-top:8px">Use her own words from the post-booking text. That's what makes this land.</p>
+    </div>
+
+    <div class="step">
+      <div class="when">Day 1</div>
+      <h3>Call, then give her 2 times</h3>
+      <p>Call once in the morning. No answer? Text this. Two specific options beat a link because she only has to reply "1" or "2."</p>
+      <div class="thread">
+        <div class="bubble out">hey girl! tried calling you. i have [day] at [time] or [day] at [time] open, which works better? 💕</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="when">Day 3</div>
+      <h3>The value nudge</h3>
+      <p>Don't ask for anything. Just give her a reason to come back.</p>
+      <div class="thread">
+        <div class="bubble out">thought of you when i saw this 👇 [student win screenshot or Gigi clip that matches her goal]</div>
+        <div class="bubble out">she was in the exact spot you told us about. if you still want to chat, here's the link: [reschedule link]</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="when">Day 7</div>
+      <h3>The breakup text</h3>
+      <div class="thread">
+        <div class="bubble out">hey {{contact.first_name}}, i don't want to keep blowing up your phone so this is my last one!</div>
+        <div class="bubble out">if the timing isn't right, totally ok. if you still want help with [her goal], just reply "ready" and i'll get you on the calendar 💕</div>
+      </div>
+      <p style="margin-top:8px">No reply = move to <code>Nurture</code>. She stays on the email list and webinar invites. Breakup texts get some of the highest reply rates in the whole sequence, so don't skip it.</p>
+    </div>
+
+  </div>
+
+  <h2>Handling the replies</h2>
+
+  <div class="card">
+    <h3>She apologizes</h3>
+    <div class="thread">
+      <div class="bubble in">omg i'm so sorry i totally forgot, my kid got sick</div>
+      <div class="bubble out">please don't apologize!! hope your little one is ok 🫶 want me to grab you a spot tomorrow or later this week?</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>"I'm not sure I'm ready / can afford it"</h3>
+    <div class="thread">
+      <div class="bubble in">honestly i don't think i can afford a program right now</div>
+      <div class="bubble out">totally hear you. the call isn't a commitment to anything, it's just to map out a plan for you. a lot of our girls thought the same thing before their call. worst case you leave with clarity 💕</div>
+    </div>
+    <p style="margin-top:8px">Don't quote price over text. Same rule as the post-booking play.</p>
+  </div>
+
+  <div class="card">
+    <h3>"Not interested anymore"</h3>
+    <div class="thread">
+      <div class="bubble in">i think i'm good for now</div>
+      <div class="bubble out">no worries at all! can i ask what changed? just so i know for the team</div>
+    </div>
+    <p style="margin-top:8px">Log her answer word for word in GHL. Then move to <code>Nurture</code>. Don't push past a clear no.</p>
+  </div>
+
+  <h2>Second no-show rule</h2>
+  <ul>
+    <li><strong>No-show twice = no auto rebook.</strong> Tag <code>no-show-2</code>.</li>
+    <li>Setter must get a <strong>real reply</strong> (not just a link click) before booking a third time.</li>
+    <li>Third booking must be a <strong>specific time she confirms in text</strong>, plus a reminder text 1 hour before.</li>
+    <li>No-shows a third time? Straight to <code>Nurture</code>. Closer calendar time is too valuable.</li>
+  </ul>
+
+  <h2>Prevent it before it happens</h2>
+  <p>The best no-show protocol is fewer no-shows. Every booked call should get:</p>
+  <ol>
+    <li><strong>The post-booking text</strong> within 5 minutes (<a href="shecreates-post-booking-text.html">see that play</a>).</li>
+    <li><strong>The pre-call video</strong> link. Watched the video = way more likely to show.</li>
+    <li><strong>Day-before reminder</strong> that asks for a reply: <em>"so excited for your call tomorrow at [time]! reply 'yes' so i know you're still good 💕"</em></li>
+    <li><strong>1-hour reminder</strong> with the Zoom link.</li>
+  </ol>
+  <div class="note good">
+    <strong>The "reply yes" is the key.</strong> A reply is a micro-commitment. No reply to the day-before text = setter calls her that day to confirm. Don't wait to find out at call time.
+  </div>
+
+  <h2>Rules</h2>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Do</th><th>Don't</th></tr>
+    <tr><td>Start the sequence within 2 min of call time</td><td>Wait 20 minutes on an empty Zoom</td></tr>
+    <tr><td>Use her own words from the post-booking text</td><td>Send generic "you missed your call" texts</td></tr>
+    <tr><td>Give 2 specific times to choose from</td><td>Only send a link and hope</td></tr>
+    <tr><td>Keep it lowercase, warm, girls' girl energy</td><td>Guilt, shame, or "my time is valuable"</td></tr>
+    <tr><td>Update GHL stage + tag every time</td><td>Leave her sitting in "Booked"</td></tr>
+    <tr><td>Say who you really are</td><td>Pretend to be Gigi</td></tr>
+  </table>
+  </div>
+
+  <h2>What we track</h2>
+  <ul>
+    <li><strong>Show rate</strong> per closer and per lead source (Thursday webinar vs. everything else)</li>
+    <li><strong>Rebook rate</strong>: % of no-shows that book again</li>
+    <li><strong>Rebook show rate</strong>: % of rebooks that actually show</li>
+    <li><strong>Close rate on rebooks</strong> vs. first-time shows</li>
+  </ul>
+
+  <div class="note warn">
+    <strong>To confirm with Gigi's team:</strong> GHL stage and tag names (<code>No-Show</code>, <code>no-show-1</code>, <code>no-show-2</code>, <code>Nurture</code>), whether a pre-call video exists yet, and whether reminders are already automated in GHL. Adjust the names here to match what's live.
+  </div>
+
+</div>
+</body>
+</html>
