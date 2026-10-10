@@ -94,6 +94,17 @@
   .step::before { content: ""; position: absolute; left: -27px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); }
   .when { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
   .step h3 { margin: 2px 0 6px; }
+
+  .role { display: inline-block; font-size: 10.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; margin-left: 8px; vertical-align: 2px; }
+  .role.closer { background: var(--accent-soft); color: var(--accent); }
+  .role.setter { background: var(--msg-soft); color: var(--msg); }
+  .roles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+  .roles .card { margin: 0; }
+  .roles .card.closer { border-top: 3px solid var(--accent); }
+  .roles .card.setter { border-top: 3px solid var(--msg); }
+  .roles ul { margin-bottom: 0; }
+  .step.s::before { background: var(--msg); }
+  @media (max-width: 600px) { .roles { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -104,53 +115,102 @@
   <p class="sub">What to do the second a booked call doesn't show. Most no-shows aren't "not interested." She got busy, the kids needed her, or she got nervous. Our job is to make it easy to say yes again without making her feel bad.</p>
 
   <div class="grid">
-    <div class="stat"><div class="k">Who owns it</div><div class="v">Closer during the call window, setter after</div></div>
+    <div class="stat"><div class="k">Who owns it</div><div class="v">Closer holds the Zoom, setter works the phone</div></div>
     <div class="stat"><div class="k">From</div><div class="v">Gigi's number (via GHL)</div></div>
     <div class="stat"><div class="k">Window</div><div class="v">7 days, then nurture</div></div>
+  </div>
+
+  <h2>Who does what</h2>
+  <p>One simple split: <strong>the closer stays on the Zoom, the setter works the phone.</strong> The closer never chases. The setter never pitches.</p>
+  <div class="roles">
+    <div class="card closer">
+      <h3>Closer <span class="role closer">Closer</span></h3>
+      <ul>
+        <li>Sends the "i'm here" text at +2 min</li>
+        <li>Tags the setter in Discord at +3 min</li>
+        <li><strong>Stays on the Zoom</strong> until +10 min in case she joins</li>
+        <li>Marks <code>No-Show</code> in GHL + notes, then hands off</li>
+        <li>Goes to their next call. Done with this lead</li>
+      </ul>
+    </div>
+    <div class="card setter">
+      <h3>Setter <span class="role setter">Setter</span></h3>
+      <ul>
+        <li><strong>Dials her live</strong> at +3 min while the closer waits</li>
+        <li>Sends the reschedule text at +10 min</li>
+        <li>Owns every call and text for the next 7 days</li>
+        <li>Rebooks her and confirms the new time</li>
+        <li>Moves her to <code>Nurture</code> if she goes quiet</li>
+      </ul>
+    </div>
   </div>
 
   <h2>The timeline at a glance</h2>
   <div class="table-wrap">
   <table>
     <tr><th>When</th><th>Who</th><th>Action</th></tr>
-    <tr><td>Call time +2 min</td><td>Closer</td><td>Text: "i'm on, are you still good?"</td></tr>
-    <tr><td>+5 min</td><td>Closer</td><td>Call her once. If no answer, voice memo or text</td></tr>
-    <tr><td>+10 min</td><td>Closer</td><td>Leave the call. Send the reschedule text. Move to <code>No-Show</code> in GHL</td></tr>
-    <tr><td>Same day, evening</td><td>Setter</td><td>Personal check-in text with reschedule link</td></tr>
-    <tr><td>Day 1</td><td>Setter</td><td>Call + text. Give 2 specific times</td></tr>
-    <tr><td>Day 3</td><td>Setter</td><td>Value nudge (a student win or Gigi clip)</td></tr>
-    <tr><td>Day 7</td><td>Setter</td><td>Breakup text. No reply = move to <code>Nurture</code></td></tr>
+    <tr><td>Call time +2 min</td><td><span class="role closer">Closer</span></td><td>Text: "i'm on the zoom whenever you're ready"</td></tr>
+    <tr><td>+3 min</td><td><span class="role closer">Closer</span></td><td>Tag the setter in the SCA Internal Discord. Stay on the Zoom</td></tr>
+    <tr><td>+3 to +8 min</td><td><span class="role setter">Setter</span></td><td><strong>Dial her.</strong> Double dial. No answer = voice memo</td></tr>
+    <tr><td>+10 min</td><td><span class="role closer">Closer</span></td><td>Leave the Zoom. Move to <code>No-Show</code> in GHL. Hand off</td></tr>
+    <tr><td>+10 min</td><td><span class="role setter">Setter</span></td><td>Send the reschedule text</td></tr>
+    <tr><td>Same day, evening</td><td><span class="role setter">Setter</span></td><td>Call. No answer = personal check-in text</td></tr>
+    <tr><td>Day 1</td><td><span class="role setter">Setter</span></td><td>Call. No answer = text 2 specific times</td></tr>
+    <tr><td>Day 3</td><td><span class="role setter">Setter</span></td><td>Call. No answer = value nudge (student win or Gigi clip)</td></tr>
+    <tr><td>Day 7</td><td><span class="role setter">Setter</span></td><td>Last call + breakup text. No reply = <code>Nurture</code></td></tr>
   </table>
   </div>
 
-  <h2>Part 1: Live on the call (closer)</h2>
+  <h2>Part 1: The first 10 minutes</h2>
+  <p>Closer and setter work this together. The closer holds the Zoom, the setter gets her on the phone.</p>
   <div class="tl">
 
     <div class="step">
       <div class="when">Call time +2 min</div>
-      <h3>The "i'm here" text</h3>
+      <h3>The "i'm here" text <span class="role closer">Closer</span></h3>
       <div class="thread">
         <div class="bubble out">hey {{contact.first_name}}! i'm on the zoom whenever you're ready 💕 [zoom link]</div>
       </div>
     </div>
 
     <div class="step">
-      <div class="when">+5 min</div>
-      <h3>One call, then a voice memo</h3>
-      <p>Call once. If it goes to voicemail, hang up and send a short voice memo (15 seconds, smiling). A voice note gets way more replies than a voicemail.</p>
+      <div class="when">+3 min</div>
+      <h3>Tag the setter <span class="role closer">Closer</span></h3>
+      <p>Post in the SCA Internal Discord and stay on the Zoom. Don't call her yourself. If she joins while you're on the phone, you miss her.</p>
       <div class="thread">
-        <div class="bubble out">🎤 "hey {{first_name}}, it's [your name] from gigi's team! i'm on the call waiting for you, no rush at all. hop on whenever you can, i'll hang out for a few more minutes"</div>
+        <div class="bubble out" style="background:var(--surface-2);color:var(--text);align-self:flex-start">@[setter] [her name] not on yet for my [time] call, can you dial her?</div>
+      </div>
+    </div>
+
+    <div class="step s">
+      <div class="when">+3 to +8 min</div>
+      <h3>Dial her live <span class="role setter">Setter</span></h3>
+      <p><strong>Double dial:</strong> call, let it ring out, call right back. A second call in a row reads as urgent and gets picked up way more. Your only goal is to get her on the Zoom. Don't sell, don't qualify.</p>
+      <h3>She picks up</h3>
+      <div class="thread">
+        <div class="bubble out">🎙 "hey {{first_name}}, it's [your name] from gigi's team! [closer] is on the zoom waiting for you right now, are you still able to hop on? i can text you the link again"</div>
+      </div>
+      <p>Can't make it now? Rebook her right there on the phone with 2 specific times. Then tell the closer in Discord.</p>
+      <h3>No answer: voice memo</h3>
+      <p>Hang up and send a short voice memo by text (15 seconds, smiling). A voice note gets way more replies than a voicemail.</p>
+      <div class="thread">
+        <div class="bubble out">🎤 "hey {{first_name}}, it's [your name] from gigi's team! [closer] is on the call waiting for you, no rush at all. hop on whenever you can, they'll hang out for a few more minutes"</div>
       </div>
     </div>
 
     <div class="step">
       <div class="when">+10 min</div>
-      <h3>Leave and send the reschedule text</h3>
+      <h3>Leave and hand off <span class="role closer">Closer</span></h3>
+      <p>Leave the Zoom. In GHL: move to <code>No-Show</code>, add tag <code>no-show-1</code>, and drop a note on anything you know from the post-booking text. Reply in the Discord thread "no-show, she's yours." You're done with this lead.</p>
+    </div>
+
+    <div class="step s">
+      <div class="when">+10 min</div>
+      <h3>The reschedule text <span class="role setter">Setter</span></h3>
       <div class="thread">
         <div class="bubble out">no worries at all, life happens (especially for us girls juggling everything 😅)</div>
         <div class="bubble out">here's a link to grab a new time that actually works for you: [reschedule link]</div>
       </div>
-      <p style="margin-top:8px">Then in GHL: move to <code>No-Show</code>, add tag <code>no-show-1</code>, and drop a note on anything you know from the post-booking text.</p>
     </div>
 
   </div>
@@ -159,14 +219,15 @@
     <strong>Tone is everything here.</strong> No guilt, no "we missed you" passive aggression, no "my time is valuable." She should feel relief, not shame. Shame is what makes people ghost for good.
   </div>
 
-  <h2>Part 2: Getting her back (setter)</h2>
-  <p>The closer hands off in the SCA Internal Discord the minute she's marked no-show. Setter owns it from here.</p>
+  <h2>Part 2: Getting her back <span class="role setter">Setter</span></h2>
+  <p>From here it's all the setter. <strong>Every touch starts with a call.</strong> The text only goes out if she doesn't pick up. Closers stay out of it.</p>
 
   <div class="tl">
 
-    <div class="step">
+    <div class="step s">
       <div class="when">Same day, evening</div>
-      <h3>The personal check-in</h3>
+      <h3>Call, then the personal check-in</h3>
+      <p>Call once. No answer? Send this.</p>
       <div class="thread">
         <div class="bubble out">hey {{contact.first_name}}! just checking in, all good today? 🫶</div>
         <div class="bubble out">totally get it if something came up. you were so close to getting your plan for [what she shared, ex: landing your first paid brand deal] and i don't want you to lose that momentum</div>
@@ -175,28 +236,28 @@
       <p style="margin-top:8px">Use her own words from the post-booking text. That's what makes this land.</p>
     </div>
 
-    <div class="step">
+    <div class="step s">
       <div class="when">Day 1</div>
       <h3>Call, then give her 2 times</h3>
-      <p>Call once in the morning. No answer? Text this. Two specific options beat a link because she only has to reply "1" or "2."</p>
+      <p>Call in the morning. No answer? Text this. Two specific options beat a link because she only has to reply "1" or "2."</p>
       <div class="thread">
         <div class="bubble out">hey girl! tried calling you. i have [day] at [time] or [day] at [time] open, which works better? 💕</div>
       </div>
     </div>
 
-    <div class="step">
+    <div class="step s">
       <div class="when">Day 3</div>
-      <h3>The value nudge</h3>
-      <p>Don't ask for anything. Just give her a reason to come back.</p>
+      <h3>Call, then the value nudge</h3>
+      <p>Call at a different time of day than before. No answer? Don't ask for anything. Just give her a reason to come back.</p>
       <div class="thread">
         <div class="bubble out">thought of you when i saw this 👇 [student win screenshot or Gigi clip that matches her goal]</div>
         <div class="bubble out">she was in the exact spot you told us about. if you still want to chat, here's the link: [reschedule link]</div>
       </div>
     </div>
 
-    <div class="step">
+    <div class="step s">
       <div class="when">Day 7</div>
-      <h3>The breakup text</h3>
+      <h3>Last call + the breakup text</h3>
       <div class="thread">
         <div class="bubble out">hey {{contact.first_name}}, i don't want to keep blowing up your phone so this is my last one!</div>
         <div class="bubble out">if the timing isn't right, totally ok. if you still want help with [her goal], just reply "ready" and i'll get you on the calendar 💕</div>
@@ -206,7 +267,11 @@
 
   </div>
 
-  <h2>Handling the replies</h2>
+  <div class="note good">
+    <strong>When she rebooks:</strong> the setter books her, confirms the time in text, and calls her the day before. Then she goes back to the closer for the call.
+  </div>
+
+  <h2>Handling the replies <span class="role setter">Setter</span></h2>
 
   <div class="card">
     <h3>She apologizes</h3>
@@ -258,7 +323,9 @@
   <div class="table-wrap">
   <table>
     <tr><th>Do</th><th>Don't</th></tr>
-    <tr><td>Start the sequence within 2 min of call time</td><td>Wait 20 minutes on an empty Zoom</td></tr>
+    <tr><td>Closer stays on the Zoom, setter dials</td><td>Closer leaves the Zoom to chase her on the phone</td></tr>
+    <tr><td>Setter dials within 3 min of call time</td><td>Wait 20 minutes on an empty Zoom before anyone calls</td></tr>
+    <tr><td>Call first, text only if she doesn't pick up</td><td>Send texts without trying to get her on the phone</td></tr>
     <tr><td>Use her own words from the post-booking text</td><td>Send generic "you missed your call" texts</td></tr>
     <tr><td>Give 2 specific times to choose from</td><td>Only send a link and hope</td></tr>
     <tr><td>Keep it lowercase, warm, girls' girl energy</td><td>Guilt, shame, or "my time is valuable"</td></tr>
