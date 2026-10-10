@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>She Creates DM Setter Flow</title>
+<style>
+  :root {
+    --bg: #faf6f2; --surface: #ffffff; --surface-2: #f2ebe4;
+    --text: #1d1a1a; --muted: #6f6763; --faint: #b8aea8;
+    --border: #e6dcd4;
+    --accent: #c2477a; --accent-soft: #f6e1ea;
+    --good: #1f6f5c; --good-soft: #dcece6;
+    --warn: #a8460f; --warn-soft: #f4e2d2;
+    --msg: #2f6fdf; --msg-soft: #e3ecfb;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0d0b0c; --surface: #181516; --surface-2: #211d1e;
+      --text: #f3eeeb; --muted: #a39a95; --faint: #4d4643;
+      --border: #2d2728;
+      --accent: #f07aa8; --accent-soft: #2b1620;
+      --good: #4fd1af; --good-soft: #12251f;
+      --warn: #e0863f; --warn-soft: #2a1c0d;
+      --msg: #6ea0ff; --msg-soft: #142036;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d0b0c; --surface: #181516; --surface-2: #211d1e;
+    --text: #f3eeeb; --muted: #a39a95; --faint: #4d4643;
+    --border: #2d2728;
+    --accent: #f07aa8; --accent-soft: #2b1620;
+    --good: #4fd1af; --good-soft: #12251f;
+    --warn: #e0863f; --warn-soft: #2a1c0d;
+    --msg: #6ea0ff; --msg-soft: #142036;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    font-size: 15.5px; line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 48px 16px 80px; }
+  .eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 10px;
+  }
+  h1 { font-size: 32px; line-height: 1.15; letter-spacing: -.02em; margin-bottom: 10px; }
+  .sub { color: var(--muted); font-size: 16px; max-width: 600px; }
+  h2 {
+    font-size: 20px; letter-spacing: -.01em; margin: 44px 0 14px;
+    padding-top: 28px; border-top: 1px solid var(--border);
+  }
+  h3 { font-size: 15px; margin: 22px 0 8px; }
+  p { margin-bottom: 12px; }
+  ul, ol { padding-left: 20px; margin-bottom: 12px; }
+  li { margin-bottom: 6px; }
+  strong { font-weight: 650; }
+  code {
+    font-family: 'SF Mono', Consolas, monospace; font-size: 13px;
+    background: var(--surface-2); padding: 1px 6px; border-radius: 4px;
+  }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 28px; }
+  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .stat .k { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 700; }
+  .stat .v { font-size: 15px; font-weight: 650; margin-top: 4px; }
+  @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } h1 { font-size: 26px; } }
+
+  .thread { display: flex; flex-direction: column; gap: 8px; margin: 14px 0 18px; }
+  .bubble {
+    max-width: 85%; padding: 10px 14px; border-radius: 18px;
+    font-size: 15px; line-height: 1.45;
+  }
+  .out { align-self: flex-end; background: var(--msg); color: #fff; border-bottom-right-radius: 6px; }
+  .in { align-self: flex-start; background: var(--surface-2); color: var(--text); border-bottom-left-radius: 6px; }
+  .label { font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: .04em; }
+  .label.r { align-self: flex-end; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; margin: 14px 0; }
+  .card h3 { margin-top: 0; }
+  .note { border-radius: 10px; padding: 14px 16px; margin: 14px 0; font-size: 14.5px; }
+  .note.warn { background: var(--warn-soft); border-left: 3px solid var(--warn); }
+  .note.good { background: var(--good-soft); border-left: 3px solid var(--good); }
+  .note.pink { background: var(--accent-soft); border-left: 3px solid var(--accent); }
+
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 16px; font-size: 14.5px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+  .table-wrap { overflow-x: auto; }
+  .flow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 14px 0 6px; }
+  .flow span { background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 5px 12px; font-size: 13.5px; font-weight: 650; }
+  .flow span.k { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+  .flow i { color: var(--faint); font-style: normal; }
+  .obj { font-size: 13px; color: var(--muted); margin: -4px 0 10px; }
+  .obj strong { color: var(--text); }
+  .stage { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin: 44px 0 4px; padding-top: 28px; border-top: 1px solid var(--border); }
+  .stage + h2 { margin-top: 0; padding-top: 0; border-top: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">She Creates Academy · DM Setters</div>
+  <h1>The DM Setter Flow</h1>
+  <p class="sub">How to take a girl from first DM to booked call. Four things to uncover, in order: her <strong>struggle</strong>, her <strong>goal</strong>, <strong>why now</strong>, then <strong>pitch the call</strong>. Not a script to copy and paste. A map, with questions that work.</p>
+
+  <div class="flow">
+    <span>Opener</span><i>→</i><span class="k">1. Struggle</span><i>→</i><span class="k">2. Goal</span><i>→</i><span class="k">3. Why now</span><i>→</i><span class="k">4. Pitch</span><i>→</i><span>Book</span>
+  </div>
+
+  <h2>The flow at a glance</h2>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Stage</th><th>Your objective</th><th>Move on when she's told you...</th></tr>
+    <tr><td><strong>Opener</strong></td><td>Start a real conversation</td><td>She replied with more than one word</td></tr>
+    <tr><td><strong>1. Struggle</strong></td><td>Find what's actually stopping her from getting paid</td><td>The specific problem, in her words</td></tr>
+    <tr><td><strong>2. Goal</strong></td><td>Get a real number and the life behind it</td><td>A monthly income goal + why it matters to her</td></tr>
+    <tr><td><strong>3. Why now</strong></td><td>Find the urgency and check she's serious</td><td>Why this can't wait, and that she's ready to invest in herself</td></tr>
+    <tr><td><strong>4. Pitch</strong></td><td>Offer the call as the bridge from struggle to goal</td><td>"yes" to the call</td></tr>
+    <tr><td><strong>Book</strong></td><td>Lock a time, hand off</td><td>She's on the calendar</td></tr>
+  </table>
+  </div>
+
+  <div class="note pink">
+    <strong>The rules of the DM:</strong> one question per message. Match her length (she sends one line, you send one line). Lowercase, warm, girls' girl energy. React to what she said before you ask the next thing. If she asks "is this gigi?", be honest: you're on gigi's team.
+  </div>
+
+  <div class="stage">Opener</div>
+  <h2>Start the conversation</h2>
+  <p class="obj"><strong>Objective:</strong> get her talking. Open off whatever brought her in.</p>
+  <div class="table-wrap">
+  <table>
+    <tr><th>She...</th><th>Open with</th></tr>
+    <tr><td>Commented a keyword on a post</td><td><em>"hey girl! saw you commented on gigi's post 💕 are you already doing ugc or just getting started?"</em></td></tr>
+    <tr><td>Replied to a story</td><td><em>"haha love that! are you doing ugc right now or thinking about getting into it?"</em></td></tr>
+    <tr><td>Watched the webinar / signed up</td><td><em>"hey! saw you came to gigi's webinar 🫶 what was your biggest takeaway?"</em></td></tr>
+    <tr><td>New follower</td><td><em>"hey {{name}}! thanks for the follow 💕 what made you start following gigi?"</em></td></tr>
+  </table>
+  </div>
+  <p>"Already doing ugc or just getting started?" is the best first question you have. It tells you which version of the struggle questions to use.</p>
+
+  <div class="stage">Stage 1</div>
+  <h2>Struggle</h2>
+  <p class="obj"><strong>Objective:</strong> find the real thing stopping her from getting paid. Go deeper on one answer instead of asking five different questions.</p>
+
+  <h3>If she's just getting started</h3>
+  <ul>
+    <li>what's been stopping you from starting so far?</li>
+    <li>have you tried reaching out to any brands yet? what happened?</li>
+    <li>do you have any videos or a portfolio yet, or starting from zero?</li>
+    <li>how do you feel about being on camera?</li>
+  </ul>
+  <h3>If she's already doing UGC</h3>
+  <ul>
+    <li>how many paid deals have you landed so far?</li>
+    <li>are brands mostly paying you or just sending free product?</li>
+    <li>how are you finding brands right now?</li>
+    <li>what are you charging per video? how did you land on that?</li>
+  </ul>
+  <h3>Go deeper</h3>
+  <ul>
+    <li>what do you mean by that?</li>
+    <li>how long has that been going on?</li>
+    <li>how has that been making you feel?</li>
+  </ul>
+
+  <div class="thread">
+    <div class="bubble in">i've pitched like 20 brands and nobody answers</div>
+    <div class="bubble out">ugh that's so frustrating. what are you sending them when you pitch?</div>
+    <div class="bubble in">just a dm saying i'd love to work with them and my page</div>
+    <div class="bubble out">got it. and do you have sample videos you send with it or just your page?</div>
+  </div>
+
+  <div class="card">
+    <h3>UGC struggles to listen for</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>She says</th><th>What's really going on</th></tr>
+      <tr><td>"i don't have enough followers"</td><td>Biggest myth in UGC. Brands pay for the video, not her audience. Don't correct her in the DM. Note it, the call handles it</td></tr>
+      <tr><td>"brands only send me free stuff"</td><td>Stuck in gifted collabs. Doesn't know how to ask for money or what to charge</td></tr>
+      <tr><td>"nobody responds to my pitches"</td><td>No portfolio, wrong brands, or a weak pitch</td></tr>
+      <tr><td>"i'm awkward on camera"</td><td>Confidence. Very common, very fixable</td></tr>
+      <tr><td>"i don't know what to charge"</td><td>Pricing and usage rights. Leaving money on the table</td></tr>
+      <tr><td>"it seems so saturated"</td><td>Fear she's too late. Usually means she hasn't started</td></tr>
+      <tr><td>"i got one deal then nothing"</td><td>No system for consistent brand deals or retainers</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="stage">Stage 2</div>
+  <h2>Goal</h2>
+  <p class="obj"><strong>Objective:</strong> get a real monthly number, then the life behind the number. The number tells the closer what to build. The life is what makes her buy.</p>
+  <ul>
+    <li>if ugc was working exactly how you want, what would you be making a month?</li>
+    <li>what would that money change for you?</li>
+    <li>are you looking for side income or to fully replace your job?</li>
+    <li>what would your day look like if this was your full-time thing?</li>
+  </ul>
+  <div class="thread">
+    <div class="bubble in">honestly like $3-5k a month would change everything</div>
+    <div class="bubble out">ok i love that. what would $5k a month change for you?</div>
+    <div class="bubble in">i could quit my job and be home with my daughter</div>
+    <div class="bubble out">that's such a good reason 🥹 how old is she?</div>
+  </div>
+  <div class="note good">
+    <strong>Get to the "why" behind the number.</strong> Home with the kids, out of the 9-5, her own money, proving to herself she can. That's what she's actually buying. Log it word for word in GHL for the closer.
+  </div>
+
+  <div class="stage">Stage 3</div>
+  <h2>Why now</h2>
+  <p class="obj"><strong>Objective:</strong> find out why this can't wait, and check she's serious enough to invest in herself. No urgency = no show and no buy.</p>
+  <ul>
+    <li>what made you want to finally make this happen now?</li>
+    <li>what happens if a year from now nothing's changed?</li>
+    <li>how long have you been wanting to do this?</li>
+    <li>on a scale of 1-10, how serious are you about making this work?</li>
+  </ul>
+  <h3>Commitment check (ask before you pitch)</h3>
+  <ul>
+    <li>how much time could you realistically put into this each week?</li>
+    <li>have you ever invested in a course or coaching for yourself before?</li>
+    <li>if you found the right program, are you in a spot to invest in yourself right now?</li>
+    <li>is this a decision you'd make on your own or with your partner?</li>
+  </ul>
+  <div class="note warn">
+    <strong>Partner on the decision?</strong> Ask if they can be on the call too. A partner who wasn't on the call is one of the top reasons for "i need to think about it."
+  </div>
+
+  <div class="stage">Stage 4</div>
+  <h2>Pitch the call</h2>
+  <p class="obj"><strong>Objective:</strong> connect her struggle to her goal, and offer the call as the bridge. You're pitching the call, not the program. Never price in the DM.</p>
+  <p>Use her exact words. The formula: <strong>what you said → what you want → the call gets you there.</strong></p>
+  <div class="thread">
+    <div class="bubble out">ok so from what you're telling me, you've been pitching brands for months with nothing back, and you want to get to $5k a month so you can be home with your daughter</div>
+    <div class="bubble out">honestly that's exactly what our team helps girls with. would you be open to hopping on a quick call with them? they'll look at where you're at and map out exactly what you'd need to land paid deals consistently</div>
+    <div class="bubble out">no pressure at all, if it's not a fit they'll tell you straight up</div>
+  </div>
+
+  <div class="card">
+    <h3>Common pushback</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>She says</th><th>You say</th></tr>
+      <tr><td>"how much is it?"</td><td><em>totally fair q! it depends on where you're at, that's what the call is for. they'll walk you through everything</em></td></tr>
+      <tr><td>"can you just send me info?"</td><td><em>i could but honestly it wouldn't be specific to you. the call is like 30 min and it's all about your situation</em></td></tr>
+      <tr><td>"is this a course?"</td><td><em>it's coaching + community, but the call is just to see what you need first. not everyone's a fit</em></td></tr>
+      <tr><td>"i need to think about it"</td><td><em>of course! what's the main thing you'd want to think through?</em> (usually money or partner, go back to Stage 3)</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="stage">Close it out</div>
+  <h2>Book</h2>
+  <p>Give 2 specific times. Don't just send a link and hope.</p>
+  <div class="thread">
+    <div class="bubble out">amazing! i have [day] at [time] or [day] at [time], which works better? 💕</div>
+    <div class="bubble in">thursday works!</div>
+    <div class="bubble out">done ✅ you'll get a confirmation text. there's a quick video in there, watch it before the call, it'll answer most of your questions so the call is all about you</div>
+  </div>
+  <p><strong>Then:</strong> log everything in GHL notes (struggle, goal + why, why now, partner, investment readiness) in her words. The <a href="shecreates-post-booking-text.html">post-booking text</a> and <a href="shecreates-no-show-protocol.html">no-show protocol</a> take it from there.</p>
+
+  <h2>Don't book her if...</h2>
+  <ul>
+    <li>She's under 18</li>
+    <li>She's clear she can't invest anything right now and won't be able to soon</li>
+    <li>She's just looking for free tips and won't answer the questions</li>
+    <li>She has zero time to put into this</li>
+  </ul>
+  <p>Stay kind, point her to Gigi's free content, and tag her <code>nurture</code> in GHL. A bad booking wastes a closer slot that a ready girl could have had.</p>
+
+</div>
+</body>
+</html>
