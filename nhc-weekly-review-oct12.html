@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NHC Weekly Numbers Review</title>
+<style>
+  :root {
+    --bg: #f3f4f6; --surface: #ffffff; --surface-2: #e9ebef;
+    --text: #14171f; --muted: #5c6270; --faint: #a8adb8; --border: #dcdfe4;
+    --accent: #2454a8; --accent-soft: #dbe6f6;
+    --good: #1f7a52; --good-soft: #dceee2;
+    --warn: #a8460f; --warn-soft: #f0ddc9;
+    --bad: #b42335; --bad-soft: #f6dde0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0b0c0f; --surface: #15171c; --surface-2: #1d2026;
+      --text: #eef0f4; --muted: #9aa0ac; --faint: #4a4e58; --border: #262a32;
+      --accent: #6f9ee6; --accent-soft: #16233a;
+      --good: #52c98a; --good-soft: #102a1e;
+      --warn: #e0863f; --warn-soft: #2a1c0d;
+      --bad: #f07a88; --bad-soft: #2c1418;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0b0c0f; --surface: #15171c; --surface-2: #1d2026;
+    --text: #eef0f4; --muted: #9aa0ac; --faint: #4a4e58; --border: #262a32;
+    --accent: #6f9ee6; --accent-soft: #16233a;
+    --good: #52c98a; --good-soft: #102a1e;
+    --warn: #e0863f; --warn-soft: #2a1c0d;
+    --bad: #f07a88; --bad-soft: #2c1418;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: -apple-system, 'Segoe UI', system-ui, sans-serif; -webkit-font-smoothing: antialiased; font-size: 15px; line-height: 1.55; }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 48px 28px 90px; }
+  .kicker { font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+  h1 { font-size: clamp(1.9rem, 4.5vw, 2.6rem); font-weight: 900; letter-spacing: -.03em; line-height: 1.05; margin: 0 0 10px; }
+  .lede { color: var(--muted); margin: 0 0 28px; }
+  section { margin-top: 44px; }
+  .sec { font-size: 10.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+  h2 { font-size: 22px; font-weight: 900; margin: 0 0 14px; letter-spacing: -.01em; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 22px 24px; }
+  .hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 24px; align-items: center; }
+  .big { font-size: 52px; font-weight: 900; letter-spacing: -.03em; line-height: 1; }
+  .big-label { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 700; margin-bottom: 8px; }
+  .pill { display: inline-block; font-size: 12px; font-weight: 800; padding: 3px 10px; border-radius: 999px; margin-top: 12px; }
+  .pill.good { background: var(--good-soft); color: var(--good); }
+  .pill.bad { background: var(--bad-soft); color: var(--bad); }
+  .pill.warn { background: var(--warn-soft); color: var(--warn); }
+  .bar-row { margin-bottom: 16px; }
+  .bar-head { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px; }
+  .bar-head b { font-weight: 800; }
+  .bar { position: relative; height: 14px; background: var(--surface-2); border-radius: 999px; overflow: visible; }
+  .fill { height: 100%; border-radius: 999px; background: var(--accent); }
+  .fill.good { background: var(--good); } .fill.bad { background: var(--bad); } .fill.warn { background: var(--warn); }
+  .pace { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--text); }
+  .pace-note { font-size: 11.5px; color: var(--muted); margin-top: 4px; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .stat .k { font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 700; }
+  .stat .v { font-size: 26px; font-weight: 900; margin-top: 2px; letter-spacing: -.02em; }
+  .stat .d { font-size: 12px; margin-top: 2px; }
+  .up { color: var(--good); } .down { color: var(--bad); } .flat { color: var(--muted); }
+  .tw { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; min-width: 600px; }
+  th { text-align: left; font-size: 10.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding: 10px 12px; background: var(--surface-2); border-bottom: 1px solid var(--border); }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 14px; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  tr.total td { font-weight: 800; background: var(--surface-2); }
+  .note { font-size: 12.5px; color: var(--muted); margin-top: 8px; }
+  .callout { border-radius: 10px; padding: 16px 20px; margin-top: 14px; font-size: 14.5px; }
+  .callout.good { background: var(--good-soft); border-left: 4px solid var(--good); }
+  .callout.warn { background: var(--warn-soft); border-left: 4px solid var(--warn); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  ul.tight { margin: 0; padding-left: 20px; } ul.tight li { margin-bottom: 6px; }
+  .road { display: flex; align-items: baseline; gap: 10px; }
+  @media (max-width: 760px) {
+    .wrap { padding: 36px 16px 70px; }
+    .hero, .grid2 { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .big { font-size: 42px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="kicker">New Horizon Creators · Weekly Alignment</div>
+<h1>Numbers Review</h1>
+<p class="lede">Monday, Oct 12, 2026 · Month to date: Oct 1-12 · This week: Oct 5-11</p>
+
+<!-- 1. BAM / REACH -->
+<section>
+<div class="sec">01 · The One Number</div>
+<h2>October Cash vs BAM &amp; Reach</h2>
+<div class="card hero">
+  <div>
+    <div class="big-label">Cash collected, month to date</div>
+    <div class="big">$65,295</div>
+    <div class="pace-note">All processors (Whop + Fanbasis + Stripe), Oct 1-12</div>
+    <span class="pill good">Ahead of BAM pace</span> <span class="pill bad">Behind Reach pace</span>
+  </div>
+  <div>
+    <div class="bar-row">
+      <div class="bar-head"><span>BAM (floor) <b>$139K</b></span><b>47%</b></div>
+      <div class="bar"><div class="fill good" style="width:47%"></div><div class="pace" style="left:39%"></div></div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-head"><span>Reach (stretch) <b>$307K</b></span><b>21%</b></div>
+      <div class="bar"><div class="fill bad" style="width:21%"></div><div class="pace" style="left:39%"></div></div>
+    </div>
+    <div class="pace-note">Black line = 39% of the month gone (12 of 31 days).</div>
+  </div>
+</div>
+
+<div class="grid2" style="margin-top:12px">
+  <div class="card">
+    <div class="big-label">Gap to BAM</div>
+    <div style="font-size:30px;font-weight:900">$73,705</div>
+    <div class="note">≈ <b>$27K/week</b> for the last 19 days</div>
+  </div>
+  <div class="card">
+    <div class="big-label">Gap to Reach</div>
+    <div style="font-size:30px;font-weight:900">$241,705</div>
+    <div class="note">≈ <b>$89K/week</b> for the last 19 days</div>
+  </div>
+</div>
+
+<h3 style="margin:22px 0 10px;font-size:14px">Weekly pacing (cumulative, team)</h3>
+<div class="tw"><table>
+<tr><th>Week</th><th class="n">BAM cumulative</th><th class="n">Reach cumulative</th><th class="n">Actual</th></tr>
+<tr><td>Week 1 · Oct 1-7</td><td class="n">$22K</td><td class="n">$46K</td><td class="n">n/a</td></tr>
+<tr><td><b>Week 2 · Oct 8-14</b></td><td class="n">$57K</td><td class="n">$123K</td><td class="n"><b>$65.3K</b> by Oct 12</td></tr>
+<tr><td>Week 3 · Oct 15-21</td><td class="n">$98K</td><td class="n">$215K</td><td class="n"></td></tr>
+<tr><td>Week 4 · Oct 22-31</td><td class="n">$139K</td><td class="n">$307K</td><td class="n"></td></tr>
+</table></div>
+<div class="callout good"><b>Already past the full Week 2 BAM number ($57K) with 2 days to spare.</b> Reach needs another $58K by Wednesday, which isn't realistic. Focus: lock BAM and push toward the midpoint.</div>
+</section>
+
+<!-- 2. PER CLOSER -->
+<section>
+<div class="sec">02 · Per Closer</div>
+<h2>BAM &amp; Reach by Closer (Month to Date)</h2>
+<div class="tw"><table>
+<tr><th>Closer</th><th class="n">Cash banked</th><th class="n">BAM</th><th class="n">% BAM</th><th class="n">Reach</th><th class="n">% Reach</th><th>Status</th></tr>
+<tr><td><b>Phil</b></td><td class="n">$37,647</td><td class="n">$55K</td><td class="n">68%</td><td class="n">$122K</td><td class="n">31%</td><td><span class="pill good" style="margin:0">Ahead</span></td></tr>
+<tr><td><b>Jordan</b></td><td class="n">$14,326</td><td class="n">$19K</td><td class="n">75%</td><td class="n">$44K</td><td class="n">33%</td><td><span class="pill good" style="margin:0">Ahead</span></td></tr>
+<tr><td><b>Daniel</b></td><td class="n">$4,997</td><td class="n">$48K</td><td class="n">10%</td><td class="n">$100K</td><td class="n">5%</td><td><span class="pill bad" style="margin:0">Behind</span></td></tr>
+<tr><td><b>Yahia</b></td><td class="n">$0</td><td class="n">$19K</td><td class="n">0%</td><td class="n">$44K</td><td class="n">0%</td><td><span class="pill bad" style="margin:0">Behind</span></td></tr>
+<tr class="total"><td>Team</td><td class="n">$56,970</td><td class="n">$141K</td><td class="n">40%</td><td class="n">$310K</td><td class="n">18%</td><td></td></tr>
+</table></div>
+<p class="note">Cash banked per closer from the Sales board scorecard, Oct 1-12. The other $8,325 of the $65,295 is installments and upsells not tied to a closer. Pace check: 39% of the month is gone, so 39%+ of BAM = on track. Per-closer BAMs add to $141K vs the $139K team BAM in the projections doc.</p>
+</section>
+
+<!-- 3. THIS WEEK -->
+<section>
+<div class="sec">03 · This Week</div>
+<h2>Closer Funnel · Oct 5-11</h2>
+<div class="stats">
+  <div class="stat"><div class="k">Calls on calendar</div><div class="v">105</div><div class="d flat">8 DQ'd by setter</div></div>
+  <div class="stat"><div class="k">Cancel rate</div><div class="v">32.4%</div><div class="d down">▲ 11.2pp vs prior</div></div>
+  <div class="stat"><div class="k">Show rate</div><div class="v">77.4%</div><div class="d up">▲ 8.2pp vs prior</div></div>
+  <div class="stat"><div class="k">Close rate</div><div class="v">20.8%</div><div class="d down">▼ 23.6pp vs prior</div></div>
+  <div class="stat"><div class="k">Won</div><div class="v">10</div><div class="d flat">of 48 shows</div></div>
+  <div class="stat"><div class="k">Revenue generated</div><div class="v">$49,970</div><div class="d up">vs $37,974 prior</div></div>
+  <div class="stat"><div class="k">Banked</div><div class="v">$41,644</div><div class="d up">vs $23,984 prior</div></div>
+  <div class="stat"><div class="k">AOV</div><div class="v">$4,164</div><div class="d up">vs $2,998 prior</div></div>
+</div>
+
+<h3 style="margin:22px 0 10px;font-size:14px">Per closer · Oct 5-11</h3>
+<div class="tw"><table>
+<tr><th>Closer</th><th class="n">Calendar</th><th class="n">Cancelled</th><th class="n">Showed</th><th class="n">Show %</th><th class="n">Won</th><th class="n">Close %</th><th class="n">Banked</th></tr>
+<tr><td><b>Phil</b></td><td class="n">44</td><td class="n">16</td><td class="n">17</td><td class="n">77.3%</td><td class="n">7</td><td class="n">41.2%</td><td class="n">$30,651</td></tr>
+<tr><td><b>Jordan</b></td><td class="n">12</td><td class="n">3</td><td class="n">9</td><td class="n">100%</td><td class="n">2</td><td class="n">22.2%</td><td class="n">$5,996</td></tr>
+<tr><td><b>Daniel</b></td><td class="n">29</td><td class="n">11</td><td class="n">16</td><td class="n">88.9%</td><td class="n">1</td><td class="n">6.3%</td><td class="n">$4,997</td></tr>
+<tr><td><b>Yahia</b></td><td class="n">20</td><td class="n">4</td><td class="n">6</td><td class="n">46.2%</td><td class="n">0</td><td class="n">0%</td><td class="n">$0</td></tr>
+<tr class="total"><td>Team</td><td class="n">105</td><td class="n">34</td><td class="n">48</td><td class="n">77.4%</td><td class="n">10</td><td class="n">20.8%</td><td class="n">$41,644</td></tr>
+</table></div>
+<div class="grid2" style="margin-top:12px">
+  <div class="card"><div class="big-label">Outcomes of 48 shows</div>
+    <ul class="tight"><li>Won <b>10</b> · Follow Up <b>15</b> · Qual. Nurture <b>11</b></li><li>DQ by closer <b>10</b> · Lost <b>2</b></li><li><b>26</b> shows still open (Follow Up + Nurture)</li></ul></div>
+  <div class="card"><div class="big-label">Cancellations (34)</div>
+    <ul class="tight"><li>Prospect cancelled <b>20</b></li><li>Our side <b>16</b>: 10 automation DQ, 6 manual</li><li>Our side by closer: Phil 8, Daniel 3, Jordan 3, Yahia 2</li></ul></div>
+</div>
+</section>
+
+<!-- 4. CASH -->
+<section>
+<div class="sec">04 · Cash</div>
+<h2>Where the Money Came From (Oct 1-12)</h2>
+<div class="tw"><table>
+<tr><th>Source</th><th class="n">Amount</th><th class="n">Payments</th></tr>
+<tr><td>First-time sales (won $45,640 + deposits $8,497)</td><td class="n">$54,137</td><td class="n">14</td></tr>
+<tr><td>Installments from existing students</td><td class="n">$9,161</td><td class="n">7</td></tr>
+<tr><td>Upsells (DealFlow)</td><td class="n">$1,997</td><td class="n">2</td></tr>
+<tr class="total"><td>Total cash collected</td><td class="n">$65,295</td><td class="n">23</td></tr>
+</table></div>
+<div class="grid2" style="margin-top:12px">
+  <div class="card"><div class="big-label">Deposit pipeline · still to collect</div><div style="font-size:30px;font-weight:900">$74,921</div><div class="note">of $80,167 contract value · 18 deposit deals. <b>Almost exactly the $73.7K BAM gap.</b></div></div>
+  <div class="card"><div class="big-label">Road to 250 (all-time)</div><div class="road"><span style="font-size:30px;font-weight:900">130</span><span class="note">/ 250 · 115 won + 15 deposits · 120 to go</span></div><div class="note">Deposit + follow-up cash this period: $16,155 (25% of total)</div></div>
+</div>
+</section>
+
+<!-- 5. CALLS -->
+<section>
+<div class="sec">05 · What the Calls Told Us</div>
+<h2>Call Audit Takeaways</h2>
+<div class="card"><ul class="tight">
+<li><b>The leads are good.</b> 4 of 7 audited prospects wanted to buy.</li>
+<li><b>Payment access is the #1 leak.</b> 3 buyers left at payment because of technical errors (Splitit not loading for Spain, card type never checked, no confirmed way to pay from Indonesia).</li>
+<li><b>Discovery stays shallow.</b> Every prospect had a real emotional reason to buy that nobody dug into.</li>
+<li><b>Follow-ups aren't booked.</b> 5 of 7 calls ended with "text me" and no time on the calendar.</li>
+<li><b>Phil is the model.</b> 41% close rate this week with his own style. Next step: break down what he does so the team can use the parts that transfer.</li>
+</ul></div>
+</section>
+
+<!-- 6. ACTIONS -->
+<section>
+<div class="sec">06 · This Week</div>
+<h2>Focus &amp; Owners</h2>
+<div class="tw"><table>
+<tr><th>#</th><th>Action</th><th>Owner</th><th>By</th></tr>
+<tr><td>1</td><td><b>File the 9 missing dispositions</b> (Yahia 4, Phil 3, Daniel 2). Every number above is soft until they're in</td><td>Closers</td><td>Today</td></tr>
+<tr><td>2</td><td><b>Work the deposit pipeline</b>: $74.9K still to collect covers the BAM gap</td><td>Phil + closers</td><td>Weekly</td></tr>
+<tr><td>3</td><td><b>Fix payment access</b>: test checkout end to end per country, backup payment link on every call, check card type before checkout</td><td>JJ + tech</td><td>Wed</td></tr>
+<tr><td>4</td><td><b>Book every follow-up</b> on the call. 26 shows sit in Follow Up / Nurture this week alone</td><td>Closers</td><td>Ongoing</td></tr>
+<tr><td>5</td><td><b>Daniel + Yahia support</b>: call review + roleplays. 1 win from 22 shows between them this week</td><td>JJ</td><td>This week</td></tr>
+<tr><td>6</td><td><b>Dialer live</b>: no-shows, confirmations, webinar leads, backlog</td><td>JJ, Anthony + Captain S</td><td>Fri Oct 16</td></tr>
+</table></div>
+</section>
+
+<p class="note" style="margin-top:36px"><b>Data notes:</b> BAM/Reach from "NHC October Projections (BAM vs Reach)". Cash and deposit pipeline from the Sales board (Oct 1-12). Weekly funnel from the Closers Profile (Oct 5-11, by call date). 8 calls this week have no outcome logged, which pulls show rate down until filed. The dashboard's cancellation categories double-count about 4 cancellations; totals are correct.</p>
+
+</div>
+</body>
+</html>
