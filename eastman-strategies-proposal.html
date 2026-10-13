@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="night">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eastman Strategies Proposal</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+:root,[data-theme="day"]{
+  --bg:#EAE4D9; --card:#FFFFFF; --card-2:#F5F1EB;
+  --bdr:rgba(10,10,8,.12); --bdr-2:rgba(10,10,8,.22);
+  --text:#0A0A08; --muted:rgba(10,10,8,.6); --faint:rgba(10,10,8,.36);
+  --accent:#1a7a42; --accent-bg:rgba(26,122,66,.08);
+}
+[data-theme="night"]{
+  --bg:#000; --card:#0a0a0a; --card-2:#0d0d0d;
+  --bdr:#161616; --bdr-2:#222;
+  --text:#fff; --muted:#999; --faint:#555;
+  --accent:#4ade80; --accent-bg:rgba(74,222,128,.07);
+}
+body{
+  background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.65;
+  min-height:100vh;display:flex;align-items:center;justify-content:center;padding:48px 24px;
+}
+.wrap{max-width:880px;width:100%;}
+
+.options{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.opt{border:1px solid var(--bdr);border-radius:14px;padding:1.75rem;background:var(--card);}
+.opt.featured{border-color:var(--accent);}
+.opt-badge{display:inline-block;font-size:.6rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);background:var(--accent-bg);border-radius:4px;padding:.25rem .6rem;margin-bottom:1rem;}
+.opt-name{font-size:1.15rem;font-weight:800;letter-spacing:-.3px;margin-bottom:.25rem;}
+.opt-price{font-size:2rem;font-weight:900;letter-spacing:-1px;margin:.5rem 0 .1rem;}
+.opt-price span{font-size:.85rem;font-weight:600;color:var(--muted);}
+.opt-note{font-size:.75rem;color:var(--faint);margin-bottom:1.25rem;}
+.opt ul{list-style:none;display:flex;flex-direction:column;gap:.65rem;margin-bottom:1.25rem;}
+.opt li{font-size:.85rem;color:var(--muted);padding-left:1.1rem;position:relative;line-height:1.5;}
+.opt li::before{content:'·';position:absolute;left:0;color:var(--faint);}
+.opt li strong{color:var(--text);}
+.opt-cap{background:var(--card-2);border:1px dashed var(--bdr-2);border-radius:8px;padding:.85rem 1rem;font-size:.75rem;color:var(--muted);}
+.opt-cap strong{color:var(--text);}
+
+.pif-row{
+  display:flex;align-items:center;justify-content:space-between;gap:.75rem;
+  background:var(--accent-bg);border:1px solid var(--accent);border-radius:8px;
+  padding:.75rem 1rem;margin:1rem 0 1.25rem;
+}
+.pif-lbl{font-size:.65rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);}
+.pif-price{font-size:1.15rem;font-weight:900;color:var(--text);}
+.pif-save{font-size:.7rem;font-weight:700;color:var(--accent);}
+
+.incl-lbl{font-size:.65rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:.6rem;}
+.opt ul{list-style:none;display:flex;flex-direction:column;gap:.55rem;margin-bottom:0;}
+.opt li{font-size:.82rem;color:var(--muted);padding-left:1.1rem;position:relative;line-height:1.5;}
+.opt li::before{content:'·';position:absolute;left:0;color:var(--faint);}
+.opt li strong{color:var(--text);}
+.opt li.excl{color:var(--faint);}
+.opt li.excl::before{content:'\00d7';}
+.opt li.incl-flag{color:var(--accent);font-weight:700;}
+.opt li.incl-flag::before{content:'\2713';color:var(--accent);}
+
+.credit-box{margin-top:1.25rem;background:var(--accent-bg);border:1px solid var(--accent);border-radius:10px;padding:1rem 1.15rem;}
+.credit-title{font-size:.65rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:.65rem;}
+.credit-row{display:flex;justify-content:space-between;align-items:baseline;gap:.75rem;font-size:.78rem;color:var(--muted);padding:.4rem 0;border-top:1px solid var(--bdr);}
+.credit-row:first-of-type{border-top:none;}
+.credit-row strong{color:var(--text);font-size:.85rem;white-space:nowrap;}
+
+.addon-box{
+  display:flex;gap:.75rem;align-items:flex-start;margin-top:1.25rem;cursor:pointer;user-select:none;
+  border:1px dashed var(--bdr-2);border-radius:10px;padding:.9rem 1rem;
+  transition:border-color .25s,background .25s,box-shadow .25s;
+}
+.addon-box:hover{border-color:var(--accent);}
+.addon-box.checked{
+  border:1px solid var(--accent);background:var(--accent-bg);
+  box-shadow:0 0 0 1px var(--accent),0 6px 24px rgba(0,0,0,.12);
+}
+.addon-check{
+  position:relative;width:18px;height:18px;flex-shrink:0;margin-top:.15rem;
+  border:1.5px solid var(--faint);border-radius:5px;
+  transition:background .25s,border-color .25s,transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.addon-box.checked .addon-check{
+  background:var(--accent);border-color:var(--accent);transform:scale(1.08);
+}
+.addon-check::after{
+  content:'';position:absolute;left:5px;top:1px;width:5px;height:9px;
+  border:solid var(--card);border-width:0 2px 2px 0;transform:rotate(45deg) scale(0);
+  transition:transform .2s cubic-bezier(.34,1.56,.64,1) .05s;
+}
+.addon-box.checked .addon-check::after{transform:rotate(45deg) scale(1);}
+.addon-title{font-size:.8rem;font-weight:800;color:var(--text);margin-bottom:.15rem;}
+.addon-desc{font-size:.75rem;color:var(--muted);margin-bottom:.5rem;line-height:1.5;}
+.addon-price{font-size:.78rem;color:var(--muted);}
+.addon-price strong{color:var(--accent);font-size:.9rem;}
+.addon-price span{color:var(--faint);}
+
+.price-flip{animation:priceFlip .45s cubic-bezier(.34,1.56,.64,1);}
+@keyframes priceFlip{
+  0%{opacity:1;transform:scale(1);}
+  35%{opacity:0;transform:scale(.85) translateY(4px);}
+  36%{opacity:0;transform:scale(.85) translateY(-4px);}
+  100%{opacity:1;transform:scale(1) translateY(0);}
+}
+.opt-price,.pif-price,.pif-save{transition:color .25s;}
+.opt.upgraded .opt-price,.opt.upgraded .pif-price{color:var(--accent);}
+.trial-excl-fade{transition:opacity .25s,max-height .25s;overflow:hidden;}
+
+@media(max-width:640px){
+  .options{grid-template-columns:1fr;}
+}
+</style>
+<style>
+body{display:block;}
+.wrap{margin:0 auto;}
+.kicker{font-size:.65rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:.75rem;}
+h1{font-size:2.1rem;font-weight:900;letter-spacing:-1px;line-height:1.15;margin-bottom:.75rem;}
+.lede{color:var(--muted);font-size:1rem;max-width:640px;margin-bottom:2.5rem;}
+h2{font-size:1.2rem;font-weight:800;letter-spacing:-.3px;margin:3rem 0 1rem;padding-top:2rem;border-top:1px solid var(--bdr);}
+.sec p{color:var(--muted);margin-bottom:.75rem;}
+.sec p strong{color:var(--text);}
+.list{list-style:none;display:flex;flex-direction:column;gap:.55rem;margin-bottom:1rem;}
+.list li{font-size:.9rem;color:var(--muted);padding-left:1.1rem;position:relative;}
+.list li::before{content:'·';position:absolute;left:.2rem;color:var(--accent);font-weight:900;}
+.list li strong{color:var(--text);}
+.phases{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;}
+.phase{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:1rem;}
+.phase .n{font-size:.6rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:.35rem;}
+.phase .t{font-weight:800;font-size:.92rem;margin-bottom:.35rem;}
+.phase .d{font-size:.8rem;color:var(--muted);line-height:1.5;}
+.tw{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:.85rem;}
+th,td{text-align:left;padding:.7rem .8rem;border-bottom:1px solid var(--bdr);vertical-align:top;}
+th{font-size:.62rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);}
+td{color:var(--muted);}
+td strong{color:var(--text);}
+.options{margin-top:.5rem;}
+.next{background:var(--accent-bg);border:1px solid var(--accent);border-radius:12px;padding:1.25rem 1.4rem;margin-top:2.5rem;}
+.next .t{font-weight:800;margin-bottom:.4rem;}
+.next p{color:var(--muted);font-size:.9rem;}
+@media(max-width:760px){.phases{grid-template-columns:1fr 1fr;}h1{font-size:1.7rem;}}
+@media(max-width:460px){.phases{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Sales.io × Eastman Strategies</div>
+  <h1>Building Your Sales Team Past One Rep</h1>
+  <p class="lede">A proposal for Adam. We come in, find out exactly where your sales are leaking, coach you 1-on-1 every week as a founder and a closer, fix your team's gaps, then source and hire the reps who let you step out of the closing seat.</p>
+
+  <!-- WHERE YOU ARE -->
+  <div class="sec">
+    <h2>Where you are right now</h2>
+    <ul class="list">
+      <li><strong>Strong offer, real traction.</strong> About 120 clients at $297 every 4 weeks, around $40K MRR on the offer and on pace for $60K/month total.</li>
+      <li><strong>One rep carrying the phones.</strong> Full-cycle, UK-based, 8am to 5pm ET. You're still closing the sets yourself.</li>
+      <li><strong>Hiring isn't sticking.</strong> Two second setters gone inside a month (one let go on day 9, one left on day 6).</li>
+      <li><strong>Leads are going cold.</strong> Evening and weekend leads wait overnight for a dial.</li>
+      <li><strong>No system yet.</strong> Hiring, ramp and management for a 2 to 3 rep team are being built from scratch.</li>
+    </ul>
+    <p>None of this is a lead problem. You have demand. What's missing is the structure that lets more than one rep win, and a version of you that leads a team instead of carrying it.</p>
+  </div>
+
+  <!-- HOW WE WORK -->
+  <div class="sec">
+    <h2>How we'll work together</h2>
+    <div class="phases">
+      <div class="phase"><div class="n">Week 1</div><div class="t">Consultation + audit</div><div class="d">Deep dive on your funnel, script, GHL pipeline, call recordings, speed to lead and comp. You get a clear read on where the money is leaking.</div></div>
+      <div class="phase"><div class="n">Every week</div><div class="t">1-on-1 with JJ</div><div class="d">Your sales skills and how you lead as a founder. Script, objections, live call breakdowns, and the decisions in front of you that week.</div></div>
+      <div class="phase"><div class="n">Weeks 2+</div><div class="t">Fix the team's gaps</div><div class="d">Rebuild the script, set the management rhythm, grade calls against one standard, redesign comp. Close rate goes up on the leads you already have.</div></div>
+      <div class="phase"><div class="n">Weeks 3+</div><div class="t">Source + hire</div><div class="d">We source reps, build your hiring funnel and screen with you, then ramp them so they stay. Long-term talent, not seat-fillers.</div></div>
+    </div>
+  </div>
+
+  <!-- QUESTIONS -->
+  <div class="sec">
+    <h2>Your questions, and where we answer them</h2>
+    <div class="tw">
+    <table>
+      <tr><th>You asked about</th><th>What you'll walk away with</th></tr>
+      <tr><td><strong>Hiring</strong></td><td>Why the last two seats churned (profile, offer, or first two weeks), where $4-6K OTE phone reps actually come from, a screening scorecard, and a hiring funnel you own instead of relying on placement recruiters.</td></tr>
+      <tr><td><strong>Structure</strong></td><td>Full-cycle vs setter-to-closer at $297 and the volume where splitting pays. Your next hire. Evening coverage and lead ownership between shifts. The plan for you to leave the closing seat, and what has to be true first.</td></tr>
+      <tr><td><strong>Script + coaching</strong></td><td>A rebuilt phone script and objection handling for the $297 offer, plus live coaching on your and your rep's calls.</td></tr>
+      <tr><td><strong>Management</strong></td><td>The minimum daily and weekly rhythm for 1 to 3 reps (huddle, end of day, 1:1s, call reviews), a call grading rubric that lines up with your AI scoring, and a ramp plan with clear milestones.</td></tr>
+      <tr><td><strong>Coaching your reps</strong></td><td>How to learn it, apply it, then teach it, so you're coaching from what works on your own calls.</td></tr>
+      <tr><td><strong>Comp</strong></td><td>A new base and commission mix, and a way to tie pay to clients who make payment two.</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <!-- OPTIONS -->
+  <div class="sec">
+    <h2>Investment</h2>
+  </div>
+  <div class="options">
+
+    <div class="opt">
+      <div class="opt-badge">Option 1</div>
+      <div class="opt-name">6-Week Sprint</div>
+      <div class="opt-price">$12,500</div>
+      <div class="pif-row">
+        <div>
+          <div class="pif-lbl">Pay in Full</div>
+          <div class="pif-price">$10,000</div>
+        </div>
+        <div class="pif-save">Save $2,500</div>
+      </div>
+      <div class="incl-lbl">What's Included</div>
+      <ul>
+        <li><strong>Kickoff consultation</strong> and full sales audit: funnel, script, pipeline, comp, call recordings</li>
+        <li><strong>Weekly 1-on-1 with JJ</strong>: founder development and your sales skills</li>
+        <li><strong>Script rebuild</strong> and objection handling for the $297 offer</li>
+        <li><strong>Weekly call reviews</strong> on your team's real calls, graded against one rubric</li>
+        <li><strong>Management system</strong>: huddle, end of day, 1:1 and call review templates</li>
+        <li><strong>Comp redesign</strong>, including a payment-two incentive</li>
+        <li><strong>Hiring funnel + screening scorecard</strong>, and we source candidates for your next seat</li>
+        <li>Direct message access to JJ between calls</li>
+      </ul>
+    </div>
+
+    <div class="opt featured">
+      <div class="opt-badge">Option 2 · Recommended</div>
+      <div class="opt-name">10-Week Team Build</div>
+      <div class="opt-price">$15,000</div>
+      <div class="pif-row">
+        <div>
+          <div class="pif-lbl">Pay in Full</div>
+          <div class="pif-price">$12,500</div>
+        </div>
+        <div class="pif-save">Save $2,500</div>
+      </div>
+      <div class="incl-lbl">What's Included</div>
+      <ul>
+        <li><strong>Everything in the 6-Week Sprint</strong>, for 10 weeks</li>
+        <li><strong>Rep sourcing for a 2 to 3 rep team</strong>, with us in the interviews and the final call</li>
+        <li><strong>Ramp support</strong>: we coach your new hires through their first weeks so they stay past day 9</li>
+        <li><strong>Team structure built and live</strong>: setter vs full-cycle, evening coverage, lead ownership between shifts</li>
+        <li><strong>Your exit plan from the closing seat</strong>, run with you step by step</li>
+        <li>Time to see the new reps produce before we hand it all over</li>
+      </ul>
+      <div class="opt-cap"><strong>Why 10 weeks:</strong> 6 weeks fixes the system and gets your next hire in. 10 weeks gets the team hired, ramped and closing without you.</div>
+    </div>
+
+  </div>
+
+  <div class="next">
+    <div class="t">Next step</div>
+    <p>Pick the option that fits and we'll book the kickoff consultation within the week. The audit starts on day one.</p>
+  </div>
+
+</div>
+</body>
+</html>
