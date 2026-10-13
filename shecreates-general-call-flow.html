@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>She Creates Call Flow</title>
+<style>
+  :root {
+    --bg: #faf6f2; --surface: #ffffff; --surface-2: #f2ebe4;
+    --text: #1d1a1a; --muted: #6f6763; --faint: #b8aea8;
+    --border: #e6dcd4;
+    --accent: #c2477a; --accent-soft: #f6e1ea;
+    --good: #1f6f5c; --good-soft: #dcece6;
+    --warn: #a8460f; --warn-soft: #f4e2d2;
+    --msg: #2f6fdf; --msg-soft: #e3ecfb;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0d0b0c; --surface: #181516; --surface-2: #211d1e;
+      --text: #f3eeeb; --muted: #a39a95; --faint: #4d4643;
+      --border: #2d2728;
+      --accent: #f07aa8; --accent-soft: #2b1620;
+      --good: #4fd1af; --good-soft: #12251f;
+      --warn: #e0863f; --warn-soft: #2a1c0d;
+      --msg: #6ea0ff; --msg-soft: #142036;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d0b0c; --surface: #181516; --surface-2: #211d1e;
+    --text: #f3eeeb; --muted: #a39a95; --faint: #4d4643;
+    --border: #2d2728;
+    --accent: #f07aa8; --accent-soft: #2b1620;
+    --good: #4fd1af; --good-soft: #12251f;
+    --warn: #e0863f; --warn-soft: #2a1c0d;
+    --msg: #6ea0ff; --msg-soft: #142036;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    font-size: 15.5px; line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 48px 16px 80px; }
+  .eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 10px;
+  }
+  h1 { font-size: 32px; line-height: 1.15; letter-spacing: -.02em; margin-bottom: 10px; }
+  .sub { color: var(--muted); font-size: 16px; max-width: 600px; }
+  h2 {
+    font-size: 20px; letter-spacing: -.01em; margin: 44px 0 14px;
+    padding-top: 28px; border-top: 1px solid var(--border);
+  }
+  h3 { font-size: 15px; margin: 22px 0 8px; }
+  p { margin-bottom: 12px; }
+  ul, ol { padding-left: 20px; margin-bottom: 12px; }
+  li { margin-bottom: 6px; }
+  strong { font-weight: 650; }
+  code {
+    font-family: 'SF Mono', Consolas, monospace; font-size: 13px;
+    background: var(--surface-2); padding: 1px 6px; border-radius: 4px;
+  }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 28px; }
+  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .stat .k { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 700; }
+  .stat .v { font-size: 15px; font-weight: 650; margin-top: 4px; }
+  @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } h1 { font-size: 26px; } }
+
+  .thread { display: flex; flex-direction: column; gap: 8px; margin: 14px 0 18px; }
+  .bubble {
+    max-width: 85%; padding: 10px 14px; border-radius: 18px;
+    font-size: 15px; line-height: 1.45;
+  }
+  .out { align-self: flex-end; background: var(--msg); color: #fff; border-bottom-right-radius: 6px; }
+  .in { align-self: flex-start; background: var(--surface-2); color: var(--text); border-bottom-left-radius: 6px; }
+  .label { font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: .04em; }
+  .label.r { align-self: flex-end; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; margin: 14px 0; }
+  .card h3 { margin-top: 0; }
+  .note { border-radius: 10px; padding: 14px 16px; margin: 14px 0; font-size: 14.5px; }
+  .note.warn { background: var(--warn-soft); border-left: 3px solid var(--warn); }
+  .note.good { background: var(--good-soft); border-left: 3px solid var(--good); }
+  .note.pink { background: var(--accent-soft); border-left: 3px solid var(--accent); }
+
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 16px; font-size: 14.5px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+  .table-wrap { overflow-x: auto; }
+  .flow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 14px 0 6px; }
+  .flow span { background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 5px 12px; font-size: 13.5px; font-weight: 650; }
+  .flow span.k { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+  .flow i { color: var(--faint); font-style: normal; }
+  .obj { font-size: 13px; color: var(--muted); margin: -4px 0 10px; }
+  .obj strong { color: var(--text); }
+  .stage { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin: 44px 0 4px; padding-top: 28px; border-top: 1px solid var(--border); }
+  .stage + h2 { margin-top: 0; padding-top: 0; border-top: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">She Creates Academy · Sales Team</div>
+  <h1>The General Call Flow</h1>
+  <p class="sub">One flow for every conversation, whether it's a setter dial or a closer call. Four objectives, in order: her <strong>struggle</strong>, her <strong>goal</strong>, <strong>why now</strong>, then the <strong>pitch</strong>. Not a word-for-word script. Know the objective, pick the questions that fit her.</p>
+
+  <div class="flow">
+    <span>Frame</span><i>→</i>
+    <span class="k">1. Struggle</span><i>→</i>
+    <span class="k">2. Goal</span><i>→</i>
+    <span class="k">3. Why now</span><i>→</i>
+    <span class="k">4. Pitch</span><i>→</i>
+    <span>Close</span>
+  </div>
+
+  <h2>The flow at a glance</h2>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Stage</th><th>Your objective</th><th>Move on when you have...</th></tr>
+    <tr><td><strong>Frame</strong></td><td>Set the tone and get permission to ask questions</td><td>She knows how the call will go and said yes</td></tr>
+    <tr><td><strong>1. Struggle</strong></td><td>Find what's actually stopping her from getting paid</td><td>The specific problem in her words, and how long it's been going on</td></tr>
+    <tr><td><strong>2. Goal</strong></td><td>Get a real monthly number and the life behind it</td><td>A number + why it matters to her personally</td></tr>
+    <tr><td><strong>3. Why now</strong></td><td>Find the urgency and confirm she's ready to decide</td><td>Why this can't wait, her time, and who's in on the decision</td></tr>
+    <tr><td><strong>4. Pitch</strong></td><td>Show the Academy as the bridge from struggle to goal</td><td>"Yes, this makes sense" before price</td></tr>
+    <tr><td><strong>Close</strong></td><td>Price, decision, payment done on the call</td><td>Payment completed or a clear next step</td></tr>
+  </table>
+  </div>
+
+  <div class="note pink"><strong>Setter vs closer.</strong> Setters run Frame through Why now, then pitch the <em>call</em>, never the program and never price. Closers run the whole thing, and go deeper on every stage. Same flow, same order.</div>
+
+  <!-- FRAME -->
+  <div class="stage">Start here</div>
+  <h2>Frame</h2>
+  <p class="obj"><strong>Objective:</strong> calm authority. She should feel like she's talking to someone who's helped a lot of girls exactly like her.</p>
+  <div class="card">
+    <ul>
+      <li>"hey [name], so good to meet you! how's your day going?"</li>
+      <li>"you still have the full [time] with me?"</li>
+      <li>"so the way these usually go: i'll ask you a few questions about where you're at with ugc and where you want to be. if it looks like we can help, i'll show you exactly how. if not, i'll tell you straight up. sound good?"</li>
+      <li>"what made you want to book the call?"</li>
+    </ul>
+  </div>
+  <p>Check the GHL notes before the call. If she shared anything in the post-booking text, use it: "you mentioned [her words], tell me more about that."</p>
+
+  <!-- STRUGGLE -->
+  <div class="stage">Stage 1</div>
+  <h2>Struggle</h2>
+  <p class="obj"><strong>Objective:</strong> find the real thing stopping her from getting paid. First figure out which bucket she's in, then go deep on one answer instead of asking ten different questions.</p>
+
+  <h3>Sort her first</h3>
+  <div class="card">
+    <ul>
+      <li>"are you already doing ugc, or just getting started?"</li>
+      <li>"have you made any videos yet, even just for practice?"</li>
+      <li>"have you been paid for a video yet?"</li>
+    </ul>
+  </div>
+
+  <h3>If she's just getting started</h3>
+  <div class="card">
+    <ul>
+      <li>"how long have you been thinking about doing ugc?"</li>
+      <li>"what's stopped you from starting so far?"</li>
+      <li>"do you have a portfolio or any sample videos yet?"</li>
+      <li>"have you reached out to any brands? what happened?"</li>
+      <li>"how do you feel about being on camera?"</li>
+      <li>"what have you tried to figure this out on your own? youtube, tiktok, other courses?"</li>
+    </ul>
+  </div>
+
+  <h3>If she's already doing UGC</h3>
+  <div class="card">
+    <ul>
+      <li>"how many paid deals have you landed so far?"</li>
+      <li>"are brands paying you, or mostly sending free product?"</li>
+      <li>"how are you finding brands right now? cold pitching, platforms, inbound?"</li>
+      <li>"what are you charging per video? how did you land on that number?"</li>
+      <li>"do you charge for usage rights or whitelisting, or is that included?"</li>
+      <li>"have you had any brand come back for more, like a monthly retainer?"</li>
+      <li>"what are you sending when you pitch a brand?"</li>
+    </ul>
+  </div>
+
+  <h3>Go deeper (the questions that actually matter)</h3>
+  <div class="card">
+    <ul>
+      <li>"what do you mean by that?"</li>
+      <li>"how long has that been going on?"</li>
+      <li>"why do you think that's been happening?"</li>
+      <li>"how has that been making you feel?"</li>
+      <li>"what's that costing you? time, money, staying stuck at the 9-5?"</li>
+    </ul>
+  </div>
+
+  <h3>UGC struggles to listen for</h3>
+  <p>These are the patterns that come up again and again in UGC. Know what's really behind each one so you know where to dig.</p>
+  <div class="table-wrap">
+  <table>
+    <tr><th>She says</th><th>What's really going on</th><th>Dig with</th></tr>
+    <tr><td>"i don't have enough followers"</td><td>Biggest myth in UGC. Brands pay for the video to run on <em>their</em> page and ads, not her audience</td><td>"where'd you hear you need followers?"</td></tr>
+    <tr><td>"brands only send me free stuff"</td><td>Stuck in gifted collabs. Doesn't know how to ask for money or what to charge</td><td>"how many free collabs have you done? what's that worth if they'd paid you?"</td></tr>
+    <tr><td>"nobody responds to my pitches"</td><td>No portfolio, wrong brands, or a weak pitch</td><td>"walk me through exactly what you send"</td></tr>
+    <tr><td>"i don't know what to charge"</td><td>Pricing and usage rights. Usually undercharging by a lot</td><td>"what did you charge last time? did that include ad rights?"</td></tr>
+    <tr><td>"i'm awkward on camera"</td><td>Confidence. Very common, very fixable. Lots of UGC is hands, voiceover, or product-only</td><td>"what do you think would make you feel confident?"</td></tr>
+    <tr><td>"it seems so saturated"</td><td>Fear she's too late. Usually means she hasn't started</td><td>"what makes you feel like it's too late?"</td></tr>
+    <tr><td>"i got one deal then nothing"</td><td>No system for consistent deals or retainers</td><td>"how did you get that one? what happened after?"</td></tr>
+    <tr><td>"i don't know what niche to pick"</td><td>Overthinking. Stuck before starting</td><td>"what products do you already use every day?"</td></tr>
+    <tr><td>"i need better equipment first"</td><td>An excuse to not start. A phone and good lighting is enough</td><td>"if you had the equipment tomorrow, what would you do first?"</td></tr>
+  </table>
+  </div>
+  <div class="note warn"><strong>Don't fix it yet.</strong> When she says "i need more followers," don't correct her in discovery. Note it. That belief becomes a powerful moment in the pitch ("you said you thought you needed followers, here's the truth...").</div>
+
+  <!-- GOAL -->
+  <div class="stage">Stage 2</div>
+  <h2>Goal</h2>
+  <p class="obj"><strong>Objective:</strong> get a real monthly number, then the life behind the number. The number tells you what to build. The life is what she's actually buying.</p>
+  <div class="card">
+    <ul>
+      <li>"if ugc was working exactly how you want, what would you be making a month?"</li>
+      <li>"is this side income, or do you want it to replace your job?"</li>
+      <li>"what would that money change for you?"</li>
+      <li>"why is that important to you?"</li>
+      <li>"what would your day look like if this was your full-time thing?"</li>
+      <li>"how would you feel if you hit that?"</li>
+    </ul>
+  </div>
+  <h3>UGC-specific goal questions</h3>
+  <div class="card">
+    <ul>
+      <li>"what kind of brands would you love to work with?"</li>
+      <li>"would you rather have a few brands on monthly retainers, or lots of one-off videos?"</li>
+      <li>"how many videos a month do you see yourself making?"</li>
+    </ul>
+  </div>
+  <p>These make it real. "$5K a month" is abstract. "Three retainer brands I actually love, from home with my daughter" is something she can see.</p>
+  <div class="note good"><strong>Get to the why behind the number.</strong> Home with the kids, out of the 9-5, her own money, proving to herself she can. Repeat it back in her exact words. You'll use it in the pitch and the close.</div>
+
+  <!-- WHY NOW -->
+  <div class="stage">Stage 3</div>
+  <h2>Why now</h2>
+  <p class="obj"><strong>Objective:</strong> find out why this can't wait, and confirm she's in a position to decide. No urgency = no buy.</p>
+  <div class="card">
+    <ul>
+      <li>"you've been thinking about this for [how long she said]. why now?"</li>
+      <li>"what happens if a year from now nothing's changed?"</li>
+      <li>"what's it been costing you to keep figuring this out alone?"</li>
+      <li>"on a scale of 1-10, how serious are you about making this work? why not lower?"</li>
+    </ul>
+  </div>
+  <h3>Commitment check (before you pitch)</h3>
+  <div class="card">
+    <ul>
+      <li>"how much time could you realistically put into this each week?"</li>
+      <li>"have you ever invested in yourself before, like a course or coaching? how'd that go?"</li>
+      <li>"if this is the right fit, are you in a spot to start today?"</li>
+      <li>"is this a decision you'd make on your own, or with someone else?"</li>
+    </ul>
+  </div>
+  <div class="note warn"><strong>Partner involved?</strong> Find out now, not after price. If she needs her partner, get them on the call. A partner who wasn't on the call is the #1 source of "i need to think about it."</div>
+
+  <!-- PITCH -->
+  <div class="stage">Stage 4</div>
+  <h2>Pitch</h2>
+  <p class="obj"><strong>Objective:</strong> connect her struggle to her goal, and show the Academy as the bridge. Only pitch what she told you she needs.</p>
+
+  <h3>1. Recap in her words</h3>
+  <div class="card">
+    <p>"so let me make sure i got this right. you've been [her struggle] for [how long], and you want to get to [her number] so you can [her why]. and the reason it has to be now is [her why now]. did i miss anything?"</p>
+  </div>
+
+  <h3>2. Get permission</h3>
+  <div class="card">
+    <p>"do you want me to show you how we'd get you there?"</p>
+  </div>
+
+  <h3>3. Match the program to her struggle</h3>
+  <p>Pick the 2-3 pieces that solve what <em>she</em> said. Skip the rest.</p>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Her struggle</th><th>What you show her</th></tr>
+    <tr><td>Doesn't know where to start</td><td>The step-by-step path from zero experience to first paid brand deal</td></tr>
+    <tr><td>Can't find brands / no one responds</td><td><strong>Lifetime priority placement on Kora UGC.</strong> Paid campaigns come to her instead of cold pitching. This is the biggest differentiator</td></tr>
+    <tr><td>Thinks she needs followers</td><td>"you told me you thought you needed followers. you don't. brands pay for the video, not your audience. that's exactly how the girls in the academy get paid"</td></tr>
+    <tr><td>Awkward on camera / unsure if her content is good</td><td>Coaching and real feedback on her videos so she knows it's brand-ready</td></tr>
+    <tr><td>Undercharging / only gets gifted</td><td>How to price, charge for usage rights, and turn one-off deals into retainers</td></tr>
+    <tr><td>Tried figuring it out alone</td><td>Coaching + community instead of guessing with youtube videos</td></tr>
+  </table>
+  </div>
+
+  <h3>4. Check in before price</h3>
+  <div class="card">
+    <ul>
+      <li>"how does that sound so far?"</li>
+      <li>"which part of that do you feel would help you the most?"</li>
+    </ul>
+  </div>
+  <p>Her answer to the second question is her reason to buy. Say it back to her at the close.</p>
+
+  <!-- CLOSE -->
+  <div class="stage">Close it out</div>
+  <h2>Close</h2>
+  <p class="obj"><strong>Objective:</strong> give the price calmly, ask for the decision, and get payment done while you're still on the call.</p>
+  <div class="card">
+    <ul>
+      <li>"the academy is [price], one time. based on everything you shared, this is exactly the gap you said you want to close. let's get you started today."</li>
+      <li>Then stop talking. Let her answer.</li>
+      <li>Yes: send the payment link and stay on until it goes through.</li>
+      <li>Maybe: "what would need to be true for this to be a yes?"</li>
+    </ul>
+  </div>
+  <div class="note warn"><strong>Stay on until payment is done.</strong> BNPL failures at checkout are the team's biggest leak right now. If a BNPL attempt fails, try the next option right there on the call and log exactly where it broke in GHL.</div>
+
+  <h3>Common pushback</h3>
+  <div class="table-wrap">
+  <table>
+    <tr><th>She says</th><th>You say</th></tr>
+    <tr><td>"it's a lot of money right now"</td><td>"i hear you. is it the number itself, or more the timing? what has staying stuck already cost you?"</td></tr>
+    <tr><td>"i'm scared i won't be good on camera"</td><td>"if you weren't a little nervous, that would surprise me more. that fear comes from not having a system yet, not from something wrong with you"</td></tr>
+    <tr><td>"i want to try on my own first"</td><td>"fair instinct. you told me you've been trying for [how long]. what would be different a few more weeks from now?"</td></tr>
+    <tr><td>"i need to think about it"</td><td>"totally get it. what specifically do you need to think through? let's do it together right now"</td></tr>
+    <tr><td>"i need to talk to my partner"</td><td>"makes sense. is it that you want their input, or you already know what you want and want their blessing?"</td></tr>
+    <tr><td>"is ugc too saturated now?"</td><td>"brands need more video content than ever, and they need it every month. the girls getting paid aren't the ones who started first, they're the ones with a system"</td></tr>
+  </table>
+  </div>
+
+  <h2>Rules</h2>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Do</th><th>Don't</th></tr>
+    <tr><td>Follow the order: struggle, goal, why now, pitch</td><td>Jump to the program because she seems excited</td></tr>
+    <tr><td>Go deep on one answer</td><td>Run down the list of questions like a survey</td></tr>
+    <tr><td>Use her exact words in the pitch and close</td><td>Pitch every feature of the program</td></tr>
+    <tr><td>Find the partner before price</td><td>Find out about the partner after price</td></tr>
+    <tr><td>Stay on until payment is through</td><td>Send the link and hang up</td></tr>
+    <tr><td>Log struggle, goal, why now, and objection in GHL</td><td>Leave the disposition for later</td></tr>
+  </table>
+  </div>
+
+  <div class="note pink"><strong>To confirm with Gigi's team:</strong> the exact Academy price and inclusions (the handbook flags these as not yet confirmed). Fill in the [price] line and the "what you show her" column with the real curriculum before rolling this out. Don't improvise inclusions on a live call.</div>
+
+</div>
+</body>
+</html>
