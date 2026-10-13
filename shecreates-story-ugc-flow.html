@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comment UGC Story Flow</title>
+<style>
+  :root {
+    --bg: #faf6f2; --surface: #ffffff; --surface-2: #f2ebe4;
+    --text: #1d1a1a; --muted: #6f6763; --faint: #b8aea8;
+    --border: #e6dcd4;
+    --accent: #c2477a; --accent-soft: #f6e1ea;
+    --good: #1f6f5c; --good-soft: #dcece6;
+    --warn: #a8460f; --warn-soft: #f4e2d2;
+    --msg: #2f6fdf; --msg-soft: #e3ecfb;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0d0b0c; --surface: #181516; --surface-2: #211d1e;
+      --text: #f3eeeb; --muted: #a39a95; --faint: #4d4643;
+      --border: #2d2728;
+      --accent: #f07aa8; --accent-soft: #2b1620;
+      --good: #4fd1af; --good-soft: #12251f;
+      --warn: #e0863f; --warn-soft: #2a1c0d;
+      --msg: #6ea0ff; --msg-soft: #142036;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d0b0c; --surface: #181516; --surface-2: #211d1e;
+    --text: #f3eeeb; --muted: #a39a95; --faint: #4d4643;
+    --border: #2d2728;
+    --accent: #f07aa8; --accent-soft: #2b1620;
+    --good: #4fd1af; --good-soft: #12251f;
+    --warn: #e0863f; --warn-soft: #2a1c0d;
+    --msg: #6ea0ff; --msg-soft: #142036;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    font-size: 15.5px; line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 48px 16px 80px; }
+  .eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 10px;
+  }
+  h1 { font-size: 32px; line-height: 1.15; letter-spacing: -.02em; margin-bottom: 10px; }
+  .sub { color: var(--muted); font-size: 16px; max-width: 600px; }
+  h2 {
+    font-size: 20px; letter-spacing: -.01em; margin: 44px 0 14px;
+    padding-top: 28px; border-top: 1px solid var(--border);
+  }
+  h3 { font-size: 15px; margin: 22px 0 8px; }
+  p { margin-bottom: 12px; }
+  ul, ol { padding-left: 20px; margin-bottom: 12px; }
+  li { margin-bottom: 6px; }
+  strong { font-weight: 650; }
+  code {
+    font-family: 'SF Mono', Consolas, monospace; font-size: 13px;
+    background: var(--surface-2); padding: 1px 6px; border-radius: 4px;
+  }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 28px; }
+  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .stat .k { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 700; }
+  .stat .v { font-size: 15px; font-weight: 650; margin-top: 4px; }
+  @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } h1 { font-size: 26px; } }
+
+  .thread { display: flex; flex-direction: column; gap: 8px; margin: 14px 0 18px; }
+  .bubble {
+    max-width: 85%; padding: 10px 14px; border-radius: 18px;
+    font-size: 15px; line-height: 1.45;
+  }
+  .out { align-self: flex-end; background: var(--msg); color: #fff; border-bottom-right-radius: 6px; }
+  .in { align-self: flex-start; background: var(--surface-2); color: var(--text); border-bottom-left-radius: 6px; }
+  .label { font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: .04em; }
+  .label.r { align-self: flex-end; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; margin: 14px 0; }
+  .card h3 { margin-top: 0; }
+  .note { border-radius: 10px; padding: 14px 16px; margin: 14px 0; font-size: 14.5px; }
+  .note.warn { background: var(--warn-soft); border-left: 3px solid var(--warn); }
+  .note.good { background: var(--good-soft); border-left: 3px solid var(--good); }
+  .note.pink { background: var(--accent-soft); border-left: 3px solid var(--accent); }
+
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 16px; font-size: 14.5px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+  .table-wrap { overflow-x: auto; }
+  .flow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 14px 0 6px; }
+  .flow span { background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 5px 12px; font-size: 13.5px; font-weight: 650; }
+  .flow span.k { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+  .flow i { color: var(--faint); font-style: normal; }
+  .obj { font-size: 13px; color: var(--muted); margin: -4px 0 10px; }
+  .obj strong { color: var(--text); }
+  .stage { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin: 44px 0 4px; padding-top: 28px; border-top: 1px solid var(--border); }
+  .stage + h2 { margin-top: 0; padding-top: 0; border-top: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">She Creates Academy · DM Setters</div>
+  <h1>The "Comment UGC" Story Flow</h1>
+  <p class="sub">Gigi posts a story that says "reply UGC." She replies with the keyword, an auto-DM delivers what was promised, and a setter takes it from there into a real sales conversation and a booked call.</p>
+
+  <div class="flow">
+    <span>Story</span><i>→</i>
+    <span>She replies "UGC"</span><i>→</i>
+    <span class="k">Auto-DM</span><i>→</i>
+    <span class="k">Setter takes over</span><i>→</i>
+    <span>Booked</span>
+  </div>
+
+  <h2>How it works</h2>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Step</th><th>Who</th><th>What happens</th></tr>
+    <tr><td><strong>1. The story</strong></td><td>Gigi</td><td>Story with a clear promise and "reply UGC"</td></tr>
+    <tr><td><strong>2. Auto-DM</strong></td><td>Automation (GHL)</td><td>Delivers the promise within seconds + asks one question</td></tr>
+    <tr><td><strong>3. Bridge</strong></td><td>Setter</td><td>Picks it up the second she answers. From here it's all manual</td></tr>
+    <tr><td><strong>4. Conversation</strong></td><td>Setter</td><td>Struggle → Goal → Why now → Pitch the call</td></tr>
+    <tr><td><strong>5. Book</strong></td><td>Setter</td><td>2 specific times, log notes in GHL, hand off to the closer</td></tr>
+  </table>
+  </div>
+
+  <div class="note pink"><strong>Speed is everything.</strong> She replied to a story because she's interested <em>right now</em>. Answer within 5 minutes of her reply to the auto-DM. An hour later she's back to scrolling and the moment is gone.</div>
+
+  <!-- STORY -->
+  <div class="stage">Step 1</div>
+  <h2>The story</h2>
+  <p class="obj"><strong>Objective:</strong> make a specific promise worth replying for. "Reply UGC" with no reason gets nothing.</p>
+  <div class="card">
+    <ul>
+      <li>"want my exact pitch template i used to land my first paid brand deal? reply UGC 💕"</li>
+      <li>"i'm sharing the 5 brands paying beginners right now. reply UGC and i'll send it"</li>
+      <li>"you don't need followers to get paid for ugc. want me to show you how? reply UGC"</li>
+      <li>"saving 10 spots for thursday's free ugc training. reply UGC for the link"</li>
+    </ul>
+  </div>
+  <p>Story replies land straight in the DMs, so this beats "comment below" on a post. One clear CTA per story, keyword in caps.</p>
+
+  <!-- AUTO DM -->
+  <div class="stage">Step 2</div>
+  <h2>The auto-DM</h2>
+  <p class="obj"><strong>Objective:</strong> deliver what she asked for fast, then ask one easy question that starts the real conversation.</p>
+  <p>Two messages, back to back:</p>
+  <div class="thread">
+    <div class="bubble in">UGC</div>
+    <div class="bubble out">yay here it is!! 💕 [link to the thing promised in the story]</div>
+    <div class="bubble out">quick q so i can send you the right stuff, are you already doing ugc or just getting started?</div>
+  </div>
+  <div class="note good"><strong>Always deliver first.</strong> She asked for something. Give it to her before you ask anything. It builds trust and makes her want to answer.</div>
+
+  <!-- BRIDGE -->
+  <div class="stage">Step 3</div>
+  <h2>The bridge: setter takes over</h2>
+  <p class="obj"><strong>Objective:</strong> turn her answer into a conversation. React like a real person, then ask about her struggle.</p>
+  <div class="table-wrap">
+  <table>
+    <tr><th>She replies</th><th>You send</th></tr>
+    <tr><td>"just getting started"</td><td>"love that!! how long have you been wanting to get into it?"</td></tr>
+    <tr><td>"already doing it"</td><td>"ooh amazing! how's it going so far, are brands paying you yet?"</td></tr>
+    <tr><td>"thinking about it"</td><td>"ok i love that. what's made you curious about ugc?"</td></tr>
+    <tr><td>"thanks!" (nothing else)</td><td>"of course! are you doing ugc right now or more thinking about it?"</td></tr>
+    <tr><td>"is this gigi?"</td><td>"haha i'm [name] on gigi's team! she reads everything but i help with the dms 💕 are you doing ugc rn?"</td></tr>
+  </table>
+  </div>
+
+  <!-- CONVERSATION -->
+  <div class="stage">Step 4</div>
+  <h2>The sales conversation</h2>
+  <p>Same four objectives as every DM, in order. One question per message, match her length.</p>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Objective</th><th>Questions that work</th></tr>
+    <tr><td><strong>1. Struggle</strong><br>What's stopping her from getting paid</td><td>"what's been stopping you from starting?"<br>"have you reached out to any brands yet? what happened?"<br>"are brands paying you or mostly sending free product?"<br>"what are you charging per video?"</td></tr>
+    <tr><td><strong>2. Goal</strong><br>A number + the life behind it</td><td>"if ugc was working how you want, what would you be making a month?"<br>"what would that money change for you?"<br>"side income or replace your job?"</td></tr>
+    <tr><td><strong>3. Why now</strong><br>Urgency + ready to invest</td><td>"what made you want to make this happen now?"<br>"how much time could you put in each week?"<br>"if you found the right program, are you in a spot to invest in yourself?"<br>"decision you'd make on your own or with your partner?"</td></tr>
+    <tr><td><strong>4. Pitch</strong><br>The call, not the program</td><td>"ok so [her struggle], and you want [her goal] so you can [her why]. that's exactly what our team helps with. open to a quick call with them?"</td></tr>
+  </table>
+  </div>
+  <div class="note warn"><strong>Tie it back to the story.</strong> She replied for a reason. Use it: "did the pitch template make sense? have you sent one yet?" is a great way back in if things stall.</div>
+
+  <!-- FULL THREAD -->
+  <div class="stage">See it all together</div>
+  <h2>Full conversation</h2>
+  <p>Story: "want my exact pitch template i used to land my first paid brand deal? reply UGC 💕". Blue is you.</p>
+
+  <p class="label">Keyword + auto-DM</p>
+  <div class="thread">
+    <div class="bubble in">UGC</div>
+    <div class="bubble out">yay here it is!! 💕 [pitch template link]</div>
+    <div class="bubble out">quick q so i can send you the right stuff, are you already doing ugc or just getting started?</div>
+    <div class="bubble in">just getting started, i've made a few videos but haven't pitched anyone</div>
+  </div>
+
+  <p class="label">Bridge + 1. Struggle</p>
+  <div class="thread">
+    <div class="bubble out">ok that's a great start honestly! how long have you been making videos?</div>
+    <div class="bubble in">like 2 months</div>
+    <div class="bubble out">love that. what's been stopping you from pitching brands so far?</div>
+    <div class="bubble in">i don't really know who to pitch or what to say. and i only have like 600 followers so idk if they'd even care</div>
+    <div class="bubble out">totally get that. so you've got the videos, you just don't know how to get them in front of brands?</div>
+    <div class="bubble in">yes exactly</div>
+  </div>
+
+  <p class="label">2. Goal</p>
+  <div class="thread">
+    <div class="bubble out">if ugc was working exactly how you want, what would you be making a month?</div>
+    <div class="bubble in">honestly $2k would change my life</div>
+    <div class="bubble out">what would $2k a month change for you?</div>
+    <div class="bubble in">i'm a nursing student and i work weekends at a restaurant. i could stop doing doubles and actually focus on school</div>
+    <div class="bubble out">omg that's so real 🥹 you're doing a lot right now</div>
+  </div>
+
+  <p class="label">3. Why now</p>
+  <div class="thread">
+    <div class="bubble out">what made you want to finally make this happen now?</div>
+    <div class="bubble in">my clinicals start in january and i won't be able to keep working weekends</div>
+    <div class="bubble out">ok so you need this working before january. how much time could you put in each week until then?</div>
+    <div class="bubble in">like 5-6 hours</div>
+    <div class="bubble out">that's enough to start. if you found the right program, are you in a spot to invest in yourself?</div>
+    <div class="bubble in">depends on how much lol but yes i'm serious</div>
+    <div class="bubble out">totally fair! is that a decision you'd make on your own?</div>
+    <div class="bubble in">yeah just me</div>
+  </div>
+
+  <p class="label">4. Pitch</p>
+  <div class="thread">
+    <div class="bubble out">ok so from what you're telling me, you've got videos but don't know who to pitch or what to say, and you want $2k a month before clinicals start so you can stop working doubles</div>
+    <div class="bubble out">that's literally what our team helps girls with. would you be open to a quick call with them? they'll map out exactly how you'd land your first paid deal before january</div>
+    <div class="bubble in">yes!! do i need more followers first?</div>
+    <div class="bubble out">nope! that's honestly the biggest myth in ugc. they'll show you exactly how it works on the call</div>
+  </div>
+
+  <p class="label">Book</p>
+  <div class="thread">
+    <div class="bubble out">i have tuesday at 7pm or wednesday at 6pm, which works better? 💕</div>
+    <div class="bubble in">tuesday</div>
+    <div class="bubble out">done ✅ you'll get a confirmation text with a quick video, watch it before the call so it's all about you!</div>
+  </div>
+  <div class="note good">GHL note for the closer: "Story reply UGC (pitch template). 2 months making videos, never pitched, doesn't know who to pitch. Thinks 600 followers is too few. Nursing student working weekend doubles. Goal $2K/mo before clinicals in January. 5-6 hrs/week. Decides alone. Asked about price."</div>
+
+  <!-- FOLLOW UP -->
+  <h2>If she goes quiet</h2>
+  <p>Lots of girls grab the freebie and disappear. Follow up, don't let it die.</p>
+  <div class="table-wrap">
+  <table>
+    <tr><th>When</th><th>Send</th></tr>
+    <tr><td>No reply to the auto-DM question, +4 hours</td><td>"did the [freebie] come through ok? 💕"</td></tr>
+    <tr><td>Day 1</td><td>"curious, are you doing ugc right now or more thinking about it?"</td></tr>
+    <tr><td>Went quiet mid-conversation, day 1</td><td>"hey girl! you were telling me about [her words], still on your mind?"</td></tr>
+    <tr><td>Day 3</td><td>Send a student win that matches her: "thought of you, she was in the exact same spot 👇"</td></tr>
+    <tr><td>Day 7</td><td>"no worries if the timing's off! if you ever want help landing paid deals just reply 'ready' 💕" then tag <code>nurture</code></td></tr>
+  </table>
+  </div>
+
+  <h2>Rules</h2>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Do</th><th>Don't</th></tr>
+    <tr><td>Deliver the freebie first, every time</td><td>Ask questions before she gets what she asked for</td></tr>
+    <tr><td>Reply within 5 minutes once she answers</td><td>Let story replies sit for hours</td></tr>
+    <tr><td>One question per message</td><td>Send a paragraph of questions</td></tr>
+    <tr><td>Pitch the call using her words</td><td>Pitch the program or quote price</td></tr>
+    <tr><td>Tag every keyword lead in GHL with the story it came from</td><td>Lose track of which story drove the booking</td></tr>
+  </table>
+  </div>
+
+  <div class="note pink"><strong>What we track per story:</strong> keyword replies, % who answer the auto-DM question, conversations started, calls booked. That tells us which story promises actually drive calls so Gigi can post more of them.</div>
+
+  <div class="note warn"><strong>To confirm with Gigi's team:</strong> what the story is offering (template, brand list, webinar link) and whether the GHL keyword automation for story replies is set up. Swap the freebie link and story copy here to match.</div>
+
+</div>
+</body>
+</html>
