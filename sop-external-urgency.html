@@ -1,0 +1,365 @@
+
+<title>External Urgency SOP</title>
+<style>
+  :root {
+    --bg: #090908;
+    --surface: #111110;
+    --surface-2: #1a1916;
+    --accent: #e2cfa8;
+    --accent-soft: #f0e4c8;
+    --accent-dim: rgba(226,207,168,.07);
+    --accent-border: rgba(226,207,168,.14);
+    --text: #f0ece4;
+    --text-muted: #8a8475;
+    --text-faint: #3e3b30;
+    --border: #201f18;
+    --check: #7dcf95;
+    --check-dim: rgba(125,207,149,.08);
+    --mono: 'SF Mono','Fira Code','Consolas',monospace;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f2; --surface: #f0ece0; --surface-2: #e4dece;
+      --accent: #8a6d3a; --accent-soft: #6b5228;
+      --accent-dim: rgba(138,109,58,.07); --accent-border: rgba(138,109,58,.2);
+      --text: #1a1914; --text-muted: #6a6450; --text-faint: #c0b898;
+      --border: #ddd8c8; --check: #2a7a45; --check-dim: rgba(42,122,69,.07);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#090908;--surface:#111110;--surface-2:#1a1916;
+    --accent:#e2cfa8;--accent-soft:#f0e4c8;
+    --accent-dim:rgba(226,207,168,.07);--accent-border:rgba(226,207,168,.14);
+    --text:#f0ece4;--text-muted:#8a8475;--text-faint:#3e3b30;
+    --border:#201f18;--check:#7dcf95;--check-dim:rgba(125,207,149,.08);
+  }
+  :root[data-theme="light"] {
+    --bg:#faf8f2;--surface:#f0ece0;--surface-2:#e4dece;
+    --accent:#8a6d3a;--accent-soft:#6b5228;
+    --accent-dim:rgba(138,109,58,.07);--accent-border:rgba(138,109,58,.2);
+    --text:#1a1914;--text-muted:#6a6450;--text-faint:#c0b898;
+    --border:#ddd8c8;--check:#2a7a45;--check-dim:rgba(42,122,69,.07);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{font-size:16px;scroll-behavior:smooth;}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    font-size:.9375rem;line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .doc-header{
+    max-width:760px;margin:0 auto;
+    padding:3rem 2rem 2.5rem;
+    border-bottom:1px solid var(--border);
+  }
+  .eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:.875rem;
+  }
+  .doc-title{
+    font-size:1.75rem;font-weight:700;
+    letter-spacing:-.03em;line-height:1.2;
+    color:var(--text);margin-bottom:.25rem;
+  }
+  .doc-sub{color:var(--text-muted);font-size:.9375rem;margin-top:.25rem;}
+  .meta-row{
+    display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.125rem;
+  }
+  .meta-chip{
+    display:flex;align-items:center;gap:.4rem;
+    font-family:var(--mono);font-size:.6875rem;
+    color:var(--text-muted);background:var(--surface);
+    border:1px solid var(--border);border-radius:2px;padding:.25rem .625rem;
+  }
+  .meta-chip-dot{
+    width:4px;height:4px;border-radius:50%;
+    background:var(--accent);flex-shrink:0;
+  }
+
+  main{max-width:760px;margin:0 auto;padding:0 2rem 5rem;}
+
+  .section{padding:2.25rem 0 1.75rem;border-bottom:1px solid var(--border);}
+  .section:last-child{border-bottom:none;}
+  .sec-eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.12em;text-transform:uppercase;
+    color:var(--text-faint);margin-bottom:.75rem;
+  }
+  .sec-title{
+    font-size:1.0625rem;font-weight:650;
+    color:var(--text);letter-spacing:-.015em;margin-bottom:1.25rem;
+  }
+
+  /* Snapshot cards */
+  .snap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;}
+  .snap-card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:3px;overflow:hidden;
+  }
+  .snap-head{
+    padding:.5rem .75rem;background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--text-faint);
+  }
+  .snap-val{
+    padding:.625rem .75rem;font-size:.875rem;color:var(--text-muted);
+    line-height:1.5;
+  }
+  .snap-val strong{color:var(--text);font-weight:600;}
+
+  /* Video card */
+  .video-card{
+    display:block;text-decoration:none;color:inherit;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:6px;overflow:hidden;transition:border-color .15s,background .15s;
+  }
+  .video-card:hover{border-color:var(--accent-border);background:var(--surface-2);}
+  .video-poster{
+    aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;
+    background:
+      radial-gradient(circle at 30% 20%, var(--accent-dim), transparent 60%),
+      var(--surface-2);
+    position:relative;
+  }
+  /* Brand fallback poster: used whenever no real Fathom thumbnail is available */
+  .video-poster.brand-fallback{
+    background:#000;flex-direction:column;gap:1rem;
+  }
+  .brand-fallback .brand-mark{display:flex;align-items:center;gap:.625rem;}
+  .brand-fallback .brand-mark img{height:40px;width:40px;object-fit:contain;display:block;}
+  .brand-fallback .brand-word{
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    font-size:1.375rem;font-weight:700;letter-spacing:-.02em;color:#fff;
+  }
+  .brand-fallback .play-circle{position:relative;}
+  .play-circle{
+    width:56px;height:56px;border-radius:50%;
+    background:var(--accent);display:flex;align-items:center;justify-content:center;
+    box-shadow:0 4px 18px var(--accent-dim);flex-shrink:0;
+    transition:transform .15s;
+  }
+  .video-card:hover .play-circle{transform:scale(1.06);}
+  .play-circle svg{width:18px;height:18px;margin-left:3px;fill:var(--bg);}
+  .video-card-meta{padding:.875rem 1rem;border-top:1px solid var(--border);}
+  .video-card-title{font-size:.875rem;font-weight:650;color:var(--text);margin-bottom:.25rem;}
+  .video-card-sub{display:flex;justify-content:space-between;align-items:center;gap:.75rem;flex-wrap:wrap;font-size:.75rem;color:var(--text-muted);}
+  .video-card-sub .link{color:var(--accent);font-family:var(--mono);font-size:.7rem;}
+
+  /* Moments */
+  .moment{
+    margin-bottom:.625rem;
+    border:1px solid var(--border);border-radius:3px;overflow:hidden;
+  }
+  .moment-head{
+    display:flex;align-items:flex-start;gap:.875rem;
+    padding:.9375rem 1.125rem;background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+  }
+  .moment-num{
+    font-family:var(--mono);font-size:.625rem;
+    letter-spacing:.08em;color:var(--accent);opacity:.55;
+    flex-shrink:0;margin-top:.15rem;min-width:1.5rem;
+  }
+  .moment-title{
+    font-size:.9375rem;font-weight:650;
+    color:var(--text);letter-spacing:-.01em;line-height:1.3;
+  }
+  .moment-body{
+    padding:.9375rem 1.125rem;background:var(--surface);
+  }
+  .moment-p{
+    font-size:.875rem;color:var(--text-muted);
+    line-height:1.65;margin-bottom:.625rem;
+  }
+  .moment-p:last-child{margin-bottom:0;}
+  .moment-p strong{color:var(--text);font-weight:600;}
+
+  .quote-block{
+    margin:.75rem 0;padding:.75rem 1rem;
+    background:var(--accent-dim);border-left:2px solid var(--accent);
+    border-radius:0 2px 2px 0;
+    font-size:.875rem;color:var(--accent-soft);
+    line-height:1.6;font-style:italic;
+  }
+  .quote-attr{
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--text-faint);margin-top:.35rem;font-style:normal;
+  }
+
+  .callout{
+    padding:.75rem 1rem;
+    background:var(--accent-dim);border:1px solid var(--accent-border);
+    border-radius:2px;font-size:.875rem;color:var(--text-muted);line-height:1.6;
+    margin-top:.875rem;
+  }
+  .callout strong{color:var(--accent-soft);}
+
+  /* Action items */
+  .action-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+  .action-item{
+    display:flex;align-items:flex-start;gap:.75rem;
+    padding:.75rem .875rem;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:3px;font-size:.875rem;color:var(--text-muted);line-height:1.5;
+  }
+  .action-owner{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent);opacity:.7;flex-shrink:0;
+    margin-top:.15rem;min-width:3.5rem;
+  }
+
+  .doc-footer{
+    max-width:760px;margin:0 auto;
+    padding:1.5rem 2rem;border-top:1px solid var(--border);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);
+  }
+
+  @media(max-width:600px){
+    .doc-header,main{padding-left:1.25rem;padding-right:1.25rem;}
+    .doc-title{font-size:1.4rem;}
+    .snap-grid,.action-grid{grid-template-columns:1fr;}
+  }
+</style>
+<div class="doc-header">
+  <div class="eyebrow">Sales.io SOP &middot; Objection Handling</div>
+  <h1 class="doc-title">External Urgency: For the &ldquo;Will I Actually Use It?&rdquo; Buyer</h1>
+  <div class="doc-sub">The buyer wants it but doesn't trust themselves to follow through. This isn't a price objection. It's a belief objection. Break the belief, then give them a real reason to act now.</div>
+  <div class="meta-row">
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Built from Mo x JJ, Oct 19</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Belief objection</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Low ticket + high ticket</div>
+  </div>
+</div>
+
+<main>
+
+  <div class="section">
+    <div class="sec-eyebrow">Spot It</div>
+    <h2 class="sec-title">What it sounds like</h2>
+    <div class="moment"><div class="moment-body">
+      <div class="moment-p">&ldquo;Will I actually use it?&rdquo;</div>
+      <div class="moment-p">&ldquo;I have a really bad pattern of...&rdquo; / &ldquo;This is a recurring pattern.&rdquo;</div>
+      <div class="moment-p">&ldquo;It ultimately comes down to me doing the work.&rdquo;</div>
+      <div class="moment-p">&ldquo;I'm scared to post.&rdquo; / &ldquo;I want to take it easy at first.&rdquo;</div>
+      <div class="moment-p">&ldquo;I want to say yes so bad, but I can't, because I know myself.&rdquo;</div>
+      <div class="moment-p"><strong>Why it happens:</strong> a lot of these buyers have focus or attention issues. Unless something is actually urgent, they won't move.</div>
+    </div></div>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Step 1</div>
+    <h2 class="sec-title">Don't make it worse</h2>
+    <div class="moment"><div class="moment-body">
+      <div class="moment-p"><strong>Don't say:</strong> &ldquo;If you don't mess with it after a week, just WhatsApp me for a refund.&rdquo; You're planting the exact fear they have: that they won't use it. Don't bring up the refund unless they ask.</div>
+      <div class="moment-p"><strong>Don't say:</strong> &ldquo;What's the worst case scenario?&rdquo; You don't want them picturing the worst case. Say: <strong>&ldquo;What's coming to mind?&rdquo;</strong></div>
+      <div class="moment-p"><strong>Don't say:</strong> &ldquo;There's no pressure&rdquo; if you told them it's a one-time offer. There is pressure, they feel it, and now they don't trust you. Own it: &ldquo;There's a decision here today, and I want it to be the right one for you.&rdquo;</div>
+      <div class="moment-p"><strong>Don't lead with a 30-day guarantee.</strong> Too long for a low-ticket offer. Clawbacks go up and it attracts the try-it-and-refund buyer. Take it off the slide and keep a 7-day version in reserve.</div>
+    </div></div>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Step 2</div>
+    <h2 class="sec-title">Open it up</h2>
+    <div class="moment"><div class="moment-body">
+      <div class="quote-block">&ldquo;What's coming to mind?&rdquo;</div>
+      <div class="moment-p">Then let them talk. Listen for the belief underneath: &ldquo;I never follow through,&rdquo; &ldquo;I get excited and quit.&rdquo;</div>
+    </div></div>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Step 3</div>
+    <h2 class="sec-title">Break the belief: light first, then direct</h2>
+
+    <div class="moment">
+      <div class="moment-head"><div class="moment-num">01</div><div class="moment-title">The light open</div></div>
+      <div class="moment-body">
+        <div class="quote-block">&ldquo;What, you got ADHD or something?&rdquo;</div>
+        <div class="moment-p">Said as a joke. Whatever they answer (&ldquo;I do,&rdquo; &ldquo;undiagnosed but definitely something,&rdquo; &ldquo;nope&rdquo;), it goes to the same place.</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head"><div class="moment-num">02</div><div class="moment-title">The turn</div></div>
+      <div class="moment-body">
+        <div class="quote-block">&ldquo;Okay. So are you going to keep letting that be the reason you don't do what you want to do? Or is this the time to make the change?&rdquo;</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head"><div class="moment-num">03</div><div class="moment-title">The choice</div></div>
+      <div class="moment-body">
+        <div class="quote-block">&ldquo;Whether you buy this or not, being intentional is a choice. Would you agree?&rdquo;</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head"><div class="moment-num">04</div><div class="moment-title">The yeses</div></div>
+      <div class="moment-body">
+        <div class="moment-p">&ldquo;Do you see yourself using the tool?&rdquo; <strong>Yes.</strong></div>
+        <div class="moment-p">&ldquo;Do you feel like it can be an asset to you?&rdquo; <strong>Yes.</strong></div>
+        <div class="quote-block">&ldquo;So are you going to decide with me to make the shift? Or are we going to keep going on the same path?&rdquo;</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head"><div class="moment-num">05</div><div class="moment-title">If they still hold back, get direct</div></div>
+      <div class="moment-body">
+        <div class="quote-block">&ldquo;You're aware you get distracted. That's fine. But right now you're choosing to be your own roadblock. Is anyone physically stopping you? No. It's just you. This has nothing to do with the tool or whether it works for you. It's a decision you need to make for yourself. So are you ready to make it?&rdquo;</div>
+        <div class="moment-p"><strong>Why it works:</strong> their belief is &ldquo;I'm attention deficient, so I won't follow through.&rdquo; The joke gets them to admit it. The questions show them it's a choice, not a fact.</div>
+        <div class="moment-p"><strong>Only works if you're the authority.</strong> If you haven't earned that by this point in the call, skip the direct version.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Step 4</div>
+    <h2 class="sec-title">Create external urgency</h2>
+    <div class="moment"><div class="moment-body">
+      <div class="moment-p">For people who only move when something is urgent, give them a real opportunity cost that runs out. Think to-do list or a timer: something outside them that makes them move.</div>
+      <div class="moment-p"><strong>Rule: the urgency has to be real.</strong> Never invent a deadline. If you say it's a one-time offer, it is.</div>
+      <div class="moment-p"><strong>The offer:</strong> &ldquo;This plan is only available on this call. After today it's back to the regular renewal.&rdquo;</div>
+      <div class="moment-p"><strong>The cost of waiting:</strong> tie it to the pain they told you. &ldquo;You told me you're tired of zero clients one month and 10 the next. Every month you wait to start posting is another month of that.&rdquo;</div>
+      <div class="moment-p"><strong>Their own pattern:</strong> &ldquo;You just told me you always wait until you feel ready. Waiting is the pattern. Starting today is how you break it.&rdquo;</div>
+      <div class="moment-p"><strong>Momentum on the call:</strong> &ldquo;Let's set it up together right now so you leave with your first post done.&rdquo; They leave having already used it, which kills &ldquo;will I use it?&rdquo;</div>
+    </div></div>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Step 5</div>
+    <h2 class="sec-title">The guarantee, only if needed</h2>
+    <div class="moment"><div class="moment-body">
+      <div class="moment-p">Keep it off the main slide. Only bring it up if they're still skeptical after Steps 2 to 4. Use the 7-day version as a safety net, not the reason to buy:</div>
+      <div class="quote-block">&ldquo;And if something's off in the first 7 days, we'll make it right. But I don't think that's going to be the issue here.&rdquo;</div>
+    </div></div>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Cheat Sheet</div>
+    <h2 class="sec-title">The quick version</h2>
+    <div class="action-grid">
+      <div class="action-item"><div class="action-owner">1</div>Hear &ldquo;will I actually use it?&rdquo; &rarr; &ldquo;What's coming to mind?&rdquo;</div>
+      <div class="action-item"><div class="action-owner">2</div>Light: &ldquo;What, you got ADHD or something?&rdquo;</div>
+      <div class="action-item"><div class="action-owner">3</div>Turn: &ldquo;Keep letting that be the reason, or make the change?&rdquo;</div>
+      <div class="action-item"><div class="action-owner">4</div>Choice: &ldquo;Being intentional is a choice. Agree?&rdquo;</div>
+      <div class="action-item"><div class="action-owner">5</div>Yeses: &ldquo;See yourself using it? Asset? Decide with me?&rdquo;</div>
+      <div class="action-item"><div class="action-owner">6</div>Urgency: real deadline + cost of waiting + their own pattern</div>
+      <div class="action-item"><div class="action-owner">7</div>Guarantee only if needed: 7 days</div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="doc-footer">
+  <span>Sales.io, Objection Handling SOP</span>
+  <span>External Urgency &middot; October 2026</span>
+</footer>
