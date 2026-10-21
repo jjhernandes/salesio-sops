@@ -1,0 +1,387 @@
+
+<title>She Creates Setter Workflow</title>
+<style>
+  :root {
+    --bg: #090908;
+    --surface: #111110;
+    --surface-2: #1a1916;
+    --accent: #e2cfa8;
+    --accent-soft: #f0e4c8;
+    --accent-dim: rgba(226,207,168,.07);
+    --accent-border: rgba(226,207,168,.14);
+    --text: #f0ece4;
+    --text-muted: #8a8475;
+    --text-faint: #3e3b30;
+    --border: #201f18;
+    --check: #7dcf95;
+    --check-dim: rgba(125,207,149,.08);
+    --mono: 'SF Mono','Fira Code','Consolas',monospace;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #faf8f2; --surface: #f0ece0; --surface-2: #e4dece;
+      --accent: #8a6d3a; --accent-soft: #6b5228;
+      --accent-dim: rgba(138,109,58,.07); --accent-border: rgba(138,109,58,.2);
+      --text: #1a1914; --text-muted: #6a6450; --text-faint: #c0b898;
+      --border: #ddd8c8; --check: #2a7a45; --check-dim: rgba(42,122,69,.07);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#090908;--surface:#111110;--surface-2:#1a1916;
+    --accent:#e2cfa8;--accent-soft:#f0e4c8;
+    --accent-dim:rgba(226,207,168,.07);--accent-border:rgba(226,207,168,.14);
+    --text:#f0ece4;--text-muted:#8a8475;--text-faint:#3e3b30;
+    --border:#201f18;--check:#7dcf95;--check-dim:rgba(125,207,149,.08);
+  }
+  :root[data-theme="light"] {
+    --bg:#faf8f2;--surface:#f0ece0;--surface-2:#e4dece;
+    --accent:#8a6d3a;--accent-soft:#6b5228;
+    --accent-dim:rgba(138,109,58,.07);--accent-border:rgba(138,109,58,.2);
+    --text:#1a1914;--text-muted:#6a6450;--text-faint:#c0b898;
+    --border:#ddd8c8;--check:#2a7a45;--check-dim:rgba(42,122,69,.07);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{font-size:16px;scroll-behavior:smooth;}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    font-size:.9375rem;line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .doc-header{
+    max-width:760px;margin:0 auto;
+    padding:3rem 2rem 2.5rem;
+    border-bottom:1px solid var(--border);
+  }
+  .eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:.875rem;
+  }
+  .doc-title{
+    font-size:1.75rem;font-weight:700;
+    letter-spacing:-.03em;line-height:1.2;
+    color:var(--text);margin-bottom:.25rem;
+  }
+  .doc-sub{color:var(--text-muted);font-size:.9375rem;margin-top:.25rem;}
+  .meta-row{
+    display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.125rem;
+  }
+  .meta-chip{
+    display:flex;align-items:center;gap:.4rem;
+    font-family:var(--mono);font-size:.6875rem;
+    color:var(--text-muted);background:var(--surface);
+    border:1px solid var(--border);border-radius:2px;padding:.25rem .625rem;
+  }
+  .meta-chip-dot{
+    width:4px;height:4px;border-radius:50%;
+    background:var(--accent);flex-shrink:0;
+  }
+
+  main{max-width:760px;margin:0 auto;padding:0 2rem 5rem;}
+
+  .section{padding:2.25rem 0 1.75rem;border-bottom:1px solid var(--border);}
+  .section:last-child{border-bottom:none;}
+  .sec-eyebrow{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.12em;text-transform:uppercase;
+    color:var(--text-faint);margin-bottom:.75rem;
+  }
+  .sec-title{
+    font-size:1.0625rem;font-weight:650;
+    color:var(--text);letter-spacing:-.015em;margin-bottom:1.25rem;
+  }
+
+  /* Snapshot cards */
+  .snap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;}
+  .snap-card{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:3px;overflow:hidden;
+  }
+  .snap-head{
+    padding:.5rem .75rem;background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--text-faint);
+  }
+  .snap-val{
+    padding:.625rem .75rem;font-size:.875rem;color:var(--text-muted);
+    line-height:1.5;
+  }
+  .snap-val strong{color:var(--text);font-weight:600;}
+
+  /* Video card */
+  .video-card{
+    display:block;text-decoration:none;color:inherit;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:6px;overflow:hidden;transition:border-color .15s,background .15s;
+  }
+  .video-card:hover{border-color:var(--accent-border);background:var(--surface-2);}
+  .video-poster{
+    aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;
+    background:
+      radial-gradient(circle at 30% 20%, var(--accent-dim), transparent 60%),
+      var(--surface-2);
+    position:relative;
+  }
+  /* Brand fallback poster: used whenever no real Fathom thumbnail is available */
+  .video-poster.brand-fallback{
+    background:#000;flex-direction:column;gap:1rem;
+  }
+  .brand-fallback .brand-mark{display:flex;align-items:center;gap:.625rem;}
+  .brand-fallback .brand-mark img{height:40px;width:40px;object-fit:contain;display:block;}
+  .brand-fallback .brand-word{
+    font-family:-apple-system,'Segoe UI',system-ui,sans-serif;
+    font-size:1.375rem;font-weight:700;letter-spacing:-.02em;color:#fff;
+  }
+  .brand-fallback .play-circle{position:relative;}
+  .play-circle{
+    width:56px;height:56px;border-radius:50%;
+    background:var(--accent);display:flex;align-items:center;justify-content:center;
+    box-shadow:0 4px 18px var(--accent-dim);flex-shrink:0;
+    transition:transform .15s;
+  }
+  .video-card:hover .play-circle{transform:scale(1.06);}
+  .play-circle svg{width:18px;height:18px;margin-left:3px;fill:var(--bg);}
+  .video-card-meta{padding:.875rem 1rem;border-top:1px solid var(--border);}
+  .video-card-title{font-size:.875rem;font-weight:650;color:var(--text);margin-bottom:.25rem;}
+  .video-card-sub{display:flex;justify-content:space-between;align-items:center;gap:.75rem;flex-wrap:wrap;font-size:.75rem;color:var(--text-muted);}
+  .video-card-sub .link{color:var(--accent);font-family:var(--mono);font-size:.7rem;}
+
+  /* Moments */
+  .moment{
+    margin-bottom:.625rem;
+    border:1px solid var(--border);border-radius:3px;overflow:hidden;
+  }
+  .moment-head{
+    display:flex;align-items:flex-start;gap:.875rem;
+    padding:.9375rem 1.125rem;background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+  }
+  .moment-num{
+    font-family:var(--mono);font-size:.625rem;
+    letter-spacing:.08em;color:var(--accent);opacity:.55;
+    flex-shrink:0;margin-top:.15rem;min-width:1.5rem;
+  }
+  .moment-title{
+    font-size:.9375rem;font-weight:650;
+    color:var(--text);letter-spacing:-.01em;line-height:1.3;
+  }
+  .moment-body{
+    padding:.9375rem 1.125rem;background:var(--surface);
+  }
+  .moment-p{
+    font-size:.875rem;color:var(--text-muted);
+    line-height:1.65;margin-bottom:.625rem;
+  }
+  .moment-p:last-child{margin-bottom:0;}
+  .moment-p strong{color:var(--text);font-weight:600;}
+
+  .quote-block{
+    margin:.75rem 0;padding:.75rem 1rem;
+    background:var(--accent-dim);border-left:2px solid var(--accent);
+    border-radius:0 2px 2px 0;
+    font-size:.875rem;color:var(--accent-soft);
+    line-height:1.6;font-style:italic;
+  }
+  .quote-attr{
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--text-faint);margin-top:.35rem;font-style:normal;
+  }
+
+  .callout{
+    padding:.75rem 1rem;
+    background:var(--accent-dim);border:1px solid var(--accent-border);
+    border-radius:2px;font-size:.875rem;color:var(--text-muted);line-height:1.6;
+    margin-top:.875rem;
+  }
+  .callout strong{color:var(--accent-soft);}
+
+  /* Action items */
+  .action-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+  .action-item{
+    display:flex;align-items:flex-start;gap:.75rem;
+    padding:.75rem .875rem;
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:3px;font-size:.875rem;color:var(--text-muted);line-height:1.5;
+  }
+  .action-owner{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent);opacity:.7;flex-shrink:0;
+    margin-top:.15rem;min-width:3.5rem;
+  }
+
+  .doc-footer{
+    max-width:760px;margin:0 auto;
+    padding:1.5rem 2rem;border-top:1px solid var(--border);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
+    font-family:var(--mono);font-size:.575rem;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);
+  }
+
+  @media(max-width:600px){
+    .doc-header,main{padding-left:1.25rem;padding-right:1.25rem;}
+    .doc-title{font-size:1.4rem;}
+    .snap-grid,.action-grid{grid-template-columns:1fr;}
+  }
+.action-item a{color:inherit;text-decoration:underline;}
+</style>
+<div class="doc-header">
+  <div class="eyebrow">She Creates Academy &middot; Setter SOP</div>
+  <h1 class="doc-title">Setter Workflow: Micah on the Phones, Mikaela in the DMs</h1>
+  <div class="doc-sub">Who does what, what to work first every day, and which script to use when. Built from the Oct 20 setter call with JJ, Faris, Micah and Mikaela.</div>
+  <div class="meta-row">
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Starts Wed, Oct 21</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Questions go in the WhatsApp group</div>
+    <div class="meta-chip"><div class="meta-chip-dot"></div>Paid on performance</div>
+  </div>
+</div>
+
+<main>
+
+  <div class="section">
+    <div class="sec-eyebrow">Roles</div>
+    <h2 class="sec-title">Who owns what</h2>
+    <div class="snap-grid">
+      <div class="snap-card">
+        <div class="snap-head">Micah: phones</div>
+        <div class="snap-val">Starting tomorrow you own the dials: confirming booked calls, new applications, and pre-webinar calls. Work the GHL priority lists in order.</div>
+      </div>
+      <div class="snap-card">
+        <div class="snap-head">Mikaela: DMs</div>
+        <div class="snap-val">You own Instagram and TikTok DMs, especially when Gigi posts a story. You also take post-webinar follow-ups with people who attended but didn't book.</div>
+      </div>
+      <div class="snap-card">
+        <div class="snap-head">Both</div>
+        <div class="snap-val">Help each other when one side gets busy. Talk in the WhatsApp group. Don't assume, ask. Only use the scripts JJ sent you, ignore older ones.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Micah</div>
+    <h2 class="sec-title">Your daily phone workflow</h2>
+
+    <div class="moment">
+      <div class="moment-head"><div class="moment-num">01</div><div class="moment-title">Morning: confirm today's booked calls</div></div>
+      <div class="moment-body">
+        <div class="moment-p">Open GHL &rarr; <strong>Calendars</strong>. Check Ulani's and Kirsty's calendars for today. Every call today should be triaged, have notes, and the closer should have a quick voice note from you on what to expect.</div>
+        <div class="moment-p">You're on Mountain time. Anyone you can't reach before 9am Eastern, call that afternoon. Confirmation is the most important thing you do.</div>
+        <div class="moment-p"><strong>Touch point timing:</strong> booked 3+ days out, triage right away. Morning call, touch point the evening before. Afternoon or evening call, touch point that morning. On the triage call tell them: "I'll give you a quick call the day before to make sure you got the resources."</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head"><div class="moment-num">02</div><div class="moment-title">Work the GHL priority lists, in order</div></div>
+      <div class="moment-body">
+        <div class="moment-p"><strong>P1. New applications.</strong> Qualified applicants. Text with the intro snippet, double dial, and if it goes to voicemail leave a 10-second one: "Hey, this is Micah from Gigi's team. I saw you submitted an application, wanted to go over a few things so we can point you in the right direction."</div>
+        <div class="moment-p"><strong>P2. Booked calls.</strong> Everything on the calendar that still needs triage or a touch point.</div>
+        <div class="moment-p"><strong>P3. Webinar registrations.</strong> On webinar day this jumps to <strong>#1</strong>. 3-5 minute call: why they signed up, get them excited, make sure they show. You're warming them up, not booking.</div>
+        <div class="moment-p"><strong>P4. Webinar attendees who didn't book.</strong> Mikaela takes these (see below).</div>
+        <div class="moment-p"><strong>P5. No-shows and cancellations.</strong> Faris handles these. Only touch them if P1 to P3 are done.</div>
+        <div class="moment-p"><strong>Do not dial the orange, non-qualified applications</strong> (picked $500 or "not able to invest"). Those wait for the weekend setter.</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head"><div class="moment-num">03</div><div class="moment-title">Slack: claim leads so you don't double up</div></div>
+      <div class="moment-body">
+        <div class="moment-p">Set <strong>#sales-call-booked</strong> notifications to all new posts, and star <strong>#new-applications</strong>.</div>
+        <div class="moment-p">React on the lead when you work it: &#x1F44D; claimed, &#x2705; picked up, &#x1F504; rescheduled or call back later.</div>
+        <div class="moment-p">First come, first served. If one of you reached out and got no reply, the lead is free for the other after 12 hours. Say so in the group when you take it.</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head"><div class="moment-num">04</div><div class="moment-title">GHL habits</div></div>
+      <div class="moment-body">
+        <div class="moment-p">Add yourself as a <strong>follower</strong> on every lead you call. Never make yourself the owner, the owner is the closer.</div>
+        <div class="moment-p">Leave an internal note after every real conversation.</div>
+        <div class="moment-p">Use snippets: the text intro ("Hey {first name}, this is {you} with Gigi's team, She Creates Academy") and the resource email (who Gigi is, the latest webinar replay, the walkthrough doc). Make your own if they help.</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head"><div class="moment-num">05</div><div class="moment-title">Track your numbers</div></div>
+      <div class="moment-body">
+        <div class="moment-p">Install the <strong>Tally Counter</strong> Chrome extension and count: pickups, convos (over 2 minutes), sets, DQs, hangups and follow-ups. Put the totals in your end-of-day report.</div>
+        <div class="moment-p">There's no 100-dial target right now. There aren't that many leads to call. Work the lists above fully and fast.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Mikaela</div>
+    <h2 class="sec-title">Your daily DM workflow</h2>
+
+    <div class="moment">
+      <div class="moment-head"><div class="moment-num">01</div><div class="moment-title">Where to look</div></div>
+      <div class="moment-body">
+        <div class="moment-p">Check <strong>TikTok first</strong>, that's where most messages come in. Then Instagram, both Primary and General. When Gigi posts a story, it goes to both.</div>
+        <div class="moment-p">Open everything. If it turns out to be personal, mark it unread so Gigi sees it.</div>
+        <div class="moment-p">Expect 4 to 5 conversations at a time after a story post.</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head"><div class="moment-num">02</div><div class="moment-title">The flow: conversation &rarr; pitch &rarr; application &rarr; booking</div></div>
+      <div class="moment-body">
+        <div class="moment-p">Start from their question and tie it back to the script ("Are you new to UGC?"). Follow the story reply flow below.</div>
+        <div class="moment-p">After they say yes to the pitch: <em>"Perfect, I just need you to fill out this quick form so we're prepared for the call, then I'll send over the calendar."</em></div>
+        <div class="moment-p">The application shows up in <strong>#new-applications</strong>. Qualified: <em>"Perfect, I just reviewed it, you sound like a great fit for what we do,"</em> then send the booking link.</div>
+        <div class="moment-p">Not qualified on money: <em>"I saw you mentioned you're not able to invest in yourself right now. Was that you being cautious, or is that a literal answer?"</em></div>
+        <div class="moment-p">Stuck on a reply? Give Claude the script and the message and ask for a response idea, then make it yours. Questions only Gigi can answer go to her.</div>
+      </div>
+    </div>
+
+    <div class="moment">
+      <div class="moment-head"><div class="moment-num">03</div><div class="moment-title">Post-webinar follow-ups</div></div>
+      <div class="moment-body">
+        <div class="moment-p">People who attended but didn't book (GHL list P4). Opener: <em>"I noticed you attended the webinar but didn't book a call. Did something come up, or did you need help with the calendar?"</em></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Webinar Day</div>
+    <h2 class="sec-title">How the week shifts</h2>
+    <div class="moment"><div class="moment-body">
+      <div class="moment-p"><strong>A day or two before (Wednesday works):</strong> Micah starts pre-webinar calls on the registration list.</div>
+      <div class="moment-p"><strong>Webinar day:</strong> registrations become Micah's #1 list. Mikaela watches the DMs, since the webinar drives messages.</div>
+      <div class="moment-p"><strong>After the webinar:</strong> Mikaela calls or messages attendees who didn't book.</div>
+    </div></div>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Scripts</div>
+    <h2 class="sec-title">Which script, when</h2>
+    <div class="action-grid">
+      <div class="action-item"><div class="action-owner">DMs, story reply</div><a href="https://jjhernandes.github.io/salesio-sops/shecreates-story-ugc-flow.html">Story "comment UGC" DM flow</a></div>
+      <div class="action-item"><div class="action-owner">DMs, general</div><a href="https://jjhernandes.github.io/salesio-sops/shecreates-general-call-flow.html">General DM setting flow</a></div>
+      <div class="action-item"><div class="action-owner">Before the webinar</div><a href="https://docs.google.com/document/d/1LhCP8EXDHY0HHVCVH24E78VqfLMiFLchLYIrRNVPnVE/edit">Pre-webinar dial script</a></div>
+      <div class="action-item"><div class="action-owner">Booked call triage</div><a href="https://docs.google.com/document/d/1nzLxaD9p3-jGw9Q-wnbbTcTVZlgRWQQHIkcCJBSoH_k/edit">Post-booking triage script</a></div>
+      <div class="action-item"><div class="action-owner">Applied, didn't book</div><a href="https://docs.google.com/document/d/1bEYL-fu89VRf4sQEJ0Ia0Du7EU511MwV1MADv3R0nvA/edit">Applied but didn't book script</a></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-eyebrow">Rules</div>
+    <h2 class="sec-title">How we work</h2>
+    <div class="moment"><div class="moment-body">
+      <div class="moment-p"><strong>Hours:</strong> roughly 9am to 5pm Pacific. You're paid on performance, so if someone's ready to book after hours, send the link.</div>
+      <div class="moment-p"><strong>Communication:</strong> everything goes in the WhatsApp group. Ask JJ anything there.</div>
+      <div class="moment-p"><strong>End of day:</strong> fill out the end-of-day report with your Tally numbers.</div>
+    </div></div>
+  </div>
+
+</main>
+
+<footer class="doc-footer">
+  <span>Sales.io &times; She Creates Academy, Setter SOP</span>
+  <span>Micah &amp; Mikaela &middot; October 2026</span>
+</footer>
