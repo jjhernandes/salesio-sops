@@ -120,7 +120,9 @@ body{
   padding:.6rem 1.25rem;cursor:pointer;
   font-size:.75rem;font-weight:500;color:var(--sb-t2);
   transition:all .18s;position:relative;user-select:none;border-radius:0;
+  text-decoration:none;
 }
+.nav-item:focus-visible{outline:2px solid rgba(var(--glow-rgb),.85);outline-offset:-2px;}
 .nav-item::before{
   content:'';position:absolute;left:0;top:.2rem;bottom:.2rem;
   width:2px;background:var(--sb-text);
@@ -575,6 +577,27 @@ body{
 .page-sub{font-size:.85rem;color:var(--t2);line-height:1.7;font-weight:300;max-width:60ch;margin-bottom:2rem;}
 .page-sub strong{color:var(--text);font-weight:600;}
 
+.jump-nav{display:flex;flex-wrap:wrap;gap:.4rem;margin:-.85rem 0 1.75rem;}
+.jump-nav a{
+  font-size:.6rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  font-family:'SF Mono',monospace;color:var(--t2);text-decoration:none;
+  border:1px solid var(--bdr);border-radius:999px;padding:.4rem .75rem;background:var(--card);
+}
+.jump-nav a:hover,.jump-nav a:focus-visible{border-color:rgba(var(--glow-rgb),.55);color:var(--text);outline:none;}
+.res-group,.section-label[id]{scroll-margin-top:.75rem;}
+
+.to-top{
+  position:fixed;right:1.15rem;bottom:1.15rem;z-index:40;
+  width:42px;height:42px;border-radius:50%;
+  border:1px solid var(--bdr-2);background:var(--card);color:var(--text);
+  font-size:1.05rem;line-height:1;cursor:pointer;
+  box-shadow:0 8px 24px var(--shd);
+  opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;
+}
+.to-top.show{opacity:1;pointer-events:auto;}
+.to-top:hover{transform:translateY(-2px);}
+.to-top:focus-visible{outline:2px solid rgba(var(--glow-rgb),.85);outline-offset:2px;}
+
 /* ── Mobile ── */
 @media(max-width:700px){
   .sidebar{
@@ -584,16 +607,30 @@ body{
   }
   .sidebar.open{transform:translateX(0);}
   .mh-menu-btn{display:flex;align-items:center;justify-content:center;}
+  .main-header{padding:0 .9rem;}
+  .internal-badge{letter-spacing:.08em;}
   .stats-row{grid-template-columns:repeat(2,1fr);}
-  .launch-grid{grid-template-columns:1fr 1fr;}
-  .week-grid{grid-template-columns:repeat(3,1fr);}
+  .launch-grid{grid-template-columns:1fr;}
+  .week-grid{grid-template-columns:repeat(2,1fr);}
   .section{padding:1.5rem 1.25rem;}
+  .review-add-row{flex-direction:column;}
+  .review-select,.review-add-btn{width:100%;}
+  .pb-item{flex-wrap:wrap;align-items:flex-start;}
+  .pb-tag{margin-left:2.15rem;}
+  .task-del{opacity:1;}
+  .team-card:hover{transform:none;}
+  .wd-title,.wd-host{overflow-wrap:anywhere;}
+}
+@media(max-width:420px){
+  .week-grid{grid-template-columns:1fr 1fr;}
+  .mh-title{max-width:42vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 }
 </style>
 </head>
 <body>
 
 <div class="grain" aria-hidden="true"></div>
+<button type="button" class="to-top" id="to-top" aria-label="Back to top">↑</button>
 
 <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="closeSidebar()"></div>
 
@@ -609,30 +646,30 @@ body{
 
   <div class="sb-nav">
     <div class="sb-section-label">Navigation</div>
-    <div class="nav-item active" data-sec="dash" onclick="goTo('dash')">
-      <span class="nav-icon">🏠</span> Dashboard
-    </div>
-    <div class="nav-item" data-sec="notes" onclick="goTo('notes')">
-      <span class="nav-icon">🧠</span> Brain Dump
-    </div>
-    <div class="nav-item" data-sec="hub" onclick="goTo('hub')">
-      <span class="nav-icon">👥</span> Client Hub
-    </div>
-    <div class="nav-item" data-sec="resources" onclick="goTo('resources')">
-      <span class="nav-icon">📚</span> Resources
-    </div>
-    <div class="nav-item" data-sec="team" onclick="goTo('team')">
-      <span class="nav-icon">🤝</span> Team
-    </div>
-    <div class="nav-item" data-sec="content" onclick="goTo('content')">
-      <span class="nav-icon">✍️</span> Content
-    </div>
-    <div class="nav-item" data-sec="review" onclick="goTo('review')">
-      <span class="nav-icon">📥</span> Doc Review
-    </div>
-    <div class="nav-item" data-sec="playbooks" onclick="goTo('playbooks')">
-      <span class="nav-icon">📋</span> Playbooks
-    </div>
+    <a class="nav-item active" href="#dash" data-sec="dash" aria-current="page">
+      <span class="nav-icon" aria-hidden="true">🏠</span> Dashboard
+    </a>
+    <a class="nav-item" href="#notes" data-sec="notes">
+      <span class="nav-icon" aria-hidden="true">🧠</span> Brain Dump
+    </a>
+    <a class="nav-item" href="#hub" data-sec="hub">
+      <span class="nav-icon" aria-hidden="true">👥</span> Client Hub
+    </a>
+    <a class="nav-item" href="#resources" data-sec="resources">
+      <span class="nav-icon" aria-hidden="true">📚</span> Resources
+    </a>
+    <a class="nav-item" href="#team" data-sec="team">
+      <span class="nav-icon" aria-hidden="true">🤝</span> Team
+    </a>
+    <a class="nav-item" href="#content" data-sec="content">
+      <span class="nav-icon" aria-hidden="true">✍️</span> Content
+    </a>
+    <a class="nav-item" href="#review" data-sec="review">
+      <span class="nav-icon" aria-hidden="true">📥</span> Doc Review
+    </a>
+    <a class="nav-item" href="#playbooks" data-sec="playbooks">
+      <span class="nav-icon" aria-hidden="true">📋</span> Playbooks
+    </a>
 
     <div class="sb-divider" style="margin-top:.75rem;"></div>
     <div class="sb-section-label" style="margin-top:.25rem;">Quick Open</div>
@@ -643,10 +680,6 @@ body{
     </a>
     <a class="nav-ext" href="./salesio-affiliate-tracker.html" target="_blank">
       <span style="display:flex;align-items:center;gap:.625rem;"><span class="nav-icon">🔗</span> Affiliate Tracker</span>
-      <span class="ext-arr">↗</span>
-    </a>
-    <a class="nav-ext" href="./salesio-setter-tracker.html" target="_blank">
-      <span style="display:flex;align-items:center;gap:.625rem;"><span class="nav-icon">📋</span> Setter Tracker</span>
       <span class="ext-arr">↗</span>
     </a>
   </div>
@@ -732,7 +765,7 @@ body{
       <!-- Quick launch -->
       <div class="section-label">Quick Launch</div>
       <div class="launch-grid">
-        <div class="launch-card primary" onclick="goTo('hub')">
+        <div class="launch-card primary" onclick="goTo('hub')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();goTo('hub');}">
           <div class="lc-icon">👥</div>
           <div class="lc-title">Client Hub</div>
           <div class="lc-desc">Track students, weeks, renewals, and status in one place.</div>
@@ -816,8 +849,16 @@ body{
     <div id="sec-resources" class="section">
       <div class="page-title">Resources</div>
       <div class="page-sub">All Sales.io docs, tools, and references — organized by category.</div>
+      <nav class="jump-nav" aria-label="Resource categories">
+        <a href="#res-core">Core Tools</a>
+        <a href="#res-student">Student-Facing</a>
+        <a href="#res-renewals">Renewals</a>
+        <a href="#res-sales">Sales</a>
+        <a href="#res-brand">Content &amp; Brand</a>
+        <a href="#res-curriculum">Curriculum</a>
+      </nav>
 
-      <div class="res-group">
+      <div class="res-group" id="res-core">
         <div class="res-group-title">Core Tools</div>
         <div class="res-grid">
           <a class="res-card" href="./salesio-client-hub.html" target="_blank"><div class="res-icon">👥</div><div><div class="res-name">Client Hub</div><div class="res-desc">Active student tracker — weeks, status, renewals, CSV export.</div></div></a>
@@ -828,12 +869,11 @@ body{
         </div>
       </div>
 
-      <div class="res-group">
+      <div class="res-group" id="res-student">
         <div class="res-group-title">Student-Facing</div>
         <div class="res-grid">
           <a class="res-card" href="./salesio-sales-101.html" target="_blank"><div class="res-icon">👋</div><div><div class="res-name">Sales 101</div><div class="res-desc">Send to total beginners before Day One — plain-language glossary and call walkthrough.</div></div></a>
           <a class="res-card" href="./salesio-day-one-expectations.html" target="_blank"><div class="res-icon">📄</div><div><div class="res-name">Day One Expectations</div><div class="res-desc">Send on day one — full program overview, schedule, and rules.</div></div></a>
-          <a class="res-card" href="./student-onboarding.html" target="_blank"><div class="res-icon">🚀</div><div><div class="res-name">Student Onboarding</div><div class="res-desc">Onboarding flow and first-week checklist for new students.</div></div></a>
           <a class="res-card" href="./salesio-enrollment-agreement.html" target="_blank"><div class="res-icon">✍️</div><div><div class="res-name">Enrollment Agreement</div><div class="res-desc">Program terms and signature block for new students.</div></div></a>
           <a class="res-card" href="./salesio-progress-tracker.html" target="_blank"><div class="res-icon">🗺️</div><div><div class="res-name">Progress Tracker</div><div class="res-desc">Student-facing 12-week roadmap with self-tracking checkpoints.</div></div></a>
           <a class="res-card" href="./salesio-call-tracker.html" target="_blank"><div class="res-icon">📞</div><div><div class="res-name">Call Tracker</div><div class="res-desc">Student self-tracking tool — shows, closes, cash collected. Local to their device.</div></div></a>
@@ -842,7 +882,7 @@ body{
         </div>
       </div>
 
-      <div class="res-group">
+      <div class="res-group" id="res-renewals">
         <div class="res-group-title">Renewals</div>
         <div class="res-grid">
           <a class="res-card" href="./salesio-renewal-offer.html" target="_blank"><div class="res-icon">💰</div><div><div class="res-name">Renewal Offer</div><div class="res-desc">Interactive Core / Growth / Elite tier selector for renewals.</div></div></a>
@@ -850,19 +890,18 @@ body{
         </div>
       </div>
 
-      <div class="res-group">
+      <div class="res-group" id="res-sales">
         <div class="res-group-title">Sales</div>
         <div class="res-grid">
           <a class="res-card" href="./sales-call-script.html" target="_blank"><div class="res-icon">📞</div><div><div class="res-name">Sales Call Script</div><div class="res-desc">Full call script and framework for closers.</div></div></a>
-          <a class="res-card" href="./sales-call-structure.html" target="_blank"><div class="res-icon">🏗️</div><div><div class="res-name">Call Structure</div><div class="res-desc">Call architecture breakdown from open to close.</div></div></a>
+          <a class="res-card" href="./training-bible-s3.html" target="_blank"><div class="res-icon">🏗️</div><div><div class="res-name">Call Structure</div><div class="res-desc">The 12-step call, from open to close. Section 3 of the Training Bible.</div></div></a>
           <a class="res-card" href="./faris-setter-daily-standards.html" target="_blank"><div class="res-icon">📊</div><div><div class="res-name">Setter Daily Standards</div><div class="res-desc">Faris's daily KPIs, standards, and booking process.</div></div></a>
-          <a class="res-card" href="./salesio-setter-tracker.html" target="_blank"><div class="res-icon">📋</div><div><div class="res-name">Setter Tracker</div><div class="res-desc">Single daily-entry log per setter, rolling up into a team comparison view for Tom.</div></div></a>
           <a class="res-card" href="./salesio-affiliate-program.html" target="_blank"><div class="res-icon">🤝</div><div><div class="res-name">Affiliate Program</div><div class="res-desc">Affiliate program overview and commission structure.</div></div></a>
           <a class="res-card" href="./salesio-affiliate-apply.html" target="_blank"><div class="res-icon">✅</div><div><div class="res-name">Affiliate Application</div><div class="res-desc">Application form and onboarding for new affiliates.</div></div></a>
         </div>
       </div>
 
-      <div class="res-group">
+      <div class="res-group" id="res-brand">
         <div class="res-group-title">Content & Brand</div>
         <div class="res-grid">
           <a class="res-card" href="./content-bible-june2026.html" target="_blank"><div class="res-icon">✍️</div><div><div class="res-name">Content Bible</div><div class="res-desc">Signature stories, hot takes, audience language, 100 questions, 100 video ideas, and hooks — straight from JJ.</div></div></a>
@@ -870,10 +909,9 @@ body{
         </div>
       </div>
 
-      <div class="res-group">
+      <div class="res-group" id="res-curriculum">
         <div class="res-group-title">Curriculum Weeks</div>
         <div class="res-grid">
-          <a class="res-card" href="./curriculum-weeks-8-12.html" target="_blank"><div class="res-icon">📚</div><div><div class="res-name">Weeks 8–12 Curriculum</div><div class="res-desc">Phase 2–3 curriculum content and lesson plans.</div></div></a>
           <a class="res-card" href="./week7-mastery-test.html" target="_blank"><div class="res-icon">🧪</div><div><div class="res-name">Week 7 Mastery Test</div><div class="res-desc">Student assessment and mastery check for Week 7.</div></div></a>
           <a class="res-card" href="./week8-decision-architecture.html" target="_blank"><div class="res-icon">🏛️</div><div><div class="res-name">Week 8 Decision Architecture</div><div class="res-desc">Decision-making framework and advanced close architecture.</div></div></a>
         </div>
@@ -883,7 +921,7 @@ body{
     <!-- ── TEAM ── -->
     <div id="sec-team" class="section">
       <div class="page-title">The Team</div>
-      <div class="page-sub">Five people. Primary channel is <strong>Slack</strong>. Here's who does what and when to loop them in.</div>
+      <div class="page-sub">Six people. Primary channel is <strong>Slack</strong>. Here's who does what and when to loop them in.</div>
 
       <div class="team-grid">
         <div class="team-card">
@@ -893,15 +931,6 @@ body{
             <div class="team-role">Founder &amp; CEO</div>
             <div class="team-focus">Runs <strong>Inner Circle (Friday)</strong> personally. Handles all top-level decisions, high-stakes student conversations, and revenue strategy. Loop in for anything involving the offer, program structure, or major student concerns.</div>
             <div><span class="team-tag">Friday Inner Circle</span><span class="team-tag">Offer decisions</span><span class="team-tag">Revenue strategy</span></div>
-          </div>
-        </div>
-        <div class="team-card">
-          <div class="team-avatar">C</div>
-          <div class="team-info">
-            <div class="team-name">Cole Verbeek</div>
-            <div class="team-role">Co-Founder · Head Coach</div>
-            <div class="team-focus">Runs <strong>Sales Psychology (Wednesday)</strong> and <strong>Coffee Chat (Saturday)</strong>. Owns student experience and program delivery. Go-to for coaching decisions, PASE method, and psychology-heavy student situations.</div>
-            <div><span class="team-tag">Wednesday + Saturday</span><span class="team-tag">Coaching decisions</span><span class="team-tag">Student experience</span></div>
           </div>
         </div>
         <div class="team-card">
@@ -1052,33 +1081,38 @@ body{
     <div id="sec-playbooks" class="section">
       <div class="page-title">Playbooks &amp; SOPs</div>
       <div class="page-sub">Operational playbooks for every key workflow. When something happens, there's a doc for it.</div>
+      <nav class="jump-nav" aria-label="Playbook categories">
+        <a href="#pb-ops">Core Operations</a>
+        <a href="#pb-hiring">Hiring</a>
+        <a href="#pb-setting">Setting</a>
+        <a href="#pb-agreements">Agreements</a>
+      </nav>
 
-      <div class="section-label" style="margin-bottom:.75rem;">Core Operations</div>
+      <div class="section-label" id="pb-ops" style="margin-bottom:.75rem;">Core Operations</div>
       <div class="pb-list" style="margin-bottom:2rem;">
         <a class="pb-item" href="./sop-weekly-team-cadence.html" target="_blank"><div class="pb-icon">📅</div><div class="pb-title">Weekly Team Cadence</div><span class="pb-tag">Operations</span><span class="pb-arr">↗</span></a>
         <a class="pb-item" href="./salesio-weekly-checkin.html" target="_blank"><div class="pb-icon">🗒️</div><div class="pb-title">Weekly 1-on-1 Check-In</div><span class="pb-tag">Coaching</span><span class="pb-arr">↗</span></a>
         <a class="pb-item" href="./salesio-student-link-format.html" target="_blank"><div class="pb-icon">🔗</div><div class="pb-title">Student Link Format</div><span class="pb-tag">Onboarding</span><span class="pb-arr">↗</span></a>
         <a class="pb-item" href="./salesio-renewal-sop.html" target="_blank"><div class="pb-icon">🔄</div><div class="pb-title">Renewal SOP</div><span class="pb-tag">Renewals</span><span class="pb-arr">↗</span></a>
-        <a class="pb-item" href="./student-onboarding.html" target="_blank"><div class="pb-icon">🚀</div><div class="pb-title">Student Onboarding</div><span class="pb-tag">Onboarding</span><span class="pb-arr">↗</span></a>
         <a class="pb-item" href="./sop-community-reengagement-90day.html" target="_blank"><div class="pb-icon">💬</div><div class="pb-title">Community Re-engagement (90 Day)</div><span class="pb-tag">Community</span><span class="pb-arr">↗</span></a>
         <a class="pb-item" href="./sop-follow-up-email-sequence.html" target="_blank"><div class="pb-icon">📧</div><div class="pb-title">Follow-Up Email Sequence</div><span class="pb-tag">Lead nurture</span><span class="pb-arr">↗</span></a>
         <a class="pb-item" href="./salesio-graduation.html" target="_blank"><div class="pb-icon">🎓</div><div class="pb-title">Graduation</div><span class="pb-tag">Completion</span><span class="pb-arr">↗</span></a>
       </div>
 
-      <div class="section-label" style="margin-bottom:.75rem;">Hiring</div>
+      <div class="section-label" id="pb-hiring" style="margin-bottom:.75rem;">Hiring</div>
       <div class="pb-list" style="margin-bottom:2rem;">
         <a class="pb-item" href="./sop-sales-closer-hiring.html" target="_blank"><div class="pb-icon">🎯</div><div class="pb-title">Sales Closer Hiring SOP</div><span class="pb-tag">Hiring</span><span class="pb-arr">↗</span></a>
         <a class="pb-item" href="./sop-sales-manager-hiring.html" target="_blank"><div class="pb-icon">👔</div><div class="pb-title">Sales Manager Hiring SOP</div><span class="pb-tag">Hiring</span><span class="pb-arr">↗</span></a>
         <a class="pb-item" href="./sop-rep-interview-questions.html" target="_blank"><div class="pb-icon">❓</div><div class="pb-title">Rep Interview Questions</div><span class="pb-tag">Hiring</span><span class="pb-arr">↗</span></a>
       </div>
 
-      <div class="section-label" style="margin-bottom:.75rem;">Setting</div>
+      <div class="section-label" id="pb-setting" style="margin-bottom:.75rem;">Setting</div>
       <div class="pb-list" style="margin-bottom:2rem;">
         <a class="pb-item" href="./faris-setter-daily-standards.html" target="_blank"><div class="pb-icon">📊</div><div class="pb-title">Faris — Setter Daily Standards</div><span class="pb-tag">Setting</span><span class="pb-arr">↗</span></a>
         <a class="pb-item" href="./sop-pablo-pipeline-outreach.html" target="_blank"><div class="pb-icon">📤</div><div class="pb-title">Pipeline Outreach SOP</div><span class="pb-tag">Pipeline</span><span class="pb-arr">↗</span></a>
       </div>
 
-      <div class="section-label" style="margin-bottom:.75rem;">Agreements &amp; Contracts</div>
+      <div class="section-label" id="pb-agreements" style="margin-bottom:.75rem;">Agreements &amp; Contracts</div>
       <div class="pb-list">
         <a class="pb-item" href="./salesio-enrollment-agreement.html" target="_blank"><div class="pb-icon">✍️</div><div class="pb-title">Mastermind Enrollment Agreement</div><span class="pb-tag">Contract</span><span class="pb-arr">↗</span></a>
         <a class="pb-item" href="./evan-coaching-agreement-draft.html" target="_blank"><div class="pb-icon">📝</div><div class="pb-title">Evan Coaching Agreement</div><span class="pb-tag">Contract</span><span class="pb-arr">↗</span></a>
@@ -1121,20 +1155,20 @@ updateClock();setInterval(updateClock,30000);
 /* ── Date / greeting / today's call ── */
 var CALLS={
   1:{initials:'J',host:'Jalen',title:'Mock Call Monday',tag:'Setting & Practice'},
-  2:{initials:'EC',host:'Evan + Cole',title:'Call Review Day',tag:'Call Analysis'},
-  3:{initials:'EC',host:'Evan + Cole',title:'B2B + Sales Psychology',tag:'Two Sessions Today'},
+  2:{initials:'E',host:'Evan',title:'Call Review Day',tag:'Call Analysis'},
+  3:{initials:'E',host:'Evan + unassigned',title:'B2B + Sales Psychology',tag:'Two Sessions Today'},
   4:{initials:'J',host:'Jalen',title:'Setter Mastery',tag:'Setting & Outreach'},
   5:{initials:'JJ',host:'JJ',title:'Inner Circle',tag:'JJ Live — Priority'},
-  6:{initials:'C',host:'Cole',title:'Coffee Chat',tag:'Open Format'}
+  6:{initials:'—',host:'Unassigned',title:'Coffee Chat',tag:'Open Format'}
 };
 var WEEK_CALLS=[
   null,
   {name:'MON',title:'Mock Call Monday',host:'Jalen'},
-  {name:'TUE',title:'Call Review Day',host:'Evan + Cole'},
-  {name:'WED',title:'B2B + Psychology',host:'Evan + Cole'},
+  {name:'TUE',title:'Call Review Day',host:'Evan'},
+  {name:'WED',title:'B2B + Psychology',host:'Evan + unassigned'},
   {name:'THU',title:'Setter Mastery',host:'Jalen'},
   {name:'FRI',title:'Inner Circle',host:'JJ'},
-  {name:'SAT',title:'Coffee Chat',host:'Cole'}
+  {name:'SAT',title:'Coffee Chat',host:'Unassigned'}
 ];
 
 (function initDash(){
@@ -1373,18 +1407,22 @@ function closeSidebar(){
   if(bd)bd.classList.remove('show');
 }
 
-function goTo(id){
+function showSection(id){
+  var sec=document.getElementById('sec-'+id);
+  if(!sec) return false;
+  var already=sec.classList.contains('active');
   closeSidebar();
   document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active');});
-  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
-  var sec=document.getElementById('sec-'+id);
-  var nav=document.querySelector('[data-sec="'+id+'"]');
-  if(sec)sec.classList.add('active');
-  if(nav)nav.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(function(n){
+    var on=n.getAttribute('data-sec')===id;
+    n.classList.toggle('active', on);
+    if(on) n.setAttribute('aria-current','page');
+    else n.removeAttribute('aria-current');
+  });
+  sec.classList.add('active');
   var mh=document.getElementById('mh-title');
-  if(mh)mh.textContent=SEC_TITLES[id]||id;
+  if(mh) mh.textContent=SEC_TITLES[id]||id;
 
-  /* Lazy-load client hub */
   if(id==='hub'&&!hubLoaded){
     var iframe=document.getElementById('hub-iframe');
     if(iframe){
@@ -1393,13 +1431,57 @@ function goTo(id){
       hubLoaded=true;
     }
   }
-  history.replaceState(null,'','#'+id);
+  if(!already){
+    var content=document.querySelector('.content');
+    if(content) content.scrollTop=0;
+    var top=document.getElementById('to-top');
+    if(top) top.classList.remove('show');
+  }
+  return true;
 }
 
-/* Restore section from hash */
+function sectionForHash(h){
+  if(!h) return null;
+  if(document.getElementById('sec-'+h)) return h;
+  var el=document.getElementById(h);
+  if(!el || !el.closest) return null;
+  var sec=el.closest('.section');
+  if(sec && sec.id.indexOf('sec-')===0) return sec.id.slice(4);
+  return null;
+}
+
+function applyHash(){
+  var h=(location.hash||'').replace('#','');
+  var id=sectionForHash(h);
+  if(id) showSection(id);
+  if(h && h!==id){
+    var el=document.getElementById(h);
+    if(el && el.scrollIntoView) el.scrollIntoView({block:'start'});
+  }
+}
+
+function goTo(id){
+  if(!document.getElementById('sec-'+id)) return;
+  if((location.hash||'').replace('#','')===id) showSection(id);
+  else location.hash=id;
+}
+
+window.addEventListener('hashchange', applyHash);
+document.addEventListener('keydown', function(e){
+  if(e.key==='Escape') closeSidebar();
+});
 (function(){
-  var h=location.hash.replace('#','');
-  if(h&&document.getElementById('sec-'+h))goTo(h);
+  var content=document.querySelector('.content');
+  var top=document.getElementById('to-top');
+  if(content && top){
+    content.addEventListener('scroll', function(){
+      top.classList.toggle('show', content.scrollTop>280);
+    });
+    top.addEventListener('click', function(){
+      content.scrollTo({top:0, behavior:'smooth'});
+    });
+  }
+  applyHash();
 })();
 </script>
 
