@@ -6,7 +6,7 @@ Usage:
 
 Writes cards/<call_id>.png (1200x630) and rec/<call_id>.html. The HTML page
 carries og:image tags so Slack shows the thumbnail, then redirects to Fathom.
-Live link: https://jjhernandes.github.io/salesio-sops/rec/<call_id>.html
+Live link: https://hub.sales.io/rec/<call_id>.html
 """
 import html
 import os
@@ -17,7 +17,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FONTS = os.path.join(ROOT, "tools", "fonts")
-BASE = "https://jjhernandes.github.io/salesio-sops"
+BASE = "https://hub.sales.io"
 W, H = 1200, 630
 ACCENT = (226, 207, 168)
 

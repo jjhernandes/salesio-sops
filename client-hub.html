@@ -251,7 +251,7 @@ label{font-size:.725rem;font-weight:600;color:var(--text-2);letter-spacing:.04em
       <select class="form-select" style="width:auto;padding:.4rem 2rem .4rem .7rem;font-size:.775rem;" onchange="filterCoach=this.value;renderTable()">
         <option value="">All Coaches</option>
         <option value="JJ">JJ</option>
-        <option value="Cole">Cole</option>
+        <option value="Unassigned">Unassigned</option>
         <option value="Lu">Lu</option>
         <option value="Jalen">Jalen</option>
       </select>
@@ -335,7 +335,7 @@ label{font-size:.725rem;font-weight:600;color:var(--text-2);letter-spacing:.04em
           <label>Assigned Coach</label>
           <select class="form-select" id="f-coach">
             <option value="JJ">JJ</option>
-            <option value="Cole">Cole</option>
+            <option value="Unassigned">Unassigned</option>
             <option value="Lu">Lu</option>
             <option value="Jalen">Jalen</option>
           </select>
@@ -442,9 +442,19 @@ var editingId = null;
 var viewingId = null;
 
 // ── Storage ──
+function normalizeCoach(coach){
+  if(!coach || coach==='Cole') return 'Unassigned';
+  return coach;
+}
 function load(){
   try{ clients = JSON.parse(localStorage.getItem(STORE_KEY)) || []; }
   catch(e){ clients = []; }
+  var changed=false;
+  clients.forEach(function(c){
+    var next=normalizeCoach(c.coach);
+    if(c.coach!==next){ c.coach=next; changed=true; }
+  });
+  if(changed) save();
 }
 function save(){
   localStorage.setItem(STORE_KEY, JSON.stringify(clients));
@@ -574,7 +584,9 @@ function openEdit(id){
   document.getElementById('f-phone').value = c.phone||'';
   document.getElementById('f-start').value = c.start||'';
   document.getElementById('f-status').value = c.status||'active';
-  document.getElementById('f-coach').value = c.coach||'JJ';
+  var coachSel=document.getElementById('f-coach');
+  coachSel.value = normalizeCoach(c.coach);
+  if(coachSel.value!==normalizeCoach(c.coach)) coachSel.value='Unassigned';
   document.getElementById('f-payment').value = c.payment||'full';
   document.getElementById('f-close-before').value = c.closeBefore||'';
   document.getElementById('f-close-after').value = c.closeAfter||'';
